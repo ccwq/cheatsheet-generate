@@ -1,7 +1,13 @@
 {
   "permissions": {
     "allow": [
-      "mcp__tavily-mcp__tavily-extract"
+      "mcp__tavily-mcp__tavily-extract",
+      "WebFetch(domain:docs.volta.sh)",
+      "mcp__chrome-mcp-server__chrome_navigate",
+      "mcp__chrome-mcp-server__chrome_get_web_content",
+      "Bash(mkdir:*)",
+      "WebSearch",
+      "mcp__fetch__fetch"
     ],
     "deny": [],
     "ask": []
