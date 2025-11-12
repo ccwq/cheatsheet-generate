@@ -7,3 +7,4 @@
   - 文件名与cheatsheet目录名相同, ext为md
   - 用语需要精确, 优先使用简体中文, 也可以使用文言文, 目的在于减少token数量
   - 不要包含安装和配置的内容, 只需包含使用相关的内容
+- 创建对应的refmap.md是一个好习惯, 如果用户提供的事一个网址,并且要求整理refmap, 请使用chrome打开网址, 分析导航链接, 进而整理需要参考的refmap,保存到(/cheatsheets/topic/refmap.md), 最后使用fetch,webfetch(domain:*)来获取分析需要参考的内容

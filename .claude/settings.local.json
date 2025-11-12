@@ -14,7 +14,8 @@
       "mcp__chrome-mcp-server__chrome_send_command_to_inject_script",
       "WebFetch(domain:*)",
       "WebFetch(domain:cdpn.io)",
-      "WebFetch(domain:chocolatey.org)"
+      "WebFetch(domain:chocolatey.org)",
+      "mcp__chrome-mcp-server__chrome_click_element"
     ],
     "deny": [],
     "ask": []
