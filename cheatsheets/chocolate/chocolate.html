@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8">
+    <title>Chocolatey CLI包管理器速查表</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      html,body{height:100%;margin:0;padding:0;background:linear-gradient(130deg,#303d54 0%,#23304a 48%,#171b27 100%);font-family:'Segoe UI','PingFang SC','Microsoft YaHei',Arial,sans-serif;font-size:12px;line-height:1.1;color:#e7e7ea;overflow-x:hidden}body{min-height:100vh;padding:0}.container{width:100%;max-width:100%;margin:0 auto;padding:8px 4px 16px 4px;box-sizing:border-box}.cheat-columns{column-count:4;column-gap:16px;transition:column-width 0.2s;margin-top:12px}@media (max-width:1500px){.cheat-columns{column-count:3}}@media (max-width:1100px){.cheat-columns{column-count:2;column-gap:12px}}@media (max-width:750px){.cheat-columns{column-count:1}}.card{background:rgba(29,36,53,0.85);border-radius:12px;box-shadow:0 2px 12px 1px rgba(0,0,0,0.18);backdrop-filter:blur(6px);margin-bottom:14px;padding:14px 14px 8px 14px;break-inside:avoid;border:1px solid rgba(78,85,130,.12);min-width:0;box-sizing:border-box}.card h2{margin:-6px 0 6px 0;font-size:15px;font-weight:600;color:#fdbe3f;letter-spacing:0.6px}.card h3{font-size:12px;font-weight:bold;color:#93cdfc;margin:6px 0 4px 0}.card ul,.card ol{padding-left:12px;margin:3px 0 8px 0}.card li{margin-bottom:3px;word-break:break-all}code,pre{font-family:'Fira Mono','Consolas','Menlo',monospace;font-size:1em;background:#181d26;color:#e2ffd0;border-radius:5px;line-height:1.1;padding:0 2px;letter-spacing:0.1px;word-wrap:break-word;word-break:break-all}pre{background:#1a1e2b;border-radius:6px;padding:8px 1em;margin:6px 0 8px 0;color:#e6e8ef;overflow-x:auto;font-size:1em;line-height:1.1;box-shadow:0 1px 5px 0 rgba(0,12,22,.15)}@media (max-width:750px){pre{font-size:1em;padding:6px 8px}}.desc{color:#acc3f8;font-style:italic;margin:2px 0 4px 0;font-size:1em;line-height:1.1}.panel{display:flex;align-items:center;background:rgba(36,41,59,0.91);border-radius:12px;box-shadow:0 1px 6px 0 rgba(0,0,0,0.1);padding:8px 16px;margin-bottom:12px;border:1px solid #353e63;gap:16px;flex-wrap:wrap;box-sizing:border-box}.panel label{font-size:1em;color:#ffe49b;font-weight:bold;margin-right:5px;letter-spacing:0.2px}.slider-bar{min-width:120px;margin-right:6px}.slider-val{color:#ffce5b;font-size:1em;margin-left:4px;min-width:28px;display:inline-block;font-weight:600}@media (max-width:660px){.panel{flex-direction:column;gap:8px;padding:6px 4px}}
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="panel">
+        <span style="color:#7bfbb7;font-size:16px;margin-right:auto;">Chocolatey CLI速查表</span>
+        <label for="columnWidth">🔧 调整每列宽度：</label>
+        <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+        <span id="widthVal" class="slider-val">340px</span>
+      </div>
+      <div class="cheat-columns" id="columns">
+        <!-- 基础安装与卸载 -->
+        <div class="card">
+          <h2>📦 安装与卸载 <a href="https://docs.chocolatey.org/en-us/choco/commands/install/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>choco install 包名</code>：安装单个包</li>
+            <li><code>choco install 包1 包2 包3</code>：批量安装包</li>
+            <li><code>choco install 包名 -y</code>：自动确认安装</li>
+            <li><code>choco install 包名 --version=1.0.0</code>：安装指定版本</li>
+            <li><code>choco install 包名 -f</code>：强制重新安装</li>
+            <li><code>choco uninstall 包名</code>：卸载包</li>
+            <li><code>choco uninstall 包名 --all-versions</code>：卸载所有版本</li>
+          </ul>
+          <h3>安装示例</h3>
+          <pre>choco install notepadplusplus googlechrome atom 7zip
+choco install git -y --params="'/GitAndUnixToolsOnPath /NoAutoCrlf'"
+choco install nodejs.install --version 0.10.35</pre>
+          <div class="desc">提示：使用 packages.config 文件可批量安装包列表</div>
+        </div>
+
+        <!-- 搜索与查找 -->
+        <div class="card">
+          <h2>🔍 搜索与查找 <a href="https://docs.chocolatey.org/en-us/choco/commands/search/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>choco search 关键词</code>：搜索包（find 命令的别名）</li>
+            <li><code>choco find 关键词</code>：查找包</li>
+            <li><code>choco search 关键词 --exact</code>：精确匹配</li>
+            <li><code>choco search 关键词 --all-versions</code>：显示所有版本</li>
+            <li><code>choco search --page=0 --page-size=25</code>：分页显示</li>
+            <li><code>choco search git -s "源地址"</code>：从指定源搜索</li>
+          </ul>
+          <h3>搜索示例</h3>
+          <pre>choco search git
+choco search 7zip --all-versions --exact
+choco search --page=0 --page-size=25</pre>
+          <div class="desc">提示：使用 -s 参数指定自定义源地址</div>
+        </div>
+
+        <!-- 更新与升级 -->
+        <div class="card">
+          <h2>⬆️ 更新与升级 <a href="https://docs.chocolatey.org/en-us/choco/commands/upgrade/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>choco upgrade 包名</code>：升级单个包</li>
+            <li><code>choco upgrade all</code>：升级所有包</li>
+            <li><code>choco upgrade 包名 -y</code>：自动确认升级</li>
+            <li><code>choco upgrade all --except="包1,包2"</code>：跳过指定包</li>
+            <li><code>choco upgrade 包名 --version=1.0.0</code>：升级到指定版本</li>
+            <li><code>choco outdated</code>：查看过期的包</li>
+          </ul>
+          <h3>升级示例</h3>
+          <pre>choco upgrade chocolatey
+choco upgrade notepadplusplus googlechrome atom 7zip -dvfy
+choco upgrade all --except="'skype,conemu'"</pre>
+          <div class="desc">提示：使用 choco pin 可固定包版本，防止升级</div>
+        </div>
+
+        <!-- 包管理 -->
+        <div class="card">
+          <h2>📋 包管理 <a href="https://docs.chocolatey.org/en-us/choco/commands/list/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>choco list</code>：列出已安装的包</li>
+            <li><code>choco list -i</code>：仅显示已安装包</li>
+            <li><code>choco list --include-programs</code>：包含系统程序</li>
+            <li><code>choco list 包名</code>：查找特定包</li>
+            <li><code>choco info 包名</code>：显示包详细信息</li>
+            <li><code>choco pin add -n=包名</code>：固定包版本</li>
+            <li><code>choco pin remove -n=包名</code>：解除固定</li>
+          </ul>
+          <h3>包管理示例</h3>
+          <pre>choco list -i
+choco list --include-programs
+choco info git
+choco pin add -n=googlechrome</pre>
+          <div class="desc">提示：pin 命令可防止包被意外升级</div>
+        </div>
+
+        <!-- 源管理 -->
+        <div class="card">
+          <h2>🌐 源管理 <a href="https://docs.chocolatey.org/en-us/choco/commands/sources/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>choco source list</code>：列出所有源</li>
+            <li><code>choco source add -n=源名 -s=源地址</code>：添加源</li>
+            <li><code>choco source remove -n=源名</code>：移除源</li>
+            <li><code>choco source enable -n=源名</code>：启用源</li>
+            <li><code>choco source disable -n=源名</code>：禁用源</li>
+            <li><code>choco install 包名 -s=源地址</code>：从指定源安装</li>
+          </ul>
+          <h3>源管理示例</h3>
+          <pre>choco source list
+choco source add -n=myfeed -s="https://myfeed/api/v2/"
+choco source disable -n=chocolatey</pre>
+          <div class="desc">提示：企业环境通常需要配置私有源</div>
+        </div>
+
+        <!-- 配置管理 -->
+        <div class="card">
+          <h2>⚙️ 配置管理 <a href="https://docs.chocolatey.org/en-us/choco/commands/config/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>choco config list</code>：显示所有配置</li>
+            <li><code>choco config get 配置项</code>：获取配置值</li>
+            <li><code>choco config set 配置项 值</code>：设置配置</li>
+            <li><code>choco config unset 配置项</code>：取消配置</li>
+            <li><code>choco feature list</code>：列出功能特性</li>
+            <li><code>choco feature enable -n=特性名</code>：启用特性</li>
+            <li><code>choco feature disable -n=特性名</code>：禁用特性</li>
+          </ul>
+          <h3>配置示例</h3>
+          <pre>choco config get cacheLocation
+choco config set cacheLocation c:\temp\choco
+choco config set proxy http://proxy:8080
+choco feature enable -n=rememberDownloadedPackageLocations</pre>
+          <div class="desc">提示：配置更改会保存在 chocolatey.config 文件中</div>
+        </div>
+
+        <!-- 高级功能 -->
+        <div class="card">
+          <h2>🚀 高级功能 <a href="https://docs.chocolatey.org/en-us/choco/commands/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>choco export</code>：导出已安装包列表</li>
+            <li><code>choco optimize</code>：优化安装，减少空间占用</li>
+            <li><code>choco sync</code>：同步系统已安装软件</li>
+            <li><code>choco cache</code>：管理HTTP缓存</li>
+            <li><code>choco download 包名</code>：下载包但不安装</li>
+            <li><code>choco setapikey -s=源地址 -k=密钥</code>：设置API密钥</li>
+            <li><code>choco support</code>：获取支持信息</li>
+          </ul>
+          <h3>高级示例</h3>
+          <pre>choco export -o="packages.config"
+choco optimize
+choco cache remove --all
+choco download nodejs --no-progress</pre>
+          <div class="desc">提示：export 命令常用于备份和重建环境</div>
+        </div>
+
+        <!-- 常用参数 -->
+        <div class="card">
+          <h2>🔧 常用参数 <a href="https://docs.chocolatey.org/en-us/choco/commands/#default-options-and-switches" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>-y, --yes</code>：自动确认所有提示</li>
+            <li><code>-f, --force</code>：强制执行操作</li>
+            <li><code>-v, --verbose</code>：显示详细输出</li>
+            <li><code>-d, --debug</code>：显示调试信息</li>
+            <li><code>-r, --limit-output</code>：限制输出信息</li>
+            <li><code>--no-progress</code>：不显示下载进度</li>
+            <li><code>--timeout=秒数</code>：设置命令超时时间</li>
+            <li><code>--proxy=地址</code>：设置代理服务器</li>
+            <li><code>--params="参数"</code>：传递包安装参数</li>
+            <li><code>--install-arguments="参数"</code>：传递安装程序参数</li>
+          </ul>
+          <h3>参数组合示例</h3>
+          <pre>choco install git -dvfy
+choco upgrade all -y --ignore-package-exit-codes
+choco install python --params="'/InstallDir:C:\Python39'"</pre>
+          <div class="desc">提示：参数可以组合使用，如 -dvfy 表示 debug+verbose+force+yes</div>
+        </div>
+
+        <!-- 退出码说明 -->
+        <div class="card">
+          <h2>📊 退出码说明 <a href="https://docs.chocolatey.org/en-us/choco/commands/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>0</code>：操作成功，无问题检测</li>
+            <li><code>-1 或 1</code>：发生错误</li>
+            <li><code>2</code>：无结果（搜索）或有过期包（outdated）</li>
+            <li><code>3010</code>：成功，需要重启</li>
+            <li><code>1641</code>：成功，已启动重启</li>
+            <li><code>350</code>：检测到待重启，未执行操作</li>
+            <li><code>1604</code>：安装挂起，未完成</li>
+          </ul>
+          <h3>增强退出码</h3>
+          <pre>choco feature enable -n=useEnhancedExitCodes
+# 启用后提供更详细的退出码信息
+# 0: 无过期包
+# 2: 发现过期包</pre>
+          <div class="desc">提示：启用 useEnhancedExitCodes 特性可获得更好的脚本集成体验</div>
+        </div>
+
+        <!-- 最佳实践 -->
+        <div class="card">
+          <h2>💡 最佳实践</h2>
+          <ul>
+            <li>使用 <code>-y</code> 参数进行自动化脚本</li>
+            <li>定期运行 <code>choco upgrade all</code> 保持包更新</li>
+            <li>使用 <code>choco outdated</code> 检查过时包</li>
+            <li>重要包使用 <code>choco pin</code> 固定版本</li>
+            <li>配置私有源提高企业环境下载速度</li>
+            <li>使用 <code>choco export</code> 备份环境配置</li>
+            <li>启用 <code>useEnhancedExitCodes</code> 改善脚本集成</li>
+          </ul>
+          <h3>企业环境建议</h3>
+          <pre>choco config set proxy http://corp-proxy:8080
+choco source add -n=corp-feed -s="https://corp-feed/api/v2/"
+choco feature enable -n=useEnhancedExitCodes
+choco export -o="environment-backup.config"</pre>
+          <div class="desc">提示：企业环境建议配置代理、私有源和增强退出码</div>
+        </div>
+      </div>
+    </div>
+    <script>
+      document.getElementById('columnWidth').addEventListener('input', function(e) {
+        const width = e.target.value;
+        document.getElementById('widthVal').textContent = width + 'px';
+        const columns = document.getElementById('columns');
+        columns.style.columnWidth = width + 'px';
+      });
+    </script>
+  </body>
+</html>

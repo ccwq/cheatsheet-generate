@@ -12,7 +12,9 @@
       "mcp__chrome-mcp-server__chrome_get_interactive_elements",
       "mcp__chrome-mcp-server__chrome_inject_script",
       "mcp__chrome-mcp-server__chrome_send_command_to_inject_script",
-      "WebFetch(domain:*)"
+      "WebFetch(domain:*)",
+      "WebFetch(domain:cdpn.io)",
+      "WebFetch(domain:chocolatey.org)"
     ],
     "deny": [],
     "ask": []
