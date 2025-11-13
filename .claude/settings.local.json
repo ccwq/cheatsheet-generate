@@ -15,7 +15,8 @@
       "WebFetch(domain:*)",
       "WebFetch(domain:cdpn.io)",
       "WebFetch(domain:chocolatey.org)",
-      "mcp__chrome-mcp-server__chrome_click_element"
+      "mcp__chrome-mcp-server__chrome_click_element",
+      "WebFetch(domain:code.claude.com)"
     ],
     "deny": [],
     "ask": []
