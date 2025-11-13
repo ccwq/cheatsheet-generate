@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8">
+    <title>OpenAI Codex CLI 开发命令速查表</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      html,body{height:100%;margin:0;padding:0;background:linear-gradient(130deg,#303d54 0%,#23304a 48%,#171b27 100%);font-family:'Segoe UI','PingFang SC','Microsoft YaHei',Arial,sans-serif;font-size:12px;line-height:1.1;color:#e7e7ea;overflow-x:hidden}body{min-height:100vh;padding:0}.container{width:100%;max-width:100%;margin:0 auto;padding:8px 4px 16px 4px;box-sizing:border-box}.cheat-columns{column-count:4;column-gap:16px;transition:column-width 0.2s;margin-top:12px}@media (max-width:1500px){.cheat-columns{column-count:3}}@media (max-width:1100px){.cheat-columns{column-count:2;column-gap:12px}}@media (max-width:750px){.cheat-columns{column-count:1}}.card{background:rgba(29,36,53,0.85);border-radius:12px;box-shadow:0 2px 12px 1px rgba(0,0,0,0.18);backdrop-filter:blur(6px);margin-bottom:14px;padding:14px 14px 8px 14px;break-inside:avoid;border:1px solid rgba(78,85,130,.12);min-width:0;box-sizing:border-box}.card h2{margin:-6px 0 6px 0;font-size:15px;font-weight:600;color:#fdbe3f;letter-spacing:0.6px}.card h3{font-size:12px;font-weight:bold;color:#93cdfc;margin:6px 0 4px 0}.card ul,.card ol{padding-left:12px;margin:3px 0 8px 0}.card li{margin-bottom:3px;word-break:break-all}code,pre{font-family:'Fira Mono','Consolas','Menlo',monospace;font-size:13px;background:#181d26;color:#e2ffd0;border-radius:5px;line-height:1.2;padding:0 2px;letter-spacing:0.1px;word-wrap:break-word;word-break:break-all}pre{background:#1a1e2b;border-radius:6px;padding:8px 1em;margin:6px 0 8px 0;color:#e6e8ef;overflow-x:auto;font-size:13px;line-height:1.2;box-shadow:0 1px 5px 0 rgba(0,12,22,.15)}@media (max-width:750px){pre{font-size:13px;padding:6px 8px}}.desc{color:#acc3f8;font-style:italic;margin:2px 0 4px 0;font-size:14px;line-height:1.2}.panel{display:flex;align-items:center;background:rgba(36,41,59,0.91);border-radius:12px;box-shadow:0 1px 6px 0 rgba(0,0,0,0.1);padding:8px 16px;margin-bottom:12px;border:1px solid #353e63;gap:16px;flex-wrap:wrap;box-sizing:border-box}.panel label{font-size:14px;color:#ffe49b;font-weight:bold;margin-right:5px;letter-spacing:0.2px}.slider-bar{min-width:120px;margin-right:6px}.slider-val{color:#ffce5b;font-size:14px;margin-left:4px;min-width:28px;display:inline-block;font-weight:600}@media (max-width:660px){.panel{flex-direction:column;gap:8px;padding:6px 4px}}
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="panel">
+        <span style="color:#7bfbb7;font-size:16px;margin-right:auto;">Codex CLI 速查表</span>
+        <label for="columnWidth">🔧 调整每列宽度：</label>
+        <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+        <span id="widthVal" class="slider-val">340px</span>
+      </div>
+      <div class="cheat-columns" id="columns">
+
+        <!-- 基本安装 -->
+        <div class="card">
+          <h2>🚀 安装和设置 <a href="https://developers.openai.com/codex/cli" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2>
+          <ul>
+            <li><code>npm i -g @openai/codex</code> : 全局安装 Codex CLI</li>
+            <li><code>npm i -g @openai/codex@latest</code> : 更新到最新版本</li>
+            <li><code>codex login</code> : 身份验证 (ChatGPT 或 API Key)</li>
+            <li><code>codex login --with-api-key</code> : 使用 API Key 登录</li>
+            <li><code>codex login status</code> : 检查登录状态</li>
+            <li><code>codex logout</code> : 退出登录</li>
+          </ul>
+          <h3>平台支持</h3>
+          <pre>macOS/Linux: 完全支持 (默认 gpt-5-codex)
+Windows: 实验性支持 (推荐 WSL，默认 gpt-5)</pre>
+          <div class="desc">首次运行会提示认证，需要 ChatGPT Plus/Pro/Enterprise 账户</div>
+        </div>
+
+        <!-- 基本命令 -->
+        <div class="card">
+          <h2>⚡ 基本命令 <a href="https://developers.openai.com/codex/cli/reference" title="命令参考" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2>
+          <ul>
+            <li><code>codex</code> : 启动交互式终端 UI (TUI)</li>
+            <li><code>codex "任务描述"</code> : 单轮对话执行</li>
+            <li><code>codex exec "任务"</code> : 非交互式执行 (脚本)</li>
+            <li><code>codex --model gpt-5-codex</code> : 指定模型</li>
+            <li><code>codex -i screenshot.png "说明"</code> : 附加图片</li>
+            <li><code>codex --cd /path/to/project</code> : 设置工作目录</li>
+          </ul>
+          <h3>会话管理</h3>
+          <pre>codex resume                 # 恢复最近的会话
+codex resume --last          # 跳过选择器直接恢复
+codex resume SESSION_ID      # 恢复指定会话
+codex exec resume --last "新指令"  # 恢复并执行新指令</pre>
+          <div class="desc">使用 Ctrl+C 或 /exit 退出交互式会话</div>
+        </div>
+
+        <!-- 模型配置 -->
+        <div class="card">
+          <h2>🧠 模型控制 <a href="https://developers.openai.com/codex/cli/features" title="功能特性" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2>
+          <ul>
+            <li><code>gpt-5-codex</code> : 编程优化模型 (Linux/macOS 默认)</li>
+            <li><code>gpt-5-codex-mini</code> : 成本优化版本 (约 4x 使用量)</li>
+            <li><code>gpt-5</code> : 通用模型 (Windows 默认)</li>
+            <li><code>/model gpt-5-codex</code> : 会话中切换模型</li>
+            <li><code>codex --oss</code> : 使用本地开源模型 (Ollama)</li>
+          </ul>
+          <h3>推理级别</h3>
+          <pre># 配置文件设置
+model = "gpt-5-codex"
+model_reasoning_effort = "high"  # low | medium | high
+
+# CLI 参数
+codex --config model_reasoning_effort="high"
+codex --model gpt-5-codex</pre>
+          <div class="desc">gpt-5-codex-midi 仅支持 ChatGPT 账户登录</div>
+        </div>
+
+        <!-- 安全和审批 -->
+        <div class="card">
+          <h2>🔒 审批模式 <a href="https://developers.openai.com/codex/local-config#cli" title="配置指南" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2>
+          <ul>
+            <li><code>untrusted</code> : 对所有操作要求审批</li>
+            <li><code>on-failure</code> : 仅失败时要求审批</li>
+            <li><code>on-request</code> : 按需审批行为</li>
+            <li><code>never</code> : 不需要审批 (谨慎使用)</li>
+          </ul>
+          <h3>沙盒模式</h3>
+          <pre>codex --sandbox read-only           # 只读模式
+codex --sandbox workspace-write      # 工作目录可写
+codex --sandbox danger-full-access   # 完全访问权限
+
+# 快速自动化 (等效设置)
+codex --full-auto                    # 自动化预设</pre>
+          <div class="desc">使用 /approvals 在会话中动态切换审批模式</div>
+        </div>
+
+        <!-- 配置文件 -->
+        <div class="card">
+          <h2>⚙️ 配置管理 <a href="https://developers.openai.com/codex/local-config" title="配置详情" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2>
+          <ul>
+            <li><code>~/.codex/config.toml</code> : 配置文件位置</li>
+            <li><code>codex --profile deep-review</code> : 使用配置组</li>
+            <li><code>codex --config key=value</code> : 临时覆盖配置</li>
+          </ul>
+          <h3>配置示例</h3>
+          <pre># 基本配置
+model = "gpt-5-codex"
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+
+# 功能特性
+[features]
+web_search_request = true
+streamable_shell = true
+
+# 环境变量控制
+[shell_environment_policy]
+include_only = ["PATH", "HOME"]</pre>
+          <div class="desc">配置文件 CLI 和 IDE 扩展共享</div>
+        </div>
+
+        <!-- 代码审查 -->
+        <div class="card">
+          <h2>🔍 代码审查 <a href="https://developers.openai.com/codex/cli/features" title="审查功能" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2>
+          <ul>
+            <li><code>/review</code> : 打开审查选择器</li>
+            <li><code>基分支对比</code> : 对比上游分支</li>
+            <li><code>未提交变更</code> : 检查暂存/未暂存</li>
+            <li><code>特定提交</code> : 检查选定 SHA</li>
+          </ul>
+          <h3>审查类型</h3>
+          <pre># 交互式选择审查范围
+/review
+
+# 自定义审查指令
+/review "专注安全漏洞"
+
+# 审查结果会显示在对话记录中
+可多次运行对比反馈</pre>
+          <div class="desc">审查不会修改工作树，仅提供反馈</div>
+        </div>
+
+        <!-- 自动化 -->
+        <div class="card">
+          <h2>🤖 自动化执行 <a href="https://developers.openai.com/codex/cli/reference#codex-exec" title="exec 指南" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2>
+          <ul>
+            <li><code>codex exec "任务"</code> : 非交互执行</li>
+            <li><code>codex exec --json</code> : JSON 输出格式</li>
+            <li><code>codex exec resume SESSION</code> : 恢复会话执行</li>
+            <li><code>codex exec -</code> : 从标准输入读取指令</li>
+          </ul>
+          <h3>脚本示例</h3>
+          <pre># 自动化工作流
+codex exec "修复 CI 失败"
+codex exec "更新 changelog"
+
+# 条件执行
+if codex login status; then
+  codex exec "自动化代码审查"
+fi
+
+# 管道输入
+echo "重构函数" | codex exec -</pre>
+          <div class="desc">适合 CI/CD 和脚本自动化场景</div>
+        </div>
+
+        <!-- 高级功能 -->
+        <div class="card">
+          <h2>🌟 高级功能 <a href="https://developers.openai.com/codex/cli/features" title="高级特性" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2>
+          <ul>
+            <li><code>图片输入</code> : 支持截图/设计图分析</li>
+            <li><code>/plan</code> : 制定执行计划</li>
+            <li><code>Web 搜索</code> : 获取最新信息</li>
+            <li><code>MCP 集成</code> : 连接第三方工具</li>
+          </ul>
+          <h3>高级用法</h3>
+          <pre># 多图片分析
+codex -i img1.png,img2.jpg "对比页面"
+codex --image design.png "实现这个界面"
+
+# Web 搜索 (需配置)
+codex --search "最新 React 特性"
+
+# 路径快速引用
+输入 @ + 文件名快速搜索
+双击 Esc 编辑上一条消息</pre>
+          <div class="desc">启用 Web 搜索需在 config.toml 中配置</div>
+        </div>
+
+        <!-- 云服务 -->
+        <div class="card">
+          <h2>☁️ Codex Cloud <a href="https://developers.openai.com/codex/cli/reference#codex-cloud" title="Cloud 指南" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2>
+          <ul>
+            <li><code>codex cloud</code> : 交互式任务管理</li>
+            <li><code>codex cloud exec</code> : 提交云端任务</li>
+            <li><code>codex apply TASK_ID</code> : 应用云端变更</li>
+          </ul>
+          <h3>云端执行</h3>
+          <pre># 启动云端任务
+codex cloud exec --env ENV_ID "总结 Bug"
+codex cloud exec --env ENV_ID --attempts 3 "生成多种方案"
+
+# 应用变更到本地
+codex apply TASK_123
+
+# 管理任务
+codex cloud  # 交互式选择器</pre>
+          <div class="desc">使用相同认证身份，任务失败返回非零状态码</div>
+        </div>
+
+        <!-- Shell 集成 -->
+        <div class="card">
+          <h2>🐚 Shell 集成 <a href="https://developers.openai.com/codex/cli/reference#codex-completion" title="补全脚本" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2>
+          <ul>
+            <li><code>codex completion bash</code> : Bash 补全</li>
+            <li><code>codex completion zsh</code> : Zsh 补全</li>
+            <li><code>codex completion fish</code> : Fish 补全</li>
+            <li><code>codex completion powershell</code> : PowerShell 补全</li>
+          </ul>
+          <h3>设置方法</h3>
+          <pre># Zsh 示例
+echo 'eval "$(codex completion zsh)"' >> ~/.zshrc
+
+# 如果提示 compdef 错误
+echo 'autoload -Uz compinit && compinit' >> ~/.zshrc
+
+# 重新加载 Shell
+source ~/.zshrc
+
+# 使用 Tab 补全命令
+codex [Tab]</pre>
+          <div class="desc">重启 Shell 后生效</div>
+        </div>
+
+        <!-- 沙盒和隔离 -->
+        <div class="card">
+          <h2>🛡️ 沙盒环境 <a href="https://developers.openai.com/codex/cli/reference#codex-sandbox" title="沙盒详情" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2>
+          <ul>
+            <li><code>codex sandbox --</code> : macOS Seatbelt</li>
+            <li><code>codex sandbox --</code> : Linux Landlock</li>
+            <li><code>--full-auto</code> : 自动权限配置</li>
+          </ul>
+          <h3>沙盒示例</h3>
+          <pre># macOS 沙盒执行
+codex sandbox --config key=value -- full-auto -- command args
+
+# Linux 沙盒执行
+codex sandbox --full-auto -- ls -la /tmp
+
+# 写入权限配置
+[codex]
+writable_roots = ["/workspace", "/tmp"]
+
+# 网络访问控制
+network_access = true  # workspace-write 模式</pre>
+          <div class="desc">Windows 支持受限令牌沙盒 (实验特性)</div>
+        </div>
+
+        <!-- MCP 集成 -->
+        <div class="card">
+          <h2>🔌 MCP 集成 <a href="https://developers.openai.com/codex/cli/reference#codex-mcp" title="MCP 配置" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2>
+          <ul>
+            <li><code>codex mcp list</code> : 列出 MCP 服务器</li>
+            <li><code>codex mcp add name</code> : 添加服务器</li>
+            <li><code>codex mcp remove name</code> : 移除服务器</li>
+            <li><code>codex mcp-server</code> : Codex 作为 MCP 服务</li>
+          </ul>
+          <h3>MCP 配置</h3>
+          <pre># 添加 STDIO 服务器
+codex mcp add fs-server -- npx @modelcontextprotocol/server-filesystem /tmp
+
+# 添加 HTTP 服务器
+codex mcp add api-server --url https://api.example.com/mcp
+
+# OAuth 认证
+codex mcp login api-server --scopes read,write
+
+# 配置文件方式
+[mcp.servers.fs]
+command = "npx"
+args = ["@modelcontextprotocol/server-filesystem", "/tmp"]</pre>
+          <div class="desc">需要启用 RMCP 客户端功能</div>
+        </div>
+
+        <!-- 故障排除 -->
+        <div class="card">
+          <h2>🔧 故障排除</h2>
+          <ul>
+            <li><code>codex --version</code> : 检查版本</li>
+            <li><code>codex login status</code> : 验证登录</li>
+            <li><code>codex --help</code> : 查看帮助</li>
+            <li><code>~/.codex/sessions/</code> : 会话日志位置</li>
+          </ul>
+          <h3>常见问题</h3>
+          <pre># WSL 安装问题
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+# 权限被拒
+codex --sandbox read-only "只读操作"
+
+# 清理缓存
+rm -rf ~/.codex/cache
+
+# 详细调试
+codex --config debug=true "调试模式"</pre>
+          <div class="desc">Windows 优先使用 WSL2 环境稳定运行</div>
+        </div>
+
+        <!-- 配置概览 -->
+        <div class="card">
+          <h2>⏱️ 配置概览 <a href="https://developers.openai.com/codex/local-config" title="配置选项" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2>
+          <ul>
+            <li><code>model</code> : 默认模型</li>
+            <li><code>model_provider</code> : 模型供应商</li>
+            <li><code>approval_policy</code> : 审批策略</li>
+            <li><code>sandbox_mode</code> : 沙盒模式</li>
+          </ul>
+          <h3>配置组示例</h3>
+          <pre># 深度审查配置
+[profiles.deep-review]
+model = "gpt-5-pro"
+model_reasoning_effort = "high"
+approval_policy = "never"
+
+# 轻量级配置
+[profiles.lightweight]
+model = "gpt-4.1"
+approval_policy = "untrusted"
+
+# 默认使用
+profile = "deep-review"</pre>
+          <div class="desc">CLI 参数覆盖优先级最高</div>
+        </div>
+
+      </div>
+    </div>
+    <script>
+      document.getElementById('columnWidth').addEventListener('input', function(e) {
+        const width = e.target.value;
+        document.getElementById('widthVal').textContent = width + 'px';
+        const columns = document.getElementById('columns');
+        columns.style.columnWidth = width + 'px';
+      });
+    </script>
+  </body>
+</html>
