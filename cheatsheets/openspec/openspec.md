@@ -1,72 +1,70 @@
-# OpenSpec 规范驱动开发工具
+# OpenSpec/Codex Agent 提示词
 
-## 安装初始化
-```powershell
-npm install -g @fission-ai/openspec@latest
-openspec --version
-cd project
-openspec init
-```
+## 基础命令
+- codex: 启动交互式TUI
+- codex "任务": 带初始提示启动
+- codex exec "任务": 非交互式自动化模式
 
-## 核心命令
-- `openspec list` - 活跃变更查看
-- `openspec view` - 交互式仪表盘
-- `openspec show <change>` - 变更详情展示
-- `openspec validate <change>` - 规范格式检查
-- `openspec archive <change> [--yes]` - 变更归档
+## 会话管理
+- codex resume: 打开会话选择器
+- codex resume --last: 恢复最近会话
+- codex resume [session-id]: 恢复指定会话
 
-## AI工具集成
-- Claude Code: `/openspec:proposal|apply|archive`
-- Cursor: `/openspec-proposal|apply|archive`
-- CodeBuddy: `/openspec:proposal|apply|archive`
-- Qoder: `/openspec:proposal|apply|archive`
+## 命令行选项
+- --model/-m MODEL: 指定模型
+- --ask-for-approval/-a POLICY: 设置审批策略
+- --sandbox MODE: 沙盒模式
+- --full-auto: 全自动模式
+- --cd/-c DIR: 指定工作目录
 
-## 工作流程
-1. 起草提案: AI生成变更文件夹结构
-2. 验证审查: `openspec validate <change>` 检查
-3. 实施任务: 按 `tasks.md` 执行实现
-4. 归档更新: `openspec archive <change>` 合并规范
+## 沙盒模式
+- read-only: 只读访问
+- workspace-write: 工作区可写
+- danger-full-access: 完全访问
 
-## 项目结构
-```
-openspec/
-├── specs/      # 当前规范
-├── changes/    # 变更提案
-└── AGENTS.md   # AI指引
-```
+## 审批策略
+- untrusted: 不可信命令需审批
+- on-failure: 失败时需审批
+- on-request: 按需审批
+- never: 从不审批
 
-## 规范差异格式
-- `## ADDED Requirements` - 新增功能
-- `## MODIFIED Requirements` - 变更行为
-- `## REMOVED Requirements` - 弃用功能
+## 配置文件
+- ~/.codex/config.toml: 主配置文件
+- ~/.codex/AGENTS.md: 全局指令
+- ./AGENTS.md: 项目级指令
 
-### 格式要求
-- `### Requirement: <名称>` 标题
-- `#### Scenario:` 场景块
-- 需求文本使用SHALL/MUST
+## 模型配置
+- model: o3 (默认) / gpt-5-codex
+- model_provider: openai (默认)
+- model_reasoning_effort: minimal/low/medium/high
+- model_reasoning_summary: auto/concise/detailed/none
+- model_verbosity: low/medium/high
 
-## 任务结构
-按模块分组任务清单，使用复选框标记进度：
-- 数据库设置
-- 后端实现
-- 前端更新
+## MCP集成
+- codex mcp add NAME -- COMMAND: 添加服务器
+- codex mcp list: 列出服务器
+- codex mcp remove NAME: 删除服务器
+- codex mcp: 启动MCP服务器模式
 
-## 团队采用
-1. `openspec init` 初始化
-2. 从新功能开始提案
-3. 逐步归档建立规范基线
-4. 工具切换执行 `openspec update`
+## 实用功能
+- codex completion bash/zsh/fish: 生成shell补全
+- @文件名: 模糊文件搜索
+- -i image.png: 单图像输入
+- --image img1.png,img2.jpg: 多图像输入
 
-## 验证调试
-- 规范验证检查格式
-- 变更详情审查提案
-- 仪表盘监控状态
-- 重启工具加载命令
+## 调试工具
+- codex debug seatbelt [COMMAND]: macOS沙盒测试
+- codex debug landlock [COMMAND]: Linux沙盒测试
+- tail -F ~/.codex/log/codex-tui.log: 监控日志
+- RUST_LOG=debug codex: 调试日志级别
 
-## 最佳实践
-- 规范简洁明确
-- 场景驱动编写
-- 单一功能聚焦
-- 定期归档变更
-- 团队格式统一
-- 版本控制跟踪
+## 环境策略
+- inherit: all/core/none
+- exclude: 排除的环境变量模式
+- include_only: 仅允许的环境变量
+- set: 设置的环境变量
+
+## 常用组合示例
+- codex --full-auto "更新版本日志": CI/CD自动化
+- codex --sandbox read-only --ask-for-approval on-request: 安全浏览
+- codex --profile full_auto: 使用配置档案

@@ -1,430 +1,104 @@
-## OpenSpec
+# OpenSpec/Codex 参考文档
 
-[](#openspec)
+## 官方资源
+- OpenAI Codex官方文档: https://platform.openai.com/docs/codex
+- NPM包页面: https://www.npmjs.com/package/@openai/codex
+- GitHub仓库: https://github.com/openai/codex-cli
 
-OpenSpec aligns humans and AI coding assistants with spec-driven development so you agree on what to build before any code is written. **No API keys required.**
+## 安装和配置
+### 安装方法
+- NPM全局安装: `npm install -g @openai/codex`
+- Homebrew安装: `brew install codex`
+- 安装验证: `codex --version`
 
-## Why OpenSpec?
+### 配置文件位置
+- 主配置: `~/.codex/config.toml`
+- 全局AI指令: `~/.codex/AGENTS.md`
+- 项目级指令: `./AGENTS.md`
 
-[](#why-openspec)
+## 核心功能参考
+### 命令行界面
+- 交互式TUI: `codex`
+- 带提示启动: `codex "任务描述"`
+- 非交互模式: `codex exec "任务"`
 
-AI coding assistants are powerful but unpredictable when requirements live in chat history. OpenSpec adds a lightweight specification workflow that locks intent before implementation, giving you deterministic, reviewable outputs.
+### 会话管理
+- 会话选择器: `codex resume`
+- 恢复最近: `codex resume --last`
+- 指定会话: `codex resume <session-id>`
 
-Key outcomes:
+## 高级特性
+### MCP (Model Context Protocol)
+- 服务器管理: `codex mcp add/list/remove`
+- 客户端配置: config.toml中的[mcp_servers]节
+- MCP检查器: `npx @modelcontextprotocol/inspector codex mcp`
 
-- Human and AI stakeholders agree on specs before work begins.
-- Structured change folders (proposals, tasks, and spec updates) keep scope explicit and auditable.
-- Shared visibility into what's proposed, active, or archived.
-- Works with the AI tools you already use: custom slash commands where supported, context rules everywhere else.
+### 沙盒安全
+- 只读模式: `--sandbox read-only`
+- 工作区可写: `--sandbox workspace-write`
+- 完全访问: `--sandbox danger-full-access`
 
-## How OpenSpec compares (at a glance)
+### 审批策略
+- 不可信命令: `--ask-for-approval untrusted`
+- 失败时审批: `--ask-for-approval on-failure`
+- 按需审批: `--ask-for-approval on-request`
+- 从不审批: `--ask-for-approval never`
 
-[](#how-openspec-compares-at-a-glance)
+## 模型配置
+### 支持的模型
+- 默认模型: o3 (gpt-5-codex)
+- 模型提供商: openai, ollama等
+- 推理努力: minimal/low/medium/high
+- 输出详细: low/medium/high
 
-- **Lightweight**: simple workflow, no API keys, minimal setup.
-- **Brownfield-first**: works great beyond 0→1. OpenSpec separates the source of truth from proposals: `openspec/specs/` (current truth) and `openspec/changes/` (proposed updates). This keeps diffs explicit and manageable across features.
-- **Change tracking**: proposals, tasks, and spec deltas live together; archiving merges the approved updates back into specs.
-- **Compared to spec-kit & Kiro**: those shine for brand-new features (0→1). OpenSpec also excels when modifying existing behavior (1→n), especially when updates span multiple specs.
-
-See the full comparison in [How OpenSpec Compares](#how-openspec-compares).
-
-## How It Works
-
-[](#how-it-works)
-
-```sql
-┌────────────────────┐
-│ Draft Change       │
-│ Proposal           │
-└────────┬───────────┘
-         │ share intent with your AI
-         ▼
-┌────────────────────┐
-│ Review & Align     │
-│ (edit specs/tasks) │◀──── feedback loop ──────┐
-└────────┬───────────┘                          │
-         │ approved plan                        │
-         ▼                                      │
-┌────────────────────┐                          │
-│ Implement Tasks    │──────────────────────────┘
-│ (AI writes code)   │
-└────────┬───────────┘
-         │ ship the change
-         ▼
-┌────────────────────┐
-│ Archive & Update   │
-│ Specs (source)     │
-└────────────────────┘
-
-1. Draft a change proposal that captures the spec updates you want.
-2. Review the proposal with your AI assistant until everyone agrees.
-3. Implement tasks that reference the agreed specs.
-4. Archive the change to merge the approved updates back into the source-of-truth specs.
+### 配置示例
+```toml
+[model_providers.openai-chat-completions]
+name = "OpenAI using Chat Completions"
+base_url = "https://api.openai.com/v1"
+env_key = "OPENAI_API_KEY"
 ```
 
-## Getting Started
-
-[](#getting-started)
-
-### Supported AI Tools
-
-[](#supported-ai-tools)
-
-#### Native Slash Commands
-
-[](#native-slash-commands)
-
-These tools have built-in OpenSpec commands. Select the OpenSpec integration when prompted.
-
-| Tool                     | Commands                                                                                                                         |
-| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
-| **Claude Code**          | `/openspec:proposal`, `/openspec:apply`, `/openspec:archive`                                                                     |
-| **CodeBuddy Code (CLI)** | `/openspec:proposal`, `/openspec:apply`, `/openspec:archive` (`.codebuddy/commands/`) — see [docs](https://www.codebuddy.ai/cli) |
-| **CoStrict**             | `/openspec-proposal`, `/openspec-apply`, `/openspec-archive` (`.cospec/openspec/commands/`) — see [docs](https://costrict.ai/)   |
-| **Cursor**               | `/openspec-proposal`, `/openspec-apply`, `/openspec-archive`                                                                     |
-| **Cline**                | Rules in `.clinerules/` directory (`.clinerules/openspec-*.md`)                                                                  |
-| **Crush**                | `/openspec-proposal`, `/openspec-apply`, `/openspec-archive` (`.crush/commands/openspec/`)                                       |
-| **Factory Droid**        | `/openspec-proposal`, `/openspec-apply`, `/openspec-archive` (`.factory/commands/`)                                              |
-| **Gemini CLI**           | `/openspec:proposal`, `/openspec:apply`, `/openspec:archive` (`.gemini/commands/openspec/`)                                      |
-| **OpenCode**             | `/openspec-proposal`, `/openspec-apply`, `/openspec-archive`                                                                     |
-| **Kilo Code**            | `/openspec-proposal.md`, `/openspec-apply.md`, `/openspec-archive.md` (`.kilocode/workflows/`)                                   |
-| **Qoder (CLI)**          | `/openspec:proposal`, `/openspec:apply`, `/openspec:archive` (`.qoder/commands/openspec/`) — see [docs](https://qoder.com/cli)   |
-| **Windsurf**             | `/openspec-proposal`, `/openspec-apply`, `/openspec-archive` (`.windsurf/workflows/`)                                            |
-| **Codex**                | `/openspec-proposal`, `/openspec-apply`, `/openspec-archive` (global: `~/.codex/prompts`, auto-installed)                        |
-| **GitHub Copilot**       | `/openspec-proposal`, `/openspec-apply`, `/openspec-archive` (`.github/prompts/`)                                                |
-| **Amazon Q Developer**   | `@openspec-proposal`, `@openspec-apply`, `@openspec-archive` (`.amazonq/prompts/`)                                               |
-| **Auggie (Augment CLI)** | `/openspec-proposal`, `/openspec-apply`, `/openspec-archive` (`.augment/commands/`)                                              |
-| **Qwen Code**            | `/openspec-proposal`, `/openspec-apply`, `/openspec-archive` (`.qwen/commands/`)                                                 |
-
-Kilo Code discovers team workflows automatically. Save the generated files under `.kilocode/workflows/` and trigger them from the command palette with `/openspec-proposal.md`, `/openspec-apply.md`, or `/openspec-archive.md`.
-
-#### AGENTS.md Compatible
-
-[](#agentsmd-compatible)
-
-These tools automatically read workflow instructions from `openspec/AGENTS.md`. Ask them to follow the OpenSpec workflow if they need a reminder. Learn more about the [AGENTS.md convention](https://agents.md/).
-
-| Tools                |
-| -------------------- |
-| Amp • Jules • Others |
-
-### Install & Initialize
-
-[](#install--initialize)
-
-#### Prerequisites
-
-[](#prerequisites)
-
-- **Node.js >= 20.19.0** - Check your version with `node --version`
-
-#### Step 1: Install the CLI globally
-
-[](#step-1-install-the-cli-globally)
-
-```bash
-npm install -g @fission-ai/openspec@latest
-```
-
-Verify installation:
-
-```bash
-openspec --version
-```
-
-#### Step 2: Initialize OpenSpec in your project
-
-[](#step-2-initialize-openspec-in-your-project)
-
-Navigate to your project directory:
-
-```bash
-cd my-project
-```
-
-Run the initialization:
-
-```bash
-openspec init
-```
-
-**What happens during initialization:**
-
-- You'll be prompted to pick any natively supported AI tools (Claude Code, CodeBuddy, Cursor, OpenCode, Qoder,etc.); other assistants always rely on the shared `AGENTS.md` stub
-- OpenSpec automatically configures slash commands for the tools you choose and always writes a managed `AGENTS.md` hand-off at the project root
-- A new `openspec/` directory structure is created in your project
-
-**After setup:**
-
-- Primary AI tools can trigger `/openspec` workflows without additional configuration
-- Run `openspec list` to verify the setup and view any active changes
-- If your coding assistant doesn't surface the new slash commands right away, restart it. Slash commands are loaded at startup, so a fresh launch ensures they appear
-
-### Optional: Populate Project Context
-
-[](#optional-populate-project-context)
-
-After `openspec init` completes, you'll receive a suggested prompt to help populate your project context:
-
-```
-Populate your project context:
-"Please read openspec/project.md and help me fill it out with details about my project, tech stack, and conventions"
-```
-
-Use `openspec/project.md` to define project-level conventions, standards, architectural patterns, and other guidelines that should be followed across all changes.
-
-### Create Your First Change
-
-[](#create-your-first-change)
-
-Here's a real example showing the complete OpenSpec workflow. This works with any AI tool. Those with native slash commands will recognize the shortcuts automatically.
-
-#### 1\. Draft the Proposal
-
-[](#1-draft-the-proposal)
-
-Start by asking your AI to create a change proposal:
-
-```
-You: Create an OpenSpec change proposal for adding profile search filters by role and team
-     (Shortcut for tools with slash commands: /openspec:proposal Add profile search filters)
-
-AI:  I'll create an OpenSpec change proposal for profile filters.
-     *Scaffolds openspec/changes/add-profile-filters/ with proposal.md, tasks.md, spec deltas.*
-```
-
-#### 2\. Verify & Review
-
-[](#2-verify--review)
-
-Check that the change was created correctly and review the proposal:
-
-```bash
-$ openspec list                             # Confirm the change folder exists
-$ openspec validate add-profile-filters     # Validate spec formatting
-$ openspec show add-profile-filters         # Review proposal, tasks, and spec delta
-```
-
-#### 3\. Refine the Specs
-
-[](#3-refine-the-specs)
-
-Iterate on the specifications until they match your needs:
-
-```
-You: Can you add acceptance criteria for the role and team filters?
-
-AI:  I'll update the spec delta with scenarios for role and team filters.
-     *Edits openspec/changes/add-profile-filters/specs/profile/spec.md and tasks.md.*
-```
-
-#### 4\. Implement the Change
-
-[](#4-implement-the-change)
-
-Once specs look good, start implementation:
-
-```javascript
-You: The specs look good. Let's implement this change.
-     (Shortcut for tools with slash commands: /openspec:apply add-profile-filters)
-
-AI:  I'll work through the tasks in the add-profile-filters change.
-     *Implements tasks from openspec/changes/add-profile-filters/tasks.md*
-     *Marks tasks complete: Task 1.1 ✓, Task 1.2 ✓, Task 2.1 ✓...*
-```
-
-#### 5\. Archive the Completed Change
-
-[](#5-archive-the-completed-change)
-
-After implementation is complete, archive the change:
-
-```
-AI:  All tasks are complete. The implementation is ready.
-
-You: Please archive the change
-     (Shortcut for tools with slash commands: /openspec:archive add-profile-filters)
-
-AI:  I'll archive the add-profile-filters change.
-    *Runs: openspec archive add-profile-filters --yes*
-     ✓ Change archived successfully. Specs updated. Ready for the next feature!
-```
-
-Or run the command yourself in terminal:
-
-```bash
-$ openspec archive add-profile-filters --yes  # Archive the completed change without prompts
-```
-
-**Note:** Tools with native slash commands (Claude Code, CodeBuddy, Cursor, Codex, Qoder) can use the shortcuts shown. All other tools work with natural language requests to "create an OpenSpec proposal", "apply the OpenSpec change", or "archive the change".
-
-## Command Reference
-
-[](#command-reference)
-
-```bash
-openspec list               # View active change folders
-openspec view               # Interactive dashboard of specs and changes
-openspec show <change>      # Display change details (proposal, tasks, spec updates)
-openspec validate <change>  # Check spec formatting and structure
-openspec archive <change> [--yes|-y]   # Move a completed change into archive/ (non-interactive with --yes)
-```
-
-## Example: How AI Creates OpenSpec Files
-
-[](#example-how-ai-creates-openspec-files)
-
-When you ask your AI assistant to "add two-factor authentication", it creates:
-
-```
-openspec/
-├── specs/
-│   └── auth/
-│       └── spec.md           # Current auth spec (if exists)
-└── changes/
-    └── add-2fa/              # AI creates this entire structure
-        ├── proposal.md       # Why and what changes
-        ├── tasks.md          # Implementation checklist
-        ├── design.md         # Technical decisions (optional)
-        └── specs/
-            └── auth/
-                └── spec.md   # Delta showing additions
-```
-
-### AI-Generated Spec (created in `openspec/specs/auth/spec.md`):
-
-[](#ai-generated-spec-created-in-openspecspecsauthspecmd)
-
-```text
-# Auth Specification
-
-## Purpose
-Authentication and session management.
-
-## Requirements
-### Requirement: User Authentication
-The system SHALL issue a JWT on successful login.
-
-#### Scenario: Valid credentials
-- WHEN a user submits valid credentials
-- THEN a JWT is returned
-```
-
-### AI-Generated Change Delta (created in `openspec/changes/add-2fa/specs/auth/spec.md`):
-
-[](#ai-generated-change-delta-created-in-openspecchangesadd-2faspecsauthspecmd)
-
-```text
-# Delta for Auth
-
-## ADDED Requirements
-### Requirement: Two-Factor Authentication
-The system MUST require a second factor during login.
-
-#### Scenario: OTP required
-- WHEN a user submits valid credentials
-- THEN an OTP challenge is required
-```
-
-### AI-Generated Tasks (created in `openspec/changes/add-2fa/tasks.md`):
-
-[](#ai-generated-tasks-created-in-openspecchangesadd-2fatasksmd)
-
-```text
-## 1. Database Setup
-- [ ] 1.1 Add OTP secret column to users table
-- [ ] 1.2 Create OTP verification logs table
-
-## 2. Backend Implementation
-- [ ] 2.1 Add OTP generation endpoint
-- [ ] 2.2 Modify login flow to require OTP
-- [ ] 2.3 Add OTP verification endpoint
-
-## 3. Frontend Updates
-- [ ] 3.1 Create OTP input component
-- [ ] 3.2 Update login flow UI
-```
-
-**Important:** You don't create these files manually. Your AI assistant generates them based on your requirements and the existing codebase.
-
-## Understanding OpenSpec Files
-
-[](#understanding-openspec-files)
-
-### Delta Format
-
-[](#delta-format)
-
-Deltas are "patches" that show how specs change:
-
-- **`## ADDED Requirements`** - New capabilities
-- **`## MODIFIED Requirements`** - Changed behavior (include complete updated text)
-- **`## REMOVED Requirements`** - Deprecated features
-
-**Format requirements:**
-
-- Use `### Requirement: <name>` for headers
-- Every requirement needs at least one `#### Scenario:` block
-- Use SHALL/MUST in requirement text
-
-## How OpenSpec Compares
-
-[](#how-openspec-compares)
-
-### vs. spec-kit
-
-[](#vs-spec-kit)
-
-OpenSpec’s two-folder model (`openspec/specs/` for the current truth, `openspec/changes/` for proposed updates) keeps state and diffs separate. This scales when you modify existing features or touch multiple specs. spec-kit is strong for greenfield/0→1 but provides less structure for cross-spec updates and evolving features.
-
-### vs. Kiro.dev
-
-[](#vs-kirodev)
-
-OpenSpec groups every change for a feature in one folder (`openspec/changes/feature-name/`), making it easy to track related specs, tasks, and designs together. Kiro spreads updates across multiple spec folders, which can make feature tracking harder.
-
-### vs. No Specs
-
-[](#vs-no-specs)
-
-Without specs, AI coding assistants generate code from vague prompts, often missing requirements or adding unwanted features. OpenSpec brings predictability by agreeing on the desired behavior before any code is written.
-
-## Team Adoption
-
-[](#team-adoption)
-
-1.  **Initialize OpenSpec** – Run `openspec init` in your repo.
-2.  **Start with new features** – Ask your AI to capture upcoming work as change proposals.
-3.  **Grow incrementally** – Each change archives into living specs that document your system.
-4.  **Stay flexible** – Different teammates can use Claude Code, CodeBuddy, Cursor, or any AGENTS.md-compatible tool while sharing the same specs.
-
-Run `openspec update` whenever someone switches tools so your agents pick up the latest instructions and slash-command bindings.
-
-## Updating OpenSpec
-
-[](#updating-openspec)
-
-1.  **Upgrade the package**
-
-    ```bash
-    npm install -g @fission-ai/openspec@latest
-    ```
-
-2.  **Refresh agent instructions**
-    - Run `openspec update` inside each project to regenerate AI guidance and ensure the latest slash commands are active.
-
-## Contributing
-
-[](#contributing)
-
-- Install dependencies: `pnpm install`
-- Build: `pnpm run build`
-- Test: `pnpm test`
-- Develop CLI locally: `pnpm run dev` or `pnpm run dev:cli`
-- Conventional commits (one-line): `type(scope): subject`
-
-## License
-
-[](#license)
-
-MIT
+## 开发工具集成
+### Shell补全
+- Bash: `codex completion bash`
+- Zsh: `codex completion zsh`
+- Fish: `codex completion fish`
+
+### 文件操作
+- 模糊搜索: 输入@触发
+- 图像输入: `-i image.png`
+- 多图像: `--image img1.png,img2.jpg`
+
+## 调试和监控
+### 日志系统
+- 日志位置: `~/.codex/log/codex-tui.log`
+- 实时监控: `tail -F ~/.codex/log/codex-tui.log`
+- 调试级别: `RUST_LOG=codex_core=debug,codex_tui=info codex`
+
+### 平台支持
+- macOS: Apple Seatbelt沙盒
+- Linux: Landlock/seccomp API
+- Docker: 可能需要特殊配置
+
+## 环境策略
+### 变量控制
+- 继承策略: all/core/none
+- 排除规则: 默认排除KEY/SECRET/TOKEN
+- 包含限制: `include_only = ["PATH", "HOME"]`
+
+### 网络配置
+- 请求重试: `request_max_retries = 4`
+- 流重连: `stream_max_retries = 10`
+- 超时设置: `stream_idle_timeout_ms = 300000`
+
+## 社区和生态
+### MCP服务器生态
+- 文件系统: @modelcontextprotocol/server-filesystem
+- GitHub集成: @modelcontextprotocol/server-github
+- 更多服务器: MCP官方仓库
+
+### 工具对比
+- 与Claude Code: 不同的安装和配置方式
+- 与Cursor: 类似的AI集成但不同的CLI命令
+- 与CodeBuddy: 共享某些MCP协议特性
