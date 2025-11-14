@@ -16,7 +16,10 @@
       "WebFetch(domain:cdpn.io)",
       "WebFetch(domain:chocolatey.org)",
       "mcp__chrome-mcp-server__chrome_click_element",
-      "WebFetch(domain:code.claude.com)"
+      "WebFetch(domain:code.claude.com)",
+      "Bash(claude plugin --help:*)",
+      "Bash(claude mcp --help:*)",
+      "Bash(claude:*)"
     ],
     "deny": [],
     "ask": []
