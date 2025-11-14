@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  
+
+    <link rel="apple-touch-icon" type="image/png" href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png" />
+
+    <meta name="apple-mobile-web-app-title" content="CodePen">
+
+    <link rel="icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico" />
+
+    <link rel="mask-icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-b4b4269c16397ad2f0f7a01bcdf513a1994f4c94b8af2f191c09eb0d601762b1.svg" color="#111" />
+
+
+
+  
+  
+
+  <title>MCP协议开发速查表</title>
+
+    <link rel="canonical" href="https://codepen.io/ccwq/pen/LEGNzKN">
+  
+  
+  
+  
+
+  <script>
+  window.console = window.console || function(t) {};
+</script>
+
+  
+  
+</head>
+
+<body translate="no">
+  <!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>MCP协议开发速查表</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    html,body{height:100%;margin:0;padding:0;background:linear-gradient(130deg,#303d54 0%,#23304a 48%,#171b27 100%);font-family:'Segoe UI','PingFang SC','Microsoft YaHei',Arial,sans-serif;font-size:12px;line-height:1.1;color:#e7e7ea;overflow-x:hidden}body{min-height:100vh;padding:0}.container{width:100%;max-width:100%;margin:0 auto;padding:8px 4px 16px 4px;box-sizing:border-box}.cheat-columns{column-count:4;column-gap:16px;transition:column-width 0.2s;margin-top:12px}@media (max-width:1500px){.cheat-columns{column-count:3}}@media (max-width:1100px){.cheat-columns{column-count:2;column-gap:12px}}@media (max-width:750px){.cheat-columns{column-count:1}}.card{background:rgba(29,36,53,0.85);border-radius:12px;box-shadow:0 2px 12px 1px rgba(0,0,0,0.18);backdrop-filter:blur(6px);margin-bottom:14px;padding:14px 14px 8px 14px;break-inside:avoid;border:1px solid rgba(78,85,130,.12);min-width:0;box-sizing:border-box}.card h2{margin:-6px 0 6px 0;font-size:15px;font-weight:600;color:#fdbe3f;letter-spacing:0.6px}.card h3{font-size:12px;font-weight:bold;color:#93cdfc;margin:6px 0 4px 0}.card ul,.card ol{padding-left:12px;margin:3px 0 8px 0}.card li{margin-bottom:3px;word-break:break-all}code,pre{font-family:'Fira Mono','Consolas','Menlo',monospace;font-size:10px;background:#181d26;color:#e2ffd0;border-radius:5px;line-height:1.1;padding:0 2px;letter-spacing:0.1px;word-wrap:break-word;word-break:break-all}pre{background:#1a1e2b;border-radius:6px;padding:8px 10px;margin:6px 0 8px 0;color:#e6e8ef;overflow-x:auto;font-size:11px;line-height:1.1;box-shadow:0 1px 5px 0 rgba(0,12,22,.15)}@media (max-width:750px){pre{font-size:10px;padding:6px 8px}}.desc{color:#acc3f8;font-style:italic;margin:2px 0 4px 0;font-size:10px;line-height:1.1}.panel{display:flex;align-items:center;background:rgba(36,41,59,0.91);border-radius:12px;box-shadow:0 1px 6px 0 rgba(0,0,0,0.1);padding:8px 16px;margin-bottom:12px;border:1px solid #353e63;gap:16px;flex-wrap:wrap;box-sizing:border-box}.panel label{font-size:11px;color:#ffe49b;font-weight:bold;margin-right:5px;letter-spacing:0.2px}.slider-bar{min-width:120px;margin-right:6px}.slider-val{color:#ffce5b;font-size:11px;margin-left:4px;min-width:28px;display:inline-block;font-weight:600}@media (max-width:660px){.panel{flex-direction:column;gap:8px;padding:6px 4px}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <span style="color:#7bfbb7;font-size:16px;margin-right:auto;">MCP协议开发速查表</span>
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+    </div>
+    <div class="cheat-columns" id="columns">
+
+      <div class="card">
+        <h2>📘 MCP 协议概述</h2>
+        <ul>
+          <li><code>MCP</code>：Model Context Protocol，由 LangChain 提出的标准化协议，用于 LLM 应用与工具/数据源之间的交互。</li>
+          <li>目标：统一工具调用、数据检索、上下文管理等接口，实现跨平台兼容。</li>
+          <li>基于 JSON-RPC 2.0，支持 WebSocket 和 HTTP 传输。</li>
+        </ul>
+        <h3>核心概念</h3>
+        <ul>
+          <li><strong>Server</strong>：提供工具或数据的服务端（如数据库、API 封装器）</li>
+          <li><strong>Client</strong>：LLM 应用（如 Agent）作为客户端调用服务</li>
+          <li><strong>Resource</strong>：可被访问的数据单元（如文档、记录）</li>
+          <li><strong>Tool</strong>：可执行的操作（如搜索、计算）</li>
+        </ul>
+        <div class="desc">MCP 旨在替代传统 LangChain 工具链的碎片化接口，提升互操作性。</div>
+      </div>
+
+      <div class="card">
+        <h2>🔌 通信协议与传输</h2>
+        <h3>支持的传输方式</h3>
+        <ul>
+          <li><code>WebSocket</code>：推荐方式，支持双向实时通信</li>
+          <li><code>HTTP/HTTPS</code>：适用于简单请求-响应场景</li>
+        </ul>
+        <h3>消息格式（JSON-RPC 2.0）</h3>
+        <pre>{
+  "jsonrpc": "2.0",
+  "id": "req-123",
+  "method": "mcp.list_resources",
+  "params": {}
+}</pre>
+        <div class="desc">所有 MCP 消息必须包含 jsonrpc="2.0"，method 为 MCP 定义的标准方法。</div>
+      </div>
+
+      <div class="card">
+        <h2>🧩 标准方法（Methods）</h2>
+        <ul>
+          <li><code>mcp.list_tools</code>：列出可用工具</li>
+          <li><code>mcp.call_tool</code>：调用指定工具</li>
+          <li><code>mcp.list_resources</code>：列出可用资源</li>
+          <li><code>mcp.read_resource</code>：读取资源内容</li>
+          <li><code>mcp.list_prompts</code>：列出预定义提示模板</li>
+          <li><code>mcp.get_prompt</code>：获取指定提示模板</li>
+        </ul>
+        <h3>示例：调用工具</h3>
+        <pre>{
+  "method": "mcp.call_tool",
+  "params": {
+    "name": "search_web",
+    "arguments": {"query": "MCP 协议"}
+  }
+}</pre>
+      </div>
+
+      <div class="card">
+        <h2>🛠️ 工具定义（Tool Schema）</h2>
+        <p>服务端通过 <code>mcp.list_tools</code> 返回工具元数据：</p>
+        <pre>{
+  "name": "get_weather",
+  "description": "获取指定城市的天气",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "city": {"type": "string", "description": "城市名"}
+    },
+    "required": ["city"]
+  }
+}</pre>
+        <div class="desc">inputSchema 遵循 JSON Schema 规范，LLM 可据此生成合法参数。</div>
+      </div>
+
+      <div class="card">
+        <h2>📚 资源（Resource）管理</h2>
+        <p>资源代表可读取的数据实体，如文档、数据库记录等。</p>
+        <h3>list_resources 响应示例</h3>
+        <pre>[
+  {
+    "uri": "file://docs/mcp-spec.pdf",
+    "name": "MCP 规范文档",
+    "description": "官方协议规范"
+  }
+]</pre>
+        <h3>read_resource 请求</h3>
+        <pre>{
+  "method": "mcp.read_resource",
+  "params": {"uri": "file://docs/mcp-spec.pdf"}
+}</pre>
+        <div class="desc">URI 支持自定义 scheme（如 file://, db://, http://）</div>
+      </div>
+
+      <div class="card">
+        <h2>💬 提示模板（Prompts）</h2>
+        <p>MCP 支持预定义提示模板，便于复用和版本管理。</p>
+        <h3>get_prompt 响应示例</h3>
+        <pre>{
+  "name": "summarize_text",
+  "description": "文本摘要模板",
+  "arguments": ["text"],
+  "template": "请用中文总结以下内容：{{text}}"
+}</pre>
+        <div class="desc">模板使用 Jinja2 风格占位符（如 {{text}}）</div>
+      </div>
+
+      <div class="card">
+        <h2>⚙️ 服务端实现（Python 示例）</h2>
+        <p>使用 <code>mcp-server</code> 库快速搭建 MCP 服务：</p>
+        <pre>from mcp.server import Server
+from mcp.server.models import (
+    Tool, Resource, Prompt
+)
+
+server = Server()
+
+@server.tool()
+def get_time() -> str:
+    return datetime.now().isoformat()
+
+# 启动 WebSocket 服务
+server.run_ws(host="0.0.0.0", port=8080)</pre>
+        <div class="desc">官方库：https://github.com/modelcontextprotocol/server-python</div>
+      </div>
+
+      <div class="card">
+        <h2>🤖 客户端集成（LangChain）</h2>
+        <p>LangChain 支持 MCP 工具作为 Tool 使用：</p>
+        <pre>from langchain_mcp import MCPTool
+
+tools = MCPTool.from_mcp_server(
+    "ws://localhost:8080"
+)
+
+agent = create_openai_tools_agent(
+    llm, tools, prompt
+)</pre>
+        <div class="desc">需安装 langchain-mcp 包，自动发现并注册远程工具。</div>
+      </div>
+
+      <div class="card">
+        <h2>🔍 错误处理与通知</h2>
+        <h3>错误响应（JSON-RPC 标准）</h3>
+        <pre>{
+  "jsonrpc": "2.0",
+  "id": "req-123",
+  "error": {
+    "code": -32602,
+    "message": "Invalid params",
+    "data": "Missing 'city' argument"
+  }
+}</pre>
+        <h3>通知（Notification）</h3>
+        <p>服务端可主动推送消息（无 id 字段）：</p>
+        <pre>{
+  "jsonrpc": "2.0",
+  "method": "mcp.resources_updated"
+}</pre>
+        <div class="desc">通知用于资源变更、状态更新等场景。</div>
+      </div>
+
+      <div class="card">
+        <h2>🧪 开发与调试工具</h2>
+        <ul>
+          <li><code>mcp-cli</code>：官方命令行工具，用于测试 MCP 服务</li>
+          <li>浏览器 WebSocket 客户端：如 Simple WebSocket Client</li>
+          <li>日志记录：启用 DEBUG 日志查看原始消息</li>
+        </ul>
+        <h3>mcp-cli 使用示例</h3>
+        <pre># 列出工具
+mcp-cli --url ws://localhost:8080 list-tools
+
+# 调用工具
+mcp-cli --url ws://localhost:8080 call-tool \
+  --name get_weather --args '{"city":"Beijing"}'</pre>
+        <div class="desc">安装：pip install mcp-cli</div>
+      </div>
+
+      <div class="card">
+        <h2>🌐 官方资源与规范</h2>
+        <ul>
+          <li>GitHub 仓库：<a href="https://github.com/modelcontextprotocol" style="color:#7bfbb7;text-decoration:underline;">modelcontextprotocol</a></li>
+          <li>协议规范：<a href="https://modelcontextprotocol.io" style="color:#7bfbb7;text-decoration:underline;">modelcontextprotocol.io</a></li>
+          <li>Python 服务端：<a href="https://github.com/modelcontextprotocol/server-python" style="color:#7bfbb7;text-decoration:underline;">server-python</a></li>
+          <li>LangChain 集成：<a href="https://github.com/langchain-ai/langchain-mcp" style="color:#7bfbb7;text-decoration:underline;">langchain-mcp</a></li>
+        </ul>
+        <div class="desc">MCP 仍在快速发展中，建议关注官方仓库获取最新更新。</div>
+      </div>
+
+      <div class="card">
+        <h2>✅ 最佳实践</h2>
+        <ul>
+          <li>为每个工具提供清晰的 description 和 inputSchema</li>
+          <li>资源 URI 使用语义化命名（如 db://user/123）</li>
+          <li>敏感操作需实现认证与授权（如 JWT）</li>
+          <li>使用 WebSocket 保持长连接以支持通知</li>
+          <li>对大资源内容分页或流式返回</li>
+        </ul>
+        <div class="desc">良好的元数据设计是 LLM 正确调用工具的关键。</div>
+      </div>
+
+    </div>
+  </div>
+  <script>
+    document.getElementById('columnWidth').addEventListener('input', function(e) {
+      const width = e.target.value;
+      document.getElementById('widthVal').textContent = width + 'px';
+      const columns = document.getElementById('columns');
+      columns.style.columnWidth = width + 'px';
+    });
+  </script>
+</body>
+</html>
+  
+  
+  
+</body>
+
+</html>

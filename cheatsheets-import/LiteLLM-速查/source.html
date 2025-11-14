@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  
+
+    <link rel="apple-touch-icon" type="image/png" href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png" />
+
+    <meta name="apple-mobile-web-app-title" content="CodePen">
+
+    <link rel="icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico" />
+
+    <link rel="mask-icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-b4b4269c16397ad2f0f7a01bcdf513a1994f4c94b8af2f191c09eb0d601762b1.svg" color="#111" />
+
+
+
+  
+  
+
+  <title>LiteLLM 配置速查表</title>
+
+    <link rel="canonical" href="https://codepen.io/zeniok/pen/dPYKQON">
+  
+  
+  
+  
+
+  <script>
+  window.console = window.console || function(t) {};
+</script>
+
+  
+  
+</head>
+
+<body translate="no">
+  <html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8">
+    <title>LiteLLM 完整配置速查表</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      *{box-sizing:border-box;margin:0;padding:0}:root{--primary-color:#8250df;--bg-color:#ffffff;--text-color:#24292f;--border-color:#d0d7de;--code-bg:#f6f8fa;--sidebar-bg:#f6f8fa;--card-shadow:rgba(149, 157, 165, 0.2)}body{background:var(--bg-color);color:var(--text-color);font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';font-size:14px;line-height:1.2;min-height:100vh;padding:15px}h1, h2, h3{color:var(--text-color);margin-top:0;position:relative;font-weight:600}h1{font-size:1.8rem;text-align:center;margin:15px 0 20px;padding-bottom:10px}h1::after{content:"";position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:120px;height:1px;background:var(--primary-color)}h2{font-size:1.3rem;margin:12px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--border-color);color:var(--primary-color)}h3{font-size:1.1rem;margin:10px 0 5px;color:var(--primary-color)}.container{column-count:3;column-gap:15px;max-width:100%;margin:0 auto;padding:0 5px 25px;transition:column-width 0.2s}@media (max-width: 1100px){.container{column-count:3}}@media (max-width: 800px){.container{column-count:2}}@media (max-width: 500px){.container{column-count:1}}.card{background:var(--bg-color);border:1px solid var(--border-color);border-radius:6px;box-shadow:0 1px 3px 0 var(--card-shadow);margin-bottom:12px;padding:12px;break-inside:avoid;position:relative;overflow:hidden}.card::before{content:"";position:absolute;top:0;left:0;width:100%;height:2px;background:var(--primary-color)}.code-block{background:var(--code-bg);color:var(--text-color);border:1px solid var(--border-color);border-radius:3px;padding:8px;font-size:13px;font-family:ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;line-height:1.2;margin:8px 0 5px;overflow-x:auto;white-space:pre;position:relative}.slider-box{margin:10px auto 15px;max-width:350px;display:flex;flex-direction:row;align-items:center;background:var(--sidebar-bg);border:1px solid var(--border-color);border-radius:15px;padding:8px 15px;box-shadow:0 1px 2px rgba(0, 0, 0, 0.05)}.slider-box span{font-size:12px;margin:0 8px 0 0;color:var(--text-color);font-weight:600}.slider{width:150px;-webkit-appearance:none;height:5px;background:var(--border-color);outline:none;border-radius:2px}.slider::-webkit-slider-thumb{-webkit-appearance:none;width:15px;height:15px;background:var(--primary-color);cursor:pointer;border-radius:50%;box-shadow:0 1px 2px rgba(0, 0, 0, 0.2)}::selection{background:rgba(130, 80, 223, 0.3)}.desc{font-size:13px;color:#57606a;margin:6px 0;padding:6px 8px;border-left:2px solid var(--primary-color);background:var(--code-bg);border-radius:0 3px 3px 0}ul{padding-left:16px;margin:8px 0}li{margin-bottom:5px;position:relative;padding-left:15px}li::before{content:"•";position:absolute;left:0;color:var(--primary-color);font-size:1em;line-height:1}a{color:#0969da;text-decoration:none;border-bottom:1px dotted var(--border-color);padding:1px 0;transition:all 0.3s}a:hover{color:#0550ae;border-bottom:1px solid var(--primary-color)}a:visited{color:#6a5a8a}#colShow{font-weight:600;color:var(--primary-color)}.card::after{content:"";position:absolute;bottom:0;right:0;width:20px;height:20px;background:linear-gradient(135deg, transparent 50%, var(--code-bg) 50%);pointer-events:none}
+    </style>
+  </head>
+  <body>
+    <h1>LiteLLM 完整配置速查表</h1>
+    <div class="slider-box">
+      <span>列宽:</span>
+      <input class="slider" id="colWidthSlider" type="range" min="300" max="660" value="300" oninput="resizeColumn(this.value)">
+      <span id="colShow">300px</span>
+    </div>
+    <div class="container" id="container">
+      <div class="card">
+        <h2>核心配置结构</h2>
+        <p class="desc">LiteLLM Proxy 的完整配置层级</p>
+        <ul>
+          <li><strong>litellm_settings</strong>：核心运行时与日志设置</li>
+          <li><strong>general_settings</strong>：通用代理与安全设置</li>
+          <li><strong>router_settings</strong>：路由、重试与降级策略</li>
+          <li><strong>model_list</strong>：模型定义与成本信息</li>
+          <li><strong>environment_variables</strong>：环境变量映射</li>
+          <li><strong>callback_settings</strong>：回调服务特定配置</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>litellm_settings: 日志与回调</h2>
+        <p class="desc">监控、追踪与调试配置</p>
+        <div class="code-block">success_callback: ["langfuse"]           # 成功回调
+failure_callback: ["sentry"]            # 失败回调
+callbacks: ["otel"]                     # 通用回调（成功/失败）
+service_callbacks: ["datadog", "prometheus"] # 系统健康监控
+turn_off_message_logging: false         # 是否关闭消息日志
+redact_user_api_key_info: false         # 脱敏 API Key 信息
+langfuse_default_tags: ["cache_hit", "user_api_key_alias"] # Langfuse 标签
+set_verbose: false                      # 是否开启详细日志
+json_logs: true                         # 是否使用 JSON 格式日志</div>
+      </div>
+
+      <div class="card">
+        <h2>litellm_settings: 可靠性</h2>
+        <p class="desc">降级、容错与网络配置</p>
+        <div class="code-block">default_fallbacks: ["claude-opus"]        # 默认降级模型
+content_policy_fallbacks: [{"gpt-3.5-turbo-small": ["claude-opus"]}]
+context_window_fallbacks: [{"gpt-3.5-turbo-small": ["gpt-3.5-turbo-large"]}]
+request_timeout: 10                     # 请求超时（秒）
+force_ipv4: false                       # 强制使用 IPv4
+mcp_aliases: {"github": "github_mcp_server", "zapier": "zapier_mcp_server"}</div>
+      </div>
+
+      <div class="card">
+        <h2>litellm_settings: 缓存</h2>
+        <p class="desc">Redis、S3、Qdrant 语义缓存</p>
+        <div class="code-block">cache: true
+cache_params:
+  type: redis
+  host: "localhost"
+  port: 6379
+  password: "your_password"
+  namespace: "litellm.caching.caching"
+  # 可选：Qdrant 语义缓存
+  qdrant_semantic_cache_embedding_model: openai-embedding
+  similarity_threshold: 0.8
+  # 可选：S3 缓存
+  s3_bucket_name: cache-bucket-litellm
+  s3_region_name: us-west-2
+  ttl: 600</div>
+      </div>
+
+      <div class="card">
+        <h2>router_settings: 路由策略</h2>
+        <p class="desc">高级路由、重试与冷却机制</p>
+        <div class="code-block">router_settings:
+  routing_strategy: usage-based-routing-v2
+  enable_pre_call_checks: true
+  cooldown_time: 30
+  disable_cooldowns: false
+  retry_policy:
+    AuthenticationErrorRetries: 3
+    TimeoutErrorRetries: 3
+  allowed_fails_policy:
+    RateLimitErrorAllowedFails: 10000
+  content_policy_fallbacks: [{"gpt-3.5-turbo-small": ["claude-opus"]}]
+  context_window_fallbacks: [{"gpt-3.5-turbo-small": ["gpt-3.5-turbo-large"]}]</div>
+      </div>
+
+      <div class="card">
+        <h2>general_settings: 安全与数据库</h2>
+        <p class="desc">认证、密钥管理与数据库连接</p>
+        <div class="code-block">general_settings:
+  master_key: sk-xxx                    # 代理主密钥
+  enable_jwt_auth: false                # 启用 JWT 认证
+  key_management_system: google_kms     # 密钥管理系统
+  database_url: "postgresql://user:pass@localhost:5432/litellm"
+  database_connection_pool_limit: 100
+  disable_master_key_return: false      # 是否禁止返回主密钥
+  alerting: ["slack", "email"]          # 告警通道
+  maximum_spend_logs_retention_period: 30d # 消费日志保留周期
+  max_parallel_requests: 50             # 每部署最大并发
+  global_max_parallel_requests: 200     # 全局最大并发</div>
+      </div>
+
+      <div class="card">
+        <h2>model_list: 模型定义</h2>
+        <p class="desc">声明模型及其元数据</p>
+        <div class="code-block">model_list:
+  - model_name: gpt-4-1106-preview
+    litellm_params:
+      model: gpt-4-1106-preview
+      api_key: sk-xxx
+      api_base: https://api.openai.com
+    model_info:
+      id: gpt-4-1106-preview
+      mode: completion
+      input_cost_per_token: 0.00001
+      output_cost_per_token: 0.00003
+      max_tokens: 128000
+      base_model: gpt-4-1106-preview
+  - model_name: claude-3-opus
+    litellm_params:
+      model: claude-3-opus-20240229
+      api_key: sk-ant-xxx</div>
+      </div>
+
+      <div class="card">
+        <h2>关键环境变量</h2>
+        <p class="desc">必须设置的核心 API 密钥</p>
+        <ul>
+          <li><strong>OPENAI_API_KEY</strong>：OpenAI 服务</li>
+          <li><strong>ANTHROPIC_API_KEY</strong>：Anthropic 服务</li>
+          <li><strong>AZURE_API_KEY</strong> / <strong>AZURE_API_VERSION</strong>：Azure OpenAI</li>
+          <li><strong>GOOGLE_API_KEY</strong>：Google AI / Gemini</li>
+          <li><strong>AWS_ACCESS_KEY_ID</strong> / <strong>AWS_SECRET_ACCESS_KEY</strong>：AWS 服务</li>
+          <li><strong>REPLICATE_API_KEY</strong>：Replicate 服务</li>
+          <li><strong>HUGGINGFACE_API_KEY</strong>：HuggingFace 服务</li>
+          <li><strong>LANGFUSE_SECRET_KEY</strong>：Langfuse 追踪</li>
+          <li><strong>DD_API_KEY</strong>：Datadog 监控</li>
+          <li><strong>PROMETHEUS_URL</strong>：Prometheus 地址</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>性能与并发</h2>
+        <p class="desc">控制并发、超时与健康检查</p>
+        <ul>
+          <li><strong>request_timeout</strong>：单个请求超时时间</li>
+          <li><strong>max_parallel_requests</strong>：每部署最大并发</li>
+          <li><strong>global_max_parallel_requests</strong>：全局最大并发</li>
+          <li><strong>background_health_checks</strong>：后台健康检查</li>
+          <li><strong>health_check_interval</strong>：健康检查间隔</li>
+          <li><strong>disable_retry_on_max_parallel_request_limit_error</strong>：禁用并发超限重试</li>
+          <li><strong>allow_requests_on_db_unavailable</strong>：数据库不可用时允许请求</li>
+          <li><strong>infer_model_from_keys</strong>：从密钥推断模型</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>企业级功能</h2>
+        <p class="desc">高级控制与扩展功能</p>
+        <ul>
+          <li><strong>allowed_routes</strong>：限制可访问的 API 路由</li>
+          <li><strong>enforce_user_param</strong>：强制所有请求包含 'user' 参数</li>
+          <li><strong>pass_through_endpoints</strong>：直通端点配置</li>
+          <li><strong>store_model_in_db</strong>：在数据库中存储模型信息</li>
+          <li><strong>ui_access_mode: "admin_only"</strong>：限制 UI 仅管理员访问</li>
+          <li><strong>enable_oauth2_auth</strong>：启用 OAuth2 认证</li>
+          <li><strong>spend_report_frequency: "1d"</strong>：每日消费报告</li>
+          <li><strong>custom_auth</strong>：自定义认证逻辑</li>
+          <li><strong>key_generation_settings</strong>：控制密钥生成权限</li>
+          <li><strong>service_account_settings</strong>：服务账户设置</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>路由与降级策略</h2>
+        <p class="desc">自动故障转移与负载均衡</p>
+        <ul>
+          <li><strong>routing_strategy</strong>：路由策略（usage-based, latency-based）</li>
+          <li><strong>fallbacks</strong>：通用降级模型列表</li>
+          <li><strong>content_policy_fallbacks</strong>：内容策略错误降级</li>
+          <li><strong>context_window_fallbacks</strong>：上下文超长降级</li>
+          <li><strong>retry_policy</strong>：各类错误重试次数</li>
+          <li><strong>allowed_fails_policy</strong>：各类错误允许失败次数</li>
+          <li><strong>cooldown_time</strong>：模型冷却时间</li>
+          <li><strong>disable_cooldowns</strong>：禁用模型冷却</li>
+          <li><strong>enable_tag_filtering</strong>：标签路由</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>缓存高级配置</h2>
+        <p class="desc">多种后端支持与语义缓存</p>
+        <div class="code-block">cache_params:
+  type: redis
+  # Redis Cluster
+  redis_startup_nodes: [{"host": "127.0.0.1", "port": "7001"}]
+  # Redis Sentinel
+  service_name: "mymaster"
+  sentinel_nodes: [["localhost", 26379]]
+  # GCP IAM 认证
+  gcp_service_account: "projects/-/serviceAccounts/your-sa@project.iam.gserviceaccount.com"
+  gcp_ssl_ca_certs: "./server-ca.pem"
+  ssl: true
+  # S3 缓存
+  s3_bucket_name: cache-bucket-litellm
+  s3_aws_access_key_id: os.environ/AWS_ACCESS_KEY_ID
+  s3_aws_secret_access_key: os.environ/AWS_SECRET_ACCESS_KEY
+  # 语义缓存
+  qdrant_semantic_cache_embedding_model: openai-embedding
+  similarity_threshold: 0.8
+  ttl: 600</div>
+      </div>
+
+      <div class="card">
+        <h2>告警与通知</h2>
+        <p class="desc">Slack、Email 与企业告警</p>
+        <div class="code-block">general_settings:
+  alerting: ["slack", "email"]
+  alerting_threshold: 300
+  alerting_args:
+    slack_webhook_url: "https://hooks.slack.com/services/xxx"
+    alert_channels:
+      budget_alerts: "#budget-alerts"
+      system_alerts: "#system-alerts"
+  spend_report_frequency: "1d"
+  alert_to_webhook_url:
+    budget_alert: "https://webhook.site/xxx"
+    system_alert: "https://webhook.site/yyy"</div>
+      </div>
+
+      <div class="card">
+        <h2>数据库配置</h2>
+        <p class="desc">PostgreSQL、连接池与优雅降级</p>
+        <div class="code-block">general_settings:
+  database_url: "postgresql://user:pass@localhost:5432/litellm"
+  database_connection_pool_limit: 100
+  database_connection_timeout: 60
+  disable_spend_logs: false
+  store_prompts_in_spend_logs: true
+  allow_requests_on_db_unavailable: true
+  disable_adding_master_key_hash_to_db: false
+  proxy_budget_rescheduler_min_time: 597
+  proxy_budget_rescheduler_max_time: 605
+  proxy_batch_write_at: 10
+  proxy_batch_polling_interval: 3600</div>
+      </div>
+
+      <div class="card">
+        <h2>安全与认证</h2>
+        <p class="desc">JWT、KMS 与访问控制</p>
+        <ul>
+          <li><strong>master_key</strong>：代理主密钥</li>
+          <li><strong>enable_jwt_auth</strong>：JWT 认证</li>
+          <li><strong>key_management_system</strong>：google_kms 或 azure_kms</li>
+          <li><strong>use_google_kms</strong> / <strong>use_azure_key_vault</strong>：启用云 KMS</li>
+          <li><strong>disable_master_key_return</strong>：禁止返回主密钥</li>
+          <li><strong>allowed_ips</strong>：IP 白名单</li>
+          <li><strong>allowed_routes</strong>：路由白名单</li>
+          <li><strong>admin_only_routes</strong>：管理员专用路由</li>
+          <li><strong>forward_client_headers_to_llm_api</strong>：转发客户端头</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>官方文档链接</h2>
+        <p class="desc">深入学习与配置参考</p>
+        <ul>
+          <li><a href="https://docs.litellm.ai/docs/proxy/config" target="_blank">Proxy 配置总览</a></li>
+          <li><a href="https://docs.litellm.ai/docs/proxy/logging" target="_blank">日志与回调系统</a></li>
+          <li><a href="https://docs.litellm.ai/docs/routing" target="_blank">路由与负载均衡</a></li>
+          <li><a href="https://docs.litellm.ai/docs/proxy/caching" target="_blank">缓存配置指南</a></li>
+          <li><a href="https://docs.litellm.ai/docs/proxy/reliability" target="_blank">可靠性与降级策略</a></li>
+          <li><a href="https://docs.litellm.ai/docs/secret" target="_blank">密钥管理 (KMS)</a></li>
+          <li><a href="https://docs.litellm.ai/docs/proxy/alerting" target="_blank">告警与通知 (Slack/Email)</a></li>
+          <li><a href="https://docs.litellm.ai/docs/mcp" target="_blank">MCP 工具服务器集成</a></li>
+          <li><a href="https://docs.litellm.ai/docs/proxy/virtual_keys" target="_blank">虚拟密钥与访问控制</a></li>
+          <li><a href="https://docs.litellm.ai/docs/proxy/health" target="_blank">健康检查与监控</a></li>
+          <li><a href="https://docs.litellm.ai/docs/proxy/pass_through" target="_blank">直通端点配置</a></li>
+          <li><a href="https://docs.litellm.ai/docs/enterprise" target="_blank">企业版功能</a></li>
+        </ul>
+      </div>
+    </div>
+    <script>
+      function resizeColumn(px){
+        let container = document.getElementById('container');
+        container.style.columnWidth = px + 'px';
+        document.getElementById('colShow').innerText = px + 'px';
+        container.style.display = 'none';
+        void container.offsetHeight;
+        container.style.display = 'block';
+      }
+      resizeColumn(300);
+    </script>
+  </body>
+</html>
+  
+  
+  
+</body>
+
+</html>

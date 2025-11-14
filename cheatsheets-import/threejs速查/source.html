@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  
+
+    <link rel="apple-touch-icon" type="image/png" href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png" />
+
+    <meta name="apple-mobile-web-app-title" content="CodePen">
+
+    <link rel="icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico" />
+
+    <link rel="mask-icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-b4b4269c16397ad2f0f7a01bcdf513a1994f4c94b8af2f191c09eb0d601762b1.svg" color="#111" />
+
+
+
+  
+  
+
+  <title>Three.js 开发速查表</title>
+
+    <link rel="canonical" href="https://codepen.io/zeniok/pen/YPyNVXG">
+  
+  
+  
+  
+
+  <script>
+  window.console = window.console || function(t) {};
+</script>
+
+  
+  
+</head>
+
+<body translate="no">
+  <!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📦 Three.js 速查表 - 3D图形库完整指南</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 12px;
+            line-height: 1.1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .column-control {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .column-control label {
+            color: white;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .column-control input[type="range"] {
+            width: 200px;
+            margin: 0 10px;
+        }
+        
+        .column-control span {
+            color: white;
+            font-weight: bold;
+        }
+        
+        .container {
+            column-count: 4;
+            column-gap: 20px;
+            column-fill: balance;
+        }
+        
+        .card {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+            break-inside: avoid;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255,255,255,0.18);
+            transition: transform 0.2s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .card h2 {
+            color: #2d3748;
+            font-size: 16px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .card h3 {
+            color: #4a5568;
+            font-size: 13px;
+            margin: 10px 0 6px 0;
+            font-weight: 600;
+        }
+        
+        .code-block {
+            background: #1a202c;
+            border-radius: 6px;
+            padding: 10px;
+            margin: 8px 0;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 11px;
+            line-height: 1.4;
+            color: #e2e8f0;
+            overflow-x: auto;
+            border: 1px solid #2d3748;
+            white-space: pre-wrap;
+        }
+        
+        .code-block .comment {
+            color: #68d391;
+        }
+        
+        .code-block .keyword {
+            color: #63b3ed;
+        }
+        
+        .code-block .string {
+            color: #fbb6ce;
+        }
+        
+        .code-block .number {
+            color: #f6ad55;
+        }
+        
+        .code-block .method {
+            color: #9f7aea;
+        }
+        
+        ul, ol {
+            margin: 6px 0 6px 18px;
+        }
+        
+        li {
+            margin: 2px 0;
+        }
+        
+        .highlight {
+            background: #fed7d7;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+        
+        .tip {
+            background: #ebf8ff;
+            border-left: 4px solid #3182ce;
+            padding: 8px;
+            margin: 8px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .warning {
+            background: #fef5e7;
+            border-left: 4px solid #f6ad55;
+            padding: 8px;
+            margin: 8px 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .success {
+            background: #f0fff4;
+            border-left: 4px solid #68d391;
+            padding: 8px;
+            margin: 8px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        @media (max-width: 1200px) {
+            .container { column-count: 3; }
+        }
+        
+        @media (max-width: 800px) {
+            .container { column-count: 2; }
+        }
+        
+        @media (max-width: 500px) {
+            .container { column-count: 1; }
+            body { padding: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📦 Three.js 速查表</h1>
+        <p>🚀 JavaScript 3D图形库完整开发指南 - WebGL渲染引擎 v160+</p>
+        
+        <div class="column-control">
+            <label for="columnWidth">📏 列宽调节:</label>
+            <input type="range" id="columnWidth" min="300" max="660" value="480">
+            <span id="widthValue">480px</span>
+        </div>
+    </div>
+
+    <div class="container" id="container">
+        <div class="card">
+            <h2>🎯 核心概念</h2>
+            <h3>📋 基本结构</h3>
+            <div class="code-block"><span class="comment">// 创建场景、相机、渲染器</span>
+<span class="keyword">const</span> scene = <span class="keyword">new</span> <span class="method">THREE.Scene</span>();
+<span class="keyword">const</span> camera = <span class="keyword">new</span> <span class="method">THREE.PerspectiveCamera</span>(
+    <span class="number">75</span>, 
+    window.innerWidth / window.innerHeight, 
+    <span class="number">0.1</span>, 
+    <span class="number">1000</span>
+);
+<span class="keyword">const</span> renderer = <span class="keyword">new</span> <span class="method">THREE.WebGLRenderer</span>({
+    antialias: <span class="keyword">true</span>,
+    alpha: <span class="keyword">true</span>
+});
+
+<span class="comment">// 设置渲染器</span>
+renderer.<span class="method">setSize</span>(window.innerWidth, window.innerHeight);
+renderer.<span class="method">setPixelRatio</span>(window.devicePixelRatio);
+renderer.shadowMap.enabled = <span class="keyword">true</span>;
+renderer.shadowMap.type = <span class="method">THREE.PCFSoftShadowMap</span>;
+document.body.<span class="method">appendChild</span>(renderer.domElement);</div>
+            
+            <h3>🎬 基本渲染循环</h3>
+            <div class="code-block"><span class="keyword">function</span> <span class="method">animate</span>() {
+    <span class="method">requestAnimationFrame</span>(animate);
+    
+    <span class="comment">// 更新对象</span>
+    mesh.rotation.x += <span class="number">0.01</span>;
+    mesh.rotation.y += <span class="number">0.01</span>;
+    
+    <span class="comment">// 更新控制器</span>
+    <span class="keyword">if</span> (controls) controls.<span class="method">update</span>();
+    
+    <span class="comment">// 更新动画混合器</span>
+    <span class="keyword">if</span> (mixer) mixer.<span class="method">update</span>(clock.<span class="method">getDelta</span>());
+    
+    <span class="comment">// 渲染场景</span>
+    renderer.<span class="method">render</span>(scene, camera);
+}
+<span class="method">animate</span>();</div>
+            
+            <h3>🏗️ 场景图层次</h3>
+            <div class="code-block"><span class="comment">// 创建组来管理对象</span>
+<span class="keyword">const</span> group = <span class="keyword">new</span> <span class="method">THREE.Group</span>();
+group.<span class="method">add</span>(mesh1);
+group.<span class="method">add</span>(mesh2);
+scene.<span class="method">add</span>(group);
+
+<span class="comment">// 遍历场景对象</span>
+scene.<span class="method">traverse</span>(<span class="keyword">function</span>(child) {
+    <span class="keyword">if</span> (child.<span class="method">isMesh</span>) {
+        child.castShadow = <span class="keyword">true</span>;
+        child.receiveShadow = <span class="keyword">true</span>;
+    }
+});</div>
+            
+            <div class="tip">
+                💡 Three.js基于场景图结构，所有3D对象都添加到场景中进行管理
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>📷 摄像机系统</h2>
+            <h3>🔍 透视相机详解</h3>
+            <div class="code-block"><span class="comment">// PerspectiveCamera(fov, aspect, near, far)</span>
+<span class="keyword">const</span> camera = <span class="keyword">new</span> <span class="method">THREE.PerspectiveCamera</span>(
+    <span class="number">75</span>,  <span class="comment">// 视野角度 (度)</span>
+    window.innerWidth / window.innerHeight,  <span class="comment">// 宽高比</span>
+    <span class="number">0.1</span>, <span class="comment">// 近裁剪面</span>
+    <span class="number">1000</span> <span class="comment">// 远裁剪面</span>
+);
+
+<span class="comment">// 设置相机位置和朝向</span>
+camera.position.<span class="method">set</span>(<span class="number">0</span>, <span class="number">5</span>, <span class="number">10</span>);
+camera.<span class="method">lookAt</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);
+
+<span class="comment">// 动态调整视野</span>
+camera.fov = <span class="number">90</span>;
+camera.<span class="method">updateProjectionMatrix</span>();</div>
+            
+            <h3>📐 正交相机详解</h3>
+            <div class="code-block"><span class="comment">// OrthographicCamera(left, right, top, bottom, near, far)</span>
+<span class="keyword">const</span> frustumSize = <span class="number">1000</span>;
+<span class="keyword">const</span> aspect = window.innerWidth / window.innerHeight;
+<span class="keyword">const</span> camera = <span class="keyword">new</span> <span class="method">THREE.OrthographicCamera</span>(
+    frustumSize * aspect / -<span class="number">2</span>, 
+    frustumSize * aspect / <span class="number">2</span>, 
+    frustumSize / <span class="number">2</span>, 
+    frustumSize / -<span class="number">2</span>, 
+    <span class="number">1</span>, 
+    <span class="number">1000</span>
+);
+
+<span class="comment">// 缩放正交相机</span>
+camera.zoom = <span class="number">2</span>;
+camera.<span class="method">updateProjectionMatrix</span>();</div>
+            
+            <h3>📱 响应式相机</h3>
+            <div class="code-block"><span class="keyword">function</span> <span class="method">onWindowResize</span>() {
+    <span class="comment">// 更新相机宽高比</span>
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.<span class="method">updateProjectionMatrix</span>();
+    
+    <span class="comment">// 更新渲染器大小</span>
+    renderer.<span class="method">setSize</span>(window.innerWidth, window.innerHeight);
+    renderer.<span class="method">setPixelRatio</span>(window.devicePixelRatio);
+}
+
+window.<span class="method">addEventListener</span>(<span class="string">'resize'</span>, onWindowResize);</div>
+            
+            <h3>🎮 相机控制器</h3>
+            <ul>
+                <li><span class="highlight">OrbitControls</span> - 轨道控制器，围绕目标旋转</li>
+                <li><span class="highlight">FlyControls</span> - 飞行控制器，自由飞行</li>
+                <li><span class="highlight">FirstPersonControls</span> - 第一人称控制</li>
+                <li><span class="highlight">TrackballControls</span> - 轨迹球控制</li>
+                <li><span class="highlight">MapControls</span> - 地图控制器</li>
+                <li><span class="highlight">ArcballControls</span> - 弧球控制器</li>
+            </ul>
+            
+            <div class="warning">
+                ⚠️ 远近裁剪面设置不当会导致Z-fighting或性能问题
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>🔺 几何体库</h2>
+            <h3>🧊 基础几何体</h3>
+            <div class="code-block"><span class="comment">// 立方体几何体</span>
+<span class="keyword">const</span> boxGeo = <span class="keyword">new</span> <span class="method">THREE.BoxGeometry</span>(
+    <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="comment">// 宽高深</span>
+    <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>  <span class="comment">// 分段数</span>
+);
+
+<span class="comment">// 球体几何体</span>
+<span class="keyword">const</span> sphereGeo = <span class="keyword">new</span> <span class="method">THREE.SphereGeometry</span>(
+    <span class="number">1</span>,    <span class="comment">// 半径</span>
+    <span class="number">32</span>,   <span class="comment">// 水平分段</span>
+    <span class="number">32</span>,   <span class="comment">// 垂直分段</span>
+    <span class="number">0</span>,    <span class="comment">// 起始角度</span>
+    Math.PI * <span class="number">2</span>, <span class="comment">// 扫描角度</span>
+    <span class="number">0</span>,    <span class="comment">// 起始极角</span>
+    Math.PI  <span class="comment">// 扫描极角</span>
+);
+
+<span class="comment">// 圆柱体几何体</span>
+<span class="keyword">const</span> cylinderGeo = <span class="keyword">new</span> <span class="method">THREE.CylinderGeometry</span>(
+    <span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="comment">// 顶半径、底半径、高度</span>
+    <span class="number">32</span>, <span class="number">1</span>, <span class="comment">// 径向分段、高度分段</span>
+    <span class="keyword">false</span> <span class="comment">// 是否开口</span>
+);
+
+<span class="comment">// 平面几何体</span>
+<span class="keyword">const</span> planeGeo = <span class="keyword">new</span> <span class="method">THREE.PlaneGeometry</span>(
+    <span class="number">2</span>, <span class="number">2</span>, <span class="comment">// 宽度、高度</span>
+    <span class="number">1</span>, <span class="number">1</span>  <span class="comment">// 宽度分段、高度分段</span>
+);</div>
+            
+            <h3>🎨 高级几何体</h3>
+            <div class="code-block"><span class="comment">// 圆环几何体</span>
+<span class="keyword">const</span> torusGeo = <span class="keyword">new</span> <span class="method">THREE.TorusGeometry</span>(
+    <span class="number">1</span>, <span class="number">0.3</span>, <span class="comment">// 半径、管半径</span>
+    <span class="number">16</span>, <span class="number">100</span> <span class="comment">// 径向分段、管分段</span>
+);
+
+<span class="comment">// 圆锥几几何体</span>
+<span class="keyword">const</span> coneGeo = <span class="keyword">new</span> <span class="method">THREE.ConeGeometry</span>(
+    <span class="number">1</span>, <span class="number">2</span>, <span class="comment">// 半径、高度</span>
+    <span class="number">32</span>, <span class="number">1</span>, <span class="comment">// 径向分段、高度分段</span>
+    <span class="keyword">false</span> <span class="comment">// 是否开口</span>
+);
+
+<span class="comment">// 十二面体几何体</span>
+<span class="keyword">const</span> dodecahedronGeo = <span class="keyword">new</span> <span class="method">THREE.DodecahedronGeometry</span>(<span class="number">1</span>, <span class="number">0</span>);
+
+<span class="comment">// 胶囊几何体</span>
+<span class="keyword">const</span> capsuleGeo = <span class="keyword">new</span> <span class="method">THREE.CapsuleGeometry</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">8</span>, <span class="number">16</span>);</div>
+            
+            <h3>✏️ 自定义几何体</h3>
+            <div class="code-block"><span class="comment">// 缓冲几何体</span>
+<span class="keyword">const</span> geometry = <span class="keyword">new</span> <span class="method">THREE.BufferGeometry</span>();
+
+<span class="comment">// 顶点数据</span>
+<span class="keyword">const</span> vertices = <span class="keyword">new</span> <span class="method">Float32Array</span>([
+    -<span class="number">1.0</span>, -<span class="number">1.0</span>,  <span class="number">1.0</span>,  <span class="comment">// 顶点0</span>
+     <span class="number">1.0</span>, -<span class="number">1.0</span>,  <span class="number">1.0</span>,  <span class="comment">// 顶点1</span>
+     <span class="number">1.0</span>,  <span class="number">1.0</span>,  <span class="number">1.0</span>   <span class="comment">// 顶点2</span>
+]);
+
+<span class="comment">// UV坐标</span>
+<span class="keyword">const</span> uvs = <span class="keyword">new</span> <span class="method">Float32Array</span>([
+    <span class="number">0.0</span>, <span class="number">0.0</span>,  <span class="comment">// UV0</span>
+    <span class="number">1.0</span>, <span class="number">0.0</span>,  <span class="comment">// UV1</span>
+    <span class="number">1.0</span>, <span class="number">1.0</span>   <span class="comment">// UV2</span>
+]);
+
+<span class="comment">// 法向量</span>
+<span class="keyword">const</span> normals = <span class="keyword">new</span> <span class="method">Float32Array</span>([
+    <span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">1.0</span>,  <span class="comment">// Normal0</span>
+    <span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">1.0</span>,  <span class="comment">// Normal1</span>
+    <span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">1.0</span>   <span class="comment">// Normal2</span>
+]);
+
+geometry.<span class="method">setAttribute</span>(<span class="string">'position'</span>, <span class="keyword">new</span> <span class="method">THREE.BufferAttribute</span>(vertices, <span class="number">3</span>));
+geometry.<span class="method">setAttribute</span>(<span class="string">'uv'</span>, <span class="keyword">new</span> <span class="method">THREE.BufferAttribute</span>(uvs, <span class="number">2</span>));
+geometry.<span class="method">setAttribute</span>(<span class="string">'normal'</span>, <span class="keyword">new</span> <span class="method">THREE.BufferAttribute</span>(normals, <span class="number">3</span>));
+
+<span class="comment">// 计算法向量</span>
+geometry.<span class="method">computeVertexNormals</span>();</div>
+
+            <h3>📊 几何体工具</h3>
+            <div class="code-block"><span class="comment">// 合并几何体</span>
+<span class="keyword">import</span> { mergeGeometries } <span class="keyword">from</span> <span class="string">'three/addons/utils/BufferGeometryUtils.js'</span>;
+<span class="keyword">const</span> merged = <span class="method">mergeGeometries</span>([geo1, geo2, geo3]);
+
+<span class="comment">// 简化几何体</span>
+<span class="keyword">import</span> { SimplifyModifier } <span class="keyword">from</span> <span class="string">'three/addons/modifiers/SimplifyModifier.js'</span>;
+<span class="keyword">const</span> modifier = <span class="keyword">new</span> <span class="method">SimplifyModifier</span>();
+<span class="keyword">const</span> simplified = modifier.<span class="method">modify</span>(geometry, count);</div>
+        </div>
+
+        <div class="card">
+            <h2>🎨 材质系统</h2>
+            <h3>🎯 基础材质</h3>
+            <div class="code-block"><span class="comment">// 基础网格材质（不受光照影响）</span>
+<span class="keyword">const</span> basicMaterial = <span class="keyword">new</span> <span class="method">THREE.MeshBasicMaterial</span>({
+    color: <span class="number">0xff0000</span>,
+    wireframe: <span class="keyword">false</span>,
+    transparent: <span class="keyword">true</span>,
+    opacity: <span class="number">0.8</span>,
+    side: <span class="method">THREE.DoubleSide</span>,
+    alphaTest: <span class="number">0.5</span>,
+    depthTest: <span class="keyword">true</span>,
+    depthWrite: <span class="keyword">true</span>
+});
+
+<span class="comment">// Lambert材质（漫反射）</span>
+<span class="keyword">const</span> lambertMaterial = <span class="keyword">new</span> <span class="method">THREE.MeshLambertMaterial</span>({
+    color: <span class="number">0x00ff00</span>,
+    emissive: <span class="number">0x000000</span>,
+    emissiveIntensity: <span class="number">0</span>
+});</div>
+            
+            <h3>✨ 高级材质</h3>
+            <div class="code-block"><span class="comment">// Phong材质（高光反射）</span>
+<span class="keyword">const</span> phongMaterial = <span class="keyword">new</span> <span class="method">THREE.MeshPhongMaterial</span>({
+    color: <span class="number">0x0000ff</span>,
+    shininess: <span class="number">100</span>,
+    specular: <span class="number">0x1188ff</span>,
+    emissive: <span class="number">0x000000</span>,
+    flatShading: <span class="keyword">false</span>
+});
+
+<span class="comment">// 标准材质（PBR基础）</span>
+<span class="keyword">const</span> standardMaterial = <span class="keyword">new</span> <span class="method">THREE.MeshStandardMaterial</span>({
+    color: <span class="number">0xffffff</span>,
+    metalness: <span class="number">0.5</span>,
+    roughness: <span class="number">0.5</span>,
+    envMapIntensity: <span class="number">1.0</span>,
+    normalScale: <span class="keyword">new</span> <span class="method">THREE.Vector2</span>(<span class="number">1</span>, <span class="number">1</span>)
+});</div>
+            
+            <h3>🔮 物理材质</h3>
+            <div class="code-block"><span class="comment">// 物理基础渲染材质</span>
+<span class="keyword">const</span> physicalMaterial = <span class="keyword">new</span> <span class="method">THREE.MeshPhysicalMaterial</span>({
+    color: <span class="number">0xffffff</span>,
+    metalness: <span class="number">0.9</span>,
+    roughness: <span class="number">0.1</span>,
+    clearcoat: <span class="number">1.0</span>,
+    clearcoatRoughness: <span class="number">0.1</span>,
+    transmission: <span class="number">0.9</span>,
+    ior: <span class="number">1.5</span>,
+    thickness: <span class="number">0.01</span>
+});
+
+<span class="comment">// 卡通材质</span>
+<span class="keyword">const</span> toonMaterial = <span class="keyword">new</span> <span class="method">THREE.MeshToonMaterial</span>({
+    color: <span class="number">0x00ff00</span>,
+    gradientMap: gradientTexture
+});</div>
+
+            <h3>🎭 特殊材质</h3>
+            <div class="code-block"><span class="comment">// 点材质</span>
+<span class="keyword">const</span> pointsMaterial = <span class="keyword">new</span> <span class="method">THREE.PointsMaterial</span>({
+    color: <span class="number">0xff0000</span>,
+    size: <span class="number">5</span>,
+    sizeAttenuation: <span class="keyword">true</span>,
+    alphaTest: <span class="number">0.5</span>,
+    transparent: <span class="keyword">true</span>
+});
+
+<span class="comment">// 线材质</span>
+<span class="keyword">const</span> lineMaterial = <span class="keyword">new</span> <span class="method">THREE.LineBasicMaterial</span>({
+    color: <span class="number">0x0000ff</span>,
+    linewidth: <span class="number">1</span>, <span class="comment">// 注意：只在某些平台有效</span>
+    linecap: <span class="string">'round'</span>,
+    linejoin: <span class="string">'round'</span>
+});
+
+<span class="comment">// 精灵材质</span>
+<span class="keyword">const</span> spriteMaterial = <span class="keyword">new</span> <span class="method">THREE.SpriteMaterial</span>({
+    map: texture,
+    alphaTest: <span class="number">0.5</span>,
+    transparent: <span class="keyword">true</span>,
+    sizeAttenuation: <span class="keyword">false</span>
+});</div>
+            
+            <h3>🔧 材质工具</h3>
+            <ul>
+                <li><span class="highlight">side</span> - 渲染面：FrontSide, BackSide, DoubleSide</li>
+                <li><span class="highlight">blending</span> - 混合模式：Normal, Additive, Subtractive</li> 
+                <li><span class="highlight">vertexColors</span> - 启用顶点颜色</li>
+                <li><span class="highlight">fog</span> - 启用雾效</li>
+                <li><span class="highlight">dithering</span> - 启用抖动</li>
+                <li><span class="highlight">premultipliedAlpha</span> - 预乘Alpha</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>💡 光照系统</h2>
+            <h3>🌅 环境光</h3>
+            <div class="code-block"><span class="comment">// 环境光照亮所有对象</span>
+<span class="keyword">const</span> ambientLight = <span class="keyword">new</span> <span class="method">THREE.AmbientLight</span>(
+    <span class="number">0x404040</span>, <span class="comment">// 颜色</span>
+    <span class="number">0.5</span>      <span class="comment">// 强度</span>
+);
+scene.<span class="method">add</span>(ambientLight);
+
+<span class="comment">// 半球光（天空盒光照）</span>
+<span class="keyword">const</span> hemisphereLight = <span class="keyword">new</span> <span class="method">THREE.HemisphereLight</span>(
+    <span class="number">0xffffbb</span>, <span class="comment">// 天空颜色</span>
+    <span class="number">0x080820</span>, <span class="comment">// 地面颜色</span>
+    <span class="number">1</span>        <span class="comment">// 强度</span>
+);
+scene.<span class="method">add</span>(hemisphereLight);</div>
+            
+            <h3>☀️ 方向光</h3>
+            <div class="code-block"><span class="comment">// 方向光模拟太阳光</span>
+<span class="keyword">const</span> directionalLight = <span class="keyword">new</span> <span class="method">THREE.DirectionalLight</span>(
+    <span class="number">0xffffff</span>, <span class="comment">// 颜色</span>
+    <span class="number">1</span>        <span class="comment">// 强度</span>
+);
+directionalLight.position.<span class="method">set</span>(<span class="number">5</span>, <span class="number">10</span>, <span class="number">7.5</span>);
+directionalLight.castShadow = <span class="keyword">true</span>;
+
+<span class="comment">// 阴影设置</span>
+directionalLight.shadow.mapSize.width = <span class="number">4096</span>;
+directionalLight.shadow.mapSize.height = <span class="number">4096</span>;
+directionalLight.shadow.camera.near = <span class="number">0.5</span>;
+directionalLight.shadow.camera.far = <span class="number">50</span>;
+directionalLight.shadow.camera.left = -<span class="number">10</span>;
+directionalLight.shadow.camera.right = <span class="number">10</span>;
+directionalLight.shadow.camera.top = <span class="number">10</span>;
+directionalLight.shadow.camera.bottom = -<span class="number">10</span>;
+directionalLight.shadow.radius = <span class="number">4</span>;
+directionalLight.shadow.blurSamples = <span class="number">25</span>;
+
+scene.<span class="method">add</span>(directionalLight);</div>
+            
+            <h3>💡 点光源</h3>
+            <div class="code-block"><span class="comment">// 点光源从一点向四周发光</span>
+<span class="keyword">const</span> pointLight = <span class="keyword">new</span> <span class="method">THREE.PointLight</span>(
+    <span class="number">0xff0000</span>, <span class="comment">// 颜色</span>
+    <span class="number">1</span>,       <span class="comment">// 强度</span>
+    <span class="number">100</span>,     <span class="comment">// 距离</span>
+    <span class="number">2</span>        <span class="comment">// 衰减</span>
+);
+pointLight.position.<span class="method">set</span>(<span class="number">10</span>, <span class="number">10</span>, <span class="number">10</span>);
+pointLight.castShadow = <span class="keyword">true</span>;
+pointLight.shadow.mapSize.width = <span class="number">1024</span>;
+pointLight.shadow.mapSize.height = <span class="number">1024</span>;
+pointLight.shadow.camera.near = <span class="number">0.1</span>;
+pointLight.shadow.camera.far = <span class="number">25</span>;
+
+scene.<span class="method">add</span>(pointLight);</div>
+            
+            <h3>🔦 聚光灯</h3>
+            <div class="code-block"><span class="comment">// 聚光灯形成锥形光束</span>
+<span class="keyword">const</span> spotLight = <span class="keyword">new</span> <span class="method">THREE.SpotLight</span>(
+    <span class="number">0xffffff</span>, <span class="comment">// 颜色</span>
+    <span class="number">1</span>,       <span class="comment">// 强度</span>
+    <span class="number">200</span>,     <span class="comment">// 距离</span>
+    Math.PI / <span class="number">4</span>, <span class="comment">// 角度</span>
+    <span class="number">0.1</span>,     <span class="comment">// 半影</span>
+    <span class="number">2</span>        <span class="comment">// 衰减</span>
+);
+spotLight.position.<span class="method">set</span>(<span class="number">15</span>, <span class="number">40</span>, <span class="number">35</span>);
+spotLight.target.position.<span class="method">set</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);
+
+spotLight.castShadow = <span class="keyword">true</span>;
+spotLight.shadow.mapSize.width = <span class="number">2048</span>;
+spotLight.shadow.mapSize.height = <span class="number">2048</span>;
+spotLight.shadow.camera.near = <span class="number">0.5</span>;
+spotLight.shadow.camera.far = <span class="number">200</span>;
+spotLight.shadow.focus = <span class="number">1</span>;
+
+scene.<span class="method">add</span>(spotLight);
+scene.<span class="method">add</span>(spotLight.target);</div>
+
+            <h3>🔬 区域光</h3>
+            <div class="code-block"><span class="comment">// 区域光（需要额外库支持）</span>
+<span class="keyword">import</span> { RectAreaLightUniformsLib } <span class="keyword">from</span> <span class="string">'three/addons/lights/RectAreaLightUniformsLib.js'</span>;
+<span class="keyword">import</span> { RectAreaLight } <span class="keyword">from</span> <span class="string">'three/addons/lights/RectAreaLight.js'</span>;
+
+RectAreaLightUniformsLib.<span class="method">init</span>();
+
+<span class="keyword">const</span> rectLight = <span class="keyword">new</span> <span class="method">RectAreaLight</span>(
+    <span class="number">0xffffff</span>, <span class="comment">// 颜色</span>
+    <span class="number">2</span>,       <span class="comment">// 强度</span>
+    <span class="number">4</span>,       <span class="comment">// 宽度</span>
+    <span class="number">10</span>       <span class="comment">// 高度</span>
+);
+rectLight.position.<span class="method">set</span>(<span class="number">5</span>, <span class="number">5</span>, <span class="number">0</span>);
+rectLight.<span class="method">lookAt</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);
+scene.<span class="method">add</span>(rectLight);</div>
+
+            <h3>⚙️ 光照设置</h3>
+            <ul>
+                <li><span class="highlight">castShadow</span> - 是否投射阴影</li>
+                <li><span class="highlight">receiveShadow</span> - 是否接收阴影</li>
+                <li><span class="highlight">shadow.bias</span> - 阴影偏移（解决阴影瑕疵）</li>
+                <li><span class="highlight">shadow.normalBias</span> - 法线偏移</li>
+                <li><span class="highlight">shadow.radius</span> - 阴影模糊半径</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>🖼️ 纹理贴图</h2>
+            <h3>📸 纹理加载</h3>
+            <div class="code-block"><span class="comment">// 纹理加载器</span>
+<span class="keyword">const</span> textureLoader = <span class="keyword">new</span> <span class="method">THREE.TextureLoader</span>();
+<span class="keyword">const</span> texture = textureLoader.<span class="method">load</span>(
+    <span class="string">'path/to/texture.jpg'</span>,
+    <span class="keyword">function</span> (texture) {
+        <span class="comment">// 加载完成回调</span>
+        console.log(<span class="string">'纹理加载完成'</span>);
+    },
+    <span class="keyword">function</span> (progress) {
+        <span class="comment">// 加载进度回调</span>
+        console.log(<span class="string">'加载进度: '</span> + (progress.loaded / progress.total * <span class="number">100</span>) + <span class="string">'%'</span>);
+    },
+    <span class="keyword">function</span> (error) {
+        <span class="comment">// 加载错误回调</span>
+        console.error(<span class="string">'纹理加载失败'</span>, error);
+    }
+);
+
+<span class="comment">// 设置纹理包装模式</span>
+texture.wrapS = <span class="method">THREE.RepeatWrapping</span>;
+texture.wrapT = <span class="method">THREE.RepeatWrapping</span>;
+texture.repeat.<span class="method">set</span>(<span class="number">2</span>, <span class="number">2</span>);
+texture.offset.<span class="method">set</span>(<span class="number">0.5</span>, <span class="number">0.5</span>);
+texture.rotation = Math.PI / <span class="number">4</span>;
+texture.center.<span class="method">set</span>(<span class="number">0.5</span>, <span class="number">0.5</span>);</div>
+            
+            <h3>🎨 Canvas纹理</h3>
+            <div class="code-block"><span class="comment">// 创建Canvas纹理</span>
+<span class="keyword">const</span> canvas = document.<span class="method">createElement</span>(<span class="string">'canvas'</span>);
+<span class="keyword">const</span> ctx = canvas.<span class="method">getContext</span>(<span class="string">'2d'</span>);
+canvas.width = <span class="number">512</span>;
+canvas.height = <span class="number">512</span>;
+
+<span class="comment">// 绘制渐变</span>
+<span class="keyword">const</span> gradient = ctx.<span class="method">createLinearGradient</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">512</span>, <span class="number">512</span>);
+gradient.<span class="method">addColorStop</span>(<span class="number">0</span>, <span class="string">'#ff0000'</span>);
+gradient.<span class="method">addColorStop</span>(<span class="number">1</span>, <span class="string">'#0000ff'</span>);
+ctx.fillStyle = gradient;
+ctx.<span class="method">fillRect</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">512</span>, <span class="number">512</span>);
+
+<span class="comment">// 绘制文字</span>
+ctx.font = <span class="string">'48px Arial'</span>;
+ctx.fillStyle = <span class="string">'white'</span>;
+ctx.<span class="method">fillText</span>(<span class="string">'Three.js'</span>, <span class="number">100</span>, <span class="number">100</span>);
+
+<span class="keyword">const</span> canvasTexture = <span class="keyword">new</span> <span class="method">THREE.CanvasTexture</span>(canvas);
+canvasTexture.needsUpdate = <span class="keyword">true</span>;</div>
+            
+            <h3>📹 视频纹理</h3>
+            <div class="code-block"><span class="comment">// 创建视频纹理</span>
+<span class="keyword">const</span> video = document.<span class="method">createElement</span>(<span class="string">'video'</span>);
+video.src = <span class="string">'path/to/video.mp4'</span>;
+video.load();
+video.muted = <span class="keyword">true</span>;
+video.loop = <span class="keyword">true</span>;
+video.<span class="method">play</span>();
+
+<span class="keyword">const</span> videoTexture = <span class="keyword">new</span> <span class="method">THREE.VideoTexture</span>(video);
+videoTexture.minFilter = <span class="method">THREE.LinearFilter</span>;
+videoTexture.magFilter = <span class="method">THREE.LinearFilter</span>;
+videoTexture.format = <span class="method">THREE.RGBFormat</span>;</div>
+
+            <h3>🌐 立方体纹理</h3>
+            <div class="code-block"><span class="comment">// 加载立方体贴图（天空盒）</span>
+<span class="keyword">const</span> cubeTextureLoader = <span class="keyword">new</span> <span class="method">THREE.CubeTextureLoader</span>();
+<span class="keyword">const</span> cubeTexture = cubeTextureLoader.<span class="method">load</span>([
+    <span class="string">'px.jpg'</span>, <span class="string">'nx.jpg'</span>, <span class="comment">// 正X，负X</span>
+    <span class="string">'py.jpg'</span>, <span class="string">'ny.jpg'</span>, <span class="comment">// 正Y，负Y</span>
+    <span class="string">'pz.jpg'</span>, <span class="string">'nz.jpg'</span>  <span class="comment">// 正Z，负Z</span>
+]);
+
+<span class="comment">// 设置为场景背景</span>
+scene.background = cubeTexture;
+
+<span class="comment">// 设置为环境贴图</span>
+scene.environment = cubeTexture;</div>
+
+            <h3>🔄 纹理类型详解</h3>
+            <ul>
+                <li><span class="highlight">map</span> - 漫反射贴图（基础颜色）</li>
+                <li><span class="highlight">normalMap</span> - 法线贴图（表面细节）</li>
+                <li><span class="highlight">bumpMap</span> - 凹凸贴图（高度信息）</li>
+                <li><span class="highlight">displacementMap</span> - 位移贴图（顶点偏移）</li>
+                <li><span class="highlight">roughnessMap</span> - 粗糙度贴图</li>
+                <li><span class="highlight">metalnessMap</span> - 金属度贴图</li>
+                <li><span class="highlight">aoMap</span> - 环境光遮蔽贴图</li>
+                <li><span class="highlight">emissiveMap</span> - 自发光贴图</li>
+                <li><span class="highlight">specularMap</span> - 高光贴图</li>
+                <li><span class="highlight">envMap</span> - 环境反射贴图</li>
+                <li><span class="highlight">lightMap</span> - 光照贴图</li>
+                <li><span class="highlight">alphaMap</span> - 透明度贴图</li>
+            </ul>
+
+            <h3>⚙️ 纹理设置</h3>
+            <div class="code-block"><span class="comment">// 纹理过滤</span>
+texture.minFilter = <span class="method">THREE.LinearMipmapLinearFilter</span>;
+texture.magFilter = <span class="method">THREE.LinearFilter</span>;
+
+<span class="comment">// 各向异性过滤</span>
+texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+
+<span class="comment">// 颜色空间</span>
+texture.colorSpace = <span class="method">THREE.SRGBColorSpace</span>;
+
+<span class="comment">// 翻转Y轴</span>
+texture.flipY = <span class="keyword">false</span>;
+
+<span class="comment">// 生成Mipmap</span>
+texture.generateMipmaps = <span class="keyword">true</span>;</div>
+            
+            <div class="tip">
+                💡 使用HDR贴图可以提供更真实的环境反射效果
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>🎬 动画系统</h2>
+            <h3>⚡ 基础动画</h3>
+            <div class="code-block"><span class="comment">// 时钟对象</span>
+<span class="keyword">const</span> clock = <span class="keyword">new</span> <span class="method">THREE.Clock</span>();
+
+<span class="comment">// 手动动画在渲染循环中</span>
+<span class="keyword">function</span> <span class="method">animate</span>() {
+    <span class="keyword">const</span> elapsedTime = clock.<span class="method">getElapsedTime</span>();
+    <span class="keyword">const</span> deltaTime = clock.<span class="method">getDelta</span>();
+    
+    <span class="comment">// 旋转动画</span>
+    cube.rotation.x = elapsedTime * <span class="number">0.5</span>;
+    cube.rotation.y = elapsedTime * <span class="number">0.3</span>;
+    
+    <span class="comment">// 波动动画</span>
+    cube.position.y = Math.sin(elapsedTime * <span class="number">2</span>) * <span class="number">2</span>;
+    
+    <span class="comment">// 缩放动画</span>
+    <span class="keyword">const</span> scale = Math.sin(elapsedTime) * <span class="number">0.5</span> + <span class="number">1.5</span>;
+    cube.scale.<span class="method">setScalar</span>(scale);
+    
+    <span class="method">requestAnimationFrame</span>(animate);
+    renderer.<span class="method">render</span>(scene, camera);
+}
+<span class="method">animate</span>();</div>
+            
+            <h3>🎞️ 关键帧动画</h3>
+            <div class="code-block"><span class="comment">// 创建关键帧轨道</span>
+<span class="keyword">const</span> times = [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];
+
+<span class="comment">// 位置关键帧</span>
+<span class="keyword">const</span> positionValues = [
+    <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>,  <span class="comment">// t=0</span>
+    <span class="number">5</span>, <span class="number">5</span>, <span class="number">0</span>,  <span class="comment">// t=1</span>
+    <span class="number">5</span>, <span class="number">0</span>, <span class="number">5</span>,  <span class="comment">// t=2</span>
+    <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>   <span class="comment">// t=3</span>
+];
+<span class="keyword">const</span> positionKF = <span class="keyword">new</span> <span class="method">THREE.VectorKeyframeTrack</span>(
+    <span class="string">'.position'</span>, times, positionValues
+);
+
+<span class="comment">// 旋转关键帧（四元数）</span>
+<span class="keyword">const</span> rotationValues = [
+    <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>,  <span class="comment">// t=0</span>
+    <span class="number">0</span>, <span class="number">0.707</span>, <span class="number">0</span>, <span class="number">0.707</span>,  <span class="comment">// t=1</span>
+    <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>,  <span class="comment">// t=2</span>
+    <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>   <span class="comment">// t=3</span>
+];
+<span class="keyword">const</span> rotationKF = <span class="keyword">new</span> <span class="method">THREE.QuaternionKeyframeTrack</span>(
+    <span class="string">'.quaternion'</span>, times, rotationValues
+);
+
+<span class="comment">// 缩放关键帧</span>
+<span class="keyword">const</span> scaleValues = [
+    <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>,  <span class="comment">// t=0</span>
+    <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>,  <span class="comment">// t=1</span>
+    <span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>,  <span class="comment">// t=2</span>
+    <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>   <span class="comment">// t=3</span>
+];
+<span class="keyword">const</span> scaleKF = <span class="keyword">new</span> <span class="method">THREE.VectorKeyframeTrack</span>(
+    <span class="string">'.scale'</span>, times, scaleValues
+);
+
+<span class="comment">// 创建动画剪辑</span>
+<span class="keyword">const</span> clip = <span class="keyword">new</span> <span class="method">THREE.AnimationClip</span>(
+    <span class="string">'Action'</span>, <span class="number">3</span>, [positionKF, rotationKF, scaleKF]
+);
+
+<span class="comment">// 创建动画混合器</span>
+<span class="keyword">const</span> mixer = <span class="keyword">new</span> <span class="method">THREE.AnimationMixer</span>(cube);
+<span class="keyword">const</span> action = mixer.<span class="method">clipAction</span>(clip);
+action.<span class="method">play</span>();
+
+<span class="comment">// 在动画循环中更新</span>
+<span class="keyword">function</span> <span class="method">animate</span>() {
+    mixer.<span class="method">update</span>(clock.<span class="method">getDelta</span>());
+    renderer.<span class="method">render</span>(scene, camera);
+    <span class="method">requestAnimationFrame</span>(animate);
+}</div>
+            
+            <h3>🎛️ 动画控制</h3>
+            <div class="code-block"><span class="comment">// 动画播放控制</span>
+action.<span class="method">play</span>();          <span class="comment">// 播放</span>
+action.<span class="method">pause</span>();         <span class="comment">// 暂停</span>
+action.<span class="method">stop</span>();          <span class="comment">// 停止</span>
+action.<span class="method">reset</span>();         <span class="comment">// 重置</span>
+
+<span class="comment">// 设置循环模式</span>
+action.loop = <span class="method">THREE.LoopRepeat</span>;    <span class="comment">// 重复循环</span>
+action.loop = <span class="method">THREE.LoopOnce</span>;      <span class="comment">// 播放一次</span>
+action.loop = <span class="method">THREE.LoopPingPong</span>;  <span class="comment">// 来回循环</span>
+
+<span class="comment">// 设置播放速度</span>
+action.timeScale = <span class="number">2.0</span>;  <span class="comment">// 2倍速播放</span>
+action.timeScale = <span class="number">0.5</span>;  <span class="comment">// 0.5倍速播放</span>
+
+<span class="comment">// 设置权重（用于混合）</span>
+action.weight = <span class="number">0.5</span>;
+
+<span class="comment">// 淡入淡出</span>
+action.<span class="method">fadeIn</span>(<span class="number">1.0</span>);   <span class="comment">// 1秒淡入</span>
+action.<span class="method">fadeOut</span>(<span class="number">0.5</span>);  <span class="comment">// 0.5秒淡出</span>
+action.<span class="method">crossFadeFrom</span>(otherAction, <span class="number">1.0</span>, <span class="keyword">true</span>);</div>
+
+            <h3>🔄 变形目标动画</h3>
+            <div class="code-block"><span class="comment">// 变形目标（Morph Targets）</span>
+<span class="keyword">const</span> geometry = <span class="keyword">new</span> <span class="method">THREE.BoxGeometry</span>(<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>);
+
+<span class="comment">// 创建变形目标</span>
+<span class="keyword">const</span> morphTargetGeo = geometry.<span class="method">clone</span>();
+<span class="keyword">const</span> positionAttribute = morphTargetGeo.<span class="method">getAttribute</span>(<span class="string">'position'</span>);
+
+<span class="comment">// 修改顶点位置</span>
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < positionAttribute.count; i++) {
+    positionAttribute.<span class="method">setY</span>(i, positionAttribute.<span class="method">getY</span>(i) * <span class="number">2</span>);
+}
+
+<span class="comment">// 设置变形目标</span>
+geometry.morphAttributes.position = [positionAttribute];
+
+<span class="comment">// 创建网格并启用变形</span>
+<span class="keyword">const</span> material = <span class="keyword">new</span> <span class="method">THREE.MeshPhongMaterial</span>({
+    morphTargets: <span class="keyword">true</span>
+});
+<span class="keyword">const</span> mesh = <span class="keyword">new</span> <span class="method">THREE.Mesh</span>(geometry, material);
+
+<span class="comment">// 动画变形目标</span>
+mesh.morphTargetInfluences[<span class="number">0</span>] = Math.sin(elapsedTime) * <span class="number">0.5</span> + <span class="number">0.5</span>;</div>
+
+            <h3>🦴 骨骼动画</h3>
+            <div class="code-block"><span class="comment">// 创建骨骼</span>
+<span class="keyword">const</span> bones = [];
+<span class="keyword">const</span> bone1 = <span class="keyword">new</span> <span class="method">THREE.Bone</span>();
+<span class="keyword">const</span> bone2 = <span class="keyword">new</span> <span class="method">THREE.Bone</span>();
+bone1.<span class="method">add</span>(bone2);
+bone2.position.y = <span class="number">1</span>;
+bones.<span class="method">push</span>(bone1, bone2);
+
+<span class="comment">// 创建骨架</span>
+<span class="keyword">const</span> skeleton = <span class="keyword">new</span> <span class="method">THREE.Skeleton</span>(bones);
+
+<span class="comment">// 蒙皮网格</span>
+<span class="keyword">const</span> skinnedMesh = <span class="keyword">new</span> <span class="method">THREE.SkinnedMesh</span>(geometry, material);
+skinnedMesh.<span class="method">bind</span>(skeleton);
+
+<span class="comment">// 骨骼辅助器</span>
+<span class="keyword">const</span> skeletonHelper = <span class="keyword">new</span> <span class="method">THREE.SkeletonHelper</span>(skinnedMesh);
+scene.<span class="method">add</span>(skeletonHelper);</div>
+        </div>
+
+        <div class="card">
+            <h2>📂 模型加载器</h2>
+            <h3>📋 glTF加载器详解</h3>
+            <div class="code-block"><span class="comment">// 导入glTF加载器</span>
+<span class="keyword">import</span> { GLTFLoader } <span class="keyword">from</span> <span class="string">'three/addons/loaders/GLTFLoader.js'</span>;
+<span class="keyword">import</span> { DRACOLoader } <span class="keyword">from</span> <span class="string">'three/addons/loaders/DRACOLoader.js'</span>;
+
+<span class="comment">// 设置Draco解码器（压缩几何体）</span>
+<span class="keyword">const</span> dracoLoader = <span class="keyword">new</span> <span class="method">DRACOLoader</span>();
+dracoLoader.<span class="method">setDecoderPath</span>(<span class="string">'/draco/'</span>);
+
+<span class="comment">// 创建glTF加载器</span>
+<span class="keyword">const</span> loader = <span class="keyword">new</span> <span class="method">GLTFLoader</span>();
+loader.<span class="method">setDRACOLoader</span>(dracoLoader);
+
+<span class="comment">// 加载模型</span>
+loader.<span class="method">load</span>(
+    <span class="string">'path/to/model.gltf'</span>,
+    <span class="keyword">function</span> (gltf) {
+        <span class="comment">// 添加到场景</span>
+        scene.<span class="method">add</span>(gltf.scene);
+        
+        <span class="comment">// 遍历所有网格</span>
+        gltf.scene.<span class="method">traverse</span>(<span class="keyword">function</span>(child) {
+            <span class="keyword">if</span> (child.<span class="method">isMesh</span>) {
+                child.castShadow = <span class="keyword">true</span>;
+                child.receiveShadow = <span class="keyword">true</span>;
+            }
+        });
+        
+        <span class="comment">// 播放动画</span>
+        <span class="keyword">if</span> (gltf.animations.length > <span class="number">0</span>) {
+            <span class="keyword">const</span> mixer = <span class="keyword">new</span> <span class="method">THREE.AnimationMixer</span>(gltf.scene);
+            gltf.animations.<span class="method">forEach</span>((clip, index) => {
+                <span class="keyword">const</span> action = mixer.<span class="method">clipAction</span>(clip);
+                <span class="keyword">if</span> (index === <span class="number">0</span>) action.<span class="method">play</span>(); <span class="comment">// 播放第一个动画</span>
+            });
+            
+            <span class="comment">// 存储mixer以便在动画循环中更新</span>
+            gltf.scene.mixer = mixer;
+        }
+        
+        <span class="comment">// 获取场景信息</span>
+        console.log(<span class="string">'场景:'</span>, gltf.scene);
+        console.log(<span class="string">'相机:'</span>, gltf.cameras);
+        console.log(<span class="string">'动画:'</span>, gltf.animations);
+        console.log(<span class="string">'资源:'</span>, gltf.asset);
+    },
+    <span class="keyword">function</span> (progress) {
+        console.log(<span class="string">'加载进度: '</span> + (progress.loaded / progress.total * <span class="number">100</span>) + <span class="string">'%'</span>);
+    },
+    <span class="keyword">function</span> (error) {
+        console.error(<span class="string">'模型加载失败:'</span>, error);
+    }
+);</div>
+            
+            <h3>📦 其他格式加载器</h3>
+            <div class="code-block"><span class="comment">// OBJ加载器</span>
+<span class="keyword">import</span> { OBJLoader } <span class="keyword">from</span> <span class="string">'three/addons/loaders/OBJLoader.js'</span>;
+<span class="keyword">import</span> { MTLLoader } <span class="keyword">from</span> <span class="string">'three/addons/loaders/MTLLoader.js'</span>;
+
+<span class="keyword">const</span> mtlLoader = <span class="keyword">new</span> <span class="method">MTLLoader</span>();
+<span class="keyword">const</span> objLoader = <span class="keyword">new</span> <span class="method">OBJLoader</span>();
+
+<span class="comment">// 先加载材质文件</span>
+mtlLoader.<span class="method">load</span>(<span class="string">'model.mtl'</span>, <span class="keyword">function</span>(materials) {
+    materials.<span class="method">preload</span>();
+    objLoader.<span class="method">setMaterials</span>(materials);
+    
+    <span class="comment">// 再加载模型</span>
+    objLoader.<span class="method">load</span>(<span class="string">'model.obj'</span>, <span class="keyword">function</span>(object) {
+        scene.<span class="method">add</span>(object);
+    });
+});
+
+<span class="comment">// FBX加载器</span>
+<span class="keyword">import</span> { FBXLoader } <span class="keyword">from</span> <span class="string">'three/addons/loaders/FBXLoader.js'</span>;
+<span class="keyword">const</span> fbxLoader = <span class="keyword">new</span> <span class="method">FBXLoader</span>();
+fbxLoader.<span class="method">load</span>(<span class="string">'model.fbx'</span>, <span class="keyword">function</span>(object) {
+    scene.<span class="method">add</span>(object);
+});
+
+<span class="comment">// STL加载器</span>
+<span class="keyword">import</span> { STLLoader } <span class="keyword">from</span> <span class="string">'three/addons/loaders/STLLoader.js'</span>;
+<span class="keyword">const</span> stlLoader = <span class="keyword">new</span> <span class="method">STLLoader</span>();
+stlLoader.<span class="method">load</span>(<span class="string">'model.stl'</span>, <span class="keyword">function</span>(geometry) {
+    <span class="keyword">const</span> material = <span class="keyword">new</span> <span class="method">THREE.MeshPhongMaterial</span>({color: <span class="number">0x666666</span>});
+    <span class="keyword">const</span> mesh = <span class="keyword">new</span> <span class="method">THREE.Mesh</span>(geometry, material);
+    scene.<span class="method">add</span>(mesh);
+});</div>
+
+            <h3>🗜️ 模型压缩</h3>
+            <div class="code-block"><span class="comment">// KTX2纹理压缩</span>
+<span class="keyword">import</span> { KTX2Loader } <span class="keyword">from</span> <span class="string">'three/addons/loaders/KTX2Loader.js'</span>;
+<span class="keyword">const</span> ktx2Loader = <span class="keyword">new</span> <span class="method">KTX2Loader</span>();
+ktx2Loader.<span class="method">setTranscoderPath</span>(<span class="string">'/basis/'</span>);
+ktx2Loader.<span class="method">detectSupport</span>(renderer);
+
+<span class="comment">// 使用压缩纹理</span>
+ktx2Loader.<span class="method">load</span>(<span class="string">'texture.ktx2'</span>, <span class="keyword">function</span>(texture) {
+    material.map = texture;
+});</div>
+
+            <h3>⚙️ 加载管理</h3>
+            <div class="code-block"><span class="comment">// 加载管理器</span>
+<span class="keyword">const</span> loadingManager = <span class="keyword">new</span> <span class="method">THREE.LoadingManager</span>();
+
+<span class="comment">// 加载开始</span>
+loadingManager.onStart = <span class="keyword">function</span>(url, itemsLoaded, itemsTotal) {
+    console.log(<span class="string">'开始加载: '</span> + url);
+};
+
+<span class="comment">// 加载进度</span>
+loadingManager.onProgress = <span class="keyword">function</span>(url, itemsLoaded, itemsTotal) {
+    console.log(<span class="string">'加载进度: '</span> + itemsLoaded + <span class="string">'/'</span> + itemsTotal);
+    <span class="keyword">const</span> progress = itemsLoaded / itemsTotal;
+    <span class="comment">// 更新进度条</span>
+    updateProgressBar(progress);
+};
+
+<span class="comment">// 加载完成</span>
+loadingManager.onLoad = <span class="keyword">function</span>() {
+    console.log(<span class="string">'所有资源加载完成'</span>);
+    hideLoadingScreen();
+};
+
+<span class="comment">// 加载错误</span>
+loadingManager.onError = <span class="keyword">function</span>(url) {
+    console.error(<span class="string">'加载失败: '</span> + url);
+};
+
+<span class="comment">// 使用加载管理器</span>
+<span class="keyword">const</span> loader = <span class="keyword">new</span> <span class="method">GLTFLoader</span>(loadingManager);</div>
+
+            <h3>🔧 支持的格式</h3>
+            <ul>
+                <li><span class="highlight">glTF/GLB</span> - 推荐格式，支持PBR和动画</li>
+                <li><span class="highlight">FBX</span> - Autodesk格式，支持复杂动画</li>
+                <li><span class="highlight">OBJ/MTL</span> - 简单几何体格式</li>
+                <li><span class="highlight">STL</span> - 3D打印格式</li>
+                <li><span class="highlight">PLY</span> - 点云格式</li>
+                <li><span class="highlight">Collada (.dae)</span> - XML格式</li>
+                <li><span class="highlight">3MF</span> - 微软3D制造格式</li>
+                <li><span class="highlight">AMF</span> - 增材制造格式</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>🎛️ 控制器</h2>
+            <h3>🌍 轨道控制器详解</h3>
+            <div class="code-block"><span class="comment">// 导入轨道控制器</span>
+<span class="keyword">import</span> { OrbitControls } <span class="keyword">from</span> <span class="string">'three/addons/controls/OrbitControls.js'</span>;
+
+<span class="keyword">const</span> controls = <span class="keyword">new</span> <span class="method">OrbitControls</span>(camera, renderer.domElement);
+
+<span class="comment">// 基础设置</span>
+controls.enableDamping = <span class="keyword">true</span>;          <span class="comment">// 启用阻尼</span>
+controls.dampingFactor = <span class="number">0.05</span>;          <span class="comment">// 阻尼系数</span>
+controls.enableZoom = <span class="keyword">true</span>;            <span class="comment">// 启用缩放</span>
+controls.enablePan = <span class="keyword">true</span>;             <span class="comment">// 启用平移</span>
+controls.enableRotate = <span class="keyword">true</span>;          <span class="comment">// 启用旋转</span>
+
+<span class="comment">// 缩放设置</span>
+controls.minDistance = <span class="number">1</span>;               <span class="comment">// 最小距离</span>
+controls.maxDistance = <span class="number">1000</span>;            <span class="comment">// 最大距离</span>
+controls.zoomSpeed = <span class="number">1.0</span>;               <span class="comment">// 缩放速度</span>
+
+<span class="comment">// 旋转设置</span>
+controls.minPolarAngle = <span class="number">0</span>;             <span class="comment">// 最小极角</span>
+controls.maxPolarAngle = Math.PI;         <span class="comment">// 最大极角</span>
+controls.minAzimuthAngle = -Infinity;     <span class="comment">// 最小方位角</span>
+controls.maxAzimuthAngle = Infinity;      <span class="comment">// 最大方位角</span>
+controls.rotateSpeed = <span class="number">1.0</span>;             <span class="comment">// 旋转速度</span>
+
+<span class="comment">// 平移设置</span>
+controls.panSpeed = <span class="number">1.0</span>;                <span class="comment">// 平移速度</span>
+controls.screenSpacePanning = <span class="keyword">false</span>;   <span class="comment">// 屏幕空间平移</span>
+controls.keyPanSpeed = <span class="number">7.0</span>;             <span class="comment">// 键盘平移速度</span>
+
+<span class="comment">// 设置目标点</span>
+controls.target.<span class="method">set</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);
+
+<span class="comment">// 在动画循环中更新</span>
+<span class="keyword">function</span> <span class="method">animate</span>() {
+    controls.<span class="method">update</span>();
+    renderer.<span class="method">render</span>(scene, camera);
+    <span class="method">requestAnimationFrame</span>(animate);
+}</div>
+            
+            <h3>🎮 第一人称控制器</h3>
+            <div class="code-block"><span class="comment">// 导入第一人称控制器</span>
+<span class="keyword">import</span> { FirstPersonControls } <span class="keyword">from</span> <span class="string">'three/addons/controls/FirstPersonControls.js'</span>;
+
+<span class="keyword">const</span> fpControls = <span class="keyword">new</span> <span class="method">FirstPersonControls</span>(camera, renderer.domElement);
+
+<span class="comment">// 移动设置</span>
+fpControls.movementSpeed = <span class="number">150</span>;          <span class="comment">// 移动速度</span>
+fpControls.lookSpeed = <span class="number">0.1</span>;             <span class="comment">// 视角速度</span>
+fpControls.lookVertical = <span class="keyword">true</span>;         <span class="comment">// 允许垂直视角</span>
+fpControls.constrainVertical = <span class="keyword">true</span>;   <span class="comment">// 限制垂直视角</span>
+fpControls.verticalMin = <span class="number">1.0</span>;           <span class="comment">// 最小垂直角</span>
+fpControls.verticalMax = <span class="number">2.0</span>;           <span class="comment">// 最大垂直角</span>
+
+<span class="comment">// 自动前进</span>
+fpControls.autoForward = <span class="keyword">false</span>;        <span class="comment">// 自动前进</span>
+
+<span class="comment">// 在动画循环中更新</span>
+<span class="keyword">function</span> <span class="method">animate</span>() {
+    <span class="keyword">const</span> delta = clock.<span class="method">getDelta</span>();
+    fpControls.<span class="method">update</span>(delta);
+    renderer.<span class="method">render</span>(scene, camera);
+}</div>
+            
+            <h3>✈️ 飞行控制器</h3>
+            <div class="code-block"><span class="comment">// 导入飞行控制器</span>
+<span class="keyword">import</span> { FlyControls } <span class="keyword">from</span> <span class="string">'three/addons/controls/FlyControls.js'</span>;
+
+<span class="keyword">const</span> flyControls = <span class="keyword">new</span> <span class="method">FlyControls</span>(camera, renderer.domElement);
+
+<span class="comment">// 飞行设置</span>
+flyControls.movementSpeed = <span class="number">1000</span>;        <span class="comment">// 移动速度</span>
+flyControls.domElement = renderer.domElement;
+flyControls.rollSpeed = Math.PI / <span class="number">24</span>;    <span class="comment">// 翻滚速度</span>
+flyControls.autoForward = <span class="keyword">false</span>;        <span class="comment">// 自动前进</span>
+flyControls.dragToLook = <span class="keyword">false</span>;         <span class="comment">// 拖拽视角</span></div>
+
+            <h3>✋ 变换控制器</h3>
+            <div class="code-block"><span class="comment">// 导入变换控制器</span>
+<span class="keyword">import</span> { TransformControls } <span class="keyword">from</span> <span class="string">'three/addons/controls/TransformControls.js'</span>;
+
+<span class="keyword">const</span> transformControls = <span class="keyword">new</span> <span class="method">TransformControls</span>(camera, renderer.domElement);
+
+<span class="comment">// 附加到对象</span>
+transformControls.<span class="method">attach</span>(cube);
+scene.<span class="method">add</span>(transformControls);
+
+<span class="comment">// 设置模式</span>
+transformControls.<span class="method">setMode</span>(<span class="string">'translate'</span>); <span class="comment">// 平移模式</span>
+transformControls.<span class="method">setMode</span>(<span class="string">'rotate'</span>);    <span class="comment">// 旋转模式</span>
+transformControls.<span class="method">setMode</span>(<span class="string">'scale'</span>);     <span class="comment">// 缩放模式</span>
+
+<span class="comment">// 设置空间</span>
+transformControls.<span class="method">setSpace</span>(<span class="string">'local'</span>);    <span class="comment">// 本地空间</span>
+transformControls.<span class="method">setSpace</span>(<span class="string">'world'</span>);    <span class="comment">// 世界空间</span>
+
+<span class="comment">// 设置大小</span>
+transformControls.<span class="method">setSize</span>(<span class="number">1.0</span>);         <span class="comment">// 控制器大小</span>
+
+<span class="comment">// 事件监听</span>
+transformControls.<span class="method">addEventListener</span>(<span class="string">'change'</span>, <span class="keyword">function</span>() {
+    renderer.<span class="method">render</span>(scene, camera);
+});
+
+transformControls.<span class="method">addEventListener</span>(<span class="string">'dragging-changed'</span>, <span class="keyword">function</span>(event) {
+    orbitControls.enabled = !event.value; <span class="comment">// 拖拽时禁用轨道控制</span>
+});</div>
+
+            <h3>🎯 其他控制器</h3>
+            <ul>
+                <li><span class="highlight">TrackballControls</span> - 轨迹球控制，无约束旋转</li>
+                <li><span class="highlight">MapControls</span> - 地图控制器，专用于2D地图</li>
+                <li><span class="highlight">ArcballControls</span> - 弧球控制器</li>
+                <li><span class="highlight">PointerLockControls</span> - 指针锁定控制器</li>
+                <li><span class="highlight">DragControls</span> - 拖拽控制器</li>
+            </ul>
+
+            <div class="code-block"><span class="comment">// 指针锁定控制器</span>
+<span class="keyword">import</span> { PointerLockControls } <span class="keyword">from</span> <span class="string">'three/addons/controls/PointerLockControls.js'</span>;
+
+<span class="keyword">const</span> pointerControls = <span class="keyword">new</span> <span class="method">PointerLockControls</span>(camera, document.body);
+
+<span class="comment">// 点击锁定指针</span>
+document.<span class="method">addEventListener</span>(<span class="string">'click'</span>, <span class="keyword">function</span>() {
+    pointerControls.<span class="method">lock</span>();
+});
+
+<span class="comment">// 监听锁定状态</span>
+pointerControls.<span class="method">addEventListener</span>(<span class="string">'lock'</span>, <span class="keyword">function</span>() {
+    console.log(<span class="string">'指针已锁定'</span>);
+});
+
+pointerControls.<span class="method">addEventListener</span>(<span class="string">'unlock'</span>, <span class="keyword">function</span>() {
+    console.log(<span class="string">'指针已解锁'</span>);
+});</div>
+        </div>
+
+        <div class="card">
+            <h2>🎨 后处理效果</h2>
+            <h3>✨ 基础后处理设置</h3>
+            <div class="code-block"><span class="comment">// 导入后处理相关模块</span>
+<span class="keyword">import</span> { EffectComposer } <span class="keyword">from</span> <span class="string">'three/addons/postprocessing/EffectComposer.js'</span>;
+<span class="keyword">import</span> { RenderPass } <span class="keyword">from</span> <span class="string">'three/addons/postprocessing/RenderPass.js'</span>;
+<span class="keyword">import</span> { ShaderPass } <span class="keyword">from</span> <span class="string">'three/addons/postprocessing/ShaderPass.js'</span>;
+
+<span class="comment">// 创建效果合成器</span>
+<span class="keyword">const</span> composer = <span class="keyword">new</span> <span class="method">EffectComposer</span>(renderer);
+composer.<span class="method">setSize</span>(window.innerWidth, window.innerHeight);
+
+<span class="comment">// 添加渲染通道</span>
+<span class="keyword">const</span> renderPass = <span class="keyword">new</span> <span class="method">RenderPass</span>(scene, camera);
+composer.<span class="method">addPass</span>(renderPass);
+
+<span class="comment">// 在动画循环中渲染</span>
+<span class="keyword">function</span> <span class="method">animate</span>() {
+    <span class="comment">// 使用合成器渲染而不是直接渲染</span>
+    composer.<span class="method">render</span>();
+    <span class="method">requestAnimationFrame</span>(animate);
+}</div>
+            
+            <h3>🌟 辉光效果</h3>
+            <div class="code-block"><span class="comment">// 导入辉光效果</span>
+<span class="keyword">import</span> { UnrealBloomPass } <span class="keyword">from</span> <span class="string">'three/addons/postprocessing/UnrealBloomPass.js'</span>;
+
+<span class="comment">// 创建辉光通道</span>
+<span class="keyword">const</span> bloomPass = <span class="keyword">new</span> <span class="method">UnrealBloomPass</span>(
+    <span class="keyword">new</span> <span class="method">THREE.Vector2</span>(window.innerWidth, window.innerHeight), <span class="comment">// 分辨率</span>
+    <span class="number">1.5</span>,    <span class="comment">// 强度</span>
+    <span class="number">0.4</span>,    <span class="comment">// 半径</span>
+    <span class="number">0.85</span>    <span class="comment">// 阈值</span>
+);
+
+<span class="comment">// 调整辉光参数</span>
+bloomPass.threshold = <span class="number">0.2</span>;      <span class="comment">// 辉光阈值</span>
+bloomPass.strength = <span class="number">1.5</span>;       <span class="comment">// 辉光强度</span>
+bloomPass.radius = <span class="number">0.8</span>;         <span class="comment">// 辉光半径</span>
+
+composer.<span class="method">addPass</span>(bloomPass);
+
+<span class="comment">// 选择性辉光（仅特定对象发光）</span>
+<span class="keyword">const</span> bloomLayer = <span class="keyword">new</span> <span class="method">THREE.Layers</span>();
+bloomLayer.<span class="method">set</span>(<span class="number">1</span>); <span class="comment">// 设置辉光图层</span>
+
+<span class="comment">// 将需要发光的对象添加到图层</span>
+glowObject.layers.<span class="method">enable</span>(<span class="number">1</span>);</div>
+            
+            <h3>🎬 胶片效果</h3>
+            <div class="code-block"><span class="comment">// 导入胶片效果</span>
+<span class="keyword">import</span> { FilmPass } <span class="keyword">from</span> <span class="string">'three/addons/postprocessing/FilmPass.js'</span>;
+
+<span class="keyword">const</span> filmPass = <span class="keyword">new</span> <span class="method">FilmPass</span>(
+    <span class="number">0.35</span>,   <span class="comment">// 噪点强度</span>
+    <span class="number">0.75</span>,   <span class="comment">// 扫描线强度</span>
+    <span class="number">2048</span>,   <span class="comment">// 扫描线数量</span>
+    <span class="keyword">false</span>   <span class="comment">// 是否为灰度</span>
+);
+
+composer.<span class="method">addPass</span>(filmPass);</div>
+
+            <h3>🌈 颜色调整</h3>
+            <div class="code-block"><span class="comment">// 导入着色器通道</span>
+<span class="keyword">import</span> { HueSaturationShader } <span class="keyword">from</span> <span class="string">'three/addons/shaders/HueSaturationShader.js'</span>;
+<span class="keyword">import</span> { BrightnessContrastShader } <span class="keyword">from</span> <span class="string">'three/addons/shaders/BrightnessContrastShader.js'</span>;
+
+<span class="comment">// 色相饱和度调整</span>
+<span class="keyword">const</span> huePass = <span class="keyword">new</span> <span class="method">ShaderPass</span>(HueSaturationShader);
+huePass.uniforms[<span class="string">'hue'</span>].value = <span class="number">0.1</span>;           <span class="comment">// 色相偏移</span>
+huePass.uniforms[<span class="string">'saturation'</span>].value = <span class="number">0.2</span>;   <span class="comment">// 饱和度增加</span>
+composer.<span class="method">addPass</span>(huePass);
+
+<span class="comment">// 亮度对比度调整</span>
+<span class="keyword">const</span> bcPass = <span class="keyword">new</span> <span class="method">ShaderPass</span>(BrightnessContrastShader);
+bcPass.uniforms[<span class="string">'brightness'</span>].value = <span class="number">0.1</span>;    <span class="comment">// 亮度增加</span>
+bcPass.uniforms[<span class="string">'contrast'</span>].value = <span class="number">0.15</span>;     <span class="comment">// 对比度增加</span>
+composer.<span class="method">addPass</span>(bcPass);</div>
+
+            <h3>🌊 扭曲效果</h3>
+            <div class="code-block"><span class="comment">// 自定义扭曲着色器</span>
+<span class="keyword">const</span> distortionShader = {
+    uniforms: {
+        tDiffuse: { value: <span class="keyword">null</span> },
+        time: { value: <span class="number">0.0</span> },
+        distortion: { value: <span class="number">0.1</span> }
+    },
+    vertexShader: <span class="string">`
+        varying vec2 vUv;
+        void main() {
+            vUv = uv;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+    `</span>,
+    fragmentShader: <span class="string">`
+        uniform sampler2D tDiffuse;
+        uniform float time;
+        uniform float distortion;
+        varying
+  
+  
+  
+</body>
+
+</html>

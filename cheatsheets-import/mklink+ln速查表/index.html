@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>mklink+ln速查表</title>
+</head>
+<body>
+<meta charset="UTF-8">
+  <title>Windows mklink 与 Linux ln 速查表</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{--primary-color:#8250df;--bg-color:#ffffff;--text-color:#24292f;--border-color:#d0d7de;--code-bg:#f6f8fa;--sidebar-bg:#f6f8fa;--card-shadow:rgba(149, 157, 165, 0.2)}
+    body{background:var(--bg-color);color:var(--text-color);font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';font-size:12px;line-height:1.4;min-height:100vh;padding:15px}
+    h1, h2, h3{color:var(--text-color);margin-top:0;position:relative;font-weight:600}
+    h1{font-size:1.5rem;text-align:center;margin:15px 0 20px;padding-bottom:10px}
+    h1::after{content:"";position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:120px;height:1px;background:var(--primary-color)}
+    h2{font-size:1.1rem;margin:12px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--border-color);color:var(--primary-color)}
+    h3{font-size:1rem;margin:10px 0 5px;color:var(--primary-color)}
+    .container{column-count:3;column-gap:15px;max-width:100%;margin:0 auto;padding:0 5px 25px;transition:column-width 0.2s}
+    @media (max-width: 1100px){.container{column-count:3}}
+    @media (max-width: 800px){.container{column-count:2}}
+    @media (max-width: 500px){.container{column-count:1}}
+    .card{background:var(--bg-color);border:1px solid var(--border-color);border-radius:6px;box-shadow:0 1px 3px 0 var(--card-shadow);margin-bottom:12px;padding:12px;break-inside:avoid;position:relative;overflow:hidden}
+    .card::before{content:"";position:absolute;top:0;left:0;width:100%;height:2px;background:var(--primary-color)}
+    .code-block{background:var(--code-bg);color:var(--text-color);border:1px solid var(--border-color);border-radius:3px;padding:8px;font-size:11px;font-family:ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;line-height:1.3;margin:8px 0 5px;overflow-x:auto;white-space:pre;position:relative}
+    .slider-box{margin:10px auto 15px;max-width:350px;display:flex;flex-direction:row;align-items:center;background:var(--sidebar-bg);border:1px solid var(--border-color);border-radius:15px;padding:8px 15px;box-shadow:0 1px 2px rgba(0, 0, 0, 0.05)}
+    .slider-box span{font-size:12px;margin:0 8px 0 0;color:var(--text-color);font-weight:600}
+    .slider{width:150px;-webkit-appearance:none;height:5px;background:var(--border-color);outline:none;border-radius:2px}
+    .slider::-webkit-slider-thumb{-webkit-appearance:none;width:15px;height:15px;background:var(--primary-color);cursor:pointer;border-radius:50%;box-shadow:0 1px 2px rgba(0, 0, 0, 0.2)}
+    ::selection{background:rgba(130, 80, 223, 0.3)}
+    .desc{font-size:11px;color:#57606a;margin:6px 0;padding:6px 8px;border-left:2px solid var(--primary-color);background:var(--code-bg);border-radius:0 3px 3px 0}
+    .type-explain{background:#e6f3ff;border:1px solid #0969da;border-radius:5px;padding:10px;margin:10px 0;font-size:11px}
+    .type-explain h4{color:#0550ae;margin-bottom:5px;font-size:12px}
+    ul{padding-left:16px;margin:8px 0}
+    li{margin-bottom:5px;position:relative;padding-left:15px}
+    li::before{content:"•";position:absolute;left:0;color:var(--primary-color);font-size:1em;line-height:1}
+    a{color:#0969da;text-decoration:none;border-bottom:1px dotted var(--border-color);padding:1px 0;transition:all 0.3s}
+    a:hover{color:#0550ae;border-bottom:1px solid var(--primary-color)}
+    a:visited{color:#6a5a8a}
+    #colShow{font-weight:600;color:var(--primary-color)}
+    .card::after{content:"";position:absolute;bottom:0;right:0;width:20px;height:20px;background:linear-gradient(135deg, transparent 50%, var(--code-bg) 50%);pointer-events:none}
+    .warning{background:#fff3cd;border:1px solid #ffc107;border-radius:3px;padding:8px;margin:8px 0;font-size:11px;color:#856404}
+  </style>
+
+
+  <h1>Windows mklink 与 Linux ln 速查表</h1>
+  <div class="slider-box">
+    <span>列宽:</span>
+    <input class="slider" id="colWidthSlider" type="range" min="250" max="500" value="300" oninput="resizeColumn(this.value)">
+    <span id="colShow">300px</span>
+  </div>
+  <div class="container" id="container">
+
+    <div class="card">
+      <h2>Windows mklink</h2>
+      <h3>命令格式</h3>
+      <div class="code-block">
+mklink [/D | /H | /J] <Link> <Target>
+      </div>
+      <div class="warning">⚠️ mklink 需要以管理员权限运行（符号链接），硬链接和联接点不需要。</div>
+
+      <h3>/D：创建符号目录链接</h3>
+      <p><strong>场景：</strong>需要在某目录下创建一个符号链接指向另一目录，方便访问或重定向目录内容。</p>
+      <div class="code-block">
+mklink /D C:\Project\LinkDir D:\Data\OriginalDir
+      </div>
+      <p class="desc">此命令将"C:\Project\LinkDir"创建为指向"D:\Data\OriginalDir"的符号链接。可跨卷使用，支持相对路径。</p>
+
+      <h3>/H：创建硬链接（文件）</h3>
+      <p><strong>场景：</strong>在同一个卷内，为一个文件创建硬链接以节约空间或创建备份，硬链接拥有相同的inode，删除其中一个不会影响内容。</p>
+      <div class="code-block">
+mklink /H C:\Project\Report_backup.txt C:\Project\Report.txt
+      </div>
+      <p class="desc">创建"Report_backup.txt"为"Report.txt"的硬链接，两个文件共享相同数据。仅限同一卷，文件删除需等所有硬链接都删除。</p>
+
+      <h3>/J：创建目录联接（Junction 点）</h3>
+      <p><strong>场景：</strong>用于创建目录联接，Windows 特有功能，仅限同一卷，兼容性较好，适合重定向整个目录。</p>
+      <div class="code-block">
+mklink /J C:\Temp\Logs D:\Service\Logs
+      </div>
+      <p class="desc">创建"C:\Temp\Logs"为"D:\Service\Logs"的目录联接。<strong>错误修正：</strong>联接点仅限同一本地卷，不能跨卷。</p>
+
+      <h3>不带参数：创建符号文件链接</h3>
+      <div class="code-block">
+mklink C:\Project\config_link.txt D:\Config\app.conf
+      </div>
+      <p class="desc">创建文件符号链接，可跨卷使用。</p>
+
+      <h3>官方文档</h3>
+      <a href="https://learn.microsoft.com/zh-cn/windows-server/administration/windows-commands/mklink">Microsoft Docs: mklink</a>
+    </div>
+
+    <div class="card">
+      <h2>Linux ln</h2>
+      <h3>命令格式</h3>
+      <div class="code-block">
+ln [OPTION]... TARGET... LINK_NAME
+      </div>
+
+      <h3>不带参数：创建硬链接</h3>
+      <p><strong>场景：</strong>在同一文件系统内为文件创建硬链接，共享inode，节约空间。</p>
+      <div class="code-block">
+ln /home/user/document.txt /tmp/doc_hardlink.txt
+      </div>
+      <p class="desc">创建硬链接，两个文件名指向相同inode。仅限同一文件系统，不能用于目录。</p>
+
+      <h3>-s (--symbolic)：创建符号链接</h3>
+      <p><strong>场景：</strong>为文件或目录创建符号链接，实现路径重定向，便于管理和维护，且允许跨文件系统使用符号链接。</p>
+      <div class="code-block">
+ln -s /usr/local/share/data ~/data_link
+      </div>
+      <p class="desc">将"/usr/local/share/data"链接到用户主目录下"data_link"，方便访问。可跨文件系统，支持目录。</p>
+
+      <h3>-f (--force)：强制覆盖已存在的链接</h3>
+      <p><strong>场景：</strong>若目标链接或文件已存在，使用 -f 强制先删除后创建新链接，避免提示错误。</p>
+      <div class="code-block">
+ln -sf /var/log/app.log ./app.log
+      </div>
+      <p class="desc">强制将"./app.log"链接到"/var/log/app.log"，即使"app.log"已存在。</p>
+
+      <h3>-n (--no-dereference)：不跟随已存在的目标</h3>
+      <p><strong>场景：</strong>当目标是符号链接且已存在时，使用 -n 不对其解引用，直接操作链接本体，常和 -f 搭配使用防止错误覆盖。</p>
+      <div class="code-block">
+ln -sfn /path/to/source /path/to/existing_link
+      </div>
+      <p class="desc">不解引用，强制替换"/path/to/existing_link"为指向"/path/to/source"的符号链接。</p>
+
+      <h3>-v (--verbose)：详细模式</h3>
+      <p><strong>场景：</strong>调试或确认链接创建情况时使用，显示执行的具体操作信息。</p>
+      <div class="code-block">
+ln -sv /etc/hosts ./hostfile_link
+      </div>
+      <p class="desc">创建符号链接时显示"创建'hostfile_link' -> '/etc/hosts'"信息。</p>
+
+      <h3>-T (--no-target-directory)：将目标视为普通文件</h3>
+      <p><strong>场景：</strong>避免命令把目标当成目录处理，确保链接创建到目标文件而非目标目录内。</p>
+      <div class="code-block">
+ln -sT /etc/nginx/nginx.conf ~/nginx.conf.link
+      </div>
+      <p class="desc">直接创建链接"nginx.conf.link"，不会把链接放进"~/nginx.conf.link"目录（如果它存在）。</p>
+
+      <h3>官方手册</h3>
+      <a href="https://man7.org/linux/man-pages/man1/ln.1.html">man 1 ln</a>
+    </div>
+
+    <div class="card">
+      <h2>链接类型详解</h2>
+      
+      <div class="type-explain">
+        <h4>🔗 硬链接 (Hard Link)</h4>
+        <ul>
+          <li><strong>原理：</strong>多个文件名指向同一个inode，共享相同的数据块</li>
+          <li><strong>限制：</strong>只能用于文件，不能用于目录；仅限同一文件系统</li>
+          <li><strong>特点：</strong>删除原文件，硬链接依然可用；修改任一文件，其他硬链接同步更新</li>
+          <li><strong>用途：</strong>节约磁盘空间、创建文件备份、实现文件版本控制</li>
+        </ul>
+      </div>
+
+      <div class="type-explain">
+        <h4>🔗 符号链接 (Symbolic Link / Soft Link)</h4>
+        <ul>
+          <li><strong>原理：</strong>独立文件，存储目标文件/目录的路径字符串</li>
+          <li><strong>限制：</strong>无特殊限制，可跨文件系统、可用于目录</li>
+          <li><strong>特点：</strong>删除原文件，符号链接变为"断链"；支持相对和绝对路径</li>
+          <li><strong>用途：</strong>创建快捷方式、跨文件系统链接、目录重定向</li>
+        </ul>
+      </div>
+
+      <div class="type-explain">
+        <h4>🔗 联接点 (Junction Point - Windows 特有)</h4>
+        <ul>
+          <li><strong>原理：</strong>NTFS 文件系统特有的目录重定向技术</li>
+          <li><strong>限制：</strong>仅限本地卷，不支持网络路径；只能用于目录</li>
+          <li><strong>特点：</strong>比符号链接更早出现，兼容性更好；不需要管理员权限</li>
+          <li><strong>用途：</strong>传统Windows应用的目录重定向、系统目录迁移</li>
+        </ul>
+      </div>
+
+      <h3>对比总结</h3>
+      <div class="code-block">
+类型        跨文件系统  支持目录  权限要求  断链风险
+硬链接      ❌         ❌       普通      ❌
+符号链接    ✅         ✅       管理员*   ✅
+联接点      ❌         ✅       普通      ✅
+
+* Windows 10 创建者更新后，开发者模式下普通用户也可创建符号链接
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>常见问题与最佳实践</h2>
+      
+      <h3>Windows 注意事项</h3>
+      <ul>
+        <li>Vista之前版本需要使用fsutil等工具创建链接</li>
+        <li>符号链接在不同Windows版本的行为略有差异</li>
+        <li>联接点不能指向网络路径，符号链接可以</li>
+        <li>删除链接不会删除目标，但删除目标会影响链接可用性</li>
+      </ul>
+
+      <h3>Linux 注意事项</h3>
+      <ul>
+        <li>符号链接权限显示为777，实际权限由目标文件决定</li>
+        <li>移动符号链接时相对路径可能失效</li>
+        <li><strong>修正：</strong>root用户可以为目录创建硬链接（使用特殊系统调用）</li>
+        <li>跨文件系统的硬链接会自动转换为符号链接（某些工具）</li>
+      </ul>
+
+      <h3>性能与存储</h3>
+      <ul>
+        <li>硬链接几乎无性能开销，符号链接有轻微的解析开销</li>
+        <li>符号链接占用少量额外存储空间存储路径信息</li>
+        <li>大量符号链接可能影响文件系统性能</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <script>
+    function resizeColumn(px){
+      let container = document.getElementById('container');
+      container.style.columnWidth = px + 'px';
+      document.getElementById('colShow').innerText = px + 'px';
+      container.style.display = 'none';
+      void container.offsetHeight;
+      container.style.display = 'block';
+    }
+    resizeColumn(300);
+  </script>
+</body>
+</html>

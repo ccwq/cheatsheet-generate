@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>u-tools速查</title>
+</head>
+<body>
+<meta charset="UTF-8">
+    <title>u-Tools开发指南开发命令速查表</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      html,body{height:100%;margin:0;padding:0;background:linear-gradient(130deg,#303d54 0%,#23304a 48%,#171b27 100%);font-family:'Segoe UI','PingFang SC','Microsoft YaHei',Arial,sans-serif;font-size:12px;line-height:1.1;color:#e7e7ea;overflow-x:hidden}body{min-height:100vh;padding:0}.container{width:100%;max-width:100%;margin:0 auto;padding:8px 4px 16px 4px;box-sizing:border-box}.cheat-columns{column-count:4;column-gap:16px;transition:column-width 0.2s;margin-top:12px}@media (max-width:1500px){.cheat-columns{column-count:3}}@media (max-width:1100px){.cheat-columns{column-count:2;column-gap:12px}}@media (max-width:750px){.cheat-columns{column-count:1}}.card{background:rgba(29,36,53,0.85);border-radius:12px;box-shadow:0 2px 12px 1px rgba(0,0,0,0.18);backdrop-filter:blur(6px);margin-bottom:14px;padding:14px 14px 8px 14px;break-inside:avoid;border:1px solid rgba(78,85,130,.12);min-width:0;box-sizing:border-box}.card h2{margin:-6px 0 6px 0;font-size:15px;font-weight:600;color:#fdbe3f;letter-spacing:0.6px}.card h3{font-size:12px;font-weight:bold;color:#93cdfc;margin:6px 0 4px 0}.card ul,.card ol{padding-left:12px;margin:3px 0 8px 0}.card li{margin-bottom:3px;word-break:break-all}code,pre{font-family:'Fira Mono','Consolas','Menlo',monospace;font-size:1em;background:#181d26;color:#e2ffd0;border-radius:5px;line-height:1.1;padding:0 2px;letter-spacing:0.1px;word-wrap:break-word;word-break:break-all}pre{background:#1a1e2b;border-radius:6px;padding:8px 1em;margin:6px 0 8px 0;color:#e6e8ef;overflow-x:auto;font-size:1em;line-height:1.1;box-shadow:0 1px 5px 0 rgba(0,12,22,.15)}@media (max-width:750px){pre{font-size:1em;padding:6px 8px}}.desc{color:#acc3f8;font-style:italic;margin:2px 0 4px 0;font-size:1em;line-height:1.1}.panel{display:flex;align-items:center;background:rgba(36,41,59,0.91);border-radius:12px;box-shadow:0 1px 6px 0 rgba(0,0,0,0.1);padding:8px 16px;margin-bottom:12px;border:1px solid #353e63;gap:16px;flex-wrap:wrap;box-sizing:border-box}.panel label{font-size:1em;color:#ffe49b;font-weight:bold;margin-right:5px;letter-spacing:0.2px}.slider-bar{min-width:120px;margin-right:6px}.slider-val{color:#ffce5b;font-size:1em;margin-left:4px;min-width:28px;display:inline-block;font-weight:600}@media (max-width:660px){.panel{flex-direction:column;gap:8px;padding:6px 4px}}
+    </style>
+  
+  
+    <div class="container">
+      <div class="panel">
+        <span style="color:#7bfbb7;font-size:16px;margin-right:auto;">u-Tools开发指南速查表</span>
+        <label for="columnWidth">🔧 调整每列宽度：</label>
+        <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+        <span id="widthVal" class="slider-val">340px</span>
+      </div>
+      <div class="cheat-columns" id="columns">
+
+        <!-- 插件配置 -->
+        <div class="card">
+          <h2>📋 plugin.json配置</h2>
+          <div class="desc">📖 <a href="https://www.u-tools.cn/docs/developer/information/plugin-json.html" target="_blank" style="color:#93cdfc;">官方文档</a></div>
+          <h3>基础字段</h3>
+          <ul>
+            <li><code>"main": "index.html"</code> - 入口HTML文件</li>
+            <li><code>"logo": "logo.png"</code> - 插件Logo（PNG/JPG）</li>
+            <li><code>"preload": "preload.js"</code> - 预加载JS文件</li>
+          </ul>
+          <h3>插件设置</h3>
+          <ul>
+            <li><code>"single": true</code> - 是否单例模式</li>
+            <li><code>"height": 300</code> - 初始高度</li>
+          </ul>
+          <h3>功能定义</h3>
+          <ul>
+            <li><code>"code": "unique_code"</code> - 唯一功能编码</li>
+            <li><code>"explain": "功能描述"</code> - 功能说明</li>
+            <li><code>"cmds": ["指令1", "指令2"]</code> - 命令集合</li>
+          </ul>
+          <pre>{
+  "main": "index.html",
+  "logo": "logo.png",
+  "preload": "preload.js",
+  "features": [{
+    "code": "hello",
+    "explain": "hello world",
+    "cmds": ["hello", "你好"]
+  }]
+}</pre>
+          <div class="desc">plugin.json是插件的核心配置文件</div>
+        </div>
+
+        <!-- 事件监听 -->
+        <div class="card">
+          <h2>🎯 事件监听</h2>
+          <div class="desc">📖 <a href="https://www.u-tools.cn/docs/developer/api-reference/utools/events.html" target="_blank" style="color:#93cdfc;">官方文档</a></div>
+          <ul>
+            <li><code>utools.onPluginEnter(callback)</code> - 进入插件时触发</li>
+            <li><code>utools.onPluginOut(callback)</code> - 退出插件时触发</li>
+            <li><code>utools.onMainPush(callback, onSelect)</code> - 推送内容到搜索框</li>
+            <li><code>utools.onPluginDetach(callback)</code> - 插件分离时触发</li>
+            <li><code>utools.onDbPull(callback)</code> - 数据同步时触发</li>
+          </ul>
+          <h3>参数类型</h3>
+          <ul>
+            <li><code>action: {code, type, payload, from}</code> - 插件进入信息</li>
+            <li><code>type: "text"|"img"|"file"|"regex"</code> - 匹配类型</li>
+            <li><code>from: "main"|"panel"|"hotkey"</code> - 触发来源</li>
+          </ul>
+          <pre>utools.onPluginEnter(({ code, type, payload, from }) => {
+  console.log("用户进入插件", code, type, payload);
+  console.log("触发方式：", from);
+});</pre>
+          <div class="desc">事件监听是插件的核心交互机制</div>
+        </div>
+
+        <!-- 窗口操作 -->
+        <div class="card">
+          <h2>🖥️ 窗口操作</h2>
+          <div class="desc">📖 <a href="https://www.u-tools.cn/docs/developer/api-reference/utools/window.html" target="_blank" style="color:#93cdfc;">官方文档</a></div>
+          <ul>
+            <li><code>utools.hideMainWindow([isRestore])</code> - 隐藏主窗口</li>
+            <li><code>utools.showMainWindow()</code> - 显示主窗口</li>
+            <li><code>utools.setExpendHeight(height)</code> - 设置窗口高度</li>
+            <li><code>utools.outPlugin([isKill])</code> - 退出插件</li>
+            <li><code>utools.getWindowType()</code> - 获取窗口类型</li>
+            <li><code>utools.isDarkColors()</code> - 是否深色主题</li>
+          </ul>
+          <h3>子输入框</h3>
+          <ul>
+            <li><code>utools.setSubInput(onChange, placeholder)</code> - 设置子输入框</li>
+            <li><code>utools.removeSubInput()</code> - 移除子输入框</li>
+            <li><code>utools.setSubInputValue(text)</code> - 设置子输入框值</li>
+            <li><code>utools.subInputFocus()</code> - 聚焦子输入框</li>
+          </ul>
+          <pre>utools.setSubInput(({ text }) => {
+  console.log("输入内容：", text);
+}, "请输入搜索内容");</pre>
+          <div class="desc">窗口API提供了丰富的界面控制能力</div>
+        </div>
+
+        <!-- 系统API -->
+        <div class="card">
+          <h2>⚙️ 系统API</h2>
+          <div class="desc">📖 <a href="https://www.u-tools.cn/docs/developer/api-reference/utools/system.html" target="_blank" style="color:#93cdfc;">官方文档</a></div>
+          <ul>
+            <li><code>utools.showNotification(body, code)</code> - 系统通知</li>
+            <li><code>utools.shellOpenPath(fullPath)</code> - 用系统默认方式打开文件</li>
+            <li><code>utools.shellShowItemInFolder(fullPath)</code> - 在文件管理器中显示</li>
+            <li><code>utools.shellTrashItem(fullPath)</code> - 移至回收站</li>
+            <li><code>utools.shellOpenExternal(url)</code> - 打开外部URL</li>
+            <li><code>utools.shellBeep()</code> - 播放系统提示音</li>
+          </ul>
+          <h3>系统信息</h3>
+          <ul>
+            <li><code>utools.getNativeId()</code> - 获取设备ID</li>
+            <li><code>utools.getAppName()</code> - 获取应用名称</li>
+            <li><code>utools.getAppVersion()</code> - 获取应用版本</li>
+            <li><code>utools.getPath(name)</code> - 获取系统路径</li>
+          </ul>
+          <pre>utools.showNotification("任务完成", "result_feature");
+utools.shellOpenExternal("https://www.u-tools.cn");</pre>
+          <div class="desc">系统API提供操作系统级别的功能</div>
+        </div>
+
+        <!-- 数据库操作 -->
+        <div class="card">
+          <h2>🗄️ 本地数据库</h2>
+          <div class="desc">📖 <a href="https://www.u-tools.cn/docs/developer/api-reference/db/local-db.html" target="_blank" style="color:#93cdfc;">官方文档</a></div>
+          <ul>
+            <li><code>utools.db.put(doc)</code> - 创建/更新文档</li>
+            <li><code>utools.db.get(id)</code> - 获取文档</li>
+            <li><code>utools.db.remove(doc)</code> - 删除文档</li>
+            <li><code>utools.db.allDocs(prefix)</code> - 获取文档列表</li>
+            <li><code>utools.db.bulkDocs(docs)</code> - 批量操作</li>
+          </ul>
+          <h3>附件操作</h3>
+          <ul>
+            <li><code>utools.db.postAttachment(id, data, type)</code> - 存储附件</li>
+            <li><code>utools.db.getAttachment(id)</code> - 获取附件</li>
+            <li><code>utools.db.getAttachmentType(id)</code> - 获取附件类型</li>
+          </ul>
+          <h3>数据库同步</h3>
+          <ul>
+            <li><code>utools.db.replicateStateFromCloud()</code> - 云端同步状态</li>
+          </ul>
+          <pre>// 存储数据
+const doc = {_id: "user/1", name: "张三"};
+const result = utools.db.put(doc);
+if (result.ok) doc._rev = result.rev;</pre>
+          <div class="desc">本地NoSQL数据库，支持云同步功能</div>
+        </div>
+
+        <!-- 存储API -->
+        <div class="card">
+          <h2>💾 存储API</h2>
+          <div class="desc">📖 <a href="https://www.u-tools.cn/docs/developer/api-reference/db/db-storage.html" target="_blank" style="color:#93cdfc;">dbStorage文档</a> | <a href="https://www.u-tools.cn/docs/developer/api-reference/db/db-crypto-storage.html" target="_blank" style="color:#93cdfc;">dbCryptoStorage文档</a></div>
+          <h3>dbStorage（类localStorage）</h3>
+          <ul>
+            <li><code>utools.dbStorage.setItem(key, value)</code> - 存储数据</li>
+            <li><code>utools.dbStorage.getItem(key)</code> - 获取数据</li>
+            <li><code>utools.dbStorage.removeItem(key)</code> - 删除数据</li>
+            <li><code>utools.dbStorage.clear()</code> - 清空数据</li>
+            <li><code>utools.dbStorage.key(index)</code> - 获取键名</li>
+          </ul>
+          <h3>dbCryptoStorage（加密存储）</h3>
+          <ul>
+            <li><code>utools.dbCryptoStorage.setItem(key, value)</code> - 加密存储</li>
+            <li><code>utools.dbCryptoStorage.getItem(key)</code> - 获取加密数据</li>
+          </ul>
+          <pre>// 普通存储
+utools.dbStorage.setItem("theme", "dark");
+// 加密存储
+utools.dbCryptoStorage.setItem("token", "secret_token");</pre>
+          <div class="desc">基于本地数据库的存储封装，支持普通和加密模式</div>
+        </div>
+
+        <!-- 复制API -->
+        <div class="card">
+          <h2>📋 复制API</h2>
+          <div class="desc">📖 <a href="https://www.u-tools.cn/docs/developer/api-reference/utools/copy.html" target="_blank" style="color:#93cdfc;">官方文档</a></div>
+          <ul>
+            <li><code>utools.copyText(text)</code> - 复制文本</li>
+            <li><code>utools.copyFile(filePath)</code> - 复制文件</li>
+            <li><code>utools.copyImage(image)</code> - 复制图像</li>
+            <li><code>utools.getCopyedFiles()</code> - 获取复制的文件列表</li>
+          </ul>
+          <pre>utools.copyText("Hello World!");
+utools.copyFile("/path/to/file.txt");
+utools.copyImage("data:image/png;base64,...");</pre>
+          <div class="desc">支持复制文本、图像、文件到系统剪贴板</div>
+        </div>
+
+        <!-- 输入API -->
+        <div class="card">
+          <h2>⌨️ 输入API</h2>
+          <div class="desc">📖 <a href="https://www.u-tools.cn/docs/developer/api-reference/utools/input.html" target="_blank" style="color:#93cdfc;">官方文档</a></div>
+          <ul>
+            <li><code>utools.hideMainWindowPasteFile(filePath)</code> - 粘贴文件</li>
+            <li><code>utools.hideMainWindowPasteImage(image)</code> - 粘贴图像</li>
+            <li><code>utools.hideMainWindowPasteText(text)</code> - 粘贴文本</li>
+            <li><code>utools.hideMainWindowTypeString(text)</code> - 模拟输入</li>
+          </ul>
+          <pre>utools.hideMainWindowPasteText("Hello World!");
+utools.hideMainWindowTypeString("uTools 效率工具 🐼👏🦄");</pre>
+          <div class="desc">模拟键盘输入和剪贴板粘贴操作</div>
+        </div>
+
+        <!-- 屏幕API -->
+        <div class="card">
+          <h2>🖼️ 屏幕API</h2>
+          <div class="desc">📖 <a href="https://www.u-tools.cn/docs/developer/api-reference/utools/screen.html" target="_blank" style="color:#93cdfc;">官方文档</a></div>
+          <ul>
+            <li><code>utools.screenColorPick(callback)</code> - 屏幕取色</li>
+            <li><code>utools.screenCapture(callback)</code> - 屏幕截图</li>
+            <li><code>utools.getPrimaryDisplay()</code> - 获取主显示器</li>
+            <li><code>utools.getAllDisplays()</code> - 获取所有显示器</li>
+            <li><code>utools.getCursorScreenPoint()</code> - 获取鼠标位置</li>
+            <li><code>utools.desktopCaptureSources(options)</code> - 获取录屏源</li>
+          </ul>
+          <h3>坐标转换</h3>
+          <ul>
+            <li><code>utools.screenToDipPoint(point)</code> - 物理坐标转DIP</li>
+            <li><code>utools.dipToScreenPoint(point)</code> - DIP转物理坐标</li>
+          </ul>
+          <pre>utools.screenColorPick((colors) => {
+  console.log("颜色：", colors.hex, colors.rgb);
+});
+utools.screenCapture((image) => {
+  console.log("截图：", image);
+});</pre>
+          <div class="desc">提供取色、截图、显示器信息等屏幕操作功能</div>
+        </div>
+
+        <!-- 用户API -->
+        <div class="card">
+          <h2>👤 用户API</h2>
+          <div class="desc">📖 <a href="https://www.u-tools.cn/docs/developer/api-reference/utools/user.html" target="_blank" style="color:#93cdfc;">官方文档</a></div>
+          <ul>
+            <li><code>utools.getUser()</code> - 获取用户信息</li>
+            <li><code>utools.fetchUserServerTemporaryToken()</code> - 获取服务端临时令牌</li>
+          </ul>
+          <h3>用户信息字段</h3>
+          <ul>
+            <li><code>avatar</code> - 用户头像</li>
+            <li><code>nickname</code> - 用户昵称</li>
+            <li><code>type</code> - 用户类型（member/user）</li>
+          </ul>
+          <pre>const user = utools.getUser();
+if (user) {
+  console.log("用户：", user.nickname, user.type);
+}</pre>
+          <div class="desc">获取当前登录用户信息和临时令牌</div>
+        </div>
+
+        <!-- 动态指令 -->
+        <div class="card">
+          <h2>🔄 动态指令</h2>
+          <div class="desc">📖 <a href="https://www.u-tools.cn/docs/developer/api-reference/utools/features.html" target="_blank" style="color:#93cdfc;">官方文档</a></div>
+          <ul>
+            <li><code>utools.getFeatures([codes])</code> - 获取动态功能</li>
+            <li><code>utools.setFeature(feature)</code> - 新增动态功能</li>
+            <li><code>utools.removeFeature(code)</code> - 删除动态功能</li>
+          </ul>
+          <h3>快捷键设置</h3>
+          <ul>
+            <li><code>utools.redirectHotKeySetting(cmdLabel)</code> - 跳转快捷键设置</li>
+            <li><code>utools.redirectAiModelsSetting()</code> - AI模型设置</li>
+          </ul>
+          <pre>utools.setFeature({
+  code: "dynamic_" + Date.now(),
+  explain: "测试动态功能",
+  cmds: ["测试", "test"]
+});</pre>
+          <div class="desc">动态指令支持运行时增减功能配置</div>
+        </div>
+
+        <!-- 模拟按键 -->
+        <div class="card">
+          <h2>⌨️ 模拟按键</h2>
+          <div class="desc">📖 <a href="https://www.u-tools.cn/docs/developer/api-reference/utools/simulate.html" target="_blank" style="color:#93cdfc;">官方文档</a></div>
+          <ul>
+            <li><code>utools.simulateKeyboardTap(key, ...modifiers)</code> - 模拟键盘按键</li>
+            <li><code>utools.simulateMouseMove(x, y)</code> - 模拟鼠标移动</li>
+            <li><code>utools.simulateMouseClick(x, y)</code> - 模拟鼠标点击</li>
+            <li><code>utools.simulateMouseDoubleClick(x, y)</code> - 模拟鼠标双击</li>
+            <li><code>utools.simulateMouseRightClick(x, y)</code> - 模拟鼠标右击</li>
+          </ul>
+          <pre>// 模拟复制
+utools.simulateKeyboardTap("a", "ctrl");
+// 模拟点击
+utools.simulateMouseClick(100, 100);</pre>
+          <div class="desc">模拟用户的键盘与鼠标按键操作</div>
+        </div>
+
+        <!-- AI API -->
+        <div class="card">
+          <h2>🤖 AI API</h2>
+          <div class="desc">📖 <a href="https://www.u-tools.cn/docs/developer/api-reference/utools/ai.html" target="_blank" style="color:#93cdfc;">官方文档</a></div>
+          <ul>
+            <li><code>utools.ai(option[, streamCallback])</code> - 调用AI</li>
+            <li><code>utools.allAiModels()</code> - 获取所有AI模型</li>
+          </ul>
+          <h3>Function Calling</h3>
+          <ul>
+            <li><code>tools</code> - 工具列表</li>
+            <li><code>function must be on window</code> - 函数必须挂载到window</li>
+          </ul>
+          <pre>// AI对话
+const result = await utools.ai({
+  messages: [
+    {role: "system", content: "你是翻译专家"},
+    {role: "user", content: "你好世界"}
+  ]
+});
+
+// Function Calling
+window.getSystemInfo = () => ({ cpu: "Intel i7" });
+await utools.ai({ messages, tools });</pre>
+          <div class="desc">集成AI能力，支持Function Calling和流式调用</div>
+        </div>
+
+        <!-- FFmpeg API -->
+        <div class="card">
+          <h2>🎬 FFmpeg API</h2>
+          <div class="desc">📖 <a href="https://www.u-tools.cn/docs/developer/api-reference/utools/ffmpeg.html" target="_blank" style="color:#93cdfc;">官方文档</a></div>
+          <ul>
+            <li><code>utools.runFFmpeg(args[, onProgress])</code> - 运行FFmpeg</li>
+          </ul>
+          <h3>PromiseLike扩展</h3>
+          <ul>
+            <li><code>.kill()</code> - 强制结束进程</li>
+            <li><code>.quit()</code> - 通知退出</li>
+          </ul>
+          <pre>// 视频压缩
+const run = utools.runFFmpeg([
+  "-i", "input.mp4",
+  "-c:v", "libx264",
+  "output.mp4"
+], (progress) => {
+  console.log("进度：" + progress.percent + "%");
+});
+
+// 可随时终止：run.kill()</pre>
+          <div class="desc">音视频处理，支持录屏、转码、压缩等</div>
+        </div>
+
+        <!-- ubrowser -->
+        <div class="card">
+          <h2>🌐 可编程浏览器(ubrowser)</h2>
+          <div class="desc">📖 <a href="https://www.u-tools.cn/docs/developer/api-reference/ubrowser/ubrowser.html" target="_blank" style="color:#93cdfc;">官方文档</a> | <a href="https://www.u-tools.cn/docs/developer/api-reference/ubrowser/manage.html" target="_blank" style="color:#93cdfc;">管理文档</a></div>
+          <h3>基础操作</h3>
+          <ul>
+            <li><code>ubrowser.goto(url, headers, timeout)</code> - 跳转网页</li>
+            <li><code>ubrowser.viewport(width, height)</code> - 设置视窗大小</li>
+            <li><code>ubrowser.hide()/show()</code> - 隐藏/显示窗口</li>
+            <li><code>ubrowser.run([id], options)</code> - 运行并获取结果</li>
+          </ul>
+          <h3>网页操作</h3>
+          <ul>
+            <li><code>ubrowser.click(selector)</code> - 点击元素</li>
+            <li><code>ubrowser.value(selector, value)</code> - 设置输入框值</li>
+            <li><code>ubrowser.press(key, ...modifiers)</code> - 按键</li>
+            <li><code>ubrowser.evaluate(func, params)</code> - 执行JS</li>
+            <li><code>ubrowser.screenshot(target, savePath)</code> - 截图</li>
+            <li><code>ubrowser.pdf(options, savePath)</code> - 导出PDF</li>
+            <li><code>ubrowser.wait(ms|selector|func)</code> - 等待条件</li>
+          </ul>
+          <h3>示例代码</h3>
+          <pre>// 百度地图定位
+utools.ubrowser
+  .goto("https://map.baidu.com")
+  .wait("#sole-input")
+  .focus("#sole-input")
+  .value("#sole-input", "福州烟台山")
+  .wait(300)
+  .press("enter")
+  .run({ width: 1200, height: 800 });</pre>
+          <div class="desc">链式调用的可编程浏览器，支持网页自动化</div>
+        </div>
+
+        <!-- 用户付费 -->
+        <div class="card">
+          <h2>💰 用户付费</h2>
+          <div class="desc">📖 <a href="https://www.u-tools.cn/docs/developer/api-reference/payment.html" target="_blank" style="color:#93cdfc;">官方文档</a></div>
+          <ul>
+            <li><code>utools.isPurchasedUser()</code> - 是否付费用户</li>
+            <li><code>utools.openPurchase(options, callback)</code> - 软件付费</li>
+            <li><code>utools.openPayment(options, callback)</code> - 服务付费</li>
+            <li><code>utools.fetchUserPayments()</code> - 获取支付记录</li>
+          </ul>
+          <pre>const purchased = utools.isPurchasedUser();
+if (!purchased) {
+  utools.openPurchase({
+    goodsId: "xxxxxxxxxx"
+  }, () => {
+    console.log("付费成功");
+  });
+}</pre>
+          <div class="desc">支持软件付费和服务付费两种模式</div>
+        </div>
+
+        <!-- 服务端API -->
+        <div class="card">
+          <h2>🖥️ 服务端API</h2>
+          <div class="desc">📖 <a href="https://www.u-tools.cn/docs/developer/api-reference/server.html" target="_blank" style="color:#93cdfc;">官方文档</a></div>
+          <h3>用户接口</h3>
+          <ul>
+            <li><code>GET /baseinfo</code> - 获取用户基础信息</li>
+            <li><code>GET /payments/record</code> - 查询订单状态</li>
+          </ul>
+          <h3>支付回调</h3>
+          <ul>
+            <li><code>POST /callback</code> - 支付成功通知</li>
+          </ul>
+          <h3>签名算法</h3>
+          <pre>const str = new URLSearchParams(params).toString();
+const sign = crypto.createHmac("sha256", secret).update(str).digest("hex");</pre>
+          <div class="desc">服务端API用于账号打通、支付通知等</div>
+        </div>
+
+        <!-- 团队应用 -->
+        <div class="card">
+          <h2>👥 团队应用</h2>
+          <div class="desc">📖 <a href="https://www.u-tools.cn/docs/developer/api-reference/team.html" target="_blank" style="color:#93cdfc;">官方文档</a></div>
+          <ul>
+            <li><code>utools.team.info()</code> - 获取团队信息</li>
+            <li><code>utools.team.preset(key)</code> - 获取团队配置</li>
+            <li><code>utools.team.allPresets(filter)</code> - 获取所有配置</li>
+          </ul>
+          <h3>团队信息字段</h3>
+          <ul>
+            <li><code>teamId</code> - 团队ID</li>
+            <li><code>teamName</code> - 团队名称</li>
+            <li><code>userId</code> - 成员ID</li>
+            <li><code>userName</code> - 成员名称</li>
+          </ul>
+          <pre>const { teamName } = utools.team.info();
+const config = utools.team.preset("database");</pre>
+          <div class="desc">团队版插件应用的配置管理接口</div>
+        </div>
+
+        <!-- 匹配指令类型 -->
+        <div class="card">
+          <h2>🎯 匹配指令类型</h2>
+          <div class="desc">📖 <a href="https://www.u-tools.cn/docs/developer/information/plugin-json.html" target="_blank" style="color:#93cdfc;">官方文档</a></div>
+          <h3>文本匹配</h3>
+          <ul>
+            <li><code>"type": "regex"</code> - 正则表达式匹配</li>
+            <li><code>"type": "over"</code> - 匹配任意文本</li>
+          </ul>
+          <h3>文件匹配</h3>
+          <ul>
+            <li><code>"type": "files"</code> - 文件(夹)匹配</li>
+            <li><code>"fileType": "file"</code> - 文件类型</li>
+            <li><code>"extensions": ["jpg", "png"]</code> - 扩展名</li>
+          </ul>
+          <h3>其他匹配</h3>
+          <ul>
+            <li><code>"type": "img"</code> - 图像匹配</li>
+            <li><code>"type": "window"</code> - 窗口匹配</li>
+          </ul>
+          <pre>{
+  "type": "regex",
+  "label": "打开网址",
+  "match": "/^https?:\\/\\/[^\\s/$.?#]\\S+$/i",
+  "minLength": 10,
+  "maxLength": 1000
+}</pre>
+          <div class="desc">匹配指令让插件能处理各种输入类型</div>
+        </div>
+
+        <!-- 平台检测 -->
+        <div class="card">
+          <h2>🖥️ 平台检测</h2>
+          <div class="desc">📖 <a href="https://www.u-tools.cn/docs/developer/api-reference/utools/system.html" target="_blank" style="color:#93cdfc;">官方文档</a></div>
+          <ul>
+            <li><code>utools.isDev()</code> - 是否开发环境</li>
+            <li><code>utools.isMacOS()</code> - 是否macOS</li>
+            <li><code>utools.isWindows()</code> - 是否Windows</li>
+            <li><code>utools.isLinux()</code> - 是否Linux</li>
+          </ul>
+          <h3>路径获取</h3>
+          <ul>
+            <li><code>getPath("home")</code> - 用户主目录</li>
+            <li><code>getPath("desktop")</code> - 桌面目录</li>
+            <li><code>getPath("documents")</code> - 文档目录</li>
+            <li><code>getPath("downloads")</code> - 下载目录</li>
+            <li><code>getPath("temp")</code> - 临时目录</li>
+          </ul>
+          <pre>if (utools.isWindows()) {
+  const path = utools.getPath("desktop");
+  console.log("桌面路径：", path);
+}</pre>
+          <div class="desc">平台检测和路径获取是跨平台开发的基础</div>
+        </div>
+
+        <!-- 文件对话框 -->
+        <div class="card">
+          <h2>📁 文件对话框</h2>
+          <div class="desc">📖 <a href="https://www.u-tools.cn/docs/developer/api-reference/utools/window.html" target="_blank" style="color:#93cdfc;">官方文档</a></div>
+          <ul>
+            <li><code>utools.showOpenDialog(options)</code> - 文件选择对话框</li>
+            <li><code>utools.showSaveDialog(options)</code> - 文件保存对话框</li>
+          </ul>
+          <h3>OpenDialog选项</h3>
+          <ul>
+            <li><code>filters: [{name: "Images", extensions: ["png","jpg"]}]</code> - 文件过滤</li>
+            <li><code>properties: ["openFile","multiSelections"]</code> - 对话框属性</li>
+          </ul>
+          <pre>const files = utools.showOpenDialog({
+  filters: [{name: "JSON", extensions: ["json"]}],
+  properties: ["openFile", "multiSelections"]
+});</pre>
+          <div class="desc">文件对话框兼容Electron的API规范</div>
+        </div>
+
+        <!-- 实用工具 -->
+        <div class="card">
+          <h2>🛠️ 实用工具</h2>
+          <div class="desc">📖 <a href="https://www.u-tools.cn/docs/developer/api-reference/utools/window.html" target="_blank" style="color:#93cdfc;">官方文档</a></div>
+          <h3>查找与导航</h3>
+          <ul>
+            <li><code>utools.findInPage(text, options)</code> - 页面内查找</li>
+            <li><code>utools.stopFindInPage(action)</code> - 停止查找</li>
+            <li><code>utools.redirect(label, payload)</code> - 跳转其他插件</li>
+            <li><code>utools.startDrag(filePath)</code> - 拖拽文件</li>
+          </ul>
+          <h3>图标获取</h3>
+          <ul>
+            <li><code>utools.getFileIcon(filePath)</code> - 获取文件图标</li>
+            <li><code>utools.getFileIcon(".txt")</code> - 获取类型图标</li>
+            <li><code>utools.getFileIcon("folder")</code> - 获取文件夹图标</li>
+          </ul>
+          <h3>当前窗口信息</h3>
+          <ul>
+            <li><code>utools.readCurrentFolderPath()</code> - 文件管理器路径</li>
+            <li><code>utools.readCurrentBrowserUrl()</code> - 浏览器URL</li>
+          </ul>
+          <pre>utools.findInPage("搜索内容");
+utools.startDrag(["/path/to/file1.txt", "/path/to/file2.txt"])</pre>
+          <div class="desc">实用工具API提供丰富的交互功能</div>
+        </div>
+
+        <!-- 目录结构 -->
+        <div class="card">
+          <h2>📂 插件目录结构</h2>
+          <div class="desc">📖 <a href="https://www.u-tools.cn/docs/developer/information/file-structure.html" target="_blank" style="color:#93cdfc;">官方文档</a></div>
+          <h3>基本结构</h3>
+          <ul>
+            <li><code>plugin.json</code> - 插件配置文件</li>
+            <li><code>index.html</code> - 入口HTML文件</li>
+            <li><code>preload.js</code> - 预加载脚本</li>
+            <li><code>logo.png</code> - 插件图标</li>
+          </ul>
+          <h3>其他资源</h3>
+          <ul>
+            <li><code>css/</code> - 样式文件目录</li>
+            <li><code>js/</code> - JavaScript文件目录</li>
+            <li><code>assets/</code> - 静态资源</li>
+            <li><code>node_modules/</code> - Node.js依赖</li>
+          </ul>
+          <pre>my-plugin/
+├── plugin.json
+├── index.html
+├── preload.js
+├── logo.png
+└── assets/
+    ├── favicon.ico
+    └── images/</pre>
+          <div class="desc">规范的目录结构有助于项目维护</div>
+        </div>
+
+        <!-- 预加载脚本 -->
+        <div class="card">
+          <h2>⚡ 预加载脚本</h2>
+          <div class="desc">📖 <a href="https://www.u-tools.cn/docs/developer/information/preload-js/preload-js.html" target="_blank" style="color:#93cdfc;">官方文档</a> | <a href="https://www.u-tools.cn/docs/developer/information/preload-js/nodejs.html" target="_blank" style="color:#93cdfc;">Node.js使用</a></div>
+          <h3>功能说明</h3>
+          <ul>
+            <li>调用Node.js API和Electron渲染进程API</li>
+            <li>遵循CommonJS规范</li>
+            <li>通过require引入Node.js模块</li>
+          </ul>
+          <h3>常用模块</h3>
+          <ul>
+            <li><code>const fs = require('fs')</code> - 文件系统</li>
+            <li><code>const path = require('path')</code> - 路径操作</li>
+            <li><code>const { ipcRenderer } = require('electron')</code> - IPC通信</li>
+          </ul>
+          <pre>// 读取配置文件
+const fs = require('fs');
+const config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
+
+// utools API可用性检查
+if (typeof utools !== 'undefined') {
+  utools.showNotification("预加载脚本已加载");
+}</pre>
+          <div class="desc">preload.js是插件应用的核心文件</div>
+        </div>
+
+        <!-- 开发调试 -->
+        <div class="card">
+          <h2>🔧 开发调试</h2>
+          <div class="desc">📖 <a href="https://www.u-tools.cn/docs/developer/basic/debug-plugin.html" target="_blank" style="color:#93cdfc;">官方文档</a></div>
+          <h3>开发模式</h3>
+          <ul>
+            <li>在uTools开发者工具中打开插件项目</li>
+            <li>支持HTTP开发地址（仅开发模式）</li>
+            <li>实时热重载功能</li>
+          </ul>
+          <h3>调试技巧</h3>
+          <ul>
+            <li>使用browser devtools调试前端代码</li>
+            <li>使用console.log调试preload脚本</li>
+            <li>检查plugin.json配置是否正确</li>
+          </ul>
+          <h3>常见问题排查</h3>
+          <ul>
+            <li>指令无法安装 - 检查是否有功能指令</li>
+            <li>API调用失败 - 检查preload路径</li>
+            <li>样式错乱 - 检查CSS文件路径</li>
+          </ul>
+          <pre>// 开发环境检测
+if (utools.isDev()) {
+  console.log("开发模式已启用");
+}</pre>
+          <div class="desc">良好的调试习惯能提高开发效率</div>
+        </div>
+
+      </div>
+    </div>
+    <script>
+      document.getElementById('columnWidth').addEventListener('input', function(e) {
+        const width = e.target.value;
+        document.getElementById('widthVal').textContent = width + 'px';
+        const columns = document.getElementById('columns');
+        columns.style.columnWidth = width + 'px';
+      });
+    </script>
+  <!-- Code injected by live-server -->
+<script type="text/javascript">
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.removedByCodePen();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+</body>
+</html>

@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  
+
+    <link rel="apple-touch-icon" type="image/png" href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png" />
+
+    <meta name="apple-mobile-web-app-title" content="CodePen">
+
+    <link rel="icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico" />
+
+    <link rel="mask-icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-b4b4269c16397ad2f0f7a01bcdf513a1994f4c94b8af2f191c09eb0d601762b1.svg" color="#111" />
+
+
+
+  
+  
+
+  <title>Lerna.js 开发速查表</title>
+
+    <link rel="canonical" href="https://codepen.io/zeniok/pen/myeOMeJ">
+  
+  
+  
+  
+
+  <script>
+  window.console = window.console || function(t) {};
+</script>
+
+  
+  
+</head>
+
+<body translate="no">
+  <!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lerna.js 开发速查表</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 12px;
+            line-height: 1.1;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            color: #667eea;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .tags {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .tag {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .column-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 10px;
+        }
+
+        .column-controls label {
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .column-slider {
+            width: 300px;
+            height: 6px;
+            border-radius: 3px;
+            background: #ddd;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .column-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+        }
+
+        .column-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            border: none;
+        }
+
+        .column-info {
+            color: #764ba2;
+            font-weight: 600;
+        }
+
+        .content {
+            column-gap: 30px;
+            column-fill: balance;
+        }
+
+        .module {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            break-inside: avoid;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #667eea;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .module:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .module h2 {
+            color: #667eea;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .module h3 {
+            color: #764ba2;
+            font-size: 1.2rem;
+            margin: 20px 0 10px 0;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 5px;
+        }
+
+        .module p {
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            position: relative;
+            overflow-x: auto;
+        }
+
+        .code-block::before {
+            content: attr(data-lang);
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #667eea;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+        }
+
+        .note {
+            background: linear-gradient(45deg, #e3f2fd, #f3e5f5);
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .tip {
+            background: linear-gradient(45deg, #e8f5e8, #f0f8f0);
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .warning {
+            background: linear-gradient(45deg, #fff3e0, #ffeaa7);
+            border-left: 4px solid #ff9800;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .syntax-keyword { color: #569cd6; }
+        .syntax-string { color: #ce9178; }
+        .syntax-comment { color: #6a9955; }
+        .syntax-number { color: #b5cea8; }
+        .syntax-function { color: #dcdcaa; }
+
+        ul, ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+      .code-block {
+        white-space: pre-wrap;
+        word-break: break-all;
+    }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Lerna.js 开发速查表</h1>
+            <p>快速、现代的JavaScript/TypeScript多包管理构建系统</p>
+            <div class="tags">
+                <span class="tag">Monorepo</span>
+                <span class="tag">包管理</span>
+                <span class="tag">版本控制</span>
+                <span class="tag">构建工具</span>
+                <span class="tag">发布管理</span>
+                <span class="tag">工作区</span>
+                <span class="tag">缓存优化</span>
+            </div>
+        </div>
+
+        <div class="column-controls">
+            <label for="columnWidth">列宽设置:</label>
+            <input type="range" id="columnWidth" class="column-slider" min="300" max="660" value="400" step="10">
+            <div class="column-info">
+                <span id="widthValue">400</span>px | 列数: <span id="columnCount">3</span>
+            </div>
+        </div>
+
+        <div class="content" id="content">
+            <!-- 基础概念和安装 -->
+            <div class="module">
+                <h2>📦 基础概念和安装</h2>
+                <p>Lerna是一个用于管理包含多个包的JavaScript项目的工具，它优化了多包工作流程。</p>
+                
+                <h3>全局安装</h3>
+                <div class="code-block" data-lang="bash">
+# 全局安装Lerna
+<span class="syntax-keyword">npm</span> install --global lerna
+
+<span class="syntax-comment"># 或者使用yarn</span>
+<span class="syntax-keyword">yarn</span> global add lerna
+                </div>
+
+                <h3>项目内安装</h3>
+                <div class="code-block" data-lang="bash">
+<span class="syntax-comment"># 作为开发依赖安装</span>
+<span class="syntax-keyword">npm</span> install --save-dev lerna
+
+<span class="syntax-comment"># 或者使用yarn</span>
+<span class="syntax-keyword">yarn</span> add -D lerna
+                </div>
+
+                <div class="note">
+                    <strong>注意：</strong>Lerna支持npm、yarn和pnpm作为包管理器，需要预先安装Node.js环境。
+                </div>
+            </div>
+
+            <!-- 初始化和配置 -->
+            <div class="module">
+                <h2>⚙️ 初始化和配置</h2>
+                <p>使用Lerna初始化新的monorepo或将现有项目转换为Lerna管理的项目。</p>
+
+                <h3>初始化新项目</h3>
+                <div class="code-block" data-lang="bash">
+<span class="syntax-comment"># 预览初始化更改（推荐）</span>
+<span class="syntax-keyword">npx</span> lerna init --dryRun
+
+<span class="syntax-comment"># 正式初始化</span>
+<span class="syntax-keyword">npx</span> lerna init
+
+<span class="syntax-comment"># 使用独立版本模式</span>
+<span class="syntax-keyword">npx</span> lerna init --independent
+                </div>
+
+                <h3>lerna.json配置文件</h3>
+                <div class="code-block" data-lang="json">
+{
+  <span class="syntax-string">"$schema"</span>: <span class="syntax-string">"node_modules/lerna/schemas/lerna-schema.json"</span>,
+  <span class="syntax-string">"version"</span>: <span class="syntax-string">"0.0.0"</span>,
+  <span class="syntax-string">"packages"</span>: [<span class="syntax-string">"packages/*"</span>],
+  <span class="syntax-string">"npmClient"</span>: <span class="syntax-string">"npm"</span>,
+  <span class="syntax-string">"command"</span>: {
+    <span class="syntax-string">"publish"</span>: {
+      <span class="syntax-string">"conventionalCommits"</span>: <span class="syntax-keyword">true</span>,
+      <span class="syntax-string">"message"</span>: <span class="syntax-string">"chore(release): publish"</span>
+    }
+  }
+}
+                </div>
+
+                <div class="tip">
+                    <strong>提示：</strong>使用--dryRun标志可以预览初始化将进行的更改，避免意外修改。
+                </div>
+            </div>
+
+            <!-- 包管理 -->
+            <div class="module">
+                <h2>📋 包管理</h2>
+                <p>创建、管理和配置monorepo中的各个包。</p>
+
+                <h3>创建新包</h3>
+                <div class="code-block" data-lang="bash">
+<span class="syntax-comment"># 创建新包</span>
+<span class="syntax-keyword">lerna</span> create my-package
+
+<span class="syntax-comment"># 在指定位置创建包</span>
+<span class="syntax-keyword">lerna</span> create my-package packages/
+
+<span class="syntax-comment"># 创建作用域包</span>
+<span class="syntax-keyword">lerna</span> create @my-scope/my-package
+                </div>
+
+                <h3>列出所有包</h3>
+                <div class="code-block" data-lang="bash">
+<span class="syntax-comment"># 列出所有包</span>
+<span class="syntax-keyword">lerna</span> list
+
+<span class="syntax-comment"># 显示详细信息</span>
+<span class="syntax-keyword">lerna</span> list --long
+
+<span class="syntax-comment"># 以JSON格式输出</span>
+<span class="syntax-keyword">lerna</span> list --json
+                </div>
+
+                <h3>添加依赖</h3>
+                <div class="code-block" data-lang="bash">
+<span class="syntax-comment"># 为特定包添加依赖</span>
+<span class="syntax-keyword">lerna</span> add lodash --scope=my-package
+
+<span class="syntax-comment"># 为所有包添加依赖</span>
+<span class="syntax-keyword">lerna</span> add lodash
+
+<span class="syntax-comment"># 添加开发依赖</span>
+<span class="syntax-keyword">lerna</span> add jest --dev --scope=my-package
+                </div>
+
+                <div class="warning">
+                    <strong>注意：</strong>Lerna主要负责包之间的链接和版本管理，实际的依赖安装建议使用包管理器的workspace功能。
+                </div>
+            </div>
+
+            <!-- 运行任务 -->
+            <div class="module">
+                <h2>🏃‍♂️ 运行任务</h2>
+                <p>在多个包中并行或串行执行脚本和命令。</p>
+
+                <h3>执行npm脚本</h3>
+                <div class="code-block" data-lang="bash">
+<span class="syntax-comment"># 在所有包中运行test脚本</span>
+<span class="syntax-keyword">lerna</span> run test
+
+<span class="syntax-comment"># 在特定包中运行脚本</span>
+<span class="syntax-keyword">lerna</span> run test --scope=my-package
+
+<span class="syntax-comment"># 并行执行（更快）</span>
+<span class="syntax-keyword">lerna</span> run build --parallel
+
+<span class="syntax-comment"># 流式输出</span>
+<span class="syntax-keyword">lerna</span> run test --stream
+                </div>
+
+                <h3>执行任意命令</h3>
+                <div class="code-block" data-lang="bash">
+<span class="syntax-comment"># 在所有包中执行命令</span>
+<span class="syntax-keyword">lerna</span> exec -- npm audit
+
+<span class="syntax-comment"># 在特定包中执行命令</span>
+<span class="syntax-keyword">lerna</span> exec --scope=my-package -- ls -la
+
+<span class="syntax-comment"># 并行执行命令</span>
+<span class="syntax-keyword">lerna</span> exec --parallel -- npm run lint
+                </div>
+
+                <h3>任务依赖配置</h3>
+                <div class="code-block" data-lang="json">
+<span class="syntax-comment">// nx.json 文件中配置任务依赖</span>
+{
+  <span class="syntax-string">"targetDefaults"</span>: {
+    <span class="syntax-string">"build"</span>: {
+      <span class="syntax-string">"dependsOn"</span>: [<span class="syntax-string">"^build"</span>]
+    },
+    <span class="syntax-string">"test"</span>: {
+      <span class="syntax-string">"dependsOn"</span>: [<span class="syntax-string">"build"</span>]
+    }
+  }
+}
+                </div>
+            </div>
+
+            <!-- 发布管理 -->
+            <div class="module">
+                <h2>🚀 发布管理</h2>
+                <p>自动化版本管理和包发布流程。</p>
+
+                <h3>发布包</h3>
+                <div class="code-block" data-lang="bash">
+<span class="syntax-comment"># 发布所有更改的包</span>
+<span class="syntax-keyword">lerna</span> publish
+
+<span class="syntax-comment"># 预发布版本</span>
+<span class="syntax-keyword">lerna</span> publish --dist-tag=beta
+
+<span class="syntax-comment"># 从特定提交发布</span>
+<span class="syntax-keyword">lerna</span> publish from-git
+
+<span class="syntax-comment"># 从包内容发布</span>
+<span class="syntax-keyword">lerna</span> publish from-package
+                </div>
+
+                <h3>版本管理</h3>
+                <div class="code-block" data-lang="bash">
+<span class="syntax-comment"># 交互式版本选择</span>
+<span class="syntax-keyword">lerna</span> version
+
+<span class="syntax-comment"># 指定版本类型</span>
+<span class="syntax-keyword">lerna</span> version patch
+<span class="syntax-keyword">lerna</span> version minor
+<span class="syntax-keyword">lerna</span> version major
+
+<span class="syntax-comment"># 预发布版本</span>
+<span class="syntax-keyword">lerna</span> version prerelease --preid=alpha
+                </div>
+
+                <h3>发布配置</h3>
+                <div class="code-block" data-lang="json">
+<span class="syntax-comment">// lerna.json中的发布配置</span>
+{
+  <span class="syntax-string">"command"</span>: {
+    <span class="syntax-string">"publish"</span>: {
+      <span class="syntax-string">"conventionalCommits"</span>: <span class="syntax-keyword">true</span>,
+      <span class="syntax-string">"message"</span>: <span class="syntax-string">"chore(release): publish %s"</span>,
+      <span class="syntax-string">"registry"</span>: <span class="syntax-string">"https://registry.npmjs.org"</span>,
+      <span class="syntax-string">"ignoreChanges"</span>: [<span class="syntax-string">"*.md"</span>]
+    }
+  }
+}
+                </div>
+
+                <div class="tip">
+                    <strong>提示：</strong>使用conventionalCommits可以自动生成变更日志和确定版本号。
+                </div>
+            </div>
+
+            <!-- 版本控制 -->
+            <div class="module">
+                <h2>🔄 版本控制</h2>
+                <p>管理包版本和变更检测。</p>
+
+                <h3>检查变更</h3>
+                <div class="code-block" data-lang="bash">
+<span class="syntax-comment"># 查看自上次发布以来的变更</span>
+<span class="syntax-keyword">lerna</span> changed
+
+<span class="syntax-comment"># 查看哪些包会被发布</span>
+<span class="syntax-keyword">lerna</span> changed --json
+
+<span class="syntax-comment"># 对比两个标签间的变更</span>
+<span class="syntax-keyword">lerna</span> diff v1.0.0..v1.1.0
+                </div>
+
+                <h3>版本模式</h3>
+                <div class="code-block" data-lang="json">
+<span class="syntax-comment">// 固定版本模式</span>
+{
+  <span class="syntax-string">"version"</span>: <span class="syntax-string">"1.0.0"</span>
+}
+
+<span class="syntax-comment">// 独立版本模式</span>
+{
+  <span class="syntax-string">"version"</span>: <span class="syntax-string">"independent"</span>
+}
+                </div>
+
+                <h3>版本策略配置</h3>
+                <div class="code-block" data-lang="json">
+{
+  <span class="syntax-string">"command"</span>: {
+    <span class="syntax-string">"version"</span>: {
+      <span class="syntax-string">"allowBranch"</span>: [<span class="syntax-string">"master"</span>, <span class="syntax-string">"main"</span>],
+      <span class="syntax-string">"conventionalCommits"</span>: <span class="syntax-keyword">true</span>,
+      <span class="syntax-string">"exact"</span>: <span class="syntax-keyword">true</span>,
+      <span class="syntax-string">"ignoreChanges"</span>: [
+        <span class="syntax-string">"**/*.md"</span>,
+        <span class="syntax-string">"**/*.test.js"</span>
+      ]
+    }
+  }
+}
+                </div>
+            </div>
+
+            <!-- 工作区管理 -->
+            <div class="module">
+                <h2>🏗️ 工作区管理</h2>
+                <p>配置和管理monorepo工作区。</p>
+
+                <h3>工作区配置</h3>
+                <div class="code-block" data-lang="json">
+<span class="syntax-comment">// package.json 中的workspaces配置</span>
+{
+  <span class="syntax-string">"name"</span>: <span class="syntax-string">"my-monorepo"</span>,
+  <span class="syntax-string">"private"</span>: <span class="syntax-keyword">true</span>,
+  <span class="syntax-string">"workspaces"</span>: [
+    <span class="syntax-string">"packages/*"</span>,
+    <span class="syntax-string">"apps/*"</span>
+  ]
+}
+                </div>
+
+                <h3>包链接管理</h3>
+                <div class="code-block" data-lang="bash">
+<span class="syntax-comment"># 链接所有相互依赖的包</span>
+<span class="syntax-keyword">lerna</span> link
+
+<span class="syntax-comment"># 转换相对路径为符号链接</span>
+<span class="syntax-keyword">lerna</span> link convert
+
+<span class="syntax-comment"># 清理node_modules并重新安装</span>
+<span class="syntax-keyword">lerna</span> clean
+<span class="syntax-keyword">lerna</span> bootstrap
+                </div>
+
+                <h3>依赖提升</h3>
+                <div class="code-block" data-lang="json">
+<span class="syntax-comment">// lerna.json中的依赖提升配置</span>
+{
+  <span class="syntax-string">"command"</span>: {
+    <span class="syntax-string">"bootstrap"</span>: {
+      <span class="syntax-string">"hoist"</span>: <span class="syntax-keyword">true</span>,
+      <span class="syntax-string">"nohoist"</span>: [<span class="syntax-string">"**/react-native/**"</span>]
+    }
+  }
+}
+                </div>
+
+                <div class="note">
+                    <strong>注意：</strong>现代Lerna推荐使用包管理器的原生workspace功能而不是bootstrap命令。
+                </div>
+            </div>
+
+            <!-- 缓存机制 -->
+            <div class="module">
+                <h2>⚡ 缓存机制</h2>
+                <p>利用Nx提供的强大缓存能力提升构建效率。</p>
+
+                <h3>任务缓存配置</h3>
+                <div class="code-block" data-lang="json">
+<span class="syntax-comment">// nx.json 缓存配置</span>
+{
+  <span class="syntax-string">"tasksRunnerOptions"</span>: {
+    <span class="syntax-string">"default"</span>: {
+      <span class="syntax-string">"runner"</span>: <span class="syntax-string">"nx/tasks-runners/default"</span>,
+      <span class="syntax-string">"options"</span>: {
+        <span class="syntax-string">"cacheableOperations"</span>: [
+          <span class="syntax-string">"build"</span>,
+          <span class="syntax-string">"test"</span>,
+          <span class="syntax-string">"lint"</span>
+        ]
+      }
+    }
+  }
+}
+                </div>
+
+                <h3>缓存管理命令</h3>
+                <div class="code-block" data-lang="bash">
+<span class="syntax-comment"># 查看缓存状态</span>
+<span class="syntax-keyword">npx</span> nx show projects --with-target=build
+
+<span class="syntax-comment"># 清除缓存</span>
+<span class="syntax-keyword">npx</span> nx reset
+
+<span class="syntax-comment"># 运行带缓存的构建</span>
+<span class="syntax-keyword">lerna</span> run build --skip-nx-cache=false
+                </div>
+
+                <h3>分布式缓存</h3>
+                <div class="code-block" data-lang="json">
+{
+  <span class="syntax-string">"tasksRunnerOptions"</span>: {
+    <span class="syntax-string">"default"</span>: {
+      <span class="syntax-string">"options"</span>: {
+        <span class="syntax-string">"remoteCache"</span>: {
+          <span class="syntax-string">"url"</span>: <span class="syntax-string">"https://cache.nx.dev"</span>,
+          <span class="syntax-string">"accessToken"</span>: <span class="syntax-string">"your-access-token"</span>
+        }
+      }
+    }
+  }
+}
+                </div>
+
+                <div class="tip">
+                    <strong>提示：</strong>缓存可以显著加速重复构建，特别是在CI/CD环境中。
+                </div>
+            </div>
+
+            <!-- 依赖管理 -->
+            <div class="module">
+                <h2>🔗 依赖管理</h2>
+                <p>管理包之间的依赖关系和外部依赖。</p>
+
+                <h3>内部依赖管理</h3>
+                <div class="code-block" data-lang="bash">
+<span class="syntax-comment"># 添加内部包依赖</span>
+<span class="syntax-keyword">lerna</span> add @myorg/package-a --scope=@myorg/package-b
+
+<span class="syntax-comment"># 查看包依赖图</span>
+<span class="syntax-keyword">npx</span> nx graph
+
+<span class="syntax-comment"># 显示包的依赖关系</span>
+<span class="syntax-keyword">lerna</span> list --graph
+                </div>
+
+                <h3>包版本同步</h3>
+                <div class="code-block" data-lang="json">
+<span class="syntax-comment">// 确保内部依赖版本同步</span>
+{
+  <span class="syntax-string">"command"</span>: {
+    <span class="syntax-string">"version"</span>: {
+      <span class="syntax-string">"exact"</span>: <span class="syntax-keyword">true</span>
+    }
+  }
+}
+                </div>
+
+                <h3>依赖检查</h3>
+                <div class="code-block" data-lang="bash">
+<span class="syntax-comment"># 检查所有包的依赖</span>
+<span class="syntax-keyword">lerna</span> exec -- npm audit
+
+<span class="syntax-comment"># 更新依赖</span>
+<span class="syntax-keyword">lerna</span> exec -- npm update
+
+<span class="syntax-comment"># 检查重复依赖</span>
+<span class="syntax-keyword">npm</span> ls --all
+                </div>
+            </div>
+
+            <!-- 命令行工具 -->
+            <div class="module">
+                <h2>💻 命令行工具</h2>
+                <p>Lerna提供的完整命令行界面。</p>
+
+                <h3>常用命令</h3>
+                <div class="code-block" data-lang="bash">
+<span class="syntax-comment"># 显示帮助信息</span>
+<span class="syntax-keyword">lerna</span> --help
+
+<span class="syntax-comment"># 显示版本信息</span>
+<span class="syntax-keyword">lerna</span> --version
+
+<span class="syntax-comment"># 详细输出模式</span>
+<span class="syntax-keyword">lerna</span> run build --verbose
+
+<span class="syntax-comment"># 静默模式</span>
+<span class="syntax-keyword">lerna</span> publish --yes
+                </div>
+
+                <h3>过滤选项</h3>
+                <div class="code-block" data-lang="bash">
+<span class="syntax-comment"># 指定包范围</span>
+<span class="syntax-keyword">lerna</span> run test --scope=package-*
+
+<span class="syntax-comment"># 排除特定包</span>
+<span class="syntax-keyword">lerna</span> run build --ignore=package-ignore
+
+<span class="syntax-comment"># 只运行更改的包</span>
+<span class="syntax-keyword">lerna</span> run test --since=master
+                </div>
+
+                <h3>输出格式</h3>
+                <div class="code-block" data-lang="bash">
+<span class="syntax-comment"># 流式输出</span>
+<span class="syntax-keyword">lerna</span> run build --stream
+
+<span class="syntax-comment"># 并行执行</span>
+<span class="syntax-keyword">lerna</span> run test --parallel
+
+<span class="syntax-comment"># JSON格式输出</span>
+<span class="syntax-keyword">lerna</span> list --json --toposort
+                </div>
+            </div>
+
+            <!-- 配置选项 -->
+            <div class="module">
+                <h2>⚙️ 配置选项</h2>
+                <p>详细的配置选项和参数说明。</p>
+
+                <h3>npmClient配置</h3>
+                <div class="code-block" data-lang="json">
+{
+  <span class="syntax-string">"npmClient"</span>: <span class="syntax-string">"yarn"</span>,
+  <span class="syntax-comment">// 可选值: "npm", "yarn", "pnpm"</span>
+  <span class="syntax-string">"useWorkspaces"</span>: <span class="syntax-keyword">true</span>
+}
+                </div>
+
+                <h3>包路径配置</h3>
+                <div class="code-block" data-lang="json">
+{
+  <span class="syntax-string">"packages"</span>: [
+    <span class="syntax-string">"packages/*"</span>,
+    <span class="syntax-string">"apps/*"</span>,
+    <span class="syntax-string">"libs/*"</span>
+  ]
+}
+                </div>
+
+                <h3>命令特定配置</h3>
+                <div class="code-block" data-lang="json">
+{
+  <span class="syntax-string">"command"</span>: {
+    <span class="syntax-string">"run"</span>: {
+      <span class="syntax-string">"stream"</span>: <span class="syntax-keyword">true</span>
+    },
+    <span class="syntax-string">"version"</span>: {
+      <span class="syntax-string">"allowBranch"</span>: <span class="syntax-string">"master"</span>,
+      <span class="syntax-string">"conventionalCommits"</span>: <span class="syntax-keyword">true</span>
+    }
+  }
+}
+                </div>
+
+                <table>
+                    <tr>
+                        <th>配置项</th>
+                        <th>类型</th>
+                        <th>默认值</th>
+                        <th>说明</th>
+                    </tr>
+                    <tr>
+                        <td>version</td>
+                        <td>string</td>
+                        <td>0.0.0</td>
+                        <td>当前版本或"independent"</td>
+                    </tr>
+                    <tr>
+                        <td>npmClient</td>
+                        <td>string</td>
+                        <td>npm</td>
+                        <td>包管理器选择</td>
+                    </tr>
+                    <tr>
+                        <td>packages</td>
+                        <td>array</td>
+                        <td>["packages/*"]</td>
+                        <td>包路径模式</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- 最佳实践 -->
+            <div class="module">
+                <h2>✨ 最佳实践</h2>
+                <p>高效使用Lerna的建议和技巧。</p>
+
+                <h3>项目结构</h3>
+                <div class="code-block" data-lang="text">
+my-monorepo/
+├── packages/
+│   ├── package-a/
+│   │   ├── src/
+│   │   └── package.json
+│   └── package-b/
+│       ├── src/
+│       └── package.json
+├── apps/
+│   └── web-app/
+├── lerna.json
+├── nx.json
+└── package.json
+                </div>
+
+                <h3>版本管理策略</h3>
+                <ul>
+                    <li>使用独立版本模式管理不同发布周期的包</li>
+                    <li>启用conventionalCommits自动生成变更日志</li>
+                    <li>设置ignoreChanges忽略文档等非功能性更改</li>
+                    <li>使用allowBranch限制发布分支</li>
+                </ul>
+
+                <h3>性能优化</h3>
+                <div class="code-block" data-lang="bash">
+<span class="syntax-comment"># 使用并行执行</span>
+<span class="syntax-keyword">lerna</span> run build --parallel
+
+<span class="syntax-comment"># 只构建更改的包</span>
+<span class="syntax-keyword">lerna</span> run build --since=HEAD~1
+
+<span class="syntax-comment"># 利用缓存</span>
+<span class="syntax-keyword">lerna</span> run build --skip-nx-cache=false
+                </div>
+
+                <div class="tip">
+                    <strong>最佳实践：</strong>
+                    <ul>
+                        <li>配合工作区使用以提高依赖管理效率</li>
+                        <li>使用Nx缓存和依赖图分析提升构建速度</li>
+                        <li>建立清晰的包命名规范和版本策略</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 故障排查 -->
+            <div class="module">
+                <h2>🔧 故障排查</h2>
+                <p>常见问题的解决方案和调试技巧。</p>
+
+                <h3>常见问题</h3>
+                <div class="warning">
+                    <strong>问题：</strong>lerna publish失败<br>
+                    <strong>解决：</strong>检查npm登录状态和包权限
+                </div>
+
+                <div class="code-block" data-lang="bash">
+<span class="syntax-comment"># 检查npm登录状态</span>
+<span class="syntax-keyword">npm</span> whoami
+
+<span class="syntax-comment"># 登录npm</span>
+<span class="syntax-keyword">npm</span> login
+
+<span class="syntax-comment"># 检查包权限</span>
+<span class="syntax-keyword">npm</span> access list packages
+                </div>
+
+                <h3>调试选项</h3>
+                <div class="code-block" data-lang="bash">
+<span class="syntax-comment"># 启用详细日志</span>
+<span class="syntax-keyword">DEBUG=lerna:*</span> lerna publish
+
+<span class="syntax-comment"># 查看将要执行的更改</span>
+<span class="syntax-keyword">lerna</span> publish --dry-run
+
+<span class="syntax-comment"># 跳过Git检查</span>
+<span class="syntax-keyword">lerna</span> publish --skip-git
+                </div>
+
+                <h3>重置和清理</h3>
+                <div class="code-block" data-lang="bash">
+<span class="syntax-comment"># 清理所有node_modules</span>
+<span class="syntax-keyword">lerna</span> clean --yes
+
+<span class="syntax-comment"># 重新安装依赖</span>
+<span class="syntax-keyword">npm</span> install
+
+<span class="syntax-comment"># 重置Nx缓存</span>
+<span class="syntax-keyword">npx</span> nx reset
+                </div>
+            </div>
+
+            <!-- 高级功能 -->
+            <div class="module">
+                <h2>🚀 高级功能</h2>
+                <p>Lerna的高级特性和扩展功能。</p>
+
+                <h3>自定义发布流程</h3>
+                <div class="code-block" data-lang="json">
+{
+  <span class="syntax-string">"command"</span>: {
+    <span class="syntax-string">"publish"</span>: {
+      <span class="syntax-string">"registry"</span>: <span class="syntax-string">"https://npm.company.com"</span>,
+      <span class="syntax-string">"beforePublish"</span>: <span class="syntax-string">"npm run build"</span>,
+      <span class="syntax-string">"afterPublish"</span>: <span class="syntax-string">"npm run deploy"</span>
+    }
+  }
+}
+                </div>
+
+                <h3>集成CI/CD</h3>
+                <div class="code-block" data-lang="yaml">
+<span class="syntax-comment"># GitHub Actions 示例</span>
+<span class="syntax-keyword">name</span>: Release
+<span class="syntax-keyword">on</span>:
+  <span class="syntax-keyword">push</span>:
+    <span class="syntax-keyword">branches</span>: [main]
+<span class="syntax-keyword">jobs</span>:
+  <span class="syntax-keyword">release</span>:
+    <span class="syntax-keyword">runs-on</span>: ubuntu-latest
+    <span class="syntax-keyword">steps</span>:
+      - <span class="syntax-keyword">uses</span>: actions/checkout@v3
+      - <span class="syntax-keyword">run</span>: npm ci
+      - <span class="syntax-keyword">run</span>: lerna run build
+      - <span class="syntax-keyword">run</span>: lerna publish --yes
+                </div>
+
+                <h3>依赖图可视化</h3>
+                <div class="code-block" data-lang="bash">
+<span class="syntax-comment"># 生成依赖图</span>
+<span class="syntax-keyword">npx</span> nx graph
+
+<span class="syntax-comment"># 分析特定项目的依赖</span>
+<span class="syntax-keyword">npx</span> nx show project my-package --web
+
+<span class="syntax-comment"># 查看任务执行顺序</span>
+<span class="syntax-keyword">npx</span> nx run-many --target=build --graph
+                </div>
+
+                <div class="note">
+                    <strong>高级技巧：</strong>结合Nx的强大功能，Lerna可以实现增量构建、分布式缓存和智能任务调度。
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const columnWidthSlider = document.getElementById('columnWidth');
+        const widthValue = document.getElementById('widthValue');
+        const columnCount = document.getElementById('columnCount');
+        const content = document.getElementById('content');
+
+        function updateColumns() {
+            const columnWidth = parseInt(columnWidthSlider.value);
+            const containerWidth = content.offsetWidth;
+            const gap = 30; // column-gap value
+            const columns = Math.max(1, Math.floor((containerWidth + gap) / (columnWidth + gap)));
+            
+            content.style.columnCount = columns;
+            widthValue.textContent = columnWidth;
+            columnCount.textContent = columns;
+        }
+
+        columnWidthSlider.addEventListener('input', updateColumns);
+        window.addEventListener('resize', updateColumns);
+        
+        // Initial setup
+        updateColumns();
+
+        // 添加代码块高亮效果
+        document.addEventListener('DOMContentLoaded', function() {
+            const codeBlocks = document.querySelectorAll('.code-block');
+            codeBlocks.forEach(block => {
+                block.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.02)';
+                });
+                
+                block.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+  
+  
+  
+</body>
+
+</html>

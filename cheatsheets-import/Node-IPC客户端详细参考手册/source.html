@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  
+
+    <link rel="apple-touch-icon" type="image/png" href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png" />
+
+    <meta name="apple-mobile-web-app-title" content="CodePen">
+
+    <link rel="icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico" />
+
+    <link rel="mask-icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-b4b4269c16397ad2f0f7a01bcdf513a1994f4c94b8af2f191c09eb0d601762b1.svg" color="#111" />
+
+
+
+  
+  
+
+  <title>Node-IPC 客户端详细参考手册</title>
+
+    <link rel="canonical" href="https://codepen.io/zeniok/pen/gbagyGa">
+  
+  
+  
+  
+
+  <script>
+  window.console = window.console || function(t) {};
+</script>
+
+  
+  
+</head>
+
+<body translate="no">
+  <!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Node-IPC 客户端详细参考手册</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            line-height: 1.4;
+            margin: 2rem;
+            color: #333;
+            background: #fafafa;
+            font-size: 12px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            font-size: 2.2rem;
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        h2 {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin: 2rem 0 1rem 0;
+            padding: 0.5rem 0;
+            border-left: 4px solid #3498db;
+            padding-left: 1rem;
+            background: #f8f9fa;
+        }
+        h3 {
+            font-size: 1.2rem;
+            color: #34495e;
+            margin: 1.5rem 0 0.8rem 0;
+        }
+        code {
+            font-family: "Fira Code", "Source Code Pro", Consolas, Monaco, monospace;
+            background: #f4f4f4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.9rem;
+            border: 1px solid #e1e1e1;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            line-height:1.1;
+            padding: 1.5rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 1rem 0;
+            border: 1px solid #4a5568;
+        }
+        pre code {
+            background: none;
+            border: none;
+            padding: 0;
+            color: inherit;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 1.5rem 0;
+            background: white;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        th, td {
+            border: 1px solid #e1e8ed;
+            padding: 0.8rem 1rem;
+            text-align: left;
+        }
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-weight: 600;
+            color: #856404;
+        }
+        .warning {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 4px;
+            padding: 1rem;
+            margin: 1rem 0;
+            color: #721c24;
+        }
+        .info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            border-radius: 4px;
+            padding: 1rem;
+            margin: 1rem 0;
+            color: #0c5460;
+        }
+        .tip {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 4px;
+            padding: 1rem;
+            margin: 1rem 0;
+            color: #155724;
+        }
+        ul, ol {
+            padding-left: 2rem;
+        }
+        li {
+            margin: 0.5rem 0;
+        }
+        .method-signature {
+            background: #e8f4fd;
+            padding: 0.5rem;
+            border-left: 4px solid #3498db;
+            margin: 1rem 0;
+            font-family: monospace;
+        }
+        .example-section {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        /* Code Highlighting Styles */
+        .hljs {
+            display: block;
+            overflow-x: auto;
+            padding: 0.5em;
+            background: #2d3748; /* Dark background from pre tag */
+            color: #e2e8f0; /* Light text color from pre tag */
+        }
+        .hljs-comment,
+        .hljs-quote {
+            color: #6c7280; /* Grey for comments */
+            font-style: italic;
+        }
+        .hljs-keyword,
+        .hljs-selector-tag,
+        .hljs-literal,
+        .hljs-title,
+        .hljs-name {
+            color: #f1fa8c; /* Yellow for keywords */
+        }
+        .hljs-type,
+        .hljs-string,
+        .hljs-regexp,
+        .hljs-meta,
+        .hljs-link {
+            color: #8affac; /* Greenish for strings */
+        }
+        .hljs-current-line,
+        .hljs-selection {
+            background-color: #374151; /* Slightly lighter background for selection */
+        }
+        .hljs-bullet,
+        .hljs-attribute {
+            color: #8affac; /* Greenish for attributes */
+        }
+        .hljs-built_in,
+        .hljs-title.function_ {
+            color: #80aaff; /* Blue for built-ins and function names */
+        }
+        .hljs-formula,
+        .hljs-number,
+        .hljs-symbol {
+            color: #bd93f9; /* Purple for numbers and symbols */
+        }
+        .hljs-variable,
+        .hljs-template-variable {
+            color: #ff9580; /* Reddish for variables */
+        }
+        .hljs-meta-keyword {
+            color: #ffc280; /* Orange for meta keywords */
+        }
+        .hljs-emphasis {
+            font-style: italic;
+        }
+        .hljs-strong {
+            font-weight: bold;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github-dark.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Node-IPC 客户端详细参考手册</h1>
+
+        <div class="info">
+            <strong>📖 文档说明：</strong>本手册基于 node-ipc v11.x+ 官方文档编写，专注于客户端功能的详细使用指南。<br>
+            <strong>🔗 官方仓库：</strong> <code>https://github.com/RIAEvangelist/node-ipc</code><br>
+            <strong>📦 安装命令：</strong> <code>npm install node-ipc</code>
+        </div>
+
+        <h2>1. 基础导入与配置</h2>
+
+        <h3>1.1 模块导入方式</h3>
+        <pre><code class="language-javascript">// ES6 模块导入
+import ipc from 'node-ipc';
+
+// CommonJS 导入
+const ipc = require('node-ipc');
+
+// 解构导入特定功能
+const { config, connectTo, of } = require('node-ipc');</code></pre>
+
+        <h3>1.2 全局配置详解</h3>
+        <div class="example-section">
+            <h4>完整配置示例</h4>
+            <pre><code class="language-javascript">// 基础配置
+ipc.config.id = 'myClientApp';           // 客户端唯一标识符
+ipc.config.retry = 1500;                   // 重连间隔时间（毫秒）
+ipc.config.maxRetries = 10;                // 最大重连次数，0为无限次
+ipc.config.silent = false;                 // 是否静默模式（不输出日志）
+
+// 网络配置
+ipc.config.networkHost = 'localhost';      // 默认TCP/UDP主机
+ipc.config.networkPort = 8000;             // 默认端口
+ipc.config.encoding = 'utf8';              // 数据编码格式
+
+// 高级配置
+ipc.config.rawBuffer = false;              // 是否返回原始Buffer
+ipc.config.delimiter = false;              // 消息分隔符，如 '\f'
+ipc.config.appspace = '';                  // 应用命名空间前缀
+ipc.config.socketRoot = '/tmp/';           // Unix socket根目录
+
+// UDP特定配置
+ipc.config.udpType = 'udp4';               // UDP类型：'udp4' 或 'udp6'
+
+// TLS配置（仅用于TLS连接）
+ipc.config.tls = {
+    key: fs.readFileSync('client-key.pem'),
+    cert: fs.readFileSync('client-cert.pem'),
+    ca: fs.readFileSync('ca-cert.pem'),
+    rejectUnauthorized: true
+};</code></pre>
+        </div>
+
+        <h2>2. 连接方式详解</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>连接方法</th>
+                    <th>使用场景</th>
+                    <th>性能特点</th>
+                    <th>安全性</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>connectTo()</code></td>
+                    <td>本地进程间通信</td>
+                    <td>⚡ 极快（绕过网络栈）</td>
+                    <td>🔒 高（本地文件系统权限）</td>
+                </tr>
+                <tr>
+                    <td><code>connectToNet()</code></td>
+                    <td>跨网络TCP通信</td>
+                    <td>🐌 较慢但可靠</td>
+                    <td>⚠️ 明文传输</td>
+                </tr>
+                <tr>
+                    <td><code>connectToNetTLS()</code></td>
+                    <td>安全TCP通信</td>
+                    <td>🐌 慢（加密开销）</td>
+                    <td>🔐 高（SSL/TLS加密）</td>
+                </tr>
+                <tr>
+                    <td><code>connectToUDP()</code></td>
+                    <td>高速不可靠通信</td>
+                    <td>🚀 最快</td>
+                    <td>⚠️ 无连接状态</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>2.1 Unix Socket连接（本地IPC）</h3>
+        <div class="example-section">
+            <div class="method-signature">
+                ipc.connectTo(serverID, callback)
+            </div>
+            <pre><code class="language-javascript">// 基础Unix Socket连接
+ipc.config.id = 'client-001';
+ipc.config.socketRoot = '/tmp/myapp/';     // 自定义socket目录
+
+ipc.connectTo('gameServer', function() {
+    const server = ipc.of.gameServer;
+    
+    // 连接生命周期事件
+    server.on('connect', function() {
+        console.log('🔗 已连接到游戏服务器');
+        // 连接成功后立即发送认证信息
+        server.emit('auth', {
+            token: 'user-token-123',
+            clientVersion: '1.2.0'
+        });
+    });
+    
+    server.on('disconnect', function() {
+        console.log('❌ 与服务器断开连接');
+    });
+    
+    // 游戏数据处理
+    server.on('playerUpdate', function(data) {
+        console.log('玩家更新:', data);
+        updateGameUI(data);
+    });
+    
+    // 错误处理
+    server.on('error', function(err) {
+        console.error('连接错误:', err.message);
+    });
+});</code></pre>
+        </div>
+
+        <h3>2.2 TCP网络连接</h3>
+        <div class="example-section">
+            <div class="method-signature">
+                ipc.connectToNet(serverID, host, port, callback)
+            </div>
+            <pre><code class="language-javascript">// TCP连接到远程服务器
+ipc.connectToNet('apiServer', '192.168.1.100', 9001, function() {
+    const api = ipc.of.apiServer;
+    
+    api.on('connect', function() {
+        console.log('🌐 TCP连接建立');
+        
+        // 发送API请求
+        api.emit('getUsers', {
+            page: 1,
+            limit: 50,
+            filters: { active: true }
+        });
+    });
+    
+    api.on('usersResponse', function(response) {
+        if (response.success) {
+            console.log(`获取到 ${response.data.length} 个用户`);
+            processUsers(response.data);
+        } else {
+            console.error('API错误:', response.error);
+        }
+    });
+    
+    // 处理网络超时
+    api.on('disconnect', function() {
+        console.log('🔌 TCP连接断开，将在 1.5 秒后重试');
+    });
+});</code></pre>
+        </div>
+
+        <h3>2.3 TLS安全连接</h3>
+        <div class="example-section">
+            <div class="method-signature">
+                ipc.connectToNetTLS(serverID, host, port, callback)
+            </div>
+            <pre><code class="language-javascript">// 配置TLS证书
+ipc.config.tls = {
+    key: fs.readFileSync('./certs/client-key.pem'),
+    cert: fs.readFileSync('./certs/client-cert.pem'),
+    ca: fs.readFileSync('./certs/ca.pem'),
+    rejectUnauthorized: true,
+    checkServerIdentity: function(host, cert) {
+        // 自定义服务器身份验证逻辑
+        return undefined; // 返回undefined表示验证通过
+    }
+};
+
+// 建立安全连接
+ipc.connectToNetTLS('secureAPI', 'secure.example.com', 8443, function() {
+    const secureConn = ipc.of.secureAPI;
+    
+    secureConn.on('connect', function() {
+        console.log('🔐 TLS安全连接建立');
+        
+        // 发送敏感数据
+        secureConn.emit('sensitiveOperation', {
+            userId: 12345,
+            operation: 'transfer',
+            amount: 1000,
+            signature: generateSignature()
+        });
+    });
+    
+    secureConn.on('operationResult', function(result) {
+        if (result.status === 'success') {
+            console.log('✅ 操作成功:', result.transactionId);
+        } else {
+            console.error('❌ 操作失败:', result.reason);
+        }
+    });
+});</code></pre>
+        </div>
+
+        <h3>2.4 UDP高速通信</h3>
+        <div class="example-section">
+            <div class="method-signature">
+                ipc.connectToUDP(serverID, host, port, callback)
+            </div>
+            <pre><code class="language-javascript">// UDP配置
+ipc.config.udpType = 'udp4';
+ipc.config.rawBuffer = true; // UDP通常使用原始缓冲区
+
+ipc.connectToUDP('gameStream', '192.168.1.50', 7777, function() {
+    const stream = ipc.of.gameStream;
+    
+    stream.on('connect', function() {
+        console.log('🚀 UDP数据流连接建立');
+        
+        // 开始接收游戏状态更新
+        const heartbeat = setInterval(() => {
+            stream.emit('ping', Buffer.from(JSON.stringify({
+                clientId: ipc.config.id,
+                timestamp: Date.now()
+            })));
+        }, 100); // 每100ms发送心跳
+        
+        // 清理定时器
+        stream.on('disconnect', () => clearInterval(heartbeat));
+    });
+    
+    // 处理游戏状态数据
+    stream.on('message', function(buffer) {
+        try {
+            const gameState = JSON.parse(buffer.toString());
+            updateGameWorld(gameState);
+        } catch (err) {
+            console.error('数据解析错误:', err);
+        }
+    });
+    
+    // UDP特定：处理数据包丢失
+    let lastSequence = 0;
+    stream.on('gameState', function(data) {
+        if (data.sequence > lastSequence + 1) {
+            console.warn(`检测到数据包丢失: ${lastSequence + 1} 到 ${data.sequence - 1}`);
+        }
+        lastSequence = data.sequence;
+    });
+});</code></pre>
+        </div>
+
+        <h2>3. 消息处理机制</h2>
+
+        <h3>3.1 事件监听与处理</h3>
+        <div class="example-section">
+            <pre><code class="language-javascript">const socket = ipc.of.serverName;
+
+// 基础事件监听
+socket.on('customEvent', function(data) {
+    console.log('接收到自定义事件:', data);
+});
+
+// 一次性事件监听
+socket.once('initialization', function(config) {
+    console.log('服务器初始化配置:', config);
+    applyServerConfig(config);
+});
+
+// 移除事件监听器
+function tempHandler(data) {
+    console.log('临时处理器:', data);
+}
+socket.on('tempEvent', tempHandler);
+// 稍后移除
+socket.off('tempEvent', tempHandler);
+
+// 监听所有事件（调试用）
+socket.onAny(function(eventName, ...args) {
+    console.log(`事件: ${eventName}`, args);
+});</code></pre>
+        </div>
+
+        <h3>3.2 内置生命周期事件</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>事件名称</th>
+                    <th>触发时机</th>
+                    <th>参数</th>
+                    <th>使用场景</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>connect</code></td>
+                    <td>成功连接到服务器</td>
+                    <td>无</td>
+                    <td>初始化、发送认证信息</td>
+                </tr>
+                <tr>
+                    <td><code>disconnect</code></td>
+                    <td>与服务器断开连接</td>
+                    <td>无</td>
+                    <td>清理资源、显示断线提示</td>
+                </tr>
+                <tr>
+                    <td><code>destroy</code></td>
+                    <td>连接被彻底销毁</td>
+                    <td>无</td>
+                    <td>最终清理、释放内存</td>
+                </tr>
+                <tr>
+                    <td><code>error</code></td>
+                    <td>连接或通信错误</td>
+                    <td>Error对象</td>
+                    <td>错误处理、重连逻辑</td>
+                </tr>
+                <tr>
+                    <td><code>data</code></td>
+                    <td>接收到原始数据</td>
+                    <td>Buffer</td>
+                    <td>底层数据处理</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>3.3 消息发送方式</h3>
+        <div class="example-section">
+            <pre><code class="language-javascript">const socket = ipc.of.serverName;
+
+// 1. 发送JSON对象（自动序列化）
+socket.emit('userAction', {
+    action: 'login',
+    credentials: {
+        username: 'john_doe',
+        password: 'hashed_password'
+    },
+    metadata: {
+        userAgent: 'MyApp/1.0',
+        timestamp: Date.now()
+    }
+});
+
+// 2. 发送原始字符串
+socket.emit('message', 'Hello Server!');
+
+// 3. 发送二进制数据
+const binaryData = Buffer.from([0x48, 0x65, 0x6C, 0x6C, 0x6F]);
+socket.emit('binaryMessage', binaryData);
+
+// 4. 批量发送多个消息
+const messages = [
+    { type: 'status', data: 'online' },
+    { type: 'position', data: { x: 100, y: 200 } },
+    { type: 'inventory', data: ['sword', 'shield'] }
+];
+
+messages.forEach((msg, index) => {
+    setTimeout(() => {
+        socket.emit(msg.type, msg.data);
+    }, index * 10); // 间隔10ms发送
+});
+
+// 5. 条件发送
+function sendIfConnected(event, data) {
+    if (socket.connected) {
+        socket.emit(event, data);
+    } else {
+        console.warn('连接未建立，消息已丢弃:', event, data);
+    }
+}</code></pre>
+        </div>
+
+        <h2>4. 高级功能与最佳实践</h2>
+
+        <h3>4.1 连接管理与重连机制</h3>
+        <div class="example-section">
+            <pre><code class="language-javascript">class IPCClient {
+    constructor(serverId, options = {}) {
+        this.serverId = serverId;
+        this.isConnected = false;
+        this.reconnectAttempts = 0;
+        this.maxReconnectAttempts = options.maxReconnectAttempts || 5;
+        this.reconnectDelay = options.reconnectDelay || 1000;
+        
+        // 配置IPC
+        ipc.config.id = options.clientId || 'client-' + Date.now();
+        ipc.config.retry = this.reconnectDelay;
+        ipc.config.maxRetries = this.maxReconnectAttempts;
+        ipc.config.silent = options.silent || false;
+    }
+    
+    connect() {
+        return new Promise((resolve, reject) => {
+            ipc.connectTo(this.serverId, () => {
+                const socket = ipc.of[this.serverId];
+                
+                socket.on('connect', () => {
+                    this.isConnected = true;
+                    this.reconnectAttempts = 0;
+                    console.log(`✅ 连接到服务器 ${this.serverId}`);
+                    resolve(socket);
+                });
+                
+                socket.on('disconnect', () => {
+                    this.isConnected = false;
+                    console.log(`❌ 与服务器 ${this.serverId} 断开连接`);
+                    this.handleReconnect();
+                });
+                
+                socket.on('error', (err) => {
+                    console.error('连接错误:', err);
+                    if (!this.isConnected) {
+                        reject(err);
+                    }
+                });
+            });
+        });
+    }
+    
+    handleReconnect() {
+        if (this.reconnectAttempts < this.maxReconnectAttempts) {
+            this.reconnectAttempts++;
+            const delay = this.reconnectDelay * Math.pow(2, this.reconnectAttempts - 1);
+            console.log(`🔄 ${delay}ms 后进行第 ${this.reconnectAttempts} 次重连...`);
+            
+            setTimeout(() => {
+                this.connect().catch(() => {
+                    // 重连失败，继续重试
+                });
+            }, delay);
+        } else {
+            console.error(`❌ 重连失败，已达到最大重试次数 ${this.maxReconnectAttempts}`);
+        }
+    }
+    
+    disconnect() {
+        if (this.isConnected) {
+            ipc.disconnect(this.serverId);
+            this.isConnected = false;
+        }
+    }
+}
+
+// 使用示例
+const client = new IPCClient('gameServer', {
+    clientId: 'player-12345',
+    maxReconnectAttempts: 10,
+    reconnectDelay: 2000,
+    silent: false
+});
+
+client.connect().then(socket => {
+    socket.on('gameData', handleGameData);
+    socket.emit('joinGame', { playerId: 'player-12345' });
+}).catch(err => {
+    console.error('连接失败:', err);
+});</code></pre>
+        </div>
+
+        <h3>4.2 数据序列化与验证</h3>
+        <div class="example-section">
+            <pre><code class="language-javascript">// 自定义序列化器
+class MessageSerializer {
+    static serialize(data) {
+        try {
+            return JSON.stringify({
+                timestamp: Date.now(),
+                version: '1.0',
+                payload: data,
+                checksum: this.calculateChecksum(data)
+            });
+        } catch (err) {
+            console.error('序列化失败:', err);
+            return null;
+        }
+    }
+    
+    static deserialize(rawData) {
+        try {
+            const message = JSON.parse(rawData);
+            
+            // 验证消息结构
+            if (!message.timestamp || !message.payload) {
+                throw new Error('消息格式无效');
+            }
+            
+            // 验证校验和
+            if (message.checksum !== this.calculateChecksum(message.payload)) {
+                throw new Error('消息校验失败');
+            }
+            
+            // 检查消息新鲜度（10秒内）
+            if (Date.now() - message.timestamp > 10000) {
+                throw new Error('消息过期');
+            }
+            
+            return message.payload;
+        } catch (err) {
+            console.error('反序列化失败:', err);
+            return null;
+        }
+    }
+    
+    static calculateChecksum(data) {
+        // 简单的校验和计算
+        const str = JSON.stringify(data);
+        let hash = 0;
+        for (let i = 0; i < str.length; i++) {
+            const char = str.charCodeAt(i);
+            hash = ((hash << 5) - hash) + char;
+            hash = hash & hash; // 转换为32位整数
+        }
+        return hash;
+    }
+}
+
+// 在IPC客户端中使用
+socket.on('connect', function() {
+    // 发送序列化消息
+    const message = MessageSerializer.serialize({
+        type: 'userLogin',
+        data: { userId: 123, token: 'abc123' }
+    });
+    
+    if (message) {
+        socket.emit('secureMessage', message);
+    }
+});
+
+socket.on('secureResponse', function(rawData) {
+    const data = MessageSerializer.deserialize(rawData);
+    if (data) {
+        console.log('安全消息接收成功:', data);
+    }
+});</code></pre>
+        </div>
+
+        <h3>4.3 性能监控与调试</h3>
+        <div class="example-section">
+            <pre><code class="language-javascript">class IPCPerformanceMonitor {
+    constructor(socket) {
+        this.socket = socket;
+        this.metrics = {
+            messagesSent: 0,
+            messagesReceived: 0,
+            bytesTransferred: 0,
+            latencyHistory: [],
+            errorCount: 0
+        };
+        this.startTime = Date.now();
+        
+        this.setupMonitoring();
+    }
+    
+    setupMonitoring() {
+        // 监控发送的消息
+        const originalEmit = this.socket.emit;
+        this.socket.emit = (event, data) => {
+            this.metrics.messagesSent++;
+            if (data) {
+                this.metrics.bytesTransferred += JSON.stringify(data).length;
+            }
+            
+            // 测量延迟（如果是ping消息）
+            if (event === 'ping') {
+                data._sendTime = Date.now();
+            }
+            
+            return originalEmit.call(this.socket, event, data);
+        };
+        
+        // 监控接收的消息
+        this.socket.onAny((event, data) => {
+            this.metrics.messagesReceived++;
+            
+            // 计算ping延迟
+            if (event === 'pong' && data._sendTime) {
+                const latency = Date.now() - data._sendTime;
+                this.metrics.latencyHistory.push(latency);
+                
+                // 只保留最近100次的延迟记录
+                if (this.metrics.latencyHistory.length > 100) {
+                    this.metrics.latencyHistory.shift();
+                }
+            }
+        });
+        
+        // 监控错误
+        this.socket.on('error', () => {
+            this.metrics.errorCount++;
+        });
+    }
+    
+    getStats() {
+        const uptime = Date.now() - this.startTime;
+        const avgLatency = this.metrics.latencyHistory.length > 0 
+            ? this.metrics.latencyHistory.reduce((a, b) => a + b) / this.metrics.latencyHistory.length 
+            : 0;
+            
+        return {
+            uptime: Math.floor(uptime / 1000), // 秒
+            messagesSent: this.metrics.messagesSent,
+            messagesReceived: this.metrics.messagesReceived,
+            bytesTransferred: this.metrics.bytesTransferred,
+            averageLatency: Math.round(avgLatency), // 毫秒
+            errorCount: this.metrics.errorCount,
+            messagesPerSecond: Math.round((this.metrics.messagesSent + this.metrics.messagesReceived) / (uptime / 1000))
+        };
+    }
+    
+    startPeriodicReport(intervalSeconds = 30) {
+        setInterval(() => {
+            const stats = this.getStats();
+            console.log('📊 IPC性能统计:', stats);
+        }, intervalSeconds * 1000);
+    }
+}
+
+// 使用示例
+ipc.connectTo('server', function() {
+    const socket = ipc.of.server;
+    const monitor = new IPCPerformanceMonitor(socket);
+    
+    socket.on('connect', () => {
+        monitor.startPeriodicReport(10); // 每10秒输出一次统计
+        
+        // 发送定期ping测试延迟
+        setInterval(() => {
+            socket.emit('ping', { _sendTime: Date.now() });
+        }, 5000);
+    });
+});</code></pre>
+        </div>
+
+        <h2>5. 错误处理与故障排除</h2>
+
+        <div class="warning">
+            <strong>⚠️ 常见错误类型：</strong>
+            <ul>
+                <li><strong>ENOENT:</strong> Unix socket文件不存在（服务器未启动）</li>
+                <li><strong>ECONNREFUSED:</strong> TCP连接被拒绝（端口未监听）</li>
+                <li><strong>EADDRINUSE:</strong> 地址被占用（端口冲突）</li>
+                <li><strong>ETIMEDOUT:</strong> 连接超时（网络问题）</li>
+                <li><strong>EPIPE:</strong> 管道破裂（对端异常关闭）</li>
+            </ul>
+        </div>
+
+        <h3>5.1 完善的错误处理机制</h3>
+        <div class="example-section">
+            <pre><code class="language-javascript">class RobustIPCClient {
+    constructor(serverId, options = {}) {
+        this.serverId = serverId;
+        this.options = options;
+        this.connectionState = 'disconnected'; // disconnected, connecting, connected
+        this.lastError = null;
+        this.errorHandlers = new Map();
+        
+        this.setupErrorHandling();
+    }
+    
+    setupErrorHandling() {
+        // 注册各种错误处理器
+        this.errorHandlers.set('ENOENT', (err) => {
+            console.error('❌ 服务器未启动或socket文件不存在');
+            return { shouldRetry: true, delay: 2000 };
+        });
+        
+        this.errorHandlers.set('ECONNREFUSED', (err) => {
+            console.error('❌ 连接被拒绝，检查服务器端口');
+            return { shouldRetry: true, delay: 5000 };
+        });
+        
+        this.errorHandlers.set('ETIMEDOUT', (err) => {
+            console.error('❌ 连接超时，检查网络连接');
+            return { shouldRetry: true, delay: 3000 };
+        });
+        
+        this.errorHandlers.set('EPIPE', (err) => {
+            console.error('❌ 管道破裂，服务器异常关闭');
+            return { shouldRetry: true, delay: 1000 };
+        });
+    }
+    
+    async connect() {
+        if (this.connectionState === 'connecting') {
+            console.warn('⚠️ 连接正在进行中...');
+            return;
+        }
+        
+        this.connectionState = 'connecting';
+        
+        try {
+            await this.establishConnection();
+            this.connectionState = 'connected';
+        } catch (err) {
+            this.connectionState = 'disconnected';
+            throw err;
+        }
+    }
+    
+    establishConnection() {
+        return new Promise((resolve, reject) => {
+            ipc.connectTo(this.serverId, () => {
+                const socket = ipc.of[this.serverId];
+                
+                socket.on('connect', () => {
+                    console.log('✅ 连接建立成功');
+                    this.lastError = null;
+                    resolve(socket);
+                });
+                
+                socket.on('error', (err) => {
+                    this.handleError(err, reject);
+                });
+                
+                socket.on('disconnect', () => {
+                    if (this.connectionState === 'connected') {
+                        console.log('🔌 连接意外断开');
+                        this.connectionState = 'disconnected';
+                        this.attemptReconnect();
+                    }
+                });
+            });
+        });
+    }
+    
+    handleError(err, rejectCallback = null) {
+        this.lastError = err;
+        const errorCode = err.code || 'UNKNOWN';
+        
+        console.error(`❌ IPC错误 [${errorCode}]:`, err.message);
+        
+        const handler = this.errorHandlers.get(errorCode);
+        if (handler) {
+            const result = handler(err);
+            if (result.shouldRetry) {
+                setTimeout(() => {
+                    this.attemptReconnect();
+                }, result.delay);
+            }
+        } else {
+            console.error('❌ 未知错误类型:', errorCode);
+        }
+        
+        if (rejectCallback) {
+            rejectCallback(err);
+        }
+    }
+    
+    attemptReconnect() {
+        if (this.connectionState !== 'disconnected') {
+            return;
+        }
+        
+        console.log('🔄 尝试重新连接...');
+        
+        this.connect().catch(err => {
+            console.error('重连失败:', err.message);
+        });
+    }
+    
+    getConnectionInfo() {
+        return {
+            serverId: this.serverId,
+            state: this.connectionState,
+            lastError: this.lastError ? {
+                code: this.lastError.code,
+                message: this.lastError.message,
+                timestamp: new Date().toISOString()
+            } : null
+        };
+    }
+}
+
+// 使用示例
+const client = new RobustIPCClient('myServer');
+
+client.connect()
+    .then(() => {
+        console.log('客户端连接成功');
+        
+        // 定期检查连接状态
+        setInterval(() => {
+            const info = client.getConnectionInfo();
+            console.log('连接状态:', info);
+        }, 10000);
+    })
+    .catch(err => {
+        console.error('初始连接失败:', err.message);
+    });</code></pre>
+        </div>
+
+        <h2>6. 实际应用场景示例</h2>
+
+        <h3>6.1 实时聊天客户端</h3>
+        <div class="example-section">
+            <pre><code class="language-javascript">class ChatClient {
+    constructor(username) {
+        this.username = username;
+        this.currentRoom = null;
+        this.messageHistory = [];
+        
+        ipc.config.id = `chat-client-${username}`;
+        ipc.config.retry = 1000;
+    }
+    
+    async connect() {
+        return new Promise((resolve) => {
+            ipc.connectTo('chatServer', () => {
+                this.socket = ipc.of.chatServer;
+                
+                this.socket.on('connect', () => {
+                    console.log('🔗 已连接到聊天服务器');
+                    
+                    // 发送用户认证
+                    this.socket.emit('authenticate', {
+                        username: this.username,
+                        timestamp: Date.now()
+                    });
+                });
+                
+                // 认证成功
+                this.socket.on('authenticated', (data) => {
+                    console.log('✅ 认证成功');
+                    this.userId = data.userId;
+                    resolve();
+                });
+                
+                // 接收消息
+                this.socket.on('message', (data) => {
+                    this.handleMessage(data);
+                });
+                
+                // 用户列表更新
+                this.socket.on('userList', (users) => {
+                    this.updateUserList(users);
+                });
+                
+                // 房间列表更新
+                this.socket.on('roomList', (rooms) => {
+                    this.updateRoomList(rooms);
+                });
+            });
+        });
+    }
+    
+    handleMessage(messageData) {
+        const { from, to, content, timestamp, messageType } = messageData;
+        
+        const message = {
+            id: Date.now() + Math.random(),
+            from,
+            to,
+            content,
+            timestamp: new Date(timestamp),
+            type: messageType || 'text'
+        };
+        
+        this.messageHistory.push(message);
+        this.displayMessage(message);
+        
+        // 保持消息历史在合理范围内
+        if (this.messageHistory.length > 1000) {
+            this.messageHistory = this.messageHistory.slice(-500);
+        }
+    }
+    
+    sendMessage(content, targetUser = null) {
+        if (!this.socket || !content.trim()) {
+            return false;
+        }
+        
+        const message = {
+            content: content.trim(),
+            timestamp: Date.now(),
+            from: this.username,
+            to: targetUser || this.currentRoom,
+            messageType: targetUser ? 'private' : 'public'
+        };
+        
+        this.socket.emit('sendMessage', message);
+        return true;
+    }
+    
+    joinRoom(roomName) {
+        if (this.socket) {
+            this.socket.emit('joinRoom', { roomName });
+            this.currentRoom = roomName;
+        }
+    }
+    
+    leaveRoom() {
+        if (this.socket && this.currentRoom) {
+            this.socket.emit('leaveRoom', { roomName: this.currentRoom });
+            this.currentRoom = null;
+        }
+    }
+    
+    displayMessage(message) {
+        const timeStr = message.timestamp.toLocaleTimeString();
+        const prefix = message.type === 'private' ? '[私聊]' : '';
+        console.log(`${prefix}[${timeStr}] ${message.from}: ${message.content}`);
+    }
+    
+    updateUserList(users) {
+        console.log('📋 在线用户:', users.map(u => u.username).join(', '));
+    }
+    
+    updateRoomList(rooms) {
+        console.log('🏠 房间列表:', rooms.map(r => `${r.name}(${r.users}人)`).join(', '));
+    }
+}
+
+// 使用示例
+const chatClient = new ChatClient('张三');
+
+chatClient.connect().then(() => {
+    // 加入默认房间
+    chatClient.joinRoom('大厅');
+    
+    // 模拟用户输入
+    setTimeout(() => chatClient.sendMessage('大家好！'), 1000);
+    setTimeout(() => chatClient.sendMessage('有人在吗？'), 3000);
+});</code></pre>
+        </div>
+
+        <h3>6.2 分布式任务处理客户端</h3>
+        <div class="example-section">
+            <pre><code class="language-javascript">class TaskWorkerClient {
+    constructor(workerId, capabilities = []) {
+        this.workerId = workerId;
+        this.capabilities = capabilities;
+        this.currentTasks = new Map();
+        this.completedTasks = 0;
+        this.isReady = false;
+        
+        ipc.config.id = `worker-${workerId}`;
+        ipc.config.retry = 2000;
+        ipc.config.maxRetries = 0; // 无限重试
+    }
+    
+    async connect() {
+        return new Promise((resolve) => {
+            ipc.connectTo('taskManager', () => {
+                this.socket = ipc.of.taskManager;
+                
+                this.socket.on('connect', () => {
+                    console.log(`🔗 Worker ${this.workerId} 连接到任务管理器`);
+                    this.registerWorker();
+                });
+                
+                this.socket.on('registered', (data) => {
+                    if (data.success) {
+                        console.log('✅ Worker 已成功注册');
+                        this.isReady = true;
+                        resolve();
+                    } else {
+                        console.error('❌ Worker 注册失败:', data.message);
+                    }
+                });
+
+                this.socket.on('newTask', (task) => {
+                    if (this.isReady && this.capabilities.includes(task.type)) {
+                        this.processTask(task);
+                    } else if (!this.capabilities.includes(task.type)) {
+                        console.warn(`⚠️ 任务类型 ${task.type} 不支持，已忽略`);
+                        this.socket.emit('taskFailed', { taskId: task.id, error: 'Unsupported task type' });
+                    }
+                });
+
+                this.socket.on('disconnect', () => {
+                    console.log(`❌ 与任务管理器断开连接`);
+                    this.isReady = false;
+                    // 尝试自动重连
+                    setTimeout(() => this.connect(), ipc.config.retry);
+                });
+
+                this.socket.on('error', (err) => {
+                    console.error('Worker 连接错误:', err);
+                });
+            });
+        });
+    }
+
+    registerWorker() {
+        this.socket.emit('registerWorker', {
+            workerId: this.workerId,
+            capabilities: this.capabilities,
+            status: 'idle'
+        });
+    }
+
+    async processTask(task) {
+        if (this.currentTasks.has(task.id)) {
+            return; // 任务已在处理中
+        }
+
+        console.log(`🚀 开始处理任务 ${task.id} (类型: ${task.type})`);
+        this.currentTasks.set(task.id, task);
+        this.socket.emit('taskStarted', { taskId: task.id });
+
+        try {
+            // 模拟任务执行
+            await new Promise(resolve => setTimeout(resolve, task.duration || 2000));
+            const result = `Task ${task.id} processed successfully.`;
+            
+            this.completedTasks++;
+            console.log(`✅ 任务 ${task.id} 完成`);
+            this.socket.emit('taskCompleted', { taskId: task.id, result: result });
+        } catch (error) {
+            console.error(`❌ 任务 ${task.id} 执行失败:`, error);
+            this.socket.emit('taskFailed', { taskId: task.id, error: error.message });
+        } finally {
+            this.currentTasks.delete(task.id);
+        }
+    }
+
+    // 更多方法，例如获取工作状态等
+    getWorkerStatus() {
+        return {
+            workerId: this.workerId,
+            isReady: this.isReady,
+            processingTasks: this.currentTasks.size,
+            completedTasks: this.completedTasks,
+            capabilities: this.capabilities
+        };
+    }
+}
+
+// 使用示例
+const worker1 = new TaskWorkerClient('worker-001', ['image_resize', 'text_process']);
+const worker2 = new TaskWorkerClient('worker-002', ['data_export']);
+
+Promise.all([worker1.connect(), worker2.connect()]).then(() => {
+    console.log('所有 Worker 已连接并准备就绪。');
+});</code></pre>
+        </div>
+
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/javascript.min.js"></script>
+    <script>hljs.highlightAll();</script>
+</body>
+</html>
+  
+  
+  
+</body>
+
+</html>

@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  
+
+    <link rel="apple-touch-icon" type="image/png" href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png" />
+
+    <meta name="apple-mobile-web-app-title" content="CodePen">
+
+    <link rel="icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico" />
+
+    <link rel="mask-icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-b4b4269c16397ad2f0f7a01bcdf513a1994f4c94b8af2f191c09eb0d601762b1.svg" color="#111" />
+
+
+
+  
+  
+
+  <title>Leaflet.js 完整速查表</title>
+
+    <link rel="canonical" href="https://codepen.io/zeniok/pen/ByoQZOo">
+  
+  
+  
+  
+
+  <script>
+  window.console = window.console || function(t) {};
+</script>
+
+  
+  
+</head>
+
+<body translate="no">
+  <!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaflet.js 完整速查表 | 交互式地图开发全面参考</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.3;
+            min-height: 100vh;
+            font-size: 13px;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 15px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            padding: 30px 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .masonry-container {
+            column-count: 4;
+            column-gap: 20px;
+            column-fill: balance;
+        }
+
+        @media (max-width: 1400px) {
+            .masonry-container { column-count: 3; }
+        }
+
+        @media (max-width: 1000px) {
+            .masonry-container { column-count: 2; }
+        }
+
+        @media (max-width: 600px) {
+            .masonry-container { column-count: 1; }
+        }
+
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            break-inside: avoid;
+            display: inline-block;
+            width: 100%;
+            transition: all 0.3s ease;
+            opacity: 1;
+            transform: translateY(50px);
+        }
+
+        .section:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 8px;
+            line-height: 1.2;
+        }
+
+        .section h2::after {
+            content: "→";
+            margin-left: auto;
+            color: #764ba2;
+            font-weight: bold;
+        }
+
+        .section h3 {
+            color: #555;
+            font-size: 1.1rem;
+            margin: 12px 0 8px 0;
+            border-left: 3px solid #667eea;
+            padding-left: 8px;
+        }
+
+        .code-block {
+            background: #1e1e2e;
+            border-radius: 8px;
+            margin: 10px 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .code-header {
+            background: #2d2d44;
+            padding: 6px 12px;
+            font-size: 0.8rem;
+            color: #a6a6a6;
+            border-bottom: 1px solid #3a3a54;
+        }
+
+        pre {
+            margin: 0;
+            padding: 12px;
+            overflow-x: auto;
+            font-size: 0.8rem;
+            line-height: 1.3;
+        }
+
+        code {
+            color: #cdd6f4;
+            font-family: 'Fira Code', 'Consolas', monospace;
+        }
+
+        .highlight { color: #f38ba8; }
+        .string { color: #a6e3a1; }
+        .comment { color: #6c7086; font-style: italic; }
+        .keyword { color: #cba6f7; }
+        .method { color: #89b4fa; }
+
+        .copy-btn {
+            position: absolute;
+            top: 6px;
+            right: 8px;
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.7rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .code-block:hover .copy-btn {
+            opacity: 1;
+        }
+
+        .copy-btn:hover {
+            background: #764ba2;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            padding: 25px 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            margin-top: 30px;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            margin: 2px;
+        }
+
+        .api-list {
+            font-size: 0.75rem;
+            line-height: 1.4;
+            margin: 8px 0;
+        }
+
+        .api-list li {
+            margin: 3px 0;
+            padding-left: 10px;
+            border-left: 2px solid #e0e0e0;
+        }
+
+        .note {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 8px 12px;
+            margin: 10px 0;
+            font-size: 0.75rem;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .quick-ref {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 8px;
+            border-radius: 6px;
+            margin: 8px 0;
+            font-size: 0.75rem;
+        }
+
+        .parallax-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            z-index: -1;
+            will-change: transform;
+        }
+    </style>
+</head>
+<body>
+    <div class="parallax-bg"></div>
+    <div class="container">
+        <header class="header">
+            <h1>Leaflet.js 完整速查表</h1>
+            <p>交互式地图开发全面API参考指南 - 涵盖所有核心功能</p>
+            <div style="margin-top: 15px;">
+                <span class="tag">地图初始化</span>
+                <span class="tag">图层管理</span>
+                <span class="tag">标记控制</span>
+                <span class="tag">几何图形</span>
+                <span class="tag">事件处理</span>
+                <span class="tag">插件扩展</span>
+                <span class="tag">性能优化</span>
+                <span class="tag">移动端适配</span>
+            </div>
+        </header>
+
+        <div class="masonry-container">
+            
+            <!-- 地图初始化与配置 -->
+            <section class="section">
+                <h2>地图初始化与配置</h2>
+                <div class="code-block">
+                    <div class="code-header">完整初始化选项</div>
+                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                    <pre><code><span class="comment">// 完整地图初始化配置</span>
+<span class="keyword">let</span> <span class="highlight">map</span> = <span class="method">L.map</span>(<span class="string">'mapId'</span>, {
+    <span class="comment">// 基础配置</span>
+    <span class="highlight">center</span>: [<span class="string">39.9042</span>, <span class="string">116.4074</span>], <span class="comment">// 北京</span>
+    <span class="highlight">zoom</span>: <span class="string">10</span>,
+    <span class="highlight">minZoom</span>: <span class="string">1</span>,
+    <span class="highlight">maxZoom</span>: <span class="string">18</span>,
+    <span class="highlight">maxBounds</span>: [[<span class="string">-90</span>, <span class="string">-180</span>], [<span class="string">90</span>, <span class="string">180</span>]],
+    
+    <span class="comment">// 控制器</span>
+    <span class="highlight">zoomControl</span>: <span class="string">true</span>,
+    <span class="highlight">attributionControl</span>: <span class="string">true</span>,
+    
+    <span class="comment">// 交互控制</span>
+    <span class="highlight">dragging</span>: <span class="string">true</span>,
+    <span class="highlight">touchZoom</span>: <span class="string">true</span>,
+    <span class="highlight">scrollWheelZoom</span>: <span class="string">true</span>,
+    <span class="highlight">doubleClickZoom</span>: <span class="string">true</span>,
+    <span class="highlight">boxZoom</span>: <span class="string">true</span>,
+    <span class="highlight">keyboard</span>: <span class="string">true</span>,
+    <span class="highlight">tap</span>: <span class="string">true</span>,
+    
+    <span class="comment">// 动画设置</span>
+    <span class="highlight">zoomAnimation</span>: <span class="string">true</span>,
+    <span class="highlight">zoomAnimationThreshold</span>: <span class="string">4</span>,
+    <span class="highlight">fadeAnimation</span>: <span class="string">true</span>,
+    <span class="highlight">markerZoomAnimation</span>: <span class="string">true</span>,
+    
+    <span class="comment">// 性能优化</span>
+    <span class="highlight">preferCanvas</span>: <span class="string">false</span>,
+    <span class="highlight">renderer</span>: <span class="method">L.canvas</span>() <span class="comment">// 或 L.svg()</span>
+});</code></pre>
+                </div>
+                
+                <h3>视图控制</h3>
+                <div class="code-block">
+                    <div class="code-header">地图视图操作</div>
+                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                    <pre><code><span class="comment">// 设置视图</span>
+<span class="highlight">map</span>.<span class="method">setView</span>([<span class="highlight">lat</span>, <span class="highlight">lng</span>], <span class="highlight">zoom</span>, {<span class="highlight">animate</span>: <span class="string">true</span>});
+<span class="highlight">map</span>.<span class="method">panTo</span>([<span class="highlight">lat</span>, <span class="highlight">lng</span>]);
+<span class="highlight">map</span>.<span class="method">flyTo</span>([<span class="highlight">lat</span>, <span class="highlight">lng</span>], <span class="highlight">zoom</span>, {<span class="highlight">duration</span>: <span class="string">2</span>});
+<span class="highlight">map</span>.<span class="method">setZoom</span>(<span class="highlight">zoom</span>);
+<span class="highlight">map</span>.<span class="method">zoomIn</span>(<span class="highlight">delta</span>);
+<span class="highlight">map</span>.<span class="method">zoomOut</span>(<span class="highlight">delta</span>);
+
+<span class="comment">// 边界控制</span>
+<span class="highlight">map</span>.<span class="method">fitBounds</span>(<span class="highlight">bounds</span>, {<span class="highlight">padding</span>: [<span class="string">20</span>, <span class="string">20</span>]});
+<span class="highlight">map</span>.<span class="method">fitWorld</span>();
+<span class="highlight">map</span>.<span class="method">setMaxBounds</span>(<span class="highlight">bounds</span>);</code></pre>
+                </div>
+            </section>
+
+            <!-- 瓦片图层系统 -->
+            <section class="section">
+                <h2>瓦片图层系统</h2>
+                <h3>基础瓦片层</h3>
+                <div class="code-block">
+                    <div class="code-header">瓦片层配置</div>
+                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                    <pre><code><span class="comment">// 标准瓦片层</span>
+<span class="keyword">let</span> <span class="highlight">tileLayer</span> = <span class="method">L.tileLayer</span>(<span class="string">'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'</span>, {
+    <span class="highlight">attribution</span>: <span class="string">'© OpenStreetMap'</span>,
+    <span class="highlight">maxZoom</span>: <span class="string">19</span>,
+    <span class="highlight">minZoom</span>: <span class="string">1</span>,
+    <span class="highlight">subdomains</span>: [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>],
+    <span class="highlight">errorTileUrl</span>: <span class="string">'path/to/error.png'</span>,
+    <span class="highlight">zoomOffset</span>: <span class="string">0</span>,
+    <span class="highlight">tms</span>: <span class="string">false</span>,
+    <span class="highlight">opacity</span>: <span class="string">1.0</span>,
+    <span class="highlight">zIndex</span>: <span class="string">1</span>,
+    <span class="highlight">detectRetina</span>: <span class="string">false</span>
+}).<span class="method">addTo</span>(<span class="highlight">map</span>);</code></pre>
+                </div>
+
+                <h3>WMS图层</h3>
+                <div class="code-block">
+                    <div class="code-header">WMS服务</div>
+                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                    <pre><code><span class="comment">// WMS图层</span>
+<span class="keyword">let</span> <span class="highlight">wmsLayer</span> = <span class="method">L.tileLayer.wms</span>(<span class="string">'http://wms-server/wms'</span>, {
+    <span class="highlight">layers</span>: <span class="string">'layer_name'</span>,
+    <span class="highlight">format</span>: <span class="string">'image/png'</span>,
+    <span class="highlight">transparent</span>: <span class="string">true</span>,
+    <span class="highlight">version</span>: <span class="string">'1.1.1'</span>,
+    <span class="highlight">crs</span>: <span class="method">L.CRS.EPSG4326</span>
+});<span class="method">addTo</span>(<span class="highlight">map</span>);</code></pre>
+                </div>
+
+                <h3>常用瓦片源</h3>
+                <div class="quick-ref">
+                    <strong>瓦片源快速参考：</strong><br>
+                    • OpenStreetMap: tile.openstreetmap.org<br>
+                    • 高德: webrd0{1-4}.is.autonavi.com<br>
+                    • 腾讯: rt{0-3}.map.gtimg.com<br>
+                    • Google: mt{0-3}.googleapis.com
+                </div>
+            </section>
+
+            <!-- 标记系统 -->
+            <section class="section">
+                <h2>标记系统</h2>
+                <h3>基础标记</h3>
+                <div class="code-block">
+                    <div class="code-header">标记创建与配置</div>
+                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                    <pre><code><span class="comment">// 基础标记</span>
+<span class="keyword">let</span> <span class="highlight">marker</span> = <span class="method">L.marker</span>([<span class="highlight">lat</span>, <span class="highlight">lng</span>], {
+    <span class="highlight">icon</span>: <span class="method">L.icon</span>({
+        <span class="highlight">iconUrl</span>: <span class="string">'marker-icon.png'</span>,
+        <span class="highlight">iconRetinaUrl</span>: <span class="string">'marker-icon-2x.png'</span>,
+        <span class="highlight">shadowUrl</span>: <span class="string">'marker-shadow.png'</span>,
+        <span class="highlight">iconSize</span>: [<span class="string">25</span>, <span class="string">41</span>],
+        <span class="highlight">iconAnchor</span>: [<span class="string">12</span>, <span class="string">41</span>],
+        <span class="highlight">popupAnchor</span>: [<span class="string">1</span>, <span class="string">-34</span>],
+        <span class="highlight">shadowSize</span>: [<span class="string">41</span>, <span class="string">41</span>]
+    }),
+    <span class="highlight">draggable</span>: <span class="string">true</span>,
+    <span class="highlight">keyboard</span>: <span class="string">true</span>,
+    <span class="highlight">title</span>: <span class="string">'标记标题'</span>,
+    <span class="highlight">alt</span>: <span class="string">'标记描述'</span>,
+    <span class="highlight">zIndexOffset</span>: <span class="string">0</span>,
+    <span class="highlight">opacity</span>: <span class="string">1.0</span>,
+    <span class="highlight">riseOnHover</span>: <span class="string">false</span>,
+    <span class="highlight">riseOffset</span>: <span class="string">250</span>
+}).<span class="method">addTo</span>(<span class="highlight">map</span>);</code></pre>
+                </div>
+
+                <h3>DivIcon标记</h3>
+                <div class="code-block">
+                    <div class="code-header">HTML标记</div>
+                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                    <pre><code><span class="comment">// HTML div标记</span>
+<span class="keyword">let</span> <span class="highlight">divIcon</span> = <span class="method">L.divIcon</span>({
+    <span class="highlight">html</span>: <span class="string">'&lt;div class="custom-marker"&gt;自定义&lt;/div&gt;'</span>,
+    <span class="highlight">className</span>: <span class="string">'my-div-icon'</span>,
+    <span class="highlight">iconSize</span>: [<span class="string">30</span>, <span class="string">42</span>],
+    <span class="highlight">iconAnchor</span>: [<span class="string">15</span>, <span class="string">42</span>]
+});
+
+<span class="method">L.marker</span>([<span class="highlight">lat</span>, <span class="highlight">lng</span>], {<span class="highlight">icon</span>: <span class="highlight">divIcon</span>}).<span class="method">addTo</span>(<span class="highlight">map</span>);</code></pre>
+                </div>
+
+                <h3>标记操作</h3>
+                <ul class="api-list">
+                    <li><code>marker.setLatLng([lat, lng])</code> - 设置位置</li>
+                    <li><code>marker.getLatLng()</code> - 获取位置</li>
+                    <li><code>marker.setIcon(icon)</code> - 更换图标</li>
+                    <li><code>marker.setOpacity(opacity)</code> - 设置透明度</li>
+                    <li><code>marker.setZIndexOffset(offset)</code> - 设置Z轴偏移</li>
+                    <li><code>marker.remove()</code> - 移除标记</li>
+                </ul>
+            </section>
+
+            <!-- 弹窗与提示框 -->
+            <section class="section">
+                <h2>弹窗与提示框</h2>
+                <h3>弹窗配置</h3>
+                <div class="code-block">
+                    <div class="code-header">高级弹窗</div>
+                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                    <pre><code><span class="comment">// 弹窗详细配置</span>
+<span class="keyword">let</span> <span class="highlight">popup</span> = <span class="method">L.popup</span>({
+    <span class="highlight">maxWidth</span>: <span class="string">300</span>,
+    <span class="highlight">minWidth</span>: <span class="string">50</span>,
+    <span class="highlight">maxHeight</span>: <span class="string">null</span>,
+    <span class="highlight">autoPan</span>: <span class="string">true</span>,
+    <span class="highlight">autoPanPaddingTopLeft</span>: [<span class="string">0</span>, <span class="string">0</span>],
+    <span class="highlight">autoPanPaddingBottomRight</span>: [<span class="string">0</span>, <span class="string">0</span>],
+    <span class="highlight">autoPanPadding</span>: [<span class="string">5</span>, <span class="string">5</span>],
+    <span class="highlight">keepInView</span>: <span class="string">false</span>,
+    <span class="highlight">closeButton</span>: <span class="string">true</span>,
+    <span class="highlight">autoClose</span>: <span class="string">true</span>,
+    <span class="highlight">closeOnEscapeKey</span>: <span class="string">true</span>,
+    <span class="highlight">closeOnClick</span>: <span class="string">null</span>,
+    <span class="highlight">className</span>: <span class="string">'custom-popup'</span>
+}).<span class="method">setLatLng</span>([<span class="highlight">lat</span>, <span class="highlight">lng</span>])
+  .<span class="method">setContent</span>(<span class="string">'弹窗内容'</span>)
+  .<span class="method">openOn</span>(<span class="highlight">map</span>);</code></pre>
+                </div>
+
+                <h3>Tooltip提示框</h3>
+                <div class="code-block">
+                    <div class="code-header">提示框</div>
+                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                    <pre><code><span class="comment">// Tooltip配置</span>
+<span class="highlight">marker</span>.<span class="method">bindTooltip</span>(<span class="string">'提示文本'</span>, {
+    <span class="highlight">permanent</span>: <span class="string">false</span>,
+    <span class="highlight">direction</span>: <span class="string">'auto'</span>, <span class="comment">// top, bottom, center</span>
+    <span class="highlight">sticky</span>: <span class="string">false</span>,
+    <span class="highlight">interactive</span>: <span class="string">false</span>,
+    <span class="highlight">opacity</span>: <span class="string">0.9</span>,
+    <span class="highlight">offset</span>: [<span class="string">0</span>, <span class="string">0</span>],
+    <span class="highlight">className</span>: <span class="string">'custom-tooltip'</span>
+});</code></pre>
+                </div>
+            </section>
+
+            <!-- 几何图形 -->
+            <section class="section">
+                <h2>几何图形</h2>
+                <h3>多边形与线条</h3>
+                <div class="code-block">
+                    <div class="code-header">矢量图形</div>
+                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                    <pre><code><span class="comment">// 多边形</span>
+<span class="keyword">let</span> <span class="highlight">polygon</span> = <span class="method">L.polygon</span>([
+    [<span class="string">51.509</span>, <span class="string">-0.08</span>],
+    [<span class="string">51.503</span>, <span class="string">-0.06</span>],
+    [<span class="string">51.51</span>, <span class="string">-0.047</span>]
+], {
+    <span class="highlight">color</span>: <span class="string">'red'</span>,
+    <span class="highlight">weight</span>: <span class="string">3</span>,
+    <span class="highlight">opacity</span>: <span class="string">1</span>,
+    <span class="highlight">fillColor</span>: <span class="string">'#f03'</span>,
+    <span class="highlight">fillOpacity</span>: <span class="string">0.5</span>,
+    <span class="highlight">fillRule</span>: <span class="string">'evenodd'</span>,
+    <span class="highlight">dashArray</span>: <span class="string">null</span>,
+    <span class="highlight">dashOffset</span>: <span class="string">null</span>,
+    <span class="highlight">stroke</span>: <span class="string">true</span>,
+    <span class="highlight">lineCap</span>: <span class="string">'round'</span>,
+    <span class="highlight">lineJoin</span>: <span class="string">'round'</span>,
+    <span class="highlight">smoothFactor</span>: <span class="string">1.0</span>,
+    <span class="highlight">noClip</span>: <span class="string">false</span>
+}).<span class="method">addTo</span>(<span class="highlight">map</span>);
+
+<span class="comment">// 折线</span>
+<span class="keyword">let</span> <span class="highlight">polyline</span> = <span class="method">L.polyline</span>([
+    [<span class="string">51.5</span>, <span class="string">-0.1</span>],
+    [<span class="string">51.51</span>, <span class="string">-0.1</span>],
+    [<span class="string">51.51</span>, <span class="string">-0.05</span>]
+], {<span class="highlight">color</span>: <span class="string">'blue'</span>}).<span class="method">addTo</span>(<span class="highlight">map</span>);</code></pre>
+                </div>
+
+                <h3>圆形与矩形</h3>
+                <div class="code-block">
+                    <div class="code-header">基础形状</div>
+                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                    <pre><code><span class="comment">// 圆形</span>
+<span class="keyword">let</span> <span class="highlight">circle</span> = <span class="method">L.circle</span>([<span class="highlight">lat</span>, <span class="highlight">lng</span>], {
+    <span class="highlight">color</span>: <span class="string">'red'</span>,
+    <span class="highlight">fillColor</span>: <span class="string">'#f03'</span>,
+    <span class="highlight">fillOpacity</span>: <span class="string">0.5</span>,
+    <span class="highlight">radius</span>: <span class="string">500</span> <span class="comment">// 米</span>
+}).<span class="method">addTo</span>(<span class="highlight">map</span>);
+
+<span class="comment">// 圆形标记</span>
+<span class="keyword">let</span> <span class="highlight">circleMarker</span> = <span class="method">L.circleMarker</span>([<span class="highlight">lat</span>, <span class="highlight">lng</span>], {
+    <span class="highlight">radius</span>: <span class="string">10</span>, <span class="comment">// 像素</span>
+    <span class="highlight">fillColor</span>: <span class="string">"#ff7800"</span>,
+    <span class="highlight">weight</span>: <span class="string">1</span>,
+    <span class="highlight">opacity</span>: <span class="string">1</span>,
+    <span class="highlight">fillOpacity</span>: <span class="string">0.8</span>
+}).<span class="method">addTo</span>(<span class="highlight">map</span>);
+
+<span class="comment">// 矩形</span>
+<span class="keyword">let</span> <span class="highlight">rectangle</span> = <span class="method">L.rectangle</span>([[<span class="string">54.559</span>, <span class="string">-5.767</span>], [<span class="string">56.1210</span>, <span class="string">-3.021</span>]], {
+    <span class="highlight">color</span>: <span class="string">"#ff7800"</span>,
+    <span class="highlight">weight</span>: <span class="string">1</span>
+}).<span class="method">addTo</span>(<span class="highlight">map</span>);</code></pre>
+                </div>
+            </section>
+
+            <!-- 事件处理系统 -->
+            <section class="section">
+                <h2>事件处理系统</h2>
+                <h3>地图事件</h3>
+                <div class="code-block">
+                    <div class="code-header">地图交互事件</div>
+                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                    <pre><code><span class="comment">// 基础事件</span>
+<span class="highlight">map</span>.<span class="method">on</span>(<span class="string">'click'</span>, <span class="keyword">function</span>(<span class="highlight">e</span>) {
+    <span class="method">console.log</span>(<span class="string">'点击位置: '</span> + <span class="highlight">e</span>.<span class="highlight">latlng</span>);
+});
+
+<span class="comment">// 缩放事件</span>
+<span class="highlight">map</span>.<span class="method">on</span>(<span class="string">'zoomstart'</span>, <span class="keyword">function</span>() { <span class="method">console.log</span>(<span class="string">'开始缩放'</span>); });
+<span class="highlight">map</span>.<span class="method">on</span>(<span class="string">'zoom'</span>, <span class="keyword">function</span>() { <span class="method">console.log</span>(<span class="string">'缩放中'</span>); });
+<span class="highlight">map</span>.<span class="method">on</span>(<span class="string">'zoomend'</span>, <span class="keyword">function</span>() { <span class="method">console.log</span>(<span class="string">'缩放结束'</span>); });
+
+<span class="comment">// 移动事件</span>
+<span class="highlight">map</span>.<span class="method">on</span>(<span class="string">'movestart'</span>, <span class="keyword">function</span>() { <span class="method">console.log</span>(<span class="string">'开始移动'</span>); });
+<span class="highlight">map</span>.<span class="method">on</span>(<span class="string">'move'</span>, <span class="keyword">function</span>() { <span class="method">console.log</span>(<span class="string">'移动中'</span>); });
+<span class="highlight">map</span>.<span class="method">on</span>(<span class="string">'moveend'</span>, <span class="keyword">function</span>() { <span class="method">console.log</span>(<span class="string">'移动结束'</span>); });
+
+<span class="comment">// 图层事件</span>
+<span class="highlight">map</span>.<span class="method">on</span>(<span class="string">'layeradd'</span>, <span class="keyword">function</span>(<span class="highlight">e</span>) { <span class="method">console.log</span>(<span class="string">'图层添加'</span>, <span class="highlight">e</span>.<span class="highlight">layer</span>); });
+<span class="highlight">map</span>.<span class="method">on</span>(<span class="string">'layerremove'</span>, <span class="keyword">function</span>(<span class="highlight">e</span>) { <span class="method">console.log</span>(<span class="string">'图层移除'</span>, <span class="highlight">e</span>.<span class="highlight">layer</span>); });</code></pre>
+                </div>
+
+                <h3>标记事件</h3>
+                <div class="code-block">
+                    <div class="code-header">标记交互</div>
+                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                    <pre><code><span class="comment">// 标记事件</span>
+<span class="highlight">marker</span>.<span class="method">on</span>(<span class="string">'click'</span>, <span class="keyword">function</span>(<span class="highlight">e</span>) { <span class="method">console.log</span>(<span class="string">'标记点击'</span>); });
+<span class="highlight">marker</span>.<span class="method">on</span>(<span class="string">'dblclick'</span>, <span class="keyword">function</span>(<span class="highlight">e</span>) { <span class="method">console.log</span>(<span class="string">'标记双击'</span>); });
+<span class="highlight">marker</span>.<span class="method">on</span>(<span class="string">'mousedown'</span>, <span class="keyword">function</span>(<span class="highlight">e</span>) { <span class="method">console.log</span>(<span class="string">'鼠标按下'</span>); });
+<span class="highlight">marker</span>.<span class="method">on</span>(<span class="string">'mouseover'</span>, <span class="keyword">function</span>(<span class="highlight">e</span>) { <span class="method">console.log</span>(<span class="string">'鼠标悬停'</span>); });
+<span class="highlight">marker</span>.<span class="method">on</span>(<span class="string">'mouseout'</span>, <span class="keyword">function</span>(<span class="highlight">e</span>) { <span class="method">console.log</span>(<span class="string">'鼠标离开'</span>); });
+
+<span class="comment">// 拖拽事件</span>
+<span class="highlight">marker</span>.<span class="method">on</span>(<span class="string">'dragstart'</span>, <span class="keyword">function</span>(<span class="highlight">e</span>) { <span class="method">console.log</span>(<span class="string">'开始拖拽'</span>); });
+<span class="highlight">marker</span>.<span class="method">on</span>(<span class="string">'drag'</span>, <span class="keyword">function</span>(<span class="highlight">e</span>) { <span class="method">console.log</span>(<span class="string">'拖拽中'</span>); });
+<span class="highlight">marker</span>.<span class="method">on</span>(<span class="string">'dragend'</span>, <span class="keyword">function</span>(<span class="highlight">e</span>) { <span class="method">console.log</span>(<span class="string">'拖拽结束'</span>); });</code></pre>
+                </div>
+            </section>
+
+            <!-- 控件系统 -->
+            <section class="section">
+                <h2>控件系统</h2>
+                <h3>内置控件</h3>
+                <div class="code-block">
+                    <div class="code-header">标准控件</div>
+                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                    <pre><code><span class="comment">// 缩放控件</span>
+<span class="method">L.control.zoom</span>({
+    <span class="highlight">position</span>: <span class="string">'topleft'</span>,
+    <span class="highlight">zoomInText</span>: <span class="string">'+'</span>,
+    <span class="highlight">zoomOutText</span>: <span class="string">'-'</span>,
+    <span class="highlight">zoomInTitle</span>: <span class="string">'放大'</span>,
+    <span class="highlight">zoomOutTitle</span>: <span class="string">'缩小'</span>
+}).<span class="method">addTo</span>(<span class="highlight">map</span>);
+
+<span class="comment">// 比例尺控件</span>
+<span class="method">L.control.scale</span>({
+    <span class="highlight">position</span>: <span class="string">'bottomleft'</span>,
+    <span class="highlight">maxWidth</span>: <span class="string">100</span>,
+    <span class="highlight">metric</span>: <span class="string">true</span>,
+    <span class="highlight">imperial</span>: <span class="string">true</span>,
+    <span class="highlight">updateWhenIdle</span>: <span class="string">false</span>
+}).<span class="method">addTo</span>(<span class="highlight">map</span>);
+
+<span class="comment">// 版权控件</span>
+<span class="method">L.control.attribution</span>({
+    <span class="highlight">position</span>: <span class="string">'bottomright'</span>,
+    <span class="highlight">prefix</span>: <span class="string">'Leaflet'</span>
+}).<span class="method">addTo</span>(<span class="highlight">map</span>);</code></pre>
+                </div>
+
+                <h3>图层控制器</h3>
+                <div class="code-block">
+                    <div class="code-header">图层切换</div>
+                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                    <pre><code><span class="comment">// 图层控制</span>
+<span class="keyword">let</span> <span class="highlight">baseLayers</span> = {
+    <span class="string">"OpenStreetMap"</span>: <span class="highlight">osmLayer</span>,
+    <span class="string">"卫星图"</span>: <span class="highlight">satelliteLayer</span>
+};
+
+<span class="keyword">let</span> <span class="highlight">overlays</span> = {
+    <span class="string">"标记"</span>: <span class="highlight">markerGroup</span>,
+    <span class="string">"路径"</span>: <span class="highlight">pathGroup</span>
+};
+
+<span class="method">L.control.layers</span>(<span class="highlight">baseLayers</span>, <span class="highlight">overlays</span>, {
+    <span class="highlight">position</span>: <span class="string">'topright'</span>,
+    <span class="highlight">collapsed</span>: <span class="string">true</span>,
+    <span class="highlight">autoZIndex</span>: <span class="string">true</span>,
+    <span class="highlight">hideSingleBase</span>: <span class="string">false</span>,
+    <span class="highlight">sortLayers</span>: <span class="string">false</span>,
+    <span class="highlight">sortFunction</span>: <span class="keyword">undefined</span>
+}).<span class="method">addTo</span>(<span class="highlight">map</span>);</code></pre>
+                </div>
+
+                <h3>自定义控件</h3>
+                <div class="code-block">
+                    <div class="code-header">创建自定义控件</div>
+                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                    <pre><code><span class="comment">// 自定义控件类</span>
+<span class="keyword">let</span> <span class="highlight">CustomControl</span> = <span class="method">L.Control.extend</span>({
+    <span class="highlight">options</span>: {
+        <span class="highlight">position</span>: <span class="string">'topright'</span>
+    },
+    
+    <span class="highlight">onAdd</span>: <span class="keyword">function</span>(<span class="highlight">map</span>) {
+        <span class="keyword">let</span> <span class="highlight">container</span> = <span class="method">L.DomUtil.create</span>(<span class="string">'div'</span>, <span class="string">'leaflet-control-custom'</span>);
+        
+        <span class="highlight">container</span>.<span class="highlight">innerHTML</span> = <span class="string">'&lt;button&gt;自定义按钮&lt;/button&gt;'</span>;
+        
+        <span class="method">L.DomEvent.on</span>(<span class="highlight">container</span>, <span class="string">'click'</span>, <span class="keyword">function</span>(<span class="highlight">e</span>) {
+            <span class="method">L.DomEvent.stopPropagation</span>(<span class="highlight">e</span>);
+            <span class="method">console.log</span>(<span class="string">'自定义控件点击'</span>);
+        });
+        
+        <span class="keyword">return</span> <span class="highlight">container</span>;
+    },
+    
+    <span class="highlight">onRemove</span>: <span class="keyword">function</span>(<span class="highlight">map</span>) {
+        <span class="comment">// 清理操作</span>
+    }
+});
+
+<span class="keyword">new</span> <span class="highlight">CustomControl</span>().<span class="method">addTo</span>(<span class="highlight">map</span>);</code></pre>
+                </div>
+            </section>
+
+            <!-- GeoJSON处理 -->
+            <section class="section">
+                <h2>GeoJSON数据处理</h2>
+                <h3>基础GeoJSON</h3>
+                <div class="code-block">
+                    <div class="code-header">加载GeoJSON</div>
+                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                    <pre><code><span class="comment">// 基础GeoJSON加载</span>
+<span class="method">L.geoJSON</span>(<span class="highlight">geojsonFeature</span>, {
+    <span class="highlight">style</span>: <span class="keyword">function</span>(<span class="highlight">feature</span>) {
+        <span class="keyword">return</span> {
+            <span class="highlight">color</span>: <span class="highlight">feature</span>.<span class="highlight">properties</span>.<span class="highlight">color</span> || <span class="string">'#3388ff'</span>,
+            <span class="highlight">weight</span>: <span class="string">2</span>,
+            <span class="highlight">fillOpacity</span>: <span class="string">0.6</span>
+        };
+    },
+    <span class="highlight">pointToLayer</span>: <span class="keyword">function</span>(<span class="highlight">feature</span>, <span class="highlight">latlng</span>) {
+        <span class="keyword">return</span> <span class="method">L.circleMarker</span>(<span class="highlight">latlng</span>, {
+            <span class="highlight">radius</span>: <span class="string">8</span>,
+            <span class="highlight">fillColor</span>: <span class="string">"#ff7800"</span>,
+            <span class="highlight">color</span>: <span class="string">"#000"</span>,
+            <span class="highlight">weight</span>: <span class="string">1</span>,
+            <span class="highlight">opacity</span>: <span class="string">1</span>,
+            <span class="highlight">fillOpacity</span>: <span class="string">0.8</span>
+        });
+    },
+    <span class="highlight">onEachFeature</span>: <span class="keyword">function</span>(<span class="highlight">feature</span>, <span class="highlight">layer</span>) {
+        <span class="keyword">if</span> (<span class="highlight">feature</span>.<span class="highlight">properties</span> && <span class="highlight">feature</span>.<span class="highlight">properties</span>.<span class="highlight">popupContent</span>) {
+            <span class="highlight">layer</span>.<span class="method">bindPopup</span>(<span class="highlight">feature</span>.<span class="highlight">properties</span>.<span class="highlight">popupContent</span>);
+        }
+        
+        <span class="comment">// 添加事件监听</span>
+        <span class="highlight">layer</span>.<span class="method">on</span>({
+            <span class="highlight">mouseover</span>: <span class="highlight">highlightFeature</span>,
+            <span class="highlight">mouseout</span>: <span class="highlight">resetHighlight</span>,
+            <span class="highlight">click</span>: <span class="highlight">zoomToFeature</span>
+        });
+    },
+    <span class="highlight">filter</span>: <span class="keyword">function</span>(<span class="highlight">feature</span>, <span class="highlight">layer</span>) {
+        <span class="keyword">return</span> <span class="highlight">feature</span>.<span class="highlight">properties</span>.<span class="highlight">show</span> !== <span class="string">false</span>;
+    }
+}).<span class="method">addTo</span>(<span class="highlight">map</span>);</code></pre>
+                </div>
+
+                <h3>异步加载GeoJSON</h3>
+                <div class="code-block">
+                    <div class="code-header">AJAX加载</div>
+                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                    <pre><code><span class="comment">// 使用fetch API加载</span>
+<span class="method">fetch</span>(<span class="string">'data/geojson-data.json'</span>)
+    .<span class="method">then</span>(<span class="highlight">response</span> => <span class="highlight">response</span>.<span class="method">json</span>())
+    .<span class="method">then</span>(<span class="highlight">data</span> => {
+        <span class="method">L.geoJSON</span>(<span class="highlight">data</span>).<span class="method">addTo</span>(<span class="highlight">map</span>);
+    })
+    .<span class="method">catch</span>(<span class="highlight">error</span> => <span class="method">console.error</span>(<span class="string">'Error:'</span>, <span class="highlight">error</span>));</code></pre>
+                </div>
+            </section>
+
+            <!-- 图层组管理 -->
+            <section class="section">
+                <h2>图层组管理</h2>
+                <h3>LayerGroup</h3>
+                <div class="code-block">
+                    <div class="code-header">图层组操作</div>
+                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                    <pre><code><span class="comment">// 创建图层组</span>
+<span class="keyword">let</span> <span class="highlight">layerGroup</span> = <span class="method">L.layerGroup</span>([<span class="highlight">marker1</span>, <span class="highlight">marker2</span>, <span class="highlight">polyline</span>]);
+
+<span class="comment">// 图层组操作</span>
+<span class="highlight">layerGroup</span>.<span class="method">addTo</span>(<span class="highlight">map</span>);
+<span class="highlight">layerGroup</span>.<span class="method">addLayer</span>(<span class="highlight">newMarker</span>);
+<span class="highlight">layerGroup</span>.<span class="method">removeLayer</span>(<span class="highlight">marker1</span>);
+<span class="highlight">layerGroup</span>.<span class="method">clearLayers</span>();
+<span class="highlight">layerGroup</span>.<span class="method">eachLayer</span>(<span class="keyword">function</span>(<span class="highlight">layer</span>) {
+    <span class="method">console.log</span>(<span class="highlight">layer</span>);
+});
+
+<span class="comment">// FeatureGroup (支持事件)</span>
+<span class="keyword">let</span> <span class="highlight">featureGroup</span> = <span class="method">L.featureGroup</span>([<span class="highlight">polygon</span>, <span class="highlight">circle</span>])
+    .<span class="method">on</span>(<span class="string">'click'</span>, <span class="keyword">function</span>(<span class="highlight">e</span>) {
+        <span class="method">console.log</span>(<span class="string">'FeatureGroup点击'</span>, <span class="highlight">e</span>);
+    })
+    .<span class="method">addTo</span>(<span class="highlight">map</span>);</code></pre>
+                </div>
+            </section>
+
+            <!-- 坐标系统与投影 -->
+            <section class="section">
+                <h2>坐标系统与投影</h2>
+                <h3>坐标转换</h3>
+                <div class="code-block">
+                    <div class="code-header">坐标操作</div>
+                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                    <pre><code><span class="comment">// 坐标转换</span>
+<span class="keyword">let</span> <span class="highlight">latlng</span> = <span class="method">L.latLng</span>(<span class="string">50.5</span>, <span class="string">30.5</span>);
+<span class="keyword">let</span> <span class="highlight">point</span> = <span class="highlight">map</span>.<span class="method">latLngToLayerPoint</span>(<span class="highlight">latlng</span>);
+<span class="keyword">let</span> <span class="highlight">containerPoint</span> = <span class="highlight">map</span>.<span class="method">latLngToContainerPoint</span>(<span class="highlight">latlng</span>);
+
+<span class="comment">// 边界操作</span>
+<span class="keyword">let</span> <span class="highlight">bounds</span> = <span class="method">L.latLngBounds</span>([[<span class="string">40.712</span>, <span class="string">-74.227</span>], [<span class="string">40.774</span>, <span class="string">-74.125</span>]]);
+<span class="highlight">bounds</span>.<span class="method">extend</span>([<span class="string">40.8</span>, <span class="string">-74.0</span>]);
+<span class="keyword">let</span> <span class="highlight">center</span> = <span class="highlight">bounds</span>.<span class="method">getCenter</span>();
+
+<span class="comment">// 距离计算</span>
+<span class="keyword">let</span> <span class="highlight">distance</span> = <span class="highlight">latlng1</span>.<span class="method">distanceTo</span>(<span class="highlight">latlng2</span>); <span class="comment">// 米</span></code></pre>
+                </div>
+
+                <h3>自定义CRS</h3>
+                <div class="code-block">
+                    <div class="code-header">投影系统</div>
+                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                    <pre><code><span class="comment">// 常用坐标系统</span>
+<span class="keyword">let</span> <span class="highlight">map3857</span> = <span class="method">L.map</span>(<span class="string">'map'</span>, {
+    <span class="highlight">crs</span>: <span class="method">L.CRS.EPSG3857</span> <span class="comment">// Web Mercator (默认)</span>
+});
+
+<span class="keyword">let</span> <span class="highlight">map4326</span> = <span class="method">L.map</span>(<span class="string">'map'</span>, {
+    <span class="highlight">crs</span>: <span class="method">L.CRS.EPSG4326</span> <span class="comment">// WGS84</span>
+});
+
+<span class="keyword">let</span> <span class="highlight">mapSimple</span> = <span class="method">L.map</span>(<span class="string">'map'</span>, {
+    <span class="highlight">crs</span>: <span class="method">L.CRS.Simple</span> <span class="comment">// 简单坐标系统</span>
+});</code></pre>
+                </div>
+            </section>
+
+            <!-- 插件扩展 -->
+            <section class="section">
+                <h2>插件扩展系统</h2>
+                <h3>常用插件</h3>
+                <div class="quick-ref">
+                    <strong>热门插件：</strong><br>
+                    • Leaflet.markercluster - 标记聚合<br>
+                    • Leaflet.heat - 热力图<br>
+                    • Leaflet.draw - 绘图工具<br>
+                    • Leaflet.fullscreen - 全屏控件<br>
+                    • Leaflet.locate - 定位控件<br>
+                    • Leaflet.minimap - 小地图
+                </div>
+
+                <h3>插件使用示例</h3>
+                <div class="code-block">
+                    <div class="code-header">标记聚合插件</div>
+                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                    <pre><code><span class="comment">// 标记聚合 (需要引入markercluster插件)</span>
+<span class="keyword">let</span> <span class="highlight">markers</span> = <span class="method">L.markerClusterGroup</span>({
+    <span class="highlight">chunkedLoading</span>: <span class="string">true</span>,
+    <span class="highlight">chunkInterval</span>: <span class="string">200</span>,
+    <span class="highlight">maxClusterRadius</span>: <span class="string">80</span>,
+    <span class="highlight">spiderfyOnMaxZoom</span>: <span class="string">true</span>,
+    <span class="highlight">showCoverageOnHover</span>: <span class="string">false</span>,
+    <span class="highlight">zoomToBoundsOnClick</span>: <span class="string">true</span>
+});
+
+<span class="keyword">for</span> (<span class="keyword">let</span> <span class="highlight">i</span> = <span class="string">0</span>; <span class="highlight">i</span> &lt; <span class="string">1000</span>; <span class="highlight">i</span>++) {
+    <span class="keyword">let</span> <span class="highlight">marker</span> = <span class="method">L.marker</span>([<span class="highlight">randomLat</span>(), <span class="highlight">randomLng</span>()]);
+    <span class="highlight">markers</span>.<span class="method">addLayer</span>(<span class="highlight">marker</span>);
+}
+
+<span class="highlight">map</span>.<span class="method">addLayer</span>(<span class="highlight">markers</span>);</code></pre>
+                </div>
+            </section>
+
+            <!-- 性能优化 -->
+            <section class="section">
+                <h2>性能优化技巧</h2>
+                <h3>大数据处理</h3>
+                <div class="code-block">
+                    <div class="code-header">优化策略</div>
+                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                    <pre><code><span class="comment">// Canvas渲染器（适合大量点数据）</span>
+<span class="keyword">let</span> <span class="highlight">map</span> = <span class="method">L.map</span>(<span class="string">'map'</span>, {
+    <span class="highlight">preferCanvas</span>: <span class="string">true</span>,
+    <span class="highlight">renderer</span>: <span class="method">L.canvas</span>()
+});
+
+<span class="comment">// 分批加载大量标记</span>
+<span class="keyword">function</span> <span class="highlight">addMarkersInBatches</span>(<span class="highlight">markers</span>, <span class="highlight">batchSize</span> = <span class="string">100</span>) {
+    <span class="keyword">let</span> <span class="highlight">index</span> = <span class="string">0</span>;
+    
+    <span class="keyword">function</span> <span class="highlight">addBatch</span>() {
+        <span class="keyword">for</span> (<span class="keyword">let</span> <span class="highlight">i</span> = <span class="string">0</span>; <span class="highlight">i</span> &lt; <span class="highlight">batchSize</span> && <span class="highlight">index</span> &lt; <span class="highlight">markers</span>.<span class="highlight">length</span>; <span class="highlight">i</span>++, <span class="highlight">index</span>++) {
+            <span class="highlight">markers</span>[<span class="highlight">index</span>].<span class="method">addTo</span>(<span class="highlight">map</span>);
+        }
+        
+        <span class="keyword">if</span> (<span class="highlight">index</span> &lt; <span class="highlight">markers</span>.<span class="highlight">length</span>) {
+            <span class="method">setTimeout</span>(<span class="highlight">addBatch</span>, <span class="string">10</span>);
+        }
+    }
+    
+    <span class="highlight">addBatch</span>();
+}
+
+<span class="comment">// 视图范围内的标记管理</span>
+<span class="keyword">function</span> <span class="highlight">updateVisibleMarkers</span>() {
+    <span class="keyword">let</span> <span class="highlight">bounds</span> = <span class="highlight">map</span>.<span class="method">getBounds</span>();
+    
+    <span class="highlight">allMarkers</span>.<span class="method">forEach</span>(<span class="highlight">marker</span> => {
+        <span class="keyword">if</span> (<span class="highlight">bounds</span>.<span class="method">contains</span>(<span class="highlight">marker</span>.<span class="method">getLatLng</span>())) {
+            <span class="keyword">if</span> (!<span class="highlight">map</span>.<span class="method">hasLayer</span>(<span class="highlight">marker</span>)) {
+                <span class="highlight">marker</span>.<span class="method">addTo</span>(<span class="highlight">map</span>);
+            }
+        } <span class="keyword">else</span> {
+            <span class="keyword">if</span> (<span class="highlight">map</span>.<span class="method">hasLayer</span>(<span class="highlight">marker</span>)) {
+                <span class="highlight">map</span>.<span class="method">removeLayer</span>(<span class="highlight">marker</span>);
+            }
+        }
+    });
+}
+
+<span class="highlight">map</span>.<span class="method">on</span>(<span class="string">'moveend'</span>, <span class="highlight">updateVisibleMarkers</span>);</code></pre>
+                </div>
+
+                <div class="note">
+                    <strong>性能建议：</strong><br>
+                    • 超过1000个点使用Canvas渲染器<br>
+                    • 大数据集使用聚合或分批加载<br>
+                    • 及时移除不可见图层<br>
+                    • 使用requestAnimationFrame优化动画
+                </div>
+            </section>
+
+            <!-- 移动端适配 -->
+            <section class="section">
+                <h2>移动端适配</h2>
+                <h3>触摸交互</h3>
+                <div class="code-block">
+                    <div class="code-header">移动端配置</div>
+                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                    <pre><code><span class="comment">// 移动端优化配置</span>
+<span class="keyword">let</span> <span class="highlight">map</span> = <span class="method">L.map</span>(<span class="string">'map'</span>, {
+    <span class="comment">// 触摸交互</span>
+    <span class="highlight">tap</span>: <span class="string">true</span>,
+    <span class="highlight">tapTolerance</span>: <span class="string">15</span>,
+    <span class="highlight">touchZoom</span>: <span class="string">true</span>,
+    <span class="highlight">bounceAtZoomLimits</span>: <span class="string">false</span>,
+    
+    <span class="comment">// 性能优化</span>
+    <span class="highlight">worldCopyJump</span>: <span class="string">false</span>,
+    <span class="highlight">closePopupOnClick</span>: <span class="string">true</span>,
+    <span class="highlight">maxBoundsViscosity</span>: <span class="string">1.0</span>,
+    
+    <span class="comment">// 缩放控制</span>
+    <span class="highlight">zoomSnap</span>: <span class="string">1</span>,
+    <span class="highlight">zoomDelta</span>: <span class="string">1</span>,
+    <span class="highlight">wheelDebounceTime</span>: <span class="string">40</span>,
+    <span class="highlight">wheelPxPerZoomLevel</span>: <span class="string">60</span>
+});
+
+<span class="comment">// 检测移动设备</span>
+<span class="keyword">if</span> (<span class="method">L.Browser.mobile</span>) {
+    <span class="comment">// 移动端特定设置</span>
+    <span class="highlight">map</span>.<span class="highlight">scrollWheelZoom</span>.<span class="method">disable</span>();
+}</code></pre>
+                </div>
+
+                <h3>响应式地图</h3>
+                <div class="code-block">
+                    <div class="code-header">自适应布局</div>
+                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                    <pre><code><span class="comment">// 窗口大小变化处理</span>
+<span class="keyword">function</span> <span class="highlight">handleResize</span>() {
+    <span class="highlight">map</span>.<span class="method">invalidateSize</span>();
+}
+
+<span class="method">window.addEventListener</span>(<span class="string">'resize'</span>, <span class="highlight">handleResize</span>);
+
+<span class="comment">// 设备方向改变</span>
+<span class="method">window.addEventListener</span>(<span class="string">'orientationchange'</span>, <span class="keyword">function</span>() {
+    <span class="method">setTimeout</span>(<span class="keyword">function</span>() {
+        <span class="highlight">map</span>.<span class="method">invalidateSize</span>();
+    }, <span class="string">100</span>);
+});</code></pre>
+                </div>
+            </section>
+
+            <!-- 实用工具方法 -->
+            <section class="section">
+                <h2>实用工具方法</h2>
+                <h3>地图信息获取</h3>
+                <div class="code-block">
+                    <div class="code-header">地图状态</div>
+                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                    <pre><code><span class="comment">// 获取地图信息</span>
+<span class="keyword">let</span> <span class="highlight">center</span> = <span class="highlight">map</span>.<span class="method">getCenter</span>(); <span class="comment">// 中心点</span>
+<span class="keyword">let</span> <span class="highlight">zoom</span> = <span class="highlight">map</span>.<span class="method">getZoom</span>(); <span class="comment">// 缩放级别</span>
+<span class="keyword">let</span> <span class="highlight">bounds</span> = <span class="highlight">map</span>.<span class="method">getBounds</span>(); <span class="comment">// 边界</span>
+<span class="keyword">let</span> <span class="highlight">size</span> = <span class="highlight">map</span>.<span class="method">getSize</span>(); <span class="comment">// 地图尺寸</span>
+<span class="keyword">let</span> <span class="highlight">pixelBounds</span> = <span class="highlight">map</span>.<span class="method">getPixelBounds</span>(); <span class="comment">// 像素边界</span>
+
+<span class="comment">// 地图容器信息</span>
+<span class="keyword">let</span> <span class="highlight">container</span> = <span class="highlight">map</span>.<span class="method">getContainer</span>(); <span class="comment">// DOM容器</span>
+<span class="keyword">let</span> <span class="highlight">panes</span> = <span class="highlight">map</span>.<span class="method">getPanes</span>(); <span class="comment">// 地图窗格</span>
+
+<span class="comment">// 图层检查</span>
+<span class="keyword">let</span> <span class="highlight">hasLayer</span> = <span class="highlight">map</span>.<span class="method">hasLayer</span>(<span class="highlight">layer</span>); <span class="comment">// 检查图层</span>
+<span class="highlight">map</span>.<span class="method">eachLayer</span>(<span class="keyword">function</span>(<span class="highlight">layer</span>) {
+    <span class="method">console.log</span>(<span class="highlight">layer</span>);
+});</code></pre>
+                </div>
+
+                <h3>工具函数</h3>
+                <div class="code-block">
+                    <div class="code-header">辅助工具</div>
+                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                    <pre><code><span class="comment">// DOM工具</span>
+<span class="keyword">let</span> <span class="highlight">element</span> = <span class="method">L.DomUtil.create</span>(<span class="string">'div'</span>, <span class="string">'my-class'</span>, <span class="highlight">parentElement</span>);
+<span class="method">L.DomUtil.addClass</span>(<span class="highlight">element</span>, <span class="string">'new-class'</span>);
+<span class="method">L.DomUtil.removeClass</span>(<span class="highlight">element</span>, <span class="string">'old-class'</span>);
+<span class="method">L.DomUtil.hasClass</span>(<span class="highlight">element</span>, <span class="string">'check-class'</span>);
+
+<span class="comment">// 事件工具</span>
+<span class="method">L.DomEvent.on</span>(<span class="highlight">element</span>, <span class="string">'click'</span>, <span class="highlight">handler</span>);
+<span class="method">L.DomEvent.off</span>(<span class="highlight">element</span>, <span class="string">'click'</span>, <span class="highlight">handler</span>);
+<span class="method">L.DomEvent.stopPropagation</span>(<span class="highlight">event</span>);
+<span class="method">L.DomEvent.preventDefault</span>(<span class="highlight">event</span>);
+
+<span class="comment">// 实用工具</span>
+<span class="keyword">let</span> <span class="highlight">id</span> = <span class="method">L.Util.stamp</span>(<span class="highlight">obj</span>); <span class="comment">// 获取唯一ID</span>
+<span class="keyword">let</span> <span class="highlight">extended</span> = <span class="method">L.Util.extend</span>(<span class="highlight">dest</span>, <span class="highlight">src</span>); <span class="comment">// 对象扩展</span>
+<span class="keyword">let</span> <span class="highlight">bound</span> = <span class="method">L.Util.bind</span>(<span class="highlight">fn</span>, <span class="highlight">obj</span>); <span class="comment">// 绑定this</span>
+<span class="keyword">let</span> <span class="highlight">template</span> = <span class="method">L.Util.template</span>(<span class="string">'Hello {name}!'</span>, {<span class="highlight">name</span>: <span class="string">'World'</span>});</code></pre>
+                </div>
+            </section>
+
+            <!-- 调试与测试 -->
+            <section class="section">
+                <h2>调试与测试</h2>
+                <h3>调试工具</h3>
+                <div class="code-block">
+                    <div class="code-header">调试技巧</div>
+                    <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                    <pre><code><span class="comment">// 地图事件监听（调试用）</span>
+<span class="highlight">map</span>.<span class="method">on</span>(<span class="string">'click dblclick mousedown mouseup mouseover mouseout mousemove contextmenu focus blur preclick load unload viewreset zoomlevelschange resize autopanstart layeradd layerremove baselayerchange overlayadd overlayremove locationfound locationerror popupopen popupclose'</span>, <span class="keyword">function</span>(<span class="highlight">e</span>) {
+    <span class="method">console.log</span>(<span class="highlight">e</span>.<span class="highlight">type</span>, <span class="highlight">e</span>);
+});
+
+<span class="comment">// 性能监控</span>
+<span class="keyword">let</span> <span class="highlight">startTime</span> = <span class="method">performance.now</span>();
+<span class="comment">// 执行地图操作...</span>
+<span class="keyword">let</span> <span class="highlight">endTime</span> = <span class="method">performance.now</span>();
+<span class="method">console.log</span>(<span class="string">'操作耗时:'</span>, <span class="highlight">endTime</span> - <span class="highlight">startTime</span>, <span class="string">'毫秒'</span>);
+
+<span class="comment">// 内存使用监控</span>
+<span class="keyword">if</span> (<span class="method">performance.memory</span>) {
+    <span class="method">console.log</span>(<span class="string">'JS堆大小:'</span>, <span class="method">performance.memory.usedJSHeapSize</span> / <span class="string">1024</span> / <span class="string">1024</span>, <span class="string">'MB'</span>);
+}</code></pre>
+                </div>
+            </section>
+
+        </div>
+
+        <footer class="footer">
+            <p>© 2024 Leaflet.js 完整速查表 | 涵盖所有核心API与最佳实践</p>
+            <p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.8;">
+                基于 Leaflet.js 1.9+ 官方文档 | 持续更新中 | 适用于生产环境开发
+            </p>
+        </footer>
+    </div>       
+</body>
+</html>
+  
+  
+  
+</body>
+
+</html>

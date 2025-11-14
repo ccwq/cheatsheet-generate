@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CCSpecWFlow</title>
+</head>
+<body>
+<meta charset="UTF-8">
+  <title>Claude Code Spec Workflow 速查表</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0 }
+    :root {
+      --primary-color: #8250df;
+      --bg-color: #ffffff;
+      --text-color: #24292f;
+      --border-color: #d0d7de;
+      --code-bg: #f6f8fa;
+      --sidebar-bg: #f6f8fa;
+      --card-shadow: rgba(149, 157, 165, 0.2)
+    }
+    body {
+      background: var(--bg-color);
+      color: var(--text-color);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+      font-size: 12px;
+      line-height: 1.4;
+      min-height: 100vh;
+      padding: 15px
+    }
+    h1, h2, h3 {
+      color: var(--text-color);
+      margin-top: 0;
+      position: relative;
+      font-weight: 600
+    }
+    h1 {
+      font-size: 1.5rem;
+      text-align: center;
+      margin: 15px 0 20px;
+      padding-bottom: 10px
+    }
+    h1::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 1px;
+      background: var(--primary-color)
+    }
+    h2 {
+      font-size: 16px;
+      margin: 12px 0 8px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--primary-color)
+    }
+    h3 {
+      font-size: 16px;
+      margin: 10px 0 5px;
+      color: var(--primary-color)
+    }
+    .container {
+      column-count: 4;
+      column-gap: 15px;
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 0 5px 25px;
+      transition: column-width 0.2s
+    }
+    @media (max-width: 1100px) { .container { column-count: 3 } }
+    @media (max-width: 800px) { .container { column-count: 2 } }
+    @media (max-width: 500px) { .container { column-count: 1 } }
+    .card {
+      background: var(--bg-color);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      box-shadow: 0 1px 3px 0 var(--card-shadow);
+      margin-bottom: 12px;
+      padding: 12px;
+      break-inside: avoid;
+      position: relative;
+      overflow: hidden
+    }
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--primary-color)
+    }
+    .code-block {
+      background: var(--code-bg);
+      color: var(--text-color);
+      border: 1px solid var(--border-color);
+      border-radius: 3px;
+      padding: 8px;
+      font-size: 13px;
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+      line-height: 1.2;
+      margin: 8px 0 5px;
+      overflow-x: auto;
+      white-space: pre;
+      position: relative
+    }
+    .slider-box {
+      margin: 10px auto 15px;
+      max-width: 350px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      background: var(--sidebar-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 15px;
+      padding: 8px 15px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05)
+    }
+    .slider-box span {
+      font-size: 12px;
+      margin: 0 8px 0 0;
+      color: var(--text-color);
+      font-weight: 600
+    }
+    .slider {
+      width: 150px;
+      -webkit-appearance: none;
+      height: 5px;
+      background: var(--border-color);
+      outline: none;
+      border-radius: 2px
+    }
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 15px;
+      height: 15px;
+      background: var(--primary-color);
+      cursor: pointer;
+      border-radius: 50%;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2)
+    }
+    ::selection { background: rgba(130, 80, 223, 0.3) }
+    .desc {
+      font-size: 14px;
+      color: #57606a;
+      margin: 8px 0;
+      padding: 8px;
+      border-left: 2px solid var(--primary-color);
+      background: var(--code-bg);
+      border-radius: 0 3px 3px 0;
+      line-height: 1.2
+    }
+    ul {
+      padding-left: 16px;
+      margin: 8px 0
+    }
+    li {
+      margin-bottom: 8px;
+      position: relative;
+      padding-left: 15px;
+      font-size: 14px;
+      line-height: 1.2
+    }
+    li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: var(--primary-color);
+      font-size: 1em;
+      line-height: 1
+    }
+    a {
+      color: #0969da;
+      text-decoration: none;
+      border-bottom: 1px dotted var(--border-color);
+      padding: 1px 0;
+      transition: all 0.3s
+    }
+    a:hover {
+      color: #0550ae;
+      border-bottom: 1px solid var(--primary-color)
+    }
+    a:visited { color: #6a5a8a }
+    #colShow {
+      font-weight: 600;
+      color: var(--primary-color)
+    }
+    .card::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 20px;
+      height: 20px;
+      background: linear-gradient(135deg, transparent 50%, var(--code-bg) 50%);
+      pointer-events: none
+    }
+    .highlight-red { background-color: #f85149; color: white; padding: 2px 4px; border-radius: 2px; }
+    .highlight-green { background-color: #2da44e; color: white; padding: 2px 4px; border-radius: 2px; }
+    .highlight-blue { background-color: #0969da; color: white; padding: 2px 4px; border-radius: 2px; }
+  </style>
+
+
+  <h1>Claude Code Spec Workflow 速查表</h1>
+  <div class="slider-box">
+    <span>列宽:</span>
+    <input class="slider" id="colWidthSlider" type="range" min="250" max="500" value="300" oninput="resizeColumn(this.value)">
+    <span id="colShow">300px</span>
+  </div>
+  <div class="container" id="container">
+    
+    <div class="card">
+      <h2>快速安装</h2>
+      <div class="desc">快速开始使用Claude Code Spec工作流</div>
+      <div class="code-block"># 全局安装（推荐）
+npm install -g @pimzino/claude-code-spec-workflow
+
+# 验证安装
+claude-code-spec-workflow --version</div>
+      
+      <div class="code-block"># 项目设置
+cd my-project
+npx @pimzino/claude-code-spec-workflow</div>
+      
+      <div class="code-block"># 高级设置选项
+claude-code-spec-workflow --project /path --force --yes</div>
+    </div>
+
+    <div class="card">
+      <h2>规格工作流命令</h2>
+      <div class="desc">新功能开发的完整工作流程</div>
+      
+      <h3>创建规格</h3>
+      <div class="code-block"># 创建新功能规格
+/spec-create feature-name "功能描述"</div>
+      
+      <h3>工作流步骤</h3>
+      <div class="code-block"># 生成需求文档
+/spec-requirements
+
+# 创建设计文档
+/spec-design
+
+# 生成实现任务
+/spec-tasks</div>
+      
+      <h3>执行任务</h3>
+      <div class="code-block"># 执行特定任务
+/spec-execute 1 feature-name
+
+# 自动生成的任务命令
+/feature-name-task-1</div>
+    </div>
+
+    <div class="card">
+      <h2>错误修复工作流</h2>
+      <div class="desc">快速修复现有代码中的错误</div>
+      
+      <div class="code-block"># 记录错误
+/bug-create issue-name "错误描述"
+
+# 分析根本原因
+/bug-analyze
+
+# 实施解决方案
+/bug-fix
+
+# 验证修复
+/bug-verify
+
+# 检查修复状态
+/bug-status</div>
+    </div>
+
+    <div class="card">
+      <h2>项目指导文档</h2>
+      <div class="desc">设置项目背景和标准</div>
+      
+      <div class="code-block"># 创建指导文档
+/spec-steering-setup</div>
+      
+      <ul>
+        <li><strong>product.md</strong> - 产品愿景和目标用户</li>
+        <li><strong>tech.md</strong> - 技术栈和开发实践</li>
+        <li><strong>structure.md</strong> - 文件组织和命名规范</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>状态与监控</h2>
+      <div class="desc">跟踪项目进度和状态</div>
+      
+      <div class="code-block"># 检查规格状态
+/spec-status feature-name
+
+# 列出所有规格
+/spec-list
+
+# 实时仪表盘
+npx -p @pimzino/claude-code-spec-workflow claude-spec-dashboard</div>
+    </div>
+
+    <div class="card">
+      <h2>仪表盘功能</h2>
+      <div class="desc">可视化项目进度管理</div>
+      
+      <h3>基础仪表盘</h3>
+      <div class="code-block">npx -p @pimzino/claude-code-spec-workflow claude-spec-dashboard</div>
+      
+      <h3>隧道分享</h3>
+      <div class="code-block"># 创建共享链接
+claude-spec-dashboard --tunnel
+
+# 密码保护
+claude-spec-dashboard --tunnel --tunnel-password mySecret</div>
+      
+      <ul>
+        <li>实时进度跟踪</li>
+        <li>Git 集成</li>
+        <li>外部分享链接</li>
+        <li>现代化UI界面</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>项目结构</h2>
+      <div class="desc">设置后生成的完整目录结构</div>
+      
+      <div class="code-block">your-project/
+├── .claude/
+│   ├── commands/         # 斜杠命令
+│   ├── steering/        # 指导文档
+│   ├── templates/       # 文档模板
+│   ├── specs/          # 生成的规格
+│   ├── bugs/           # 错误修复工作流
+│   └── agents/         # AI代理
+└── CLAUDE.md           # 工作流说明</div>
+    </div>
+
+    <div class="card">
+      <h2>上下文优化命令</h2>
+      <div class="desc">高效的文档加载和上下文管理</div>
+      
+      <div class="code-block"># 加载指导上下文
+claude-code-spec-workflow get-steering-context
+
+# 加载规格上下文
+claude-code-spec-workflow get-spec-context feature-name
+
+# 加载模板上下文
+claude-code-spec-workflow get-template-context</div>
+      
+      <div class="desc">减少60-80%的token使用，提供智能缓存</div>
+    </div>
+
+    <div class="card">
+      <h2>AI代理系统</h2>
+      <div class="desc">专业化AI代理增强自动化</div>
+      
+      <ul>
+        <li><strong>spec-task-executor</strong> - 任务执行代理</li>
+        <li><strong>spec-requirements-validator</strong> - 需求验证</li>
+        <li><strong>spec-design-validator</strong> - 设计验证</li>
+        <li><strong>spec-task-validator</strong> - 任务验证</li>
+      </ul>
+      
+      <div class="desc">代理是可选的，所有功能都有内置回退机制</div>
+    </div>
+
+    <div class="card">
+      <h2>最佳实践</h2>
+      <div class="desc">高效使用工作流的建议</div>
+      
+      <h3>推荐流程</h3>
+      <ul>
+        <li>使用Claude Opus 4生成规格文档</li>
+        <li>使用Claude Sonnet 4执行实现</li>
+        <li>先设置指导文档增强上下文</li>
+        <li>定义明确的功能使用自动执行</li>
+        <li>复杂功能使用手动控制</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>使用场景</h2>
+      <div class="desc">何时使用不同的工作流方法</div>
+      
+      <ul>
+        <li><span class="highlight-green">新功能，定义明确</span> - 自动执行或任务命令</li>
+        <li><span class="highlight-blue">复杂功能</span> - 手动控制执行</li>
+        <li><span class="highlight-red">现有代码错误</span> - 错误修复工作流</li>
+        <li>学习代码库 - 手动执行单个命令</li>
+        <li>生产部署 - 完整规格工作流</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>完整示例工作流</h2>
+      <div class="desc">从安装到实现的完整流程</div>
+      
+      <div class="code-block"># 1. 全局安装
+npm install -g @pimzino/claude-code-spec-workflow
+
+# 2. 项目设置
+cd my-project
+claude-code-spec-workflow
+
+# 3. 创建指导文档
+claude
+/spec-steering-setup
+
+# 4. 创建功能规格
+/spec-create user-auth "安全登录系统"
+
+# 5. 执行任务
+/spec-execute 1 user-auth
+
+# 6. 监控进度
+/spec-status user-auth</div>
+    </div>
+
+    <div class="card">
+      <h2>TypeScript特性</h2>
+      <div class="desc">完全TypeScript实现的增强功能</div>
+      
+      <ul>
+        <li>严格类型检查和空值检查</li>
+        <li>95%+ 类型覆盖率</li>
+        <li>WebSocket类型安全通信</li>
+        <li>现代构建流程与源映射</li>
+        <li>JSDoc文档生成</li>
+      </ul>
+      
+      <div class="code-block"># TypeScript构建命令
+npm run build:frontend:prod
+npm run typecheck:frontend
+npm run watch:frontend</div>
+    </div>
+
+    <div class="card">
+      <h2>命令行选项</h2>
+      <div class="desc">设置和仪表盘的各种选项</div>
+      
+      <h3>设置选项</h3>
+      <div class="code-block"># 指定项目目录
+--project /path/to/project
+
+# 强制覆盖
+--force
+
+# 跳过确认
+--yes</div>
+      
+      <h3>仪表盘选项</h3>
+      <div class="code-block"># 指定端口
+--port 3000
+
+# 自动打开浏览器
+--open
+
+# 隧道提供商
+--tunnel-provider cloudflare</div>
+    </div>
+
+    <div class="card">
+      <h2>故障排除</h2>
+      <div class="desc">常见问题解决方案</div>
+      
+      <h3>命令未找到</h3>
+      <div class="code-block"># 使用正确的包名
+npx @pimzino/claude-code-spec-workflow</div>
+      
+      <h3>权限错误</h3>
+      <div class="code-block"># 尝试不同目录
+--project ~/my-project</div>
+      
+      <h3>未检测到Claude Code</h3>
+      <div class="code-block"># 先安装Claude Code
+npm install -g @anthropic-ai/claude-code</div>
+      
+      <h3>调试信息</h3>
+      <div class="code-block"># 显示详细输出
+DEBUG=* npx @pimzino/claude-code-spec-workflow</div>
+    </div>
+
+    <div class="card">
+      <h2>系统要求</h2>
+      <div class="desc">运行环境和依赖要求</div>
+      
+      <ul>
+        <li><strong>Node.js</strong> 16.0.0+ 版本</li>
+        <li>已安装并配置Claude Code</li>
+        <li>任何项目目录</li>
+        <li>现代浏览器（仪表盘）</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>相关链接</h2>
+      <div class="desc">有用的文档和资源</div>
+      
+      <ul>
+        <li><a href="https://github.com/pimzino/claude-code-spec-workflow">完整文档</a></li>
+        <li><a href="https://docs.anthropic.com/claude-code">Claude Code文档</a></li>
+        <li><a href="https://www.npmjs.com/package/@pimzino/claude-code-spec-workflow">NPM包页面</a></li>
+        <li><a href="https://github.com/pimzino/claude-code-spec-workflow/issues">问题报告</a></li>
+      </ul>
+    </div>
+
+  </div>
+  
+  <script>
+    function resizeColumn(px) {
+      let container = document.getElementById('container');
+      container.style.columnWidth = px + 'px';
+      document.getElementById('colShow').innerText = px + 'px';
+      container.style.display = 'none';
+      void container.offsetHeight;
+      container.style.display = 'block';
+    }
+    resizeColumn(300);
+  </script>
+</body>
+</html>

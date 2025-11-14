@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  
+
+    <link rel="apple-touch-icon" type="image/png" href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png" />
+
+    <meta name="apple-mobile-web-app-title" content="CodePen">
+
+    <link rel="icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico" />
+
+    <link rel="mask-icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-b4b4269c16397ad2f0f7a01bcdf513a1994f4c94b8af2f191c09eb0d601762b1.svg" color="#111" />
+
+
+
+  
+  
+
+  <title>bash快捷键速查表</title>
+
+    <link rel="canonical" href="https://codepen.io/ccwq/pen/raOXxaO">
+  
+  
+  
+  
+
+  <script>
+  window.console = window.console || function(t) {};
+</script>
+
+  
+  
+</head>
+
+<body translate="no">
+  <!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>bash快捷键速查表 - 完整增强版</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{--primary-color:#8250df;--secondary-color:#0969da;--bg-color:#ffffff;--text-color:#24292f;--border-color:#d0d7de;--code-bg:#f6f8fa;--sidebar-bg:#f6f8fa;--card-shadow:rgba(149, 157, 165, 0.2);--accent-color:#2ea043;--warning-color:#fb8500}
+    body{background:var(--bg-color);color:var(--text-color);font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';font-size:11px;line-height:1.35;min-height:100vh;padding:12px}
+    h1, h2, h3{color:var(--text-color);margin-top:0;position:relative;font-weight:600}
+    h1{font-size:1.4rem;text-align:center;margin:12px 0 18px;padding-bottom:8px}
+    h1::after{content:"";position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:120px;height:2px;background:linear-gradient(90deg, var(--primary-color), var(--secondary-color))}
+    h2{font-size:1rem;margin:10px 0 6px;padding-bottom:4px;border-bottom:1px solid var(--border-color);color:var(--primary-color)}
+    h3{font-size:0.9rem;margin:8px 0 4px;color:var(--secondary-color)}
+    .container{column-count:5;column-gap:12px;max-width:100%;margin:0 auto;padding:0 4px 20px;transition:column-width 0.2s}
+    @media (max-width: 1400px){.container{column-count:4}}
+    @media (max-width: 1100px){.container{column-count:3}}
+    @media (max-width: 800px){.container{column-count:2}}
+    @media (max-width: 500px){.container{column-count:1}}
+    .card{background:var(--bg-color);border:1px solid var(--border-color);border-radius:6px;box-shadow:0 1px 3px 0 var(--card-shadow);margin-bottom:10px;padding:10px;break-inside:avoid;position:relative;overflow:hidden}
+    .card::before{content:"";position:absolute;top:0;left:0;width:100%;height:2px;background:var(--primary-color)}
+    .card.bash::before{background:var(--accent-color)}
+    .card.vim::before{background:var(--secondary-color)}
+    .card.advanced::before{background:var(--warning-color)}
+    .slider-box{margin:8px auto 12px;max-width:350px;display:flex;flex-direction:row;align-items:center;background:var(--sidebar-bg);border:1px solid var(--border-color);border-radius:15px;padding:6px 12px;box-shadow:0 1px 2px rgba(0, 0, 0, 0.05)}
+    .slider-box span{font-size:11px;margin:0 6px 0 0;color:var(--text-color);font-weight:600}
+    .slider{width:140px;-webkit-appearance:none;height:4px;background:var(--border-color);outline:none;border-radius:2px}
+    .slider::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;background:var(--primary-color);cursor:pointer;border-radius:50%;box-shadow:0 1px 2px rgba(0, 0, 0, 0.2)}
+    ::selection{background:rgba(130, 80, 223, 0.3)}
+    ul{padding-left:14px;margin:6px 0}
+    li{margin-bottom:3px;position:relative;padding-left:12px;font-size:10.5px}
+    li::before{content:"•";position:absolute;left:0;color:var(--primary-color);font-size:1em;line-height:1}
+    code{background:var(--code-bg);border:1px solid var(--border-color);border-radius:3px;padding:1px 3px;font-family:'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;font-size:10px;color:#d73a49;font-weight:600}
+    .kbd{display:inline-block;padding:2px 4px;font-size:9px;line-height:1;color:#444d56;vertical-align:middle;background-color:#fafbfc;border:solid 1px #c6cbd1;border-bottom-color:#959da5;border-radius:3px;box-shadow:inset 0 -1px 0 #959da5}
+    a{color:#0969da;text-decoration:none;border-bottom:1px dotted var(--border-color);padding:1px 0;transition:all 0.3s}
+    a:hover{color:#0550ae;border-bottom:1px solid var(--primary-color)}
+    a:visited{color:#6a5a8a}
+    #colShow{font-weight:600;color:var(--primary-color)}
+    .card::after{content:"";position:absolute;bottom:0;right:0;width:16px;height:16px;background:linear-gradient(135deg, transparent 50%, var(--code-bg) 50%);pointer-events:none}
+    .category-badge{display:inline-block;background:var(--primary-color);color:white;font-size:8px;padding:2px 4px;border-radius:2px;margin-left:4px;font-weight:500}
+    .bash-badge{background:var(--accent-color)}
+    .vim-badge{background:var(--secondary-color)}
+    .advanced-badge{background:var(--warning-color)}
+    .description{font-size:9px;color:#656d76;font-style:italic;margin-top:2px;display:block}
+    .hotkey{font-weight:700;color:#e36209}
+    .pattern{color:#0550ae;font-weight:500}
+  </style>
+</head>
+<body>
+  <h1>bash快捷键速查表 <span class="category-badge">完整增强版</span></h1>
+  <div class="slider-box">
+    <span>列宽:</span>
+    <input class="slider" id="colWidthSlider" type="range" min="220" max="420" value="280" oninput="resizeColumn(this.value)">
+    <span id="colShow">280px</span>
+  </div>
+  <div class="container" id="container">
+    <!-- Bash 快捷命令 -->
+    <div class="card bash">
+      <h2>Bash 实用快捷命令 <span class="category-badge bash-badge">实用</span></h2>
+      <ul>
+        <li><code>alias ll='ls -la'</code> 创建别名</li>
+        <li><code>unalias ll</code> 删除别名</li>
+        <li><code>alias</code> 列出所有别名</li>
+        <li><code>history</code> 显示历史命令</li>
+        <li><code>history -c</code> 清空历史</li>
+        <li><code>history | grep pattern</code> 搜索历史</li>
+        <li><code>source ~/.bashrc</code> 重新加载配置</li>
+        <li><code>.</code> ~/.bashrc 重新加载配置(简写)</li>
+        <li><code>export VAR=value</code> 导出环境变量</li>
+        <li><code>env</code> 显示所有环境变量</li>
+        <li><code>echo $VAR</code> 显示变量值</li>
+        <li><code>which command</code> 查找命令位置><code>Ctrl + A</code> 跳转到行首 <span class="description">快速定位到命令开始</span></li>
+        <li><code>Ctrl + E</code> 跳转到行尾 <span class="description">快速定位到命令结尾</span></li>
+        <li><code>Ctrl + U</code> 删除光标前内容 <span class="description">清空当前输入</span></li>
+        <li><code>Ctrl + K</code> 删除光标后内容 <span class="description">删除到行尾</span></li>
+        <li><code>Ctrl + W</code> 删除光标前一个单词 <span class="description">按单词删除</span></li>
+        <li><code>Alt + D</code> 删除光标后一个单词 <span class="description">向前删除单词</span></li>
+        <li><code>Alt + B</code> 向后移动一个单词 <span class="description">按单词后退</span></li>
+        <li><code>Alt + F</code> 向前移动一个单词 <span class="description">按单词前进</span></li>
+        <li><code>Ctrl + B</code> / <code>←</code> 向后移动一个字符</li>
+        <li><code>Ctrl + F</code> / <code>→</code> 向前移动一个字符</li>
+        <li><code>Ctrl + D</code> 删除光标处字符 <span class="description">相当于Delete键</span></li>
+        <li><code>Ctrl + H</code> 删除光标前字符 <span class="description">相当于Backspace</span></li>
+        <li><code>Alt + C</code> 大写当前单词 <span class="description">单词首字母大写</span></li>
+        <li><code>Alt + U</code> 大写光标后单词 <span class="description">整个单词大写</span></li>
+        <li><code>Alt + L</code> 小写光标后单词 <span class="description">整个单词小写</span></li>
+      </ul>
+    </div>
+    <!-- Bash 基础命令行编辑 -->
+    <div class="card bash">
+      <h2>Bash 命令行编辑 <span class="category-badge bash-badge">基础</span></h2>
+      <ul>
+        <li><code>/pattern</code> 向下查找模式</li>
+        <li><code>?pattern</code> 向上查找模式</li>
+        <li><code>n</code> 下一个匹配</li>
+        <li><code>N</code> 上一个匹配</li>
+        <li><code>*</code> 查找当前词的下一个</li>
+        <li><code>#</code> 查找当前词的上一个</li>
+        <li><code>g*</code> 查找包含当前词的下一个</li>
+        <li><code>g#</code> 查找包含当前词的上一个</li>
+        <li><code>gd</code> 跳到局部变量定义</li>
+        <li><code>gD</code> 跳到全局变量定义</li>
+        <li><code>:%s/old/new/g</code> 全局替换</li>
+        <li><code>:%s/old/new/gc</code> 带确认的全局替换</li>
+        <li><code>:%s/old/new/gi</code> 忽略大小写替换</li>
+        <li><code>:s/old/new/g</code> 当前行替换</li>
+        <li><code>:10,20s/old/new/g</code> 指定行范围替换</li>
+        <li><code>:'&lt;,'&gt;s/old/new/g</code> 可视区域替换</li>
+        <li><code>:g/pattern/d</code> 删除匹配行</li>
+        <li><code>:v/pattern/d</code> 删除不匹配行</li>
+        <li><code>:g/pattern/s/old/new/g</code> 匹配行内替换</li>
+      </ul>
+    </div>
+
+
+    <!-- Bash 环境变量 -->
+    <div class="card bash">
+      <h2>Bash 环境变量 <span class="category-badge bash-badge">环境</span></h2>
+      <ul>
+        <li><code>$PATH</code> 可执行文件搜索路径</li>
+        <li><code>$HOME</code> / <code>~</code> 用户主目录</li>
+        <li><code>$PWD</code> 当前工作目录</li>
+        <li><code>$OLDPWD</code> 上一个工作目录</li>
+        <li><code>$USER</code> 当前用户名</li>
+        <li><code>$SHELL</code> 当前shell</li>
+        <li><code>$PS1</code> 主提示符</li>
+        <li><code>$PS2</code> 续行提示符</li>
+        <li><code>$HISTSIZE</code> 历史命令缓存数量</li>
+        <li><code>$HISTFILE</code> 历史文件路径</li>
+        <li><code>$HISTCONTROL</code> 历史控制选项</li>
+        <li><code>$EDITOR</code> 默认编辑器</li>
+        <li><code>$TERM</code> 终端类型</li>
+        <li><code>$LANG</code> 系统语言</li>
+        <li><code>$</code> 当前进程ID</li>
+        <li><code>$?</code> 上一命令退出码</li>
+        <li><code>$!</code> 后台进程ID</li>
+        <li><code>$0</code> 脚本名称</li>
+        <li><code>$1, $2, ...</code> 脚本参数</li>
+        <li><code>$#</code> 参数个数</li>
+        <li><code>$@</code> 所有参数</li>
+        <li><code>$*</code> 所有参数(单字符串)</li>
+      </ul>
+    </div>
+
+    <!-- Bash 通配符与重定向 -->
+    <div class="card bash">
+      <h2>Bash 通配符与重定向 <span class="category-badge bash-badge">通配符</span></h2>
+      <ul>
+        <li><code>*</code> 匹配零个或多个字符</li>
+        <li><code>?</code> 匹配单个字符</li>
+        <li><code>[abc]</code> 匹配字符集中任一字符</li>
+        <li><code>[a-z]</code> 匹配范围内字符</li>
+        <li><code>[^abc]</code> 匹配除指定字符外的字符</li>
+        <li><code>{a,b,c}</code> 花括号展开</li>
+        <li><code>{1..10}</code> 序列展开</li>
+        <li><code>~</code> 用户主目录</li>
+        <li><code>~user</code> 指定用户主目录</li>
+        <li><code>&gt;</code> 重定向输出</li>
+        <li><code>&gt;&gt;</code> 追加输出</li>
+        <li><code>&lt;</code> 重定向输入</li>
+        <li><code>&lt;&lt;</code> Here文档</li>
+        <li><code>&lt;&lt;&lt;</code> Here字符串</li>
+        <li><code>|</code> 管道连接命令</li>
+        <li><code>&amp;</code> 后台运行</li>
+        <li><code>&amp;&amp;</code> 逻辑AND</li>
+        <li><code>||</code> 逻辑OR</li>
+        <li><code>;</code> 命令分隔符</li>
+        <li><code>2&gt;&amp;1</code> 错误重定向到标准输出</li>
+        <li><code>&amp;&gt;</code> 重定向所有输出</li>
+        <li><code>/dev/null</code> 空设备</li>
+      </ul>
+    </div>
+
+
+    <!-- Bash 历史导航增强 -->
+    <div class="card bash">
+      <h2>Bash 历史导航 <span class="category-badge bash-badge">历史</span></h2>
+      <ul>
+        <li><code>Ctrl + R</code> 反向搜索历史命令 <span class="description">增量搜索</span></li>
+        <li><code>Ctrl + S</code> 正向搜索历史命令 <span class="description">需要stty -ixon</span></li>
+        <li><code>Ctrl + G</code> 退出搜索模式 <span class="description">取消历史搜索</span></li>
+        <li><code>↑</code> / <code>Ctrl + P</code> 上一条历史</li>
+        <li><code>↓</code> / <code>Ctrl + N</code> 下一条历史</li>
+        <li><code>!!</code> 重复执行上一次命令</li>
+        <li><code>!n</code> 执行第n条历史记录 <span class="description">n为行号</span></li>
+        <li><code>!-n</code> 执行倒数第n条记录</li>
+        <li><code>!string</code> 执行最近以string开头的命令</li>
+        <li><code>!?string</code> 执行最近包含string的命令</li>
+        <li><code>^old^new</code> 替换上一命令中的old为new</li>
+        <li><code>!!:p</code> 打印但不执行上一命令</li>
+        <li><code>!$</code> 上一命令的最后参数</li>
+        <li><code>!^</code> 上一命令的第一个参数</li>
+        <li><code>!*</code> 上一命令的所有参数</li>
+        <li><code>Alt + .</code> / <code>Alt + _</code> 插入上一命令最后参数</li>
+      </ul>
+    </div>
+
+    <!-- Bash 补全与编辑增强 -->
+    <div class="card bash">
+      <h2>Bash 补全与编辑 <span class="category-badge bash-badge">补全</span></h2>
+      <ul>
+        <li><code>Tab</code> 自动补全文件或命令</li>
+        <li><code>Tab Tab</code> 显示所有可能的补全</li>
+        <li><code>Alt + /</code> 文件名补全</li>
+        <li><code>Alt + ~</code> 用户名补全</li>
+        <li><code>Alt + $</code> 变量名补全</li>
+        <li><code>Alt + @</code> 主机名补全</li>
+        <li><code>Alt + !</code> 命令补全</li>
+        <li><code>Ctrl + X Ctrl + E</code> 在编辑器中编辑命令</li>
+        <li><code>Ctrl + X Ctrl + R</code> 重新读取inputrc文件</li>
+        <li><code>Ctrl + X Ctrl + U</code> 撤销所有更改</li>
+        <li><code>Ctrl + X Ctrl + X</code> 在当前位置和标记间切换</li>
+        <li><code>Ctrl + @</code> 设置标记 <span class="description">标记当前位置</span></li>
+        <li><code>Ctrl + X Ctrl + G</code> 中止当前编辑</li>
+        <li><code>Alt + R</code> 撤销对历史行的更改</li>
+        <li><code>Ctrl + _</code> / <code>Ctrl + X Ctrl + U</code> 撤销</li>
+      </ul>
+    </div>
+
+    <!-- Bash 进程控制增强 -->
+    <div class="card bash">
+      <h2>Bash 进程与作业控制 <span class="category-badge bash-badge">进程</span></h2>
+      <ul>
+        <li><code>Ctrl + C</code> 发送SIGINT信号终止进程</li>
+        <li><code>Ctrl + Z</code> 发送SIGTSTP暂停进程</li>
+        <li><code>Ctrl + D</code> 发送EOF信号 <span class="description">退出shell</span></li>
+        <li><code>Ctrl + \</code> 发送SIGQUIT信号</li>
+        <li><code>fg</code> 将后台作业切换到前台</li>
+        <li><code>fg %n</code> 将指定作业切换到前台</li>
+        <li><code>bg</code> 将暂停作业放入后台运行</li>
+        <li><code>bg %n</code> 将指定作业放入后台</li>
+        <li><code>jobs</code> 列出当前作业</li>
+        <li><code>jobs -l</code> 显示作业PID</li>
+        <li><code>jobs -p</code> 只显示PID</li>
+        <li><code>jobs -r</code> 只显示运行中的作业</li>
+        <li><code>jobs -s</code> 只显示暂停的作业</li>
+        <li><code>kill %n</code> 终止指定编号作业</li>
+        <li><code>disown %n</code> 从作业表中移除作业</li>
+        <li><code>nohup command &</code> 后台运行且忽略挂断信号</li>
+      </ul>
+    </div>
+
+    <!-- Bash 屏幕控制 -->
+    <div class="card bash">
+      <h2>Bash 屏幕与显示控制 <span class="category-badge bash-badge">显示</span></h2>
+      <ul>
+        <li><code>Ctrl + L</code> 清屏但保留当前行</li>
+        <li><code>Ctrl + S</code> 暂停屏幕输出 <span class="description">冻结终端</span></li>
+        <li><code>Ctrl + Q</code> 恢复屏幕输出 <span class="description">解冻终端</span></li>
+        <li><code>Ctrl + V</code> 插入字面字符 <span class="description">输入控制字符</span></li>
+        <li><code>Alt + Ctrl + E</code> 展开别名和函数</li>
+        <li><code>clear</code> 清空整个屏幕</li>
+        <li><code>reset</code> 重置终端设置</li>
+        <li><code>tput clear</code> 使用terminfo清屏</li>
+        <li><code>echo -e "\033c"</code> 完全重置终端</li>
+      </ul>
+    </div>
+
+    <!-- Bash 高级快捷键 -->
+    <div class="card advanced">
+      <h2>Bash 高级操作 <span class="category-badge advanced-badge">高级</span></h2>
+      <ul>
+        <li><code>Alt + T</code> 交换当前与前一个单词</li>
+        <li><code>Ctrl + T</code> 交换光标前两个字符</li>
+        <li><code>Ctrl + Y</code> 粘贴最近删除的文本</li>
+        <li><code>Alt + Y</code> 循环粘贴删除历史</li>
+        <li><code>Ctrl + X (</code> 开始键盘宏录制</li>
+        <li><code>Ctrl + X )</code> 结束键盘宏录制</li>
+        <li><code>Ctrl + X E</code> 执行键盘宏</li>
+        <li><code>Alt + Space</code> 设置标记</li>
+        <li><code>Ctrl + W</code> 剪切标记到光标的文本</li>
+        <li><code>Alt + #</code> 在行首插入#注释当前行</li>
+        <li><code>Alt + *</code> 插入所有匹配的文件名</li>
+        <li><code>Alt + ?</code> 列出可能的补全但不插入</li>
+        <li><code>Ctrl + Alt + Y</code> 粘贴第一个参数</li>
+        <li><code>Ctrl + ]</code> 字符搜索</li>
+        <li><code>Alt + Ctrl + ]</code> 反向字符搜索</li>
+      </ul>
+    </div>
+
+    <!-- Bash 文件与目录操作 -->
+    <div class="card bash">
+      <h2>Bash 文件与路径操作 <span class="category-badge bash-badge">文件</span></h2>
+      <ul>
+        <li><code>cd -</code> 切换到上一个目录</li>
+        <li><code>pushd dir</code> 推送目录到栈并切换</li>
+        <li><code>popd</code> 弹出目录栈顶层</li>
+        <li><code>dirs</code> 显示目录栈</li>
+        <li><code>pwd</code> 显示当前工作目录</li>
+        <li><code>ls -la</code> 详细列出所有文件</li>
+        <li><code>find . -name "*.txt"</code> 查找txt文件</li>
+        <li><code>locate filename</code> 快速定位文件</li>
+        <li><code>which command</code> 查找命令位置</li>
+        <li><code>whereis command</code> 查找命令、源码、手册</li>
+        <li><code>type command</code> 显示命令类型</li>
+        <li><code>file filename</code> 显示文件类型</li>
+        <li><code>stat filename</code> 显示文件详细信息</li>
+        <li><code>du -sh</code> 显示目录大小</li>
+        <li><code>df -h</code> 显示磁盘使用情况</li>
+      </ul>
+    </div>
+
+   
+    <!-- Bash 网络工具 -->
+    <div class="card bash">
+      <h2>Bash 网络与系统 <span class="category-badge bash-badge">网络</span></h2>
+      <ul>
+        <li><code>curl -O url</code> 下载文件</li>
+        <li><code>wget url</code> 下载文件</li>
+        <li><code>ping host</code> 测试网络连通性</li>
+        <li><code>ssh user@host</code> SSH连接远程主机</li>
+        <li><code>scp file user@host:/path</code> 安全复制文件</li>
+        <li><code>rsync -av src/ dest/</code> 同步目录</li>
+        <li><code>netstat -tuln</code> 显示网络连接</li>
+        <li><code>lsof -i :port</code> 显示端口使用情况</li>
+        <li><code>ps aux</code> 显示所有进程</li>
+        <li><code>top</code> / <code>htop</code> 显示进程信息</li>
+        <li><code>kill -9 PID</code> 强制终止进程</li>
+        <li><code>killall processname</code> 终止指定名称进程</li>
+        <li><code>nohup command &</code> 后台运行命令</li>
+        <li><code>screen -S sessionname</code> 创建屏幕会话</li>
+        <li><code>tmux new -s sessionname</code> 创建tmux会话</li>
+      </ul>
+    </div>
+
+    <!-- Bash 文本处理 -->
+    <div class="card bash">
+      <h2>Bash 文本处理工具 <span class="category-badge bash-badge">文本</span></h2>
+      <ul>
+        <li><code>grep pattern file</code> 搜索文本模式</li>
+        <li><code>grep -r pattern dir</code> 递归搜索</li>
+        <li><code>grep -i pattern file</code> 忽略大小写搜索</li>
+        <li><code>grep -v pattern file</code> 反向搜索</li>
+        <li><code>grep -n pattern file</code> 显示行号</li>
+        <li><code>awk '{print $1}' file</code> 打印第一列</li>
+        <li><code>sed 's/old/new/g' file</code> 替换文本</li>
+        <li><code>sed -i 's/old/new/g' file</code> 直接修改文件</li>
+        <li><code>sort file</code> 排序文件内容</li>
+        <li><code>uniq file</code> 去除重复行</li>
+        <li><code>wc -l file</code> 统计行数</li>
+        <li><code>head -n 10 file</code> 显示前10行</li>
+        <li><code>tail -n 10 file</code> 显示后10行</li>
+        <li><code>tail -f file</code> 实时查看文件更新</li>
+        <li><code>cut -d',' -f1 file</code> 按分隔符切分</li>
+        <li><code>tr 'a-z' 'A-Z' < file</code> 字符转换</li>
+      </ul>
+    </div>
+
+    <!-- Bash 系统信息 -->
+    <div class="card bash">
+      <h2>Bash 系统信息 <span class="category-badge bash-badge">系统</span></h2>
+      <ul>
+        <li><code>uname -a</code> 系统信息</li>
+        <li><code>whoami</code> 当前用户</li>
+        <li><code>id</code> 用户ID和组信息</li>
+        <li><code>uptime</code> 系统运行时间</li>
+        <li><code>date</code> 当前日期时间</li>
+        <li><code>cal</code> 显示日历</li>
+        <li><code>free -h</code> 内存使用情况</li>
+        <li><code>df -h</code> 磁盘空间使用</li>
+        <li><code>du -sh *</code> 目录大小</li>
+        <li><code>lscpu</code> CPU信息</li>
+        <li><code>lsblk</code> 块设备信息</li>
+        <li><code>lsusb</code> USB设备信息</li>
+        <li><code>lspci</code> PCI设备信息</li>
+        <li><code>mount</code> 已挂载的文件系统</li>
+        <li><code>passwd</code> 更改密码</li>
+      </ul>
+    </div>
+
+    <!-- Bash 权限管理 -->
+    <div class="card bash">
+      <h2>Bash 权限与用户 <span class="category-badge bash-badge">权限</span></h2>
+      <ul>
+        <li><code>chmod 755 file</code> 修改文件权限</li>
+        <li><code>chmod +x file</code> 添加执行权限</li>
+        <li><code>chmod -r file</code> 移除读权限</li>
+        <li><code>chown user:group file</code> 修改文件所有者</li>
+        <li><code>chgrp group file</code> 修改文件组</li>
+        <li><code>sudo command</code> 以超级用户执行</li>
+        <li><code>su - user</code> 切换用户</li>
+        <li><code>sudo su -</code> 切换到root用户</li>
+        <li><code>groups</code> 显示当前用户组</li>
+        <li><code>umask</code> 显示默认权限掩码</li>
+        <li><code>umask 022</code> 设置默认权限掩码</li>
+        <li><code>ls -la</code> 显示文件权限详情</li>
+      </ul>
+    </div>
+
+    <!-- Bash 压缩解压 -->
+    <div class="card bash">
+      <h2>Bash 压缩与解压 <span class="category-badge bash-badge">压缩</span></h2>
+      <ul>
+        <li><code>tar -czf archive.tar.gz files</code> 创建gzip压缩包</li>
+        <li><code>tar -xzf archive.tar.gz</code> 解压gzip压缩包</li>
+        <li><code>tar -cjf archive.tar.bz2 files</code> 创建bzip2压缩包</li>
+        <li><code>tar -xjf archive.tar.bz2</code> 解压bzip2压缩包</li>
+        <li><code>tar -tf archive.tar.gz</code> 列出压缩包内容</li>
+        <li><code>zip -r archive.zip files</code> 创建ZIP压缩包</li>
+        <li><code>unzip archive.zip</code> 解压ZIP文件</li>
+        <li><code>unzip -l archive.zip</code> 列出ZIP内容</li>
+        <li><code>gzip file</code> 压缩文件为.gz</li>
+        <li><code>gunzip file.gz</code> 解压.gz文件</li>
+        <li><code>7z a archive.7z files</code> 创建7z压缩包</li>
+        <li><code>7z x archive.7z</code> 解压7z文件</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    function resizeColumn(value) {
+      document.getElementById('colShow').textContent = value + 'px';
+      const container = document.getElementById('container');
+      const columnCount = container.style.columnCount || getComputedStyle(container).columnCount;
+      container.style.columnWidth = value + 'px';
+    }
+  </script>
+</body>
+</html>
+  
+  
+  
+</body>
+
+</html>

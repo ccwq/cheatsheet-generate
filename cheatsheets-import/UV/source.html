@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  
+
+    <link rel="apple-touch-icon" type="image/png" href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png" />
+
+    <meta name="apple-mobile-web-app-title" content="CodePen">
+
+    <link rel="icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico" />
+
+    <link rel="mask-icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-b4b4269c16397ad2f0f7a01bcdf513a1994f4c94b8af2f191c09eb0d601762b1.svg" color="#111" />
+
+
+
+  
+  
+
+  <title>uv包管理器速查表</title>
+
+    <link rel="canonical" href="https://codepen.io/ccwq/pen/NPNqGyY">
+  
+  
+  
+  
+
+  <script>
+  window.console = window.console || function(t) {};
+</script>
+
+  
+  
+</head>
+
+<body translate="no">
+  <!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8">
+    <title>uv Python包管理器开发命令速查表</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      html,body{height:100%;margin:0;padding:0;background:linear-gradient(130deg,#303d54 0%,#23304a 48%,#171b27 100%);font-family:'Segoe UI','PingFang SC','Microsoft YaHei',Arial,sans-serif;font-size:12px;line-height:1.1;color:#e7e7ea;overflow-x:hidden}body{min-height:100vh;padding:0}.container{width:100%;max-width:100%;margin:0 auto;padding:8px 4px 16px 4px;box-sizing:border-box}.cheat-columns{column-count:4;column-gap:16px;transition:column-width 0.2s;margin-top:12px}@media (max-width:1500px){.cheat-columns{column-count:3}}@media (max-width:1100px){.cheat-columns{column-count:2;column-gap:12px}}@media (max-width:750px){.cheat-columns{column-count:1}}.card{background:rgba(29,36,53,0.85);border-radius:12px;box-shadow:0 2px 12px 1px rgba(0,0,0,0.18);backdrop-filter:blur(6px);margin-bottom:14px;padding:14px 14px 8px 14px;break-inside:avoid;border:1px solid rgba(78,85,130,.12);min-width:0;box-sizing:border-box}.card h2{margin:-6px 0 6px 0;font-size:15px;font-weight:600;color:#fdbe3f;letter-spacing:0.6px}.card h3{font-size:12px;font-weight:bold;color:#93cdfc;margin:6px 0 4px 0}.card ul,.card ol{padding-left:12px;margin:3px 0 8px 0}.card li{margin-bottom:3px;word-break:break-all}code,pre{font-family:'Fira Mono','Consolas','Menlo',monospace;font-size:1em;background:#181d26;color:#e2ffd0;border-radius:5px;line-height:1.1;padding:0 2px;letter-spacing:0.1px;word-wrap:break-word;word-break:break-all}pre{background:#1a1e2b;border-radius:6px;padding:8px 1em;margin:6px 0 8px 0;color:#e6e8ef;overflow-x:auto;font-size:1em;line-height:1.1;box-shadow:0 1px 5px 0 rgba(0,12,22,.15)}@media (max-width:750px){pre{font-size:1em;padding:6px 8px}}.desc{color:#acc3f8;font-style:italic;margin:2px 0 4px 0;font-size:1em;line-height:1.1}.panel{display:flex;align-items:center;background:rgba(36,41,59,0.91);border-radius:12px;box-shadow:0 1px 6px 0 rgba(0,0,0,0.1);padding:8px 16px;margin-bottom:12px;border:1px solid #353e63;gap:16px;flex-wrap:wrap;box-sizing:border-box}.panel label{font-size:1em;color:#ffe49b;font-weight:bold;margin-right:5px;letter-spacing:0.2px}.slider-bar{min-width:120px;margin-right:6px}.slider-val{color:#ffce5b;font-size:1em;margin-left:4px;min-width:28px;display:inline-block;font-weight:600}@media (max-width:660px){.panel{flex-direction:column;gap:8px;padding:6px 4px}}
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="panel">
+        <span style="color:#7bfbb7;font-size:16px;margin-right:auto;">uv Python包管理器速查表</span>
+        <label for="columnWidth">🔧 调整每列宽度：</label>
+        <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+        <span id="widthVal" class="slider-val">340px</span>
+      </div>
+      <div class="cheat-columns" id="columns">
+        <div class="card">
+          <h2>🚀 快速入门 <a href="https://docs.astral.sh/uv/getting-started/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>uv init</code> ：创建新项目</li>
+            <li><code>uv init --python 3.11 my-project</code> ：使用特定Python版本</li>
+            <li><code>uv init --app my-app</code> ：创建应用项目</li>
+            <li><code>uv init --lib my-lib</code> ：创建库项目</li>
+            <li><code>uv init --template fastapi my-api</code> ：从模板创建</li>
+            <li><code>uv add &lt;package&gt;</code> ：添加依赖包</li>
+            <li><code>uv run &lt;command&gt;</code> ：在项目中运行命令</li>
+            <li><code>uv sync</code> ：同步项目依赖</li>
+            <li><code>uv venv</code> ：创建虚拟环境</li>
+          </ul>
+          <h3>项目结构</h3>
+          <pre>my-project/
+├── pyproject.toml
+├── uv.lock
+└── .python-version</pre>
+          <div class="desc">基于项目的工作方式，自动管理虚拟环境和依赖</div>
+        </div>
+
+        <div class="card">
+          <h2>📦 依赖管理 <a href="https://docs.astral.sh/uv/concepts/projects/dependencies/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>uv add requests@^2.28.0</code> ：添加特定版本依赖</li>
+            <li><code>uv add --dev pytest</code> ：添加开发依赖</li>
+            <li><code>uv add --group dev pytest</code> ：使用分组添加</li>
+            <li><code>uv add --optional test pytest</code> ：添加可选依赖</li>
+            <li><code>uv remove &lt;package&gt;</code> ：移除依赖</li>
+            <li><code>uv tree</code> ：查看依赖树</li>
+            <li><code>uv pip install &lt;package&gt;</code> ：使用pip接口</li>
+          </ul>
+          <h3>依赖版本规范</h3>
+          <pre>[project]
+dependencies = [
+    "requests>=2.28.0",
+    "numpy~=1.24.0",
+    "pandas==2.0.0",
+]</pre>
+          <div class="desc">支持多种版本约束：^、~、==、>=等</div>
+        </div>
+
+        <div class="card">
+          <h2>🔧 虚拟环境 <a href="https://docs.astral.sh/uv/concepts/projects/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>uv venv .venv</code> ：在当前目录创建环境</li>
+            <li><code>source .venv/bin/activate</code> ：激活环境（Linux/macOS）</li>
+            <li><code>.venv\Scripts\activate</code> ：激活环境（Windows）</li>
+            <li><code>uv run python script.py</code> ：直接运行脚本</li>
+            <li><code>uv pip list</code> ：列出已安装包</li>
+          </ul>
+          <h3>环境管理</h3>
+          <pre>uv venv --python 3.11
+uv venv --prompt myproject
+uv venv --require-poetry</pre>
+          <div class="desc">自动发现和管理Python版本</div>
+        </div>
+
+        <div class="card">
+          <h2>▶️ 运行脚本 <a href="https://docs.astral.sh/uv/guides/scripts/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>uv run &lt;script&gt;.py</code> ：运行Python脚本</li>
+            <li><code>uv run --with &lt;package&gt; &lt;script&gt;</code> ：临时使用包运行</li>
+            <li><code>uv run --no-dev &lt;script&gt;</code> ：不包含开发依赖</li>
+            <li><code>uv run --python 3.11 &lt;script&gt;</code> ：指定Python版本</li>
+            <li><code>uv run --isolated &lt;script&gt;</code> ：使用隔离环境</li>
+          </ul>
+          <h3>脚本执行示例</h3>
+          <pre>uv run --with requests script.py
+uv run --no-project script.py</pre>
+          <div class="desc">无需激活环境即可执行脚本</div>
+        </div>
+
+        <div class="card">
+          <h2>📊 项目管理 <a href="https://docs.astral.sh/uv/concepts/projects/workspaces/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>uv init --lib &lt;name&gt;</code> ：创建库项目</li>
+            <li><code>uv init --app &lt;name&gt;</code> ：创建应用项目</li>
+            <li><code>uv build</code> ：构建分发包</li>
+            <li><code>uv publish</code> ：发布到PyPI</li>
+            <li><code>uv lock</code> ：更新锁文件</li>
+          </ul>
+          <h3>工作空间</h3>
+          <pre>[tool.uv.workspace]
+members = ["packages/*"]</pre>
+          <div class="desc">支持多包工作空间管理</div>
+        </div>
+
+        <div class="card">
+          <h2>🔄 同步与锁定 <a href="https://docs.astral.sh/uv/concepts/projects/sync/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>uv sync</code> ：同步项目依赖</li>
+            <li><code>uv sync --dev</code> ：包含开发依赖</li>
+            <li><code>uv sync --no-dev</code> ：仅生产依赖</li>
+            <li><code>uv sync --frozen</code> ：使用锁文件精确同步</li>
+            <li><code>uv lock</code> ：重新生成锁文件</li>
+          </ul>
+          <h3>同步选项</h3>
+          <pre>uv sync --all-extras
+uv sync --no-default
+uv sync --package mypackage</pre>
+          <div class="desc">确保环境一致性的关键操作</div>
+        </div>
+
+        <div class="card">
+          <h2>🐍 Python版本管理 <a href="https://docs.astral.sh/uv/concepts/python-versions/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>uv python install 3.11</code> ：安装Python版本</li>
+            <li><code>uv python list</code> ：列出可用版本</li>
+            <li><code>uv python pin 3.11</code> ：固定Python版本</li>
+            <li><code>uv python find</code> ：查找Python解释器</li>
+          </ul>
+          <h3>.python-version文件</h3>
+          <pre>3.11.0
+pypy-3.9</pre>
+          <div class="desc">自动下载和管理多个Python版本</div>
+        </div>
+
+        <div class="card">
+          <h2>⚙️ 配置选项 <a href="https://docs.astral.sh/uv/concepts/configuration-files/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>pyproject.toml</code> ：项目配置文件</li>
+            <li><code>uv.toml</code> ：uv专用配置</li>
+            <li><code>.env</code> ：环境变量配置</li>
+            <li><code>--config</code> ：命令行配置</li>
+          </ul>
+          <h3>pyproject.toml示例</h3>
+          <pre>[project]
+name = "myproject"
+version = "0.1.0"
+requires-python = ">=3.8"
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=7.0",
+]</pre>
+          <div class="desc">配置文件支持灵活的定制</div>
+        </div>
+
+        <div class="card">
+          <h2>📥 工具与集成 <a href="https://docs.astral.sh/uv/concepts/tools/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>uv tool install black</code> ：安装工具</li>
+            <li><code>uv run black &lt;file&gt;</code> ：运行工具</li>
+            <li><code>uv tool update black</code> ：更新工具</li>
+            <li><code>uv tool list</code> ：列出已安装工具</li>
+            <li><code>uv tool run black@latest &lt;file&gt;</code> ：运行特定版本工具</li>
+            <li><code>uvx black &lt;file&gt;</code> ：临时运行工具（预览）</li>
+          </ul>
+          <h3>支持工具</h3>
+          <pre>black, flake8, mypy, pytest,
+jupyter, pre-commit等</pre>
+          <div class="desc">统一管理开发和运行工具</div>
+        </div>
+
+        <div class="card">
+          <h2>🔬 预览功能 <a href="https://docs.astral.sh/uv/concepts/preview/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>uv --preview &lt;cmd&gt;</code> ：启用预览功能</li>
+            <li><code>uvx &lt;tool&gt;</code> ：临时运行工具</li>
+            <li><code>uv tool run &lt;tool&gt;</code> ：运行但不安装工具</li>
+            <li><code>uv pip install --editable &lt;path&gt;</code> ：可编辑安装</li>
+          </ul>
+          <h3>Docker集成</h3>
+          <pre># Dockerfile
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/uv
+RUN uv pip install -r requirements.txt</pre>
+          <div class="desc">实验性功能，提供前沿特性</div>
+        </div>
+
+        <div class="card">
+          <h2>🔍 检查与诊断 <a href="https://docs.astral.sh/uv/pip/inspection/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>uv pip list</code> ：列出已安装包</li>
+            <li><code>uv pip show &lt;package&gt;</code> ：查看包信息</li>
+            <li><code>uv pip check</code> ：检查依赖冲突</li>
+            <li><code>uv tree</code> ：显示依赖树</li>
+            <li><code>uv pip show --outdated</code> ：显示过期包</li>
+            <li><code>uv pip list --format=json</code> ：JSON格式输出</li>
+            <li><code>uv pip list --exclude &lt;pattern&gt;</code> ：排除包</li>
+          </ul>
+          <h3>环境信息</h3>
+          <pre>uv pip show uv
+uv python --version
+uv --verbose check</pre>
+          <div class="desc">快速诊断环境状态，检测依赖冲突</div>
+        </div>
+
+        <div class="card">
+          <h2>🔄 依赖解析 <a href="https://docs.astral.sh/uv/concepts/resolution/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>uv resolve requests</code> ：解析包版本</li>
+            <li><code>uv pip compile requirements.in</code> ：编译依赖文件</li>
+            <li><code>uv pip compile --generate-hashes</code> ：生成哈希校验</li>
+            <li><code>uv pip install --no-deps</code> ：跳过依赖安装</li>
+            <li><code>uv pip install --force-reinstall</code> ：强制重装</li>
+          </ul>
+          <h3>解析策略</h3>
+          <pre># requirements.in
+requests>=2.28.0
+# uv pip compile 自动解析版本</pre>
+          <div class="desc">智能解析依赖，解决版本冲突</div>
+        </div>
+
+        <div class="card">
+          <h2>🏗️ 构建后端 <a href="https://docs.astral.sh/uv/concepts/build-backend/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>uv build</code> ：构建分发包</li>
+            <li><code>uv build --sdist</code> ：仅构建源码包</li>
+            <li><code>uv build --wheel</code> ：仅构建轮子</li>
+            <li><code>uv build --no-sdist</code> ：不构建源码包</li>
+            <li><code>uv build --no-wheel</code> ：不构建轮子</li>
+          </ul>
+          <h3>构建系统配置</h3>
+          <pre>[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/myproject"]</pre>
+          <div class="desc">支持setuptools, hatchling, flit等后端</div>
+        </div>
+
+        <div class="card">
+          <h2>🌐 包索引与镜像 <a href="https://docs.astral.sh/uv/concepts/indexes/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>--index-url</code> ：指定主要索引</li>
+            <li><code>--extra-index-url</code> ：额外索引</li>
+            <li><code>--find-links</code> ：查找链接</li>
+            <li><code>--no-index</code> ：不使用索引</li>
+          </ul>
+          <h3>索引配置</h3>
+          <pre>[tool.uv]
+index-url = "https://pypi.org/simple"
+extra-index-urls = ["https://mirrors.aliyun.com/pypi/simple"]</pre>
+          <div class="desc">支持私有索引和镜像源</div>
+        </div>
+
+        <div class="card">
+          <h2>🔒 认证与安全 <a href="https://docs.astral.sh/uv/concepts/authentication/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>uv auth login &lt;url&gt;</code> ：登录认证</li>
+            <li><code>uv auth logout &lt;url&gt;</code> ：退出登录</li>
+            <li><code>--key</code> ：API密钥认证</li>
+            <li><code>--cert</code> ：证书认证</li>
+          </ul>
+          <h3>认证方式</h3>
+          <pre>API密钥、环境变量、
+配置文件、交互式输入</pre>
+          <div class="desc">支持多种认证方式确保安全</div>
+        </div>
+
+        <div class="card">
+          <h2>⚡ 性能优化 <a href="https://docs.astral.sh/uv/concepts/cache/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>uv cache clean</code> ：清理缓存</li>
+            <li><code>uv cache dir</code> ：显示缓存目录</li>
+            <li><code>--no-cache</code> ：禁用缓存</li>
+            <li><code>--cache-dir</code> ：指定缓存目录</li>
+            <li><code>uv pip install --concurrent-downloads 8</code> ：并发下载</li>
+            <li><code>uv pip install --use-feature truststore</code> ：使用系统证书</li>
+            <li><code>uv pip install --only-binary :all:</code> ：预编译wheels</li>
+            <li><code>uv pip install --no-deps</code> ：跳过依赖检查</li>
+          </ul>
+          <h3>缓存策略</h3>
+          <pre>自动缓存下载的包和元数据
+智能复用缓存提高速度</pre>
+          <div class="desc">显著提升依赖安装速度</div>
+        </div>
+
+        <div class="card">
+          <h2>🐛 调试命令 <a href="https://docs.astral.sh/uv/reference/troubleshooting/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>uv -v &lt;cmd&gt;</code> ：详细输出</li>
+            <li><code>uv -vv &lt;cmd&gt;</code> ：极详细输出</li>
+            <li><code>uv pip check</code> ：检查环境</li>
+            <li><code>uv lock --check</code> ：验证锁定文件</li>
+            <li><code>uv lock --upgrade</code> ：重建锁定文件</li>
+          </ul>
+          <h3>环境变量优化</h3>
+          <pre>UV_CONCURRENT_DOWNLOADS=10
+UV_HTTP_TIMEOUT=300
+UV_LINK_MODE=copy</pre>
+          <div class="desc">调试和优化性能问题</div>
+        </div>
+
+        <div class="card">
+          <h2>🛠️ 构建与发布 <a href="https://docs.astral.sh/uv/concepts/projects/build/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>uv build</code> ：构建分发包</li>
+            <li><code>uv build --sdist</code> ：仅构建源码包</li>
+            <li><code>uv build --wheel</code> ：仅构建轮子</li>
+            <li><code>uv publish</code> ：发布到PyPI</li>
+          </ul>
+          <h3>构建配置</h3>
+          <pre>[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"</pre>
+          <div class="desc">支持多种构建后端</div>
+        </div>
+
+        <div class="card">
+          <h2>🔀 迁移与兼容 <a href="https://docs.astral.sh/uv/guides/migration/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>uv pip install</code> ：pip兼容接口</li>
+            <li><code>uv pip freeze > requirements.txt</code> ：导出requirements</li>
+            <li><code>uv pip install -r requirements.txt</code> ：从requirements安装</li>
+            <li><code>uv add --requirements requirements.txt</code> ：从requirements添加依赖</li>
+            <li><code>--pip-compatibility</code> ：启用pip兼容模式</li>
+            <li><code>uv init</code> ：初始化项目</li>
+            <li><code>uv sync</code> ：同步依赖</li>
+          </ul>
+          <h3>迁移路径</h3>
+          <pre># 从pip迁移
+uv init
+uv add --requirements requirements.txt
+
+# 从poetry迁移
+# 转换pyproject.toml格式
+# [tool.poetry] → [project]
+# [tool.poetry.dependencies] → [project.dependencies]</pre>
+          <div class="desc">平滑迁移现有项目</div>
+        </div>
+
+        <div class="card">
+          <h2>🚨 故障排除 <a href="https://docs.astral.sh/uv/reference/troubleshooting/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>uv pip check</code> ：检查依赖冲突</li>
+            <li><code>uv sync --verbose</code> ：显示详细错误信息</li>
+            <li><code>uv run --no-deps &lt;cmd&gt;</code> ：跳过依赖执行</li>
+            <li><code>uv cache clean</code> ：清理损坏缓存</li>
+            <li><code>rm -rf .venv && uv venv</code> ：重建虚拟环境</li>
+            <li><code>uv --no-progress &lt;cmd&gt;</code> ：禁用进度显示</li>
+          </ul>
+          <h3>常见问题</h3>
+          <pre>构建失败 → 清理缓存或禁用构建
+权限问题 → 检查目录权限
+依赖冲突 → 使用uv pip check检查
+版本不兼容 → 更新Python版本</pre>
+          <div class="desc">诊断和解决常见问题</div>
+        </div>
+
+        <div class="card">
+          <h2>📋 常用命令速查 <a href="https://docs.astral.sh/uv/reference/cli/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>uv --version</code> ：显示版本</li>
+            <li><code>uv --help</code> ：显示帮助</li>
+            <li><code>uv init &lt;name&gt;</code> ：初始化项目</li>
+            <li><code>uv add &lt;deps&gt;</code> ：添加依赖</li>
+            <li><code>uv run &lt;cmd&gt;</code> ：运行命令</li>
+            <li><code>uv sync</code> ：同步依赖</li>
+            <li><code>uv tree</code> ：显示依赖树</li>
+            <li><code>uv pip &lt;cmd&gt;</code> ：pip兼容命令</li>
+          </ul>
+          <h3>环境变量</h3>
+          <pre>UV_PYTHON           指定Python解释器
+UV_INDEX_URL        默认包索引
+UV_EXTRA_INDEX_URL  额外索引列表
+UV_FIND_LINKS       包查找链接
+UV_NO_INDEX         禁用索引搜索
+UV_CACHE_DIR        缓存目录路径
+UV_NO_CACHE         禁用缓存
+UV_NO_BUILD         跳过构建步骤
+UV_REQUIRE_HASHES   要求哈希校验
+UV_VERBOSE          详细输出模式</pre>
+          <div class="desc">完整命令参考请查阅官方文档</div>
+        </div>
+      </div>
+    </div>
+    <script>
+      document.getElementById('columnWidth').addEventListener('input', function(e) {
+        const width = e.target.value;
+        document.getElementById('widthVal').textContent = width + 'px';
+        const columns = document.getElementById('columns');
+        columns.style.columnWidth = width + 'px';
+      });
+    </script>
+  </body>
+</html>
+  
+  
+  
+</body>
+
+</html>
