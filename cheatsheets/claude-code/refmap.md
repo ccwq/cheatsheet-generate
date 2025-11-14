@@ -1,5 +1,7 @@
 # Claude Code 参考文档
 
+> **验证版本**: Claude Code 2.0.37 | 所有命令均已实际验证
+
 ## 官方文档链接
 - [Claude Code Quickstart](https://code.claude.com/docs/en/quickstart) - 快速入门指南
 - [Claude Code Overview](https://code.claude.com/docs/en/overview) - 功能概览
@@ -33,44 +35,62 @@
 - claude -r: 恢复之前对话
 - claude commit: 创建Git提交
 
-#### CLI选项(12+)
+#### CLI选项(基于Claude Code 2.0.37验证)
 - --help / -h: 显示帮助信息
 - --version / -v: 显示版本信息
-- --debug: 启用调试模式
-- --config / -c: 指定配置文件
-- --model / -m: 指定AI模型
-- --profile / -P: 使用配置档案
-- --new / -n: 创建新对话
-- --list / -l: 列出会话
-- --delete / -d: 删除对话
+- --debug [filter]: 启用调试模式，支持过滤
+- --settings <file-or-json>: 从JSON文件或字符串加载设置
+- --model <model>: 指定AI模型
+- -p, --print: 打印响应后退出
+- -c, --continue: 继续最近的对话
+- -r, --resume [sessionId]: 恢复指定ID的对话
+- --fork-session: 恢复时创建新会话
 
-#### 斜杠命令(内置27+)
+#### 斜杠命令(内置28个，已验证)
+##### 基本操作(7个)
 - /help: 显示可用命令
 - /clear: 清除对话历史
 - /exit: 退出Claude Code
 - /config: 打开设置界面
-- /context: 可视化上下文使用情况
-- /cost: 显示token使用统计
+- /status: 查看当前状态信息
+- /init: 初始化项目配置
 - /doctor: 检查安装健康状态
-- /init: 初始化项目
-- /login: 切换账户
-- /logout: 登出账户
+
+##### 账户与模型(6个)
+- /login: 切换/登录账户
+- /logout: 登出当前账户
+- /model: 选择或更改AI模型
+- /usage: 查看使用限制和统计
+- /cost: 显示token使用成本
+- /permissions: 查看/更新权限设置
+
+##### 开发工具(7个)
 - /memory: 编辑记忆文件
-- /model: 选择或更改模型
-- /mcp: 管理MCP连接
-- /output-style: 设置输出风格
-- /permissions: 查看或更新权限
+- /todos: 查看和管理待办事项
+- /context: 可视化上下文使用
+- /review: 代码审查工具
 - /pr_comments: 查看PR评论
-- /privacy-settings: 隐私设置
-- /review: 代码审查
-- /sandbox: 启用沙盒bash工具
-- /rewind: 回溯对话和代码
-- /status: 查看状态信息
-- /statusline: 设置状态行UI
+- /mcp: 管理MCP连接
+- /rewind: 回溯对话和编辑
+
+##### 配置和输出(4个)
+- /output-style: 设置输出风格
+- /statusline: 配置状态行UI
 - /terminal-setup: 设置终端快捷键
-- /todos: 查看待办事项
-- /usage: 查看使用限制
-- /vim: 进入vim模式
+- /privacy-settings: 隐私设置管理
+
+##### 高级功能(4个)
+- /sandbox: 启用沙盒bash工具
+- /vim: 进入vim编辑模式
+- /hooks: 管理事件钩子
+- /agents: 管理AI代理
+
+##### 补充命令(5个)
+- /add-dir: 添加工具访问目录
+- /bashes: 管理后台bash进程
+- /bug: 报告问题或bug
+- /compact: 压缩对话历史
+- /export: 导出对话数据
 
 #### 自定义斜杠命令
 - 项目命令: .claude/commands/ 目录
@@ -116,12 +136,21 @@
 - 示例项目: Claude官方示例仓库
 
 ### CLI命令参考(详细)
-- --version: -v 显示详细版本信息
-- --debug-detailed: 启用详细调试模式
-- --log-level: 设置日志级别(trace/debug/info/warn/error)
-- --profile-list: 列出所有可用配置档案
-- --mcp-list: 列出所有配置的MCP服务器
-- --plugin-list: 列出所有已安装插件
+- --debug [filter]: 启用调试模式，支持过滤(如"api,hooks")
+- --verbose: 覆盖详细模式设置
+- --settings <file-or-json>: 从JSON文件或字符串加载设置
+- --fallback-model <model>: 设置默认模型超载时的备用模型
+- --system-prompt <prompt>: 指定会话系统提示
+- --append-system-prompt <prompt>: 追加系统提示到默认提示
+- --permission-mode <mode>: 权限模式(acceptEdits/bypassPermissions/default/plan)
+- --allowed-tools <tools...>: 指定允许的工具列表
+- --disallowed-tools <tools...>: 指定禁止的工具列表
+- --mcp-config <configs...>: 从JSON文件/字符串加载MCP服务器
+- --plugin-dir <paths...>: 加载插件目录(本次会话)
+- --agents <json>: JSON格式定义自定义代理
+- --session-id <uuid>: 使用指定UUID进行对话
+- --add-dir <directories...>: 允许工具访问的额外目录
+- --output-format <format>: 输出格式(text/json/stream-json)
 
 ## 最佳实践
 1. 在项目根目录中使用Claude Code

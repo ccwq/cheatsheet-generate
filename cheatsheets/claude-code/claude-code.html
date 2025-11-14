@@ -11,7 +11,7 @@
 <body>
   <div class="container">
     <div class="panel">
-      <span style="color:#7bfbb7;font-size:16px;margin-right:auto;">Claude Code速查表 v2.0</span>
+      <span style="color:#7bfbb7;font-size:16px;margin-right:auto;">Claude Code速查表 v2.0 (基于Claude Code 2.0.37验证)</span>
       <label for="columnWidth"> 🔧 调整每列宽度：</label>
       <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
       <span id="widthVal" class="slider-val">340px</span>
@@ -55,16 +55,15 @@
         <ul>
           <li><code>claude -c</code> : 继续最近的对话</li>
           <li><code>claude -r</code> : 恢复之前的对话</li>
-          <li><code>claude --new</code> : 创建新对话</li>
-          <li><code>claude --list</code> : 列出所有会话</li>
-          <li><code>claude --delete 会话ID</code> : 删除指定会话</li>
+          <li><code>claude --resume [sessionId]</code> : 恢复指定ID的对话</li>
+          <li><code>claude --fork-session</code> : 恢复时创建新会话</li>
         </ul>
         <h3>Git集成</h3>
         <ul>
           <li><code>claude commit</code> : 智能Git提交</li>
           <li><code>claude -p "分析变更并提交"</code> : 批量操作</li>
         </ul>
-        <div class="desc">支持-c, -r, -p, -n, -l, -d等选项组合使用</div>
+        <div class="desc">支持-c, -r, -p等选项组合使用</div>
       </div>
 
       <!-- CLI高级选项卡片 -->
@@ -74,28 +73,44 @@
         <ul>
           <li><code>--help / -h</code> : 显示帮助信息</li>
           <li><code>--version / -v</code> : 显示详细版本信息</li>
-          <li><code>--debug</code> : 启用调试模式</li>
-          <li><code>--debug-detailed</code> : 启用详细调试输出</li>
+          <li><code>--debug [filter]</code> : 启用调试模式，支持过滤(如"api,hooks"或"!statsig")</li>
+          <li><code>--verbose</code> : 覆盖详细模式设置</li>
         </ul>
-        <h3>配置选项</h3>
+        <h3>交互模式选项</h3>
         <ul>
-          <li><code>--config / -c 文件</code> : 指定配置文件</li>
-          <li><code>--model / -m 模型名</code> : 选择AI模型</li>
-          <li><code>--profile / -P 配置档案</code> : 使用指定配置档案</li>
-          <li><code>--log-level 级别</code> : 设置日志级别(trace/debug/info/warn/error)</li>
+          <li><code>-p, --print</code> : 打印响应后退出(管道模式)</li>
+          <li><code>-c, --continue</code> : 继续最近的对话</li>
+          <li><code>-r, --resume [sessionId]</code> : 恢复指定ID的对话</li>
+          <li><code>--fork-session</code> : 恢复时创建新会话ID</li>
         </ul>
-        <h3>列表选项</h3>
+        <h3>配置和设置</h3>
         <ul>
-          <li><code>--profile-list</code> : 列出所有可用配置档案</li>
-          <li><code>--mcp-list</code> : 列出配置的MCP服务器</li>
-          <li><code>--plugin-list</code> : 列出已安装插件</li>
+          <li><code>--settings <file-or-json></code> : 从JSON文件或字符串加载额外设置</li>
+          <li><code>--model <model></code> : 指定AI模型(如'sonnet'或完整模型名)</li>
+          <li><code>--fallback-model <model></code> : 设置默认模型超载时的备用模型</li>
+          <li><code>--system-prompt <prompt></code> : 指定会话系统提示</li>
+          <li><code>--append-system-prompt <prompt></code> : 追加系统提示到默认提示</li>
         </ul>
-        <h3>输入处理</h3>
+        <h3>权限和安全</h3>
         <ul>
-          <li><code>--image 图片路径</code> : 输入图片文件</li>
-          <li><code>-i img1.png,img2.jpg</code> : 批量图片输入</li>
+          <li><code>--permission-mode <mode></code> : 权限模式(acceptEdits/bypassPermissions/default/plan)</li>
+          <li><code>--dangerously-skip-permissions</code> : 跳过所有权限检查</li>
+          <li><code>--allowed-tools <tools...></code> : 指定允许的工具列表</li>
+          <li><code>--disallowed-tools <tools...></code> : 指定禁止的工具列表</li>
         </ul>
-        <div class="desc">选项顺序灵活，支持多个选项组合</div>
+        <h3>MCP和插件</h3>
+        <ul>
+          <li><code>--mcp-config <configs...></code> : 从JSON文件/字符串加载MCP服务器</li>
+          <li><code>--plugin-dir <paths...></code> : 加载插件目录(本次会话)</li>
+          <li><code>--agents <json></code> : JSON格式定义自定义代理</li>
+        </ul>
+        <h3>会话控制</h3>
+        <ul>
+          <li><code>--session-id <uuid></code> : 使用指定UUID进行对话</li>
+          <li><code>--add-dir <directories...></code> : 允许工具访问的额外目录</li>
+          <li><code>--output-format <format></code> : 输出格式(text/json/stream-json，需配合--print)</li>
+        </ul>
+        <div class="desc">所有选项基于Claude Code 2.0.37版本验证</div>
       </div>
 
       <!-- 斜杠命令卡片 -->
@@ -120,7 +135,7 @@
           <li><code>/cost</code> : 显示token使用成本</li>
           <li><code>/permissions</code> : 查看/更新权限设置</li>
         </ul>
-        <h3>开发工具(8个)</h3>
+        <h3>开发工具(7个)</h3>
         <ul>
           <li><code>/memory</code> : 编辑记忆文件</li>
           <li><code>/todos</code> : 查看和管理待办事项</li>
@@ -129,39 +144,43 @@
           <li><code>/pr_comments</code> : 查看PR评论</li>
           <li><code>/mcp</code> : 管理MCP连接</li>
           <li><code>/rewind</code> : 回溯对话和编辑</li>
-          <li><code>/output-style</code> : 设置输出风格</li>
         </ul>
-        <div class="desc">总计27+个内置命令，支持快速操作</div>
-      </div>
-
-      <!-- 高级斜杠命令卡片 -->
-      <div class="card">
-        <h2>🎯 高级斜杠命令 <a href="https://code.claude.com/docs/en/slash-commands" title="高级命令" target="_blank" style="color:#93cdfc;">>>></a></h2>
-        <h3>环境配置(4个)</h3>
+        <h3>配置和输出(4个)</h3>
         <ul>
-          <li><code>/sandbox</code> : 启用沙盒bash工具</li>
-          <li><code>/terminal-setup</code> : 设置终端快捷键</li>
+          <li><code>/output-style</code> : 设置输出风格</li>
           <li><code>/statusline</code> : 配置状态行UI</li>
+          <li><code>/terminal-setup</code> : 设置终端快捷键</li>
           <li><code>/privacy-settings</code> : 隐私设置管理</li>
         </ul>
-        <h3>编辑器模式</h3>
+        <h3>高级功能(4个)</h3>
         <ul>
+          <li><code>/sandbox</code> : 启用沙盒bash工具</li>
           <li><code>/vim</code> : 进入vim编辑模式</li>
-          <li><code>/emacs</code> : 进入emacs模式(如支持)</li>
+          <li><code>/hooks</code> : 管理事件钩子</li>
+          <li><code>/agents</code> : 管理AI代理</li>
         </ul>
-        <h3>企业功能</h3>
+        <div class="desc">总计28个内置命令(基于Claude Code 2.0.37验证)</div>
+      </div>
+
+      <!-- 其他斜杠命令卡片 -->
+      <div class="card">
+        <h2>🔧 其他斜杠命令 <a href="https://code.claude.com/docs/en/slash-commands" title="其他命令" target="_blank" style="color:#93cdfc;">>>></a></h2>
+        <h3>补充命令(5个)</h3>
         <ul>
-          <li><code>/workspace</code> : 工作空间管理</li>
-          <li><code>/team</code> : 团队协作设置</li>
-          <li><code>/audit</code> : 操作审计日志</li>
+          <li><code>/add-dir</code> : 添加工具访问目录</li>
+          <li><code>/bashes</code> : 管理后台bash进程</li>
+          <li><code>/bug</code> : 报告问题或bug</li>
+          <li><code>/compact</code> : 压缩对话历史</li>
+          <li><code>/export</code> : 导出对话数据</li>
         </ul>
-        <h3>工具集成</h3>
+        <h3>命令使用技巧</h3>
         <ul>
-          <li><code>/git-setup</code> : Git仓库初始化</li>
-          <li><code>/docker-setup</code> : Docker环境配置</li>
-          <li><code>/k8s-setup</code> : Kubernetes集成</li>
+          <li><code>Tab补全</code> : 输入命令前缀后按Tab自动补全</li>
+          <li><code>帮助查询</code> : 使用<code>/help 命令名</code>查看详细用法</li>
+          <li><code>组合使用</code> : 多个斜杠命令可在一个对话中组合使用</li>
+          <li><code>参数传递</code> : 部分命令支持参数和选项</li>
         </ul>
-        <div class="desc">企业用户可获取更多专业功能命令</div>
+        <div class="desc">所有28个命令已在Claude Code 2.0.37中验证可用</div>
       </div>
 
       <!-- 自定义斜杠命令卡片 -->
@@ -236,11 +255,11 @@
           <li><code>30天自动清理</code> : 过期检查点自动删除</li>
           <li><code>空间智能管理</code> : 根据磁盘空间调整策略</li>
         </ul>
-        <h3>手动控制</h3>
+        <h3>恢复功能</h3>
         <ul>
-          <li><code>/checkpoint</code> : 手动创建检查点</li>
-          <li><code>/checkpoint-list</code> : 查看所有检查点</li>
-          <li><code>/checkpoint-delete ID</code> : 删除指定检查点</li>
+          <li><code>/rewind</code> : 回溯对话和代码修改</li>
+          <li><code>Esc+Esc</code> : 打开回溯菜单</li>
+          <li><code>时间轴导航</code> : 可视化时间选择</li>
         </ul>
         <h3>恢复选项</h3>
         <ul>
@@ -248,13 +267,14 @@
           <li><code>仅恢复代码</code> : 保持对话历史</li>
           <li><code>同时恢复</code> : 完整状态回退</li>
         </ul>
-        <h3>快捷恢复</h3>
+        <h3>检查点特性</h3>
         <ul>
-          <li><code>Esc+Esc</code> : 打开恢复菜单</li>
-          <li><code>/rewind</code> : 命令行恢复</li>
-          <li><code>时间轴导航</code> : 可视化时间选择</li>
+          <li><code>自动创建</code> : 重要操作前自动生成</li>
+          <li><code>版本管理</code> : 支持多个检查点并存</li>
+          <li><code>智能合并</code> : 避免重复检查点</li>
+          <li><code>快速回滚</code> : 支持一键回退</li>
         </ul>
-        <div class="desc">检查点系统让实验和回滚变得安全可靠</div>
+        <div class="desc">检查点系统通过/rewind命令实现，无需手动管理</div>
       </div>
 
       <!-- Hooks系统卡片 -->
@@ -296,11 +316,12 @@
         <h2>🔌 插件系统 <a href="https://code.claude.com/docs/en/plugins" title="插件参考" target="_blank" style="color:#93cdfc;">>>></a></h2>
         <h3>插件管理命令</h3>
         <ul>
-          <li><code>/plugin browse</code> : 浏览可用插件</li>
-          <li><code>/plugin add 名称</code> : 安装插件</li>
-          <li><code>/plugin enable 名称</code> : 启用插件</li>
-          <li><code>/plugin disable 名称</code> : 禁用插件</li>
-          <li><code>/plugin uninstall 名称</code> : 卸载插件</li>
+          <li><code>claude plugin marketplace</code> : 管理插件市场</li>
+          <li><code>claude plugin install 名称</code> : 安装插件</li>
+          <li><code>claude plugin enable 名称</code> : 启用插件</li>
+          <li><code>claude plugin disable 名称</code> : 禁用插件</li>
+          <li><code>claude plugin uninstall 名称</code> : 卸载插件</li>
+          <li><code>claude plugin validate 路径</code> : 验证插件</li>
         </ul>
         <h3>插件目录结构</h3>
         <ul>
@@ -318,19 +339,29 @@
           <li><code>集成插件</code> : 第三方服务集成</li>
           <li><code>UI插件</code> : 界面增强功能</li>
         </ul>
-        <div class="desc">插件系统让Claude Code具备无限扩展能力</div>
+        <div class="desc">插件系统使用CLI命令管理，支持marketplace机制</div>
       </div>
 
       <!-- MCP集成卡片 -->
       <div class="card">
         <h2>🌐 MCP集成 <a href="https://modelcontextprotocol.io/" title="MCP文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-        <h3>管理命令</h3>
+        <h3>MCP CLI管理命令</h3>
         <ul>
-          <li><code>/mcp list</code> : 列出所有MCP服务器</li>
-          <li><code>/mcp add 名称</code> : 添加MCP服务器</li>
-          <li><code>/mcp remove 名称</code> : 移除MCP服务器</li>
-          <li><code>/mcp --mcp-list</code> : CLI命令查看</li>
+          <li><code>claude mcp list</code> : 列出所有MCP服务器</li>
+          <li><code>claude mcp add 名称 命令</code> : 添加MCP服务器</li>
+          <li><code>claude mcp remove 名称</code> : 移除MCP服务器</li>
+          <li><code>claude mcp get 名称</code> : 获取MCP服务器详情</li>
+          <li><code>claude mcp add-json 名称 JSON</code> : JSON方式添加服务器</li>
         </ul>
+        <h3>添加方式示例</h3>
+        <pre><code># HTTP服务器
+claude mcp add --transport http sentry https://mcp.sentry.dev/mcp
+
+# SSE服务器
+claude mcp add --transport sse asana https://mcp.asana.com/sse
+
+# stdio服务器
+claude mcp add --transport stdio airtable --env AIRTABLE_API_KEY=KEY -- npx -y airtable-mcp-server</code></pre>
         <h3>热门集成服务</h3>
         <ul>
           <li><code>Google Drive</code> : 访问云文档和表格</li>
@@ -349,7 +380,7 @@
           <li><code>动态发现</code> : 自动加载可用工具</li>
           <li><code>隔离执行</code> : MCP服务独立运行</li>
         </ul>
-        <div class="desc">MCP让Claude Code连接外部数据和服务</div>
+        <div class="desc">MCP使用CLI命令管理，支持HTTP、SSE和stdio传输</div>
       </div>
 
       <!-- 实际应用场景卡片 -->
@@ -540,19 +571,19 @@ npx audit | claude -p "分析安全漏洞并提供修复建议"</code></pre>
           <li><code>参数化调用</code> : 支持动态参数传递</li>
           <li><code>状态保持</code> : 技能间可共享状态</li>
         </ul>
-        <h3>内置核心技能</h3>
+        <h3>技能调用方式</h3>
+        <ul>
+          <li><code>skill: "skill-name"</code> : 调用指定技能</li>
+          <li><code>skill: "skill-name" param="value"</code> : 带参数调用</li>
+          <li><code>skill: "skill-name" --option value</code> : 选项式调用</li>
+        </ul>
+        <h3>常用技能示例</h3>
         <ul>
           <li><code>skill: "pdf"</code> : PDF文档处理和分析</li>
           <li><code>skill: "xlsx"</code> : Excel表格数据处理</li>
           <li><code>skill: "ms-office-suite:pdf"</code> : Office文档处理</li>
           <li><code>skill: "web-scraping"</code> : 网页数据抓取</li>
           <li><code>skill: "data-analysis"</code> : 数据分析和可视化</li>
-        </ul>
-        <h3>Skill使用语法</h3>
-        <ul>
-          <li><code>skill: "skill-name"</code> : 调用指定技能</li>
-          <li><code>skill: "skill-name" param="value"</code> : 带参数调用</li>
-          <li><code>skill: "skill-name" --option value</code> : 选项式调用</li>
         </ul>
         <h3>自定义Skill结构</h3>
         <pre><code># .claude/skills/my-skill/skill.json
@@ -571,10 +602,15 @@ npx audit | claude -p "分析安全漏洞并提供修复建议"</code></pre>
           <li><code>.claude/skills/</code> : 自定义技能目录</li>
           <li><code>skill.json</code> : 技能配置文件</li>
           <li><code>main.js</code> : 技能主逻辑文件</li>
-          <li><code>/skill create 名称</code> : 创建新技能模板</li>
-          <li><code>/skill list</code> : 列出可用技能</li>
         </ul>
-        <div class="desc">Skills系统提供专业化的任务处理能力</div>
+        <h3>技能管理</h3>
+        <ul>
+          <li><code>自动发现</code> : 系统自动扫描技能目录</li>
+          <li><code>动态加载</code> : 运行时动态加载技能</li>
+          <li><code>版本控制</code> : 支持技能版本管理</li>
+          <li><code>错误处理</code> : 技能执行失败时的回退机制</li>
+        </ul>
+        <div class="desc">Skills系统通过CLI参数和插件机制实现</div>
       </div>
 
       <!-- 状态行配置卡片 -->
@@ -587,31 +623,22 @@ npx audit | claude -p "分析安全漏洞并提供修复建议"</code></pre>
           <li><code>/statusline disable</code> : 禁用状态行显示</li>
           <li><code>/statusline reset</code> : 重置为默认配置</li>
         </ul>
-        <h3>显示信息配置</h3>
+        <h3>状态行配置选项</h3>
         <ul>
-          <li><code>/statusline --show model</code> : 显示当前模型</li>
-          <li><code>/statusline --show tokens</code> : 显示token使用量</li>
-          <li><code>/statusline --show time</code> : 显示响应时间</li>
-          <li><code>/statusline --show memory</code> : 显示内存使用</li>
-          <li><code>/statusline --show git-branch</code> : 显示Git分支</li>
+          <li><code>/statusline</code> : 打开状态行配置界面</li>
+          <li><code>/statusline enable</code> : 启用状态行显示</li>
+          <li><code>/statusline disable</code> : 禁用状态行显示</li>
+          <li><code>/statusline reset</code> : 重置为默认配置</li>
         </ul>
-        <h3>位置和布局</h3>
+        <h3>配置文件设置</h3>
         <ul>
-          <li><code>/statusline --position top</code> : 顶部显示</li>
-          <li><code>/statusline --position bottom</code> : 底部显示</li>
-          <li><code>/statusline --align left</code> : 左对齐</li>
-          <li><code>/statusline --align right</code> : 右对齐</li>
-          <li><code>/statusline --align center</code> : 居中对齐</li>
+          <li><code>.claude/statusline.json</code> : 状态行配置文件</li>
+          <li><code>"show": ["model", "tokens", "time", "git-branch"]</code> : 显示信息列表</li>
+          <li><code>"position": "top/bottom"</code> : 显示位置</li>
+          <li><code>"theme": "dark/light/auto"</code> : 主题设置</li>
         </ul>
-        <h3>主题和样式</h3>
-        <ul>
-          <li><code>/statusline --theme dark</code> : 深色主题</li>
-          <li><code>/statusline --theme light</code> : 浅色主题</li>
-          <li><code>/statusline --theme auto</code> : 自动主题</li>
-          <li><code>/statusline --style minimal</code> : 极简风格</li>
-          <li><code>/statusline --style detailed</code> : 详细风格</li>
-        </ul>
-        <h3>自定义配置示例</h3>
+        <div class="desc">状态行通过配置文件和交互式命令管理</div>
+        <h3>配置文件示例</h3>
         <pre><code># .claude/statusline.json
 {
   "enabled": true,
@@ -621,7 +648,7 @@ npx audit | claude -p "分析安全漏洞并提供修复建议"</code></pre>
   "style": "detailed",
   "refresh_rate": 1000
 }</code></pre>
-        <div class="desc">状态行提供实时的系统和使用信息</div>
+        <div class="desc">状态行通过配置文件设置显示信息，支持model、tokens、time、git-branch等字段</div>
       </div>
 
       <!-- 终端设置卡片 -->
@@ -759,32 +786,17 @@ interface ApiResponse<T> {
           <li><code>工具集成</code> : 调用专门的工具和技能</li>
           <li><code>状态管理</code> : 维护任务执行状态</li>
         </ul>
-        <h3>内置Agent类型</h3>
+        <h3>Agent定义方式</h3>
         <ul>
-          <li><code>general-purpose</code> : 通用问题解决</li>
-          <li><code>code-reviewer</code> : 代码审查专家</li>
-          <li><code>test-runner</code> : 测试执行专家</li>
-          <li><code>debug-expert</code> : 调试问题专家</li>
-          <li><code>documentation-writer</code> : 文档编写专家</li>
-          <li><code>performance-optimizer</code> : 性能优化专家</li>
-        </ul>
-        <h3>Agent调用语法</h3>
-        <ul>
-          <li><code>/agent use code-reviewer</code> : 使用代码审查代理</li>
-          <li><code>/agent run test-runner "测试场景"</code> : 运行测试代理</li>
-          <li><code>/agent list</code> : 列出可用代理</li>
-          <li><code>/agent info 代理名</code> : 查看代理信息</li>
-        </ul>
-        <h3>自定义Agent开发</h3>
-        <ul>
-          <li><code>.claude/agents/</code> : 自定义代理目录</li>
-          <li><code>agent.json</code> : 代理配置文件</li>
-          <li><code>main.js</code> : 代理主逻辑</li>
-          <li><code>tools/</code> : 代理专用工具</li>
-          <li><code>/agent create 名称</code> : 创建代理模板</li>
+          <li><code>--agents JSON</code> : CLI方式定义代理</li>
+          <li><code>/agents</code> : 管理AI代理命令</li>
+          <li><code>project .claude/agents/</code> : 项目级代理目录</li>
         </ul>
         <h3>Agent配置示例</h3>
-        <pre><code># .claude/agents/my-agent/agent.json
+        <pre><code># CLI使用示例
+claude --agents '{"reviewer": {"description": "Reviews code", "prompt": "You are a code reviewer"}}'
+
+# 代理配置JSON示例
 {
   "name": "my-custom-agent",
   "description": "自定义AI代理",
@@ -798,6 +810,15 @@ interface ApiResponse<T> {
     "task": "string"
   }
 }</code></pre>
+        <h3>常见Agent类型</h3>
+        <ul>
+          <li><code>general-purpose</code> : 通用问题解决</li>
+          <li><code>code-reviewer</code> : 代码审查专家</li>
+          <li><code>test-runner</code> : 测试执行专家</li>
+          <li><code>debug-expert</code> : 调试问题专家</li>
+          <li><code>documentation-writer</code> : 文档编写专家</li>
+          <li><code>performance-optimizer</code> : 性能优化专家</li>
+        </ul>
         <h3>Agent工作流</h3>
         <ul>
           <li><code>任务分析</code> : 理解和分解复杂任务</li>
@@ -806,7 +827,7 @@ interface ApiResponse<T> {
           <li><code>结果整合</code> : 整合多个工具的输出</li>
           <li><code>质量检查</code> : 自动验证结果质量</li>
         </ul>
-        <div class="desc">AI Agent系统提供专业化的自动执行能力</div>
+        <div class="desc">Agent系统通过CLI参数和/agents命令管理</div>
       </div>
 
       <!-- 权限管理卡片 -->
