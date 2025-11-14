@@ -1,0 +1,24 @@
+{
+  "name": "cheatsheet-generate",
+  "private": true,
+  "version": "0.0.0",
+  "description": "AI-based cheatsheet generator and downloader",
+  "scripts": {
+    "download": "node codepen-downloader/codepen-downloader.js",
+    "download:dry": "node codepen-downloader/codepen-downloader.js --dry-run",
+    "test:finalhtml": "node codepen-downloader/test-finalhtml.js"
+  },
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "cheerio": "^1.0.0-rc.12",
+    "cli-progress": "^3.12.0",
+    "dotenv": "^16.4.5",
+    "he": "^1.2.0",
+    "http-proxy-agent": "^7.0.2",
+    "https-proxy-agent": "^7.0.4",
+    "node-fetch": "^2.6.9"
+  },
+  "engines": {
+    "node": ">=16"
+  }
+}

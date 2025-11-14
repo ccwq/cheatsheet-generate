@@ -46,6 +46,25 @@ AI将根据主题内容：
 - `.html` 文件：完整的速查表页面
 - `.md` 文件：精简版提示词（供其他AI使用）
 
+## 导入现有在线 Cheatsheet（下载器）
+
+links.md 中包含了我之前整理的在线 cheatsheet 列表（JSON 代码块），其中 `url` 为其在线网址，`src` 为图标地址。可以使用内置下载器将这些在线页面离线化保存。
+
+- 运行方式：
+  - `node codepen-downloader/codepen-downloader.js`（需要 Node 16+；推荐 18+）
+  - 可选参数：
+    - `--only "关键词"` 仅处理匹配名称或 URL 的项
+    - `--limit N` 限制处理数量
+    - `--dry-run` 仅打印将要执行的操作
+
+- 保存结构：
+  - `cheatsheets-import/{slug}/source.html`（提取前：原始响应/CodePen包装页）
+  - `cheatsheets-import/{slug}/index.html`（提取后：最终HTML，若为CodePen则为iframe.srcdoc）
+  - `cheatsheets-import/{slug}/icon.*`（按内容类型自动扩展名）
+
+- CodePen 兼容：
+  - 对于形如 `https://codepen.io/{user}/full/{slug}` 的链接，下载器会自动解析返回页面中的 `iframe#result.srcdoc`，并将其作为最终 HTML 内容保存。
+
 ## 技术特点
 
 - **HTML5标准**：语义化标签，符合Web标准
@@ -76,3 +95,69 @@ AI将根据主题内容：
 ## 贡献
 
 欢迎提交Issue和Pull Request来改进项目。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+links.md中的json实际上是我之前整理的cheatsheet, 其中url表示其在线网址
+
+"""
+网址对应关系如下
+url值https://codepen.io/zeniok/full/YPyNVXG,
+真实cheatsheet html网址https://cdpn.io/zeniok/fullpage/gbagyGa?view=fullpage
+
+但是其响应内容被无关字符串包裹了, 解析后的内容如下, 其中iframe.srcdoc才是我们要提取的html的内容
+
+...
+<body class="">
+  <div class="referer-warning">
+    <h1><span>⚠️</span> Do not enter passwords or personal information on this page. <span>⚠️</span></h1>
+      This is a code demo posted by a web developer on <a href="https://codepen.io">CodePen</a>.
+    <br />
+    A referer from CodePen is required to render this page view, and your browser is not sending one (<a href="https://blog.codepen.io/2017/10/05/regarding-referer-headers/" target="_blank" rel="noreferrer noopener">more details</a>).</h1>
+  </div>
+
+  <div id="result-iframe-wrap" role="main">
+    <iframe
+      id="result"
+      srcdoc="<!DOCTYPE html>
+<html lang=&quot;en&quot; >
+
+<head>
+  <meta charset=&quot;UTF-8&quot;>
+  
+
+    <link rel=&quot;apple-touch-icon&quot; type=&q
+...
+"""
+
+现在执行如下的工作
+
+
+需要开发一个下载器, 可以根据links.md中的json来下载cheatsheet的html内容,
+
+下载到的结果应该包括
+- 原始html内容
+- 图标,src字段的内容, 一文件形式存放
+
+结果如下使用如下结构
+cheatsheets-import
+├── example/
+│   ├── index.html
+│   └── icon.png
+
