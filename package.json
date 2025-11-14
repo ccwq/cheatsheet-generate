@@ -6,7 +6,8 @@
   "scripts": {
     "download": "node codepen-downloader/codepen-downloader.js",
     "download:dry": "node codepen-downloader/codepen-downloader.js --dry-run",
-    "test:finalhtml": "node codepen-downloader/test-finalhtml.js"
+    "test:finalhtml": "node codepen-downloader/test-finalhtml.js",
+    "generate:nav": "node scripts/generate-nav.js"
   },
   "dependencies": {
     "chalk": "^4.1.2",

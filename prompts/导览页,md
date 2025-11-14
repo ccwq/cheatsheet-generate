@@ -1,0 +1,16 @@
+项目中包含多个cheatsheet, 现在要开发一个导览页生成功能, 执行生成脚本之后, 会根据项目结构和导览页模版, 生成一个导览页, 导览页包含每个cheatsheet的链接, 一句话介绍
+
+# 导览页模板的需求
+- 放在/templates/下面
+- 文件名是nav.template.html
+- ui设计语言参考base.md中的"html模板"
+
+
+# cheatsheet
+- 生成脚本会自动遍历下面目录下的cheatsheet,作为数据源
+     - /cheatsheets/
+     - /cheatsheets-import/
+- 生成结果为index.html
+
+
+

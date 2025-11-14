@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Cheatsheet 导览</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      /*
+       * 设计语言参考 base.md 中的 "html模板"
+       * 第1次美化：极客风+简约，增加网格装饰、搜索、徽章、SVG箭头与微交互
+       */
+      :root {
+        --bg-a: #303d54; /* 背景渐变色A */
+        --bg-b: #23304a; /* 背景渐变色B */
+        --bg-c: #171b27; /* 背景渐变色C */
+        --card: rgba(29,36,53,0.85);
+        --border: rgba(78,85,130,.18);
+        --text: #e7e7ea;
+        --title: #fdbe3f;
+        --link: #93cdfc;
+        --desc: #acc3f8;
+        --panel: rgba(36,41,59,0.91);
+        --accent: #7bfbb7;
+        --accent-2: #ffce5b;
+        --glow: rgba(79,227,255,.22);
+        --import: #a5ff7a;
+        --local: #7ac8ff;
+        /* 滚动条主题色 */
+        --scroll-track: #1a2134;
+        --scroll-thumb-a: #69a7ff;
+        --scroll-thumb-b: #56ffe5;
+      }
+
+      html, body {
+        height: 100%; margin: 0; padding: 0; color: var(--text);
+        font-family: 'Segoe UI','JetBrains Mono','Fira Code','PingFang SC','Microsoft YaHei',Arial,sans-serif;
+        font-size: 12px; line-height: 1.1; overflow-x: hidden;
+        background:
+          /* 细网格叠加：极客风装饰 */
+          radial-gradient( circle at 30% 10%, rgba(255,255,255,0.04), transparent 40%),
+          radial-gradient( circle at 80% 0%, rgba(255,255,255,0.03), transparent 30%),
+          linear-gradient(130deg, var(--bg-a) 0%, var(--bg-b) 48%, var(--bg-c) 100%);
+      }
+      body { min-height: 100vh; }
+
+      /* Firefox 滚动条配色 */
+      html { scrollbar-width: thin; scrollbar-color: var(--scroll-thumb-a) var(--scroll-track); }
+      /* Chromium/WebKit 滚动条配色 */
+      ::-webkit-scrollbar { width: 10px; height: 10px; }
+      ::-webkit-scrollbar-track { background: var(--scroll-track); border-radius: 8px; }
+      ::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, var(--scroll-thumb-a), var(--scroll-thumb-b));
+        border-radius: 8px;
+        border: 2px solid var(--scroll-track);
+      }
+      ::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #7fc0ff, #7dfbe9); }
+
+      .container { width: 100%; max-width: 100%; margin: 0 auto; padding: 8px 4px 16px 4px; box-sizing: border-box; position: relative; z-index: 1; }
+
+      /* 顶部大标题与网站目的（Masthead） */
+      .masthead {
+        position: relative; z-index: 1; margin: 8px 0 12px 0; padding: 16px 16px 14px 16px;
+        border-radius: 14px; border: 1px solid transparent; overflow: hidden;
+        background-image:
+          linear-gradient(135deg, rgba(105,167,255,.22), rgba(86,255,229,.22)),
+          radial-gradient(1200px 400px at 0% 0%, rgba(110,151,255,.12), rgba(0,0,0,0)),
+          linear-gradient(130deg, rgba(34,43,68,.95), rgba(26,32,50,.92));
+        background-clip: padding-box, padding-box, padding-box;
+        box-shadow: 0 4px 20px rgba(0,0,0,.25), inset 0 0 0 1px rgba(78,85,130,.25);
+      }
+      .masthead .site-title { font-size: 26px; font-weight: 800; letter-spacing: .6px; margin: 0 0 6px 0; display:flex; align-items:center; gap:10px; }
+      .masthead .site-title .grad-text { background: linear-gradient(90deg,#7bfbb7 0%,#69a7ff 50%,#ffce5b 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+      .masthead .subtitle { font-size: 13px; color: #cfe4ff; opacity: .95; margin: 0 0 10px 28px; }
+      .masthead .purpose { display:flex; flex-wrap:wrap; gap: 8px 10px; margin-left: 28px; }
+      .chip { display:inline-flex; align-items:center; gap:6px; padding: 5px 10px; border-radius: 999px; border: 1px solid #3c456e; background: #1a2134; color: #dbe6ff; font-weight: 600; font-size: 12px; }
+      .chip svg { width: 14px; height: 14px; }
+      .masthead .decor { position:absolute; right: -40px; top: -40px; width: 220px; height: 220px; opacity:.18; filter: blur(0.2px); }
+
+      .panel {
+        position: sticky; top: 0; z-index: 10;
+        display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+        background: var(--panel); border-radius: 12px;
+        /* Flat 风格：无边框无阴影 */
+        border: none; box-shadow: none;
+        padding: 10px 14px; margin-bottom: 12px;
+        backdrop-filter: blur(6px);
+      }
+      .brand { display:flex; align-items:center; gap:8px; margin-right:auto; }
+      .brand svg { width: 18px; height: 18px; filter: drop-shadow(0 0 6px var(--glow)); }
+      .brand .title { color: var(--accent); font-size: 16px; letter-spacing: 0.2px; font-weight: 600; }
+      .brand .note { color: #9bc2ff; font-size: 12px; opacity: .9; }
+
+      .panel label { font-size: 1em; color: #ffe49b; font-weight: 700; letter-spacing: 0.2px; }
+      .panel .sep { width:1px; height:20px; background: #3e4770; opacity:.7; }
+      .slider-bar { min-width: 120px; margin-right: 4px; }
+      .slider-val { color: var(--accent-2); font-size: 1em; margin-left: 4px; min-width: 28px; display: inline-block; font-weight: 600; }
+      .search { min-width: 200px; max-width: 320px; width: 22vw; padding: 6px 10px; border-radius: 8px; border: none; background:#1f2638; color:#e9eefc; }
+      .search::placeholder { color:#9db0d8 }
+      .btn { cursor: pointer; padding: 6px 10px; border-radius: 8px; border: none; background:#1f2638; color:#e9eefc; }
+      .toggle { display:inline-flex; align-items:center; gap:6px; color:#dbe6ff; font-weight:600; }
+      .toggle input { accent-color: #69a7ff; }
+      .stats { color:#9ab4ff; font-weight:600; }
+      .presets { display:inline-flex; gap:6px; }
+      .preset { cursor:pointer; padding:4px 8px; border-radius:999px; border:1px solid #3c456e; background:#1b2032; color:#cfe4ff; }
+      .preset:hover { border-color:#4f79ff; }
+
+      /* 多列容器：支持列宽调节 */
+      .cheat-columns { column-count: 4; column-gap: 16px; margin-top: 12px; transition: column-width 0.2s ease; column-width: 340px; }
+      @media (max-width: 1500px) { .cheat-columns { column-count: 3; } }
+      @media (max-width: 1100px) { .cheat-columns { column-count: 2; column-gap: 12px; } }
+      @media (max-width: 750px)  { .cheat-columns { column-count: 1; } }
+
+      .card {
+        position: relative;
+        background: var(--card); border-radius: 12px;
+        /* Flat 风格：无边框无阴影 */
+        border: none; box-shadow: none; backdrop-filter: blur(2px);
+        margin-bottom: 14px; padding: 14px 14px 10px 14px; break-inside: avoid; box-sizing: border-box;
+      }
+      /* 取消左侧高亮条，保留纯平整洁 */
+      .card::before{ display:none; }
+      .card:hover { box-shadow: none; }
+      .card h2 { margin: -6px 0 6px 0; font-size: 15px; font-weight: 700; color: var(--title); letter-spacing: 0.6px; display: flex; align-items: center; gap: 8px; }
+      .card h2 .link { color: var(--link); font-weight: 700; display: inline-flex; align-items:center; gap:4px; }
+      /* 标题可点击：淡淡下划线，悬停更明显 */
+      .card h2 .title-link { color: var(--link); text-decoration: underline; text-decoration-color: rgba(147,205,252,.35); text-underline-offset: 2px; }
+      .card h2 .title-link:hover { text-decoration-color: rgba(147,205,252,.75); }
+      .card .desc { color: var(--desc); margin: 2px 0 2px 0; font-size: 1em; line-height: 1.2; }
+      .icon { width: 16px; height: 16px; border-radius: 3px; object-fit: cover; display: inline-block; }
+      /* 移除本地/导入标签（不再使用） */
+      .copy { position:absolute; right:8px; top:8px; opacity:.85; }
+      .copy button { background:transparent; border:none; color:#9db0d8; border-radius:8px; padding:4px 6px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; }
+      .copy button:hover { color:#cfe4ff; }
+
+      /* 返回顶部按钮 */
+      #backTop { position: fixed; right: 18px; bottom: 18px; z-index: 20; opacity: 0; pointer-events: none; transition: opacity .2s ease; }
+      #backTop button { background:#1b2032; color:#d7e6ff; border:none; border-radius:999px; padding:10px; display:flex; align-items:center; justify-content:center; box-shadow: none; }
+      #backTop.show { opacity: 0.95; pointer-events: auto; }
+
+      /* 降噪：动效可选 */
+      @media (prefers-reduced-motion: reduce) {
+        .cheat-columns { transition: none; }
+        .card:hover { box-shadow: 0 2px 12px 1px rgba(0,0,0,0.18); }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <section class="masthead" aria-label="网站信息">
+        <svg class="decor" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+          <defs>
+            <linearGradient id="mgrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#69a7ff"/>
+              <stop offset="100%" stop-color="#56ffe5"/>
+            </linearGradient>
+          </defs>
+          <path d="M10 40h80l20 20h70v90H10z" fill="none" stroke="url(#mgrad)" stroke-width="3"/>
+          <circle cx="18" cy="160" r="4" fill="#69a7ff"/>
+          <circle cx="120" cy="64" r="3" fill="#56ffe5"/>
+          <circle cx="160" cy="120" r="3" fill="#ffce5b"/>
+        </svg>
+        <h1 class="site-title">
+          <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="#7bfbb7" d="M3 6h10l2 2h6v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" opacity=".22"/></svg>
+          <span class="grad-text">极客速查库</span>
+          <span style="font-size:14px;color:#9bc2ff;opacity:.9;">Cheatsheet Hub</span>
+        </h1>
+        <p class="subtitle">网站建设目的：离线聚合高质量技术速查，统一风格与交互，提供极快的检索与导航体验。</p>
+        <div class="purpose">
+          <span class="chip"><svg><use href="#icon-terminal"/></svg>命令/代码为先</span>
+          <span class="chip"><svg><use href="#icon-book"/></svg>结构清晰可读</span>
+          <span class="chip"><svg><use href="#icon-rocket"/></svg>快速检索导航</span>
+          <span class="chip"><svg><use href="#icon-cpu"/></svg>轻量离线可用</span>
+        </div>
+      </section>
+      <div class="panel">
+        <div class="brand" title="Cheatsheet Navigation">
+          <!-- 简洁极客风SVG徽标 -->
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path fill="#7bfbb7" d="M3 6h10l2 2h6v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" opacity=".18"/>
+            <path fill="#9bc2ff" d="M4 7h8l2 2h6v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z" opacity=".25"/>
+            <path fill="#ffce5b" d="M6 15h5v2H6zM6 11h9v2H6zM6 9h7v1H6z"/>
+          </svg>
+          <div>
+            <div class="title">Cheatsheet 导览</div>
+            <div class="note">极客风 · 简约 · 快速检索</div>
+          </div>
+        </div>
+        <span class="sep"></span>
+        <label for="columnWidth">🔧 列宽：</label>
+        <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340" />
+        <span id="widthVal" class="slider-val">340px</span>
+        <span class="presets">
+          <button class="preset" data-w="300">窄</button>
+          <button class="preset" data-w="380">中</button>
+          <button class="preset" data-w="520">宽</button>
+        </span>
+        <span class="sep"></span>
+        <input id="searchBox" class="search" type="search" placeholder="/ 快速筛选（标题/简介）" />
+        <label class="toggle"><input id="onlyLocal" type="checkbox" checked /> 本地</label>
+        <label class="toggle"><input id="onlyImport" type="checkbox" checked /> 导入</label>
+        <label class="toggle">排序
+          <select id="sortSelect" class="btn">
+            <option value="name-asc">名称 ↑</option>
+            <option value="name-desc">名称 ↓</option>
+          </select>
+        </label>
+        <span id="stats" class="stats"></span>
+      </div>
+      <div id="columns" class="cheat-columns">
+        <!-- CHEATSHEET_ITEMS -->
+      </div>
+    </div>
+
+    <!-- 全局可复用SVG（箭头） -->
+    <svg width="0" height="0" style="position:absolute">
+      <defs>
+        <symbol id="icon-arrow" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M13.172 12L8.222 7.05l1.414-1.414L16 12l-6.364 6.364-1.414-1.414z"/>
+        </symbol>
+        <symbol id="icon-link" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M3.9 12a5 5 0 0 1 5-5h3v2h-3a3 3 0 1 0 0 6h3v2h-3a5 5 0 0 1-5-5Zm7-3h2v6h-2V9Zm4.2-4h3a5 5 0 1 1 0 10h-3v-2h3a3 3 0 1 0 0-6h-3V5Z"/>
+        </symbol>
+        <symbol id="icon-copy" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M8 7h9a2 2 0 0 1 2 2v9h-2V9H8V7Zm-3 3h9a2 2 0 0 1 2 2v9H7a2 2 0 0 1-2-2v-9Z"/>
+        </symbol>
+        <symbol id="icon-doc" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M6 3h8l5 5v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Zm8 6h4l-4-4v4Zm-7 3h10v1H7v-1Zm0 3h10v1H7v-1Z"/>
+        </symbol>
+        <symbol id="icon-terminal" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M3 5h18a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Zm2 3 4 4-4 4-1.4-1.4L6.2 12 3.6 9.4 5 8Zm7 1h7v2h-7V9Z"/>
+        </symbol>
+        <symbol id="icon-book" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M5 3h11a3 3 0 0 1 3 3v13h-2V6a1 1 0 0 0-1-1H5v15H3V6a3 3 0 0 1 3-3Z"/>
+        </symbol>
+        <symbol id="icon-rocket" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M13 2c3 0 6 2.5 6 6.5S15 17 12 20c-3-3-7-8.5-7-11.5S7 2 10 2h3Zm-1.5 7L9 11.5 7.5 10 10 7.5 11.5 9Z"/>
+        </symbol>
+        <symbol id="icon-cpu" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M9 3h2v3h2V3h2v3h2a2 2 0 0 1 2 2v2h3v2h-3v2h3v2h-3v2a2 2 0 0 1-2 2h-2v3h-2v-3h-2v3H9v-3H7a2 2 0 0 1-2-2v-2H2v-2h3v-2H2V10h3V8a2 2 0 0 1 2-2h2V3Zm-2 7v6h10v-6H7Z"/>
+        </symbol>
+      </defs>
+    </svg>
+
+    <!-- 角落装饰SVG（电路纹理风） -->
+    <svg viewBox="0 0 160 160" width="160" height="160" style="position:fixed;left:-28px;bottom:-28px;opacity:.12;z-index:0;pointer-events:none;mix-blend-mode:screen;">
+      <defs>
+        <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#69a7ff"/>
+          <stop offset="100%" stop-color="#56ffe5"/>
+        </linearGradient>
+      </defs>
+      <path d="M8 152V80h24v40h16V64h24v64h16v-40h24v24h24v40" fill="none" stroke="url(#g)" stroke-width="2"/>
+      <circle cx="8" cy="152" r="3" fill="#69a7ff"/>
+      <circle cx="56" cy="64" r="2" fill="#56ffe5"/>
+      <circle cx="112" cy="104" r="2" fill="#69a7ff"/>
+    </svg>
+
+    <script>
+      // 第1次：列宽调节 + 搜索过滤 + 自动徽章 + 复制链接
+      (function() {
+        var $ = function(s, root){ return (root||document).querySelector(s); };
+        var $$ = function(s, root){ return Array.prototype.slice.call((root||document).querySelectorAll(s)); };
+
+        var columns = $('#columns');
+        var slider = $('#columnWidth');
+        var widthVal = $('#widthVal');
+        var search = $('#searchBox');
+        var stats = $('#stats');
+        var onlyLocal = document.getElementById('onlyLocal');
+        var onlyImport = document.getElementById('onlyImport');
+        var sortSel = document.getElementById('sortSelect');
+        var keyWidth = 'nav_column_width_px';
+        var presets = $$('.preset');
+
+        // 初始化列宽（持久化）
+        try {
+          var saved = localStorage.getItem(keyWidth);
+          if (saved) { slider.value = saved; columns.style.columnWidth = saved + 'px'; widthVal.textContent = saved + 'px'; }
+        } catch (e) {}
+        slider.addEventListener('input', function() {
+          columns.style.columnWidth = slider.value + 'px';
+          widthVal.textContent = slider.value + 'px';
+        });
+        slider.addEventListener('change', function() {
+          try { localStorage.setItem(keyWidth, slider.value); } catch (e) {}
+        });
+        presets.forEach(function(btn){
+          btn.addEventListener('click', function(){
+            var v = btn.getAttribute('data-w');
+            slider.value = v; columns.style.columnWidth = v + 'px'; widthVal.textContent = v + 'px';
+            try { localStorage.setItem(keyWidth, v); } catch (e) {}
+          });
+        });
+
+        // 为每张卡自动添加 copy 按钮、导入/本地徽章
+        function enhanceCards() {
+          var cards = $$('.card');
+          cards.forEach(function(card){
+            var h2 = $('h2', card);
+            var link = $('.link', card);
+            if (!h2 || !link) return;
+            // 规范化标题文本（去除图标与现有链接显示内容）
+            var h2clone = h2.cloneNode(true);
+            var toRemove = h2clone.querySelector('.link'); if (toRemove) toRemove.remove();
+            var iconClone = h2clone.querySelector('.icon'); if (iconClone) iconClone.remove();
+            var titleText = (h2clone.textContent || '').trim();
+
+            // 数据缓存（搜索/排序用）
+            card.dataset.title = titleText;
+            var descRaw = ($('.desc', card)?.textContent || '').trim();
+            card.dataset.desc = descRaw;
+
+            // 若无图标，添加默认文档图标
+            var iconEl = h2.querySelector('.icon');
+            if (!iconEl) {
+              h2.insertAdjacentHTML('afterbegin', '<svg class="icon" width="16" height="16" viewBox="0 0 24 24"><use href="#icon-doc"/></svg>');
+            }
+
+            // 将标题文本变为可点击链接（使用原有 .link 元素）
+            // 清理 h2 中除图标与 link 外的其它节点
+            var iconKeep = h2.querySelector('.icon');
+            Array.from(h2.childNodes).forEach(function(n){ if (n !== iconKeep && n !== link) h2.removeChild(n); });
+            link.classList.add('title-link');
+            link.innerHTML = '';
+            link.appendChild(document.createTextNode(titleText));
+
+            // 复制链接按钮（保持但改为更扁平）
+            var href = link.getAttribute('href') || '';
+            var wrap = document.createElement('div');
+            wrap.className = 'copy';
+            wrap.innerHTML = '<button title="复制链接"><svg width="14" height="14"><use href="#icon-copy"/></svg>复制</button>';
+            wrap.addEventListener('click', function(){
+              try { navigator.clipboard.writeText(location.origin + '/' + href); } catch(e) { /* ignore */ }
+              var btn = wrap.querySelector('button');
+              var before = btn.textContent;
+              btn.textContent = '已复制';
+              setTimeout(function(){ btn.textContent = before; }, 900);
+            });
+            card.appendChild(wrap);
+          });
+        }
+
+        // 搜索过滤（标题+简介）
+        function filterCards(q){
+          var cards = $$('.card');
+          var visible = 0; q = (q||'').trim().toLowerCase();
+          var showLocal = !!(onlyLocal && onlyLocal.checked);
+          var showImport = !!(onlyImport && onlyImport.checked);
+
+          function highlight(el, origin, query){
+            if (!el) return;
+            if (!el.dataset.origin) el.dataset.origin = el.innerHTML;
+            if (!query) { el.innerHTML = el.dataset.origin; return; }
+            try {
+              var safe = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+              var re = new RegExp('(' + safe + ')', 'ig');
+              el.innerHTML = el.dataset.origin.replace(re, '<mark style="background:#3e5bd4;color:#fff;border-radius:3px;padding:0 2px">$1</mark>');
+            } catch(e){ el.innerHTML = el.dataset.origin; }
+          }
+
+          cards.forEach(function(card){
+            var title = (card.dataset.title || '').toLowerCase();
+            var desc = (card.dataset.desc || '').toLowerCase();
+            var href = ($('.link', card)?.getAttribute('href') || '');
+            var isImport = href.indexOf('cheatsheets-import/') === 0;
+            var byGroup = (isImport ? showImport : showLocal);
+            var hit = (!q || title.indexOf(q) >= 0 || desc.indexOf(q) >= 0) && byGroup;
+            highlight($('h2', card), card.dataset.title || '', q);
+            highlight($('.desc', card), card.dataset.desc || '', q);
+            card.style.display = hit ? '' : 'none';
+            if (hit) visible++;
+          });
+          stats.textContent = (q ? ('匹配 ' + visible + ' 项') : ('共 ' + cards.length + ' 项')) + ' · 可见：' + visible;
+        }
+
+        function sortCards(order){
+          var cards = $$('.card');
+          var nodes = cards.map(function(c){ return { node: c, key: (c.dataset.title||'').toLowerCase() }; });
+          nodes.sort(function(a,b){ return a.key.localeCompare(b.key, 'zh-Hans-CN'); });
+          if (order === 'name-desc') nodes.reverse();
+          var frag = document.createDocumentFragment();
+          nodes.forEach(function(it){ frag.appendChild(it.node); });
+          columns.appendChild(frag);
+        }
+
+        // 快捷键：按 / 聚焦搜索，Esc 清空
+        document.addEventListener('keydown', function(ev){
+          if (ev.key === '/' && document.activeElement !== search) { ev.preventDefault(); search.focus(); }
+          if (ev.key === 'Escape') { search.value = ''; filterCards(''); }
+        });
+        // 输入防抖
+        var tId; search.addEventListener('input', function(){ clearTimeout(tId); tId=setTimeout(function(){ filterCards(search.value); }, 100); });
+        if (onlyLocal) onlyLocal.addEventListener('change', function(){ filterCards(search.value); });
+        if (onlyImport) onlyImport.addEventListener('change', function(){ filterCards(search.value); });
+        if (sortSel) sortSel.addEventListener('change', function(){ sortCards(sortSel.value); filterCards(search.value); });
+
+        // 首次增强 + 初始化统计
+        enhanceCards();
+        if (sortSel) sortCards(sortSel.value);
+        filterCards('');
+
+        // 返回顶部按钮显示与行为
+        var backTop = (function(){
+          var wrap = document.createElement('div'); wrap.id = 'backTop';
+          wrap.innerHTML = '<button title="回到顶部"><svg width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M12 5l7 7-1.4 1.4L13 8.8V20h-2V8.8L6.4 13.4 5 12z"/></svg></button>';
+          document.body.appendChild(wrap);
+          function onScroll(){ wrap.className = (window.scrollY > 200 ? 'show' : ''); }
+          window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+          wrap.querySelector('button').addEventListener('click', function(){ window.scrollTo({ top: 0, behavior: 'smooth' }); });
+          return wrap;
+        })();
+      })();
+    </script>
+  </body>
+  </html>

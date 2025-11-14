@@ -73,6 +73,25 @@ links.md 中包含了我之前整理的在线 cheatsheet 列表（JSON 代码块
 - **代码高亮**：深色主题的语法着色
 - **性能优化**：无外部依赖，加载快速
 
+## 生成导览页（index.html）
+
+- 生成脚本：`node scripts/generate-nav.js`
+- 模板路径：`templates/nav.template.html`
+- 数据来源：`cheatsheets/` 与 `cheatsheets-import/` 下的各个子目录（读取 `desc.md` 与入口 HTML）
+
+运行方式：
+
+- 使用 pnpm：`pnpm run generate:nav`
+- 或使用 npm：`npm run generate:nav`
+
+选择规则：
+
+- 链接优先级：`index.html` > 与目录同名的 `.html` > 目录内按名称排序的第一个 `.html`
+- 简介来源：`desc.md` 第一行（若缺失则留空）
+- 图标：存在 `icon.png` 则显示于标题前
+
+输出文件：仓库根目录 `index.html`
+
 ## 开发说明
 
 ### 模板结构
