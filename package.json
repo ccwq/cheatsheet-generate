@@ -7,7 +7,11 @@
     "download": "node codepen-downloader/codepen-downloader.js",
     "download:dry": "node codepen-downloader/codepen-downloader.js --dry-run",
     "test:finalhtml": "node codepen-downloader/test-finalhtml.js",
-    "generate:nav": "node scripts/generate-nav.js"
+    "generate:nav": "node scripts/generate-nav.js",
+    "workflow": "node scripts/workflow.js",
+    "release:patch": "node scripts/workflow.js --bump patch",
+    "release:minor": "node scripts/workflow.js --bump minor",
+    "release:major": "node scripts/workflow.js --bump major"
   },
   "dependencies": {
     "chalk": "^4.1.2",
