@@ -86,8 +86,8 @@ links.md 中包含了我之前整理的在线 cheatsheet 列表（JSON 代码块
 
 运行方式：
 
-- 使用 pnpm：`pnpm run generate:nav`
-- 或使用 npm：`npm run generate:nav`
+- 使用 pnpm：`pnpm run build`
+- 或使用 npm：`npm run build`
 
 选择规则：
 
@@ -134,7 +134,7 @@ links.md 中包含了我之前整理的在线 cheatsheet 列表（JSON 代码块
 ## 变更日志（最近）
 
 - 新增：模板 `templates/nav.template.html`，极客风 + 扁平化样式
-- 新增：生成脚本 `scripts/generate-nav.js`，`package.json` 增加 `generate:nav`
+- 新增：生成脚本 `scripts/generate-nav.js`，`package.json` 增加 `build`
 - 逻辑：遍历 `cheatsheets/` 与 `cheatsheets-import/`，优先级选择 HTML 入口，`desc.md` 第一行为简介，自动图标占位
 - 交互：Masthead、搜索/高亮、列宽滑块与预设、复制链接（Pages 兼容）
 - 样式：自定义滚动条；左下角装饰 SVG 降低不透明度且禁用 pointer-events

@@ -5,7 +5,7 @@
 ## 变更记录（2025-11-17）
 
 - 新增导览页模板：`templates/nav.template.html`
-- 新增生成脚本：`scripts/generate-nav.js`，并在 `package.json` 增加脚本：`generate:nav`
+- 新增生成脚本：`scripts/generate-nav.js`，并在 `package.json` 增加脚本：`build`
 - 生成逻辑：
   - 数据来源目录：`cheatsheets/`、`cheatsheets-import/`
   - 目录过滤：忽略所有以 `_` 开头的目录（开发中/WIP 或 demo），不纳入发布导览
@@ -45,7 +45,7 @@
 ## 运行与发布
 
 - 生成导览页：
-  - `pnpm run generate:nav`（或 `npm run generate:nav`）
+  - `pnpm run build`（或 `npm run build`）
   - 产物：`index.html`
 - GitHub Pages：
   - Pages 源为 “Deploy from a branch”，分支 `main`，目录 `/(root)`
