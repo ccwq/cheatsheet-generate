@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>LiteLLM 完整配置速查表</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    html,body{height:100%;margin:0;padding:0;background:linear-gradient(130deg,#303d54 0%,#23304a 48%,#171b27 100%);font-family:'Segoe UI','PingFang SC','Microsoft YaHei',Arial,sans-serif;font-size:12px;line-height:1.1;color:#e7e7ea;overflow-x:hidden}body{min-height:100vh;padding:0}.container{width:100%;max-width:100%;margin:0 auto;padding:8px 4px 16px 4px;box-sizing:border-box}.cheat-columns{column-count:4;column-gap:16px;transition:column-width 0.2s;margin-top:12px}@media (max-width:1500px){.cheat-columns{column-count:3}}@media (max-width:1100px){.cheat-columns{column-count:2;column-gap:12px}}@media (max-width:750px){.cheat-columns{column-count:1}}.card{background:rgba(29,36,53,0.85);border-radius:12px;box-shadow:0 2px 12px 1px rgba(0,0,0,0.18);backdrop-filter:blur(6px);margin-bottom:14px;padding:14px 14px 8px 14px;break-inside:avoid;border:1px solid rgba(78,85,130,.12);min-width:0;box-sizing:border-box}.card h2{margin:-6px 0 6px 0;font-size:15px;font-weight:600;color:#fdbe3f;letter-spacing:0.6px}.card h3{font-size:12px;font-weight:bold;color:#93cdfc;margin:6px 0 4px 0}.card ul,.card ol{padding-left:12px;margin:3px 0 8px 0}.card li{margin-bottom:3px;word-break:break-all}code,pre{font-family:'Fira Mono','Consolas','Menlo',monospace;font-size:1em;background:#181d26;color:#e2ffd0;border-radius:5px;line-height:1.1;padding:0 2px;letter-spacing:0.1px;word-wrap:break-word;word-break:break-all}pre{background:#1a1e2b;border-radius:6px;padding:8px 1em;margin:6px 0 8px 0;color:#e6e8ef;overflow-x:auto;font-size:1em;line-height:1.1;box-shadow:0 1px 5px 0 rgba(0,12,22,.15)}@media (max-width:750px){pre{font-size:1em;padding:6px 8px}}.desc{color:#acc3f8;font-style:italic;margin:2px 0 4px 0;font-size:1em;line-height:1.1}.panel{display:flex;align-items:center;background:rgba(36,41,59,0.91);border-radius:12px;box-shadow:0 1px 6px 0 rgba(0,0,0,0.1);padding:8px 16px;margin-bottom:12px;border:1px solid #353e63;gap:16px;flex-wrap:wrap;box-sizing:border-box}.panel label{font-size:1em;color:#ffe49b;font-weight:bold;margin-right:5px;letter-spacing:0.2px}.slider-bar{min-width:120px;margin-right:6px}.slider-val{color:#ffce5b;font-size:1em;margin-left:4px;min-width:28px;display:inline-block;font-weight:600}@media (max-width:660px){.panel{flex-direction:column;gap:8px;padding:6px 4px}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <span style="color:#7bfbb7;font-size:16px;margin-right:auto;">LiteLLM 速查表</span>
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <!-- 核心配置结构 -->
+      <div class="card">
+        <h2>🏗️ 核心配置结构 <a href="https://docs.litellm.ai/docs/proxy/config" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+        <p class="desc">LiteLLM Proxy 的完整配置层级</p>
+        <ul>
+          <li><code>litellm_settings</code>：核心运行时与日志设置</li>
+          <li><code>general_settings</code>：通用代理与安全设置</li>
+          <li><code>router_settings</code>：路由、重试与降级策略</li>
+          <li><code>model_list</code>：模型定义与成本信息</li>
+          <li><code>environment_variables</code>：环境变量映射</li>
+          <li><code>callback_settings</code>：回调服务特定配置</li>
+        </ul>
+      </div>
+
+      <!-- 模型配置 -->
+      <div class="card">
+        <h2>🤖 模型定义配置 <a href="https://docs.litellm.ai/docs/proxy/configs" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+        <p class="desc">声明模型及其元数据</p>
+        <pre>model_list:
+  - model_name: gpt-4o
+    litellm_params:
+      model: gpt-4o
+      api_key: os.environ/OPENAI_API_KEY
+      rpm: 60
+  - model_name: claude-3-5-sonnet
+    litellm_params:
+      model: anthropic/claude-3-5-sonnet-20240620
+      api_key: os.environ/ANTHROPIC_API_KEY</pre>
+        <h3>Azure OpenAI 配置</h3>
+        <pre>model_list:
+  - model_name: azure-gpt4
+    litellm_params:
+      model: azure/gpt-4
+      api_base: https://your-resource.openai.azure.com/
+      api_key: os.environ/AZURE_API_KEY
+      api_version: 2024-02-15-preview</pre>
+      </div>
+
+      <!-- 路由与负载均衡 -->
+      <div class="card">
+        <h2>⚡ 路由与负载均衡 <a href="https://docs.litellm.ai/docs/routing" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+        <p class="desc">高级路由、重试与冷却机制</p>
+        <pre>router_settings:
+  routing_strategy: usage-based-routing-v2
+  enable_pre_call_checks: true
+  cooldown_time: 30
+  disable_cooldowns: false
+  retry_policy:
+    AuthenticationErrorRetries: 3
+    TimeoutErrorRetries: 3
+  fallbacks: [{"gpt-3.5-turbo": ["gpt-4"]}]
+  model_group_alias: {"gpt-4": "gpt-3.5-turbo"}</pre>
+        <h3>负载均衡配置</h3>
+        <pre>router_settings:
+  load_balancing:
+    strategy: "weighted_round_robin"
+    weights:
+      - model_name: gpt-4
+        weight: 0.7
+      - model_name: claude-3-opus
+        weight: 0.3</pre>
+      </div>
+
+      <!-- 缓存配置 -->
+      <div class="card">
+        <h2>💾 缓存系统配置 <a href="https://docs.litellm.ai/docs/proxy/caching" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+        <p class="desc">Redis、S3、Qdrant 语义缓存</p>
+        <pre>litellm_settings:
+  cache: true
+  cache_params:
+    type: redis
+    host: localhost
+    port: 6379
+    password: your_password
+    namespace: litellm.caching.caching
+    ttl: 600
+    # 语义缓存
+    qdrant_semantic_cache_embedding_model: openai-embedding
+    similarity_threshold: 0.8</pre>
+        <h3>S3 缓存配置</h3>
+        <pre>cache_params:
+  type: s3
+  s3_bucket_name: cache-bucket-litellm
+  s3_region_name: us-west-2
+  s3_aws_access_key_id: os.environ/AWS_ACCESS_KEY_ID
+  s3_aws_secret_access_key: os.environ/AWS_SECRET_ACCESS_KEY</pre>
+      </div>
+
+      <!-- 安全与认证 -->
+      <div class="card">
+        <h2>🔒 安全与认证 <a href="https://docs.litellm.ai/docs/secret" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+        <p class="desc">JWT、KMS 与访问控制</p>
+        <pre>general_settings:
+  master_key: sk-xxx
+  enable_jwt_auth: false
+  key_management_system: google_kms
+  use_google_kms: true
+  disable_master_key_return: false
+  allowed_ips: ["192.168.1.0/24"]
+  allowed_routes: ["/v1/chat/completions", "/v1/embeddings"]
+  admin_only_routes: ["/model/list", "/key/list"]</pre>
+        <h3>虚拟密钥配置</h3>
+        <pre>general_settings:
+  database_url: "postgresql://user:pass@localhost:5432/litellm"
+  max_parallel_requests: 50
+  global_max_parallel_requests: 200</pre>
+      </div>
+
+      <!-- 回调与监控 -->
+      <div class="card">
+        <h2>📊 回调与监控 <a href="https://docs.litellm.ai/docs/proxy/logging" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+        <p class="desc">监控、追踪与调试配置</p>
+        <pre>litellm_settings:
+  success_callback: ["langfuse", "openmeter"]
+  failure_callback: ["sentry"]
+  callbacks: ["otel"]
+  service_callbacks: ["datadog", "prometheus"]
+  turn_off_message_logging: false
+  redact_user_api_key_info: false
+  set_verbose: false
+  json_logs: true</pre>
+        <h3>Langfuse 配置</h3>
+        <pre>litellm_settings:
+  langfuse_default_tags: ["cache_hit", "user_api_key_alias"]
+  langfuse_public_key: os.environ/LANGFUSE_PUBLIC_KEY
+  langfuse_secret_key: os.environ/LANGFUSE_SECRET_KEY</pre>
+      </div>
+
+      <!-- 环境变量 -->
+      <div class="card">
+        <h2>🌍 关键环境变量 <a href="https://docs.litellm.ai/docs/environment-variables" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+        <p class="desc">必须设置的核心 API 密钥</p>
+        <ul>
+          <li><code>OPENAI_API_KEY</code>：OpenAI 服务</li>
+          <li><code>ANTHROPIC_API_KEY</code>：Anthropic 服务</li>
+          <li><code>AZURE_API_KEY</code> / <code>AZURE_API_VERSION</code>：Azure OpenAI</li>
+          <li><code>GOOGLE_API_KEY</code>：Google AI / Gemini</li>
+          <li><code>AWS_ACCESS_KEY_ID</code> / <code>AWS_SECRET_ACCESS_KEY</code>：AWS 服务</li>
+          <li><code>GROQ_API_KEY</code>：Groq 高速推理</li>
+          <li><code>COHERE_API_KEY</code>：Cohere 服务</li>
+          <li><code>REPLICATE_API_KEY</code>：Replicate 服务</li>
+          <li><code>HUGGINGFACE_API_KEY</code>：HuggingFace 服务</li>
+          <li><code>LANGFUSE_SECRET_KEY</code>：Langfuse 追踪</li>
+          <li><code>DD_API_KEY</code>：Datadog 监控</li>
+        </ul>
+      </div>
+
+      <!-- 可靠性配置 -->
+      <div class="card">
+        <h2>🛡️ 可靠性配置 <a href="https://docs.litellm.ai/docs/proxy/reliability" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+        <p class="desc">降级、容错与网络配置</p>
+        <pre>litellm_settings:
+  default_fallbacks: ["claude-opus"]
+  content_policy_fallbacks: [{"gpt-3.5-turbo": ["claude-opus"]}]
+  context_window_fallbacks: [{"gpt-3.5-turbo": ["gpt-4"]}]
+  request_timeout: 60
+  force_ipv4: false
+  num_retries: 3</pre>
+        <h3>健康检查配置</h3>
+        <pre>general_settings:
+  background_health_checks: true
+  health_check_interval: 300
+  disable_health_checks: false</pre>
+      </div>
+
+      <!-- Docker 部署 -->
+      <div class="card">
+        <h2>🐳 Docker 部署配置 <a href="https://docs.litellm.ai/docs/proxy/deploy" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+        <p class="desc">容器化部署与扩展</p>
+        <pre>version: "3.9"
+services:
+  litellm:
+    image: ghcr.io/berriai/litellm:main-stable
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./config.yaml:/app/config.yaml
+    environment:
+      - DATABASE_URL=postgresql://user:pass@db:5432/litellm
+      - LITELLM_MASTER_KEY=sk-1234
+    command: ["--config", "/app/config.yaml", "--port", "4000", "--num_workers", "8"]
+    depends_on:
+      - db</pre>
+        <h3>Kubernetes 部署</h3>
+        <pre>apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: litellm-proxy
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: litellm
+  template:
+    spec:
+      containers:
+      - name: litellm
+        image: ghcr.io/berriai/litellm:main-stable
+        ports:
+        - containerPort: 4000</pre>
+      </div>
+
+      <!-- 集成配置 -->
+      <div class="card">
+        <h2>🔗 第三方集成 <a href="https://docs.litellm.ai/docs/integrations" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+        <p class="desc">主流工具与服务集成</p>
+        <h3>Claude Code 配置</h3>
+        <pre>export ANTHROPIC_BASE_URL="http://0.0.0.0:4000"
+export ANTHROPIC_AUTH_TOKEN="$LITELLM_MASTER_KEY"</pre>
+        <h3>GitHub Copilot 配置</h3>
+        <pre>{
+  "github.copilot.advanced": {
+    "debug.overrideProxyUrl": "http://localhost:4000",
+    "debug.testOverrideProxyUrl": "http://localhost:4000"
+  }
+}</pre>
+        <h3>AutoGen 配置</h3>
+        <pre>config_list=[{
+    "model": "my-fake-model",
+    "api_base": "http://localhost:4000",
+    "api_type": "open_ai",
+    "api_key": "NULL"
+}]</pre>
+      </div>
+
+      <!-- 性能优化 -->
+      <div class="card">
+        <h2>⚡ 性能优化 <a href="https://docs.litellm.ai/docs/proxy/performance" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+        <p class="desc">并发控制与性能调优</p>
+        <ul>
+          <li><code>max_parallel_requests</code>：每部署最大并发</li>
+          <li><code>global_max_parallel_requests</code>：全局最大并发</li>
+          <li><code>num_workers</code>：工作进程数量</li>
+          <li><code>request_timeout</code>：请求超时时间</li>
+          <li><code>background_health_checks</code>：后台健康检查</li>
+          <li><code>disable_retry_on_max_parallel_request_limit_error</code>：禁用并发超限重试</li>
+        </ul>
+        <h3>性能配置示例</h3>
+        <pre>general_settings:
+  max_parallel_requests: 100
+  global_max_parallel_requests: 500
+  proxy_batch_write_at: 10
+  proxy_batch_polling_interval: 3600</pre>
+      </div>
+
+      <!-- 告警配置 -->
+      <div class="card">
+        <h2>🚨 告警与通知 <a href="https://docs.litellm.ai/docs/proxy/alerting" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+        <p class="desc">Slack、Email 与企业告警</p>
+        <pre>general_settings:
+  alerting: ["slack", "email"]
+  alerting_threshold: 300
+  alerting_args:
+    slack_webhook_url: "https://hooks.slack.com/services/xxx"
+    alert_channels:
+      budget_alerts: "#budget-alerts"
+      system_alerts: "#system-alerts"
+  spend_report_frequency: "1d"
+  alert_to_webhook_url:
+    budget_alert: "https://webhook.site/xxx"
+    system_alert: "https://webhook.site/yyy"</pre>
+        <h3>预算控制</h3>
+        <pre>general_settings:
+  budget_local: 100.0
+  budget_duration: 30d
+  budget_alert_buffer: 0.8</pre>
+      </div>
+
+      <!-- 数据库配置 -->
+      <div class="card">
+        <h2>🗄️ 数据库配置 <a href="https://docs.litellm.ai/docs/proxy/db" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+        <p class="desc">PostgreSQL、连接池与优雅降级</p>
+        <pre>general_settings:
+  database_url: "postgresql://user:pass@localhost:5432/litellm"
+  database_connection_pool_limit: 100
+  database_connection_timeout: 60
+  disable_spend_logs: false
+  store_prompts_in_spend_logs: true
+  allow_requests_on_db_unavailable: true
+  maximum_spend_logs_retention_period: 30d</pre>
+        <h3>Redis 集群配置</h3>
+        <pre>cache_params:
+  type: redis
+  redis_startup_nodes:
+    - host: "127.0.0.1"
+      port: "7001"
+  service_name: "mymaster"
+  sentinel_nodes:
+    - ["localhost", 26379]</pre>
+      </div>
+
+      <!-- 企业级功能 -->
+      <div class="card">
+        <h2>🏢 企业级功能 <a href="https://docs.litellm.ai/docs/enterprise" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+        <p class="desc">高级控制与扩展功能</p>
+        <ul>
+          <li><code>allowed_routes</code>：限制可访问的 API 路由</li>
+          <li><code>enforce_user_param</code>：强制所有请求包含 'user' 参数</li>
+          <li><code>pass_through_endpoints</code>：直通端点配置</li>
+          <li><code>store_model_in_db</code>：在数据库中存储模型信息</li>
+          <li><code>ui_access_mode: "admin_only"</code>：限制 UI 仅管理员访问</li>
+          <li><code>enable_oauth2_auth</code>：启用 OAuth2 认证</li>
+          <li><code>custom_auth</code>：自定义认证逻辑</li>
+          <li><code>key_generation_settings</code>：控制密钥生成权限</li>
+        </ul>
+        <h3>OAuth2 配置</h3>
+        <pre>general_settings:
+  enable_oauth2_auth: true
+  oauth2_providers:
+    - name: "google"
+      client_id: "your-google-client-id"
+      client_secret: "your-google-client-secret"
+    - name: "github"
+      client_id: "your-github-client-id"
+      client_secret: "your-github-client-secret"</pre>
+      </div>
+
+      <!-- 特殊功能 -->
+      <div class="card">
+        <h2>🎯 特殊功能配置 <a href="https://docs.litellm.ai/docs/special_features" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+        <p class="desc">Responses API、MCP 等新功能</p>
+        <h3>Responses API 配置</h3>
+        <pre>model_list:
+  - model_name: openai/o1-pro
+    litellm_params:
+      model: openai/o1-pro
+      api_key: os.environ/OPENAI_API_KEY
+      reasoning_effort: "medium"</pre>
+        <h3>MCP 工具服务器</h3>
+        <pre>litellm_settings:
+  mcp_aliases:
+    github: github_mcp_server
+    zapier: zapier_mcp_server
+  mcp_servers:
+    - name: github_mcp_server
+      command: "npx"
+      args: ["@modelcontextprotocol/server-github"]</pre>
+        <h3>内容过滤与安全</h3>
+        <pre>litellm_settings:
+  guardrails:
+    - prompt_injection:
+        callbacks: [lakera_prompt_injection]
+        default_on: true
+    - pii_masking:
+        callbacks: [presidio]
+        default_on: false
+    - hide_secrets_guard:
+        callbacks: [hide_secrets]
+        default_on: false</pre>
+      </div>
+
+      <!-- CLI 管理 -->
+      <div class="card">
+        <h2>⌨️ CLI 管理命令 <a href="https://docs.litellm.ai/docs/proxy/management_cli" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+        <p class="desc">代理服务器管理与监控</p>
+        <ul>
+          <li><code>litellm --config config.yaml</code>：启动代理服务器</li>
+          <li><code>litellm --port 4000</code>：指定端口启动</li>
+          <li><code>litellm --num_workers 8</code>：设置工作进程数</li>
+          <li><code>litellm --debug</code>：启用调试模式</li>
+        </ul>
+        <h3>密钥管理 CLI</h3>
+        <pre># 设置环境变量
+export LITELLM_PROXY_URL=http://localhost:4000
+export LITELLM_PROXY_API_KEY=sk-your-key
+
+# 创建虚拟密钥
+litellm create-key --max_budget 10.00 --duration 30d
+
+# 查看使用统计
+litellm spend --days 7</pre>
+        <h3>健康检查</h3>
+        <pre>curl http://localhost:4000/health
+
+# 模型列表
+curl http://localhost:4000/model/list \
+  -H "Authorization: Bearer sk-your-master-key"</pre>
+      </div>
+
+      <!-- 常见问题 -->
+      <div class="card">
+        <h2>❓ 常见问题与解决 <a href="https://docs.litellm.ai/docs/troubleshooting" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+        <p class="desc">常见错误与解决方案</p>
+        <h3>连接超时</h3>
+        <pre># 增加超时时间
+litellm_settings:
+  request_timeout: 120
+  num_retries: 5</pre>
+        <h3>内存使用过高</h3>
+        <pre># 调整工作进程数
+--num_workers 4
+
+# 启用连接池
+database_connection_pool_limit: 50</pre>
+        <h3>API 限流</h3>
+        <pre># 配置 RPM 限制
+model_list:
+  - model_name: gpt-4
+    litellm_params:
+      model: gpt-4
+      rpm: 60  # 请求每分钟</pre>
+      </div>
+
+      <!-- 官方文档链接 -->
+      <div class="card">
+        <h2>📚 官方文档资源 <a href="https://docs.litellm.ai" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+        <p class="desc">深入学习与配置参考</p>
+        <ul>
+          <li><a href="https://docs.litellm.ai/docs/proxy/config" target="_blank" style="color:#93cdfc;">Proxy 配置总览</a></li>
+          <li><a href="https://docs.litellm.ai/docs/proxy/logging" target="_blank" style="color:#93cdfc;">日志与回调系统</a></li>
+          <li><a href="https://docs.litellm.ai/docs/routing" target="_blank" style="color:#93cdfc;">路由与负载均衡</a></li>
+          <li><a href="https://docs.litellm.ai/docs/proxy/caching" target="_blank" style="color:#93cdfc;">缓存配置指南</a></li>
+          <li><a href="https://docs.litellm.ai/docs/proxy/reliability" target="_blank" style="color:#93cdfc;">可靠性与降级策略</a></li>
+          <li><a href="https://docs.litellm.ai/docs/secret" target="_blank" style="color:#93cdfc;">密钥管理 (KMS)</a></li>
+          <li><a href="https://docs.litellm.ai/docs/proxy/alerting" target="_blank" style="color:#93cdfc;">告警与通知 (Slack/Email)</a></li>
+          <li><a href="https://docs.litellm.ai/docs/mcp" target="_blank" style="color:#93cdfc;">MCP 工具服务器集成</a></li>
+          <li><a href="https://docs.litellm.ai/docs/proxy/virtual_keys" target="_blank" style="color:#93cdfc;">虚拟密钥与访问控制</a></li>
+          <li><a href="https://docs.litellm.ai/docs/proxy/health" target="_blank" style="color:#93cdfc;">健康检查与监控</a></li>
+          <li><a href="https://docs.litellm.ai/docs/proxy/pass_through" target="_blank" style="color:#93cdfc;">直通端点配置</a></li>
+          <li><a href="https://docs.litellm.ai/docs/enterprise" target="_blank" style="color:#93cdfc;">企业版功能</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.getElementById('columnWidth').addEventListener('input', function(e) {
+      const width = e.target.value;
+      document.getElementById('widthVal').textContent = width + 'px';
+      const columns = document.getElementById('columns');
+      columns.style.columnWidth = width + 'px';
+    });
+  </script>
+</body>
+</html>
