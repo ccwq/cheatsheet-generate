@@ -201,6 +201,7 @@
         <input id="searchBox" class="search" type="search" placeholder="/ 快速筛选（标题/简介）" />
         <label class="toggle"><input id="onlyLocal" type="checkbox" checked /> 本地</label>
         <label class="toggle"><input id="onlyImport" type="checkbox" checked /> 导入</label>
+        <label class="toggle"><input id="openNew" type="checkbox" /> 新窗口</label>
         <label class="toggle">排序
           <select id="sortSelect" class="btn">
             <option value="name-asc">名称 ↑</option>
@@ -442,8 +443,10 @@
         var stats = $('#stats');
         var onlyLocal = document.getElementById('onlyLocal');
         var onlyImport = document.getElementById('onlyImport');
+        var openNew = document.getElementById('openNew');
         var sortSel = document.getElementById('sortSelect');
         var keyWidth = 'nav_column_width_px';
+        var keyOpen = 'nav_open_new_tab';
         var presets = $$('.preset');
 
         // 初始化列宽（持久化）
@@ -464,6 +467,25 @@
             slider.value = v; columns.style.columnWidth = v + 'px'; widthVal.textContent = v + 'px';
             try { localStorage.setItem(keyWidth, v); } catch (e) {}
           });
+        });
+
+        // 打开方式开关（新窗口/当前窗口）
+        function applyOpenMode(){
+          var anchors = $$('.link');
+          var newTab = !!(openNew && openNew.checked);
+          anchors.forEach(function(a){
+            if (!a) return;
+            if (newTab) { a.setAttribute('target','_blank'); a.setAttribute('rel','noopener'); }
+            else { a.removeAttribute('target'); a.removeAttribute('rel'); }
+          });
+        }
+        try {
+          var savedOpen = localStorage.getItem(keyOpen);
+          if (openNew) openNew.checked = (savedOpen == null ? true : savedOpen === '1'); // 默认开启新窗口
+        } catch(e) { if (openNew) openNew.checked = true; }
+        if (openNew) openNew.addEventListener('change', function(){
+          try { localStorage.setItem(keyOpen, openNew.checked ? '1' : '0'); } catch(e){}
+          applyOpenMode();
         });
 
         // 为每张卡自动添加 copy 按钮、导入/本地徽章
@@ -589,6 +611,8 @@
         enhanceCards();
         if (sortSel) sortCards(sortSel.value);
         filterCards('');
+        // 初始化链接打开方式
+        applyOpenMode();
 
         // 暴露全局 API，便于独立脚本基于 URL 参数触发搜索/跳转
         // - __navFilterCards(q: string): 触发筛选并刷新高亮/统计
