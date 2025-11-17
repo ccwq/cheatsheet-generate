@@ -10,6 +10,7 @@
 const fs = require('fs/promises');
 const path = require('path');
 const he = require('he');
+const pkg = require(path.join(process.cwd(), 'package.json'));
 
 // 需要扫描的 cheatsheet 根目录
 const ROOTS = ['cheatsheets', 'cheatsheets-import'];
@@ -122,8 +123,10 @@ async function main() {
   const tpl = await fs.readFile(TEMPLATE_PATH, 'utf8');
   const items = await collectAll();
   const html = renderItems(items);
+  // 注入卡片与版本号（占位符 __APP_VERSION__）
   const out = tpl.replace('<!-- CHEATSHEET_ITEMS -->', html);
-  await fs.writeFile(OUTPUT_PATH, out, 'utf8');
+  const out2 = out.replace(/__APP_VERSION__/g, (pkg && pkg.version) ? String(pkg.version) : '0.0.0');
+  await fs.writeFile(OUTPUT_PATH, out2, 'utf8');
   console.log(`导航页已生成: ${path.relative(process.cwd(), OUTPUT_PATH)}`);
   console.log(`共收集到 ${items.length} 个 cheatsheet`);
 }
