@@ -518,22 +518,29 @@
           });
         }
 
-        // 搜索过滤（标题+简介）
+        // 搜索过滤（标题+简介可选）
+        // 说明：是否包含简介由全局开关 window.__includeDesc 控制（默认 true）
         function filterCards(q){
           var cards = $$('.card');
           var visible = 0; q = (q||'').trim().toLowerCase();
           var showLocal = !!(onlyLocal && onlyLocal.checked);
           var showImport = !!(onlyImport && onlyImport.checked);
+          var includeDesc = (typeof window !== 'undefined' && typeof window.__includeDesc === 'boolean') ? window.__includeDesc : true; // 新增：是否在搜索中包含简介
 
-          function highlight(el, origin, query){
+          function highlight(el, originText, query){
             if (!el) return;
-            if (!el.dataset.origin) el.dataset.origin = el.innerHTML;
-            if (!query) { el.innerHTML = el.dataset.origin; return; }
+            // 仅对文本进行高亮，避免污染属性（如 href）
+            if (!el.dataset.origin) {
+              el.dataset.origin = (originText || el.textContent || '').trim();
+            }
+            var text = el.dataset.origin || '';
+            if (!query) { el.textContent = text; return; }
             try {
               var safe = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
               var re = new RegExp('(' + safe + ')', 'ig');
-              el.innerHTML = el.dataset.origin.replace(re, '<mark style="background:#3e5bd4;color:#fff;border-radius:3px;padding:0 2px">$1</mark>');
-            } catch(e){ el.innerHTML = el.dataset.origin; }
+              var html = text.replace(re, '<mark style="background:#3e5bd4;color:#fff;border-radius:3px;padding:0 2px">$1</mark>');
+              el.innerHTML = html;
+            } catch(e){ el.textContent = text; }
           }
 
           cards.forEach(function(card){
@@ -542,9 +549,16 @@
             var href = ($('.link', card)?.getAttribute('href') || '');
             var isImport = href.indexOf('cheatsheets-import/') === 0;
             var byGroup = (isImport ? showImport : showLocal);
-            var hit = (!q || title.indexOf(q) >= 0 || desc.indexOf(q) >= 0) && byGroup;
-            highlight($('h2', card), card.dataset.title || '', q);
-            highlight($('.desc', card), card.dataset.desc || '', q);
+            // 命中规则：标题命中 或（启用时）简介命中
+            var hit = (!q || title.indexOf(q) >= 0 || (includeDesc && desc.indexOf(q) >= 0)) && byGroup;
+            // 仅高亮标题可见文本，避免破坏 <a href>
+            highlight($('.title-link', card), card.dataset.title || '', q);
+            // 简介高亮跟随 includeDesc，未启用时清除简介高亮，避免误导
+            if (includeDesc) {
+              highlight($('.desc', card), card.dataset.desc || '', q);
+            } else {
+              highlight($('.desc', card), card.dataset.desc || '', '');
+            }
             card.style.display = hit ? '' : 'none';
             if (hit) visible++;
           });
@@ -577,6 +591,16 @@
         if (sortSel) sortCards(sortSel.value);
         filterCards('');
 
+        // 暴露全局 API，便于独立脚本基于 URL 参数触发搜索/跳转
+        // - __navFilterCards(q: string): 触发筛选并刷新高亮/统计
+        // - __includeDesc: 是否在搜索中包含简介（默认 true，可由外部脚本切换）
+        try {
+          window.__navFilterCards = filterCards;
+          if (typeof window.__includeDesc !== 'boolean') {
+            window.__includeDesc = true; // 默认包含简介参与搜索
+          }
+        } catch (e) { /* ignore */ }
+
         // 返回顶部按钮显示与行为
         var backTop = (function(){
           var wrap = document.createElement('div'); wrap.id = 'backTop';
@@ -589,5 +613,7 @@
         })();
       })();
     </script>
+    <!-- 基于 URL 参数的自动搜索与单结果跳转（独立维护） -->
+    <script defer src="assets/nav-query.js"></script>
   </body>
   </html>
