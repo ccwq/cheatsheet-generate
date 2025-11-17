@@ -8,6 +8,7 @@
     "download:dry": "node codepen-downloader/codepen-downloader.js --dry-run",
     "test:finalhtml": "node codepen-downloader/test-finalhtml.js",
     "build": "node scripts/generate-nav.js",
+    "watch": "node scripts/watch.js",
     "workflow": "node scripts/workflow.js",
     "release": "npm run release:patch",
     "release:patch": "node scripts/workflow.js --bump patch",
