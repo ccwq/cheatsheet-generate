@@ -22,7 +22,8 @@
       "Bash(claude:*)",
       "Bash(copy:*)",
       "Bash(cp:*)",
-      "WebFetch(domain:cesium.com)"
+      "WebFetch(domain:cesium.com)",
+      "mcp__chrome-mcp-server__chrome_bookmark_search"
     ],
     "deny": [],
     "ask": []
