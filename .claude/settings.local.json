@@ -23,7 +23,13 @@
       "Bash(copy:*)",
       "Bash(cp:*)",
       "WebFetch(domain:cesium.com)",
-      "mcp__chrome-mcp-server__chrome_bookmark_search"
+      "mcp__chrome-mcp-server__chrome_bookmark_search",
+      "mcp__context7__resolve-library-id",
+      "Bash(dir:*)",
+      "mcp__context7__get-library-docs",
+      "Bash(move \"cheatsheets-import\\x-cmd速查\" cheatsheetsx-cmd)",
+      "WebFetch(domain:www.vim.org)",
+      "Bash(move:*)"
     ],
     "deny": [],
     "ask": []

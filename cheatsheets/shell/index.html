@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>shell速查</title>
+  <style>
+    /* 与导航模板一致的“极客风·扁平化”深色系外观 */
+    html,body{height:100%;margin:0;padding:0;background:linear-gradient(130deg,#303d54 0%,#23304a 48%,#171b27 100%);font-family:'Segoe UI','PingFang SC','Microsoft YaHei',Arial,sans-serif;font-size:12px;line-height:1.1;color:#e7e7ea;overflow-x:hidden}
+    body{min-height:100vh;padding:0}
+    .container{width:100%;max-width:100%;margin:0 auto;padding:8px 4px 16px 4px;box-sizing:border-box}
+    /* 多栏布局，与站内其他深色速查保持一致 */
+    .cheat-columns{column-count:4;column-gap:16px;transition:column-width 0.2s;margin-top:12px}
+    @media (max-width:1500px){.cheat-columns{column-count:3}}
+    @media (max-width:1100px){.cheat-columns{column-count:2;column-gap:12px}}
+    @media (max-width:750px){.cheat-columns{column-count:1}}
+    /* 卡片 = 毛玻璃 + 微边框（深色系） */
+    .card{background:rgba(29,36,53,0.85);border-radius:12px;box-shadow:0 2px 12px 1px rgba(0,0,0,0.18);backdrop-filter:blur(6px);margin-bottom:14px;padding:14px 14px 8px 14px;break-inside:avoid;border:1px solid rgba(78,85,130,.12);min-width:0;box-sizing:border-box}
+    .card h2{margin:-6px 0 6px 0;font-size:15px;font-weight:600;color:#fdbe3f;letter-spacing:0.6px}
+    .card h3{font-size:12px;font-weight:bold;color:#93cdfc;margin:6px 0 4px 0}
+    .card ul,.card ol{padding-left:12px;margin:3px 0 8px 0}
+    .card li{margin-bottom:3px;word-break:break-all}
+    code,pre{font-family:'Fira Mono','Consolas','Menlo',monospace;font-size:1em;background:#181d26;color:#e2ffd0;border-radius:5px;line-height:1.1;padding:0 2px;letter-spacing:0.1px;word-wrap:break-word;word-break:break-all}
+    pre{background:#1a1e2b;border-radius:6px;padding:8px 1em;margin:6px 0 8px 0;color:#e6e8ef;overflow-x:auto;font-size:1em;line-height:1.1;box-shadow:0 1px 5px 0 rgba(0,12,22,.15)}
+    .desc{color:#acc3f8;font-style:italic;margin:2px 0 4px 0;font-size:1em;line-height:1.1}
+    /* 顶部控制面板：列宽滑块（与模板一致的语义与视觉） */
+    .panel{display:flex;align-items:center;background:rgba(36,41,59,0.91);border-radius:12px;box-shadow:0 1px 6px 0 rgba(0,0,0,0.1);padding:8px 16px;margin-bottom:12px;border:1px solid #353e63;gap:16px;flex-wrap:wrap;box-sizing:border-box}
+    .panel label{font-size:1em;color:#ffe49b;font-weight:bold;margin-right:5px;letter-spacing:0.2px}
+    .slider-bar{min-width:120px;margin-right:6px}
+    .slider-val{color:#ffce5b;font-size:1em;margin-left:4px;min-width:28px;display:inline-block;font-weight:600}
+    @media (max-width:660px){.panel{flex-direction:column;gap:8px;padding:6px 4px}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <span style="color:#7bfbb7;font-size:16px;margin-right:auto;">shell 速查表</span>
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+    </div>
+    <div class="cheat-columns" id="columns">
+
+      <!-- 文件与目录操作 -->
+      <div class="card">
+        <h2>文件与目录操作</h2>
+        <ul>
+        <li><code>ls -alh</code> 列出所有文件（含隐藏），人类可读大小</li>
+        <li><code>cd /path/to/dir</code> 切换当前目录；<code>pwd</code> 显示当前路径</li>
+        <li><code>mkdir -p /path/to/dir</code> 递归创建目录</li>
+        <li><code>rm -rf /path</code> 递归强制删除（危险）</li>
+        <li><code>cp -r src/ dest/</code> 复制目录；<code>mv a b</code> 重命名/移动</li>
+        <li><code>touch file.txt</code> 创建空文件或更新时间戳</li>
+      </ul>
+      </div>
+
+      <!-- 文件查看与编辑 -->
+      <div class="card">
+        <h2>文件查看与编辑</h2>
+        <ul>
+        <li><code>cat file.txt</code> 输出文件内容；<code>less file.txt</code> 分页查看</li>
+        <li><code>head -n 20 file.txt</code> 前 20 行；<code>tail -f /var/log/syslog</code> 实时追踪</li>
+        <li><code>vi file.txt</code> 或 <code>nano file.txt</code> 编辑文件</li>
+      </ul>
+      </div>
+
+      <!-- 查找与定位 -->
+      <div class="card">
+        <h2>查找与定位</h2>
+        <ul>
+        <li><code>find /path -name '*.log'</code> 递归查找文件名</li>
+        <li><code>grep -R "pattern" .</code> 递归搜索内容；<code>grep -n</code> 显示行号</li>
+        <li><code>which cmd</code> 可执行路径；<code>type -a cmd</code> 显示内置/别名/路径</li>
+        <li><code>whereis cmd</code> 显示二进制、源码与手册路径</li>
+        <li><code>locate filename</code> 依赖索引（<code>updatedb</code>）的快速查找</li>
+      </ul>
+      </div>
+
+      <!-- 管道与重定向（按 Bash 官方手册校对） -->
+      <div class="card">
+        <h2>管道与重定向</h2>
+        <ul>
+        <li><code>cmd1 | cmd2</code> 用管道将 <code>STDOUT</code> 作为 <code>cmd2</code> 的 <code>STDIN</code></li>
+        <li><code>cmd &gt; out.txt</code> 覆盖输出；<code>cmd &gt;&gt; out.txt</code> 追加输出</li>
+        <li><code>cmd 2&gt; err.txt</code> 仅重定向 <code>STDERR</code>；<code>cmd &lt; in.txt</code> 从文件读取</li>
+        <li><code>cmd &gt; file 2&gt;&amp;1</code> 将两路合并到文件（顺序重要）</li>
+        <li><code>cmd &amp;&gt; file</code> Bash 专属的“同时重定向”语法；跨 shell 推荐 <code>2&gt;&amp;1</code></li>
+        <li><code>tee file.txt</code> 同时写文件与标准输出</li>
+        <li class="desc">示例：<code>ls &gt; dirlist 2&gt;&amp;1</code> 与 <code>ls 2&gt;&amp;1 &gt; dirlist</code> 结果不同（重定向自左向右生效）。</li>
+      </ul>
+      </div>
+
+      <!-- 文本处理 -->
+      <div class="card">
+        <h2>文本处理</h2>
+        <ul>
+        <li><code>grep 'pat' file</code> 模式搜索；<code>grep -E</code> 扩展正则</li>
+        <li><code>sed 's/old/new/g' file</code> 行内替换；<code>-n '1,10p'</code> 选段</li>
+        <li><code>awk '{print $2}' file</code> 字段处理；<code>-F ':'</code> 设分隔符</li>
+        <li><code>cut -d':' -f1-3 /etc/passwd</code> 提取指定字段</li>
+        <li><code>sort file | uniq -c</code> 去重计数（<code>uniq</code> 仅对相邻行去重）</li>
+        <li><code>tr '[:upper:]' '[:lower:]'</code> 大小写转换</li>
+      </ul>
+      </div>
+
+      <!-- 进程管理 -->
+      <div class="card">
+        <h2>进程管理</h2>
+        <ul>
+        <li><code>ps aux</code> 查看进程；<code>top</code> / <code>htop</code> 互动监控</li>
+        <li><code>kill -SIGTERM PID</code> 友好结束；<code>kill -9 PID</code> 强制结束</li>
+        <li><code>pgrep -a NAME</code> 按名查进程；<code>pkill NAME</code> 杀进程</li>
+      </ul>
+      </div>
+
+      <!-- 作业控制（Bash set -m / bg / fg / disown） -->
+      <div class="card">
+        <h2>作业控制</h2>
+        <ul>
+        <li><code>cmd &amp;</code> 后台运行；<code>jobs</code> 列出现有作业</li>
+        <li><code>Ctrl+Z</code> 挂起到后台（停止态）；<code>bg %1</code> 后台恢复</li>
+        <li><code>fg %1</code> 回到前台；<code>disown %1</code> 脱离当前 shell</li>
+        <li><code>nohup cmd &gt;out 2&gt;&amp;1 &amp;</code> 忽略挂断信号（会写 <code>nohup.out</code>）</li>
+        <li class="desc">需启用作业控制（交互式默认启用；非交互 <code>set -m</code>）。</li>
+      </ul>
+      </div>
+
+      <!-- 用户与权限 -->
+      <div class="card">
+        <h2>用户与权限</h2>
+        <ul>
+        <li><code>sudo -l</code> 查看可用权限；<code>su - user</code> 切换用户</li>
+        <li><code>chmod u+rwx,g+rx,o-r</code> 符号式修改权限；<code>chmod 755 file</code></li>
+        <li><code>chown user:group file</code> 变更所有者与组</li>
+        <li><code>id user</code> / <code>groups user</code> 查询用户与组</li>
+      </ul>
+      </div>
+
+      <!-- 网络操作 -->
+      <div class="card">
+        <h2>网络操作</h2>
+        <ul>
+        <li><code>ping host</code> 连通性；<code>curl -I https://example.com</code> 查看响应头</li>
+        <li><code>wget https://example.com/file</code> 下载文件；<code>ssh user@host</code> 登录</li>
+        <li><code>scp file user@host:/path</code> 复制到远程；<code>rsync -avz</code> 增量同步</li>
+        <li><code>ss -tuln</code> 监听端口（推荐）；<code>netstat -tuln</code> 旧工具</li>
+        <li><code>ip addr show</code> 接口与地址；<code>ip route</code> 路由</li>
+      </ul>
+      </div>
+
+      <!-- 环境变量与配置 -->
+      <div class="card">
+        <h2>环境变量与配置</h2>
+        <ul>
+        <li><code>export VAR=value</code> 设置；<code>printenv VAR</code> 查看；<code>unset VAR</code> 删除</li>
+        <li><code>env</code> 列出所有环境变量</li>
+        <li><code>source ~/.bashrc</code> 重新加载配置；<code>. script.sh</code> 等价</li>
+        <li><code>alias ll='ls -alh'</code> 定义别名；<code>unalias ll</code> 取消</li>
+        <li><code>umask</code> 查看/设置新建文件默认权限掩码</li>
+      </ul>
+      </div>
+
+      <!-- 提示符与脚本健壮性 -->
+      <div class="card">
+        <h2>提示符与脚本健壮性</h2>
+        <ul>
+        <li><code>PS1="\u@\h \w$ "</code> 自定义提示符</li>
+        <li><code>set -e</code> 出错即退；<code>set -u</code> 未定义变量报错</li>
+        <li><code>set -o pipefail</code> 管道任一失败即返回非零</li>
+        <li><code>trap 'cleanup' EXIT</code> 退出时清理；<code>trap 'handler' ERR</code> 统一错误处理</li>
+      </ul>
+      </div>
+
+      <!-- 调试与跟踪 -->
+      <div class="card">
+        <h2>调试与跟踪</h2>
+        <ul>
+        <li><code>bash -x script.sh</code> 跟踪执行；<code>-v</code> 打印脚本</li>
+        <li><code>bash -n script.sh</code> 仅做语法检查</li>
+        <li><code>export PS4='+ $LINENO: '</code> 调试提示前缀（显示行号）</li>
+      </ul>
+      </div>
+
+    <!-- 压缩与归档 -->
+      <div class="card">
+        <h2>压缩与归档</h2>
+        <ul>
+          <li><code>tar -cvf archive.tar 路径</code> 创建 tar；<code>tar -xvf archive.tar</code> 解包</li>
+          <li><code>tar -czvf archive.tar.gz 路径</code> gzip 压缩；<code>tar -xzf</code> 解压</li>
+          <li><code>tar -xjvf archive.tar.bz2</code> 解压 bzip2 包</li>
+          <li><code>gzip file.txt</code> 压缩；<code>gunzip file.txt.gz</code> 解压</li>
+          <li><code>zip -r archive.zip 目录</code> 递归打包；<code>unzip archive.zip</code> 解压</li>
+        </ul>
+      </div>
+
+      <!-- 参数与变量展开（Bash 手册：Shell Parameter Expansion） -->
+      <div class="card">
+        <h2>参数与变量展开</h2>
+        <ul>
+          <li><code>${var}</code> 基本引用；<code>${#var}</code> 变量值长度</li>
+          <li><code>${var:-def}</code> 未设置或为空时返回默认；<code>${var:=def}</code> 同时赋值</li>
+          <li><code>${var:?msg}</code> 为空时报错退出；<code>${var:+alt}</code> 已设置时返回替代</li>
+          <li><code>${var%pat}</code>/<code>${var%%pat}</code> 从后删除最短/最长匹配</li>
+          <li><code>${var#pat}</code>/<code>${var##pat}</code> 从前删除最短/最长匹配</li>
+          <li><code>${var/pat/repl}</code> 首次替换；<code>${var//pat/repl}</code> 全部替换</li>
+          <li><code>${var:off}</code>/<code>${var:off:len}</code> 子串；<code>${array[@]}</code> 数组展开</li>
+          <li class="desc">建议始终加引号：<code>"${var}"</code>，避免分词与通配符扩展。</li>
+        </ul>
+      </div>
+
+      <!-- 数组与关联数组（Bash 手册：Arrays） -->
+      <div class="card">
+        <h2>数组与关联数组</h2>
+        <ul>
+          <li><code>declare -a arr=(a b c)</code> 普通数组；<code>arr[0]=x</code> 赋值</li>
+          <li><code>echo "${arr[1]}"</code> 下标访问；<code>"${arr[@]}"</code> 遍历元素</li>
+          <li><code>${#arr[@]}</code> 元素个数；<code>${!arr[@]}</code> 索引列表</li>
+          <li><code>declare -A map=([k1]=v1 [k2]=v2)</code> 关联数组（字典）</li>
+          <li><code>for k in "${!map[@]}"; do echo "$k=${map[$k]}"; done</code></li>
+          <li class="desc">关联数组为 Bash 特性；在 <code>sh</code> 中不可用。</li>
+        </ul>
+      </div>
+
+      <!-- 条件与测试（Bash Conditional Expressions） -->
+      <div class="card">
+        <h2>条件表达式与测试</h2>
+        <ul>
+          <li><code>[[ A == B ]]</code> 字符串比较；<code>[[ A =~ re ]]</code> 正则匹配</li>
+          <li><code>[[ -z s ]]</code> 空串；<code>[[ -n s ]]</code> 非空；<code>[[ -v var ]]</code> 已设置</li>
+          <li><code>[[ -e p ]]</code> 存在；<code>-f</code> 普通文件；<code>-d</code> 目录；<code>-s</code> 非空</li>
+          <li><code>[[ -r/-w/-x p ]]</code> 读/写/可执行；<code>[[ p1 -nt p2 ]]</code> 新于</li>
+          <li><code>(( i &gt; j ))</code> 整数比较；<code>if ((n%2==0)); then ...; fi</code></li>
+          <li class="desc"><code>[[ ... ]]</code> 为 Bash/现代 shell 语法，避免旧式 <code>[ ... ]</code> 的转义陷阱。</li>
+        </ul>
+      </div>
+
+      <!-- 算术与赋值（Shell Arithmetic） -->
+      <div class="card">
+        <h2>算术与赋值</h2>
+        <ul>
+          <li><code>$(( expr ))</code> 算术展开；<code>(( i++ ))</code>/<code>(( ++i ))</code> 自增</li>
+          <li><code>let i+=2</code> 等价算术赋值；<code>echo $((a&amp;b))</code> 位运算</li>
+          <li><code>(( expr ))</code> 的退出码可用于 <code>if</code> / <code>while</code> 判断</li>
+        </ul>
+      </div>
+
+      <!-- 分组与子 shell / 当前 shell -->
+      <div class="card">
+        <h2>分组与子 shell</h2>
+        <ul>
+          <li><code>( list )</code> 在子 shell 执行；对父级变量与目录无副作用</li>
+          <li><code>{ list; }</code> 在当前 shell 执行；末尾需分号与大括号空格</li>
+          <li>管道中的每个命令通常在子 shell 中执行（<code>lastpipe</code> 可改变最后一个的行为）</li>
+        </ul>
+      </div>
+
+      <!-- 进程/命令替换与 Here 文本（Bash：Process Substitution/Here Strings） -->
+      <div class="card">
+        <h2>进程替换与 Here 文本</h2>
+        <ul>
+          <li><code>diff &lt;(cmd1) &lt;(cmd2)</code> 用命令输出虚拟文件进行比较（进程替换）</li>
+          <li><code>cmd &lt;&lt;EOF ... EOF</code> Here 文档；<code>cmd &lt;&lt;- 'EOF'</code> 可剔除缩进</li>
+          <li><code>cmd &lt;&lt;&lt; "one line"</code> Here 字符串（Here String）</li>
+        </ul>
+      </div>
+
+      <!-- shopt 与 set（修改 Shell 行为） -->
+      <div class="card">
+        <h2>shopt 与 set 选项</h2>
+        <ul>
+          <li><code>shopt -s globstar</code> 使 <code>**</code> 递归匹配；<code>shopt -s extglob</code> 启用模式 <code>!(pat)</code></li>
+          <li><code>shopt -s nullglob</code> 未匹配的通配符展开为空；<code>dotglob</code> 包含点文件</li>
+          <li><code>set -euo pipefail</code> 常见组合：错误即退、未定义变量报错、管道传递错误</li>
+          <li class="desc"><code>set -e</code> 在某些上下文（<code>if</code>、<code>!</code>、<code>until</code> 等）不生效；建议配合 <code>pipefail</code> 与 <code>trap '...' ERR</code>。</li>
+        </ul>
+      </div>
+
+      <!-- 引号/IFS/分词（避免坑） -->
+      <div class="card">
+        <h2>引号、IFS 与分词</h2>
+        <ul>
+          <li>始终给变量加引号：<code>"${var}"</code>；遍历实参用 <code>"$@"</code> 而非 <code>$*</code></li>
+          <li>避免修改 <code>IFS</code>；确需分割时局部设定：<code>IFS=, read -r a b</code></li>
+          <li>避免无引号的通配符膨胀导致误删/误改</li>
+        </ul>
+      </div>
+
+      <!-- 历史与交互（History & Readline） -->
+      <div class="card">
+        <h2>历史与交互</h2>
+        <ul>
+          <li><code>history</code> / <code>fc -l</code> 查看；<code>!!</code> 上一条；<code>!$:p</code> 打印上一条最后一参</li>
+          <li><code>!!:s/old/new/</code> 快速替换；<code>^old^new</code> 上条命令内替换</li>
+          <li><code>HISTCONTROL=ignoredups:erasedups</code> 去重；<code>HISTSIZE</code>/<code>HISTFILESIZE</code> 控制大小</li>
+          <li><code>bind -P</code> 查看快捷键；<code>set -o vi</code>/<code>set -o emacs</code> 选择编辑模式</li>
+        </ul>
+      </div>
+
+      <!-- 常用模式（Recipes） -->
+      <div class="card">
+        <h2>常用命令模式</h2>
+        <ul>
+          <li><code>find . -type f -name '*.log' -print0 | xargs -0 rm -f</code> 空格安全地批量删除</li>
+          <li><code>find . -type f -mtime -1 -exec grep -Hn "ERR" {} +</code> 查新增错误</li>
+          <li><code>grep -RIn --exclude-dir .git pattern .</code> 递归搜索（显示行号）</li>
+          <li><code>sed -i.bak 's/old/new/g' file</code> 就地替换并备份；<code>awk -F: '{print $1,$3}' /etc/passwd</code></li>
+          <li><code>curl -sS -fL -o out.bin URL</code> 安静输出、失败即非零、自动跟随</li>
+          <li><code>rsync -avz --progress src/ dest/</code> 增量同步并显示进度</li>
+        </ul>
+      </div>
+
+      <!-- 引用与转义（Quoting） -->
+      <div class="card">
+        <h2>引用与转义</h2>
+        <ul>
+          <li><code>'单引号'</code>：按字面量保留，几乎不进行扩展（<code>'</code> 内不能出现 <code>'</code>）</li>
+          <li><code>"双引号"</code>：保留空白与通配符，但允许 <code>$</code>/<code>\</code>/<code>`</code> 的扩展</li>
+          <li><code>$'ANSI-C'</code>：解析转义序列，如 <code>$'\n\t\x41'</code> → 换行/制表/A</li>
+          <li><code>$"本地化"</code>：按 locale 做字符串翻译（少用）</li>
+          <li><code>printf</code> 比 <code>echo</code> 更可预期：<code>printf '%s\n' "${s}"</code></li>
+        </ul>
+      </div>
+
+      <!-- 命令搜索优先级与覆盖（type/command/builtin/enable/hash） -->
+      <div class="card">
+        <h2>命令搜索与覆盖</h2>
+        <ul>
+          <li>优先级：<code>alias</code> → <code>function</code> → <code>builtin</code> → 可执行文件（PATH）</li>
+          <li><code>type -a cmd</code> 查看解析链；<code>command -v cmd</code> 仅路径/内建名</li>
+          <li><code>command cmd</code> 跳过别名/函数；<code>builtin cd</code> 强制调用内建</li>
+          <li><code>enable -n echo</code> 暂禁内建；<code>enable echo</code> 重新启用</li>
+          <li><code>hash</code> 查看/缓存命令路径；<code>hash -r</code> 清空缓存</li>
+        </ul>
+      </div>
+
+      <!-- 别名与函数（作用域/返回/导出） -->
+      <div class="card">
+        <h2>别名与函数</h2>
+        <ul>
+          <li><code>alias ll='ls -alF'</code> 定义；<code>unalias ll</code> 移除；<code>alias</code> 列出</li>
+          <li><code>name() { local x=1; echo $x; return 0; }</code> 函数与局部变量</li>
+          <li><code>declare -f</code> 列出函数；<code>export -f name</code> 导出给子 shell</li>
+          <li><code>readonly -f name</code> 只读函数；<code>typeset -f</code> 同 <code>declare -f</code></li>
+          <li class="desc">函数返回码在 <code>$?</code>；若需返回字符串请用 <code>echo</code> 或设置全局变量。</li>
+        </ul>
+      </div>
+
+      <!-- 文件描述符与持久重定向（exec） -->
+      <div class="card">
+        <h2>文件描述符与重定向</h2>
+        <ul>
+          <li><code>exec &gt;out.log 2&gt;err.log</code> 为后续命令持久重定向</li>
+          <li><code>exec 3&gt;&amp;1 4&gt;&amp;2; cmd 1&gt;&amp;2 2&gt;&amp;3; exec 3&gt;&amp;- 4&gt;&amp;-</code> 交换/恢复输出</li>
+          <li><code>exec &lt;&gt;file</code> 读写同一文件；<code>n&gt;&amp;-</code> 关闭描述符</li>
+          <li class="desc">日志分流常用模式：<code>cmd 1&gt; >(tee out.log) 2&gt; >(tee err.log &gt;&amp;2)</code></li>
+        </ul>
+      </div>
+
+      <!-- getopts 参数解析（POSIX 兼容） -->
+      <div class="card">
+        <h2>getopts 参数解析</h2>
+        <ul>
+          <li><code>while getopts ":f:o:h" opt; do case $opt in f) F=$OPTARG;; o) O=$OPTARG;; h) usage; exit;; \?) echo "无效选项: -$OPTARG";; :) echo "缺少值: -$OPTARG";; esac; done; shift $((OPTIND-1))</code></li>
+          <li class="desc">使用 <code>getopts</code> 而非外部 <code>getopt</code>，以获得更好移植性。</li>
+        </ul>
+      </div>
+
+      <!-- case 模式与扩展（;;& / ;&） -->
+      <div class="card">
+        <h2>case 模式与扩展</h2>
+        <ul>
+          <li><code>case $x in jpg|png) ... ;; txt) ... ;; *) ... ;; esac</code></li>
+          <li><code>;;&</code> 继续测试后续分支；<code>;&</code> 不测试，直接贯穿执行</li>
+          <li class="desc">与 <code>extglob</code> 配合可用 <code>?(pat) *(pat) +(pat) @(pat) !(pat)</code>。</li>
+        </ul>
+      </div>
+
+      <!-- 通配与 glob 选项（extglob/globstar/failglob/nocaseglob） -->
+      <div class="card">
+        <h2>通配与 glob 选项</h2>
+        <ul>
+          <li><code>shopt -s extglob globstar</code> 启用扩展与递归 <code>**</code> 匹配</li>
+          <li><code>shopt -s nullglob</code> 未匹配展开为空；<code>failglob</code> 未匹配即报错</li>
+          <li><code>shopt -s nocaseglob</code> 大小写不敏感；<code>dotglob</code> 包含点文件</li>
+        </ul>
+      </div>
+
+      <!-- 正则匹配与 BASH_REMATCH -->
+      <div class="card">
+        <h2>正则匹配（[[ =~ ]]）</h2>
+        <ul>
+          <li><code>if [[ $s =~ ^([0-9]+)x([0-9]+)$ ]]; then echo "${BASH_REMATCH[1]}x${BASH_REMATCH[2]}"; fi</code></li>
+          <li class="desc">在 <code>[[ ]]</code> 中使用正则时，右侧正则不要加引号；捕获组在 <code>BASH_REMATCH</code>。</li>
+        </ul>
+      </div>
+
+      <!-- 启动文件与交互（profile/bashrc） -->
+      <div class="card">
+        <h2>启动文件与交互</h2>
+        <ul>
+          <li>登录 shell：读取 <code>/etc/profile</code> → <code>~/.bash_profile</code>/<code>~/.bash_login</code>/<code>~/.profile</code></li>
+          <li>非登录交互 shell：读取 <code>~/.bashrc</code>（建议在 <code>~/.bash_profile</code> 中 <code>source ~/.bashrc</code>）</li>
+          <li><code>[[ $- == *i* ]]</code> 判断是否交互式；<code>PS1</code> 通常仅在交互式设置</li>
+        </ul>
+      </div>
+
+      <!-- 提示符 PS1/颜色与 PROMPT_COMMAND -->
+      <div class="card">
+        <h2>提示符 PS1 与颜色</h2>
+        <ul>
+          <li><code>PS1='\u@\h:\w\$ '</code> 常用转义：<code>\u</code> 用户、<code>\h</code> 主机、<code>\w</code> 路径、<code>\j</code> 作业数</li>
+          <li>彩色需用 <code>\[...\]</code> 包裹不可打印序列：<code>PS1='\[\e[32m\]\u@\h\[\e[0m\]:\w$ '</code></li>
+          <li><code>PROMPT_COMMAND</code> 每次显示提示符前执行的命令</li>
+        </ul>
+      </div>
+
+      <!-- 目录栈（pushd/popd/dirs） -->
+      <div class="card">
+        <h2>目录栈</h2>
+        <ul>
+          <li><code>pushd /path</code> 入栈并切换目录；<code>popd</code> 出栈；<code>dirs -v</code> 列出</li>
+          <li>快速在两个目录间切换：<code>cd -</code></li>
+        </ul>
+      </div>
+
+      <!-- 临时文件与安全（mktemp/noclobber） -->
+      <div class="card">
+        <h2>临时文件与安全</h2>
+        <ul>
+          <li><code>tmp=$(mktemp -d)</code> 创建临时目录；<code>trap 'rm -rf -- "$tmp"' EXIT</code> 退出清理</li>
+          <li><code>set -C</code>/<code>set -o noclobber</code> 禁止覆盖重定向；用 <code>&gt;|</code> 显式覆盖</li>
+          <li><code>read -r</code> 禁止反斜杠转义；避免 <code>for w in $(...)</code> 的分词陷阱</li>
+        </ul>
+      </div>
+
+      <!-- Readline/补全概览（complete/compgen） -->
+      <div class="card">
+        <h2>补全与 Readline</h2>
+        <ul>
+          <li><code>bind -P</code> 查看快捷键；<code>bind 'set completion-ignore-case on'</code> 忽略大小写</li>
+          <li><code>complete -W "start stop restart" svc</code> 给 <code>svc</code> 命令添加静态补全</li>
+          <li><code>compgen -W "a b c" -- st</code> 生成候选项（与 <code>complete</code> 配合）</li>
+        </ul>
+      </div>
+
+      <!-- 时间统计（time/TIMEFORMAT）与追踪（PS4） -->
+      <div class="card">
+        <h2>时间统计与跟踪</h2>
+        <ul>
+          <li><code>time cmd</code> 使用 shell 关键字版本；<code>TIMEFORMAT='%R sec'</code> 自定义格式</li>
+          <li><code>set -x; PS4='+ ${BASH_SOURCE##*/}:${LINENO}:${FUNCNAME[0]}: ' bash -c 'script'</code> 带上下文的调试输出</li>
+        </ul>
+      </div>
+
+      <!-- 文本三剑客进阶（grep/sed/awk） -->
+      <div class="card">
+        <h2>grep/sed/awk 进阶</h2>
+        <ul>
+          <li><code>grep -RIn --include='*.{js,ts}' pattern src/</code> 递归多后缀</li>
+          <li><code>sed -E -i.bak 's/(foo)(bar)/\1-\2/g' file</code> ERE 与就地备份（BSD 兼容）</li>
+          <li><code>awk -F, 'BEGIN{OFS=","} NR&gt;1{sum+=$3} END{print sum}' file.csv</code> 统计示例</li>
+        </ul>
+      </div>
+
+      <!-- find/xargs 进阶与并发（-print0/-exec + / -P） -->
+      <div class="card">
+        <h2>find/xargs 进阶</h2>
+        <ul>
+          <li><code>find . -type f -name '*.log' -print0 | xargs -0 -P 8 -n 16 rm -f</code> 并发删除</li>
+          <li><code>find . -path './node_modules' -prune -o -name '*.js' -print</code> 排除目录</li>
+          <li><code>find . -type f -mtime -7 -exec grep -Hn "ERROR" {} +</code> 高效批处理</li>
+        </ul>
+      </div>
+
+      <!-- tar/rsync 进阶（exclude/-C/校验） -->
+      <div class="card">
+        <h2>归档与同步进阶</h2>
+        <ul>
+          <li><code>tar -czvf backup.tgz --exclude='.git' -C project .</code> 排除/切换目录</li>
+          <li><code>rsync -avz --delete --checksum src/ dest/</code> 校验同步（删除多余）</li>
+        </ul>
+      </div>
+
+      <!-- curl/ssh/scp 常用参数 -->
+      <div class="card">
+        <h2>网络命令常用参数</h2>
+        <ul>
+          <li><code>curl -fsSL -H 'Accept: application/json' -H 'Content-Type: application/json' -d '{"a":1}' https://api</code></li>
+          <li><code>ssh -i key.pem -p 22 -L 8080:127.0.0.1:80 user@host</code> 本地端口转发</li>
+          <li><code>scp -r -C dir user@host:/path</code> 递归+压缩传输</li>
+        </ul>
+      </div>
+
+      <!-- 参考链接（核对自官方文档） -->
+      <div class="card">
+        <h2>参考链接</h2>
+        <ul>
+          <li><a href="https://www.gnu.org/software/bash/manual/bash.html" target="_blank" rel="noopener">GNU Bash 手册</a></li>
+          <li><a href="https://www.gnu.org/software/bash/manual/bash.html#Redirections" target="_blank" rel="noopener">Bash 重定向章节</a></li>
+          <li><a href="https://www.gnu.org/software/coreutils/manual/" target="_blank" rel="noopener">GNU Coreutils</a>、<a href="https://www.gnu.org/software/findutils/" target="_blank" rel="noopener">Findutils</a>、<a href="https://www.gnu.org/software/grep/manual/" target="_blank" rel="noopener">Grep</a>、<a href="https://www.gnu.org/software/sed/manual/" target="_blank" rel="noopener">Sed</a>、<a href="https://www.gnu.org/software/gawk/manual/" target="_blank" rel="noopener">Gawk</a></li>
+          <li><a href="https://www.openssh.com/manual.html" target="_blank" rel="noopener">OpenSSH 文档</a>、<a href="https://man7.org/linux/man-pages/" target="_blank" rel="noopener">man7</a>、<a href="https://man7.org/linux/man-pages/man8/ss.8.html" target="_blank" rel="noopener">ss(8)</a></li>
+          <li><a href="https://www.gnu.org/software/tar/manual/" target="_blank" rel="noopener">GNU tar</a>、<a href="https://infozip.sourceforge.net/" target="_blank" rel="noopener">Info-ZIP</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+  <script>
+    // 调整列宽（与站内深色速查保持一致的实现）
+    const slider = document.getElementById('columnWidth');
+    const columns = document.getElementById('columns');
+    const widthVal = document.getElementById('widthVal');
+    function applyWidth(w){ columns.style.columnWidth = w + 'px'; widthVal.textContent = w + 'px'; }
+    slider.addEventListener('input', (e)=> applyWidth(e.target.value));
+    applyWidth(slider.value);
+  </script>
+</body>
+</html>

@@ -1,31 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>vim速查</title>
-</head>
-<body>
-<meta charset="UTF-8">
-  <title>vim快捷键速查表 - 完整增强版</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
-    :root{--primary-color:#8250df;--secondary-color:#0969da;--bg-color:#ffffff;--text-color:#24292f;--border-color:#d0d7de;--code-bg:#f6f8fa;--sidebar-bg:#f6f8fa;--card-shadow:rgba(149, 157, 165, 0.2);--accent-color:#2ea043;--warning-color:#fb8500}
-    body{background:var(--bg-color);color:var(--text-color);font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';font-size:11px;line-height:1.35;min-height:100vh;padding:12px}
+    :root{--primary-color:#8250df;--secondary-color:#0969da;--success-color:#1a7f37;--warning-color:#9a6700;--danger-color:#cf222e;--bg-color:#ffffff;--text-color:#24292f;--border-color:#d0d7de;--code-bg:#f6f8fa;--sidebar-bg:#f6f8fa;--card-shadow:rgba(149, 157, 165, 0.2);--hover-bg:#f3f4f6}
+    body{background:var(--bg-color);color:var(--text-color);font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;font-size:13px;line-height:1.4;padding:15px}
     h1, h2, h3{color:var(--text-color);margin-top:0;position:relative;font-weight:600}
-    h1{font-size:1.4rem;text-align:center;margin:12px 0 18px;padding-bottom:8px}
-    h1::after{content:"";position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:120px;height:2px;background:linear-gradient(90deg, var(--primary-color), var(--secondary-color))}
-    h2{font-size:1rem;margin:10px 0 6px;padding-bottom:4px;border-bottom:1px solid var(--border-color);color:var(--primary-color)}
-    h3{font-size:0.9rem;margin:8px 0 4px;color:var(--secondary-color)}
-    .container{column-count:5;column-gap:12px;max-width:100%;margin:0 auto;padding:0 4px 20px;transition:column-width 0.2s}
-    @media (max-width: 1400px){.container{column-count:4}}
+    h1{font-size:20px;text-align:center;margin:15px 0 20px;position:relative;font-weight:700;color:var(--primary-color)}
+    h1::after{content:"";position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:120px;height:1px;background:var(--primary-color)}
+    h2{font-size:1.1rem;margin:12px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--border-color);color:var(--primary-color)}
+    h3{font-size:1rem;margin:10px 0 5px;color:var(--primary-color)}
+    .container{column-count:4;column-gap:15px;max-width:100%;margin:0 auto;padding:0 5px 25px;transition:column-width 0.2s}
     @media (max-width: 1100px){.container{column-count:3}}
     @media (max-width: 800px){.container{column-count:2}}
     @media (max-width: 500px){.container{column-count:1}}
     .card{background:var(--bg-color);border:1px solid var(--border-color);border-radius:6px;box-shadow:0 1px 3px 0 var(--card-shadow);margin-bottom:10px;padding:10px;break-inside:avoid;position:relative;overflow:hidden}
     .card::before{content:"";position:absolute;top:0;left:0;width:100%;height:2px;background:var(--primary-color)}
-    .card.bash::before{background:var(--accent-color)}
+    .card.basic::before{background:var(--accent-color)}
     .card.vim::before{background:var(--secondary-color)}
     .card.advanced::before{background:var(--warning-color)}
     .slider-box{margin:8px auto 12px;max-width:350px;display:flex;flex-direction:row;align-items:center;background:var(--sidebar-bg);border:1px solid var(--border-color);border-radius:15px;padding:6px 12px;box-shadow:0 1px 2px rgba(0, 0, 0, 0.05)}
@@ -44,15 +38,15 @@
     #colShow{font-weight:600;color:var(--primary-color)}
     .card::after{content:"";position:absolute;bottom:0;right:0;width:16px;height:16px;background:linear-gradient(135deg, transparent 50%, var(--code-bg) 50%);pointer-events:none}
     .category-badge{display:inline-block;background:var(--primary-color);color:white;font-size:8px;padding:2px 4px;border-radius:2px;margin-left:4px;font-weight:500}
-    .bash-badge{background:var(--accent-color)}
+    .basic-badge{background:var(--accent-color)}
     .vim-badge{background:var(--secondary-color)}
     .advanced-badge{background:var(--warning-color)}
     .description{font-size:9px;color:#656d76;font-style:italic;margin-top:2px;display:block}
     .hotkey{font-weight:700;color:#e36209}
     .pattern{color:#0550ae;font-weight:500}
   </style>
-
-
+</head>
+<body>
   <h1>vim快捷键速查表 <span class="category-badge">完整增强版</span></h1>
   <div class="slider-box">
     <span>列宽:</span>
@@ -60,6 +54,131 @@
     <span id="colShow">280px</span>
   </div>
   <div class="container" id="container">
+
+    <!-- 基础模式切换 -->
+    <div class="card basic">
+      <h2>基础模式切换 <span class="category-badge basic-badge">基础</span></h2>
+      <ul>
+        <li><code>Esc</code> / <code>Ctrl + [</code> 进入普通模式</li>
+        <li><code>i</code> 在光标前插入</li>
+        <li><code>I</code> 在行首插入</li>
+        <li><code>a</code> 在光标后插入</li>
+        <li><code>A</code> 在行尾插入</li>
+        <li><code>o</code> 在下方新建行并插入</li>
+        <li><code>O</code> 在上方新建行并插入</li>
+        <li><code>s</code> 删除字符并插入</li>
+        <li><code>S</code> 删除行并插入</li>
+        <li><code>v</code> 字符可视模式</li>
+        <li><code>V</code> 行可视模式</li>
+        <li><code>Ctrl + V</code> 块可视模式</li>
+        <li><code>:</code> 进入命令行模式</li>
+        <li><code>/</code> / <code>?</code> 进入搜索模式</li>
+        <li><code>R</code> 进入替换模式</li>
+      </ul>
+    </div>
+
+    <!-- 光标移动基础 -->
+    <div class="card basic">
+      <h2>光标移动基础 <span class="category-badge basic-badge">移动</span></h2>
+      <ul>
+        <li><code>h</code>/<code>j</code>/<code>k</code>/<code>l</code> 左/下/上/右</li>
+        <li><code>w</code> 跳到下一个词首 <span class="description">按标点分词</span></li>
+        <li><code>W</code> 跳到下一个词首 <span class="description">按空格分词</span></li>
+        <li><code>b</code> 跳到上一个词首</li>
+        <li><code>B</code> 跳到上一个词首 <span class="description">按空格分词</span></li>
+        <li><code>e</code> 跳到词尾</li>
+        <li><code>E</code> 跳到词尾 <span class="description">按空格分词</span></li>
+        <li><code>ge</code> 跳到前一个词尾</li>
+        <li><code>0</code> 跳到行首</li>
+        <li><code>^</code> 跳到行首非空字符</li>
+        <li><code>$</code> 跳到行尾</li>
+        <li><code>g_</code> 跳到行尾非空字符</li>
+        <li><code>gg</code> 跳到文件首行</li>
+        <li><code>G</code> 跳到文件末行</li>
+        <li><code>{n}G</code> / <code>:{n}</code> 跳到第n行</li>
+        <li><code>%</code> 跳到匹配的括号</li>
+      </ul>
+    </div>
+
+    <!-- 屏幕与翻页 -->
+    <div class="card basic">
+      <h2>屏幕与翻页 <span class="category-badge basic-badge">屏幕</span></h2>
+      <ul>
+        <li><code>Ctrl + F</code> 向下翻页</li>
+        <li><code>Ctrl + B</code> 向上翻页</li>
+        <li><code>Ctrl + D</code> 向下翻半页</li>
+        <li><code>Ctrl + U</code> 向上翻半页</li>
+        <li><code>Ctrl + E</code> 向下滚动一行</li>
+        <li><code>Ctrl + Y</code> 向上滚动一行</li>
+        <li><code>H</code> 跳到屏幕顶部</li>
+        <li><code>M</code> 跳到屏幕中间</li>
+        <li><code>L</code> 跳到屏幕底部</li>
+        <li><code>zt</code> 当前行移到屏幕顶部</li>
+        <li><code>zz</code> 当前行移到屏幕中间</li>
+        <li><code>zb</code> 当前行移到屏幕底部</li>
+        <li><code>Ctrl + G</code> 显示文件信息和位置</li>
+        <li><code>Ctrl + L</code> 重绘屏幕</li>
+        <li><code>gk</code> 向上一可见行</li>
+        <li><code>gj</code> 向下一可见行</li>
+      </ul>
+    </div>
+
+    <!-- 基础编辑 -->
+    <div class="card basic">
+      <h2>基础编辑 <span class="category-badge basic-badge">编辑</span></h2>
+      <ul>
+        <li><code>x</code> 删除当前字符</li>
+        <li><code>X</code> 删除前一个字符</li>
+        <li><code>r{char}</code> 替换当前字符</li>
+        <li><code>R</code> 进入替换模式</li>
+        <li><code>d</code> + 移动命令 删除到指定位置</li>
+        <li><code>dw</code> 删除到下一个词首</li>
+        <li><code>dd</code> 删除整行</li>
+        <li><code>D</code> 删除到行尾</li>
+        <li><code>c</code> + 移动命令 更改到指定位置</li>
+        <li><code>cw</code> 更改当前词</li>
+        <li><code>cc</code> / <code>S</code> 更改整行</li>
+        <li><code>C</code> 更改到行尾</li>
+        <li><code>y</code> + 移动命令 复制到指定位置</li>
+        <li><code>yw</code> 复制当前词</li>
+        <li><code>yy</code> / <code>Y</code> 复制整行</li>
+        <li><code>p</code> 在光标后粘贴</li>
+        <li><code>P</code> 在光标前粘贴</li>
+        <li><code>gp</code> 粘贴后光标移到末尾</li>
+        <li><code>gP</code> 在前面粘贴后光标移到末尾</li>
+      </ul>
+    </div>
+
+    <!-- 撤销与重做 -->
+    <div class="card basic">
+      <h2>撤销与重做 <span class="category-badge basic-badge">撤销</span></h2>
+      <ul>
+        <li><code>u</code> 撤销上一步操作</li>
+        <li><code>Ctrl + R</code> 重做上一步撤销</li>
+        <li><code>U</code> 撤销对当前行的所有更改</li>
+        <li><code>.</code> 重复上一次操作</li>
+        <li><code>@:</code> 重复上一次命令行命令</li>
+        <li><code>@@</code> 重复上一次@命令</li>
+        <li><code>g-</code> 转到较早的文本状态</li>
+        <li><code>g+</code> 转到较新的文本状态</li>
+        <li><code>:earlier 5m</code> 转到5分钟前的状态</li>
+        <li><code>:later 10s</code> 转到10秒后的状态</li>
+      </ul>
+    </div>
+
+    <!-- 字符查找 -->
+    <div class="card basic">
+      <h2>行内字符查找 <span class="category-badge basic-badge">查找</span></h2>
+      <ul>
+        <li><code>f{char}</code> 跳到行内下一个字符</li>
+        <li><code>F{char}</code> 跳到行内上一个字符</li>
+        <li><code>t{char}</code> 跳到行内下一个字符前</li>
+        <li><code>T{char}</code> 跳到行内上一个字符后</li>
+        <li><code>;</code> 重复上次f/F/t/T</li>
+        <li><code>,</code> 反向重复上次f/F/t/T</li>
+      </ul>
+    </div>
+
     <!-- Vim 标记与跳转 -->
     <div class="card vim">
       <h2>Vim 标记与跳转 <span class="category-badge vim-badge">标记</span></h2>
@@ -79,10 +198,11 @@
         <li><code>g;</code> 跳到上一个修改位置</li>
         <li><code>g,</code> 跳到下一个修改位置</li>
         <li><code>:changes</code> 显示修改历史</li>
+        <li><code>:keepjumps {command}</code> 不改变跳转列表执行命令</li>
       </ul>
     </div>
 
-    <!-- Vim 窗口管理增强 -->
+    <!-- Vim 窗口管理 -->
     <div class="card vim">
       <h2>Vim 窗口管理 <span class="category-badge vim-badge">窗口</span></h2>
       <ul>
@@ -157,6 +277,27 @@
       </ul>
     </div>
 
+    <!-- Vim 缓冲区操作 -->
+    <div class="card vim">
+      <h2>Vim 缓冲区管理 <span class="category-badge vim-badge">缓冲区</span></h2>
+      <ul>
+        <li><code>:ls</code> / <code>:buffers</code> 列出所有缓冲区</li>
+        <li><code>:b{n}</code> 切换到缓冲区n</li>
+        <li><code>:b filename</code> 按名称切换缓冲区</li>
+        <li><code>:bnext</code> / <code>:bn</code> 下一个缓冲区</li>
+        <li><code>:bprev</code> / <code>:bp</code> 上一个缓冲区</li>
+        <li><code>:bfirst</code> / <code>:bf</code> 第一个缓冲区</li>
+        <li><code>:blast</code> / <code>:bl</code> 最后一个缓冲区</li>
+        <li><code>:bd</code> 删除当前缓冲区</li>
+        <li><code>:bd{n}</code> 删除指定缓冲区</li>
+        <li><code>:bw</code> 擦除缓冲区</li>
+        <li><code>:ba</code> 在窗口中显示所有缓冲区</li>
+        <li><code>Ctrl + ^</code> 切换到上一个缓冲区</li>
+        <li><code>:sb{n}</code> 在分割窗口打开缓冲区</li>
+        <li><code>:vert sb{n}</code> 在垂直窗口打开缓冲区</li>
+      </ul>
+    </div>
+
     <!-- Vim 可视模式操作 -->
     <div class="card vim">
       <h2>Vim 可视模式操作 <span class="category-badge vim-badge">可视</span></h2>
@@ -202,6 +343,35 @@
       </ul>
     </div>
 
+    <!-- Vim 查找替换增强 -->
+    <div class="card vim">
+      <h2>Vim 查找与替换 <span class="category-badge vim-badge">查找</span></h2>
+      <ul>
+        <li><code>/pattern</code> 向下查找模式</li>
+        <li><code>?pattern</code> 向上查找模式</li>
+        <li><code>n</code> 下一个匹配</li>
+        <li><code>N</code> 上一个匹配</li>
+        <li><code>*</code> 查找当前词的下一个</li>
+        <li><code>#</code> 查找当前词的上一个</li>
+        <li><code>g*</code> 查找包含当前词的下一个</li>
+        <li><code>g#</code> 查找包含当前词的上一个</li>
+        <li><code>gd</code> 跳到局部变量定义</li>
+        <li><code>gD</code> 跳到全局变量定义</li>
+        <li><code>:%s/old/new/g</code> 全局替换</li>
+        <li><code>:%s/old/new/gc</code> 带确认的全局替换</li>
+        <li><code>:%s/old/new/gi</code> 忽略大小写替换</li>
+        <li><code>:s/old/new/g</code> 当前行替换</li>
+        <li><code>:10,20s/old/new/g</code> 指定行范围替换</li>
+        <li><code>:'<,'>s/old/new/g</code> 可视区域替换</li>
+        <li><code>:g/pattern/d</code> 删除匹配行</li>
+        <li><code>:v/pattern/d</code> 删除不匹配行</li>
+        <li><code>:g/pattern/s/old/new/g</code> 匹配行内替换</li>
+        <li><code>:noh</code> 清除搜索高亮</li>
+        <li><code>Ctrl + G</code> 搜索时下一个匹配</li>
+        <li><code>Ctrl + T</code> 搜索时上一个匹配</li>
+      </ul>
+    </div>
+
     <!-- Vim 折叠操作 -->
     <div class="card vim">
       <h2>Vim 代码折叠 <span class="category-badge vim-badge">折叠</span></h2>
@@ -225,27 +395,21 @@
         <li><code>zn</code> 禁用折叠</li>
         <li><code>zN</code> 启用折叠</li>
         <li><code>zi</code> 切换折叠开关</li>
+        <li><code>gq}</code> 重新格式化段落</li>
       </ul>
     </div>
 
-    <!-- Vim 缓冲区操作 -->
+    <!-- Vim 数字操作 -->
     <div class="card vim">
-      <h2>Vim 缓冲区管理 <span class="category-badge vim-badge">缓冲区</span></h2>
+      <h2>Vim 数字操作 <span class="category-badge vim-badge">数字</span></h2>
       <ul>
-        <li><code>:ls</code> / <code>:buffers</code> 列出所有缓冲区</li>
-        <li><code>:b{n}</code> 切换到缓冲区n</li>
-        <li><code>:b filename</code> 按名称切换缓冲区</li>
-        <li><code>:bnext</code> / <code>:bn</code> 下一个缓冲区</li>
-        <li><code>:bprev</code> / <code>:bp</code> 上一个缓冲区</li>
-        <li><code>:bfirst</code> / <code>:bf</code> 第一个缓冲区</li>
-        <li><code>:blast</code> / <code>:bl</code> 最后一个缓冲区</li>
-        <li><code>:bd</code> 删除当前缓冲区</li>
-        <li><code>:bd{n}</code> 删除指定缓冲区</li>
-        <li><code>:bw</code> 擦除缓冲区</li>
-        <li><code>:ba</code> 在窗口中显示所有缓冲区</li>
-        <li><code>Ctrl + ^</code> 切换到上一个缓冲区</li>
-        <li><code>:sb{n}</code> 在分割窗口打开缓冲区</li>
-        <li><code>:vert sb{n}</code> 在垂直窗口打开缓冲区</li>
+        <li><code>Ctrl + A</code> 增加数字</li>
+        <li><code>Ctrl + X</code> 减少数字</li>
+        <li><code>g Ctrl + A</code> 递增选中的数字序列</li>
+        <li><code>g Ctrl + X</code> 递减选中的数字序列</li>
+        <li><code>:set nrformats</code> 设置数字格式</li>
+        <li><code>:set nrformats=hex</code> 支持十六进制</li>
+        <li><code>:set nrformats=alpha</code> 支持字母</li>
       </ul>
     </div>
 
@@ -279,8 +443,8 @@
     </div>
 
     <!-- Vim 命令行模式 -->
-    <div class="card vim">
-      <h2>Vim 命令行模式 <span class="category-badge vim-badge">命令行</span></h2>
+    <div class="card advanced">
+      <h2>Vim 命令行模式 <span class="category-badge advanced-badge">命令行</span></h2>
       <ul>
         <li><code>:</code> 进入Ex命令模式</li>
         <li><code>q:</code> 打开命令历史窗口</li>
@@ -291,12 +455,21 @@
         <li><code>Tab</code> 命令补全</li>
         <li><code>Ctrl + A</code> 跳到行首</li>
         <li><code>Ctrl + E</code> 跳到行尾</li>
+        <li><code>Ctrl + B</code> / <code><Home></code> 跳到行首</li>
         <li><code>Ctrl + U</code> 删除到行首</li>
         <li><code>Ctrl + W</code> 删除前一个单词</li>
         <li><code>Ctrl + V</code> 插入字面字符</li>
         <li><code>Ctrl + R</code> 插入寄存器内容</li>
+        <li><code>Ctrl + K {char1} {char2}</code> 输入digraph</li>
+        <li><code><Left></code> / <code><Right></code> 左右移动光标</li>
+        <li><code><S-Left></code> / <code><C-Left></code> 按词移动</li>
+        <li><code><BS></code> 删除光标前字符</li>
+        <li><code><Del></code> 删除光标下字符</li>
+        <li><code>Ctrl + G</code> 增量搜索时下一个匹配</li>
+        <li><code>Ctrl + T</code> 增量搜索时上一个匹配</li>
         <li><code>:!</code> 执行外部命令</li>
         <li><code>:sh</code> 启动shell</li>
+        <li><code>:history</code> 显示命令历史</li>
       </ul>
     </div>
 
@@ -329,8 +502,8 @@
     </div>
 
     <!-- Vim 配置与设置 -->
-    <div class="card vim">
-      <h2>Vim 配置与设置 <span class="category-badge vim-badge">配置</span></h2>
+    <div class="card advanced">
+      <h2>Vim 配置与设置 <span class="category-badge advanced-badge">配置</span></h2>
       <ul>
         <li><code>:set option</code> 打开选项</li>
         <li><code>:set nooption</code> 关闭选项</li>
@@ -352,169 +525,46 @@
         <li><code>:set cursorline</code> 高亮当前行</li>
         <li><code>:set cursorcolumn</code> 高亮当前列</li>
         <li><code>:syntax on</code> 开启语法高亮</li>
-      </ul>
-    </div>
-    <!-- Vim 模式切换增强 -->
-    <div class="card vim">
-      <h2>Vim 模式切换 <span class="category-badge vim-badge">模式</span></h2>
-      <ul>
-        <li><code>Esc</code> / <code>Ctrl + [</code> 进入普通模式</li>
-        <li><code>i</code> 在光标前插入</li>
-        <li><code>I</code> 在行首插入</li>
-        <li><code>a</code> 在光标后插入</li>
-        <li><code>A</code> 在行尾插入</li>
-        <li><code>o</code> 在下方新建行并插入</li>
-        <li><code>O</code> 在上方新建行并插入</li>
-        <li><code>s</code> 删除字符并插入</li>
-        <li><code>S</code> 删除行并插入</li>
-        <li><code>v</code> 进入字符可视模式</li>
-        <li><code>V</code> 进入行可视模式</li>
-        <li><code>Ctrl + V</code> 进入块可视模式</li>
-        <li><code>gv</code> 重新选择上次可视区域</li>
-        <li><code>:</code> 进入命令行模式</li>
-        <li><code>/</code> / <code>?</code> 进入搜索模式</li>
-        <li><code>R</code> 进入替换模式</li>
+        <li><code>:set whichwrap=b,s</code> 光标跨行移动</li>
+        <li><code>:set whichwrap=b,s,<,></code> 扩展跨行移动</li>
+        <li><code>:set history=1000</code> 设置历史记录数量</li>
       </ul>
     </div>
 
-    <!-- Vim 光标移动增强 -->
-    <div class="card vim">
-      <h2>Vim 光标移动 <span class="category-badge vim-badge">移动</span></h2>
+    <!-- Vim 比较与差异 -->
+    <div class="card advanced">
+      <h2>Vim 文件比较 <span class="category-badge advanced-badge">比较</span></h2>
       <ul>
-        <li><code>h</code>/<code>j</code>/<code>k</code>/<code>l</code> 左/下/上/右</li>
-        <li><code>w</code> 跳到下一个词首 <span class="description">按标点分词</span></li>
-        <li><code>W</code> 跳到下一个词首 <span class="description">按空格分词</span></li>
-        <li><code>b</code> 跳到上一个词首</li>
-        <li><code>B</code> 跳到上一个词首 <span class="description">按空格分词</span></li>
-        <li><code>e</code> 跳到词尾</li>
-        <li><code>E</code> 跳到词尾 <span class="description">按空格分词</span></li>
-        <li><code>ge</code> 跳到前一个词尾</li>
-        <li><code>0</code> 跳到行首</li>
-        <li><code>^</code> 跳到行首非空字符</li>
-        <li><code>$</code> 跳到行尾</li>
-        <li><code>g_</code> 跳到行尾非空字符</li>
-        <li><code>gg</code> 跳到文件首行</li>
-        <li><code>G</code> 跳到文件末行</li>
-        <li><code>nG</code> / <code>:n</code> 跳到第n行</li>
-        <li><code>%</code> 跳到匹配的括号</li>
-        <li><code>f{char}</code> 跳到行内下一个字符</li>
-        <li><code>F{char}</code> 跳到行内上一个字符</li>
-        <li><code>t{char}</code> 跳到行内下一个字符前</li>
-        <li><code>T{char}</code> 跳到行内上一个字符后</li>
-        <li><code>;</code> 重复上次f/F/t/T</li>
-        <li><code>,</code> 反向重复上次f/F/t/T</li>
+        <li><code>:vimdiff file1 file2</code> 比较两个文件</li>
+        <li><code>:diffsplit file</code> 分割窗口比较</li>
+        <li><code>:vertical diffsplit</code> 垂直分割比较</li>
+        <li><code>]c</code> 跳到下一个差异</li>
+        <li><code>[c</code> 跳到上一个差异</li>
+        <li><code>do</code> 获取差异(diff obtain)</li>
+        <li><code>dp</code> 推送差异(diff put)</li>
+        <li><code>:diffget</code> 获取差异</li>
+        <li><code>:diffput</code> 推送差异</li>
+        <li><code>:diffupdate</code> 更新差异</li>
+        <li><code>:diffoff</code> 关闭差异模式</li>
+        <li><code>zo</code> / <code>zc</code> 打开/关闭折叠差异</li>
       </ul>
     </div>
 
-    <!-- Vim 屏幕移动 -->
-    <div class="card vim">
-      <h2>Vim 屏幕与翻页 <span class="category-badge vim-badge">屏幕</span></h2>
+    <!-- Vim 拼写检查 -->
+    <div class="card advanced">
+      <h2>Vim 拼写检查 <span class="category-badge advanced-badge">拼写</span></h2>
       <ul>
-        <li><code>Ctrl + F</code> 向下翻页</li>
-        <li><code>Ctrl + B</code> 向上翻页</li>
-        <li><code>Ctrl + D</code> 向下翻半页</li>
-        <li><code>Ctrl + U</code> 向上翻半页</li>
-        <li><code>Ctrl + E</code> 向下滚动一行</li>
-        <li><code>Ctrl + Y</code> 向上滚动一行</li>
-        <li><code>H</code> 跳到屏幕顶部</li>
-        <li><code>M</code> 跳到屏幕中间</li>
-        <li><code>L</code> 跳到屏幕底部</li>
-        <li><code>zt</code> 当前行移到屏幕顶部</li>
-        <li><code>zz</code> 当前行移到屏幕中间</li>
-        <li><code>zb</code> 当前行移到屏幕底部</li>
-        <li><code>Ctrl + G</code> 显示文件信息和位置</li>
-        <li><code>Ctrl + L</code> 重绘屏幕</li>
-      </ul>
-    </div>
-
-    <!-- Vim 文本编辑增强 -->
-    <div class="card vim">
-      <h2>Vim 文本编辑 <span class="category-badge vim-badge">编辑</span></h2>
-      <ul>
-        <li><code>x</code> 删除当前字符</li>
-        <li><code>X</code> 删除前一个字符</li>
-        <li><code>r{char}</code> 替换当前字符</li>
-        <li><code>R</code> 进入替换模式</li>
-        <li><code>d</code> + 移动命令 删除到指定位置</li>
-        <li><code>dw</code> 删除到下一个词首</li>
-        <li><code>dd</code> 删除整行</li>
-        <li><code>D</code> 删除到行尾</li>
-        <li><code>c</code> + 移动命令 更改到指定位置</li>
-        <li><code>cw</code> 更改当前词</li>
-        <li><code>cc</code> / <code>S</code> 更改整行</li>
-        <li><code>C</code> 更改到行尾</li>
-        <li><code>y</code> + 移动命令 复制到指定位置</li>
-        <li><code>yw</code> 复制当前词</li>
-        <li><code>yy</code> / <code>Y</code> 复制整行</li>
-        <li><code>p</code> 在光标后粘贴</li>
-        <li><code>P</code> 在光标前粘贴</li>
-        <li><code>gp</code> 粘贴后光标移到末尾</li>
-        <li><code>gP</code> 在前面粘贴后光标移到末尾</li>
-        <li><code>J</code> 连接下一行</li>
-        <li><code>gJ</code> 连接下一行不添加空格</li>
-        <li><code>~</code> 切换字符大小写</li>
-        <li><code>gu</code> + 移动 转为小写</li>
-        <li><code>gU</code> + 移动 转为大写</li>
-      </ul>
-    </div>
-
-    <!-- Vim 撤销重做 -->
-    <div class="card vim">
-      <h2>Vim 撤销与重做 <span class="category-badge vim-badge">撤销</span></h2>
-      <ul>
-        <li><code>u</code> 撤销上一步操作</li>
-        <li><code>Ctrl + R</code> 重做上一步撤销</li>
-        <li><code>U</code> 撤销对当前行的所有更改</li>
-        <li><code>.</code> 重复上一次操作</li>
-        <li><code>@:</code> 重复上一次命令行命令</li>
-        <li><code>@@</code> 重复上一次@命令</li>
-        <li><code>g-</code> 转到较早的文本状态</li>
-        <li><code>g+</code> 转到较新的文本状态</li>
-        <li><code>:earlier 5m</code> 转到5分钟前的状态</li>
-        <li><code>:later 10s</code> 转到10秒后的状态</li>
-        <li><code>:undo</code> 撤销操作</li>
-        <li><code>:redo</code> 重做操作</li>
-      </ul>
-    </div>
-
-    <!-- Vim 查找替换增强 -->
-    <div class="card vim">
-      <h2>Vim 查找与替换 <span class="category-badge vim-badge">查找</span></h2>
-      <ul>
-        <li><code>/pattern</code> 向下查找模式</li>
-        <li><code>?pattern</code> 向上查找模式</li>
-        <li><code>n</code> 下一个匹配</li>
-        <li><code>N</code> 上一个匹配</li>
-        <li><code>*</code> 查找当前词的下一个</li>
-        <li><code>#</code> 查找当前词的上一个</li>
-        <li><code>g*</code> 查找包含当前词的下一个</li>
-        <li><code>g#</code> 查找包含当前词的上一个</li>
-        <li><code>gd</code> 跳到局部变量定义</li>
-        <li><code>gD</code> 跳到全局变量定义</li>
-        <li><code>:%s/old/new/g</code> 全局替换</li>
-        <li><code>:%s/old/new/gc</code> 带确认的全局替换</li>
-        <li><code>:%s/old/new/gi</code> 忽略大小写替换</li>
-        <li><code>:s/old/new/g</code> 当前行替换</li>
-        <li><code>:10,20s/old/new/g</code> 指定行范围替换</li>
-        <li><code>:'<,'>s/old/new/g</code> 可视区域替换</li>
-        <li><code>:g/pattern/d</code> 删除匹配行</li>
-        <li><code>:v/pattern/d</code> 删除不匹配行</li>
-        <li><code>:g/pattern/s/old/new/g</code> 匹配行内替换</li>
-        <li><code>:noh</code> 清除搜索高亮</li>
-      </ul>
-    </div>
-
-    <!-- Vim 数字与计算 -->
-    <div class="card vim">
-      <h2>Vim 数字操作 <span class="category-badge vim-badge">数字</span></h2>
-      <ul>
-        <li><code>Ctrl + A</code> 增加数字</li>
-        <li><code>Ctrl + X</code> 减少数字</li>
-        <li><code>g Ctrl + A</code> 递增选中的数字序列</li>
-        <li><code>g Ctrl + X</code> 递减选中的数字序列</li>
-        <li><code>:set nrformats</code> 设置数字格式</li>
-        <li><code>:set nrformats=hex</code> 支持十六进制</li>
-        <li><code>:set nrformats=alpha</code> 支持字母</li>
+        <li><code>:set spell</code> 开启拼写检查</li>
+        <li><code>:set nospell</code> 关闭拼写检查</li>
+        <li><code>:set spelllang=en</code> 设置语言</li>
+        <li><code>]s</code> 下一个拼写错误</li>
+        <li><code>[s</code> 上一个拼写错误</li>
+        <li><code>z=</code> 显示拼写建议</li>
+        <li><code>zg</code> 添加词到词典</li>
+        <li><code>zw</code> 标记词为错误</li>
+        <li><code>zug</code> 撤销添加到词典</li>
+        <li><code>zuw</code> 撤销标记错误</li>
+        <li><code>1z=</code> 使用第一个建议</li>
       </ul>
     </div>
 
@@ -537,49 +587,12 @@
       </ul>
     </div>
 
-    <!-- Vim 比较与差异 -->
-    <div class="card vim">
-      <h2>Vim 文件比较 <span class="category-badge vim-badge">比较</span></h2>
-      <ul>
-        <li><code>:vimdiff file1 file2</code> 比较两个文件</li>
-        <li><code>:diffsplit file</code> 分割窗口比较</li>
-        <li><code>:vertical diffsplit</code> 垂直分割比较</li>
-        <li><code>]c</code> 跳到下一个差异</li>
-        <li><code>[c</code> 跳到上一个差异</li>
-        <li><code>do</code> 获取差异(diff obtain)</li>
-        <li><code>dp</code> 推送差异(diff put)</li>
-        <li><code>:diffget</code> 获取差异</li>
-        <li><code>:diffput</code> 推送差异</li>
-        <li><code>:diffupdate</code> 更新差异</li>
-        <li><code>:diffoff</code> 关闭差异模式</li>
-        <li><code>zo</code> / <code>zc</code> 打开/关闭折叠差异</li>
-      </ul>
-    </div>
-
-    <!-- Vim 拼写检查 -->
-    <div class="card vim">
-      <h2>Vim 拼写检查 <span class="category-badge vim-badge">拼写</span></h2>
-      <ul>
-        <li><code>:set spell</code> 开启拼写检查</li>
-        <li><code>:set nospell</code> 关闭拼写检查</li>
-        <li><code>:set spelllang=en</code> 设置语言</li>
-        <li><code>]s</code> 下一个拼写错误</li>
-        <li><code>[s</code> 上一个拼写错误</li>
-        <li><code>z=</code> 显示拼写建议</li>
-        <li><code>zg</code> 添加词到词典</li>
-        <li><code>zw</code> 标记词为错误</li>
-        <li><code>zug</code> 撤销添加到词典</li>
-        <li><code>zuw</code> 撤销标记错误</li>
-        <li><code>1z=</code> 使用第一个建议</li>
-      </ul>
-    </div>
   </div>
 
   <script>
     function resizeColumn(value) {
       document.getElementById('colShow').textContent = value + 'px';
       const container = document.getElementById('container');
-      const columnCount = container.style.columnCount || getComputedStyle(container).columnCount;
       container.style.columnWidth = value + 'px';
     }
   </script>

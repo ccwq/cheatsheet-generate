@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>x-cmd 命令行增强工具速查表</title>
+  <style>
+    html,body{height:100%;margin:0;padding:0;background:linear-gradient(130deg,#303d54 0%,#23304a 48%,#171b27 100%);font-family:'Segoe UI','PingFang SC','Microsoft YaHei',Arial,sans-serif;font-size:12px;line-height:1.1;color:#e7e7ea;overflow-x:hidden}body{min-height:100vh;padding:0}.container{width:100%;max-width:100%;margin:0 auto;padding:8px 4px 16px 4px;box-sizing:border-box}.cheat-columns{column-count:4;column-gap:16px;transition:column-width 0.2s;margin-top:12px}@media (max-width:1500px){.cheat-columns{column-count:3}}@media (max-width:1100px){.cheat-columns{column-count:2;column-gap:12px}}@media (max-width:750px){.cheat-columns{column-count:1}}.card{background:rgba(29,36,53,0.85);border-radius:12px;box-shadow:0 2px 12px 1px rgba(0,0,0,0.18);backdrop-filter:blur(6px);margin-bottom:14px;padding:14px 14px 8px 14px;break-inside:avoid;border:1px solid rgba(78,85,130,.12);min-width:0;box-sizing:border-box}.card h2{margin:-6px 0 6px 0;font-size:15px;font-weight:600;color:#fdbe3f;letter-spacing:0.6px}.card h3{font-size:12px;font-weight:bold;color:#93cdfc;margin:6px 0 4px 0}.card ul,.card ol{padding-left:12px;margin:3px 0 8px 0}.card li{margin-bottom:3px;word-break:break-all}code,pre{font-family:'Fira Mono','Consolas','Menlo',monospace;font-size:1em;background:#181d26;color:#e2ffd0;border-radius:5px;line-height:1.1;padding:0 2px;letter-spacing:0.1px;word-wrap:break-word;word-break:break-all}pre{background:#1a1e2b;border-radius:6px;padding:8px 1em;margin:6px 0 8px 0;color:#e6e8ef;overflow-x:auto;font-size:1em;line-height:1.1;box-shadow:0 1px 5px 0 rgba(0,12,22,.15)}@media (max-width:750px){pre{font-size:1em;padding:6px 8px}}.desc{color:#acc3f8;font-style:italic;margin:2px 0 4px 0;font-size:1em;line-height:1.1}.panel{display:flex;align-items:center;background:rgba(36,41,59,0.91);border-radius:12px;box-shadow:0 1px 6px 0 rgba(0,0,0,0.1);padding:8px 16px;margin-bottom:12px;border:1px solid #353e63;gap:16px;flex-wrap:wrap;box-sizing:border-box}.panel label{font-size:1em;color:#ffe49b;font-weight:bold;margin-right:5px;letter-spacing:0.2px}.slider-bar{min-width:120px;margin-right:6px}.slider-val{color:#ffce5b;font-size:1em;margin-left:4px;min-width:28px;display:inline-block;font-weight:600}@media (max-width:660px){.panel{flex-direction:column;gap:8px;padding:6px 4px}}
+    .hl-blue { color:#64b5f6;}
+    .hl-green { color:#81c784;}
+    .hl-yellow { color:#ffd54f; }
+    .hl-magenta { color:#ba68c8;}
+    .hl-comment { color:#757575; font-style: italic;}
+    .hl-number {color:#ffb74d;}
+    .hl-kw {color:#4fc3f7;}
+    .hl-func {color:#aed581;}
+    .hl-str {color:#dce775;}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <span style="color:#7bfbb7;font-size:16px;margin-right:auto;">x-cmd 速查表</span>
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+    </div>
+    <div class="cheat-columns" id="columns">
+
+      <div class="card">
+        <h2>🧩 x-cmd 简介 <a href="https://x-cmd.com" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li><b>x-cmd</b>：高效命令行增强工具，统一调用外部命令，支持灵活扩展与批量操作</li>
+          <li>🌈 适配多平台：Windows、Linux、macOS</li>
+          <li>🔗 支持自定义指令映射、参数模板、组合操作、输出管道</li>
+          <li>☑️ 常用于脚本集成、批量运维、CLI自动化、跨平台开发</li>
+          <li>⚡ 支持并发执行、变量展开、模板替换</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>🚀 安装与升级 <a href="https://x-cmd.com/docs/installation" title="安装文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2>
+        <h3>npm 全局安装</h3>
+        <pre><span class="hl-kw">npm</span> install -g <span class="hl-str">x-cmd</span> <span class="hl-comment"># 全局安装</span>
+x-cmd --version   <span class="hl-comment"># 检查版本</span>
+x-cmd --help      <span class="hl-comment"># 查看帮助文档</span></pre>
+        <h3>其他安装方式</h3>
+        <pre><span class="hl-comment"># yarn 安装</span>
+yarn global add x-cmd
+
+<span class="hl-comment"># pnpm 安装</span>
+pnpm add -g x-cmd</pre>
+        <h3>升级到最新版</h3>
+        <pre>npm update -g x-cmd
+<span class="hl-comment"># 或使用最新版本</span>
+npm install -g x-cmd@latest</pre>
+      </div>
+
+      <div class="card">
+        <h2>📝 基本命令格式 <a href="https://x-cmd.com/docs/basics" title="基础用法" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2>
+        <pre><span class="hl-blue">x-cmd &lt;模块&gt; [子命令] [参数] [选项]</span></pre>
+        <ul>
+          <li><code>模块</code>：任务类别，如 <code>git</code>、<code>npm</code>、<code>fs</code> 等</li>
+          <li><code>子命令</code>：具体功能，如 <code>clone</code>、<code>install</code>、<code>list</code></li>
+          <li><code>参数/选项</code>：目标操作对象及详细参数</li>
+        </ul>
+        <h3>基本示例</h3>
+        <pre>x-cmd git clone https://github.com/foo/bar.git
+x-cmd npm install express --save
+x-cmd fs copy "*.md" backup/ --dry-run</pre>
+      </div>
+
+      <div class="card">
+        <h2>🗂️ 常用模块总览 <a href="https://x-cmd.com/docs/modules" title="模块文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li><code>git</code>：Git仓库操作工具集（clone/pull/push/branch/stash等）</li>
+          <li><code>npm</code>：Node.js包管理相关命令</li>
+          <li><code>fs</code>：文件与目录批量操作（copy, move, rm, touch, find等）</li>
+          <li><code>shell</code>：执行 Shell/批处理脚本及命令</li>
+          <li><code>http</code>：HTTP文件下载、接口调用、批量请求</li>
+          <li><code>json</code>：JSON数据处理、格式化、比较、查询</li>
+          <li><code>regex</code>：正则批量查找、替换、测试文本</li>
+          <li><code>tools</code>：辅助集（uuid、date、base64、time计时等常用工具）</li>
+          <li><code>docker</code>：Docker容器管理命令</li>
+          <li><code>k8s</code>：Kubernetes集群管理命令</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>⚙️ 通用选项/参数 <a href="https://x-cmd.com/docs/options" title="选项说明" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li><code>-h, --help</code>：显示模块/命令帮助说明</li>
+          <li><code>-v, --version</code>：显示当前 x-cmd 版本</li>
+          <li><code>-c, --config [路径]</code>：自定义配置文件</li>
+          <li><code>--dry-run</code>：仅打印将要执行的命令，不实际运行</li>
+          <li><code>-q, --quiet</code>：降低输出，错误时仅打印警告</li>
+          <li><code>-y, --yes</code>：自动确认所有询问</li>
+          <li><code>-o, --output [文件]</code>：指定输出重定向</li>
+          <li><code>--concurrency [数字]</code>：设置并发执行数量（默认：CPU核心数）</li>
+          <li><code>-d 变量=值1,值2</code>：批量变量展开</li>
+          <li><code>--timeout [秒数]</code>：设置命令执行超时时间</li>
+          <li><code>--verbose</code>：显示详细执行过程</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>🔧 git 模块详细用法 <a href="https://x-cmd.com/docs/modules/git" title="Git模块" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2>
+        <h3>仓库操作</h3>
+        <pre>x-cmd git clone &lt;repo-url&gt; --depth 1
+x-cmd git init &lt;directory&gt;
+x-cmd git status --porcelain
+x-cmd git add .</pre>
+        <h3>分支管理</h3>
+        <pre>x-cmd git branch -a
+x-cmd git checkout -b feature/new
+x-cmd git merge main --no-ff
+x-cmd git branch -d feature/old</pre>
+        <h3>提交与推送</h3>
+        <pre>x-cmd git commit -m "commit message"
+x-cmd git push origin main
+x-cmd git pull --rebase</pre>
+        <h3>Stash 操作</h3>
+        <pre>x-cmd git stash push -m "work in progress"
+x-cmd git stash list
+x-cmd git stash pop</pre>
+      </div>
+
+      <div class="card">
+        <h2>📁 fs 文件系统模块 <a href="https://x-cmd.com/docs/modules/fs" title="Fs模块" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2>
+        <h3>文件复制</h3>
+        <pre>x-cmd fs copy src/*.js dist/
+x-cmd fs copy --recursive src/ backup/
+x-cmd fs copy --preserve mode,timestamps *.txt archive/</pre>
+        <h3>文件移动/重命名</h3>
+        <pre>x-cmd fs move "*.log" logs/
+x-cmd fs move oldname.txt newname.txt
+x-cmd fs move --update src/*.md backup/</pre>
+        <h3>文件删除</h3>
+        <pre>x-cmd fs rm *.tmp --dry-run
+x-cmd fs rm --recursive --force temp/
+x-cmd fs rm --interactive *.bak</pre>
+        <h3>文件查找</h3>
+        <pre>x-cmd fs find . -name "*.js" -type f
+x-cmd fs find . -size +10M -exec ls -l {} \;</pre>
+        <div class="desc">支持通配符模式匹配，可结合--dry-run预览操作</div>
+      </div>
+
+      <div class="card">
+        <h2>🖇️ shell 模块高级用法 <a href="https://x-cmd.com/docs/modules/shell" title="Shell模块" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2>
+        <h3>基础执行</h3>
+        <pre>x-cmd shell run "echo hello, $USER"
+x-cmd shell run "npm test" --cwd ./project
+x-cmd shell run "docker build -t myapp ."</pre>
+        <h3>批量变量展开</h3>
+        <pre>x-cmd shell run "echo Processing {file}" -d files=*.md
+x-cmd shell run "mkdir {dir}" -d dirs=docs,test,build</pre>
+        <h3>脚本执行</h3>
+        <pre>x-cmd shell run deploy.sh --env production
+x-cmd shell run "scripts/setup.sh" --args --force --verbose</pre>
+        <h3>管道操作</h3>
+        <pre>cat files.txt | x-cmd shell run "wc -l {stdin}"
+find . -name "*.log" | x-cmd shell run "gzip {stdin}"</pre>
+        <div class="desc">支持变量批量展开，自动并发执行和环境变量注入</div>
+      </div>
+
+      <div class="card">
+        <h2>🌐 http 模块网络操作 <a href="https://x-cmd.com/docs/modules/http" title="HTTP模块" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2>
+        <h3>文件下载</h3>
+        <pre>x-cmd http download https://host/a.zip -o ./a.zip
+x-cmd http download --resume https://host/largefile.iso
+x-cmd http download --parallel 4 *.tar.gz</pre>
+        <h3>API 请求</h3>
+        <pre>x-cmd http get https://api.site/users/123
+x-cmd http post https://api.site/data --json '{"key":"value"}'
+x-cmd http put https://api.site/update/123 --form file=@data.txt</pre>
+        <h3>批量API测试</h3>
+        <pre>x-cmd http get https://api.site/users/{id} -d id=1,2,3 --concurrency 5
+x-cmd http post https://api.site/batch --data-file requests.json</pre>
+        <h3>请求选项</h3>
+        <pre>x-cmd http get https://api.example.com/data \
+  --header "Authorization: Bearer token" \
+  --header "Content-Type: application/json" \
+  --timeout 30 \
+  --retry 3</pre>
+        <div class="desc">支持 download/get/post/put/delete 等HTTP方法，支持动态变量与并发控制</div>
+      </div>
+
+      <div class="card">
+        <h2>🧮 json 处理工具 <a href="https://x-cmd.com/docs/modules/json" title="JSON模块" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2>
+        <h3>格式化与验证</h3>
+        <pre>x-cmd json format data.json --indent 2
+x-cmd json validate config.json --schema schema.json
+x-cmd json pretty-print --sort-keys file.json</pre>
+        <h3>数据查询</h3>
+        <pre>x-cmd json query "users[0].name" data.json
+x-cmd json query "$.items[*].price" --format csv products.json</pre>
+        <h3>数据比较</h3>
+        <pre>x-cmd json compare old.json new.json
+x-cmd json diff file1.json file2.json --output diff.json</pre>
+        <h3>数据转换</h3>
+        <pre>x-cmd json to-yaml data.json
+x-cmd json to-xml --root items data.json
+x-cmd json extract "users.*.email" users.json --output emails.txt</pre>
+        <div class="desc">支持JSONPath查询、数据格式转换和差异比较</div>
+      </div>
+
+      <div class="card">
+        <h2>🔍 regex 正则表达式工具 <a href="https://x-cmd.com/docs/modules/regex" title="Regex模块" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2>
+        <h3>查找匹配</h3>
+        <pre>x-cmd regex find "\d{4}-\d{2}-\d{2}" --files=*.txt
+x-cmd regex find "email:\s*([^\s]+)" --groups --files=*.log</pre>
+        <h3>替换操作</h3>
+        <pre>x-cmd regex replace "(\d+)" "[数字: \1]" --files=*.txt
+x-cmd regex replace "\b(https?://[^\s]+)" "[链接]" --global</pre>
+        <h3>批量处理</h3>
+        <pre>x-cmd regex replace "TODO:" "FIXME:" --files="src/**/*.{js,ts}"
+x-cmd regex find "function\s+(\w+)" --count --files=*.js</pre>
+        <h3>测试与验证</h3>
+        <pre>x-cmd regex test "^\d{4}-\d{2}-\d{2}$" "2023-12-25"
+x-cmd regex extract "(\w+)@(\w+\.\w+)" "email@example.com"</pre>
+        <div class="desc">支持文件批量、交互式替换、正则表达式测试和捕获组</div>
+      </div>
+
+      <div class="card">
+        <h2>🛠️ tools 实用工具集 <a href="https://x-cmd.com/docs/modules/tools" title="Tools模块" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2>
+        <h3>UUID 生成</h3>
+        <pre>x-cmd tools uuid
+x-cmd tools uuid --v4
+x-cmd tools uuid --namespace dns --name example.com</pre>
+        <h3>时间日期</h3>
+        <pre>x-cmd tools date --format "%Y-%m-%d %H:%M:%S"
+x-cmd tools timestamp
+x-cmd tools time --stopwatch</pre>
+        <h3>编码转换</h3>
+        <pre>x-cmd tools base64 encode "hello world"
+x-cmd tools base64 decode "aGVsbG8gd29ybGQ="
+x-cmd tools url-encode "https://example.com/q=test value"
+x-cmd tools hash md5 "data"
+x-cmd tools hash sha256 "file.txt"</pre>
+        <h3>文件操作</h3>
+        <pre>x-cmd tools split largefile.txt --lines 1000
+x-cmd tools merge part1.txt part2.txt --output combined.txt
+x-cmd tools watch "*.js" --command "npm test"</pre>
+        <div class="desc">提供常用开发工具函数，包括加密、编码、文件处理等</div>
+      </div>
+
+      <div class="card">
+        <h2>⚡ 高级用法与技巧 <a href="https://x-cmd.com/docs/advanced" title="高级用法" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2>
+        <h3>多步流水线组合</h3>
+        <pre>x-cmd fs rm *.tmp | x-cmd fs copy src/*.js dist/ | x-cmd tools notify "Build complete"</pre>
+        <h3>模板变量高级用法</h3>
+        <pre>x-cmd shell run "echo User: {user}, Home: {home}" -d user=admin,home=/home/admin
+x-cmd http post https://api.site/{endpoint} --json 'data: {payload}' -d endpoint=users,data='{"name":"test"}'</pre>
+        <h3>条件执行</h3>
+        <pre>x-cmd shell run "test -f config.json" --then "x-cmd json format config.json"
+x-cmd fs find . -name "*.js" --exec "x-cmd tools eslint {file}"</pre>
+        <h3>与脚本语言协作</h3>
+        <pre><span class="hl-comment"># Node.js 脚本中调用</span>
+const { exec } = require('child_process');
+exec('x-cmd fs copy "*.md" backup/');
+
+<span class="hl-comment"># Python 中使用</span>
+import subprocess
+subprocess.run(['x-cmd', 'git', 'pull'])</pre>
+        <div class="desc">支持管道操作、条件执行、模板变量嵌套和多语言集成</div>
+      </div>
+
+      <div class="card">
+        <h2>🔧 配置与扩展 <a href="https://x-cmd.com/docs/config" title="配置文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2>
+        <h3>全局配置文件 (~/.xcmddrc)</h3>
+        <pre><span class="hl-comment"># ~/.xcmddrc</span>
+[alias]
+ls = fs list
+gco = git checkout
+npm-test = npm test
+
+[defaults]
+concurrency = 4
+timeout = 60
+dry-run = false
+
+[modules.git]
+default-remote = origin
+default-branch = main</pre>
+        <h3>项目配置 (.xcmddrc)</h3>
+        <pre><span class="hl-comment"># 项目级配置</span>
+[environment]
+NODE_ENV = development
+API_URL = http://localhost:3000
+
+[scripts]
+build = "npm run build"
+test = "npm run test"
+deploy = "npm run build && npm run deploy"</pre>
+        <h3>自定义模块</h3>
+        <pre><span class="hl-comment"># 创建自定义模块 ~/.x-cmd/modules/mytool.js</span>
+module.exports = {
+  commands: {
+    hello: (args) => {
+      console.log(`Hello, ${args.name || 'World'}!`);
+    }
+  }
+};</pre>
+        <div class="desc">支持全局/项目配置、命令别名、环境变量和自定义模块开发</div>
+      </div>
+
+      <div class="card">
+        <h2>🐳 Docker 模块 <a href="https://x-cmd.com/docs/modules/docker" title="Docker模块" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2>
+        <h3>容器管理</h3>
+        <pre>x-cmd docker ps -a
+x-cmd docker run nginx:latest -p 8080:80
+x-cmd docker stop $(x-cmd docker ps -q)
+x-cmd docker rm $(x-cmd docker ps -a -q --filter status=exited)</pre>
+        <h3>镜像操作</h3>
+        <pre>x-cmd docker build -t myapp:1.0 .
+x-cmd docker push myapp:1.0
+x-cmd docker pull node:16-alpine
+x-cmd docker rmi $(x-cmd docker images -q --filter dangling=true)</pre>
+        <h3>网络与卷</h3>
+        <pre>x-cmd docker network create app-network
+x-cmd docker volume create app-data
+x-cmd docker run --network app-network -v app-data:/data app:latest</pre>
+        <div class="desc">提供完整的 Docker 容器生命周期管理功能</div>
+      </div>
+
+      <div class="card">
+        <h2>☸️ Kubernetes 模块 <a href="https://x-cmd.com/docs/modules/k8s" title="K8s模块" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2>
+        <h3>Pod 管理</h3>
+        <pre>x-cmd k8s get pods --all-namespaces
+x-cmd k8s describe pod my-app-pod
+x-cmd k8s logs my-app-pod --follow
+x-cmd k8s delete pod my-app-pod</pre>
+        <h3>部署与服务</h3>
+        <pre>x-cmd k8s apply -f deployment.yaml
+x-cmd k8s expose deployment my-app --port=80 --target-port=3000
+x-cmd k8s scale deployment my-app --replicas=3</pre>
+        <h3>配置管理</h3>
+        <pre>x-cmd k8s get configmaps
+x-cmd k8s create configmap app-config --from-file=properties.txt
+x-cmd k8s get secrets</pre>
+        <div class="desc">支持 Kubernetes 资源管理和集群操作</div>
+      </div>
+
+      <div class="card">
+        <h2>🌟 最佳实践与FAQ <a href="https://x-cmd.com/docs/best-practices" title="最佳实践" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2>
+        <h3>性能优化</h3>
+        <ul>
+          <li>合理设置 <code>--concurrency</code> 避免资源耗尽</li>
+          <li>使用 <code>--dry-run</code> 预览批量操作结果</li>
+          <li>配置适当的 <code>--timeout</code> 防止命令挂起</li>
+        </ul>
+        <h3>安全实践</h3>
+        <ul>
+          <li>避免在命令行中直接传递敏感信息</li>
+          <li>使用环境变量或配置文件管理凭证</li>
+          <li>定期清理临时文件和日志</li>
+        </ul>
+        <h3>常见问题解决</h3>
+        <ul>
+          <li>路径问题：使用绝对路径或检查工作目录</li>
+          <li>权限问题：确保有足够的文件系统权限</li>
+          <li>并发问题：降低并发数或增加延迟</li>
+          <li>编码问题：指定正确的文件编码格式</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>🚀 性能监控与调试 <a href="https://x-cmd.com/docs/debugging" title="调试指南" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2>
+        <h3>调试模式</h3>
+        <pre>x-cmd --verbose fs copy *.txt backup/
+x-cmd --debug http get https://api.example.com/data
+DEBUG=x-cmd:* x-cmd git pull</pre>
+        <h3>性能分析</h3>
+        <pre>x-cmd --time npm install
+x-cmd --profile fs move large/ backup/</pre>
+        <h3>日志管理</h3>
+        <pre>x-cmd --log-file xcmd.log fs rm --recursive temp/
+x-cmd --log-level debug shell run "complex script.sh"</pre>
+        <h3>错误处理</h3>
+        <pre>x-cmd shell run "failing_command" --retry 3 --delay 5
+x-cmd fs copy important/ backup/ --continue-on-error</pre>
+        <div class="desc">提供丰富的调试和监控选项，便于问题排查</div>
+      </div>
+
+    </div>
+  </div>
+  <script>
+    document.getElementById('columnWidth').addEventListener('input', function(e) {
+      const width = e.target.value;
+      document.getElementById('widthVal').textContent = width + 'px';
+      const columns = document.getElementById('columns');
+      columns.style.columnWidth = width + 'px';
+    });
+  </script>
+</body>
+</html>
