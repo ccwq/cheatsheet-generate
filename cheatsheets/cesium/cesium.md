@@ -1,0 +1,33 @@
+CesiumJS 3D地球WebGL框架开发速查表
+
+初始化:Cesium.Ion.defaultAccessToken设置令牌,new Cesium.Viewer创建查看器,terrain配置地形,imageryProvider配置影像;baseLayerPicker/animation/timeline等控制UI组件
+
+场景控制:scene.camera.setView设置相机,scene模式切换(SCENE3D/SCENE2D/COLUMBUS_VIEW),fog/lighting/atmosphere等渲染效果
+
+实体系统:entities.add/remove管理实体,point/label/billboard/polygon/polyline/model等图元类型,position/orientation控制位置方向
+
+数据源:GeoJsonDataSource/KmlDataSource/CzmlDataSource加载地理数据,dataSources管理,entities通过数据源访问
+
+相机控制:flyTo飞行定位,setView快速定位,坐标转换fromDegrees/fromRadians,orientation控制视角
+
+坐标系统:Cartesian3笛卡尔坐标,Cartographic地理坐标,fromDegrees/fromRadians坐标转换,Math.toRadians/toDegrees角度换算
+
+材质外观:Material.fromType创建材质,Color/Image/Grid/Stripe等材质类型,fabric自定义材质GLSL着色
+
+事件处理:ScreenSpaceEventHandler事件监听,LEFT_CLICK/RIGHT_CLICK/MOUSE_MOVE等事件类型,setInputAction绑定回调
+
+拾取操作:scene.pick拾取对象,drillPick多层拾取,globe.pick地表拾取,wgs84ToWindowCoordinates坐标转换
+
+时钟时间:JulianDate时间系统,startTime/stopTime/multiplier设置时钟,timeInterval时间间隔集合,CLOCK_RANGE循环播放
+
+地形服务:Terrain.fromWorldTerrain世界地形,CesiumTerrainProvider自定义地形Provider,enableCollision Detection深度测试
+
+影像服务:TileMapService/TMS/WebMapService/WMS等Provider,ArcGisMapServer/OSM等具体服务,imageryLayers图层管理alpha/brightness等
+
+3D模型:Model.fromGltfAsync加载GLTF/GLB,activeAnimations动画控制,scale/minimumPixelSize模型属性,readyPromise加载事件
+
+性能优化:关闭fog/atmosphere/lighting降低负载,maximumScreenSpaceError控制细节,RequestScheduler限制并发请求
+
+调试工具:debugShowFramesPerSecond帧率监控,moveEnd事件监听相机,RequestScheduler统计请求数
+
+工具函数:Math.clamp/lerp数学计算,negativePiToPi角度标准化,defined/merge/clone对象操作

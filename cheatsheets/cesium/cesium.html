@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8">
+    <title>CesiumJS 3D地球开发速查表</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      html,body{height:100%;margin:0;padding:0;background:linear-gradient(130deg,#303d54 0%,#23304a 48%,#171b27 100%);font-family:'Segoe UI','PingFang SC','Microsoft YaHei',Arial,sans-serif;font-size:12px;line-height:1.1;color:#e7e7ea;overflow-x:hidden}body{min-height:100vh;padding:0}.container{width:100%;max-width:100%;margin:0 auto;padding:8px 4px 16px 4px;box-sizing:border-box}.cheat-columns{column-count:4;column-gap:16px;transition:column-width 0.2s;margin-top:12px}@media (max-width:1500px){.cheat-columns{column-count:3}}@media (max-width:1100px){.cheat-columns{column-count:2;column-gap:12px}}@media (max-width:750px){.cheat-columns{column-count:1}}.card{background:rgba(29,36,53,0.85);border-radius:12px;box-shadow:0 2px 12px 1px rgba(0,0,0,0.18);backdrop-filter:blur(6px);margin-bottom:14px;padding:14px 14px 8px 14px;break-inside:avoid;border:1px solid rgba(78,85,130,.12);min-width:0;box-sizing:border-box}.card h2{margin:-6px 0 6px 0;font-size:15px;font-weight:600;color:#fdbe3f;letter-spacing:0.6px}.card h3{font-size:12px;font-weight:bold;color:#93cdfc;margin:6px 0 4px 0}.card ul,.card ol{padding-left:12px;margin:3px 0 8px 0}.card li{margin-bottom:3px;word-break:break-all}code,pre{font-family:'Fira Mono','Consolas','Menlo',monospace;font-size:1em;background:#181d26;color:#e2ffd0;border-radius:5px;line-height:1.1;padding:0 2px;letter-spacing:0.1px;word-wrap:break-word;word-break:break-all}pre{background:#1a1e2b;border-radius:6px;padding:8px 1em;margin:6px 0 8px 0;color:#e6e8ef;overflow-x:auto;font-size:1em;line-height:1.1;box-shadow:0 1px 5px 0 rgba(0,12,22,.15)}@media (max-width:750px){pre{font-size:1em;padding:6px 8px}}.desc{color:#acc3f8;font-style:italic;margin:2px 0 4px 0;font-size:1em;line-height:1.1}.panel{display:flex;align-items:center;background:rgba(36,41,59,0.91);border-radius:12px;box-shadow:0 1px 6px 0 rgba(0,0,0,0.1);padding:8px 16px;margin-bottom:12px;border:1px solid #353e63;gap:16px;flex-wrap:wrap;box-sizing:border-box}.panel label{font-size:1em;color:#ffe49b;font-weight:bold;margin-right:5px;letter-spacing:0.2px}.slider-bar{min-width:120px;margin-right:6px}.slider-val{color:#ffce5b;font-size:1em;margin-left:4px;min-width:28px;display:inline-block;font-weight:600}@media (max-width:660px){.panel{flex-direction:column;gap:8px;padding:6px 4px}}
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="panel">
+        <span style="color:#7bfbb7;font-size:16px;margin-right:auto;">CesiumJS 3D地球开发速查表</span>
+        <label for="columnWidth">🔧 调整每列宽度：</label>
+        <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+        <span id="widthVal" class="slider-val">340px</span>
+      </div>
+      <div class="cheat-columns" id="columns">
+
+        <!-- 初始化配置 -->
+        <div class="card">
+          <h2>🌍 初始化配置 <a href="https://cesium.com/learn/cesiumjs/ref-doc/Viewer.html" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>Cesium.Ion.defaultAccessToken = 'YOUR_TOKEN'</code> - 设置访问令牌</li>
+            <li><code>new Cesium.Viewer('cesiumContainer')</code> - 基础查看器</li>
+            <li><code>terrain: Cesium.Terrain.fromWorldTerrain()</code> - 世界地形</li>
+            <li><code>imageryProvider: new Cesium.TileMapServiceImageryProvider()</code> - 影像图层</li>
+            <li><code>baseLayerPicker: false</code> - 隐藏底图选择器</li>
+            <li><code>animation: false</code> - 隐藏动画控件</li>
+          </ul>
+          <h3>常用配置选项</h3>
+          <pre>const viewer = new Cesium.Viewer('cesiumContainer', {
+  terrain: Cesium.Terrain.fromWorldTerrain(),
+  imageryProvider: new Cesium.OpenStreetMapImageryProvider({
+    url: 'https://{s}.tile.openstreetmap.org/'
+  }),
+  baseLayerPicker: false,
+  geocoder: false,
+  homeButton: false,
+  sceneModePicker: false,
+  navigationHelpButton: false,
+  animation: false,
+  timeline: false
+});</pre>
+          <div class="desc">初始化时配置项控制界面组件和基础数据源</div>
+        </div>
+
+        <!-- 场景控制 -->
+        <div class="card">
+          <h2>🎮 场景控制 <a href="https://cesium.com/learn/cesiumjs/ref-doc/Scene.html" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>viewer.scene.camera.setView()</code> - 设置相机视图</li>
+            <li><code>viewer.scene.fog.enabled = true</code> - 启用雾效</li>
+            <li><code>viewer.scene.globe.enableLighting = true</code> - 启用光照</li>
+            <li><code>viewer.scene.backgroundColor = Cesium.Color.BLACK</code> - 背景色</li>
+            <li><code>viewer.scene.skyAtmosphere.show = true</code> - 大气层显示</li>
+            <li><code>viewer.scene.postProcessStages.fxaa.enabled</code> - 抗锯齿</li>
+          </ul>
+          <h3>场景模式</h3>
+          <ul>
+            <li><code>Cesium.SceneMode.SCENE3D</code> - 3D场景</li>
+            <li><code>Cesium.SceneMode.SCENE2D</code> - 2D场景</li>
+            <li><code>Cesium.SceneMode.COLUMBUS_VIEW</code> - 哥伦布视图</li>
+            <li><code>MORPHING</code> - 场景切换中</li>
+          </ul>
+          <pre>viewer.scene.morphTo(Cesium.SceneMode.SCENE2D);
+viewer.scene.camera.flyTo({
+  destination: Cesium.Cartesian3.fromDegrees(116.4074, 39.9042, 1000)
+});</pre>
+          <div class="desc">场景控制包括相机、光照、渲染效果等核心参数</div>
+        </div>
+
+        <!-- 实体系统 -->
+        <div class="card">
+          <h2>📊 实体系统 <a href="https://cesium.com/learn/cesiumjs/ref-doc/Entity.html" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>viewer.entities.add(entity)</code> - 添加实体</li>
+            <li><code>viewer.entities.remove(entity)</code> - 移除实体</li>
+            <li><code>viewer.entities.removeAll()</code> - 清空所有实体</li>
+            <li><code>entity.show = true</code> - 显示/隐藏实体</li>
+            <li><code>entity.position</code> - 实体位置</li>
+            <li><code>entity.orientation</code> - 实体方向</li>
+          </ul>
+          <h3>几何实体类型</h3>
+          <ul>
+            <li><code>Cesium.PointGraphics</code> - 点实体</li>
+            <li><code>Cesium.LabelGraphics</code> - 标签实体</li>
+            <li><code>Cesium.BillboardGraphics</code> - 广告牌实体</li>
+            <li><code>Cesium.PolygonGraphics</code> - 多边形实体</li>
+            <li><code>Cesium.PolylineGraphics</code> - 线实体</li>
+            <li><code>Cesium.ModelGraphics</code> - 3D模型实体</li>
+          </ul>
+          <pre>const entity = viewer.entities.add({
+  position: Cesium.Cartesian3.fromDegrees(116.4074, 39.9042),
+  point: {
+    pixelSize: 10,
+    color: Cesium.Color.YELLOW
+  },
+  label: {
+    text: '北京',
+    font: '14pt sans-serif'
+  }
+});</pre>
+          <div class="desc">实体系统是CesiumJS的核心概念，用于管理场景中的可视化对象</div>
+        </div>
+
+        <!-- 数据源 -->
+        <div class="card">
+          <h2>📂 数据源 <a href="https://cesium.com/learn/cesiumjs/ref-doc/DataSource.html" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>Cesium.GeoJsonDataSource.load()</code> - 加载GeoJSON</li>
+            <li><code>Cesium.KmlDataSource.load()</code> - 加载KML文件</li>
+            <li><code>Cesium.CzmlDataSource.load()</code> - 加载CZML数据</li>
+            <li><code>viewer.dataSources.add(dataSource)</code> - 添加数据源</li>
+            <li><code>viewer.dataSources.remove(dataSource)</code> - 移除数据源</li>
+            <li><code>dataSource.entities</code> - 访问数据源实体</li>
+          </ul>
+          <h3>GeoJSON加载</h3>
+          <pre>const dataSource = await Cesium.GeoJsonDataSource.load(
+  'data.geojson',
+  {
+    stroke: Cesium.Color.HOTPINK,
+    fill: Cesium.Color.PINK.withAlpha(0.5),
+    strokeWidth: 3
+  }
+);
+viewer.dataSources.add(dataSource);</pre>
+          <h3>CZML时间序列数据</h3>
+          <pre>const czmlDataSource = await Cesium.CzmlDataSource.load(
+  'path/to/data.czml'
+);
+viewer.dataSources.add(czmlDataSource);
+viewer.clock.shouldAnimate = true;</pre>
+          <div class="desc">数据源支持多种地理信息格式的加载和管理</div>
+        </div>
+
+        <!-- 相机控制 -->
+        <div class="card">
+          <h2>📷 相机控制 <a href="https://cesium.com/learn/cesiumjs/ref-doc/Camera.html" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>camera.setView(destination)</code> - 设置视图</li>
+            <li><code>camera.flyTo(destination)</code> - 飞行到目标</li>
+            <li><code>camera.zoomIn(amount)</code> - 放大</li>
+            <li><code>camera.zoomOut(amount)</code> - 缩小</li>
+            <li><code>camera.lookAt(target, offset)</code> - 观察目标</li>
+            <li><code>camera.moveUp(amount)</code> - 向上移动</li>
+          </ul>
+          <h3>相机位置设置</h3>
+          <pre>// 经纬度转笛卡尔坐标
+const position = Cesium.Cartesian3.fromDegrees(
+  longitude, latitude, height
+);
+
+// 设置相机位置和方向
+camera.setView({
+  destination: position,
+  orientation: {
+    heading: Cesium.Math.toRadians(0),
+    pitch: Cesium.Math.toRadians(-90),
+    roll: 0.0
+  }
+});</pre>
+          <h3>飞行动画</h3>
+          <pre>camera.flyTo({
+  destination: targetPosition,
+  duration: 3.0,
+  complete: function() {
+    console.log('飞行完成');
+  }
+});</pre>
+          <div class="desc">相机控制实现场景视角的切换和动画效果</div>
+        </div>
+
+        <!-- 坐标系统 -->
+        <div class="card">
+          <h2>🌐 坐标系统 <a href="https://cesium.com/learn/cesiumjs/ref-doc/Cartesian3.html" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>Cesium.Cartesian3.fromDegrees(long, lat, height)</code> - 经纬度转笛卡尔</li>
+            <li><code>Cesium.Cartographic.fromCartesian(cartesian)</code> - 笛卡尔转经纬度</li>
+            <li><code>Cesium.Cartesian3.fromRadians(long, lat, height)</code> - 弧度转笛卡尔</li>
+            <li><code>Cesium.Cartographic.fromRadians(long, lat, height)</code> - 弧度转地理坐标</li>
+            <li><code>Cesium.Math.toRadians(degrees)</code> - 角度转弧度</li>
+            <li><code>Cesium.Math.toDegrees(radians)</code> - 弧度转角度</li>
+          </ul>
+          <h3>坐标转换示例</h3>
+          <pre>// 经纬度转换为笛卡尔坐标
+const cartesian = Cesium.Cartesian3.fromDegrees(
+  116.4074, 39.9042, 100
+);
+
+// 笛卡尔坐标转回经纬度
+const cartographic = Cesium.Cartographic.fromCartesian(cartesian);
+const longitude = Cesium.Math.toDegrees(cartographic.longitude);
+const latitude = Cesium.Math.toDegrees(cartographic.latitude);
+const height = cartographic.height;</pre>
+          <h3>常用计算</h3>
+          <pre>// 两点间距离
+const distance = Cesium.Cartesian3.distance(
+  point1, point2
+);
+
+// 方位角计算
+const heading = Cesium.Math.toDegrees(
+  Cesium.Cartographic.fromCartesian(point1).longitude -
+  Cesium.Cartographic.fromCartesian(point2).longitude
+);</pre>
+          <div class="desc">Cesium使用笛卡尔坐标系进行内部计算，提供多种坐标转换方法</div>
+        </div>
+
+        <!-- 材质与外观 -->
+        <div class="card">
+          <h2>🎨 材质与外观 <a href="https://cesium.com/learn/cesiumjs/ref-doc/Material.html" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>Cesium.Material.fromType('Color')</code> - 颜色材质</li>
+            <li><code>Cesium.Material.fromType('Image')</code> - 图像材质</li>
+            <li><code>Cesium.Material.fromType('Grid')</code> - 网格材质</li>
+            <li><code>Cesium.Material.fromType('Stripe')</code> - 条纹材质</li>
+            <li><code>Cesium.Material.fromType('Checkerboard')</code> - 棋盘材质</li>
+            <li><code>Cesium.Material.fromType('PolylineArrow')</code> - 箭头线材质</li>
+          </ul>
+          <h3>材质属性设置</h3>
+          <pre>const material = Cesium.Material.fromType('Color', {
+  color: Cesium.Color.RED.withAlpha(0.5)
+});
+
+// 图像材质
+const imageMaterial = Cesium.Material.fromType('Image', {
+  image: 'path/to/image.png',
+  repeat: new Cesium.Cartesian2(4, 4)
+});</pre>
+          <h3>自定义材质</h3>
+          <pre>const customMaterial = new Cesium.Material({
+  fabric: {
+    type: 'MyCustomMaterial',
+    uniforms: {
+      color: new Cesium.Color(1, 0, 0, 1)
+    },
+    source: `
+      czm_material czm_getMaterial(czm_materialInput materialInput) {
+        czm_material material = czm_getDefaultMaterial(materialInput);
+        material.diffuse = color.rgb;
+        material.alpha = color.a;
+        return material;
+      }
+    `
+  }
+});</pre>
+          <div class="desc">材质系统控制实体的外观和视觉效果</div>
+        </div>
+
+        <!-- 事件处理 -->
+        <div class="card">
+          <h2>⚡ 事件处理 <a href="https://cesium.com/learn/cesiumjs/ref-doc/ScreenSpaceEventHandler.html" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>new Cesium.ScreenSpaceEventHandler(scene.canvas)</code> - 创建事件处理器</li>
+            <li><code>handler.setInputAction(callback, type)</code> - 设置输入动作</li>
+            <li><code>handler.removeInputAction(type)</code> - 移除输入动作</li>
+            <li><code>handler.destroy()</code> - 销毁事件处理器</li>
+            <li><code>Cesium.ScreenSpaceEventType.LEFT_CLICK</code> - 左键点击</li>
+            <li><code>Cesium.ScreenSpaceEventType.RIGHT_CLICK</code> - 右键点击</li>
+          </ul>
+          <h3>鼠标事件类型</h3>
+          <ul>
+            <li><code>LEFT_CLICK</code> - 左键单击</li>
+            <li><code>RIGHT_CLICK</code> - 右键单击</li>
+            <li><code>MIDDLE_CLICK</code> - 中键单击</li>
+            <li><code>LEFT_DOWN</code> - 左键按下</li>
+            <li><code>LEFT_UP</code> - 左键释放</li>
+            <li><code>MOUSE_MOVE</code> - 鼠标移动</li>
+          </ul>
+          <pre>const handler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
+
+handler.setInputAction(function(click) {
+  const pickedObject = scene.pick(click.position);
+  if (Cesium.defined(pickedObject)) {
+    console.log('点击了实体:', pickedObject.id);
+  }
+}, Cesium.ScreenSpaceEventType.LEFT_CLICK);</pre>
+          <div class="desc">事件处理实现用户交互和场景响应</div>
+        </div>
+
+        <!-- 拾取操作 -->
+        <div class="card">
+          <h2>🎯 拾取操作 <a href="https://cesium.com/learn/cesiumjs/ref-doc/Scene.html#pick" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>scene.pick(windowPosition)</code> - 拾取场景对象</li>
+            <li><code>scene.drillPick(windowPosition)</code> - 拾取所有对象</li>
+            <li><code>scene.globe.pick(ray, scene)</code> - 拾取地球表面</li>
+            <li><code>camera.pickEllipsoid(windowPosition)</code> - 拾取椭球体</li>
+            <li><code>Cesium.SceneTransforms.wgs84ToWindowCoordinates(scene, position)</code> - 世界坐标转屏幕坐标</li>
+          </ul>
+          <h3>拾取示例</h3>
+          <pre>handler.setInputAction(function(click) {
+  // 拾取场景对象
+  const pickedObject = scene.pick(click.position);
+
+  if (Cesium.defined(pickedObject) && pickedObject.id) {
+    console.log('拾取到实体:', pickedObject.id);
+  }
+
+  // 拾取地球表面
+  const cartesian = scene.globe.pick(
+    viewer.camera.getPickRay(click.position), scene
+  );
+
+  if (cartesian) {
+    const cartographic = Cesium.Cartographic.fromCartesian(cartesian);
+    console.log('表面位置:', cartographic);
+  }
+}, Cesium.ScreenSpaceEventType.LEFT_CLICK);</pre>
+          <div class="desc">拾取操作获取场景中的对象和位置信息</div>
+        </div>
+
+        <!-- 时钟与时间 -->
+        <div class="card">
+          <h2>⏰ 时钟与时间 <a href="https://cesium.com/learn/cesiumjs/ref-doc/Clock.html" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>viewer.clock</code> - 时钟对象</li>
+            <li><code>viewer.timeline</code> - 时间轴控件</li>
+            <li><code>Cesium.JulianDate.fromDate(date)</code> - 日期转儒略日</li>
+            <li><code>Cesium.JulianDate.toDate(julianDate)</code> - 儒略日转日期</li>
+            <li><code>Cesium.JulianDate.addDays(date, days)</code> - 日期加减</li>
+            <li><code>Cesium.TimeIntervalCollection</code> - 时间间隔集合</li>
+          </ul>
+          <h3>时间控制</h3>
+          <pre>// 设置时间范围
+const startTime = Cesium.JulianDate.fromDate(new Date(2023, 1, 1));
+const endTime = Cesium.JulianDate.fromDate(new Date(2023, 12, 31));
+
+viewer.clock.startTime = startTime;
+viewer.clock.stopTime = endTime;
+viewer.clock.currentTime = startTime;
+viewer.clock.clockRange = Cesium.ClockRange.LOOP_STOP;
+viewer.clock.multiplier = 1000; // 时间加速倍数</pre>
+          <h3>动态时间数据</h3>
+          <pre>// 时间间隔
+const timeInterval = new Cesium.TimeInterval({
+  start: startTime,
+  stop: endTime,
+  isStartIncluded: true,
+  isStopIncluded: false
+});
+
+// 时间间隔集合
+const timeIntervals = new Cesium.TimeIntervalCollection();
+timeIntervals.addInterval(timeInterval);</pre>
+          <div class="desc">时间系统支持动态数据可视化和时间序列分析</div>
+        </div>
+
+        <!-- 地形服务 -->
+        <div class="card">
+          <h2>⛰️ 地形服务 <a href="https://cesium.com/learn/cesiumjs/ref-doc/Terrain.html" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>Cesium.Terrain.fromWorldTerrain()</code> - 世界地形</li>
+            <li><code>Cesium.CesiumTerrainProvider.fromUrl()</code> - 自定义地形</li>
+            <li><code>viewer.scene.globe.terrainProvider</code> - 地形提供者</li>
+            <li><code>scene.globe.enableCollisionDetection</code> - 碰撞检测</li>
+            <li><code>scene.globe.depthTestAgainstTerrain</code> - 深度测试</li>
+          </ul>
+          <h3>地形提供者配置</h3>
+          <pre>// 世界地形
+const terrainProvider = await Cesium.Terrain.fromWorldTerrain();
+viewer.scene.terrainProvider = terrainProvider;
+
+// 自定义地形服务
+const customTerrain = new Cesium.CesiumTerrainProvider({
+  url: 'https://terrain.example.com/tileset',
+  requestVertexNormals: true,
+  requestWaterMask: true
+});
+viewer.scene.terrainProvider = customTerrain;</pre>
+          <h3>地形分析</h3>
+          <pre>// 获取地形高度
+const cartographic = Cesium.Cartographic.fromDegrees(116.4074, 39.9042);
+const height = await Cesium.sampleTerrainMostDetailed(
+  viewer.terrainProvider, [cartographic]
+);
+console.log('地形高度:', height[0].height);</pre>
+          <div class="desc">地形服务提供真实的地表高程数据支持</div>
+        </div>
+
+        <!-- 影像服务 -->
+        <div class="card">
+          <h2>🗺️ 影像服务 <a href="https://cesium.com/learn/cesiumjs/ref-doc/ImageryProvider.html" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>Cesium.TileMapServiceImageryProvider</code> - TMS服务</li>
+            <li><code>Cesium.WebMapServiceImageryProvider</code> - WMS服务</li>
+            <li><code>Cesium.WebMapTileServiceImageryProvider</code> - WMTS服务</li>
+            <li><code>Cesium.ArcGisMapServerImageryProvider</code> - ArcGIS服务</li>
+            <li><code>Cesium.OpenStreetMapImageryProvider</code> - OSM服务</li>
+            <li><code>viewer.imageryLayers.addImageryProvider()</code> - 添加图层</li>
+          </ul>
+          <h3>常用影像服务</h3>
+          <pre>// OpenStreetMap
+const osmProvider = new Cesium.OpenStreetMapImageryProvider({
+  url: 'https://{s}.tile.openstreetmap.org/'
+});
+
+// ArcGIS卫星影像
+const esriProvider = new Cesium.ArcGisMapServerImageryProvider({
+  url: 'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer'
+});
+
+// 添加到场景
+viewer.imageryLayers.addImageryProvider(esriProvider);</pre>
+          <h3>图层管理</h3>
+          <pre>const layer = viewer.imageryLayers.get(0);
+layer.alpha = 0.7; // 透明度
+layer.brightness = 1.2; // 亮度
+layer.contrast = 1.1; // 对比度
+layer.show = true; // 显示/隐藏
+viewer.imageryLayers.remove(layer); // 移除图层</pre>
+          <div class="desc">影像服务提供多种地图数据源和图层管理功能</div>
+        </div>
+
+        <!-- 3D模型 -->
+        <div class="card">
+          <h2>🏗️ 3D模型 <a href="https://cesium.com/learn/cesiumjs/ref-doc/Model.html" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>Cesium.Model.fromGltfAsync()</code> - 加载GLTF模型</li>
+            <li><code>Cesium.Model.fromUrl()</code> - 从URL加载模型</li>
+            <li><code>model.readyPromise</code> - 模型加载完成Promise</li>
+            <li><code>model.activeAnimations.add()</code> - 添加动画</li>
+            <li><code>model.scale</code> - 模型缩放</li>
+            <li><code>model.minimumPixelSize</code> - 最小像素大小</li>
+          </ul>
+          <h3>模型加载</h3>
+          <pre>const model = await Cesium.Model.fromGltfAsync({
+  url: 'path/to/model.gltf',
+  position: Cesium.Cartesian3.fromDegrees(116.4074, 39.9042, 0),
+  orientation: Cesium.Quaternion.IDENTITY,
+  scale: 1.0
+});
+
+viewer.scene.primitives.add(model);</pre>
+          <h3>模型属性</h3>
+          <pre>model.scale = 2.0; // 缩放
+model.minimumPixelSize = 128; // 最小显示大小
+model.maximumScale = 10000; // 最大缩放
+
+// 模型动画
+model.readyPromise.then(function(model) {
+  model.activeAnimations.add({
+    name: 'walk',
+    loop: Cesium.ModelAnimationLoop.REPEAT
+  });
+});</pre>
+          <div class="desc">3D模型支持GLTF/GLB格式，可应用于建筑、车辆、人物等场景</div>
+        </div>
+
+        <!-- 性能优化 -->
+        <div class="card">
+          <h2>⚡ 性能优化 <a href="https://cesium.com/learn/cesiumjs/optimization/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>viewer.scene.fog.enabled = false</code> - 关闭雾效</li>
+            <li><code>viewer.scene.skyAtmosphere.show = false</code> - 关闭大气层</li>
+            <li><code>viewer.scene.globe.enableLighting = false</code> - 关闭光照</li>
+            <li><code>viewer.scene.postProcessStages.fxaa.enabled = false</code> - 关闭抗锯齿</li>
+            <li><code>viewer.scene.shadowMap.enabled = false</code> - 关闭阴影</li>
+            <li><code>Cesium.RequestScheduler.requestsByServer</code> - 请求管理</li>
+          </ul>
+          <h3>渲染优化</h3>
+          <pre>// 降低细节级别
+viewer.scene.globe.maximumScreenSpaceError = 4;
+
+// 关闭不必要的视觉效果
+viewer.scene.fog.enabled = false;
+viewer.scene.skyAtmosphere.show = false;
+viewer.scene.globe.enableLighting = false;
+
+// 限制并发请求
+Cesium.RequestScheduler.requestsByServer["tile.googleapis.com:443"] =
+  new Cesium.RequestScheduler.Request(2);</pre>
+          <h3>内存管理</h3>
+          <pre>// 清理资源
+viewer.destroy();
+
+// 移除不需要的实体
+viewer.entities.removeAll();
+
+// 移除数据源
+viewer.dataSources.removeAll();
+
+// 清理地形缓存
+viewer.scene.terrainProvider = new Cesium.EllipsoidTerrainProvider();</pre>
+          <div class="desc">合理的性能优化可显著提升大数据量场景的渲染效率</div>
+        </div>
+
+        <!-- 调试工具 -->
+        <div class="card">
+          <h2>🔧 调试工具 <a href="https://cesium.com/learn/cesiumjs/ref-doc/DebugShowFramesPerSecond.html" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>viewer.scene.debugShowFramesPerSecond = true</code> - 显示FPS</li>
+            <li><code>Cesium.RequestScheduler.debugShowStatistics</code> - 请求统计</li>
+            <li><code>viewer.scene.logarithmicDepthBuffer = false</code> - 对数深度缓冲</li>
+            <li><code>viewer.scene.globe.enableTranslucency = false</code> - 透明度</li>
+            <li><code>viewer.scene.globe.showWaterEffect = false</code> - 水面效果</li>
+          </ul>
+          <h3>性能监控</h3>
+          <pre>// 显示帧率
+viewer.scene.debugShowFramesPerSecond = true;
+
+// 显示相机信息
+viewer.scene.camera.moveEnd.addEventListener(function() {
+  const camera = viewer.scene.camera;
+  console.log('相机位置:', camera.position);
+  console.log('相机高度:', camera.positionCartographic.height);
+});
+
+// 统计请求数量
+setInterval(() => {
+  console.log('请求数:', Cesium.RequestScheduler.numberOfActiveRequests);
+}, 1000);</pre>
+          <div class="desc">调试工具帮助分析和优化应用性能</div>
+        </div>
+
+        <!-- 常用工具函数 -->
+        <div class="card">
+          <h2>🛠️ 常用工具函数 <a href="https://cesium.com/learn/cesiumjs/ref-doc/Math.html" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <ul>
+            <li><code>Cesium.Math.clamp(value, min, max)</code> - 数值限制</li>
+            <li><code>Cesium.Math.lerp(start, end, t)</code> - 线性插值</li>
+            <li><code>Cesium.Math.negativePiToPi(angle)</code> - 角度标准化</li>
+            <li><code>Cesium.Math.convertLongitudeRange(angle)</code> - 经度转换</li>
+            <li><code>Cesium.Math.randomBetween(min, max)</code> - 随机数</li>
+            <li><code>Cesium.defined(value)</code> - 值是否存在</li>
+          </ul>
+          <h3>数学工具</h3>
+          <pre>// 角度处理
+const normalizedAngle = Cesium.Math.negativePiToPi(angle);
+
+// 线性插值
+const interpolated = Cesium.Math.lerp(start, end, 0.5);
+
+// 随机数生成
+const randomLat = Cesium.Math.randomBetween(-90, 90);
+const randomLon = Cesium.Math.randomBetween(-180, 180);</pre>
+          <h3>实用函数</h3>
+          <pre>// 检查值是否存在
+if (Cesium.defined(entity)) {
+  // 使用entity
+}
+
+// 对象合并
+const merged = Cesium.merge(object1, object2);
+
+// 对象克隆
+const cloned = Cesium.clone(original);</pre>
+          <div class="desc">工具函数提供常用的数学和对象操作方法</div>
+        </div>
+
+      </div>
+    </div>
+    <script>
+      document.getElementById('columnWidth').addEventListener('input', function(e) {
+        const width = e.target.value;
+        document.getElementById('widthVal').textContent = width + 'px';
+        const columns = document.getElementById('columns');
+        columns.style.columnWidth = width + 'px';
+      });
+    </script>
+  </body>
+</html>
