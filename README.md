@@ -2,6 +2,10 @@
 
 一个基于AI的自动化技术速查表（Cheat Sheet）生成工具。
 
+## 在线预览
+
+- GitHub Pages（公开仓库）：`https://ccwq.github.io/cheatsheet-generate/`
+
 ## 项目简介
 
 本项目使用AI技术自动生成各种开发工具、框架和库的速查表HTML页面。通过提供主题描述，系统能够自动整理核心API、配置选项、实用示例及最佳实践，生成结构完整、内容详尽的速查表。
@@ -92,6 +96,40 @@ links.md 中包含了我之前整理的在线 cheatsheet 列表（JSON 代码块
 
 输出文件：仓库根目录 `index.html`
 
+## 导航 UI 与交互
+
+- 站点 Masthead：站名“极客速查库”、建站目的说明、目的 chip（命令/代码优先、结构清晰可读、快速检索导航、轻量离线可用）
+- 控制面板：
+  - 列宽滑块 + 预设（窄/中/宽，持久化到 localStorage）
+  - 搜索输入（标题/简介匹配、命中高亮、Esc 清空、按 `/` 聚焦）
+  - 统计信息（总数/可见数）
+- 卡片：
+  - 标题可点击（淡淡下划线，提示可点击），在新标签页打开对应 cheatsheet
+  - 默认图标：若无 `icon.png`，自动插入默认 SVG 图标
+  - 复制链接按钮：复制绝对地址，兼容 GitHub Pages 子路径
+  - 扁平化风格：去除阴影与边框，配色与背景保持一致性
+- 其他：自定义滚动条配色；左下角电路纹理 SVG 装饰弱化且不阻挡点击
+
+## 部署到 GitHub Pages
+
+- 仓库需公开（Public）
+- Settings → Pages：
+  - Build and deployment：选择 “Deploy from a branch”
+  - Branch：`main`
+  - Folder：`/(root)`
+  - 点击 Save，等待 1–3 分钟构建完成
+- 访问地址：`https://<your-user>.github.io/<your-repo>/`，本仓库示例为 `https://ccwq.github.io/cheatsheet-generate/`
+- 说明：
+  - 站内链接与复制链接已适配子路径部署（使用 `new URL(href, location.href)` 生成绝对地址）
+
+## 变更日志（最近）
+
+- 新增：模板 `templates/nav.template.html`，极客风 + 扁平化样式
+- 新增：生成脚本 `scripts/generate-nav.js`，`package.json` 增加 `generate:nav`
+- 逻辑：遍历 `cheatsheets/` 与 `cheatsheets-import/`，优先级选择 HTML 入口，`desc.md` 第一行为简介，自动图标占位
+- 交互：Masthead、搜索/高亮、列宽滑块与预设、复制链接（Pages 兼容）
+- 样式：自定义滚动条；左下角装饰 SVG 降低不透明度且禁用 pointer-events
+
 ## 开发说明
 
 ### 模板结构
@@ -127,56 +165,4 @@ links.md 中包含了我之前整理的在线 cheatsheet 列表（JSON 代码块
 
 
 
-
-
-
-
-
-
-links.md中的json实际上是我之前整理的cheatsheet, 其中url表示其在线网址
-
-"""
-网址对应关系如下
-url值https://codepen.io/zeniok/full/YPyNVXG,
-真实cheatsheet html网址https://cdpn.io/zeniok/fullpage/gbagyGa?view=fullpage
-
-但是其响应内容被无关字符串包裹了, 解析后的内容如下, 其中iframe.srcdoc才是我们要提取的html的内容
-
-...
-<body class="">
-  <div class="referer-warning">
-    <h1><span>⚠️</span> Do not enter passwords or personal information on this page. <span>⚠️</span></h1>
-      This is a code demo posted by a web developer on <a href="https://codepen.io">CodePen</a>.
-    <br />
-    A referer from CodePen is required to render this page view, and your browser is not sending one (<a href="https://blog.codepen.io/2017/10/05/regarding-referer-headers/" target="_blank" rel="noreferrer noopener">more details</a>).</h1>
-  </div>
-
-  <div id="result-iframe-wrap" role="main">
-    <iframe
-      id="result"
-      srcdoc="<!DOCTYPE html>
-<html lang=&quot;en&quot; >
-
-<head>
-  <meta charset=&quot;UTF-8&quot;>
-  
-
-    <link rel=&quot;apple-touch-icon&quot; type=&q
-...
-"""
-
-现在执行如下的工作
-
-
-需要开发一个下载器, 可以根据links.md中的json来下载cheatsheet的html内容,
-
-下载到的结果应该包括
-- 原始html内容
-- 图标,src字段的内容, 一文件形式存放
-
-结果如下使用如下结构
-cheatsheets-import
-├── example/
-│   ├── index.html
-│   └── icon.png
 

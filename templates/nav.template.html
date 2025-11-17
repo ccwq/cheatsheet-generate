@@ -330,7 +330,10 @@
             wrap.className = 'copy';
             wrap.innerHTML = '<button title="复制链接"><svg width="14" height="14"><use href="#icon-copy"/></svg>复制</button>';
             wrap.addEventListener('click', function(){
-              try { navigator.clipboard.writeText(location.origin + '/' + href); } catch(e) { /* ignore */ }
+              try {
+                var abs = new URL(href, window.location.href).href; // 兼容 GitHub Pages 基础路径
+                navigator.clipboard.writeText(abs);
+              } catch(e) { /* ignore */ }
               var btn = wrap.querySelector('button');
               var before = btn.textContent;
               btn.textContent = '已复制';
