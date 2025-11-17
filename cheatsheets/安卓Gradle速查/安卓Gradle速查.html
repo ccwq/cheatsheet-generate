@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>安卓Gradle速查开发命令速查表</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    html,body{height:100%;margin:0;padding:0;background:linear-gradient(130deg,#303d54 0%,#23304a 48%,#171b27 100%);font-family:'Segoe UI','PingFang SC','Microsoft YaHei',Arial,sans-serif;font-size:12px;line-height:1.1;color:#e7e7ea;overflow-x:hidden}body{min-height:100vh;padding:0}.container{width:100%;max-width:100%;margin:0 auto;padding:8px 4px 16px 4px;box-sizing:border-box}.cheat-columns{column-count:4;column-gap:16px;transition:column-width 0.2s;margin-top:12px}@media (max-width:1500px){.cheat-columns{column-count:3}}@media (max-width:1100px){.cheat-columns{column-count:2;column-gap:12px}}@media (max-width:750px){.cheat-columns{column-count:1}}.card{background:rgba(29,36,53,0.85);border-radius:12px;box-shadow:0 2px 12px 1px rgba(0,0,0,0.18);backdrop-filter:blur(6px);margin-bottom:14px;padding:14px 14px 8px 14px;break-inside:avoid;border:1px solid rgba(78,85,130,.12);min-width:0;box-sizing:border-box}.card h2{margin:-6px 0 6px 0;font-size:15px;font-weight:600;color:#fdbe3f;letter-spacing:0.6px}.card h3{font-size:12px;font-weight:bold;color:#93cdfc;margin:6px 0 4px 0}.card ul,.card ol{padding-left:12px;margin:3px 0 8px 0}.card li{margin-bottom:3px;word-break:break-all}code,pre{font-family:'Fira Mono','Consolas','Menlo',monospace;font-size:1em;background:#181d26;color:#e2ffd0;border-radius:5px;line-height:1.1;padding:0 2px;letter-spacing:0.1px;word-wrap:break-word;word-break:break-all}pre{background:#1a1e2b;border-radius:6px;padding:8px 1em;margin:6px 0 8px 0;color:#e6e8ef;overflow-x:auto;font-size:1em;line-height:1.1;box-shadow:0 1px 5px 0 rgba(0,12,22,.15)}@media (max-width:750px){pre{font-size:1em;padding:6px 8px}}.desc{color:#acc3f8;font-style:italic;margin:2px 0 4px 0;font-size:1em;line-height:1.1}.panel{display:flex;align-items:center;background:rgba(36,41,59,0.91);border-radius:12px;box-shadow:0 1px 6px 0 rgba(0,0,0,0.1);padding:8px 16px;margin-bottom:12px;border:1px solid #353e63;gap:16px;flex-wrap:wrap;box-sizing:border-box}.panel label{font-size:1em;color:#ffe49b;font-weight:bold;margin-right:5px;letter-spacing:0.2px}.slider-bar{min-width:120px;margin-right:6px}.slider-val{color:#ffce5b;font-size:1em;margin-left:4px;min-width:28px;display:inline-block;font-weight:600}@media (max-width:660px){.panel{flex-direction:column;gap:8px;padding:6px 4px}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <span style="color:#7bfbb7;font-size:16px;margin-right:auto;">安卓Gradle速查速查表</span>
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <!-- 环境搭建与Wrapper -->
+      <div class="card">
+        <h2>🔧 环境搭建与Wrapper <a href="https://developer.android.com/build" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+        <h3>安装Gradle</h3>
+        <pre>brew install gradle
+gradle -v</pre>
+        <h3>Gradle Wrapper</h3>
+        <pre>gradle wrapper --gradle-version 8.0
+./gradlew tasks</pre>
+        <ul>
+          <li><code>gradlew</code>：Unix/Linux脚本</li>
+          <li><code>gradlew.bat</code>：Windows批处理</li>
+          <li><code>gradle/wrapper/</code>：Wrapper Jar和属性</li>
+        </ul>
+        <div class="desc">推荐使用Wrapper保证团队构建环境一致性</div>
+      </div>
+
+      <!-- 项目配置基础 -->
+      <div class="card">
+        <h2>⚙️ 项目配置基础 <a href="https://developer.android.com/build/android-build-structure" title="构建结构" target="_blank" style="color:#93cdfc;">>>></a></h2>
+        <h3>settings.gradle</h3>
+        <pre>rootProject.name = "MyApp"
+include ":app", ":core", ":data"</pre>
+        <h3>gradle.properties</h3>
+        <pre>org.gradle.jvmargs=-Xmx4g -XX:MaxMetaspaceSize=512m
+org.gradle.parallel=true
+org.gradle.caching=true
+android.useAndroidX=true</pre>
+        <h3>local.properties</h3>
+        <pre>sdk.dir=/Users/username/Library/Android/sdk
+ndk.dir=/Users/username/Library/Android/sdk/ndk/25.1.8937393</pre>
+        <div class="desc">local.properties通常不提交到版本控制</div>
+      </div>
+
+      <!-- 构建脚本DSL -->
+      <div class="card">
+        <h2>📝 构建脚本DSL <a href="https://developer.android.com/studio/build" title="构建配置" target="_blank" style="color:#93cdfc;">>>></a></h2>
+        <h3>Groovy DSL</h3>
+        <pre>android {
+    compileSdk 34
+    defaultConfig {
+        applicationId "com.example.app"
+        minSdk 21
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+}</pre>
+        <h3>Kotlin DSL</h3>
+        <pre>android {
+    compileSdk = 34
+    defaultConfig {
+        applicationId = "com.example.app"
+        minSdk = 21
+        targetSdk = 34
+        versionCode = 1
+        versionName = "1.0"
+    }
+}</pre>
+        <div class="desc">Kotlin DSL提供更好的IDE支持和类型安全</div>
+      </div>
+
+      <!-- 插件应用 -->
+      <div class="card">
+        <h2>🔌 插件应用 <a href="https://developer.android.com/studio/build/gradle-plugin" title="AGP插件" target="_blank" style="color:#93cdfc;">>>></a></h2>
+        <h3>插件声明</h3>
+        <pre>// Groovy
+plugins {
+    id 'com.android.application' version '8.1.0'
+    id 'kotlin-android' version '1.9.0'
+}
+
+// Kotlin DSL
+plugins {
+    id("com.android.application") version "8.1.0"
+    kotlin("android") version "1.9.0"
+}</pre>
+        <h3>Legacy方式</h3>
+        <pre>apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'</pre>
+        <h3>插件类型</h3>
+        <ul>
+          <li><code>com.android.application</code>：应用模块</li>
+          <li><code>com.android.library</code>：库模块</li>
+          <li><code>com.android.test</code>：测试模块</li>
+        </ul>
+      </div>
+
+      <!-- 依赖管理 -->
+      <div class="card">
+        <h2>📦 依赖管理 <a href="https://developer.android.com/build/dependencies" title="依赖配置" target="_blank" style="color:#93cdfc;">>>></a></h2>
+        <h3>仓库配置</h3>
+        <pre>repositories {
+    google()
+    mavenCentral()
+    jcenter() // 已废弃
+}</pre>
+        <h3>依赖范围</h3>
+        <ul>
+          <li><code>implementation</code>：编译时依赖，不暴露给使用者</li>
+          <li><code>api</code>：编译时依赖，暴露给使用者</li>
+          <li><code>compileOnly</code>：仅编译时使用</li>
+          <li><code>runtimeOnly</code>：仅运行时使用</li>
+          <li><code>kapt</code> / <code>annotationProcessor</code>：注解处理器</li>
+          <li><code>testImplementation</code>：测试依赖</li>
+          <li><code>androidTestImplementation</code>：Android测试依赖</li>
+        </ul>
+        <div class="desc">使用implementation提高编译性能</div>
+      </div>
+
+      <!-- 任务系统 -->
+      <div class="card">
+        <h2>🎯 任务系统 <a href="https://docs.gradle.org/current/userguide/tutorial_using_tasks.html" title="Gradle任务" target="_blank" style="color:#93cdfc;">>>></a></h2>
+        <h3>自定义任务</h3>
+        <pre>task copyAssets(type: Copy) {
+    from 'src/main/assets'
+    into "$buildDir/outputs/assets"
+    description 'Copy assets to build directory'
+}
+
+task cleanBuildDir(type: Delete) {
+    delete rootProject.buildDir
+}</pre>
+        <h3>常用命令</h3>
+        <pre>./gradlew clean              # 清理构建
+./gradlew assembleDebug       # 构建Debug版本
+./gradlew assembleRelease     # 构建Release版本
+./gradlew installDebug        # 安装Debug版本
+./gradlew connectedAndroidTest # 运行UI测试</pre>
+        <h3>任务依赖</h3>
+        <pre>assembleDebug.dependsOn 'copyAssets'</pre>
+      </div>
+
+      <!-- 生命周期阶段 -->
+      <div class="card">
+        <h2>🔄 生命周期阶段 <a href="https://docs.gradle.org/current/userguide/build_lifecycle.html" title="构建生命周期" target="_blank" style="color:#93cdfc;">>>></a></h2>
+        <h3>三阶段</h3>
+        <ul>
+          <li><strong>初始化</strong>：解析settings.gradle，创建项目实例</li>
+          <li><strong>配置</strong>：执行所有构建脚本，构建任务图</li>
+          <li><strong>执行</strong>：执行选定的任务</li>
+        </ul>
+        <h3>钩子</h3>
+        <pre>tasks.named('assembleDebug') {
+    doFirst {
+        println '开始构建Debug版本'
+    }
+    doLast  {
+        println '构建完成'
+    }
+}
+
+gradle.taskGraph.whenReady { graph ->
+    println '任务图已准备就绪'
+}</pre>
+      </div>
+
+      <!-- 多模块项目 -->
+      <div class="card">
+        <h2>🏗️ 多模块项目 <a href="https://developer.android.com/build/multi-module-apps" title="多模块开发" target="_blank" style="color:#93cdfc;">>>></a></h2>
+        <h3>模块声明</h3>
+        <pre>// settings.gradle.kts
+include(":app")
+include(":core")
+include(":data")
+include(":feature:login")
+include(":feature:profile")</pre>
+        <h3>模块间依赖</h3>
+        <pre>// app/build.gradle.kts
+dependencies {
+    implementation(project(":core"))
+    implementation(project(":data"))
+    implementation(project(":feature:login"))
+}</pre>
+        <h3>公共配置</h3>
+        <pre>// build.gradle.kts (项目级别)
+subprojects {
+    apply(plugin = "kotlin-android")
+    android {
+        compileSdk = 34
+    }
+}</pre>
+      </div>
+
+      <!-- 构建变体与风味 -->
+      <div class="card">
+        <h2>🍦 构建变体与风味 <a href="https://developer.android.com/build/build-variants" title="构建变体" target="_blank" style="color:#93cdfc;">>>></a></h2>
+        <h3>构建类型</h3>
+        <pre>buildTypes {
+    debug {
+        applicationIdSuffix ".debug"
+        debuggable true
+        minifyEnabled false
+    }
+    release {
+        minifyEnabled true
+        proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        signingConfig signingConfigs.release
+    }
+}</pre>
+        <h3>产品风味</h3>
+        <pre>flavorDimensions = "version"
+productFlavors {
+    free {
+        dimension "version"
+        applicationIdSuffix ".free"
+    }
+    pro {
+        dimension "version"
+        applicationIdSuffix ".pro"
+    }
+}</pre>
+        <div class="desc">构建变体 = 构建类型 × 产品风味</div>
+      </div>
+
+      <!-- Kotlin DSL -->
+      <div class="card">
+        <h2>🎯 Kotlin DSL <a href="https://developer.android.com/build/kotlin-dsl" title="Kotlin DSL" target="_blank" style="color:#93cdfc;">>>></a></h2>
+        <h3>基础配置</h3>
+        <pre>plugins {
+    id("com.android.application") version "8.1.0"
+    kotlin("android") version "1.9.0"
+}
+
+android {
+    compileSdk = 34
+    defaultConfig {
+        applicationId = "com.example.app"
+        minSdk = 21
+        targetSdk = 34
+        versionCode = 1
+        versionName = "1.0"
+    }
+}</pre>
+        <h3>依赖管理</h3>
+        <pre>dependencies {
+    implementation(kotlin("stdlib"))
+    implementation("androidx.core:core-ktx:1.10.1")
+    testImplementation("junit:junit:4.13.2")
+}</pre>
+      </div>
+
+      <!-- 性能优化与构建缓存 -->
+      <div class="card">
+        <h2>⚡ 性能优化与构建缓存 <a href="https://developer.android.com/build/optimize-your-build" title="构建优化" target="_blank" style="color:#93cdfc;">>>></a></h2>
+        <h3>gradle.properties</h3>
+        <pre>org.gradle.parallel=true              # 并行构建
+org.gradle.configureondemand=true      # 按需配置
+org.gradle.caching=true                # 启用构建缓存
+org.gradle.daemon=true                 # 后台守护进程
+org.gradle.jvmargs=-Xmx4g              # JVM内存设置</pre>
+        <h3>构建缓存类型</h3>
+        <ul>
+          <li><strong>本地缓存</strong>：org.gradle.caching=true</li>
+          <li><strong>远程缓存</strong>：配置HTTP缓存服务器</li>
+          <li><strong>任务输出缓存</strong>：避免重复执行输入相同的任务</li>
+        </ul>
+        <div class="desc">合理配置可显著提升构建速度50-80%</div>
+      </div>
+
+      <!-- 调试与诊断 -->
+      <div class="card">
+        <h2>🔍 调试与诊断 <a href="https://developer.android.com/build/build-troubleshooting" title="构建调试" target="_blank" style="color:#93cdfc;">>>></a></h2>
+        <h3>日志级别</h3>
+        <pre>./gradlew build --info              # 详细信息
+./gradlew build --debug              # 调试信息
+./gradlew build --stacktrace         # 堆栈跟踪
+./gradlew build --scan               # 生成Build Scan</pre>
+        <h3>构建分析</h3>
+        <pre>// 查看任务执行时间
+./gradlew assembleDebug --profile
+
+// 查看任务依赖图
+./gradlew tasks --all
+./gradlew app:dependencies</pre>
+        <h3>内存分析</h3>
+        <pre>// 开启JVM内存分析
+org.gradle.jvmargs=-Xmx4g -XX:+HeapDumpOnOutOfMemoryError</pre>
+      </div>
+
+      <!-- 属性与扩展 -->
+      <div class="card">
+        <h2>🔧 属性与扩展 <a href="https://developer.android.com/build/gradle-tips" title="Gradle技巧" target="_blank" style="color:#93cdfc;">>>></a></h2>
+        <h3>Extra属性</h3>
+        <pre>// Groovy
+ext {
+    kotlin_version = '1.9.0'
+    compileSdkVersion = 34
+    targetSdkVersion = 34
+}
+
+// Kotlin DSL
+ext["kotlin_version"] = "1.9.0"
+ext.set("compileSdkVersion", 34)</pre>
+        <h3>项目属性</h3>
+        <pre>def env = project.findProperty("env") ?: "dev"
+def isReleaseBuild = gradle.startParameter.taskNames.any { it.toLowerCase().contains("release") }</pre>
+        <h3>自定义扩展</h3>
+        <pre>android.buildFeatures {
+    viewBinding true
+    dataBinding true
+}</pre>
+      </div>
+
+      <!-- CI/CD集成 -->
+      <div class="card">
+        <h2>🚀 CI/CD集成 <a href="https://developer.android.com/build/building-cd-integration" title="持续集成" target="_blank" style="color:#93cdfc;">>>></a></h2>
+        <h3>常用命令</h3>
+        <pre>./gradlew assembleRelease -Penv=prod
+./gradlew test --continue
+./gradlew clean assembleDebug testDebugUnitTest</pre>
+        <h3>GitHub Actions</h3>
+        <pre>name: Android CI
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Build with Gradle
+        run: ./gradlew assembleDebug</pre>
+        <div class="desc">使用官方actions/setup-java优化JDK设置</div>
+      </div>
+
+      <!-- 签名配置 -->
+      <div class="card">
+        <h2>🔐 签名配置 <a href="https://developer.android.com/build/build-variants#signing" title="应用签名" target="_blank" style="color:#93cdfc;">>>></a></h2>
+        <h3>签名声明</h3>
+        <pre> signingConfigs {
+    debug {
+        storeFile file('debug.keystore')
+        storePassword 'android'
+        keyAlias 'androiddebugkey'
+        keyPassword 'android'
+    }
+    release {
+        storeFile file('release.keystore')
+        storePassword System.getenv("STORE_PASSWORD")
+        keyAlias System.getenv("KEY_ALIAS")
+        keyPassword System.getenv("KEY_PASSWORD")
+    }
+}</pre>
+        <h3>环境变量</h3>
+        <pre>// gradle.properties
+RELEASE_STORE_FILE=../release.keystore
+RELEASE_STORE_PASSWORD=your_password
+RELEASE_KEY_ALIAS=your_alias
+RELEASE_KEY_PASSWORD=your_password</pre>
+        <div class="desc">不要在代码中硬编码密码，使用环境变量</div>
+      </div>
+
+      <!-- 代码混淆与压缩 -->
+      <div class="card">
+        <h2>🔒 代码混淆与压缩 <a href="https://developer.android.com/build/shrink-code" title="代码压缩" target="_blank" style="color:#93cdfc;">>>></a></h2>
+        <h3>混淆配置</h3>
+        <pre>buildTypes {
+    release {
+        minifyEnabled true
+        shrinkResources true
+        proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+        // R8调试
+        android.enableR8.fullMode = true
+    }
+}</pre>
+        <h3>proguard-rules.pro</h3>
+        <pre># 保持实体类
+-keep class com.example.app.model.** { *; }
+
+# 保持注解
+-keepattributes *Annotation*
+
+# 保持Gson使用
+-keepattributes Signature
+-dontwarn sun.misc.**
+-keep class com.google.gson.** { *; }</pre>
+        <div class="desc">R8是默认代码压缩器，支持更 aggressive的优化</div>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.getElementById('columnWidth').addEventListener('input', function(e) {
+      const width = e.target.value;
+      document.getElementById('widthVal').textContent = width + 'px';
+      const columns = document.getElementById('columns');
+      columns.style.columnWidth = width + 'px';
+    });
+  </script>
+</body>
+</html>
