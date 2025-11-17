@@ -9,6 +9,7 @@
     "test:finalhtml": "node codepen-downloader/test-finalhtml.js",
     "generate:nav": "node scripts/generate-nav.js",
     "workflow": "node scripts/workflow.js",
+    "release": "npm run release:patch",
     "release:patch": "node scripts/workflow.js --bump patch",
     "release:minor": "node scripts/workflow.js --bump minor",
     "release:major": "node scripts/workflow.js --bump major"
