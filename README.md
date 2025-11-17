@@ -82,6 +82,7 @@ links.md 中包含了我之前整理的在线 cheatsheet 列表（JSON 代码块
 - 生成脚本：`node scripts/generate-nav.js`
 - 模板路径：`templates/nav.template.html`
 - 数据来源：`cheatsheets/` 与 `cheatsheets-import/` 下的各个子目录（读取 `desc.md` 与入口 HTML）
+  - 规则：忽略所有以下划线开头的目录（如 `_demo`、`_wip`），这些目录视为开发中或示例，不在发布导览中展示。
 
 运行方式：
 

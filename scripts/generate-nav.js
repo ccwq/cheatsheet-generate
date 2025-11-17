@@ -77,6 +77,8 @@ async function collectAll() {
     for (const d of entries) {
       if (!d.isDirectory()) continue;
       const dirName = d.name;
+      // 跳过以下划线开头的目录（开发中/示例，不参与发布）
+      if (dirName.startsWith('_')) continue;
       const dirPath = path.join(rootPath, dirName);
       const entryHtml = await findEntryHtml(dirPath, dirName);
       if (!entryHtml) continue; // 没有可链接的 html 则跳过

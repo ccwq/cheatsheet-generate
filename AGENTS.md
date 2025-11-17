@@ -8,6 +8,7 @@
 - 新增生成脚本：`scripts/generate-nav.js`，并在 `package.json` 增加脚本：`generate:nav`
 - 生成逻辑：
   - 数据来源目录：`cheatsheets/`、`cheatsheets-import/`
+  - 目录过滤：忽略所有以 `_` 开头的目录（开发中/WIP 或 demo），不纳入发布导览
   - 链接优先级：`index.html` > “与目录同名的 .html” > “目录内按名称排序的第一个 .html`
   - 简介来源：`desc.md` 第一行（自动去除简单 Markdown 语法）
   - 图标：若存在 `icon.png` 则使用；若不存在，在模板渲染时为该卡片插入默认 SVG 图标
