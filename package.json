@@ -1,7 +1,7 @@
 {
   "name": "cheatsheet-generate",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "AI-based cheatsheet generator and downloader",
   "scripts": {
     "download": "node codepen-downloader/codepen-downloader.js",
