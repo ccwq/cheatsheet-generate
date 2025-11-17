@@ -50,6 +50,9 @@
   --bp-laptop: 1100px;
   --bp-tablet: 750px;
   --bp-mobile: 660px;
+
+  /* 品牌图标路径（相对于 css/ 目录） */
+  --brand-icon-url: url('../assets/brand/cheatsheet.png');
 }
 
 /* 响应式变量调整 */

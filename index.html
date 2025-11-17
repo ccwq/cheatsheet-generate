@@ -4,6 +4,9 @@
     <meta charset="UTF-8" />
     <title>Cheatsheet 导览</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- 站点 favicon -->
+    <link rel="icon" type="image/png" href="assets/brand/cheatsheet.png" />
+    <link rel="apple-touch-icon" href="assets/brand/cheatsheet.png" />
     <style>
       /*
        * 设计语言参考 base.md 中的 "html模板"
@@ -59,7 +62,8 @@
 
       /* 顶部大标题与网站目的（Masthead） */
       .masthead {
-        position: relative; z-index: 1; margin: 8px 0 12px 0; padding: 16px 16px 14px 16px;
+        position: relative; z-index: 1; margin: 8px 0 12px 0; 
+        padding: 16px 16px 14px 90px;
         border-radius: 14px; border: 1px solid transparent; overflow: hidden;
         background-image:
           linear-gradient(135deg, rgba(105,167,255,.22), rgba(86,255,229,.22)),
@@ -68,7 +72,23 @@
         background-clip: padding-box, padding-box, padding-box;
         box-shadow: 0 4px 20px rgba(0,0,0,.25), inset 0 0 0 1px rgba(78,85,130,.25);
       }
-      .masthead .site-title { font-size: 26px; font-weight: 800; letter-spacing: .6px; margin: 0 0 6px 0; display:flex; align-items:center; gap:10px; }
+      .masthead .site-title {
+        font-size: 26px; font-weight: 800; letter-spacing: .6px;
+        margin: 0 0 6px 0; display:flex; align-items:center; gap:10px;
+        position: relative; padding-left: 28px; /* 为左侧整列预留空间 */
+        min-height: 34px;
+      }
+      /* 导览页品牌图标列：高度铺满 .site-title，位于左侧整列 */
+      .masthead .site-title::before {
+        content: "";
+        position: absolute; left: -78px; top: 0; bottom: 0; width: 32px;
+        border-radius: 8px;
+        background-image: url('assets/brand/cheatsheet.png');
+        background-size: cover; background-position: center; background-repeat: no-repeat;
+        filter: drop-shadow(0 0 4px rgba(0,0,0,.18));
+        width: 90px;
+        height: 90px;
+      }
       .masthead .site-title .grad-text { background: linear-gradient(90deg,#7bfbb7 0%,#69a7ff 50%,#ffce5b 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
       .masthead .subtitle { font-size: 13px; color: #cfe4ff; opacity: .95; margin: 0 0 10px 28px; }
       .masthead .purpose { display:flex; flex-wrap:wrap; gap: 8px 10px; margin-left: 28px; }
@@ -162,9 +182,8 @@
           <circle cx="160" cy="120" r="3" fill="#ffce5b"/>
         </svg>
         <h1 class="site-title">
-          <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="#7bfbb7" d="M3 6h10l2 2h6v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" opacity=".22"/></svg>
           <span class="grad-text">极客速查库</span>
-          <span class="ver-chip" title="版本号">v0.0.7</span>
+          <span class="ver-chip" title="版本号">v0.0.8</span>
           <span style="font-size:14px;color:#9bc2ff;opacity:.9;">Cheatsheet Hub</span>
         </h1>
         <p class="subtitle">离线聚合高质量技术速查，统一风格与交互，提供极快的检索与导航体验。(内容由AI AGENT搜集生成, 无法保证100%准确, 请保持质疑精神)</p>
@@ -569,10 +588,72 @@
         }
 
         // 快捷键：按 / 聚焦搜索，Esc 清空
-        document.addEventListener('keydown', function(ev){
-          if (ev.key === '/' && document.activeElement !== search) { ev.preventDefault(); search.focus(); }
-          if (ev.key === 'Escape') { search.value = ''; filterCards(''); }
-        });
+        // 全局键盘输入即搜索（无需先点到输入框）
+        (function(){
+          var lastTypeTime = 0; // 连续输入间隔阈值控制
+          var typeGapMs = 800;
+          var composing = false;
+
+          function isEditable(el){
+            if (!el) return false;
+            var tag = (el.tagName || '').toLowerCase();
+            if (tag === 'input' || tag === 'textarea' || tag === 'select') return true;
+            if (el.isContentEditable) return true;
+            return false;
+          }
+
+          document.addEventListener('compositionstart', function(){ composing = true; }, true);
+          document.addEventListener('compositionend', function(e){
+            var target = document.activeElement;
+            // 若当前不在搜索框编辑，合成输入结束时将文本写入搜索框
+            if (composing && target !== search && !isEditable(target)) {
+              var now = Date.now();
+              if (now - lastTypeTime > typeGapMs) { search.value = ''; }
+              var data = (e && e.data) ? e.data : '';
+              if (data) {
+                search.value += data;
+                filterCards(search.value);
+              }
+              search.focus();
+              lastTypeTime = now;
+            }
+            composing = false;
+          }, true);
+
+          document.addEventListener('keydown', function(ev){
+            // 快捷键：/ 聚焦搜索
+            if (ev.key === '/' && document.activeElement !== search) { ev.preventDefault(); search.focus(); return; }
+
+            // Esc：清空并失焦
+            if (ev.key === 'Escape') { search.value = ''; filterCards(''); try { search.blur(); } catch(e){} return; }
+
+            // 仅在非输入态、非组合键、非IME合成时处理
+            if (isEditable(document.activeElement) || ev.ctrlKey || ev.metaKey || ev.altKey || composing) return;
+
+            // Backspace：全局删除一个字符
+            if (ev.key === 'Backspace') {
+              if (search.value) {
+                ev.preventDefault();
+                search.value = search.value.slice(0, -1);
+                filterCards(search.value);
+              }
+              return;
+            }
+
+            // 仅处理可打印字符（长度为1）
+            if (typeof ev.key === 'string' && ev.key.length === 1) {
+              var now = Date.now();
+              if (now - lastTypeTime > typeGapMs) { search.value = ''; }
+              search.value += ev.key;
+              search.focus();
+              filterCards(search.value);
+              lastTypeTime = now;
+              // 避免浏览器默认行为（例如页面滚动等）
+              ev.preventDefault();
+              return;
+            }
+          }, true);
+        })();
         // 输入防抖
         var tId; search.addEventListener('input', function(){ clearTimeout(tId); tId=setTimeout(function(){ filterCards(search.value); }, 100); });
         if (onlyLocal) onlyLocal.addEventListener('change', function(){ filterCards(search.value); });

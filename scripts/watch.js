@@ -16,7 +16,8 @@ const path = require('path');
 const { spawn } = require('child_process');
 
 // 与生成脚本保持一致的根目录
-const ROOTS = ['cheatsheets', 'cheatsheets-import'];
+// 新增监听 templates，便于模板改动时自动重建导航页
+const ROOTS = ['cheatsheets', 'cheatsheets-import', 'templates'];
 
 /** 工具：判断路径是否存在 */
 async function exists(p) {
@@ -167,4 +168,3 @@ main().catch(err => {
   console.error('[watch] 监听器启动失败：', err);
   process.exit(1);
 });
-

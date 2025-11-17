@@ -23,6 +23,24 @@ body {
   padding: 0;
 }
 
+/* 页面角标品牌图标（不影响交互，不遮挡内容） */
+body::after {
+  content: "";
+  position: fixed;
+  left: 12px;
+  bottom: 12px;
+  width: 36px;
+  height: 36px;
+  background-image: var(--brand-icon-url);
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 8px;
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 999;
+  filter: drop-shadow(0 0 6px rgba(0,0,0,.15));
+}
+
 /* 容器布局 */
 .container {
   width: 100%;

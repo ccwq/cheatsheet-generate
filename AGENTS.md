@@ -2,6 +2,29 @@
 
 本文件记录本仓库与自动化生成导览页相关的工程约定与最近一次改动，供后续协作与二次开发参考。
 
+## 关于cheatsheet
+
+每个cheatsheet包含以下文件结构：
+
+### 核心文件
+- `foo/foo.html`：HTML版本的cheatsheet内容，
+- `foo/foo.md`：Markdown格式的主要内容文件，包含详细的命令、参数和示例
+- `foo/desc.md`：cheatsheet的简短描述（仅第一行有效），用于导览页卡片显示
+- `foo/refmap.md`：相关资源参考映射，包含官方文档、教程等链接
+
+### 可选文件
+- `foo/icon.png`：自定义图标，用于导览页卡片显示（若不存在则使用默认SVG图标）
+- `foo/links.md`：实际上应该重构为refmap.md
+- `foo/sitemap.md`：实际上应该重构为refmap.md
+- `foo/source.html`：应该删除
+
+### 文件作用详解
+- **desc.md**：提供cheatsheet的一句话描述，自动提取第一行内容并去除简单Markdown语法
+- **foo.md**：包含实际的cheatsheet主要内容，按功能模块或使用场景分类组织
+- **foo.html**：作为导览页链接的高优先级选项之一（优先级：index.html > 与目录同名的.html > 按名称排序的第一个.html）
+- **refmap.md**：提供结构化的官方文档和资源链接，帮助用户查找更详细的资料
+- **icon.png**：为cheatsheet提供自定义图标，增强视觉识别性
+
 ## 变更记录（2025-11-17）
 
 - 新增导览页模板：`templates/nav.template.html`

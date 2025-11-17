@@ -1,13 +1,14 @@
 {
   "name": "cheatsheet-generate",
   "private": true,
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "AI-based cheatsheet generator and downloader",
   "scripts": {
     "download": "node codepen-downloader/codepen-downloader.js",
     "download:dry": "node codepen-downloader/codepen-downloader.js --dry-run",
     "test:finalhtml": "node codepen-downloader/test-finalhtml.js",
-    "build": "node scripts/generate-nav.js",
+    "build": "node scripts/generate-nav.js && node scripts/inject-favicon.js",
+    "fav:inject": "node scripts/inject-favicon.js",
     "watch": "node scripts/watch.js",
     "workflow": "node scripts/workflow.js",
     "release": "npm run release:patch",
