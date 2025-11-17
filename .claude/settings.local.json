@@ -29,7 +29,10 @@
       "mcp__context7__get-library-docs",
       "Bash(move \"cheatsheets-import\\x-cmd速查\" cheatsheetsx-cmd)",
       "WebFetch(domain:www.vim.org)",
-      "Bash(move:*)"
+      "Bash(move:*)",
+      "WebFetch(domain:docs.litellm.ai)",
+      "Bash(find:*)",
+      "Bash(powershell:*)"
     ],
     "deny": [],
     "ask": []
