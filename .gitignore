@@ -4120,3 +4120,6 @@ node_modules/node-fetch/lib/index.js
 node_modules/node-fetch/lib/index.mjs
 # 本地开发临时文件
 live-server.pid
+
+node_modules/
+
