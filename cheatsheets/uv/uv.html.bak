@@ -4,46 +4,8 @@
     <meta charset="UTF-8">
     <title>uv Python包管理器开发命令速查表</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- 引入公共CSS样式 -->
-    <link rel="stylesheet" href="../../css/variables.css">
-    <link rel="stylesheet" href="../../css/common.css">
-
     <style>
-      /* 特有的样式调整 */
-      .cheat-columns {
-        /* 使用column-count布局 */
-        column-count: 4;
-      }
-
-      @media (max-width: 1500px) {
-        .cheat-columns {
-          column-count: 3;
-        }
-      }
-
-      @media (max-width: 1100px) {
-        .cheat-columns {
-          column-count: 2;
-        }
-      }
-
-      @media (max-width: 750px) {
-        .cheat-columns {
-          column-count: 1;
-        }
-      }
-
-      .panel label {
-        color: #ffe49b; /* 保持原有的label颜色 */
-      }
-
-      .slider-bar {
-        min-width: 120px; /* 保持原有的滑块宽度 */
-      }
-
-      .slider-val {
-        min-width: 28px; /* 保持原有的值显示宽度 */
-      }
+      html,body{height:100%;margin:0;padding:0;background:linear-gradient(130deg,#303d54 0%,#23304a 48%,#171b27 100%);font-family:'Segoe UI','PingFang SC','Microsoft YaHei',Arial,sans-serif;font-size:12px;line-height:1.1;color:#e7e7ea;overflow-x:hidden}body{min-height:100vh;padding:0}.container{width:100%;max-width:100%;margin:0 auto;padding:8px 4px 16px 4px;box-sizing:border-box}.cheat-columns{column-count:4;column-gap:16px;transition:column-width 0.2s;margin-top:12px}@media (max-width:1500px){.cheat-columns{column-count:3}}@media (max-width:1100px){.cheat-columns{column-count:2;column-gap:12px}}@media (max-width:750px){.cheat-columns{column-count:1}}.card{background:rgba(29,36,53,0.85);border-radius:12px;box-shadow:0 2px 12px 1px rgba(0,0,0,0.18);backdrop-filter:blur(6px);margin-bottom:14px;padding:14px 14px 8px 14px;break-inside:avoid;border:1px solid rgba(78,85,130,.12);min-width:0;box-sizing:border-box}.card h2{margin:-6px 0 6px 0;font-size:15px;font-weight:600;color:#fdbe3f;letter-spacing:0.6px}.card h3{font-size:12px;font-weight:bold;color:#93cdfc;margin:6px 0 4px 0}.card ul,.card ol{padding-left:12px;margin:3px 0 8px 0}.card li{margin-bottom:3px;word-break:break-all}code,pre{font-family:'Fira Mono','Consolas','Menlo',monospace;font-size:1em;background:#181d26;color:#e2ffd0;border-radius:5px;line-height:1.1;padding:0 2px;letter-spacing:0.1px;word-wrap:break-word;word-break:break-all}pre{background:#1a1e2b;border-radius:6px;padding:8px 1em;margin:6px 0 8px 0;color:#e6e8ef;overflow-x:auto;font-size:1em;line-height:1.1;box-shadow:0 1px 5px 0 rgba(0,12,22,.15)}@media (max-width:750px){pre{font-size:1em;padding:6px 8px}}.desc{color:#acc3f8;font-style:italic;margin:2px 0 4px 0;font-size:1em;line-height:1.1}.panel{display:flex;align-items:center;background:rgba(36,41,59,0.91);border-radius:12px;box-shadow:0 1px 6px 0 rgba(0,0,0,0.1);padding:8px 16px;margin-bottom:12px;border:1px solid #353e63;gap:16px;flex-wrap:wrap;box-sizing:border-box}.panel label{font-size:1em;color:#ffe49b;font-weight:bold;margin-right:5px;letter-spacing:0.2px}.slider-bar{min-width:120px;margin-right:6px}.slider-val{color:#ffce5b;font-size:1em;margin-left:4px;min-width:28px;display:inline-block;font-weight:600}@media (max-width:660px){.panel{flex-direction:column;gap:8px;padding:6px 4px}}
     </style>
   </head>
   <body>

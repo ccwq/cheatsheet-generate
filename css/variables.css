@@ -1,0 +1,67 @@
+/* CSS变量定义 - 统一主题色彩和设计系统 */
+:root {
+  /* 背景渐变色系 */
+  --bg-gradient-start: #303d54;
+  --bg-gradient-middle: #23304a;
+  --bg-gradient-end: #171b27;
+
+  /* 字体系统 */
+  --font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', Arial, sans-serif;
+  --font-mono: 'Fira Mono', 'Consolas', 'Menlo', monospace;
+  --font-size-base: 12px;
+  --line-height-base: 1.1;
+
+  /* 颜色系统 */
+  --text-primary: #e7e7ea;
+  --text-secondary: #acc3f8;
+  --text-accent: #fdbe3f;
+  --text-link: #93cdfc;
+  --text-code: #e2ffd0;
+  --text-code-bg: #e6e8ef;
+
+  /* 卡片系统 */
+  --card-bg: rgba(29, 36, 53, 0.85);
+  --card-border: rgba(78, 85, 130, 0.12);
+  --card-shadow: 0 2px 12px 1px rgba(0, 0, 0, 0.18);
+  --card-radius: 12px;
+  --card-padding: 14px 14px 8px 14px;
+  --card-margin-bottom: 14px;
+
+  /* 面板系统 */
+  --panel-bg: rgba(36, 41, 59, 0.91);
+  --panel-border: #353e63;
+  --panel-text: #ffe49b;
+  --panel-accent: #7bfbb7;
+  --panel-accent-2: #ffce5b;
+
+  /* 代码块 */
+  --code-bg: #181d26;
+  --code-pre-bg: #1a1e2b;
+  --code-shadow: 0 1px 5px 0 rgba(0, 12, 22, 0.15);
+
+  /* 布局系统 */
+  --container-padding: 8px 4px 16px 4px;
+  --column-gap: 16px;
+  --col-width: 340px;
+  --grid-gap: 16px;
+
+  /* 响应式断点 */
+  --bp-desktop: 1500px;
+  --bp-laptop: 1100px;
+  --bp-tablet: 750px;
+  --bp-mobile: 660px;
+}
+
+/* 响应式变量调整 */
+@media (max-width: 1100px) {
+  :root {
+    --column-gap: 12px;
+    --grid-gap: 12px;
+  }
+}
+
+@media (max-width: 750px) {
+  :root {
+    --col-width: calc(100vw - 24px);
+  }
+}

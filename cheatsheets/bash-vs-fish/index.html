@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>bash-vs-fish</title>
+  <!-- 引入公共CSS样式 -->
+  <link rel="stylesheet" href="../../css/variables.css">
+  <link rel="stylesheet" href="../../css/common.css">
+
+  <style>
+    /* 保留bash速查特有的样式调整 */
+    :root {
+      --colWidth: 340px;
+      --gap: 16px;
+    }
+
+    .panel label {
+      color: var(--panel-accent); /* 覆盖默认的panel-text颜色 */
+    }
+
+    .panel .title {
+      color: var(--panel-accent);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <span class="title">bash-vs-fish 速查</span>
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+    </div>
+
+    <div class="cheat-columns" id="columns">
+
+      <!-- 基本与模式 -->
+      <div class="card">
+        <h2>基本与模式</h2>
+        <ul>
+          <li><code>bash --version</code> / <code>echo $BASH_VERSION</code> 查看版本</li>
+          <li><code>help</code> / <code>help cd</code> 查看内建帮助；<code>man bash</code> 手册</li>
+          <li><code>set -o emacs</code> 或 <code>set -o vi</code> 切换行编辑模式（Readline）</li>
+          <li><code>shopt -s extglob</code> 启用扩展通配；<code>shopt -s globstar</code> 启用 <code>**</code></li>
+          <li><code>set -euo pipefail</code> 更健壮脚本：遇错退出/未定义变量报错/管道传递失败</li>
+          <li class="desc">参考：GNU Bash Reference Manual 5.3（Command Line Editing / Shell Expansions / The Set Builtin / Shell Builtin Commands）。</li>
+        </ul>
+      </div>
+
+      <!-- Readline 常用快捷键（命令行编辑） -->
+      <div class="card">
+        <h2>命令行编辑（Readline）</h2>
+        <ul>
+          <li>移动：<code>Ctrl+A</code> 行首；<code>Ctrl+E</code> 行尾；<code>Alt+F/B</code> 词前进/后退；<code>Ctrl+F/B</code> 字符</li>
+          <li>删除：<code>Ctrl+U</code> 删至行首；<code>Ctrl+K</code> 删至行尾；<code>Alt+D</code> 删到词尾；<code>Ctrl+W</code> 删到词首</li>
+          <li>撤回/粘贴：<code>Ctrl+Y</code> 粘贴（yank）；<code>Alt+Y</code> 轮换 kill-ring；<code>Ctrl+_</code> 撤销</li>
+          <li>历史：<code>Ctrl+R</code> 反向搜索；<code>↑/↓</code> 上/下一条；<code>Alt+.</code> 上条命令最后一个参数</li>
+          <li>其他：<code>Ctrl+L</code> 清屏；<code>Ctrl+C</code> 中断；<code>Ctrl+D</code> EOF（空行时退出）</li>
+          <li class="desc">以上为 Emacs 模式常用；<code>set -o vi</code> 后提供 vi 风格按键。</li>
+        </ul>
+      </div>
+
+      <!-- 变量与声明 -->
+      <div class="card">
+        <h2>变量与声明</h2>
+        <ul>
+          <li><code>name=value</code> 赋值（等号左右无空格）；<code>readonly name</code> 只读</li>
+          <li><code>declare -i n=0</code> 整型；<code>declare -a arr</code> 索引数组；<code>declare -A map</code> 关联数组</li>
+          <li><code>local x</code> 函数内局部变量；<code>export x</code> 传递到子进程环境</li>
+          <li>特殊参数：<code>$0 $1..$9 ${10}</code> 位置参；<code>$#</code> 个数；<code>$@</code>/<code>$*</code> 全部；<code>$$</code> PID；<code>$!</code> 后台 PID；<code>$?</code> 上一退出码；<code>$-</code> 选项</li>
+          <li class="desc"><code>"$@"</code> 逐参保留分隔；<code>"$*"</code> 合并为单字符串（由 <code>IFS</code> 连接）。</li>
+        </ul>
+      </div>
+
+      <!-- 参数展开（Shell Parameter Expansion） -->
+      <div class="card">
+        <h2>参数展开</h2>
+        <ul>
+          <li>默认/赋值/报错/替代：<code>${v:-word}</code> 默认；<code>${v:=word}</code> 置默认；<code>${v:?msg}</code> 未设报错；<code>${v:+alt}</code> 已设用 <code>alt</code></li>
+          <li>长度/子串：<code>${#v}</code> 长度；<code>${v:offset[:len]}</code> 子串；数组：<code>${arr[@]:o:l}</code> 切片</li>
+          <li>模式删除：<code>${v#pat}</code>/<code>${v##pat}</code> 去前缀（最短/最长）；<code>${v%pat}</code>/<code>${v%%pat}</code> 去后缀</li>
+          <li>替换：<code>${v/pat/repl}</code> 首次；<code>${v//pat/repl}</code> 全部；<code>${v/#pat/repl}</code> 首部；<code>${v/%pat/repl}</code> 尾部</li>
+          <li>大小写：<code>${v^}</code>/<code>${v^^}</code> 首字母/全部大写；<code>${v,}</code>/<code>${v,,}</code> 小写</li>
+          <li>间接展开：<code>${!name}</code> 以变量值作为变量名再取值；关联数组键：<code>${!map[@]}</code></li>
+          <li>花括号展开（非参数）：<code>{1..5}</code>、<code>{a..e}</code>、<code>{x,y,z}</code>（在引号外生效，发生于路径名展开之前）</li>
+        </ul>
+      </div>
+
+      <!-- 字符串与算术 -->
+      <div class="card">
+        <h2>字符串与算术</h2>
+        <ul>
+          <li>算术：<code>$(( expr ))</code>；自增：<code>((i++))</code>；比较：<code>((a &lt; b))</code> 返回状态</li>
+          <li>命令替换：<code>$(cmd)</code>（推荐）/ <code>`cmd`</code>（旧）；进程替换：<code>&lt;(cmd)</code> / <code>&gt;(cmd)</code></li>
+          <li>转义字符串：<code>$'\n'</code> C 风格转义；ANSI-C 引用</li>
+          <li>剪裁空白：<code>x=${x##*( )}</code> 去前空格；<code>x=${x%%*( )}</code> 去后空格（需 <code>shopt -s extglob</code>）</li>
+          <li>引用规则：单引号完全字面量；双引号保留空格并允许 <code>$</code>/<code>$( )</code> 展开；<code>$'..'</code> 允许转义</li>
+        </ul>
+      </div>
+
+      <!-- 条件与测试 -->
+      <div class="card">
+        <h2>条件与测试</h2>
+        <ul>
+          <li>传统 <code>[ ]</code>：字符串：<code>=</code>/<code>!=</code>；整数：<code>-eq -ne -lt -le -gt -ge</code>；文件：<code>-f -d -e -s -r -w -x</code></li>
+          <li>增强 <code>[[ ]]</code>：支持模式匹配 <code>== pat</code>；正则 <code>=~</code>；短路与 <code>&amp;&amp;</code>/<code>||</code></li>
+          <li class="desc"><code>[[ ]]</code> 内不进行路径名扩展与单词分割，推荐在 Bash 使用。</li>
+        </ul>
+      </div>
+
+      <!-- 正则匹配（[[ =~ ]]） -->
+      <div class="card">
+        <h2>正则匹配（[[ =~ ]]）</h2>
+        <ul>
+          <li><code>if [[ $s =~ ^([0-9]+)-([a-z]+)$ ]]; then echo ${BASH_REMATCH[1]} ${BASH_REMATCH[2]}; fi</code></li>
+          <li>注意：右侧正则不加引号；使用小括号捕获；匹配失败返回非 0</li>
+        </ul>
+      </div>
+
+      <!-- 循环与分支 -->
+      <div class="card">
+        <h2>循环与分支</h2>
+        <ul>
+          <li><code>for x in a b; do ...; done</code>；C 风格：<code>for((i=0;i&lt;n;i++)); do ...; done</code></li>
+          <li><code>while read -r line; do ...; done &lt; file</code> 安全读取行</li>
+          <li><code>case $x in pat) ...;; *) ...;; esac</code> 模式分支；可配 <code>shopt -s nocasematch</code> 忽略大小写</li>
+          <li><code>break</code>/<code>continue</code>；带层级：<code>break 2</code></li>
+        </ul>
+      </div>
+
+      <!-- 读写与格式化（read/printf/mapfile） -->
+      <div class="card">
+        <h2>读写与格式化</h2>
+        <ul>
+          <li><code>read -r line</code> 禁止反斜杠转义；<code>read -a arr</code> 读入数组</li>
+          <li><code>read -n 1 -s key</code> 无回显读取 1 字符；<code>read -t 5 var</code> 超时</li>
+          <li><code>mapfile -t arr &lt; file</code> 按行读入数组；<code>mapfile -t -n 10 arr &lt; file</code> 只读 10 行</li>
+          <li><code>printf 'x=%q\n' "$x"</code> 安全转义输出；<code>printf -v out '%04d' 7</code> 直接赋值变量</li>
+          <li>常用格式：<code>%s</code> 字符串；<code>%q</code> 可重用转义；<code>%d</code> 整数；<code>%f</code> 浮点；<code>\n</code> 换行</li>
+        </ul>
+      </div>
+
+      <!-- 解析参数（getopts） -->
+      <div class="card">
+        <h2>解析参数（getopts）</h2>
+        <ul>
+          <li>
+            <pre>while getopts ":ab:c" opt; do
+  case $opt in
+    a) flag_a=1 ;;
+    b) arg_b=$OPTARG ;;
+    c) flag_c=1 ;;
+    :) echo "缺少参数: -$OPTARG"; exit 2 ;;
+    \?) echo "未知选项: -$OPTARG"; exit 2 ;;
+  esac
+done
+shift $((OPTIND-1))</pre>
+          </li>
+          <li><code>:</code> 前缀开启“缺参”错误处理；带冒号的选项声明为“需要参数”</li>
+        </ul>
+      </div>
+
+      <!-- 函数 -->
+      <div class="card">
+        <h2>函数</h2>
+        <ul>
+          <li>定义：<code>name() { local x; ...; }</code> 或 <code>function name { ...; }</code></li>
+          <li>返回：<code>return N</code>（0 成功）；输出用 <code>echo</code>/<code>printf</code> 传递</li>
+          <li>参数：<code>$1</code>…；全部：<code>"$@"</code>；个数：<code>$#</code></li>
+        </ul>
+      </div>
+
+      <!-- 数组（索引/关联） -->
+      <div class="card">
+        <h2>数组</h2>
+        <ul>
+          <li>索引：<code>arr=(a b c)</code>；<code>arr[2]=X</code>；取值：<code>${arr[0]}</code>/<code>${arr[@]}</code></li>
+          <li>长度：<code>${#arr[@]}</code>；下标：<code>${!arr[@]}</code>；切片：<code>${arr[@]:1:2}</code></li>
+          <li>关联：<code>declare -A map; map[foo]=bar</code>；键：<code>${!map[@]}</code>；值：<code>${map[@]}</code></li>
+        </ul>
+      </div>
+
+      <!-- 重定向与管道 -->
+      <div class="card">
+        <h2>重定向与管道</h2>
+        <ul>
+          <li>标准形式：<code>&gt;</code>/<code>&gt;&gt;</code> 输出；<code>&lt;</code> 输入；<code>n&gt;file</code> 指定 fd</li>
+          <li>Here 文档：<code>cat &lt;&lt;EOF ... EOF</code>（引用定界符可关闭展开）；Here 字符串：<code>cmd &lt;&lt;&lt; "$str"</code></li>
+          <li>合并输出：<code>2&gt;&amp;1</code>；Bash 专有：<code>&amp;&gt;file</code>（stdout+stderr 到文件）</li>
+          <li>进程替换：<code>diff &lt;(cmd1) &lt;(cmd2)</code>；需要 <code>bash</code> 或兼容实现</li>
+          <li>管道失败传播：<code>set -o pipefail</code></li>
+        </ul>
+      </div>
+
+      <!-- 文件描述符高级用法 -->
+      <div class="card">
+        <h2>文件描述符高级</h2>
+        <ul>
+          <li><code>exec 3&lt;&gt; file</code> 打开 fd3 读写；<code>echo hi &gt;&amp;3</code> 写入；<code>read -u 3 x</code> 从 fd3 读取</li>
+          <li><code>exec 3&gt;&amp;-</code> 关闭 fd3；<code>cmd &gt;&amp;-</code> 关闭 stdout；<code>cmd 2&gt;&amp;-</code> 关闭 stderr</li>
+        </ul>
+      </div>
+
+      <!-- 作业控制与后台 -->
+      <div class="card">
+        <h2>作业控制</h2>
+        <ul>
+          <li><code>cmd &amp;</code> 后台；<code>jobs</code> 查看；<code>fg %1</code>/<code>bg %1</code> 前/后台；<code>disown %1</code> 脱离</li>
+          <li><code>Ctrl+Z</code> 挂起；<code>kill -SIGCONT %1</code> 继续</li>
+          <li><code>coproc name { ...; }</code> 协程进程（创建管道 FD）</li>
+          <li class="desc">非交互模式需 <code>set -m</code> 开启作业控制。</li>
+        </ul>
+      </div>
+
+      <!-- 历史与别名 -->
+      <div class="card">
+        <h2>历史与别名</h2>
+        <ul>
+          <li><code>history</code> / <code>history -c</code> 清空；<code>!n</code> 第 n 条；<code>!!</code> 上一条；<code>!$</code> 上条最后参数</li>
+          <li><code>alias ll='ls -alh'</code> 定义；<code>unalias ll</code> 取消；<code>type -a cmd</code> 查看解析顺序</li>
+          <li><code>HISTCONTROL=ignoredups:erasedups</code>；<code>HISTSIZE</code>/<code>HISTFILESIZE</code> 控制历史大小</li>
+          <li><code>shopt -s histverify</code> 执行前可编辑 <code>!...</code> 展开结果；<code>fc -e -</code> 打开编辑历史</li>
+        </ul>
+      </div>
+
+      <!-- 调试与陷阱 -->
+      <div class="card">
+        <h2>调试与陷阱</h2>
+        <ul>
+          <li><code>bash -n script.sh</code> 语法检查；<code>bash -x script.sh</code> 跟踪执行</li>
+          <li><code>set -x</code>/<code>set +x</code> 运行时开启/关闭跟踪；<code>PS4='+$LINENO: '</code> 行号提示</li>
+          <li><code>trap 'cleanup' EXIT</code> 退出清理；<code>trap 'handler' ERR</code> 错误陷阱</li>
+          <li><code>trap 'echo SIGINT' INT</code>；<code>trap -p</code> 查看；<code>trap - INT TERM</code> 清除</li>
+          <li class="desc"><code>set -e</code> 遇错即退：谨防与条件判断/管道组合引发的误退，可配合 <code>|| true</code> 等模式</li>
+        </ul>
+      </div>
+
+      <!-- 扩展通配（extglob）与递归（globstar） -->
+      <div class="card">
+        <h2>扩展通配与递归匹配</h2>
+        <ul>
+          <li><code>shopt -s extglob</code>：<code>@(p1|p2)</code> 其一；<code>?(p)</code> 0/1 次；<code>*(p)</code> 任意次；<code>+(p)</code> ≥1 次；<code>!(p)</code> 非</li>
+          <li><code>shopt -s globstar</code>：<code>**</code> 递归匹配目录（如 <code>**/*.sh</code>）</li>
+        </ul>
+      </div>
+
+      <!-- 可编程补全（complete/compgen） -->
+      <div class="card">
+        <h2>可编程补全</h2>
+        <ul>
+          <li><code>_foo() { COMPREPLY=( $(compgen -W "start stop restart" -- "${COMP_WORDS[COMP_CWORD]}") ); }</code></li>
+          <li><code>complete -F _foo foo</code> 为命令 <code>foo</code> 安装补全；<code>complete -r foo</code> 移除</li>
+          <li class="desc">详见手册 Programmable Completion / Builtins</li>
+        </ul>
+      </div>
+
+      <!-- 解析顺序与优先级 -->
+      <div class="card">
+        <h2>命令解析顺序</h2>
+        <ul>
+          <li>优先级：关键字（保留字）→ 别名 → 函数 → 内建 → 可执行文件</li>
+          <li><code>command ls</code> 跳过别名/函数调用外部；<code>builtin echo</code> 强制内建；<code>enable -n echo</code> 禁用内建</li>
+          <li><code>hash -r</code> 清空命中缓存；<code>type -a</code> 显示解析路径</li>
+        </ul>
+      </div>
+
+      <!-- 作用域与子 shell -->
+      <div class="card">
+        <h2>作用域与子 shell</h2>
+        <ul>
+          <li><code>( list )</code> 在子 shell 执行（变量修改不回传）；<code>{ list; }</code> 在当前 shell（末尾必须分号或换行）</li>
+          <li><code>source file</code>/<code>. file</code> 在当前 shell 读取执行（共享作用域）</li>
+        </ul>
+      </div>
+
+      <!-- 常用 shopt 选项 -->
+      <div class="card">
+        <h2>常用 shopt 选项</h2>
+        <ul>
+          <li><code>nullglob</code> 空模式展开为零参数；<code>dotglob</code> 匹配点文件；<code>nocaseglob</code> 忽略大小写</li>
+          <li><code>failglob</code> 无匹配时报错；<code>lastpipe</code> 管道最后一个在当前 shell 运行（非交互）</li>
+          <li><code>checkwinsize</code> 命令后自动更新 <code>LINES/COLUMNS</code>；<code>cdspell</code>/<code>dirspell</code> 轻微拼写修复</li>
+          <li><code>cmdhist</code>/<code>lithist</code> 合并多行命令到历史、保留换行；<code>expand_aliases</code> 在非交互中启用别名</li>
+        </ul>
+      </div>
+
+      <!-- Fish 速查 · 基本与模式 -->
+      <div class="card">
+        <h2>Fish 基本与模式</h2>
+        <ul>
+          <li><code>fish --version</code>；<code>help</code> 打开文档；<code>man fish</code>；<code>fish_config</code> Web 配置</li>
+          <li>交互特性：语法高亮、自动建议、历史提示</li>
+          <li>逻辑：<code>and</code>/<code>or</code>/<code>not</code>（无 <code>&amp;&amp;</code>/<code>||</code>/<code>!</code>）</li>
+        </ul>
+      </div>
+
+      <!-- Fish 速查 · 变量与作用域 -->
+      <div class="card">
+        <h2>Fish 变量与作用域</h2>
+        <ul>
+          <li><code>set name value</code>；作用域：<code>set -l</code> 局部、<code>-g</code> 全局、<code>-U</code> 通用、<code>-x</code> 导出</li>
+            <li>列表变量；索引从 <code>1</code> 开始：<code>$var[1]</code>；长度：<code>count $var</code></li>
+          <li>参数：<code>$argv</code>；追加：<code>set var $var new</code>；删除：<code>set -e var</code></li>
+        </ul>
+      </div>
+
+      <!-- Fish 速查 · 命令替换与字符串 -->
+      <div class="card">
+        <h2>Fish 命令替换与字符串</h2>
+        <ul>
+          <li>命令替换：<code>set files (ls *.md)</code>（圆括号）；子串：<code>string sub -s 2 -l 3 $s</code></li>
+          <li>分割/合并：<code>string split , $s</code>；<code>string join , $list</code>；修剪：<code>string trim</code></li>
+          <li>匹配/替换：<code>string match -r '^[0-9]+'</code>；<code>string replace -r '(foo)' 'bar'</code></li>
+          <li>算术：<code>math '1+2*3'</code>（无 <code>$(( ))</code>）</li>
+        </ul>
+      </div>
+
+      <!-- Fish 速查 · 条件与循环/分支 -->
+      <div class="card">
+        <h2>Fish 条件与循环/分支</h2>
+        <ul>
+          <li>条件：<code>if test -f file; ...; else if test -d dir; ...; else; ...; end</code></li>
+          <li>循环：<code>for x in $list; ...; end</code>；<code>while CONDITION; ...; end</code></li>
+          <li>分支：<code>switch $x; case pat; ...; case '*'; ...; end</code></li>
+        </ul>
+      </div>
+
+      <!-- Fish 速查 · 函数/补全/缩写 -->
+      <div class="card">
+        <h2>Fish 函数/补全/缩写</h2>
+        <ul>
+          <li>函数：<code>function hello; echo hi $argv; end</code>；列出：<code>functions</code></li>
+          <li>补全：<code>complete -c foo -a "(seq 1 5)" -d 'numbers'</code>；查看：<code>complete -C foo</code></li>
+          <li>缩写：<code>abbr -a gs 'git status'</code>；列出：<code>abbr -s</code></li>
+        </ul>
+      </div>
+
+      <!-- Fish 速查 · 重定向与管道 -->
+      <div class="card">
+        <h2>Fish 重定向与管道</h2>
+        <ul>
+          <li><code>cmd &gt; out</code>；<code>cmd &gt;&gt; out</code>；<code>cmd 2&gt; err</code>；（部分版本支持 <code>^</code> 表示 stderr）</li>
+          <li><code>cmd | other</code>；<code>cmd |&amp; other</code>（合并输出）</li>
+          <li>管道状态：<code>echo $pipestatus</code>（列表，存放各段退出码）</li>
+        </ul>
+      </div>
+
+      <!-- Fish 速查 · PATH 与环境 -->
+      <div class="card">
+        <h2>Fish PATH 与环境</h2>
+        <ul>
+          <li>PATH 是列表：<code>set -x PATH /opt/bin $PATH</code>（无需冒号拼接）</li>
+          <li>配置：<code>~/.config/fish/config.fish</code>；通用变量：<code>set -U var val</code></li>
+        </ul>
+      </div>
+
+      <!-- Fish 速查 · 常用内建 -->
+      <div class="card">
+        <h2>Fish 常用内建</h2>
+        <ul>
+          <li><code>status</code>、<code>type</code>、<code>contains</code>、<code>path</code>、<code>count</code>、<code>time</code>、<code>read</code>、<code>argparse</code></li>
+        </ul>
+      </div>
+
+      <!-- Bash vs Fish · 关键差异 -->
+      <div class="card">
+        <h2>Bash vs Fish 关键差异</h2>
+        <ul>
+          <li>命令替换：Bash <code>$(cmd)</code>；Fish <code>(cmd)</code></li>
+          <li>逻辑运算：Bash <code>&amp;&amp;/||/!</code>；Fish <code>and/or/not</code></li>
+          <li>条件语法：Bash <code>[[ ]]</code>/<code>[ ]</code>；Fish 使用 <code>if/test</code>（无 <code>[[ ]]</code>）</li>
+          <li>算术：Bash <code>$(( ))</code>；Fish <code>math</code></li>
+          <li>变量模型：Bash 标量+数组；Fish 列表（索引从 1），<code>$argv</code> 为全部参数</li>
+          <li>作用域与导出：Bash <code>local/export</code>；Fish <code>set -l/-g/-U/-x</code></li>
+          <li>函数与别名：Bash <code>alias</code>；Fish 推荐 <code>abbr</code> 与函数</li>
+          <li>PATH：Bash 用冒号拼接；Fish 用列表 <code>set -x PATH /path $PATH</code></li>
+          <li>历史：Bash <code>!!</code>/<code>!$</code> 历史展开；Fish 用自动建议与 <code>history</code></li>
+          <li>补全：Bash <code>complete/compgen</code>；Fish <code>complete</code>（语法不同）</li>
+          <li>管道状态：Bash 需 <code>set -o pipefail</code>；Fish <code>$pipestatus</code></li>
+          <li>重定向：Bash <code>2&gt;</code>/<code>&amp;&gt;</code>；Fish 常用 <code>2&gt;</code>（部分版本支持 <code>^</code>）</li>
+          <li>块与结束：Bash <code>do ... done</code>；Fish <code>end</code></li>
+          <li>正则与字符串：Bash <code>[[ =~ ]]</code>；Fish <code>string match/replace -r</code></li>
+          <li>索引：Bash 从 0（数组）/1（位置参）；Fish 统一从 1</li>
+          <li>配置：Bash <code>~/.bashrc</code>；Fish <code>~/.config/fish/config.fish</code></li>
+        </ul>
+      </div>
+
+      <!-- 参考来源 -->
+      <div class="card">
+        <h2>参考与来源</h2>
+        <ul>
+          <li>GNU Bash Reference Manual 5.3（参数展开、重定向、可编程补全、作业控制等章节）</li>
+          <li>Fish Shell Documentation（current）：Tutorial / Commands / Language / Variables / Functions / Completion / Abbreviations</li>
+          <li>本目录 <code>source.html</code> 为原始素材（已据此迁移与审校）</li>
+          <li>本目录 <code>refmap.md</code> 列出章节映射与修改说明</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // 列宽滑块：300~660，实时写入 CSS 变量，驱动 column-width
+    (function(){
+      const slider = document.getElementById('columnWidth');
+      const label = document.getElementById('widthVal');
+      const root = document.documentElement;
+      function apply(v){
+        const px = (v|0);
+        root.style.setProperty('--colWidth', px + 'px');
+        label.textContent = px + 'px';
+      }
+      slider.addEventListener('input', e => apply(e.target.value));
+      apply(slider.value);
+    })();
+  </script>
+</body>
+</html>
