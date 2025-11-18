@@ -35,7 +35,11 @@
       "Bash(powershell:*)",
       "Bash(node:*)",
       "Bash(python:*)",
-      "Bash(start http://localhost:8000/cesium.html)"
+      "Bash(start http://localhost:8000/cesium.html)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:www.npmjs.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(start http://localhost:8001/langchain.html)"
     ],
     "deny": [],
     "ask": []
