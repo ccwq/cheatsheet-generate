@@ -159,6 +159,14 @@
       #backTop button { background:#1b2032; color:#d7e6ff; border:none; border-radius:999px; padding:10px; display:flex; align-items:center; justify-content:center; box-shadow: none; }
       #backTop.show { opacity: 0.95; pointer-events: auto; }
 
+      /* 卡片高亮样式 */
+      .card-highlight {
+        border: 2px solid #7bfbb7;
+        box-shadow: 0 0 0 2px rgba(123, 251, 183, 0.3);
+        background: rgba(123, 251, 183, 0.1);
+        transition: all 0.2s ease;
+      }
+
       /* 降噪：动效可选 */
       @media (prefers-reduced-motion: reduce) {
         .cheat-columns { transition: none; }

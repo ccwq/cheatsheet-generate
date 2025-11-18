@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ccspec-workflow</title>
+  <link rel="stylesheet" href="../../css/variables.css">
+  <link rel="stylesheet" href="../../css/common.css">
+  <style>
+    :root{--colWidth:340px;--gap:16px}
+    .hlink{color:#93cdfc;text-decoration:none;margin-left:6px}
+    .hlink:hover{text-decoration:underline}
+  </style>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png" />
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png" />
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <span class="title">规范化工作流（Spec → 实现）</span>
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+    </div>
+
+    <div class="cheat-columns" id="columns">
+
+      <div class="card">
+        <h2>目标与范围 <a class="hlink" href="https://google.github.io/eng-practices/" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>目标：业务/技术指标（延迟、吞吐、稳定性、成本）</li>
+          <li>范围：功能边界、依赖前置、非目标（Out of scope）</li>
+          <li>约束：接口契约/SLI/SLO、合规与隐私、容量与扩展性</li>
+          <li>回滚：功能开关/数据双写/灰度与快速回退策略</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>规格文档（Spec） <a class="hlink" href="https://google.github.io/eng-practices/" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>架构：模块与数据流；关键路径与隔离层；时序/状态图</li>
+          <li>契约：请求/响应模式，枚举/限制/默认值，幂等性与错误语义</li>
+          <li>数据：存储模型、索引策略、迁移步骤；冷热数据与留存</li>
+          <li>验收：功能清单+可执行样例；性能预算与容量假设</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>计划与里程碑 <a class="hlink" href="https://google.github.io/eng-practices/" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>拆分：自底向上切片，每步可运行/可回退/可观测</li>
+          <li>质量门禁：构建/测试/静态检查/码规/安全扫描</li>
+          <li>观测点：日志字段规范、指标维度、Trace 埋点</li>
+          <li>迁移：双写与比对、影子流量、逐步切换</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>实现与提交 <a class="hlink" href="https://google.github.io/eng-practices/review/" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>自顶向下定义接口，先打桩/假实现，再替换为真实逻辑</li>
+          <li>小步提交：每次完成单一目的；提交信息规范化</li>
+          <li>隔离：特性开关与策略注入；避免跨域耦合</li>
+          <li>文档：README/变更/迁移与告警说明同步更新</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>测试与验证 <a class="hlink" href="https://martinfowler.com/articles/practical-test-pyramid.html" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>金字塔：单测（快速）→集成（契约）→E2E（黑盒）</li>
+          <li>非功能：性能/容量/可靠性/安全/可用性/灾备</li>
+          <li>演练：限流/熔断/降级/重试；变更前后对照</li>
+          <li>回滚：自动化脚本与数据恢复路径演练</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>评审与复盘 <a class="hlink" href="https://google.github.io/eng-practices/review/" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>评审：接口契约、复杂度、边界条件、安全与隐私</li>
+          <li>复盘：成功/失败案例、指标偏差根因与纠偏计划</li>
+          <li>沉淀：FAQ、操作手册、自动化脚本、可复用组件</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>示例：验收用例片段 <a class="hlink" href="https://cucumber.io/docs/gherkin/reference/" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li><pre class="code">场景：库存扣减接口
+When 请求 /stock/decrease sku=ABC qty=2
+Then 返回 200 且 body.ok=true
+And DB 中 sku=ABC 的库存减少 2 且 >= 0
+And 发出事件 stock.changed，payload 含 trace_id</pre></li>
+          <li>验收用例可自动化执行；与监控指标绑定</li>
+          <li class="desc">将关键用例纳入回归基线，防止回归</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>快速上手（10 分钟）</h2>
+        <ul>
+          <li>1）在仓库根目录新建 <code>docs/spec.md</code>，粘贴下方“Spec 模板”并填空</li>
+          <li>2）在 <code>tests/acceptance/</code> 新建 <code>stock.feature</code>，粘贴“Gherkin 模板”并改写</li>
+          <li>3）新增 <code>.github/pull_request_template.md</code>，使用“PR 模板”</li>
+          <li>4）为接口草拟 OpenAPI（可选），与前后端统一字段与错误码</li>
+          <li>5）按“里程碑”拆分任务与提交；提交前跑单测/集成测试</li>
+          <li>6）上线前对照“观测性与回滚清单”；开灰度、监控指标</li>
+          <li>7）上线后按“复盘清单”记录指标与经验</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Spec 模板 <a class="hlink" href="https://google.github.io/eng-practices/" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li><pre class="code"># 背景与目标
+- 业务问题：
+- 成功标准（量化）：Latency P95、错误率、转化率、成本、可维护性
+- 非目标：
+
+# 范围与依赖
+- 功能点：
+- 外部依赖：
+- 约束（合规/隐私/容量/SLO）：
+
+# 架构与数据流
+- 模块划分：
+- 时序/状态图：
+- 数据模型与索引：
+
+# 接口契约（建议 OpenAPI）
+- 请求/响应示例：
+- 枚举/边界/默认值/幂等性/错误码：
+
+# 验收标准（可执行样例）
+- Given/When/Then：
+
+# 观测性
+- 日志字段/指标/Trace 埋点：
+
+# 风险与回滚
+- 风险清单：
+- 回滚与灰度策略：
+
+# 里程碑
+- M1/M2/M3：
+
+# 测试计划
+- 单测/契约/集成/E2E/性能/容灾：
+
+# 发布与版本
+- 版本策略与变更说明：
+</pre></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Gherkin 模板 <a class="hlink" href="https://cucumber.io/docs/gherkin/reference/" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li><pre class="code">Feature: 库存服务
+  为了确保订单扣减准确
+  作为库存系统
+  我希望在并发场景下仍保持最终一致
+
+  Background:
+    Given 系统存在 sku "ABC" 库存 10
+
+  Scenario: 正常扣减
+    When 调用接口 "/stock/decrease" 参数 sku="ABC", qty=2
+    Then 返回状态码 200 且 body.ok=true
+    And DB 中 sku "ABC" 库存 == 8
+    And 产生事件 "stock.changed" 且 payload.trace_id 存在
+
+  Scenario: 库存不足
+    When 调用接口 "/stock/decrease" 参数 sku="ABC", qty=999
+    Then 返回 409 且 body.error == "INSUFFICIENT_STOCK"
+</pre></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>提交与 PR 模板 <a class="hlink" href="https://www.conventionalcommits.org/zh-hans/v1.0.0/" target="_blank">Commit</a> <a class="hlink" href="https://keepachangelog.com/zh-CN/1.0.0/" target="_blank">Changelog</a></h2>
+        <ul>
+          <li>Commit 示例：<pre class="code">feat(stock): add decrease API with idempotency key
+
+- add /stock/decrease with validation and idempotency
+- emit stock.changed event with trace_id
+- add acceptance tests for normal/insufficient cases
+</pre></li>
+          <li>PR 模板：<pre class="code">### 变更内容
+- 
+
+### 验收标准
+- [ ] 接口返回符合 Spec
+- [ ] 事件包含 trace_id
+- [ ] 指标/日志/Trace 可观测
+
+### 风险与回滚
+- 风险：
+- 回滚步骤：
+
+### 测试
+- 单测通过：
+- 集成/E2E：
+</pre></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>目录结构与分支策略</h2>
+        <ul>
+          <li>推荐目录：<pre class="code">/docs/spec.md
+/tests/acceptance/*.feature
+/tests/integration/
+/src/
+/scripts/
+</pre></li>
+          <li>分支：<code>main</code>（稳定）/ <code>feat/*</code> / <code>fix/*</code>；PR 必须过 CI 与评审</li>
+          <li>版本：语义化（semver）；变更说明按 Keep a Changelog</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>观测性与日志规范 <a class="hlink" href="https://12factor.net/" target="_blank">12-factor</a> <a class="hlink" href="https://opentelemetry.io/" target="_blank">OTel</a></h2>
+        <ul>
+          <li>结构化日志示例：<pre class="code">{"ts":"2025-11-18T12:00:00Z","lvl":"INFO","trace_id":"...",
+ "span_id":"...","svc":"stock","op":"decrease","sku":"ABC",
+ "qty":2,"user":"u_123","latency_ms":42,"ok":true}</pre></li>
+          <li>指标：QPS/错误率/延迟（P50/P95）/重试次数；维度含 sku/用户/来源</li>
+          <li>追踪：核心路径打点；跨服务传递 traceparent</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>回滚与灰度策略</h2>
+        <ul>
+          <li>特性开关：按用户/租户/比例逐步放量；支持紧急关闭</li>
+          <li>数据迁移：双写+校验；冷/热切换；旧版本回退脚本</li>
+          <li>灰度步骤：影子流量→小流量→分批放量→全量；每步对照指标阈值</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>CI/CD 流程清单</h2>
+        <ul>
+          <li>CI：构建→单测→静态检查→安全扫描→集成测试→产出工件</li>
+          <li>CD：部署到灰度→运行验收脚本→观测指标→自动/人工判定升级</li>
+          <li>回滚：一键回滚/回退脚本；保留兼容配置</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>安全与隐私清单</h2>
+        <ul>
+          <li>输入校验与限流；敏感字段脱敏/加密；权限校验</li>
+          <li>凭据与密钥：使用密管（如 KMS/Vault），严禁硬编码</li>
+          <li>合规：隐私最小化/可删除/审计日志；第三方依赖许可证审查</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>性能预算与容量估算</h2>
+        <ul>
+          <li>SLO：可用性 99.9%，P95 延迟 &lt; 200ms，错误率 &lt; 0.1%</li>
+          <li>预算：单请求 CPU/内存/IO 限额；基线 QPS 与峰值因子</li>
+          <li>演练：压测数据+增长模型，触发扩容/降级阈值</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+  <script>
+    const slider=document.getElementById('columnWidth');
+    const widthVal=document.getElementById('widthVal');
+    function apply(v){document.documentElement.style.setProperty('--colWidth',v+'px');widthVal.textContent=v+'px'}
+    slider.addEventListener('input',e=>apply(e.target.value));
+    apply(slider.value);
+  </script>
+</body>
+</html>

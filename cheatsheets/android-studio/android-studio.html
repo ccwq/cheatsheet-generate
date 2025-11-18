@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>android-studio</title>
+  <!-- 公共样式，保持与全站一致 -->
+  <link rel="stylesheet" href="../../css/variables.css">
+  <link rel="stylesheet" href="../../css/common.css">
+  <style>
+    :root { --colWidth: 340px; --gap: 16px; }
+    .hlink{color:#93cdfc;text-decoration:none;margin-left:6px}
+    .hlink:hover{text-decoration:underline}
+  </style>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png" />
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png" />
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <span class="title">Android Studio 调试</span>
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+    </div>
+
+    <div class="cheat-columns" id="columns">
+
+      <!-- 调试基础与断点（官方：Debug your app） -->
+      <div class="card">
+        <h2>调试基础与断点 <a class="hlink" href="https://developer.android.com/studio/debug" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>启动：工具栏点「Debug」或 Shift+F9 运行 Debug 配置；附加见下节</li>
+          <li>断点类型：行断点、方法断点、异常断点、字段断点、条件/命中次数/日志断点</li>
+          <li>步进：F8 跳过、F7 进入、Shift+F8 跳出、Alt+F9 运行至光标、Ctrl+Alt+F9 强制运行至光标</li>
+          <li>条件示例：<code>user != null && user.id == 0</code>；日志断点用于不中断收集运行态</li>
+          <li>排错建议：Mute Breakpoints 快速禁用全部断点；按线程/库过滤异常断点</li>
+        </ul>
+      </div>
+
+      <!-- Logcat（新版）与日志最佳实践 -->
+      <div class="card">
+        <h2>Logcat 与日志 <a class="hlink" href="https://developer.android.com/studio/debug/logcat" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>快速筛选：按 App/进程/级别/文案；支持 Regex 与结构化 Expand</li>
+          <li>打印建议：<code>Log.d/i/w/e(TAG, msg, err)</code>；TAG 统一前缀，避免泄露隐私数据</li>
+          <li>性能：高频路径控制采样与节流；必要时改“日志断点”替代硬暂停</li>
+          <li>格式：使用 <code>toString()</code> 或自定义渲染简化复杂对象输出</li>
+          <li class="desc">新版 Logcat 支持智能分组与粘性过滤，提升定位效率</li>
+        </ul>
+      </div>
+
+      <!-- Evaluate Expression / Watches / Variables -->
+      <div class="card">
+        <h2>表达式与变量 <a class="hlink" href="https://developer.android.com/studio/debug#evaluate" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>Evaluate Expression：Alt+F8 评估变量/调用方法；支持历史记录</li>
+          <li>Watches：对关键变量添加 Watch，跨断点持续观察</li>
+          <li>内联查看：开启 Inline hints/Inline debugger data，直观显示值</li>
+          <li>切换线程/帧：Threads 与 Frames 视图定位当前执行上下文</li>
+          <li class="desc">复杂对象可临时调用 toString()/自定义渲染以提升可读性</li>
+        </ul>
+      </div>
+
+      <!-- Kotlin 协程与多线程调试（Coroutine Debugger） -->
+      <div class="card">
+        <h2>协程与多线程 <a class="hlink" href="https://developer.android.com/kotlin/coroutines" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>Coroutine Debugger：查看协程层级/状态/调度器与挂起点</li>
+          <li>Stack Frames：开启「Show Kotlin stack frames」获得更友好栈</li>
+          <li>冻结线程：使用「Freeze」稳定观察变量与死锁定位</li>
+          <li>断点过滤：按线程/类库过滤命中，减少噪声</li>
+          <li class="desc">建议对 <code>Dispatchers.IO</code> 的密集 IO 区段使用条件断点</li>
+        </ul>
+      </div>
+
+      <!-- 附加与远程（Attach/Remote/NDK） -->
+      <div class="card">
+        <h2>附加与远程 <a class="hlink" href="https://developer.android.com/studio/debug#attach" target="_blank">&gt;&gt;&gt;</a> <a class="hlink" href="https://developer.android.com/studio/debug/native-debug" target="_blank">NDK</a></h2>
+        <ul>
+          <li>Attach to Process：附加到已运行进程；混合 Java/Kotlin/Native</li>
+          <li>远程调试：在设备上开启 JDWP，配置远程端口转发后附加</li>
+          <li>本地 JNI/NDK：选择 Native 调试器，加载符号并设置断点</li>
+          <li>启动参数：Run/Debug Configurations 中配置 <code>AM</code> 选项与 env</li>
+          <li class="desc">参考：Attach debugger、Debug native code</li>
+        </ul>
+      </div>
+
+      <!-- App Inspection：布局/网络/数据库/后台任务 -->
+      <div class="card">
+        <h2>应用检查 <a class="hlink" href="https://developer.android.com/studio/inspect" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>Layout Inspector：实时层级、约束与属性；支持 3D 视图与快照比对</li>
+          <li>Network Inspector：HTTP/ gRPC 请求/响应/时序与流量统计</li>
+          <li>App Inspection：Room/WorkManager/Datastore 等 Jetpack 组件专用页</li>
+          <li>Database Inspector：直接编辑查询；观察变更/导出数据</li>
+          <li class="desc">结合 StrictMode/Network Security Config 形成端到端观测</li>
+        </ul>
+      </div>
+
+      <!-- 性能分析：CPU/Memory/Energy/Startup -->
+      <div class="card">
+        <h2>性能分析 <a class="hlink" href="https://developer.android.com/studio/profile" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>CPU Profiler：采样/系统追踪/仪表（Trace）三模式；标注自定义区段</li>
+          <li>Memory Profiler：对象分配、泄漏路径；拍摄 heap dump 与快照对比</li>
+          <li>Energy Profiler：网络/定位/唤醒等耗电事件时间线</li>
+          <li>启动分析：冷/温/热启动度量；延迟初始化降低启动压力</li>
+          <li class="desc">优先在 Release 变体+符号文件开启采集，保证数据代表性</li>
+        </ul>
+      </div>
+
+      <!-- Compose 特性调试：Layout bounds/Inspection/Preview -->
+      <div class="card">
+        <h2>Compose 调试 <a class="hlink" href="https://developer.android.com/develop/ui/compose/tooling" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>Layout bounds：启用布局边界快速识别测量/布局问题</li>
+          <li>Inspection：Compose Layout Inspector 观察层级与重组热点</li>
+          <li>Preview：多设备/主题/字体缩放预览，快速验证 UI 适配</li>
+          <li class="desc">避免在重组路径打印日志；使用 Tracing 标注关键阶段</li>
+        </ul>
+      </div>
+
+      <!-- 断点技巧与小贴士 -->
+      <div class="card">
+        <h2>断点技巧 <a class="hlink" href="https://developer.android.com/studio/debug#breakpoints" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>字段断点：在字段上暂停（setter/getter 调用处）</li>
+          <li>异常断点：仅对特定异常类型中断；可勾选「仅未捕获」</li>
+          <li>临时断点：命中后自动移除；避免污染断点列表</li>
+          <li>命中次数：如「每 10 次命中暂停一次」定位高频问题</li>
+          <li class="desc">配合「Mute Breakpoints」快速切换全局启用/禁用</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // 顶部滑杆：调整列宽（与站点样式保持一致）
+    const slider = document.getElementById('columnWidth');
+    const widthVal = document.getElementById('widthVal');
+    const columns = document.getElementById('columns');
+    function applyWidth(v){
+      document.documentElement.style.setProperty('--colWidth', v + 'px');
+      widthVal.textContent = v + 'px';
+    }
+    slider.addEventListener('input', e => applyWidth(e.target.value));
+    applyWidth(slider.value);
+  </script>
+</body>
+</html>

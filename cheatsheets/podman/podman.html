@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>podman</title>
+  <link rel="stylesheet" href="../../css/variables.css">
+  <link rel="stylesheet" href="../../css/common.css">
+  <style>:root{--colWidth:340px;--gap:16px}
+    .hlink{color:#93cdfc;text-decoration:none;margin-left:6px}
+    .hlink:hover{text-decoration:underline}
+  </style>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png" />
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png" />
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <span class="title">Podman 容器管理</span>
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+    </div>
+
+    <div class="cheat-columns" id="columns">
+
+      <div class="card">
+        <h2>运行与管理 <a class="hlink" href="https://docs.podman.io/en/latest/markdown/podman-run.1.html" target="_blank">run</a> <a class="hlink" href="https://docs.podman.io/en/latest/markdown/podman-exec.1.html" target="_blank">exec</a></h2>
+        <ul>
+          <li>交互运行：<pre class="code">podman run -it --name app alpine:latest sh</pre></li>
+          <li>后台运行：<pre class="code">podman run -d --name web --restart=always -p 80:80 nginx:alpine</pre></li>
+          <li>查看容器：<code>podman ps</code> / <code>podman ps -a</code></li>
+          <li>进入/执行：<code>podman exec -it web sh -c "nginx -t"</code></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>日志与检查 <a class="hlink" href="https://docs.podman.io/en/latest/markdown/podman-logs.1.html" target="_blank">logs</a> <a class="hlink" href="https://docs.podman.io/en/latest/markdown/podman-inspect.1.html" target="_blank">inspect</a></h2>
+        <ul>
+          <li>日志：<code>podman logs -f web</code>；监控：<code>podman stats web</code></li>
+          <li>检查：<code>podman inspect web</code>（JSON）；配合 <code>jq</code> 提取字段</li>
+          <li>停止/删除：<code>podman stop -t 30 web</code>、<code>podman rm -v web</code></li>
+          <li>清理：<code>podman container prune -f</code>、镜像清理：<code>podman image prune</code></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>镜像与构建 <a class="hlink" href="https://docs.podman.io/en/latest/markdown/podman-build.1.html" target="_blank">build</a> <a class="hlink" href="https://docs.podman.io/en/latest/markdown/podman-manifest.1.html" target="_blank">manifest</a></h2>
+        <ul>
+          <li>拉取/列出/删除：<code>podman pull|images|rmi</code></li>
+          <li>构建镜像：<code>podman build -t myimg:dev -f Containerfile .</code></li>
+          <li>多架构：<code>podman manifest</code> 创建/推送多架构清单</li>
+          <li>导入导出：<code>podman save</code> / <code>podman load</code> 镜像迁移</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Pod/网络/卷 <a class="hlink" href="https://docs.podman.io/en/latest/markdown/podman-pod.1.html" target="_blank">pod</a> <a class="hlink" href="https://docs.podman.io/en/latest/markdown/podman-network.1.html" target="_blank">network</a> <a class="hlink" href="https://docs.podman.io/en/latest/markdown/podman-volume.1.html" target="_blank">volume</a></h2>
+        <ul>
+          <li>Pod：<code>podman pod create --name app</code>；<code>podman run --pod app</code></li>
+          <li>网络：<code>podman network create net1</code>；<code>--network net1</code></li>
+          <li>卷：<code>podman volume create data</code>；<code>-v data:/data:Z</code>（SELinux）</li>
+          <li>端口：<code>-p 8080:80</code>；指定协议/范围与 hostIP</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>退出码约定 <a class="hlink" href="https://github.com/containers/podman/blob/main/docs/source/markdown/podman.1.md" target="_blank">man</a></h2>
+        <ul>
+          <li>125：Podman 本身出错（参数错误等）</li>
+          <li>126：容器可执行权限问题</li>
+          <li>127：容器内命令未找到</li>
+          <li>其他：返回容器内命令的退出码</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>生成与编排 <a class="hlink" href="https://docs.podman.io/en/latest/markdown/podman-generate-systemd.1.html" target="_blank">systemd</a> <a class="hlink" href="https://docs.podman.io/en/latest/markdown/podman-generate-kube.1.html" target="_blank">kube</a> <a class="hlink" href="https://docs.podman.io/en/latest/markdown/podman-play-kube.1.html" target="_blank">play kube</a></h2>
+        <ul>
+          <li>systemd：<code>podman generate systemd --new --files web</code></li>
+          <li>Kube：<code>podman generate kube web &gt; web.yaml</code>；<code>podman play kube web.yaml</code></li>
+          <li>Compose：可使用社区 <code>podman-compose</code>（Compose 规范实现）</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Rootless 与平台 <a class="hlink" href="https://github.com/containers/podman/blob/main/rootless.md" target="_blank">rootless</a> <a class="hlink" href="https://docs.podman.io/en/latest/markdown/podman-machine.1.html" target="_blank">machine</a></h2>
+        <ul>
+          <li>Rootless：需配置 <code>/etc/subuid</code>/<code>/etc/subgid</code>；端口 <code>&gt;1024</code></li>
+          <li>macOS/Windows：<code>podman machine</code> 管理虚拟机环境</li>
+          <li>安全：SELinux 标签 <code>:z/:Z</code>；用户命名空间隔离</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+  <script>
+    const slider=document.getElementById('columnWidth');
+    const widthVal=document.getElementById('widthVal');
+    function apply(v){document.documentElement.style.setProperty('--colWidth',v+'px');widthVal.textContent=v+'px'}
+    slider.addEventListener('input',e=>apply(e.target.value));
+    apply(slider.value);
+  </script>
+</body>
+</html>

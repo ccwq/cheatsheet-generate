@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>mklink-@-ln</title>
+  <link rel="stylesheet" href="../../css/variables.css">
+  <link rel="stylesheet" href="../../css/common.css">
+  <style>:root{--colWidth:340px;--gap:16px}
+    .hlink{color:#93cdfc;text-decoration:none;margin-left:6px}
+    .hlink:hover{text-decoration:underline}
+  </style>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png" />
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png" />
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <span class="title">mklink（Windows）与 ln（Unix）</span>
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+    </div>
+
+    <div class="cheat-columns" id="columns">
+
+      <div class="card">
+        <h2>Windows mklink 基础 <a class="hlink" href="https://learn.microsoft.com/windows-server/administration/windows-commands/mklink" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>语法：<code>mklink [[/D] | [/H] | [/J]] &lt;Link&gt; &lt;Target&gt;</code></li>
+          <li>文件符号链接（默认）：<code>mklink Link.txt Target.txt</code></li>
+          <li>目录符号链接：<code>mklink /D LinkDir TargetDir</code></li>
+          <li>硬链接（文件）：<code>mklink /H Link.txt Target.txt</code></li>
+          <li>目录联接（Junction）：<code>mklink /J LinkDir TargetDir</code></li>
+          <li class="desc">非管理员场景可在「开发者模式」下创建符号链接</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>注意事项（Windows） <a class="hlink" href="https://learn.microsoft.com/windows-server/administration/windows-commands/mklink" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>空格路径需引号；目标需存在（目录联接可在不存在时创建）</li>
+          <li>跨盘符：符号链接可跨卷；硬链接仅限同卷且仅文件</li>
+          <li>安全：UAC/策略限制；企业环境需配合组策略</li>
+          <li>复制：保留链接语义（如 <code>robocopy /sl</code>）避免展开</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Unix ln 基础 <a class="hlink" href="https://man7.org/linux/man-pages/man1/ln.1.html" target="_blank">man</a> <a class="hlink" href="https://www.gnu.org/software/coreutils/manual/html_node/ln-invocation.html" target="_blank">coreutils</a></h2>
+        <ul>
+          <li>硬链接（默认）：<code>ln TARGET LINK</code>；符号链接：<code>ln -s TARGET LINK</code></li>
+          <li>常用：强制 <code>-f</code>、交互 <code>-i</code>、备份 <code>-b</code>、详细 <code>-v</code></li>
+          <li>相对路径：<code>-r</code> 生成相对符号链接（GNU）提升可移植性</li>
+          <li>限制：硬链接不可跨文件系统，不可链接目录（部分系统例外）</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>常见排错 <a class="hlink" href="https://learn.microsoft.com/windows-server/administration/windows-commands/mklink" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>权限不足：以管理员/提权运行；或检查文件系统能力</li>
+          <li>目标丢失：符号链接指向不存在时会“悬空”</li>
+          <li>工具兼容：部分归档/同步工具不保留链接语义</li>
+          <li>大小写：Windows 默认大小写不敏感，注意路径一致性</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>PowerShell 等价命令 <a class="hlink" href="https://learn.microsoft.com/powershell/module/microsoft.powershell.management/new-item" target="_blank">New-Item</a></h2>
+        <ul>
+          <li>文件符号链接：<code>New-Item -ItemType SymbolicLink -Path Link.txt -Target Target.txt</code></li>
+          <li>目录联接：<code>New-Item -ItemType Junction -Path LinkDir -Target TargetDir</code></li>
+          <li>硬链接（文件）：<code>New-Item -ItemType HardLink -Path Link.txt -Target Target.txt</code></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+  <script>
+    const slider=document.getElementById('columnWidth');
+    const widthVal=document.getElementById('widthVal');
+    function apply(v){document.documentElement.style.setProperty('--colWidth',v+'px');widthVal.textContent=v+'px'}
+    slider.addEventListener('input',e=>apply(e.target.value));
+    apply(slider.value);
+  </script>
+</body>
+</html>

@@ -3,6 +3,9 @@
 ## 项目简介
 这是一个根据用户提供主题生成 Cheatsheet 的项目。
 
+## 工具使用
+- 对于不确定的内容, 请使用chrome浏览器打开https://www-d-perplexity-d-ai-s-per.p-tga.aiwentu.com/, 在其上进行搜索操作来调查信息, 这是一个快速全面的ai搜集整理工具
+
 ## 生成与存储
 - 根据 `/base.md` 的提示词和要求生成 Cheatsheet
 - 生成的 Cheatsheet 保存在 `/cheatsheets` 目录下

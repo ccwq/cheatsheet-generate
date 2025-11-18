@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>lerna</title>
+  <link rel="stylesheet" href="../../css/variables.css">
+  <link rel="stylesheet" href="../../css/common.css">
+  <style>:root{--colWidth:340px;--gap:16px}
+    .hlink{color:#93cdfc;text-decoration:none;margin-left:6px}
+    .hlink:hover{text-decoration:underline}
+  </style>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png" />
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png" />
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <span class="title">Lerna（Monorepo 管理）</span>
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+    </div>
+
+    <div class="cheat-columns" id="columns">
+
+      <div class="card">
+        <h2>初始化与信息 <a class="hlink" href="https://github.com/lerna/lerna/blob/main/website/docs/api-reference/commands.md" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li><code>lerna init</code> 初始化（推荐配合工作区管理器，如 pnpm workspaces）</li>
+          <li><code>lerna info</code> 输出环境与依赖信息</li>
+          <li><code>lerna add-caching</code> 与 Nx 集成启用缓存/任务图</li>
+          <li><code>lerna repair</code> 修复常见配置与缓存问题</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>枚举与变更集 <a class="hlink" href="https://github.com/lerna/lerna/tree/main/libs/commands/changed#readme" target="_blank">changed</a> <a class="hlink" href="https://github.com/lerna/lerna/tree/main/libs/commands/list#readme" target="_blank">list</a> <a class="hlink" href="https://github.com/lerna/lerna/tree/main/libs/commands/diff#readme" target="_blank">diff</a></h2>
+        <ul>
+          <li><code>lerna list</code>；仅变更：<code>lerna list --since</code>（或指定 tag）</li>
+          <li><code>lerna changed</code> 基于上次发布推断变更包</li>
+          <li><code>lerna diff [pkg]</code> 查看指定包的 git 差异</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>运行与执行 <a class="hlink" href="https://github.com/lerna/lerna/tree/main/libs/commands/run#readme" target="_blank">run</a> <a class="hlink" href="https://github.com/lerna/lerna/tree/main/libs/commands/exec#readme" target="_blank">exec</a> <a class="hlink" href="https://github.com/lerna/lerna/blob/main/packages/lerna/src/commands/watch/README.md" target="_blank">watch</a></h2>
+        <ul>
+          <li><code>lerna run build --stream --concurrency 4</code> 并发且按包流式输出</li>
+          <li><code>lerna exec -- &lt;cmd&gt;</code>；剖析：<code>--profile</code> 输出性能数据</li>
+          <li>过滤：<code>--scope pkg-*</code>、<code>--ignore tests*</code>、<code>--since</code></li>
+          <li><code>lerna watch -- &lt;cmd&gt;</code> 监听变更自动执行</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>版本与发布 <a class="hlink" href="https://github.com/lerna/lerna/tree/main/libs/commands/version#readme" target="_blank">version</a> <a class="hlink" href="https://github.com/lerna/lerna/tree/main/libs/commands/publish#readme" target="_blank">publish</a></h2>
+        <ul>
+          <li><code>lerna version</code> 提升版本并创建 Git tag（支持自定义 <code>--git-tag-command</code>）</li>
+          <li><code>lerna publish</code>：默认交互式；或 <code>from-git</code>/<code>from-package</code></li>
+          <li>发布过滤：<code>--skip-npm</code>、<code>--yes</code>、<code>--preid beta</code></li>
+          <li>合并分支 tag：<code>--include-merged-tags</code>（仅特定流程使用）</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>最佳实践 <a class="hlink" href="https://github.com/lerna/lerna" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>工作区：以 pnpm/yarn/npm workspaces 管理包路径</li>
+          <li>Nx：添加缓存、任务图与依赖感知执行（<code>add-caching</code>）</li>
+          <li>流水线：发布前构建/测试/lint/版本一致性校验</li>
+          <li>锁定：依赖锁文件纳入版本管理并启用严格安装</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>示例：lerna.json 片段</h2>
+        <ul>
+          <li><pre class="code">{
+  "version": "independent",
+  "npmClient": "pnpm",
+  "command": {
+    "version": { "gitTagCommand": "git tag %s -m %s" },
+    "run": { "stream": true }
+  }
+}</pre></li>
+          <li class="desc">使用工作区配置包路径；命令行为可在此集中配置</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+  <script>
+    const slider=document.getElementById('columnWidth');
+    const widthVal=document.getElementById('widthVal');
+    function apply(v){document.documentElement.style.setProperty('--colWidth',v+'px');widthVal.textContent=v+'px'}
+    slider.addEventListener('input',e=>apply(e.target.value));
+    apply(slider.value);
+  </script>
+</body>
+</html>

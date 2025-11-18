@@ -1,0 +1,21 @@
+# 参考资料
+
+- 官方文档首页：https://kotlinlang.org/docs/home.html
+- Null Safety：https://kotlinlang.org/docs/null-safety.html
+- 函数：https://kotlinlang.org/docs/functions.html
+- 扩展：https://kotlinlang.org/docs/extensions.html
+- 操作符重载：https://kotlinlang.org/docs/operator-overloading.html
+- 类型转换与智能转换：https://kotlinlang.org/docs/typecasts.html
+- 泛型：https://kotlinlang.org/docs/generics.html
+- 内联函数：https://kotlinlang.org/docs/inline-functions.html
+- 数据类/密封类：https://kotlinlang.org/docs/sealed-classes.html
+- 集合概览：https://kotlinlang.org/docs/collections-overview.html
+- 序列（惰性）：https://kotlinlang.org/docs/sequences.html
+- 反射：https://kotlinlang.org/docs/reflection.html
+- 协程概览：https://kotlinlang.org/docs/coroutines-overview.html
+- Flow：https://kotlinlang.org/docs/flow.html
+ - 作用域函数：https://kotlinlang.org/docs/scope-functions.html
+ - 编码规范：https://kotlinlang.org/docs/coding-conventions.html
+ - 使用位置目标（注解）：https://kotlinlang.org/docs/annotations.html#use-site-targets
+ - 序列化（kotlinx.serialization）：https://kotlinlang.org/docs/serialization.html
+ - 时间库（kotlinx-datetime）：https://kotlinlang.org/api/kotlinx-datetime/

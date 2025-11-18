@@ -85,7 +85,7 @@ body::after {
 .card {
   background: var(--card-bg);
   border-radius: var(--card-radius);
-  box-shadow: var(--card-shadow);
+  /* box-shadow: var(--card-shadow); */
   backdrop-filter: blur(6px);
   margin-bottom: var(--card-margin-bottom);
   padding: var(--card-padding);
@@ -223,4 +223,75 @@ pre {
     font-size: 1em;
     padding: 6px 8px;
   }
+}
+
+/* 代码高亮样式 */
+.comment {
+    color: #608b4e;
+    font-style: italic;
+}
+
+.keyword {
+    color: #c678dd;
+    font-weight: bold;
+}
+
+.method {
+    color: #d19a66;
+}
+
+.number {
+    color: #d19a66;
+}
+
+.string {
+    color: #98c379;
+}
+
+.highlight {
+    color: #e5c07b;
+    background: rgba(229, 192, 123, 0.1);
+    padding: 1px 3px;
+    border-radius: 3px;
+}
+
+/* 提示框样式 */
+.tip {
+    background: linear-gradient(135deg, #2b7489, #1a5270);
+    border-left: 4px solid #3b82f6;
+    color: #e8f5ff;
+    padding: 8px 12px;
+    margin: 6px 0;
+    border-radius: 6px;
+    font-size: 0.9em;
+    position: relative;
+}
+
+.tip::before {
+    content: "💡";
+    position: absolute;
+    left: -2px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.8em;
+}
+
+.warning {
+    background: linear-gradient(135deg, #854d0e, #713f12);
+    border-left: 4px solid #f0883e;
+    color: #ffeaa7;
+    padding: 8px 12px;
+    margin: 6px 0;
+    border-radius: 6px;
+    font-size: 0.9em;
+    position: relative;
+}
+
+.warning::before {
+    content: "⚠️";
+    position: absolute;
+    left: -2px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.8em;
 }

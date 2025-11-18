@@ -1,11 +1,12 @@
 /*
- * 基于 URL 参数的自动搜索与单结果跳转
+ * 基于 URL 参数的自动搜索与单结果跳转 + 键盘导航
  * - 参数：?q=关键词[&in-desc=1]
  * - 行为：
  *   1) 若存在 q：回填搜索框并触发筛选（大小写不敏感）
  *   2) 若匹配结果仅 1 项：直接跳转到该卡片链接（location.assign 保留历史）
  *   3) 若匹配结果 ≥ 2：聚焦搜索框并平滑滚动到第一个匹配项
  *   4) in-desc=1 时包含简介参与搜索；否则仅按标题匹配
+ *   5) 键盘导航：方向键选择高亮，回车跳转
  */
 (function () {
   function onReady(fn) {
@@ -87,6 +88,119 @@
         try { vis[0].scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (e) { /* ignore */ }
       }
     }
+
+    // 键盘导航功能
+    function initKeyboardNavigation() {
+      var highlightedIndex = -1;
+      var visibleCardsCache = [];
+
+      function updateVisibleCardsCache() {
+        visibleCardsCache = visibleCards();
+      }
+
+      function clearHighlights() {
+        var highlighted = document.querySelectorAll('.card-highlight');
+        highlighted.forEach(function(card) {
+          card.classList.remove('card-highlight');
+        });
+        highlightedIndex = -1;
+      }
+
+      function highlightCard(index) {
+        clearHighlights();
+        if (visibleCardsCache.length === 0 || index < 0 || index >= visibleCardsCache.length) return;
+
+        highlightedIndex = index;
+        var card = visibleCardsCache[index];
+        card.classList.add('card-highlight');
+
+        // 确保高亮项可见
+        try {
+          card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } catch (e) { /* ignore */ }
+      }
+
+      function navigateToHighlighted() {
+        if (highlightedIndex >= 0 && highlightedIndex < visibleCardsCache.length) {
+          var card = visibleCardsCache[highlightedIndex];
+          var link = card.querySelector('.link');
+          var href = link && link.getAttribute('href');
+          if (href) {
+            try {
+              var abs = new URL(href, window.location.href).href;
+              window.location.assign(abs);
+            } catch (e) {
+              window.location.href = href;
+            }
+          }
+        } else if (visibleCardsCache.length === 1) {
+          // 如果没有高亮项但只有1个结果，跳转到唯一结果
+          var link = visibleCardsCache[0].querySelector('.link');
+          var href = link && link.getAttribute('href');
+          if (href) {
+            try {
+              var abs = new URL(href, window.location.href).href;
+              window.location.assign(abs);
+            } catch (e) {
+              window.location.href = href;
+            }
+          }
+        }
+      }
+
+      // 监听键盘事件
+      document.addEventListener('keydown', function(ev) {
+        // 排除在其他输入框中的情况，但允许在任何时候进行键盘导航
+        if (document.activeElement && (
+            document.activeElement.tagName === 'INPUT' && document.activeElement.type !== 'search' && document.activeElement.id !== 'searchBox' ||
+            document.activeElement.tagName === 'TEXTAREA'
+        )) {
+          return;
+        }
+
+        updateVisibleCardsCache();
+
+        switch (ev.key) {
+          case 'ArrowDown':
+            ev.preventDefault();
+            if (visibleCardsCache.length > 0) {
+              var nextIndex = highlightedIndex + 1;
+              if (nextIndex >= visibleCardsCache.length) {
+                nextIndex = 0; // 循环到第一个
+              }
+              highlightCard(nextIndex);
+            }
+            break;
+
+          case 'ArrowUp':
+            ev.preventDefault();
+            if (visibleCardsCache.length > 0) {
+              var prevIndex = highlightedIndex - 1;
+              if (prevIndex < 0) {
+                prevIndex = visibleCardsCache.length - 1; // 循环到最后一个
+              }
+              highlightCard(prevIndex);
+            }
+            break;
+
+          case 'Enter':
+            ev.preventDefault();
+            navigateToHighlighted();
+            break;
+        }
+      });
+
+      // 当搜索内容变化时，更新可见卡片缓存并清除高亮
+      if (search) {
+        search.addEventListener('input', function() {
+          updateVisibleCardsCache();
+          clearHighlights();
+        });
+      }
+    }
+
+    // 初始化键盘导航
+    initKeyboardNavigation();
   });
 })();
 

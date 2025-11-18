@@ -13,7 +13,8 @@ const he = require('he');
 const pkg = require(path.join(process.cwd(), 'package.json'));
 
 // 需要扫描的 cheatsheet 根目录
-const ROOTS = ['cheatsheets', 'cheatsheets-import'];
+// 决策：仅从 `cheatsheets/` 目录收集数据，避免发布时混入导入源目录
+const ROOTS = ['cheatsheets'];
 const TEMPLATE_PATH = path.join(process.cwd(), 'templates', 'nav.template.html');
 const OUTPUT_PATH = path.join(process.cwd(), 'index.html');
 

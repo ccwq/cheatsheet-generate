@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>jetpack-compose</title>
+  <link rel="stylesheet" href="../../css/variables.css">
+  <link rel="stylesheet" href="../../css/common.css">
+  <style>:root{--colWidth:340px;--gap:16px}
+    .hlink{color:#93cdfc;text-decoration:none;margin-left:6px}
+    .hlink:hover{text-decoration:underline}
+  </style>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png" />
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png" />
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <span class="title">Jetpack Compose 核心用法</span>
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+    </div>
+
+    <div class="cheat-columns" id="columns">
+
+      <div class="card">
+        <h2>@Composable 基础 <a class="hlink" href="https://developer.android.com/develop/ui/compose" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>以 @Composable 声明；仅在组合阶段调用组合 API</li>
+          <li>布局：Row/Column/Box/Spacer；约束与对齐由 Modifier 控制</li>
+          <li>预览：@Preview 多参数展示（设备/主题/字体缩放）</li>
+          <li>示例：<pre class="code">@Composable
+fun Greeting(name: String) { Text("Hello, $name") }</pre></li>
+          <!-- 新增：基础与思想补充 -->
+          <li>组合三阶段：<b>Compose</b> → <b>Layout</b> → <b>Draw</b></li>
+          <li>无/有状态拆分：UI 无副作用；状态上提（State hoisting）</li>
+          <li>依赖注入：<code>CompositionLocal</code> 与 <code>CompositionLocalProvider</code> 覆盖提供</li>
+          <li>上下文：<code>LocalContext.current</code>、<code>LocalDensity.current</code>、<code>LocalLayoutDirection</code></li>
+          <li>示例：<pre class="code">val LocalGreeting = staticCompositionLocalOf { "Hi" }
+@Composable fun Banner() {
+  CompositionLocalProvider(LocalGreeting provides "你好") {
+    Text(LocalGreeting.current)
+  }
+}</pre></li>
+          <li>保存：<code>rememberSaveable</code> + <code>Saver</code> 自定义序列化保存跨重建</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>状态与重组 <a class="hlink" href="https://developer.android.com/develop/ui/compose/state" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>记忆：<code>var s by remember { mutableStateOf(0) }</code>；<code>rememberSaveable</code> 跨重建</li>
+          <li>派生：<code>val even by remember { derivedStateOf { s % 2 == 0 } }</code></li>
+          <li>上提：State hoisting 将状态上移，Composable 保持无副作用</li>
+          <li>稳定性：优先传递稳定类型；避免捕获不稳定 lambda 触发重组</li>
+          <!-- 新增：更细化的状态类型，减少装箱产生的分配开销 -->
+          <li>整型状态：<code>mutableIntStateOf</code>/<code>mutableLongStateOf</code>（减少装箱）</li>
+          <li>保持最新引用：<code>val current by rememberUpdatedState(value)</code> 避免闭包陈旧</li>
+          <li>集合：<code>mutableStateListOf</code>/<code>mutableStateMapOf</code> 或 <code>SnapshotStateList</code></li>
+          <li>记忆键：<code>remember(key1, key2) { ... }</code> 键变化即重建记忆值</li>
+          <li>昂贵计算：用 <code>derivedStateOf</code> 缓存并延迟计算（按需）</li>
+          <li>数据不可变：数据类尽量不可变；必要时 <code>@Immutable</code>/<code>@Stable</code></li>
+          <li>Flow 转状态：优先 <code>collectAsStateWithLifecycle()</code>（见“Lifecycle”卡）</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>副作用与生命周期 <a class="hlink" href="https://developer.android.com/develop/ui/compose/side-effects" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>启动：<code>LaunchedEffect(key) { /* suspend work */ }</code></li>
+          <li>释放：<code>DisposableEffect(key) { onDispose{ /* clean */ } }</code></li>
+          <li>快照：<code>snapshotFlow { state }</code> 转 Flow 并收集</li>
+          <li>作用域：<code>val scope = rememberCoroutineScope()</code> 触发事件</li>
+          <!-- 新增：补充常见副作用 API -->
+          <li>一次性副作用：<code>SideEffect { /* commit to UI tree */ }</code></li>
+          <li>将外部源转为状态：<code>produceState(initial) { /* emit via value= */ }</code></li>
+          <li>只执行一次：<code>LaunchedEffect(Unit)</code>；依赖改变即重启副作用</li>
+          <li>示例：<pre class="code">@Composable
+fun UserPanel(vm: VM){
+  val user by produceState<User?>(null) {
+    value = runCatching { vm.load() }.getOrNull()
+  }
+  user?.let { Text(it.name) }
+}</pre></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>布局与修饰符 <a class="hlink" href="https://developer.android.com/develop/ui/compose/layouts" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>常用：<code>Modifier.padding/size/fillMaxWidth/weight</code></li>
+          <li>排列/对齐：<code>Arrangement.*</code> 与 <code>Alignment.*</code> 组合</li>
+          <li>自定义：<code>Layout{{ measurables, constraints -> /* measure/place */ }}</code></li>
+          <li>测量策略：优先考虑最小/最大约束与基线对齐</li>
+          <!-- 新增：进阶布局触点（只点到为止） -->
+          <li>约束布局：<code>ConstraintLayout</code>（可选依赖）</li>
+          <li>复杂场景：<code>SubcomposeLayout</code> 用于先测后绘/延迟子项</li>
+          <li>尺寸约束：<code>widthIn/heightIn</code>；比例：<code>aspectRatio</code>；层级：<code>zIndex</code></li>
+          <li>定位：<code>onGloballyPositioned</code> 获取坐标与尺寸；密度：<code>LocalDensity</code></li>
+          <li>绘制：<code>drawBehind</code>/<code>drawWithContent</code> 自定义绘制</li>
+          <li>裁剪/圆角：<code>clip(RoundedCornerShape(...))</code>、<code>border</code>/<code>background</code></li>
+          <li>示例：<pre class="code">Box(Modifier
+  .size(88.dp)
+  .drawBehind { drawCircle(color = Color(0x2288CCFF)) }
+){ /* content */ }</pre></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>列表与懒加载 <a class="hlink" href="https://developer.android.com/develop/ui/compose/lists" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li><pre class="code">LazyColumn {
+  items(items, key = { it.id }) { item -> ItemRow(item) }
+}</pre></li>
+          <li>稳定 key：避免错位与无用重组；配合 <code>remember</code> 缓存</li>
+          <li>分页：Paging3 + <code>collectAsLazyPagingItems()</code></li>
+          <li>占位：骨架屏/渐变 shimmer 与 <code>animate*</code> 系列</li>
+          <!-- 新增：列表增强 -->
+          <li>粘性头：<code>stickyHeader</code>；网格：<code>LazyVerticalGrid</code>（<code>GridCells</code>）</li>
+          <li>性能：尽量使用 <code>item {}</code>/<code>items {}</code> + <code>key</code>，避免重组抖动</li>
+          <li>内容类型：<code>contentType</code> 有助回收与复用</li>
+          <li>索引：<code>itemsIndexed</code>；位置动画：<code>animateItemPlacement()</code></li>
+          <li>滚动：<code>val state = rememberLazyListState()</code> + <code>animateScrollToItem</code></li>
+          <li>Paging 状态：<code>LazyPagingItems.loadState</code> 处理加载/错误/重试</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Material3 与主题 <a class="hlink" href="https://developer.android.com/develop/ui/compose/designsystems/material3" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>使用 <code>MaterialTheme(colorScheme, typography, shapes)</code></li>
+          <li>动态色（Android 12+）：<code>dynamicDarkColorScheme()</code></li>
+          <li>组件：Button/Card/Scaffold/Snackbar/NavigationBar 等</li>
+          <li>可访问性：对比度、触控目标尺寸、TalkBack 标签</li>
+          <li>暗色：<code>isSystemInDarkTheme()</code> 切换；动态色不可用时回退静态方案</li>
+          <li>Scaffold：提供 <code>snackbarHost</code>、<code>topBar</code>、<code>bottomBar</code> 等插槽</li>
+          <li>形状与排版：<code>MaterialTheme.shapes</code>/<code>typography</code> 在组件内复用</li>
+          <li>按钮参数：<code>ButtonDefaults</code> 自定义颜色与内边距</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>导航与多模块 <a class="hlink" href="https://developer.android.com/develop/ui/compose/navigation" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li><pre class="code">NavHost(navController, startDestination = "home") {
+  composable("home") { Home() }
+  composable("detail/{id}") { backStack -> Detail(backStack["id"]) }
+}</pre></li>
+          <li>模块化：UI/Domain/Data 分层；公开稳定 UI API</li>
+          <li>ViewModel：<code>hiltViewModel()</code> 或手动提供</li>
+          <li>保存：<code>rememberSaveable</code> + Saver 保存关键状态</li>
+          <!-- 新增：导航增强 -->
+          <li>控制器：<code>val navController = rememberNavController()</code></li>
+          <li>深链接：<code>navDeepLink</code>；嵌套图与返回栈保存</li>
+          <li>参数：<code>navArgument</code> + <code>NavType</code>（整型/布尔/枚举/Parcelable）</li>
+          <li>返回：<code>popUpTo</code>/<code>launchSingleTop</code>/<code>restoreState</code> 组合</li>
+          <li>多栈：BottomBar 多导航栈（每个 tab 一个 back stack）</li>
+          <li>第三方：<code>accompanist-navigation-animation</code> 的 <code>AnimatedNavHost</code>（可选）</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>动画与手势 <a class="hlink" href="https://developer.android.com/develop/ui/compose/animation" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li><code>animate*AsState</code> 与 <code>updateTransition</code> 构建状态动画</li>
+          <li>手势：<code>pointerInput</code>、<code>detectTapGestures</code>；协作嵌套滚动</li>
+          <li>性能：避免在动画每帧分配对象；尽量使用 <code>remember</code></li>
+          <!-- 新增：常用过渡组件 -->
+          <li>可见性：<code>AnimatedVisibility</code>；内容切换：<code>AnimatedContent</code>；淡入淡出：<code>Crossfade</code></li>
+          <li>无限动画：<code>rememberInfiniteTransition()</code> 周期性动画</li>
+          <li>插值器：<code>spring/tween/keyframes</code>、<code>repeatable</code>、<code>snap</code></li>
+          <li>拖拽/滑动：<code>draggable</code>/<code>swipeable</code>；<code>rememberSplineBasedDecay()</code> 惯性</li>
+          <li>示例：<pre class="code">val alpha by animateFloatAsState(if (shown) 1f else 0f)
+Box(Modifier.alpha(alpha))</pre></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>测试与互操作 <a class="hlink" href="https://developer.android.com/develop/ui/compose/testing" target="_blank">&gt;&gt;&gt;</a> <a class="hlink" href="https://developer.android.com/develop/ui/compose/interop/interop-apis" target="_blank">Interop</a></h2>
+        <ul>
+          <li>UI 测试：<code>composeTestRule.onNodeWithText(...).assertIsDisplayed()</code></li>
+          <li>互操作：<code>AndroidView</code> 嵌入 View；<code>ComposeView</code> 嵌入 Compose</li>
+          <li>性能：使用 <code>Baseline Profiles</code> 优化首帧与滚动</li>
+          <!-- 新增：测试与互操作要点 -->
+          <li>语义：<code>Modifier.semantics { }</code> 与 <code>testTag</code> 作为稳定选择器</li>
+          <li>ComposeView：设置 <code>setViewCompositionStrategy</code> 管理生命周期</li>
+          <li>规则：<code>createComposeRule()</code>/<code>createAndroidComposeRule&lt;Activity&gt;()</code></li>
+          <li>动作：<code>performClick/performTextInput</code>；等待：<code>waitUntil</code>/<code>awaitIdle</code></li>
+          <li>AndroidView：使用 <code>update</code> 同步状态；避免重复创建 View</li>
+        </ul>
+      </div>
+
+      <!-- 新增：Lifecycle 与 Flow 收集 -->
+      <div class="card">
+        <h2>Lifecycle 与 Flow 收集 <a class="hlink" href="https://developer.android.com/topic/libraries/architecture/lifecycle" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>与生命周期对齐：<code>collectAsStateWithLifecycle()</code>（<code>lifecycle-runtime-compose</code>）</li>
+          <li>示例：<pre class="code">val uiState by viewModel.state.collectAsStateWithLifecycle()</pre></li>
+          <li>场景：列表分页、搜索防抖、仅在前台收集</li>
+          <li>等效方案：<code>LaunchedEffect</code> + <code>repeatOnLifecycle</code> 收集</li>
+          <li>ViewModel：在 VM 层 <code>stateIn</code>/<code>shareIn</code> 稳定曝光 UI 状态</li>
+        </ul>
+      </div>
+
+      <!-- 新增：文本输入与焦点 -->
+      <div class="card">
+        <h2>文本输入与焦点 <a class="hlink" href="https://developer.android.com/develop/ui/compose/text" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>键盘选项：<code>keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search)</code></li>
+          <li>键盘动作：<code>keyboardActions = KeyboardActions(onSearch = { ... })</code></li>
+          <li>焦点控制：<code>val focus = remember { FocusRequester() }</code> + <code>modifier.focusRequester(focus)</code></li>
+          <li>管理器：<code>val fm = LocalFocusManager.current</code>（<code>fm.clearFocus()</code> 隐藏键盘）</li>
+          <li>输入框：<code>TextField/OutlinedTextField</code>；<code>singleLine/maxLines</code></li>
+          <li>显示：<code>placeholder</code>/<code>label</code>；变换：<code>VisualTransformation</code></li>
+          <li>焦点属性：<code>focusProperties</code> 自定义焦点转移；监听 <code>onFocusChanged</code></li>
+          <li>视野：<code>bringIntoViewRequester</code> 与 IME 顶起配合</li>
+        </ul>
+      </div>
+
+      <!-- 新增：资源与图片加载 -->
+      <div class="card">
+        <h2>资源与图片加载 <a class="hlink" href="https://developer.android.com/develop/ui/compose/graphics/images" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>本地资源：<code>Image(painterResource(R.drawable.cover), contentDescription = null)</code></li>
+          <li>网络图片（Coil）：<code>AsyncImage(model, contentDescription)</code> 占位/错误图</li>
+          <li>裁剪模式：<code>contentScale = ContentScale.Crop/Fit/Inside</code></li>
+          <li>形状：<code>Modifier.clip(CircleShape)</code> + <code>border</code> 头像样式</li>
+          <li>Coil 构建：<pre class="code">val req = ImageRequest.Builder(context)
+  .data(url).crossfade(true)
+  .placeholder(R.drawable.ph).error(R.drawable.err)
+  .build()
+AsyncImage(model = req, contentDescription = null)</pre></li>
+        </ul>
+      </div>
+
+      <!-- 新增：可访问性与语义 -->
+      <div class="card">
+        <h2>可访问性与语义 <a class="hlink" href="https://developer.android.com/develop/ui/compose/accessibility" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>语义描述：<code>Modifier.semantics { contentDescription = "..." }</code></li>
+          <li>角色/合并：<code>role = Role.Button</code>；<code>mergeDescendants = true</code></li>
+          <li>只读覆盖：<code>Modifier.clearAndSetSemantics { }</code>；状态：<code>stateDescription</code></li>
+          <li>标题：<code>heading()</code> 标记分组标题；禁用项：<code>disabled()</code></li>
+          <li>进度：提供范围与值；开关：确保 <code>toggleable</code> 与描述准确</li>
+          <li>测试：与 <code>onNode(hasTestTag()/hasContentDescription())</code> 搭配</li>
+        </ul>
+      </div>
+
+      <!-- 新增：性能与稳定性最佳实践 -->
+      <div class="card">
+        <h2>性能与稳定性 <a class="hlink" href="https://developer.android.com/develop/ui/compose/performance" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>稳定模型：<code>@Stable</code>/<code>@Immutable</code>；避免可变公开字段</li>
+          <li>记忆：<code>remember</code>/<code>derivedStateOf</code>；在动画/列表中避免每帧分配</li>
+          <li>Lazy 列表：提供稳定 <code>key</code>；避免捕获不稳定 lambda</li>
+          <li>更新引用：<code>rememberUpdatedState</code>；差分绘制优先</li>
+          <li>工具：Layout Inspector、Compose Tracing、Baseline Profiles（Macrobenchmark）</li>
+          <li>阶段职责：计算放在 Compose；I/O 放在副作用；绘制放在 Draw</li>
+          <li>避免布局抖动：固定 <code>contentType</code> 与稳定尺寸，减少重测量</li>
+          <li>图片：开启 crossfade 需评估性能；使用内存缓存策略</li>
+        </ul>
+      </div>
+
+      <!-- 新增：预览技巧 -->
+      <div class="card">
+        <h2>预览技巧 <a class="hlink" href="https://developer.android.com/develop/ui/compose/tooling/previews" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>多主题：<code>@PreviewLightDark</code>；动态色：<code>@PreviewDynamicColors</code></li>
+          <li>字体缩放：<code>@PreviewFontScale</code>；多设备参数化预览</li>
+          <li>可交互预览：使用参数构造不同状态场景</li>
+          <li>系统 UI：<code>@Preview(showSystemUi = true)</code>；背景：<code>showBackground</code></li>
+          <li>设备：<code>@Preview(device = "id:pixel_6")</code> 等预设</li>
+          <li>成组：定义多个 <code>@Preview</code> 覆盖光/暗/字体缩放组合</li>
+        </ul>
+      </div>
+
+      <!-- 新增：窗口与系统栏 -->
+      <div class="card">
+        <h2>窗口与系统栏 <a class="hlink" href="https://developer.android.com/develop/ui/compose/layouts/insets" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>安全区域：<code>statusBarsPadding()</code>/<code>navigationBarsPadding()</code>/<code>systemBarsPadding()</code></li>
+          <li>返回处理：<code>BackHandler(enabled) { /* handle back */ }</code></li>
+          <li>系统栏着色：accompanist-systemuicontroller（可选依赖）</li>
+          <li>输入法：<code>imePadding()</code>/<code>windowInsetsPadding(WindowInsets.ime)</code></li>
+          <li>边到边：透明系统栏 + 内边距适配，确保可触达</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+  <script>
+    const slider=document.getElementById('columnWidth');
+    const widthVal=document.getElementById('widthVal');
+    function apply(v){document.documentElement.style.setProperty('--colWidth',v+'px');widthVal.textContent=v+'px'}
+    slider.addEventListener('input',e=>apply(e.target.value));
+    apply(slider.value);
+  </script>
+</body>
+</html>

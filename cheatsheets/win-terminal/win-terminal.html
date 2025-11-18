@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>win-terminal</title>
+  <link rel="stylesheet" href="../../css/variables.css">
+  <link rel="stylesheet" href="../../css/common.css">
+  <style>:root{--colWidth:340px;--gap:16px}
+    .hlink{color:#93cdfc;text-decoration:none;margin-left:6px}
+    .hlink:hover{text-decoration:underline}
+  </style>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png" />
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png" />
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <span class="title">Windows Terminal 配置与操作</span>
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+    </div>
+
+    <div class="cheat-columns" id="columns">
+
+      <div class="card">
+        <h2>配置文件（settings.json） <a class="hlink" href="https://learn.microsoft.com/en-us/windows/terminal/customize-settings/settings-json" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>打开 JSON：设置 → 右上角「打开 JSON 文件」</li>
+          <li>关键段：<code>profiles.list</code>、<code>actions</code>、<code>schemes</code>、<code>defaults</code></li>
+          <li>示例：<pre class="code">{
+  "profiles": {
+    "defaults": { "font": { "face": "Cascadia Code", "size": 12 } },
+    "list": [ { "name": "CMD", "commandline": "cmd.exe" } ]
+  }
+}</pre></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>常用动作（actions） <a class="hlink" href="https://learn.microsoft.com/en-us/windows/terminal/customize-settings/actions" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>新建/关闭标签：<code>newTab</code>（<code>Ctrl+Shift+T</code>）/ <code>closeTab</code>（<code>Ctrl+Shift+W</code>）</li>
+          <li>命令面板：<code>commandPalette</code>（<code>Ctrl+Shift+P</code>）</li>
+          <li>分屏：<pre class="code">{ "command": { "action": "splitPane", "split": "auto", "size": 0.5 } }</pre></li>
+          <li>切换聚焦：<code>moveFocus</code>；调整比例：<code>resizePane</code></li>
+          <li>复制/粘贴：<code>copy</code> / <code>paste</code>；查找：<code>find</code></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>分屏与切换 <a class="hlink" href="https://learn.microsoft.com/en-us/windows/terminal/panes" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>水平/垂直：<code>split: "horizontal|vertical"</code>，默认可自动判定</li>
+          <li>快捷键：<code>Alt+Shift+D</code> 复制分屏；<code>Ctrl+Shift+PageUp/Down</code> 切换标签</li>
+          <li>移动焦点：<code>moveFocus</code>；调整比例：<code>resizePane</code></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>外观与配色 <a class="hlink" href="https://learn.microsoft.com/en-us/windows/terminal/customize-settings/appearance" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>配色：在 <code>schemes</code> 定义并在 profile 绑定 <code>colorScheme</code></li>
+          <li>亚克力与透明：<code>useAcrylic</code>、<code>opacity</code>（慎用以免文字不清）</li>
+          <li>字体/光标：<code>font.face/size</code>、<code>cursorShape</code> 与 <code>cursorColor</code></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>与 CMD/PowerShell 集成 <a class="hlink" href="https://learn.microsoft.com/en-us/windows/terminal/" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>CMD：结合 Clink 注入增强（在 Profile commandline 加入注入命令）</li>
+          <li>PowerShell：启用 PSReadLine、Oh-My-Posh 等获得补全与主题</li>
+          <li>默认终端：Windows 设置 → 隐私与安全 → 开发者选项/默认终端</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>键位绑定示例 <a class="hlink" href="https://learn.microsoft.com/en-us/windows/terminal/customize-settings/actions" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li><pre class="code">{
+  "actions": [
+    { "command": { "action": "splitPane", "split": "vertical" }, "keys": "alt+|" },
+    { "command": "newTab", "keys": "ctrl+shift+t" },
+    { "command": { "action": "moveFocus", "direction": "left" }, "keys": "alt+left" }
+  ]
+}</pre></li>
+          <li class="desc">使用 <code>actions</code> 数组集中管理快捷键与动作</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+  <script>
+    const slider=document.getElementById('columnWidth');
+    const widthVal=document.getElementById('widthVal');
+    function apply(v){document.documentElement.style.setProperty('--colWidth',v+'px');widthVal.textContent=v+'px'}
+    slider.addEventListener('input',e=>apply(e.target.value));
+    apply(slider.value);
+  </script>
+</body>
+</html>

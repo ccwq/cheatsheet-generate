@@ -1,0 +1,244 @@
+
+    <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png" />
+    <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png" />
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>clink</title>
+  <link rel="stylesheet" href="../../css/variables.css">
+  <link rel="stylesheet" href="../../css/common.css">
+  <style>
+    :root{--colWidth:340px;--gap:16px}
+    .hlink{color:#93cdfc;text-decoration:none;margin-left:6px}
+    .hlink:hover{text-decoration:underline}
+  </style>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png" />
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png" />
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <span class="title">Clink（Windows CMD 增强）</span>
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+    </div>
+
+    <div class="cheat-columns" id="columns">
+
+      <div class="card">
+        <h2>注入与自启动 <a class="hlink" href="https://chrisant996.github.io/clink/clink.html#installation" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>临时注入：<code>clink inject</code>；信息：<code>clink info</code>；帮助：<code>clink --help</code></li>
+          <li>自启动（autorun）：<code>clink autorun install</code> / <code>clink autorun uninstall</code></li>
+          <li>Windows Terminal：在 CMD Profile 下默认即可注入（增强 CMD，不影响 PowerShell）</li>
+          <li class="desc">如遇拦截请加白名单；便携版亦可</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>自动建议 <a class="hlink" href="https://chrisant996.github.io/clink/clink.html#gettingstarted_autosuggest" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>插入：<code>Right/End</code> 整条；下一词：<code>Ctrl+Right</code>；至空格：<code>Shift+Right</code></li>
+          <li>列表：<code>F2</code> 打开/关闭建议列表</li>
+          <li>提示：<code>clink set autosuggest.hint right</code> 显示 <code>Right=Insert</code></li>
+          <li class="desc">建议来自历史/文件/补全；不干扰 Tab 补全</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>补全（Tab/Ctrl+Space） <a class="hlink" href="https://chrisant996.github.io/clink/clink.html#how-completion-works" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li><code>Tab</code>：Windows 循环候选（或 Bash 风格最长公共前缀+再次 Tab 列出）</li>
+          <li><code>Ctrl+Space</code>：交互式补全列表；<code>Alt+=</code> 显示候选</li>
+          <li>可执行优先：<code>clink set exec.enable true|false</code> 控制首词可执行补全</li>
+          <li class="desc">内置：可执行、别名、命令、目录、环境变量；Lua 可扩展</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>历史（持久化） <a class="hlink" href="https://chrisant996.github.io/clink/clink.html#saved-command-history" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li><code>Up/Down</code> 浏览；前缀匹配：<code>PgUp/PgDn</code></li>
+          <li>弹窗列表：<code>F7</code> 或 <code>Ctrl+Alt+Up</code> 选择历史</li>
+          <li>增量搜索：<code>Ctrl+R</code> 反向；<code>Ctrl+S</code> 正向</li>
+          <li class="desc">历史跨会话保存，检索效率高</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>配置与脚本 <a class="hlink" href="https://chrisant996.github.io/clink/clink.html#clink-settings" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>目录：<code>%LOCALAPPDATA%/clink</code>；列出设置：<code>clink set</code> / <code>clink set &lt;name&gt;</code></li>
+          <li>示例：<code>clink set autosuggest.hint right</code>、<code>clink set exec.enable false</code>、<code>clink set clink.default_bindings windows</code></li>
+          <li>脚本：将 <code>*.lua</code> 放入配置目录；<code>profile.lua</code> 先于其他脚本</li>
+          <li>提示符：实现 <code>prompt_filter()</code> 或注册过滤器定制提示符</li>
+          <li class="desc">可按模块拆分脚本，便于维护（补全/提示符/键位等）</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>提示符自定义 <a class="hlink" href="https://chrisant996.github.io/clink/clink.html#custom-prompts" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>示例：<pre class="code">-- %LOCALAPPDATA%/clink/prompt.lua
+local function prompt_filter(prompt)
+  -- 显示当前目录与 git 分支
+  local cwd = os.getcwd()
+  local branch = os.getenv('GIT_BRANCH') or ''
+  return string.format("%s %s\n$ ", cwd, branch)
+end
+clink.prompt.register_filter(prompt_filter, 50)</pre></li>
+          <li>权重：第二参数控制过滤器顺序；值越大越后应用</li>
+          <li class="desc">结合环境/外部命令可渲染颜色与状态信息</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>参数补全（Argmatcher） <a class="hlink" href="https://chrisant996.github.io/clink/clink.html#extending-clink" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>基础：<pre class="code">-- matcher.lua
+local m = clink.argmatcher("myctl")
+  :addarg({"start","stop","status"})
+  :addflags({"--help","--verbose","-q"})
+clink.arg.register_parser("myctl", function (cmd, pos) return m end)</pre></li>
+          <li>混合：路径/文件补全与自定义候选混用；可添加描述与过滤</li>
+          <li class="desc">复杂场景可按子命令拆分 matcher，提升维护性</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>目录与便利性 <a class="hlink" href="https://chrisant996.github.io/clink/clink.html#directory-shortcuts" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>目录快捷：<code>dirname\</code> 等效 <code>cd /d dirname</code>；<code>..</code>/<code>...</code> 快速上跳；<code>cd -</code> 返回上个目录</li>
+          <li>doskey 扩展：<code>&amp;</code>/<code>|</code> 后也可展开别名与历史</li>
+          <li>“Terminate batch job?” 提示可自动应答（设置中启用）</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>快捷键速览 <a class="hlink" href="https://chrisant996.github.io/clink/clink.html#gettingstarted_keybindings" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>显示键位：<code>Alt+H</code></li>
+          <li>补全：<code>Tab</code>；交互补全：<code>Ctrl+Space</code>；显示候选：<code>Alt+=</code></li>
+          <li>自动建议：<code>Right/End</code> 插入；<code>Ctrl+Right</code>/<code>Shift+Right</code> 逐词；<code>F2</code> 列表</li>
+          <li>历史：<code>Up/Down</code>；<code>PgUp/PgDn</code> 前缀翻页；<code>F7</code>/<code>Ctrl+Alt+Up</code> 弹窗；<code>Ctrl+R/Ctrl+S</code> 增搜</li>
+          <li>编辑：撤销 <code>Ctrl+Z</code>；选择 <code>Shift+方向键</code></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>快捷配置 <a class="hlink" href="https://chrisant996.github.io/clink/clink.html#clink-settings" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>键位风格：<code>clink set clink.default_bindings windows</code>（或 <code>bash</code>）</li>
+          <li>建议提示：<code>clink set autosuggest.hint right</code>（或 <code>off</code>）</li>
+          <li>可执行补全：<code>clink set exec.enable true</code>（首词仅补全可执行）</li>
+          <li>查看/检索设置：<code>clink set</code> / <code>clink set &lt;name&gt;</code> 显示当前值与说明</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>输入着色（Colors） <a class="hlink" href="https://chrisant996.github.io/clink/clink.html#gettingstarted_colors" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>命令/参数/开关/补全状态以不同颜色显示，提升可读性</li>
+          <li>与 Argmatcher 协作可为候选附着色/描述</li>
+          <li>提示符与输入着色相互独立</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>建议列表（Suggestion List） <a class="hlink" href="https://chrisant996.github.io/clink/clink.html#suggestion-list" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li><code>F2</code> 开关列表；方向键导航，Enter 插入，Esc 关闭</li>
+          <li><code>autosuggest.hint</code> 控制右侧提示文案</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>.inputrc（Readline 初始化） <a class="hlink" href="https://chrisant996.github.io/clink/clink.html#init-file" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>绑定/重映射键位、配置 Readline 行为</li>
+          <li>示例：<pre class="code">"\e[1;5C": forward-word   # Ctrl+Right
+"\e[1;5D": backward-word  # Ctrl+Left
+TAB: menu-complete</pre></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>历史展开（History Expansion） <a class="hlink" href="https://chrisant996.github.io/clink/clink.html#using-history-expansion" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li><code>!!</code> 上一条；<code>!-2</code> 倒数第2条；<code>!grep</code> 最近以 grep 开头</li>
+          <li><code>^old^new^</code> 快速替换；<code>!:1</code> 第一参数；<code>!$</code> 最后一个参数</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Argmatcher 进阶 <a class="hlink" href="https://chrisant996.github.io/clink/clink.html#extending-clink" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>多级子命令：<pre class="code">-- myctl.lua
+local root = clink.argmatcher("myctl"):addarg({"user","job"})
+local user = clink.argmatcher():addarg({"add","del","list"}):addflags({"--name=","--id="})
+clink.arg.register_parser("myctl", function (cmd, pos)
+  if pos == 2 then return root end
+  if pos >= 3 and argv and argv[2]=="user" then return user end
+  return nil
+end)</pre></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>启动信息/Logo <a class="hlink" href="https://chrisant996.github.io/clink/clink.html#gettingstarted_logo" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>可选择隐藏启动时的版权与版本信息（Startup Message）</li>
+          <li class="desc">在 Settings 的“Startup Message/Logo”段根据偏好开启/关闭</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>增强的 doskey 展开 <a class="hlink" href="https://chrisant996.github.io/clink/clink.html#enhanced-doskey-expansion" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>即使在 <code>&amp;</code> 与 <code>|</code> 之后也可展开别名与历史</li>
+          <li>搭配历史展开（<code>!!</code>、<code>!$</code> 等）快速重复复杂命令</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>扩展/展开（Expand）</h2>
+        <ul>
+          <li><code>Ctrl+E</code>：就地展开 doskey 别名、环境变量与历史展开</li>
+          <li class="desc">在编辑状态预览最终执行命令，避免误输</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>常用脚本（Popular Scripts） <a class="hlink" href="https://chrisant996.github.io/clink/clink.html#popular-scripts" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>示例：Git 分支与仓库状态提示、命令高亮、路径智能补全等</li>
+          <li class="desc">可直接下载社区脚本放入配置目录，按需启用/修改</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>故障排查 <a class="hlink" href="https://github.com/chrisant996/clink/issues" target="_blank">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>杀软拦截注入：将 clink 安装目录加入白名单或使用便携版</li>
+          <li>Windows Terminal：给 CMD 配置启动命令以确保自动注入</li>
+          <li>与 PowerShell：Clink 只增强 CMD；可为 PowerShell 另配 PSReadLine</li>
+          <li>路径与编码：确保 CMD 代码页/字体与脚本输出一致；键位冲突可在 .inputrc 或设置中调整</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const slider=document.getElementById('columnWidth');
+    const widthVal=document.getElementById('widthVal');
+    function apply(v){document.documentElement.style.setProperty('--colWidth',v+'px');widthVal.textContent=v+'px'}
+    slider.addEventListener('input',e=>apply(e.target.value));
+    apply(slider.value);
+  </script>
+</body>
+</html>

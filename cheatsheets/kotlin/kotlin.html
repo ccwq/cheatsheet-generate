@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>kotlin</title>
+  <link rel="stylesheet" href="../../css/variables.css">
+  <link rel="stylesheet" href="../../css/common.css">
+  <style>:root{--colWidth:340px;--gap:16px}
+    .hlink{color:#93cdfc;text-decoration:none;margin-left:6px}
+    .hlink:hover{text-decoration:underline}
+  </style>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png" />
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png" />
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <span class="title">Kotlin 语言要点</span>
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+    </div>
+
+    <div class="cheat-columns" id="columns">
+
+      <div class="card">
+        <h2>基础语法 <a class="hlink" href="https://kotlinlang.org/docs/basic-syntax.html" target="_blank" title="官方文档">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>变量与类型后置：<code>val a: Int = 1</code>；类型推断</li>
+          <li>函数：<code>fun f(x: Int): Int = x + 1</code>；默认/命名参数</li>
+          <li>字符串模板：<code>"Hello $name"</code> 与 <code>"${expr}"</code></li>
+          <li>空安全：<code>String?</code>、<code>?.</code>、<code>?:</code>、<code>!!</code></li>
+          <!-- 新增：基础补充 -->
+          <li>原始字符串：<code>""" ... """</code> 多行 + <code>trimIndent/trimMargin</code></li>
+          <li>比较：<code>==</code> 结构相等，<code>===</code> 引用相等</li>
+          <li>顶层声明：文件顶层函数/属性；<code>const val</code> 仅顶层或 object/伴生</li>
+          <li>类型别名：<code>typealias UserId = String</code></li>
+          <li>包与导入：<code>import</code> 支持 <code>as</code> 重命名</li>
+          <li>约定：<a class="hlink" href="https://kotlinlang.org/docs/coding-conventions.html" target="_blank">编码规范</a></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>控制流与集合 <a class="hlink" href="https://kotlinlang.org/docs/control-flow.html" target="_blank" title="官方文档">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li><code>when</code> 表达式支持类型/范围/条件分支，返回值友好</li>
+          <li>区间：<code>1..10</code>、<code>downTo</code>、<code>step</code>、<code>until</code></li>
+          <li>集合：<code>listOf/mutableListOf</code>；<code>map/filter/flatMap/groupBy</code></li>
+          <li>解构：<code>val (a,b) = pair</code>；数据类提供 <code>componentN</code></li>
+          <!-- 新增：控制流补充 -->
+          <li>if/when/try 都是表达式，可直接赋值</li>
+          <li>循环：<code>for ((i,v) in list.withIndex())</code>、<code>repeat(n)</code></li>
+          <li>标签：<code>return@label</code>/<code>break@label</code>/<code>continue@label</code></li>
+          <li>try 表达式：<code>val v = try { parse() } catch(e:Exception){ -1 }</code></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>类与对象 <a class="hlink" href="https://kotlinlang.org/docs/classes.html" target="_blank" title="官方文档">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>数据类：<code>data class User(val id:Int, val name:String)</code></li>
+          <li>密封类型：<code>sealed class</code> / <code>sealed interface</code> 表达 ADT</li>
+          <li>对象：<code>object</code> 单例；<code>companion object</code> 伴生对象</li>
+          <li>扩展：<code>fun String.title(): String = ...</code>；属性与运算符重载</li>
+          <!-- 新增：类与对象补充 -->
+          <li>构造器：主构造 + <code>init</code>；次构造需 <code>this(...)</code> 链接</li>
+          <li>访问器：<code>get()/set()</code> 自定义；<code>field</code> 引用后备字段</li>
+          <li>可见性：<code>public/internal/protected/private</code></li>
+          <li>继承：<code>open/final/abstract</code>；接口可含默认实现</li>
+          <li>嵌套与内部：<code>nested</code>（静态） vs <code>inner</code>（持外部引用）</li>
+          <li>延迟：<code>lateinit var</code> 与 <code>by lazy { }</code></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>泛型与内联 <a class="hlink" href="https://kotlinlang.org/docs/generics.html" target="_blank" title="官方文档">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>型变：<code>out</code> 协变、<code>in</code> 逆变；边界 <code>&lt;T: Number&gt;</code></li>
+          <li>实化：<code>inline fun &lt;reified T&gt; parse(..)</code> 直接使用 <code>T::class</code></li>
+          <li>内联：<code>inline</code>、<code>noinline</code>、<code>crossinline</code></li>
+          <li>作用域函数：<code>let/apply/also/run/with</code> 选型与返回值对比</li>
+          <!-- 新增：泛型与内联补充 -->
+          <li>use-site 型变：<code>MutableList&lt;out T&gt;</code>/<code>in T</code> 限制读写</li>
+          <li>星投影：<code>List&lt;*&gt;</code>；多重约束：<code>where T: A, T: B</code></li>
+          <li>内联返回：非局部返回仅在 <code>inline</code> 可用；<code>crossinline</code> 禁止</li>
+          <li>实化用法：<code>is T</code> 检查、<code>Json.decodeFromString&lt;T&gt;(s)</code></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>协程与 Flow <a class="hlink" href="https://kotlinlang.org/docs/coroutines-overview.html" target="_blank" title="官方文档">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>Scope：<code>CoroutineScope + SupervisorJob</code>；结构化并发</li>
+          <li>构建器：<code>launch/async</code>；<code>withContext(Dispatchers.IO)</code></li>
+          <li>取消：协作检查 <code>isActive</code>；<code>withTimeout</code> 超时</li>
+          <li>Flow：<code>flow { emit(..) }</code>；<code>debounce/mapLatest/combine</code></li>
+          <!-- 新增：协程/Flow补充 -->
+          <li>作用域：<code>coroutineScope</code> vs <code>supervisorScope</code>（失败隔离）</li>
+          <li>异常：<code>CoroutineExceptionHandler</code>；结构化传播</li>
+          <li>上下文：<code>flowOn</code> 切换上游线程；<code>buffer/conflate</code></li>
+          <li>终端：<code>catch</code>/<code>retryWhen</code>/<code>onCompletion</code></li>
+          <li>热/冷：<code>StateFlow/SharedFlow</code> 与 <code>stateIn/shareIn</code></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>委托与值类型 <a class="hlink" href="https://kotlinlang.org/docs/delegation.html" target="_blank" title="官方文档">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>委托：<code>class C(b: B) : B by b</code> 组合优先</li>
+          <li>值类型：<code>@JvmInline value class</code> 轻量包装（避免装箱）</li>
+          <li>属性委托：<code>by lazy</code>、<code>Delegates.observable</code></li>
+          <!-- 新增：委托/值类型补充 -->
+          <li>vetoable：<code>Delegates.vetoable</code> 拦截写入</li>
+          <li>Map 委托：<code>class User(map: Map&lt;String,Any&gt;){ val name: String by map }</code></li>
+          <li>provideDelegate：自定义委托绑定逻辑</li>
+          <li>Value class 约束：单属性、无 init；泛型处可能装箱</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>空安全与类型系统 <a class="hlink" href="https://kotlinlang.org/docs/null-safety.html" target="_blank" title="官方文档">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>可空类型：<code>String?</code>；安全调用：<code>?.</code>；Elvis：<code>?:</code></li>
+          <li>安全转型：<code>as?</code>；非空断言：<code>!!</code>（避免滥用）</li>
+          <li>智能类型转换：<code>is</code> 判定后自动 smart cast</li>
+          <li>平台类型（JVM）：从 Java 导入的可空性未知，避免直接 <code>!!</code>，建议检查</li>
+          <!-- 新增：类型系统补充 -->
+          <li>链式：<code>a?.b?.c</code> + <code>let { }</code> 安全使用</li>
+          <li>Elvis 与控制流：<code>val x = y ?: return</code>/<code>throw</code></li>
+          <li>基本/顶级类型：<code>Any/Any?</code>、<code>Unit</code>、<code>Nothing</code></li>
+          <li>断言工具：<code>require/check/error</code> 报错与前置校验</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>函数与 Lambda <a class="hlink" href="https://kotlinlang.org/docs/functions.html" target="_blank" title="官方文档">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>默认/命名参数、可变参数 <code>vararg</code>；尾随 lambda</li>
+          <li>高阶函数：函数类型 <code>(A) -&gt; B</code>；函数引用 <code>::foo</code></li>
+          <li>尾递归：<code>tailrec fun fact(n:Int,...)</code> 编译器优化</li>
+          <li>内联：见下节；减少分配与提升性能（注意 inlining 开销）</li>
+          <!-- 新增：函数/Lambda补充 -->
+          <li>扩展函数类型：<code>String.(Int) -&gt; Unit</code> 作为回调</li>
+          <li>SAM 转换：对 Java 单方法接口可简化 lambda</li>
+          <li>函数引用：<code>::fun</code>/<code>Class::method</code>/<code>::prop</code></li>
+          <li>vararg 展开：<code>*array</code>；中缀：<code>infix fun</code></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>扩展与作用域函数 <a class="hlink" href="https://kotlinlang.org/docs/scope-functions.html" target="_blank" title="官方文档">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>扩展函数/属性：<code>fun String.words(): List&lt;String&gt;</code></li>
+          <li>作用域函数：<code>let</code>(返回 lambda 结果)、<code>also</code>(返回接收者)、<code>apply</code>(配置对象)、<code>run/with</code></li>
+          <li>选型建议：需要链式计算用 <code>let/run</code>；需要返回接收者用 <code>also/apply</code></li>
+          <li>避免滥用嵌套作用域导致可读性下降</li>
+          <!-- 新增：扩展/作用域函数补充 -->
+          <li>可空接收者扩展：<code>fun String?.isNullOrBlank()</code></li>
+          <li>遮蔽：成员优先于扩展；避免命名冲突</li>
+          <li>with 返回最后表达式；run/apply/also 差异对比</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>集合与序列 <a class="hlink" href="https://kotlinlang.org/docs/collections-overview.html" target="_blank" title="官方文档">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>集合：<code>listOf/mutableListOf</code>、<code>mapOf/mutableMapOf</code>、<code>setOf</code></li>
+          <li>序列（惰性）：<code>sequence{}</code>、<code>asSequence()</code>；适合大数据链式</li>
+          <li>常用操作：<code>map/filter/flatMap/groupBy/associate</code>、<code>zip/chunked/windowed</code></li>
+          <li>优先选择序列以减少中间集合分配；末端操作触发计算</li>
+          <!-- 新增：集合/序列补充 -->
+          <li>转换：<code>toMutableList/toList</code>；持久化集合（kotlinx.collections.immutable）</li>
+          <li>序列构建：<code>sequence { yield(...) }</code>、<code>generateSequence</code></li>
+          <li>惰性流水：<code>asSequence().map{ }.filter{ }.toList()</code></li>
+          <li>Map 视图：<code>mapKeys/mapValues</code>；<code>onEach</code> 调试</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>泛型进阶 <a class="hlink" href="https://kotlinlang.org/docs/generics.html" target="_blank" title="官方文档">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>型变：<code>out</code> 协变（只读生产者）、<code>in</code> 逆变（只写消费者）</li>
+          <li>星投影：<code>List&lt;*&gt;</code> 表示未知类型参数</li>
+          <li>边界：<code>&lt;T: Number&gt;</code>；多重边界 <code>&lt;T&gt; where T: A, T: B</code></li>
+          <li>实化参数：<code>inline fun &lt;reified T&gt; find():T?</code> 直接使用 <code>T::class</code></li>
+          <!-- 新增：泛型进阶补充 -->
+          <li>JVM 类型擦除：运行期无泛型，<code>reified</code> 协助检查</li>
+          <li>不变性：未声明型变时为不变，读写均受限</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>操作符/解构/数据类 <a class="hlink" href="https://kotlinlang.org/docs/operator-overloading.html" target="_blank" title="官方文档">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>操作符重载：实现 <code>operator fun plus/compareTo/get/set</code> 等</li>
+          <li>解构：实现 <code>componentN()</code> 或数据类自动生成</li>
+          <li>数据类：自动 <code>equals/hashCode/toString/copy</code> 与解构</li>
+          <li>中缀：<code>infix fun</code> 简化 DSL 表达（需单参数成员/扩展）</li>
+          <!-- 新增：操作符/数据类补充 -->
+          <li>约定：<code>in</code>/<code>contains</code>、<code>iterator</code>、<code>get/set</code> 等</li>
+          <li>copy 浅拷贝：嵌套对象需自行深拷贝</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>枚举/密封/对象 <a class="hlink" href="https://kotlinlang.org/docs/enum-classes.html" target="_blank" title="官方文档">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>枚举：可定义属性/方法；用 <code>when</code> 穷尽匹配</li>
+          <li>密封：<code>sealed class/interface</code> 受限层级便于穷尽检查</li>
+          <li>对象：<code>object</code> 单例；<code>companion object</code> 伴生对象</li>
+          <li>值类型：<code>@JvmInline value class</code> 轻量封装标量</li>
+          <!-- 新增：枚举/密封/对象补充 -->
+          <li>枚举扩展：枚举项可覆写属性/方法，<code>entries</code> 列举</li>
+          <li>密封穷尽：配合 <code>when</code> 无 <code>else</code>，更安全</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>注解与反射 <a class="hlink" href="https://kotlinlang.org/docs/annotations.html" target="_blank" title="官方文档">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>注解：<code>@Retention/@Target/@Repeatable</code> 等元注解</li>
+          <li>反射：<code>KClass</code>、属性/函数引用；<code>primaryConstructor</code> 等</li>
+          <li>JVM 注解：<code>@JvmOverloads/@JvmStatic/@JvmField</code> 等互操作优化</li>
+          <li>使用位置：<code>@field:</code>/<code>@get:</code>/<code>@param:</code> 指定作用域</li>
+          <li>注意：反射存在运行期开销；必要时用 codegen 替代</li>
+        </ul>
+      </div>
+
+      <!-- 新增：序列化与时间库 -->
+      <div class="card">
+        <h2>序列化与时间库 <a class="hlink" href="https://kotlinlang.org/docs/serialization.html" target="_blank" title="官方文档">序列化</a> <a class="hlink" href="https://kotlinlang.org/api/kotlinx-datetime/" target="_blank" title="官方文档">时间</a></h2>
+        <ul>
+          <li>序列化：<code>@Serializable</code> 数据类；<code>Json</code> 配置 <code>ignoreUnknownKeys/encodeDefaults</code></li>
+          <li>API：<code>Json.encodeToString(obj)</code> / <code>Json.decodeFromString&lt;T&gt;(str)</code></li>
+          <li>注解：<code>@SerialName</code> 重命名；<code>@Transient</code> 忽略；多态需注册</li>
+          <li>时间：<code>Clock.System.now()</code> 获取 <code>Instant</code>；<code>LocalDate/LocalDateTime</code></li>
+          <li>时区：<code>TimeZone.currentSystemDefault()</code>；<code>Instant.toLocalDateTime(tz)</code></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>协程进阶 <a class="hlink" href="https://kotlinlang.org/docs/flow.html" target="_blank" title="官方文档">&gt;&gt;&gt;</a></h2>
+        <ul>
+          <li>异常：<code>CoroutineExceptionHandler</code>；结构化传播与 <code>SupervisorJob</code></li>
+          <li>作用域：<code>viewModelScope/lifecycleScope</code>（Android）；<code>withContext</code> 切换 Dispatcher</li>
+          <li>通道与共享流：<code>Channel</code>、<code>StateFlow</code>、<code>SharedFlow</code></li>
+          <li>背压与缓冲：<code>buffer/conflate/flowOn</code>；终端操作 <code>collect</code></li>
+          <!-- 新增：协程进阶补充 -->
+          <li>通道：<code>Channel(capacity)</code>，<code>send/receive</code>；<code>produce</code> 构建</li>
+          <li>选择：<code>select { }</code> 多源选择（实验/高级）</li>
+          <li>SharedFlow/StateFlow：热流，<code>replay</code> 与粘性行为差异</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+  <script>
+    const slider=document.getElementById('columnWidth');
+    const widthVal=document.getElementById('widthVal');
+    function apply(v){document.documentElement.style.setProperty('--colWidth',v+'px');widthVal.textContent=v+'px'}
+    slider.addEventListener('input',e=>apply(e.target.value));
+    apply(slider.value);
+  </script>
+</body>
+</html>

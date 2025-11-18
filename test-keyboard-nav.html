@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>键盘导航测试</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        .result { background: #f5f5f5; padding: 10px; margin: 10px 0; }
+        iframe { width: 100%; height: 600px; border: 1px solid #999; }
+        .instructions { background: #e8f4fd; padding: 15px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Cheatsheet 键盘导航功能测试</h1>
+
+    <div class="instructions">
+        <h2>测试步骤：</h2>
+        <ol>
+            <li>在下方 iframe 中的导航页进行搜索测试</li>
+            <li>测试功能：方向键选择、回车跳转</li>
+            <li>记录测试结果</li>
+        </ol>
+    </div>
+
+    <div class="test-section">
+        <h3>测试用例 1：基本搜索和单结果跳转</h3>
+        <p>操作：搜索一个唯一的关键词（如 "android"），然后按回车键</p>
+        <div class="result" id="test1">等待测试...</div>
+    </div>
+
+    <div class="test-section">
+        <h3>测试用例 2：多结果方向键选择</h3>
+        <p>操作：搜索一个通用关键词（如 "shell"），使用方向键上下选择</p>
+        <div class="result" id="test2">等待测试...</div>
+    </div>
+
+    <div class="test-section">
+        <h3>测试用例 3：循环导航</h3>
+        <p>操作：在多结果情况下，连续按向下键，测试是否能循环到第一个</p>
+        <div class="result" id="test3">等待测试...</div>
+    </div>
+
+    <iframe src="index.html" id="testFrame"></iframe>
+
+    <script>
+        // 简单的测试记录功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const iframe = document.getElementById('testFrame');
+
+            // 监听 iframe 加载完成
+            iframe.onload = function() {
+                setTimeout(() => {
+                    document.getElementById('test1').innerHTML = '✓ 可以开始测试：在上方搜索框输入唯一关键词';
+                    document.getElementById('test2').innerHTML = '✓ 可以开始测试：输入通用关键词查看多个结果';
+                    document.getElementById('test3').innerHTML = '✓ 可以开始测试：测试方向键循环功能';
+                }, 1000);
+            };
+        });
+    </script>
+</body>
+</html>

@@ -32,7 +32,10 @@
       "Bash(move:*)",
       "WebFetch(domain:docs.litellm.ai)",
       "Bash(find:*)",
-      "Bash(powershell:*)"
+      "Bash(powershell:*)",
+      "Bash(node:*)",
+      "Bash(python:*)",
+      "Bash(start http://localhost:8000/cesium.html)"
     ],
     "deny": [],
     "ask": []
