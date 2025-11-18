@@ -1,469 +1,256 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <title>OpenSpec/Codex开发命令速查表</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- 引入公共CSS样式 -->
-    <link rel="stylesheet" href="../../css/variables.css">
-    <link rel="stylesheet" href="../../css/common.css">
-
-    <style>
-      /* 特有的样式调整 */
-      .cheat-columns {
-        /* 使用column-count布局 */
-        column-count: 4;
-      }
-
-      @media (max-width: 1500px) {
-        .cheat-columns {
-          column-count: 3;
-        }
-      }
-
-      @media (max-width: 1100px) {
-        .cheat-columns {
-          column-count: 2;
-        }
-      }
-
-      @media (max-width: 750px) {
-        .cheat-columns {
-          column-count: 1;
-        }
-      }
-
-      .panel label {
-        color: #ffe49b; /* 保持原有的label颜色 */
-      }
-
-      .slider-bar {
-        min-width: 120px; /* 保持原有的滑块宽度 */
-      }
-
-      .slider-val {
-        min-width: 28px; /* 保持原有的值显示宽度 */
-      }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OpenSpec 规格先行工作流速查表</title>
+  <link rel="stylesheet" href="../../css/variables.css" />
+  <link rel="stylesheet" href="../../css/common.css" />
+  <style>
+    :root { --colWidth: 360px; --gap: 16px; }
+    .panel label, .panel .title { color: var(--panel-accent); }
+    .cheat-columns { column-width: var(--colWidth); column-gap: var(--gap); }
+    .card code { font-weight: 600; }
+    .ext { color:#93cdfc; margin-left: 6px; font-size: 12px; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  </style>
 
     <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png" />
     <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png" />
   </head>
 <body>
-    <div class="container">
-        <div class="panel">
-            <span style="color:#7bfbb7;font-size:16px;margin-right:auto;">OpenSpec/Codex速查表</span>
-            <label for="columnWidth">🔧 调整每列宽度：</label>
-            <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
-            <span id="widthVal" class="slider-val">340px</span>
-        </div>
-        <div class="cheat-columns" id="columns">
-            <!-- 安装配置卡片 -->
-            <div class="card">
-                <h2>🚀 安装配置 <a href="#" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-                <h3>安装方式</h3>
-                <ul>
-                    <li><code>npm install -g @openai/codex</code> : NPM全局安装</li>
-                    <li><code>brew install codex</code> : Homebrew安装</li>
-                </ul>
-                <h3>基本启动</h3>
-                <ul>
-                    <li><code>codex</code> : 交互式TUI</li>
-                    <li><code>codex "修复代码中的 lint 错误"</code> : 带初始提示启动</li>
-                </ul>
-                <h3>会话恢复</h3>
-                <ul>
-                    <li><code>codex resume</code> : 打开会话选择器</li>
-                    <li><code>codex resume --last</code> : 恢复最近会话</li>
-                    <li><code>codex resume 7f9f9a2e-1b3c-4c7a-9b0e-123456789abc</code> : 恢复指定会话</li>
-                </ul>
-                <div class="desc">推荐使用npm或Homebrew安装，支持会话恢复功能</div>
-            </div>
-
-            <!-- 核心命令卡片 -->
-            <div class="card">
-                <h2>⚡ 核心命令 <a href="#" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-                <h3>主要命令</h3>
-                <ul>
-                    <li><code>codex</code> : 交互式TUI</li>
-                    <li><code>codex "提示内容"</code> : 带提示的交互模式</li>
-                    <li><code>codex exec "提示内容"</code> : 非交互式自动化模式</li>
-                </ul>
-                <h3>常用标志</h3>
-                <ul>
-                    <li><code>--model/-m MODEL</code> : 指定模型</li>
-                    <li><code>--ask-for-approval/-a POLICY</code> : 设置审批策略</li>
-                    <li><code>--sandbox MODE</code> : 沙盒模式</li>
-                    <li><code>--full-auto</code> : 全自动模式</li>
-                    <li><code>--cd/-C DIR</code> : 指定工作目录</li>
-                </ul>
-                <h3>实用命令</h3>
-                <ul>
-                    <li><code>codex completion bash</code> : 生成bash补全</li>
-                    <li><code>codex mcp add NAME -- COMMAND</code> : 添加MCP服务器</li>
-                    <li><code>codex mcp list</code> : 列出MCP服务器</li>
-                </ul>
-                <div class="desc">支持交互式和非交互式两种模式</div>
-            </div>
-
-            <!-- 模型配置卡片 -->
-            <div class="card">
-                <h2>🤖 模型配置 <a href="#" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-                <h3>模型选择</h3>
-                <pre><code># config.toml 配置
-model = "o3"                    # 默认 gpt-5-codex
-model_provider = "openai"      # 默认 openai</code></pre>
-                <h3>模型提供商</h3>
-                <pre><code>[model_providers.openai-chat-completions]
-name = "OpenAI using Chat Completions"
-base_url = "https://api.openai.com/v1"
-env_key = "OPENAI_API_KEY"
-wire_api = "chat"
-
-[model_providers.ollama]
-name = "Ollama"
-base_url = "http://localhost:11434/v1"</code></pre>
-                <h3>推理配置</h3>
-                <ul>
-                    <li><code>model_reasoning_effort = "high"</code> : minimal/low/medium/high</li>
-                    <li><code>model_reasoning_summary = "detailed"</code> : auto/concise/detailed</li>
-                    <li><code>model_verbosity = "medium"</code> : low/medium/high</li>
-                </ul>
-                <div class="desc">支持多种模型和提供商，可配置推理努力程度</div>
-            </div>
-
-            <!-- 沙盒和审批卡片 -->
-            <div class="card">
-                <h2>🛡️ 沙盒和审批 <a href="#" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-                <h3>沙盒模式</h3>
-                <ul>
-                    <li><code>sandbox_mode = "read-only"</code> : 只读</li>
-                    <li><code>sandbox_mode = "workspace-write"</code> : 工作区可写</li>
-                    <li><code>sandbox_mode = "danger-full-access"</code> : 完全访问</li>
-                </ul>
-                <h3>审批策略</h3>
-                <ul>
-                    <li><code>approval_policy = "untrusted"</code> : 不可信命令需审批</li>
-                    <li><code>approval_policy = "on-failure"</code> : 失败时需审批</li>
-                    <li><code>approval_policy = "on-request"</code> : 按需审批</li>
-                    <li><code>approval_policy = "never"</code> : 从不审批</li>
-                </ul>
-                <h3>常用组合</h3>
-                <pre><code># 安全浏览
-codex --sandbox read-only --ask-for-approval on-request
-
-# 自动模式
-codex --full-auto</code></pre>
-                <div class="desc">提供多层安全保护，支持细粒度权限控制</div>
-            </div>
-
-            <!-- 配置文件卡片 -->
-            <div class="card">
-                <h2>⚙️ 配置文件 <a href="#" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-                <h3>配置位置</h3>
-                <ul>
-                    <li><code>~/.codex/config.toml</code> : 主配置文件</li>
-                    <li><code>~/.codex/AGENTS.md</code> : 全局指令</li>
-                    <li><code>./AGENTS.md</code> : 项目级指令</li>
-                </ul>
-                <h3>Profile配置</h3>
-                <pre><code>[profiles.full_auto]
-model = "o3"
-approval_policy = "on-request"
-sandbox_mode = "workspace-write"
-
-# 使用profile
-codex --profile full_auto</code></pre>
-                <h3>配置优先级</h3>
-                <ol>
-                    <li>命令行参数 (最高)</li>
-                    <li>配置文件中的profile</li>
-                    <li>config.toml中的设置</li>
-                    <li>默认值 (最低)</li>
-                </ol>
-                <div class="desc">支持多层级配置，Profile便于快速切换场景</div>
-            </div>
-
-            <!-- 高级功能卡片 -->
-            <div class="card">
-                <h2>🎯 高级功能 <a href="#" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-                <h3>非交互模式</h3>
-                <pre><code># CI/CD使用
-codex exec --full-auto "更新版本日志"
-
-# 恢复非交互会话
-codex exec "继续任务" resume --last</code></pre>
-                <h3>MCP集成</h3>
-                <pre><code>[mcp_servers.docs-server]
-command = "npx"
-args = ["-y", "mcp-server-docs"]
-env = { "API_KEY" = "value" }
-startup_timeout_sec = 20</code></pre>
-                <h3>日志和调试</h3>
-                <ul>
-                    <li><code>tail -F ~/.codex/log/codex-tui.log</code> : 监控日志</li>
-                    <li><code>RUST_LOG=codex_core=debug,codex_tui=info codex</code> : 设置日志级别</li>
-                </ul>
-                <div class="desc">支持CI/CD集成、MCP服务器扩展和详细日志</div>
-            </div>
-
-            <!-- 使用技巧卡片 -->
-            <div class="card">
-                <h2>💡 使用技巧 <a href="#" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-                <h3>文件搜索</h3>
-                <pre><code># 输入@触发模糊文件搜索
-@utils.js  # 搜索utils.js文件</code></pre>
-                <h3>图像输入</h3>
-                <ul>
-                    <li><code>codex -i screenshot.png "解释这个错误"</code> : 单个图像</li>
-                    <li><code>codex --image img1.png,img2.jpg "总结这些图表"</code> : 多个图像</li>
-                </ul>
-                <h3>编辑历史消息</h3>
-                <ol>
-                    <li>在空编辑器中按Esc进入回溯模式</li>
-                    <li>再次按Esc编辑上一条消息</li>
-                    <li>按Enter确认编辑</li>
-                </ol>
-                <div class="desc">提供便捷的文件搜索、图像输入和消息编辑功能</div>
-            </div>
-
-            <!-- 示例提示卡片 -->
-            <div class="card">
-                <h2>📝 示例提示 <a href="#" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-                <h3>代码重构</h3>
-                <ul>
-                    <li><code>codex "将 Dashboard 组件重构为 React Hooks"</code></li>
-                </ul>
-                <h3>测试生成</h3>
-                <ul>
-                    <li><code>codex "为 utils/date.ts 编写单元测试"</code></li>
-                </ul>
-                <h3>文件操作</h3>
-                <ul>
-                    <li><code>codex "批量重命名 *.jpeg -> *.jpg 使用 git mv"</code></li>
-                </ul>
-                <h3>代码解释</h3>
-                <ul>
-                    <li><code>codex "解释这个正则表达式: ^(?=.*[A-Z]).{8,}$"</code></li>
-                </ul>
-                <h3>安全审查</h3>
-                <ul>
-                    <li><code>codex "查找漏洞并创建安全审查报告"</code></li>
-                </ul>
-                <div class="desc">涵盖代码开发、测试和维护的各个方面</div>
-            </div>
-
-            <!-- 环境策略卡片 -->
-            <div class="card">
-                <h2>🌍 环境策略 <a href="#" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-                <h3>环境变量控制</h3>
-                <pre><code>[shell_environment_policy]
-inherit = "core"               # all/core/none
-ignore_default_excludes = false
-exclude = ["AWS_*", "AZURE_*"]
-set = { CI = "1" }
-include_only = ["PATH", "HOME"]</code></pre>
-                <h3>过滤规则</h3>
-                <ul>
-                    <li>默认排除包含KEY/SECRET/TOKEN的变量</li>
-                    <li>支持通配符模式匹配</li>
-                    <li>大小写不敏感</li>
-                </ul>
-                <h3>常用配置</h3>
-                <pre><code># 最小化环境
-[shell_environment_policy]
-inherit = "none"
-set = { PATH = "/usr/bin", MY_FLAG = "1" }</code></pre>
-                <div class="desc">精细控制子进程的环境变量，提供安全执行环境</div>
-            </div>
-
-            <!-- 通知监控卡片 -->
-            <div class="card">
-                <h2>📢 通知监控 <a href="#" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-                <h3>桌面通知</h3>
-                <pre><code>[tui]
-notifications = true
-notifications = ["agent-turn-complete", "approval-requested"]</code></pre>
-                <h3>外部通知程序</h3>
-                <pre><code>notify = ["python3", "/Users/user/.codex/notify.py"]
-
-# notify.py示例
-import json
-import subprocess
-import sys
-
-notification = json.loads(sys.argv[1])
-if notification.get("type") == "agent-turn-complete":
-    subprocess.run(["terminal-notifier", "-title", "Codex 完成", "-message", "任务已完成"])</code></pre>
-                <h3>历史记录</h3>
-                <ul>
-                    <li><code>[history] persistence = "none"</code> : "save-all"为默认值</li>
-                    <li><code>~/.codex/history.jsonl</code> : 历史文件位置</li>
-                </ul>
-                <div class="desc">支持多种通知方式和历史记录管理</div>
-            </div>
-
-            <!-- 网络调优卡片 -->
-            <div class="card">
-                <h2>🌐 网络调优 <a href="#" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-                <h3>提供商网络配置</h3>
-                <pre><code>[model_providers.openai]
-name = "Openai"
-base_url = "https://api.openai.com/v1"
-env_key = "OPENAI_API_KEY"
-# 网络调优配置
-request_max_retries = 4
-stream_max_retries = 10
-stream_idle_timeout_ms = 300000</code></pre>
-                <h3>超时配置</h3>
-                <ul>
-                    <li><code>request_max_retries = 4</code> : HTTP请求重试次数</li>
-                    <li><code>stream_max_retries = 10</code> : 流式响应重连次数</li>
-                    <li><code>stream_idle_timeout_ms = 300000</code> : 流空闲超时时间(5分钟)</li>
-                </ul>
-                <h3>HTTP头配置</h3>
-                <pre><code>[model_providers.example]
-# 固定HTTP头
-http_headers = { "X-Example-Header" = "example-value" }
-# 环境变量HTTP头
-env_http_headers = { "X-Example-Features" = "EXAMPLE_FEATURES" }</code></pre>
-                <div class="desc">提供细粒度的网络调优选项，确保稳定API连接</div>
-            </div>
-
-            <!-- 文件操作卡片 -->
-            <div class="card">
-                <h2>📁 文件操作 <a href="#" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-                <h3>文件打开器</h3>
-                <ul>
-                    <li><code>file_opener = "vscode"</code> : 默认值</li>
-                    <li>可选值: vscode, vscode-insiders, windsurf, cursor, none</li>
-                </ul>
-                <h3>项目文档限制</h3>
-                <ul>
-                    <li><code>project_doc_max_bytes = 32768</code> : 32KB默认值</li>
-                    <li>控制AGENTS.md文件的最大读取字节数</li>
-                </ul>
-                <h3>工作区配置</h3>
-                <pre><code>[sandbox_workspace_write]
-exclude_tmpdir_env_var = false
-exclude_slash_tmp = false
-writable_roots = ["/Users/user/.pyenv/shims"]
-network_access = false</code></pre>
-                <div class="desc">支持多种编辑器集成和灵活的文件系统访问控制</div>
-            </div>
-
-            <!-- 推理控制卡片 -->
-            <div class="card">
-                <h2>🧠 推理控制 <a href="#" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-                <h3>推理努力程度</h3>
-                <ul>
-                    <li><code>"minimal"</code> : 最小推理</li>
-                    <li><code>"low"</code> : 低推理</li>
-                    <li><code>"medium"</code> : 中等推理(默认)</li>
-                    <li><code>"high"</code> : 高推理</li>
-                </ul>
-                <h3>推理摘要</h3>
-                <ul>
-                    <li><code>"auto"</code> : 自动(默认)</li>
-                    <li><code>"concise"</code> : 简洁</li>
-                    <li><code>"detailed"</code> : 详细</li>
-                    <li><code>"none"</code> : 禁用</li>
-                </ul>
-                <h3>输出详细程度</h3>
-                <ul>
-                    <li><code>"low"</code> : 低详细度</li>
-                    <li><code>"medium"</code> : 中等详细度(默认)</li>
-                    <li><code>"high"</code> : 高详细度</li>
-                </ul>
-                <div class="desc">精细控制模型推理过程和输出格式，优化性能和效果</div>
-            </div>
-
-            <!-- MCP服务器卡片 -->
-            <div class="card">
-                <h2>🔌 MCP服务器 <a href="#" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-                <h3>作为MCP客户端</h3>
-                <pre><code>[mcp_servers.filesystem]
-command = "npx"
-args = ["-y", "@modelcontextprotocol/server-filesystem"]
-env = { "ALLOWED_PATHS" = "/Users/user/projects" }
-
-[mcp_servers.github]
-command = "npx"
-args = ["-y", "@modelcontextprotocol/server-github"]
-env = { "GITHUB_TOKEN" = "your_token" }</code></pre>
-                <h3>作为MCP服务器</h3>
-                <ul>
-                    <li><code>codex mcp</code> : 启动Codex MCP服务器</li>
-                    <li><code>npx @modelcontextprotocol/inspector codex mcp</code> : 使用MCP检查器测试</li>
-                </ul>
-                <h3>MCP工具</h3>
-                <pre><code># codex工具 - 启动会话
-{
-  "prompt": "实现一个井字游戏",
-  "approval-policy": "never",
-  "sandbox": "workspace-write"
-}
-
-# codex-reply工具 - 继续会话
-{
-  "prompt": "添加动画效果",
-  "conversationId": "session-id"
-}</code></pre>
-                <div class="desc">支持作为MCP客户端和服务器，提供丰富的工具扩展能力</div>
-            </div>
-
-            <!-- 调试工具卡片 -->
-            <div class="card">
-                <h2>🔧 调试工具 <a href="#" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-                <h3>沙盒测试</h3>
-                <ul>
-                    <li><code>codex debug seatbelt [--full-auto] [COMMAND]...</code> : macOS</li>
-                    <li><code>codex debug landlock [--full-auto] [COMMAND]...</code> : Linux</li>
-                </ul>
-                <h3>状态检查</h3>
-                <ul>
-                    <li><code>/status</code> : 在TUI中使用状态命令</li>
-                    <li>查看工作区、沙盒状态、权限等信息</li>
-                </ul>
-                <h3>配置验证</h3>
-                <ul>
-                    <li><code>codex --help</code> : 检查配置文件语法</li>
-                    <li><code>codex mcp list</code> : 验证MCP服务器配置</li>
-                </ul>
-                <div class="desc">提供强大的调试和诊断工具，帮助排查配置和运行时问题</div>
-            </div>
-
-            <!-- 平台支持卡片 -->
-            <div class="card">
-                <h2>🖥️ 平台支持 <a href="#" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-                <h3>macOS支持</h3>
-                <ul>
-                    <li>使用Apple Seatbelt沙盒</li>
-                    <li>支持macOS 12+</li>
-                    <li>通过sandbox-exec实现</li>
-                </ul>
-                <h3>Linux支持</h3>
-                <ul>
-                    <li>使用Landlock/seccomp API</li>
-                    <li>需要Linux内核支持</li>
-                    <li>在Docker中可能需要特殊配置</li>
-                </ul>
-                <h3>容器环境</h3>
-                <pre><code># Docker中使用
-# 可能需要禁用原生沙盒
-# 使用容器自身的沙盒机制
-sandbox_mode = "danger-full-access"</code></pre>
-                <div class="desc">支持主流操作系统，针对不同平台提供优化的沙盒实现</div>
-            </div>
-        </div>
+  <div class="container">
+    <div class="panel">
+      <span class="title" style="color:#7bfbb7;font-size:16px;margin-right:auto;">OpenSpec 规格先行工作流速查表</span>
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="360" />
+      <span id="widthVal" class="slider-val">360px</span>
     </div>
-    <script>
-        document.getElementById('columnWidth').addEventListener('input', function(e) {
-            const width = e.target.value;
-            document.getElementById('widthVal').textContent = width + 'px';
-            const columns = document.getElementById('columns');
-            columns.style.columnWidth = width + 'px';
-        });
-    </script>
+
+    <div id="columns" class="cheat-columns">
+      <!-- 基本概念与目标 -->
+      <section class="card">
+        <h2>基本概念与目标
+          <a class="ext" href="https://github.com/Fission-AI/OpenSpec#readme" target="_blank" title="README">#</a>
+        </h2>
+        <p>OpenSpec 让人类与 AI 在编码之前通过“规格先行”达成一致：先锁定意图与范围，再实施任务，最后将变更合并回“规格真源”。</p>
+        <ul>
+          <li>定位：Brownfield-first（在既有系统做 1→n 变更更有优势）。</li>
+          <li>核心产物：<span class="mono">proposal.md</span>、<span class="mono">tasks.md</span>、规格增量（Delta）。</li>
+          <li>结果：变更可审阅、可校验、可追踪。</li>
+        </ul>
+      </section>
+
+      <!-- 安装与初始化 -->
+      <section class="card">
+        <h2 id="install">安装与初始化
+          <a class="ext" href="#install" title="本页锚点">#</a>
+          <a class="ext" href="https://github.com/Fission-AI/OpenSpec#getting-started" target="_blank" title="Getting Started">#</a>
+        </h2>
+        <h3>环境要求</h3>
+        <ul>
+          <li>Node.js <code>&gt;=16</code>（推荐 LTS）</li>
+          <li>NPM 或 PNPM（示例使用 NPM）</li>
+        </ul>
+<pre><code># 全局安装
+npm install -g @fission-ai/openspec@latest
+
+# 版本检查
+openspec --version</code></pre>
+        <h3>项目内初始化</h3>
+<pre><code># 在你的仓库根目录执行
+openspec init
+
+# 初始化后建议
+openspec list   # 验证是否已创建 openspec/ 目录与变更
+</code></pre>
+        <ul>
+          <li>自动生成：<span class="mono">openspec/</span> 目录、项目根 <span class="mono">AGENTS.md</span>、工具快捷命令绑定。</li>
+          <li>用途：帮助各类 AI 工具读取统一工作流，并触发 <span class="mono">/openspec*</span> 命令。</li>
+        </ul>
+      </section>
+
+      <!-- 目录结构与角色 -->
+      <section class="card">
+        <h2>目录结构与角色
+          <a class="ext" href="https://github.com/Fission-AI/OpenSpec#how-it-works" target="_blank" title="How It Works">#</a>
+        </h2>
+<pre><code>openspec/
+├─ specs/                # 规格“真源”
+├─ changes/
+│  └─ &lt;change&gt;/          # 变更工作区（AI 生成与维护）
+│     ├─ proposal.md     # 为什么改、改什么（范围/意图）
+│     ├─ tasks.md        # 实施清单（可勾选）
+│     ├─ design.md       # 技术决策（可选）
+│     └─ specs/**/spec.md# 各规格的“增量（Delta）”
+└─ archive/              # 归档后的历史痕迹</code></pre>
+        <ul>
+          <li><b>命名建议</b>：<span class="mono">&lt;change&gt;</span> 采用 kebab-case，表达功能与范围，如 <span class="mono">add-profile-filters</span>、<span class="mono">migrate-auth-v2</span>。</li>
+          <li><b>职责建议</b>：<span class="mono">changes/**</span> 由 AI 生成/维护；人类负责审阅、范围对齐与质量把关。</li>
+          <li><b>多规格变更</b>：可在同一 change 下的 <span class="mono">specs/</span> 中为多个域写 Delta。</li>
+        </ul>
+        <p class="desc">建议：让 AI 生成 <span class="mono">changes/**</span>；人工专注审阅与对齐。</p>
+      </section>
+
+      <!-- 工作流（四步） -->
+      <section class="card">
+        <h2>工作流（四步）
+          <a class="ext" href="https://github.com/Fission-AI/OpenSpec#how-it-works" target="_blank" title="How It Works">#</a>
+        </h2>
+        <ol>
+          <li>Draft Proposal：草拟 <span class="mono">proposal/tasks</span> 与规格 Delta。</li>
+          <li>Review &amp; Align：反复审阅，锁定范围与细节。</li>
+          <li>Implement Tasks：按 <span class="mono">tasks.md</span> 实施，引用已对齐规格。</li>
+          <li>Archive &amp; Update：归档并将 Delta 合并到 <span class="mono">specs/</span>。</li>
+        </ol>
+<pre><code># 常用 CLI
+openspec list                   # 查看活跃变更
+openspec show &lt;change&gt;          # 浏览提案/任务/Delta
+openspec validate &lt;change&gt;      # 校验格式与规范
+openspec archive &lt;change&gt; --yes # 归档并合并 Delta
+openspec view                   # 打开看板
+openspec update                 # 跨工具/升级后刷新绑定</code></pre>
+      </section>
+
+      <!-- 规格写法与 Delta 规范 -->
+      <section class="card">
+        <h2>规格写法与 Delta 规范
+          <a class="ext" href="https://github.com/Fission-AI/OpenSpec#understanding-openspec-files" target="_blank" title="Understanding OpenSpec Files">#</a>
+        </h2>
+        <ul>
+          <li>Requirement：<code>### Requirement: &lt;名称&gt;</code>（正文用 SHALL/MUST）。</li>
+          <li>Scenario：<code>#### Scenario: &lt;名称&gt;</code>（每个 Requirement ≥ 1）。</li>
+          <li>Delta：
+            <code>## ADDED Requirements</code> /
+            <code>## MODIFIED Requirements</code> /
+            <code>## REMOVED Requirements</code>
+          </li>
+          <li>MODIFIED 需给出“修改后的完整条目文本”，避免只写差异片段。</li>
+          <li>Delta 只承载“变化”，真源在 <span class="mono">specs/</span>，避免把完整规格放进 Delta。</li>
+          <li>语气应明确：使用 SHALL/MUST，避免“可能/尽量/建议”等模糊措辞。</li>
+        </ul>
+<pre><code>## ADDED Requirements
+### Requirement: Two-Factor Authentication
+系统 MUST 在登录时要求第二要素。
+
+#### Scenario: OTP required
+- WHEN 用户提交有效凭据
+- THEN 系统要求 OTP 校验</code></pre>
+      </section>
+
+      <!-- 校验要点与常见错误 -->
+      <section class="card">
+        <h2>校验要点与常见错误
+          <a class="ext" href="#validate" title="本页锚点">#</a>
+          <a class="ext" href="https://github.com/Fission-AI/OpenSpec#understanding-openspec-files" target="_blank" title="Validation">#</a>
+        </h2>
+        <ul>
+          <li>缺少 <code>### Requirement:</code> 或未包含任何 <code>#### Scenario:</code>。</li>
+          <li>未使用 SHALL/MUST 描述要求，措辞不具可验证性。</li>
+          <li>把“完整规格”误写进 Delta：应只写新增/修改/删除的条目。</li>
+          <li>把 MODIFIED 写成差异片段：应提供修改后的完整条目。</li>
+          <li>标题层级错误：请保持 <code>##</code> → <code>###</code> → <code>####</code>。</li>
+        </ul>
+<pre><code># 校验命令
+openspec validate &lt;change&gt;</code></pre>
+      </section>
+
+      <!-- CLI 速查（不含安装与初始化） -->
+      <section class="card">
+        <h2>CLI 速查（不含安装与初始化）
+          <a class="ext" href="https://github.com/Fission-AI/OpenSpec#getting-started" target="_blank" title="CLI">#</a>
+        </h2>
+<pre><code>openspec list                 # 查看活跃变更
+openspec view                 # 可视化看板
+openspec show &lt;change&gt;        # 查看指定变更详情
+openspec validate &lt;change&gt;    # 校验规格/Delta 格式
+openspec archive &lt;change&gt; -y  # 归档并合并 Delta
+openspec update               # 刷新工具指令绑定</code></pre>
+        <p class="desc">说明：初始化与安装见上方“安装与初始化”章节。</p>
+      </section>
+
+      <!-- 工具集成与快捷命令 -->
+      <section class="card">
+        <h2>工具集成与快捷命令
+          <a class="ext" href="https://github.com/Fission-AI/OpenSpec#supported-ai-tools" target="_blank" title="Supported Tools">#</a>
+        </h2>
+        <ul>
+          <li>冒号风格：<code>/openspec:proposal</code>、<code>/openspec:apply</code>、<code>/openspec:archive</code></li>
+          <li>连字符风格：<code>/openspec-proposal</code>、<code>/openspec-apply</code>、<code>/openspec-archive</code></li>
+          <li>大多数工具自动读取 <span class="mono">openspec/AGENTS.md</span> 执行工作流。</li>
+          <li>常见映射：Claude Code / Codex / Gemini CLI 使用冒号风格；Cursor / Windsurf 使用连字符风格。</li>
+          <li>部分工具用工作流目录承载命令（如 <span class="mono">.kilocode/workflows/</span>、<span class="mono">.clinerules/workflows/</span>）。</li>
+        </ul>
+      </section>
+
+      <!-- 创建与应用变更（示例） -->
+      <section class="card">
+        <h2>创建与应用变更（示例）
+          <a class="ext" href="https://github.com/Fission-AI/OpenSpec#example-how-ai-creates-openspec-files" target="_blank" title="Example">#</a>
+        </h2>
+        <ul>
+          <li>与 AI 对话：“为 X 功能创建 OpenSpec 变更提案”。</li>
+          <li>AI 生成：<span class="mono">openspec/changes/&lt;change&gt;/</span>（含 <span class="mono">proposal.md</span>、<span class="mono">tasks.md</span>、Delta）。</li>
+          <li>审阅并编辑：完善 <span class="mono">proposal</span>、<span class="mono">tasks</span> 与 Delta。</li>
+          <li>实施：按 <span class="mono">tasks.md</span> 开发实现。</li>
+          <li>收尾：<code>openspec validate</code> → <code>openspec archive --yes</code>。</li>
+        </ul>
+<pre><code># 典型闭环
+openspec list
+openspec show add-profile-filters
+openspec validate add-profile-filters
+openspec archive add-profile-filters --yes</code></pre>
+      </section>
+
+      <!-- 对比与取舍（简述） -->
+      <section class="card">
+        <h2>对比与取舍（简述）
+          <a class="ext" href="https://github.com/Fission-AI/OpenSpec#how-openspec-compares" target="_blank" title="How OpenSpec Compares">#</a>
+        </h2>
+        <ul>
+          <li>双目录（specs 真源 / changes 增量）利于跨规格、多阶段迭代。</li>
+          <li>相比 spec-kit / Kiro：更适合在既有系统做 1→n 改动与联动更新。</li>
+        </ul>
+      </section>
+
+      <!-- 示例结构（2FA） -->
+      <section class="card">
+        <h2>示例结构（2FA）
+          <a class="ext" href="https://github.com/Fission-AI/OpenSpec#example-how-ai-creates-openspec-files" target="_blank" title="Example">#</a>
+        </h2>
+<pre><code>openspec/
+├─ specs/auth/spec.md
+└─ changes/add-2fa/
+   ├─ proposal.md
+   ├─ tasks.md
+   └─ specs/auth/spec.md  # Delta（ADDED: Two-Factor Authentication）</code></pre>
+        <p class="desc">归档后：Delta 合并到 <span class="mono">specs/</span>，变更移入 <span class="mono">archive/</span>。</p>
+      </section>
+
+      <!-- 团队协作与升级 -->
+      <section class="card">
+        <h2>团队协作与升级
+          <a class="ext" href="https://github.com/Fission-AI/OpenSpec#team-adoption" target="_blank" title="Team Adoption">#</a>
+          <a class="ext" href="https://github.com/Fission-AI/OpenSpec#updating-openspec" target="_blank" title="Updating OpenSpec">#</a>
+        </h2>
+        <ul>
+          <li>跨工具协作：切换工具或多人参与前执行 <code>openspec update</code>，确保指令同步。</li>
+          <li>CI 建议：在拉取请求前运行 <code>openspec validate</code> 作为质量门。</li>
+          <li>升级版本：<code>npm install -g @fission-ai/openspec@latest</code>，然后在项目内执行 <code>openspec update</code>。</li>
+        </ul>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    const slider = document.getElementById('columnWidth');
+    const label = document.getElementById('widthVal');
+    const columns = document.getElementById('columns');
+    slider.addEventListener('input', (e) => {
+      const width = e.target.value;
+      label.textContent = width + 'px';
+      columns.style.columnWidth = width + 'px';
+    });
+  </script>
 </body>
 </html>
