@@ -1,0 +1,1 @@
+Script Kit是强大的桌面自动化脚本平台，支持TypeScript/JavaScript脚本开发与系统集成。

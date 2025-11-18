@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Script Kit开发命令速查表</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../../css/variables.css">
+  <link rel="stylesheet" href="../../css/common.css">
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png" />
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png" />
+  <style>
+    :root {
+      --colWidth: 340px;
+      --gap: 16px;
+    }
+    .panel label {
+      color: var(--panel-accent);
+    }
+    .panel .title {
+      color: var(--panel-accent);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <span class="title">⚡ Script Kit开发速查表</span>
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card">
+        <h2>📦 安装与启动 <a href="https://github.com/johnlindquist/kit" title="官方文档" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><code>npm install -g @johnlindquist/kit</code> | 全局安装Script Kit</li>
+          <li><code>kit</code> | 启动Script Kit界面</li>
+          <li><code>~/.kit</code> | 默认脚本存储目录</li>
+        </ul>
+        <h3>基础脚本结构</h3>
+        <pre>import "@johnlindquist/kit";
+
+let name = await arg("请输入名字");
+await showToast(`你好，${name}!`);</pre>
+        <div class="desc">Script Kit提供TypeScript支持和丰富的API</div>
+      </div>
+
+      <div class="card">
+        <h2>📦 包管理API <a href="https://github.com/johnlindquist/kit/blob/main/orientation/npm.md" title="包管理文档" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><code>await npm("package")</code> | 安装并导入包</li>
+          <li><code>appInstallMultiple(pkgs)</code> | 批量安装包</li>
+          <li><code>installMissingPackage(pkg)</code> | 条件安装</li>
+          <li><code>npmInstall(pkg)</code> | 仅安装不导入</li>
+        </ul>
+        <h3>包管理示例</h3>
+        <pre>import "@johnlindquist/kit";
+
+// 安装并导入
+let lodash = await npm("lodash")
+let axios = await npm("axios")
+
+// 批量安装
+await appInstallMultiple(["axios", "lodash", "dayjs"])
+
+// 条件安装（仅当缺失时）
+await installMissingPackage("lodash")
+
+// 仅安装不导入
+await npmInstall("package-name")
+
+// 作用域包
+let kit = await npm("@johnlindquist/kit")
+let babel = await npm("@babel/core")</pre>
+        <div class="desc">自动处理包的安装和依赖管理</div>
+      </div>
+
+      <div class="card">
+        <h2>💬 用户交互API <a href="https://github.com/johnlindquist/kit#user-input" title="交互API文档" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><code>await arg(prompt)</code> | 文本输入框</li>
+          <li><code>await select(options)</code> | 选择列表</li>
+          <li><code>await confirm(message)</code> | 确认对话框</li>
+          <li><code>await multi-select(options)</code> | 多选列表</li>
+        </ul>
+        <h3>交互示例</h3>
+        <pre>import "@johnlindquist/kit";
+
+// 文本输入
+let name = await arg("请输入你的名字：")
+
+// 单选
+let choice = await select(["选项1", "选项2", "选项3"])
+
+// 确认
+let confirmed = await confirm("确定继续吗？")
+
+// 多选
+let tools = await multi-select(["git", "npm", "docker", "k8s"])
+
+// 带默认值
+let email = await arg("邮箱：", {defaultValue: "user@example.com"})</pre>
+        <div class="desc">丰富的用户交互组件提升脚本体验</div>
+      </div>
+
+      <div class="card">
+        <h2>🔔 系统通知与界面 <a href="https://github.com/johnlindquist/kit#notifications" title="通知文档" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><code>await showToast(message)</code> | 桌面通知</li>
+          <li><code>await notify(title, body)</code> | 系统通知</li>
+          <li><code>await div(html)</code> | HTML内容显示</li>
+          <li><code>await md(content)</code> | Markdown显示</li>
+        </ul>
+        <h3>通知示例</h3>
+        <pre>import "@johnlindquist/kit";
+
+// 简单通知
+await showToast("任务完成！")
+
+// 系统通知
+await notify("任务状态", "构建任务已完成，耗时2分钟")
+
+// HTML内容
+await div("<h1>HTML标题</h1><p>段落内容</p>")
+
+// Markdown内容
+await md(`
+# 标题
+- 列表项1
+- 列表项2
+**粗体文本**
+`)
+
+// 带进度条
+let progress = 0
+let interval = setInterval(async () => {
+  progress += 10
+  await showToast(`进度：${progress}%`)
+  if (progress >= 100) clearInterval(interval)
+}, 1000)</pre>
+        <div class="desc">多种展示方式满足不同通知需求</div>
+      </div>
+
+      <div class="card">
+        <h2>📁 文件系统操作 <a href="https://github.com/johnlindquist/kit#file-operations" title="文件操作文档" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><code>await readFile(path)</code> | 读取文件</li>
+          <li><code>await writeFile(path, content)</code> | 写入文件</li>
+          <li><code>await getFiles(pattern)</code> | 文件搜索</li>
+          <li><code>await pathExists(path)</code> | 路径检查</li>
+        </ul>
+        <h3>文件操作示例</h3>
+        <pre>import "@johnlindquist/kit";
+
+// 读取文件
+let content = await readFile("config.json")
+let data = JSON.parse(content)
+
+// 写入文件
+await writeFile("output.txt", "Hello World!")
+
+// 搜索文件
+let jsFiles = await getFiles("*.js", { recursive: true })
+let allFiles = await getFiles("**/*", { includeDirectories: true })
+
+// 路径操作
+let configPath = path.join(home(), ".config", "app.json")
+let exists = await pathExists(configPath)
+
+// 读取JSON
+let packageJson = await readJson("package.json")
+await writeJson("package-backup.json", packageJson)</pre>
+        <div class="desc">完整的文件系统操作支持</div>
+      </div>
+
+      <div class="card">
+        <h2>📋 剪贴板操作 <a href="https://github.com/johnlindquist/kit#clipboard" title="剪贴板文档" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><code>await clipboard.read()</code> | 读取剪贴板</li>
+          <li><code>await clipboard.write(text)</code> | 写入剪贴板</li>
+          <li><code>await clipboard.readText()</code> | 读文本内容</li>
+          <li><code>await clipboard.readImage()</code> | 读图像内容</li>
+        </ul>
+        <h3>剪贴板示例</h3>
+        <pre>import "@johnlindquist/kit";
+
+// 读取剪贴板
+let clipboardContent = await clipboard.read()
+await showToast(`剪贴板内容：${clipboardContent}`)
+
+// 写入剪贴板
+await clipboard.write("Hello from Script Kit!")
+
+// 处理复制内容
+let text = await arg("选择要复制的文本：")
+await clipboard.write(text)
+await showToast("内容已复制到剪贴板")
+
+// 剪贴板格式转换
+let content = await clipboard.read()
+await clipboard.write(content.toUpperCase())
+
+// JSON内容处理
+let jsonData = await clipboard.read()
+try {
+  let parsed = JSON.parse(jsonData)
+  await clipboard.write(JSON.stringify(parsed, null, 2))
+  await showToast("JSON格式化完成")
+} catch {
+  await showToast("无效的JSON格式")
+}</pre>
+        <div class="desc">剪贴板操作实现文本和数据的快速交换</div>
+      </div>
+
+      <div class="card">
+        <h2>⚡ 环境管理与系统 <a href="https://github.com/johnlindquist/kit#environment" title="环境管理文档" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><code>env.VAR_NAME</code> | 访问环境变量</li>
+          <li><code>home()</code> | 获取用户主目录</li>
+          <li><code>cwd()</code> | 获取当前工作目录</li>
+          <li><code>exec(command)</code> | 执行系统命令</li>
+        </ul>
+        <h3>环境操作示例</h3>
+        <pre>import "@johnlindquist/kit";
+
+// 环境变量访问
+let apiKey = env.API_KEY || "default-key"
+let nodeEnv = env.NODE_ENV || "development"
+
+// 设置环境变量
+env.NODE_ENV = "production"
+env.DEBUG = "true"
+
+// 目录操作
+let homeDir = home()
+let cwdPath = cwd()
+let projectPath = path.join(homeDir, "projects")
+
+// 执行系统命令
+let gitStatus = await exec("git status")
+await showToast(div(`<pre>${gitStatus}</pre>`))
+
+// 带参数的命令
+let version = await exec("node --version")
+await showToast(`Node.js版本：${version.trim()}`)
+
+// 开发环境检查
+let configs = {
+  git: path.join(home(), ".gitconfig"),
+  ssh: path.join(home(), ".ssh"),
+  npm: path.join(home(), ".npmrc")
+}
+
+let missing = []
+for (let [name, configPath] of Object.entries(configs)) {
+  if (!await pathExists(configPath)) {
+    missing.push(name)
+  }
+}
+
+if (missing.length > 0) {
+  await showToast(`缺少配置：${missing.join(", ")}`)
+}</pre>
+        <div class="desc">环境管理和系统集成为脚本提供强大能力</div>
+      </div>
+
+      <div class="card">
+        <h2>🏗️ 项目脚手架 <a href="https://github.com/johnlindquist/kit/blob/main/orientation/git.md" title="脚手架文档" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><code>await degit(template)</code> | 克隆模板</li>
+          <li><code>await readJson(path)</code> | 读取JSON文件</li>
+          <li><code>await writeJson(path, data)</code> | 写入JSON文件</li>
+          <li><code>await copy(source, target)</code> | 复制文件</li>
+        </ul>
+        <h3>项目创建示例</h3>
+        <pre>import "@johnlindquist/kit";
+
+async function createProject(projectName, template) {
+  console.log(`创建 ${projectName} 从 ${template}...`)
+
+  try {
+    // 克隆模板
+    await degit(template).clone(`./${projectName}`)
+
+    // 更新 package.json
+    let pkgPath = path.join(projectName, 'package.json')
+    let pkg = await readJson(pkgPath)
+    pkg.name = projectName
+    pkg.version = "1.0.0"
+    pkg.author = "Your Name"
+    await writeJson(pkgPath, pkg, { spaces: 2 })
+
+    // 安装依赖
+    await exec(`cd ${projectName} && npm install`)
+
+    // 初始化Git
+    await exec(`cd ${projectName} && git init`)
+
+    console.log(`✅ 项目 ${projectName} 创建成功！`)
+    await showToast(`项目${projectName}已创建`)
+  } catch (error) {
+    console.error('创建失败:', error)
+    await showToast(`创建失败：${error.message}`)
+  }
+}
+
+// 使用示例
+let projectName = await arg("项目名称：")
+let template = await select([
+  "vite/vanilla",
+  "vite/vue-ts",
+  "vite/react-ts",
+  "create-next-app"
+])
+
+await createProject(projectName, template)</pre>
+        <div class="desc">脚手架功能简化项目初始化流程</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('columnWidth').addEventListener('input', function(e) {
+      const width = e.target.value;
+      document.getElementById('widthVal').textContent = width + 'px';
+      const columns = document.getElementById('columns');
+      columns.style.columnWidth = width + 'px';
+    });
+  </script>
+</body>
+</html>

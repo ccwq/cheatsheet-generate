@@ -1,0 +1,1 @@
+Script Kit基于TypeScript/JavaScript的桌面自动化脚本平台，提供丰富的系统交互和API接口。
