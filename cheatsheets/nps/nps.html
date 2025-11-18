@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>nps开发命令速查表</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../../css/variables.css">
+  <link rel="stylesheet" href="../../css/common.css">
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png" />
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png" />
+  <style>
+    :root {
+      --colWidth: 340px;
+      --gap: 16px;
+    }
+    .panel label {
+      color: var(--panel-accent);
+    }
+    .panel .title {
+      color: var(--panel-accent);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <span class="title">🔧 nps脚本管理速查表</span>
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card">
+        <h2>📦 安装与初始化 <a href="https://github.com/kentcdodds/nps#installation" title="安装指南" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><code>npm install --save-dev nps</code> | 项目级安装</li>
+          <li><code>npm install -g nps</code> | 全局安装</li>
+          <li><code>npm install nps-utils</code> | 安装工具库</li>
+        </ul>
+        <h3>项目初始化</h3>
+        <pre># 从package.json迁移到nps
+./node_modules/.bin/nps init
+
+# 或使用npx
+npx nps init
+
+# 生成package-scripts.js
+# 自动迁移现有脚本</pre>
+        <div class="desc">nps init会自动将package.json中的scripts迁移到package-scripts.js</div>
+      </div>
+
+      <div class="card">
+        <h2>⚙️ 配置文件结构 <a href="https://github.com/kentcdodds/nps#configuration" title="配置文档" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><code>package-scripts.js</code> | JavaScript配置文件（推荐）</li>
+          <li><code>package-scripts.yml</code> | YAML配置文件</li>
+          <li><code>scripts</code> | 根级脚本配置</li>
+        </ul>
+        <h3>JavaScript配置示例</h3>
+        <pre>const { series, rimraf, crossEnv } = require('nps-utils')
+
+module.exports = {
+  scripts: {
+    default: "node index.js",
+    clean: rimraf('dist'),
+    build: series.nps('clean', 'webpack'),
+    start: crossEnv('NODE_ENV=production', 'node server.js'),
+    test: 'jest --coverage',
+    lint: {
+      js: "eslint .",
+      css: "stylelint '**/*.css'"
+    }
+  }
+}</pre>
+        <div class="desc">JavaScript配置支持复杂逻辑和代码复用</div>
+      </div>
+
+      <div class="card">
+        <h2>📝 YAML配置支持 <a href="https://github.com/kentcdodds/nps#yaml-configuration" title="YAML配置" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><code>scripts</code> | 定义脚本命令</li>
+          <li><code>数组格式</code> | 支持按顺序执行多个命令</li>
+          <li><code>嵌套结构</code> | 支持点语法访问</li>
+        </ul>
+        <h3>YAML配置示例</h3>
+        <pre>scripts:
+  default: node index.js
+  lint: eslint .
+  test: jest
+  build:
+    - rimraf dist
+    - webpack
+  start:
+    - cross-env NODE_ENV=production
+    - node server.js
+  clean:
+    - rm -rf node_modules
+    - npm install</pre>
+        <div class="desc">YAML配置更简洁，适合简单项目</div>
+      </div>
+
+      <div class="card">
+        <h2>🛠️ nps-utils工具库 <a href="https://github.com/kentcdodds/nps-utils" title="nps-utils文档" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><code>series</code> | 串行执行脚本</li>
+          <li><code>parallel</code> | 并行执行脚本</li>
+          <li><code>rimraf</code> | 跨平台删除文件</li>
+          <li><code>crossEnv</code> | 跨平台环境变量</li>
+        </ul>
+        <h3>工具库用法示例</h3>
+        <pre>const {
+  series,
+  parallel,
+  rimraf,
+  crossEnv,
+  nps
+} = require('nps-utils')
+
+module.exports = {
+  scripts: {
+    // 串行执行：clean -> build
+    build: series.nps('clean', 'webpack'),
+
+    // 并行执行：lint & test
+    test: parallel.nps('lint', 'unit'),
+
+    // 跨平台删除
+    clean: rimraf('dist'),
+
+    // 环境变量
+    start: crossEnv('NODE_ENV=production', 'node server.js'),
+
+    // 嵌套调用
+    deploy: series.nps('build', 'start')
+  }
+}</pre>
+        <div class="desc">nps-utils提供跨平台兼容的工具函数</div>
+      </div>
+
+      <div class="card">
+        <h2>📋 CLI命令使用 <a href="https://github.com/kentcdodds/nps#usage" title="CLI使用" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><code>nps</code> | 运行default脚本</li>
+          <li><code>nps help</code> | 显示所有可用脚本</li>
+          <li><code>nps script.name</code> | 运行嵌套脚本</li>
+          <li><code>nps b</code> | 使用前缀快捷命令</li>
+        </ul>
+        <h3>命令执行示例</h3>
+        <pre># 运行默认脚本
+nps
+
+# 运行指定脚本
+nps build
+nps test
+
+# 运行嵌套脚本
+nps lint.js
+nps lint.css
+
+# 使用前缀快捷
+nps b              # 等同于 nps build
+nps t              # 等同于 nps test
+nps help b          # 显示build脚本帮助信息</pre>
+        <div class="desc">前缀功能让脚本调用更快捷</div>
+      </div>
+
+      <div class="card">
+        <h2>🔌 环境变量配置 <a href="https://github.com/kentcdodds/nps#environment-variables" title="环境变量" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><code>LOG_LEVEL</code> | 控制输出详细程度</li>
+          <li><code>NPS_PACKAGE_MANAGER</code> | 指定包管理器</li>
+          <li><code>NODE_ENV</code> | Node.js环境变量</li>
+        </ul>
+        <h3>环境变量设置</h3>
+        <pre># 设置日志级别
+export LOG_LEVEL=silent    # 静默模式
+export LOG_LEVEL=info      # 默认级别
+export LOG_LEVEL=debug     # 调试模式
+
+# 指定包管理器
+export NPS_PACKAGE_MANAGER=pnpm
+
+# 临时设置
+LOG_LEVEL=debug nps build</pre>
+        <div class="desc">环境变量控制nps的行为和输出</div>
+      </div>
+
+      <div class="card">
+        <h2>🏗️ 高级脚本模式 <a href="https://github.com/kentcdodds/nps#advanced-usage" title="高级用法" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><code>条件执行</code> | 基于环境变量的条件脚本</li>
+          <li><code>动态脚本</code> | 运行时生成脚本命令</li>
+          <li><code>脚本组合</code> | 复杂的脚本编排</li>
+        </ul>
+        <h3>高级用法示例</h3>
+        <pre>const { series, parallel, crossEnv } = require('nps-utils')
+
+module.exports = {
+  scripts: {
+    // 条件执行
+    build: process.env.NODE_ENV === 'production'
+      ? series.nps('clean', 'webpack:prod')
+      : series.nps('clean', 'webpack:dev'),
+
+    // 动态脚本
+    test: `jest --coverage${process.env.CI ? ' --watchAll=false' : ''}`,
+
+    // 复杂编排
+    deploy: series(
+      crossEnv('NODE_ENV=production'),
+      parallel.nps('build', 'test'),
+      'npm publish'
+    ),
+
+    // 环境特定
+    'build:prod': crossEnv('NODE_ENV=production', 'webpack --mode production'),
+    'build:dev': crossEnv('NODE_ENV=development', 'webpack --mode development')
+  }
+}</pre>
+        <div class="desc">JavaScript配置提供强大的灵活性</div>
+      </div>
+
+      <div class="card">
+        <h2>🔄 脚本继承与扩展 <a href="https://github.com/kentcdodds/nps#inheritance" title="继承机制" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><code>extends</code> | 继承其他配置文件</li>
+          <li><code>scripts覆盖</code> | 重写继承的脚本</li>
+          <li><code>merge</code> | 合并多个配置</li>
+        </ul>
+        <h3>配置继承示例</h3>
+        <pre>// base-scripts.js
+module.exports = {
+  scripts: {
+    clean: 'rimraf dist',
+    lint: 'eslint .',
+    test: 'jest'
+  }
+}
+
+// package-scripts.js
+const baseScripts = require('./base-scripts')
+
+module.exports = {
+  ...baseScripts,
+  scripts: {
+    ...baseScripts.scripts,
+    build: series.nps('clean', 'webpack'),
+    deploy: series.nps('build', 'upload')
+  }
+}</pre>
+        <div class="desc">继承机制支持配置的模块化和复用</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('columnWidth').addEventListener('input', function(e) {
+      const width = e.target.value;
+      document.getElementById('widthVal').textContent = width + 'px';
+      const columns = document.getElementById('columns');
+      columns.style.columnWidth = width + 'px';
+    });
+  </script>
+</body>
+</html>

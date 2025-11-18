@@ -1,0 +1,1 @@
+nps基于JavaScript配置的npm脚本管理，使用package-scripts.js统一管理复杂脚本任务。
