@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Vite 配置速查表</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- 引入公共CSS样式 -->
+    <link rel="stylesheet" href="../../css/variables.css">
+    <link rel="stylesheet" href="../../css/common.css">
+
+    <style>
+      /* 特有的样式调整 */
+      .cheat-columns {
+        /* 使用column-count布局 */
+        column-count: 4;
+      }
+
+      @media (max-width: 1500px) {
+        .cheat-columns {
+          column-count: 3;
+        }
+      }
+
+      @media (max-width: 1100px) {
+        .cheat-columns {
+          column-count: 2;
+        }
+      }
+
+      @media (max-width: 750px) {
+        .cheat-columns {
+          column-count: 1;
+        }
+      }
+
+      .panel label {
+        color: #ffe49b; /* 保持原有的label颜色 */
+      }
+
+      .slider-bar {
+        min-width: 120px; /* 保持原有的滑块宽度 */
+      }
+
+      .slider-val {
+        min-width: 28px; /* 保持原有的值显示宽度 */
+      }
+    </style>
+
+    <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png" />
+    <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png" />
+  </head>
+<body>
+    <div class="container">
+        <div class="panel">
+            <span style="color:#7bfbb7;font-size:16px;margin-right:auto;">Vite 配置速查表</span>
+            <label for="columnWidth">🔧 调整每列宽度：</label>
+            <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+            <span id="widthVal" class="slider-val">340px</span>
+        </div>
+        <div class="cheat-columns" id="columns">
+            <!-- 配置文件基础 -->
+            <div class="card">
+                <h2>📋 配置文件基础 <a href="https://vite.dev/config/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>📝 配置文件命名</h3>
+                <pre><span class="comment">// vite.config.js (基础)</span>
+vite.config.ts
+vite.config.mjs
+vite.config.cjs</pre>
+
+                <h3>⚙️ 指定配置文件</h3>
+                <pre><span class="comment"># 指定配置文件</span>
+vite <span class="operator">--</span>config my<span class="operator">-</span>config.js</pre>
+
+                <h3>🏗️ 基础配置结构</h3>
+                <pre><span class="keyword">export</span> <span class="keyword">default</span> {
+  <span class="comment">// 配置选项</span>
+}</pre>
+
+                <div class="tip">
+                    💡 Vite 支持多种配置文件格式，推荐使用 TypeScript 配置文件获得类型提示
+                </div>
+            </div>
+
+            <!-- 配置智能提示 -->
+            <div class="card">
+                <h2>🧠 配置智能提示 <a href="https://vite.dev/guide/troubleshooting.html#intellisense" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>📖 JSDoc 类型提示</h3>
+                <pre><span class="comment">/** @type {import('vite').UserConfig} */</span>
+<span class="keyword">export</span> <span class="keyword">default</span> {
+  <span class="comment">// 配置内容</span>
+}</pre>
+
+                <h3>🔧 defineConfig 助手函数</h3>
+                <pre><span class="keyword">import</span> { defineConfig } <span class="keyword">from</span> <span class="string">'vite'</span>
+<span class="keyword">export</span> <span class="keyword">default</span> <span class="function">defineConfig</span>({
+  <span class="comment">// 配置内容</span>
+})</pre>
+
+                <h3>📘 TypeScript 配置文件</h3>
+                <pre><span class="keyword">import</span> <span class="keyword">type</span> { UserConfig } <span class="keyword">from</span> <span class="string">'vite'</span>
+<span class="keyword">export</span> <span class="keyword">default</span> {
+  <span class="comment">// 配置内容</span>
+} <span class="keyword">satisfies</span> UserConfig</pre>
+
+                <div class="tip">
+                    💡 使用 defineConfig 可以获得完整的类型提示和验证
+                </div>
+            </div>
+
+            <!-- 条件配置 -->
+            <div class="card">
+                <h2>🔄 条件配置 <a href="https://vite.dev/config/#conditional-config" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>🎯 基于命令的条件配置</h3>
+                <pre><span class="keyword">export</span> <span class="keyword">default</span> <span class="function">defineConfig</span>(({ <span class="variable">command</span>, <span class="variable">mode</span>, <span class="variable">isSsrBuild</span>, <span class="variable">isPreview</span> }) => {
+  <span class="keyword">if</span> (<span class="variable">command</span> === <span class="string">'serve'</span>) {
+    <span class="keyword">return</span> {
+      <span class="comment">// 开发环境特定配置</span>
+      <span class="variable">server</span>: {
+        <span class="variable">port</span>: <span class="number">3000</span>
+      }
+    }
+  } <span class="keyword">else</span> {
+    <span class="keyword">return</span> {
+      <span class="comment">// 构建环境特定配置</span>
+      <span class="variable">build</span>: {
+        <span class="variable">minify</span>: <span class="string">'terser'</span>
+      }
+    }
+  }
+})</pre>
+
+                <h3>🎭 常用条件判断</h3>
+                <pre><span class="keyword">export</span> <span class="keyword">default</span> <span class="function">defineConfig</span>(({ <span class="variable">command</span>, <span class="variable">mode</span>, <span class="variable">isSsrBuild</span>, <span class="variable">isPreview</span> }) => {
+  <span class="keyword">return</span> {
+    <span class="comment">// 开发环境</span>
+    <span class="variable">devOnly</span>: <span class="variable">command</span> === <span class="string">'serve'</span>,
+    <span class="comment">// 生产环境构建</span>
+    <span class="variable">prodBuild</span>: <span class="variable">command</span> === <span class="string">'build'</span> <span class="operator">&amp;&amp;</span> <span class="variable">mode</span> === <span class="string">'production'</span>,
+    <span class="comment">// SSR 构建</span>
+    <span class="variable">ssr</span>: <span class="variable">isSsrBuild</span>,
+    <span class="comment">// 预览模式</span>
+    <span class="variable">preview</span>: <span class="variable">isPreview</span>
+  }
+})</pre>
+
+                <div class="tip">
+                    💡 条件配置允许根据不同的构建环境动态调整配置
+                </div>
+            </div>
+
+            <!-- 异步配置 -->
+            <div class="card">
+                <h2>⚡ 异步配置 <a href="https://vite.dev/config/#async-config" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>🚀 异步函数配置</h3>
+                <pre><span class="keyword">export</span> <span class="keyword">default</span> <span class="function">defineConfig</span>(<span class="keyword">async</span> ({ <span class="variable">command</span>, <span class="variable">mode</span> }) => {
+  <span class="keyword">const</span> <span class="variable">data</span> = <span class="keyword">await</span> <span class="function">asyncFunction</span>()
+  <span class="keyword">return</span> {
+    <span class="comment">// 使用异步数据</span>
+    <span class="variable">define</span>: {
+      <span class="variable">__ASYNC_DATA__</span>: <span class="function">JSON</span>.<span class="function">stringify</span>(<span class="variable">data</span>)
+    }
+  }
+})</pre>
+
+                <div class="tip">
+                    💡 异步配置适用于需要从外部数据源加载配置的场景
+                </div>
+            </div>
+
+            <!-- 环境变量使用 -->
+            <div class="card">
+                <h2>🌍 环境变量使用 <a href="https://vite.dev/guide/env-and-mode" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>📂 加载环境变量</h3>
+                <pre><span class="keyword">import</span> { defineConfig, <span class="function">loadEnv</span> } <span class="keyword">from</span> <span class="string">'vite'</span>
+
+<span class="keyword">export</span> <span class="keyword">default</span> <span class="function">defineConfig</span>(({ <span class="variable">mode</span> }) => {
+  <span class="comment">// 基于模式加载环境变量</span>
+  <span class="keyword">const</span> <span class="variable">env</span> = <span class="function">loadEnv</span>(<span class="variable">mode</span>, <span class="variable">process</span>.<span class="function">cwd</span>(), <span class="string">''</span>)
+
+  <span class="keyword">return</span> {
+    <span class="variable">define</span>: {
+      <span class="variable">__APP_ENV__</span>: <span class="function">JSON</span>.<span class="function">stringify</span>(<span class="variable">env</span>.<span class="variable">APP_ENV</span>),
+    },
+    <span class="variable">server</span>: {
+      <span class="variable">port</span>: <span class="variable">env</span>.<span class="variable">APP_PORT</span> ? <span class="function">Number</span>(<span class="variable">env</span>.<span class="variable">APP_PORT</span>) : <span class="number">5173</span>,
+    },
+  }
+})</pre>
+
+                <h3>🎯 环境变量作用域</h3>
+                <pre><span class="keyword">export</span> <span class="keyword">default</span> <span class="function">defineConfig</span>(({ <span class="variable">mode</span> }) => {
+  <span class="comment">// 加载所有环境变量（不限制 VITE_ 前缀）</span>
+  <span class="keyword">const</span> <span class="variable">env</span> = <span class="function">loadEnv</span>(<span class="variable">mode</span>, <span class="variable">process</span>.<span class="function">cwd</span>(), <span class="string">''</span>)
+
+  <span class="comment">// 仅加载 VITE_ 前缀的环境变量</span>
+  <span class="keyword">const</span> <span class="variable">viteEnv</span> = <span class="function">loadEnv</span>(<span class="variable">mode</span>, <span class="variable">process</span>.<span class="function">cwd</span>())
+
+  <span class="keyword">return</span> {
+    <span class="comment">// 配置内容</span>
+  }
+})</pre>
+
+                <h3>📋 环境变量文件优先级</h3>
+                <pre>.env                <span class="comment"># 所有环境</span>
+.env.local          <span class="comment"># 所有环境，本地优先</span>
+.env.[mode]         <span class="comment"># 特定模式</span>
+.env.[mode].local   <span class="comment"># 特定模式，本地优先</span></pre>
+
+                <div class="tip">
+                    💡 客户端只能访问以 VITE_ 开头的环境变量
+                </div>
+            </div>
+
+            <!-- 核心配置选项 -->
+            <div class="card">
+                <h2>⚙️ 核心配置选项 <a href="https://vite.dev/config/shared-options" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>📁 项目配置</h3>
+                <pre><span class="keyword">export</span> <span class="keyword">default</span> <span class="function">defineConfig</span>({
+  <span class="comment">// 项目根目录</span>
+  <span class="variable">root</span>: <span class="string">'./src'</span>,
+  <span class="comment">// 环境变量目录</span>
+  <span class="variable">envDir</span>: <span class="string">'./env'</span>,
+  <span class="comment">// 基础公共路径</span>
+  <span class="variable">base</span>: <span class="string">'/my-app/'</span>,
+  <span class="comment">// 模式</span>
+  <span class="variable">mode</span>: <span class="string">'development'</span>,
+  <span class="comment">// 配置文件目录</span>
+  <span class="variable">configFile</span>: <span class="string">'my-vite.config.js'</span>,
+})</pre>
+
+                <h3>🌐 服务器配置</h3>
+                <pre><span class="keyword">export</span> <span class="keyword">default</span> <span class="function">defineConfig</span>({
+  <span class="variable">server</span>: {
+    <span class="comment">// 开发服务器端口</span>
+    <span class="variable">port</span>: <span class="number">5173</span>,
+    <span class="comment">// 自动打开浏览器</span>
+    <span class="variable">open</span>: <span class="keyword">true</span>,
+    <span class="comment">// CORS 配置</span>
+    <span class="variable">cors</span>: <span class="keyword">true</span>,
+    <span class="comment">// 代理配置</span>
+    <span class="variable">proxy</span>: {
+      <span class="string">'/api'</span>: {
+        <span class="variable">target</span>: <span class="string">'http://localhost:3000'</span>,
+        <span class="variable">changeOrigin</span>: <span class="keyword">true</span>,
+        <span class="variable">rewrite</span>: (<span class="variable">path</span>) => <span class="variable">path</span>.<span class="function">replace</span>(<span class="operator">/^</span><span class="operator">/</span><span class="operator">/</span><span class="operator">/</span><span class="operator">/</span><span class="operator">/</span><span class="operator">/</span><span class="operator">/</span><span class="operator">/</span><span class="operator">/</span><span class="string">api</span>, <span class="string">''</span>)
+      }
+    }
+  }
+})</pre>
+
+                <div class="tip">
+                    💡 代理配置特别适合解决开发环境跨域问题
+                </div>
+            </div>
+
+            <!-- 构建配置 -->
+            <div class="card">
+                <h2>🔨 构建配置 <a href="https://vite.dev/config/build-options" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>📦 构建选项</h3>
+                <pre><span class="keyword">export</span> <span class="keyword">default</span> <span class="function">defineConfig</span>({
+  <span class="variable">build</span>: {
+    <span class="comment">// 输出目录</span>
+    <span class="variable">outDir</span>: <span class="string">'dist'</span>,
+    <span class="comment">// 静态资源目录</span>
+    <span class="variable">assetsDir</span>: <span class="string">'assets'</span>,
+    <span class="comment">// 压缩方式</span>
+    <span class="variable">minify</span>: <span class="string">'terser'</span>,
+    <span class="comment">// 生成 source map</span>
+    <span class="variable">sourcemap</span>: <span class="keyword">true</span>,
+    <span class="comment">// 构建目标</span>
+    <span class="variable">target</span>: <span class="string">'es2015'</span>,
+    <span class="comment">// 代码分割</span>
+    <span class="variable">rollupOptions</span>: {
+      <span class="variable">output</span>: {
+        <span class="variable">manualChunks</span>: {
+          <span class="variable">vendor</span>: [<span class="string">'vue'</span>, <span class="string">'vue-router'</span>]
+        }
+      }
+    }
+  }
+})</pre>
+
+                <h3>🎯 构建优化</h3>
+                <pre><span class="keyword">export</span> <span class="keyword">default</span> <span class="function">defineConfig</span>({
+  <span class="variable">build</span>: {
+    <span class="comment">// 减少内存使用</span>
+    <span class="variable">chunkSizeWarningLimit</span>: <span class="number">1000</span>,
+    <span class="variable">rollupOptions</span>: {
+      <span class="variable">output</span>: {
+        <span class="comment">// 手动代码分割</span>
+        <span class="function">manualChunks</span>(<span class="variable">id</span>) {
+          <span class="keyword">if</span> (<span class="variable">id</span>.<span class="function">includes</span>(<span class="string">'node_modules'</span>)) {
+            <span class="keyword">return</span> <span class="string">'vendor'</span>
+          }
+        }
+      }
+    },
+    <span class="comment">// 并行处理</span>
+    <span class="variable">terserOptions</span>: {
+      <span class="variable">compress</span>: {
+        <span class="variable">drop_console</span>: <span class="keyword">true</span>,
+        <span class="variable">drop_debugger</span>: <span class="keyword">true</span>
+      }
+    }
+  }
+})</pre>
+
+                <div class="tip">
+                    💡 合理的代码分割可以显著提升应用加载性能
+                </div>
+            </div>
+
+            <!-- 插件配置 -->
+            <div class="card">
+                <h2>🔌 插件配置 <a href="https://vite.dev/config/plugins-options" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>🧩 基础插件使用</h3>
+                <pre><span class="keyword">import</span> <span class="variable">vue</span> <span class="keyword">from</span> <span class="string">'@vitejs/plugin-vue'</span>
+<span class="keyword">import</span> <span class="variable">react</span> <span class="keyword">from</span> <span class="string">'@vitejs/plugin-react'</span>
+<span class="keyword">import</span> { <span class="function">resolve</span> } <span class="keyword">from</span> <span class="string">'path'</span>
+
+<span class="keyword">export</span> <span class="keyword">default</span> <span class="function">defineConfig</span>({
+  <span class="variable">plugins</span>: [
+    <span class="function">vue</span>(),
+    <span class="function">react</span>()
+  ]
+})</pre>
+
+                <h3>🛠️ 自定义插件</h3>
+                <pre><span class="keyword">export</span> <span class="keyword">default</span> <span class="function">defineConfig</span>({
+  <span class="variable">plugins</span>: [
+    <span class="function">vue</span>(),
+    <span class="comment">// 自定义插件</span>
+    {
+      <span class="variable">name</span>: <span class="string">'my-plugin'</span>,
+      <span class="function">configureServer</span>(<span class="variable">server</span>) {
+        <span class="variable">server</span>.<span class="variable">middlewares</span>.<span class="function">use</span>((<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>) => {
+          <span class="comment">// 自定义中间件</span>
+          <span class="function">next</span>()
+        })
+      }
+    }
+  ]
+})</pre>
+
+                <div class="tip">
+                    💡 Vite 插件系统基于 Rollup，扩展性强
+                </div>
+            </div>
+
+            <!-- 路径别名 -->
+            <div class="card">
+                <h2>🔗 路径别名 <a href="https://vite.dev/config/shared-options#resolve-alias" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>📍 基础别名配置</h3>
+                <pre><span class="keyword">import</span> { <span class="function">resolve</span> } <span class="keyword">from</span> <span class="string">'path'</span>
+
+<span class="keyword">export</span> <span class="keyword">default</span> <span class="function">defineConfig</span>({
+  <span class="variable">resolve</span>: {
+    <span class="variable">alias</span>: {
+      <span class="string">'@'</span>: <span class="function">resolve</span>(<span class="variable">__dirname</span>, <span class="string">'src'</span>),
+      <span class="string">'@components'</span>: <span class="function">resolve</span>(<span class="variable">__dirname</span>, <span class="string">'src/components'</span>),
+      <span class="string">'@utils'</span>: <span class="function">resolve</span>(<span class="variable">__dirname</span>, <span class="string">'src/utils'</span>)
+    }
+  }
+})</pre>
+
+                <h3>🎯 正则表达式别名</h3>
+                <pre><span class="keyword">export</span> <span class="keyword">default</span> <span class="function">defineConfig</span>({
+  <span class="variable">resolve</span>: {
+    <span class="variable">alias</span>: [
+      {
+        <span class="variable">find</span>: <span class="operator">/^</span>@components<span class="operator">/</span>,
+        <span class="variable">replacement</span>: <span class="function">resolve</span>(<span class="variable">__dirname</span>, <span class="string">'src/components'</span>)
+      }
+    ]
+  }
+})</pre>
+
+                <div class="tip">
+                    💡 路径别名可以简化导入路径，提高代码可维护性
+                </div>
+            </div>
+
+            <!-- CSS 配置 -->
+            <div class="card">
+                <h2>🎨 CSS 配置 <a href="https://vite.dev/config/shared-options#css-preprocessoroptions" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>🖌️ 预处理器配置</h3>
+                <pre><span class="keyword">export</span> <span class="keyword">default</span> <span class="function">defineConfig</span>({
+  <span class="variable">css</span>: {
+    <span class="comment">// CSS 预处理器配置</span>
+    <span class="variable">preprocessorOptions</span>: {
+      <span class="variable">scss</span>: {
+        <span class="variable">additionalData</span>: <span class="string">'@import "@/styles/variables.scss";'</span>
+      },
+      <span class="variable">sass</span>: {
+        <span class="variable">additionalData</span>: <span class="string">'@use "@/styles/variables" as *;'</span>
+      },
+      <span class="variable">less</span>: {
+        <span class="variable">javascriptEnabled</span>: <span class="keyword">true</span>
+      }
+    }
+  }
+})</pre>
+
+                <h3>🔧 PostCSS 配置</h3>
+                <pre><span class="keyword">export</span> <span class="keyword">default</span> <span class="function">defineConfig</span>({
+  <span class="variable">css</span>: {
+    <span class="comment">// PostCSS 配置</span>
+    <span class="variable">postcss</span>: {
+      <span class="variable">plugins</span>: [
+        <span class="function">require</span>(<span class="string">'autoprefixer'</span>),
+        <span class="function">require</span>(<span class="string">'tailwindcss'</span>),
+        <span class="function">require</span>(<span class="string">'postcss-nested'</span>)
+      ]
+    }
+  }
+})</pre>
+
+                <h3>🎯 CSS 模块化</h3>
+                <pre><span class="keyword">export</span> <span class="keyword">default</span> <span class="function">defineConfig</span>({
+  <span class="variable">css</span>: {
+    <span class="variable">modules</span>: {
+      <span class="variable">localsConvention</span>: <span class="string">'camelCaseOnly'</span>
+    }
+  }
+})</pre>
+
+                <div class="tip">
+                    💡 CSS 模块化可以帮助避免样式命名冲突
+                </div>
+            </div>
+
+            <!-- 依赖优化 -->
+            <div class="card">
+                <h2>⚡ 依赖优化 <a href="https://vite.dev/config/dep-optimization-options" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>📦 预构建配置</h3>
+                <pre><span class="keyword">export</span> <span class="keyword">default</span> <span class="function">defineConfig</span>({
+  <span class="variable">optimizeDeps</span>: {
+    <span class="comment">// 强制预构建依赖</span>
+    <span class="variable">include</span>: [<span class="string">'vue'</span>, <span class="string">'vue-router'</span>, <span class="string">'axios'</span>],
+    <span class="comment">// 排除预构建</span>
+    <span class="variable">exclude</span>: [<span class="string">'@tensorflow/tfjs'</span>],
+    <span class="comment">// 添加需要转换的依赖</span>
+    <span class="variable">force</span>: <span class="keyword">true</span>,
+    <span class="comment">// 自定义 ES 构建选项</span>
+    <span class="variable">esbuildOptions</span>: {
+      <span class="variable">target</span>: <span class="string">'es2020'</span>
+    }
+  }
+})</pre>
+
+                <h3>🚀 开发性能优化</h3>
+                <pre><span class="keyword">export</span> <span class="keyword">default</span> <span class="function">defineConfig</span>({
+  <span class="variable">server</span>: {
+    <span class="variable">fs</span>: {
+      <span class="comment">// 限制文件系统访问范围</span>
+      <span class="variable">strict</span>: <span class="keyword">false</span>
+    },
+    <span class="variable">hmr</span>: {
+      <span class="comment">// 热更新配置</span>
+      <span class="variable">overlay</span>: <span class="keyword">true</span>
+    }
+  },
+  <span class="variable">optimizeDeps</span>: {
+    <span class="comment">// 预构建优化</span>
+    <span class="variable">force</span>: <span class="keyword">true</span>,
+    <span class="variable">include</span>: [<span class="string">'vue'</span>, <span class="string">'vue-router'</span>]
+  }
+})</pre>
+
+                <div class="tip">
+                    💡 合理的依赖优化可以显著提升开发服务器启动速度
+                </div>
+            </div>
+
+            <!-- 常用配置模板 -->
+            <div class="card">
+                <h2>📋 常用配置模板 <a href="https://vite.dev/guide/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>⚛️ Vue 3 项目</h3>
+                <pre><span class="keyword">import</span> { defineConfig } <span class="keyword">from</span> <span class="string">'vite'</span>
+<span class="keyword">import</span> <span class="variable">vue</span> <span class="keyword">from</span> <span class="string">'@vitejs/plugin-vue'</span>
+<span class="keyword">import</span> { <span class="function">resolve</span> } <span class="keyword">from</span> <span class="string">'path'</span>
+
+<span class="keyword">export</span> <span class="keyword">default</span> <span class="function">defineConfig</span>({
+  <span class="variable">plugins</span>: [<span class="function">vue</span>()],
+  <span class="variable">resolve</span>: {
+    <span class="variable">alias</span>: {
+      <span class="string">'@'</span>: <span class="function">resolve</span>(<span class="variable">__dirname</span>, <span class="string">'src'</span>)
+    }
+  },
+  <span class="variable">server</span>: {
+    <span class="variable">port</span>: <span class="number">3000</span>,
+    <span class="variable">open</span>: <span class="keyword">true</span>
+  },
+  <span class="variable">build</span>: {
+    <span class="variable">outDir</span>: <span class="string">'dist'</span>,
+    <span class="variable">assetsDir</span>: <span class="string">'assets'</span>,
+    <span class="variable">sourcemap</span>: <span class="keyword">false</span>
+  }
+})</pre>
+
+                <h3>⚛️ React 项目</h3>
+                <pre><span class="keyword">import</span> { defineConfig } <span class="keyword">from</span> <span class="string">'vite'</span>
+<span class="keyword">import</span> <span class="variable">react</span> <span class="keyword">from</span> <span class="string">'@vitejs/plugin-react'</span>
+
+<span class="keyword">export</span> <span class="keyword">default</span> <span class="function">defineConfig</span>({
+  <span class="variable">plugins</span>: [<span class="function">react</span>()],
+  <span class="variable">server</span>: {
+    <span class="variable">port</span>: <span class="number">3000</span>,
+    <span class="variable">open</span>: <span class="keyword">true</span>
+  },
+  <span class="variable">build</span>: {
+    <span class="variable">outDir</span>: <span class="string">'build'</span>,
+    <span class="variable">sourcemap</span>: <span class="keyword">true</span>
+  },
+  <span class="variable">optimizeDeps</span>: {
+    <span class="variable">include</span>: [<span class="string">'react'</span>, <span class="string">'react-dom'</span>]
+  }
+})</pre>
+
+                <h3>📘 TypeScript 项目</h3>
+                <pre><span class="keyword">import</span> { defineConfig } <span class="keyword">from</span> <span class="string">'vite'</span>
+<span class="keyword">import</span> { <span class="function">resolve</span> } <span class="keyword">from</span> <span class="string">'path'</span>
+
+<span class="keyword">export</span> <span class="keyword">default</span> <span class="function">defineConfig</span>({
+  <span class="variable">resolve</span>: {
+    <span class="variable">alias</span>: {
+      <span class="string">'@'</span>: <span class="function">resolve</span>(<span class="variable">__dirname</span>, <span class="string">'src'</span>),
+      <span class="string">'@types'</span>: <span class="function">resolve</span>(<span class="variable">__dirname</span>, <span class="string">'src/types'</span>)
+    }
+  },
+  <span class="variable">server</span>: {
+    <span class="variable">port</span>: <span class="number">5173</span>
+  },
+  <span class="variable">build</span>: {
+    <span class="variable">target</span>: <span class="string">'esnext'</span>,
+    <span class="variable">outDir</span>: <span class="string">'dist'</span>
+  }
+})</pre>
+
+                <div class="tip">
+                    💡 根据项目类型选择合适的配置模板可以快速开始开发
+                </div>
+            </div>
+
+            <!-- 插件开发 -->
+            <div class="card">
+                <h2>🔧 插件开发 <a href="https://vite.dev/guide/api-plugin" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>🛠️ 简单插件示例</h3>
+                <pre><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">function</span> <span class="function">myPlugin</span>() {
+  <span class="keyword">return</span> {
+    <span class="variable">name</span>: <span class="string">'my-plugin'</span>,
+    <span class="comment">// 钩子函数</span>
+    <span class="function">config</span>(<span class="variable">config</span>, { <span class="variable">command</span> }) {
+      <span class="comment">// 配置钩子</span>
+      <span class="keyword">return</span> {
+        <span class="comment">// 返回配置合并</span>
+      }
+    },
+    <span class="function">configResolved</span>(<span class="variable">resolvedConfig</span>) {
+      <span class="comment">// 配置解析完成钩子</span>
+    },
+    <span class="function">configureServer</span>(<span class="variable">server</span>) {
+      <span class="comment">// 服务器配置钩子</span>
+      <span class="variable">server</span>.<span class="variable">middlewares</span>.<span class="function">use</span>((<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>) => {
+        <span class="function">next</span>()
+      })
+    },
+    <span class="function">transform</span>(<span class="variable">code</span>, <span class="variable">id</span>) {
+      <span class="comment">// 代码转换钩子</span>
+      <span class="keyword">if</span> (<span class="variable">id</span>.<span class="function">endsWith</span>(<span class="string">'.vue'</span>)) {
+        <span class="comment">// 转换 Vue 文件</span>
+        <span class="keyword">return</span> <span class="variable">code</span>.<span class="function">replace</span>(<span class="operator">/</span>foo<span class="operator">/</span>g, <span class="string">'bar'</span>)
+      }
+    }
+  }
+}</pre>
+
+                <h3>🎯 插件钩子说明</h3>
+                <pre><span class="comment">// 主要插件钩子</span>
+{
+  <span class="variable">name</span>: <span class="string">'plugin-name'</span>,          <span class="comment">// 插件名称</span>
+  <span class="function">config</span>,                        <span class="comment">// 配置解析前</span>
+  <span class="function">configResolved</span>,              <span class="comment">// 配置解析后</span>
+  <span class="function">configureServer</span>,              <span class="comment">// 开发服务器配置</span>
+  <span class="function">configurePreviewServer</span>,        <span class="comment">// 预览服务器配置</span>
+  <span class="function">transformIndexHtml</span>,            <span class="comment">// HTML 转换</span>
+  <span class="function">transform</span>,                    <span class="comment">// 代码转换</span>
+  <span class="function">buildStart</span>,                  <span class="comment">// 构建开始</span>
+  <span class="function">buildEnd</span>,                    <span class="comment">// 构建结束</span>
+  <span class="function">closeBundle</span>                   <span class="comment">// 关闭构建</span>
+}</pre>
+
+                <div class="tip">
+                    💡 Vite 插件基于 Rollup 插件接口，扩展了特定的开发服务器钩子
+                </div>
+            </div>
+
+            <!-- 高级配置 -->
+            <div class="card">
+                <h2>🚀 高级配置 <a href="https://vite.dev/config/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>🎯 预览配置</h3>
+                <pre><span class="keyword">export</span> <span class="keyword">default</span> <span class="function">defineConfig</span>({
+  <span class="variable">preview</span>: {
+    <span class="comment">// 预览服务器端口</span>
+    <span class="variable">port</span>: <span class="number">4173</span>,
+    <span class="comment">// 自动打开浏览器</span>
+    <span class="variable">open</span>: <span class="keyword">true</span>,
+    <span class="comment">// 主机名</span>
+    <span class="variable">host</span>: <span class="keyword">true</span>
+  }
+})</pre>
+
+                <h3>🔧 实验性功能</h3>
+                <pre><span class="keyword">export</span> <span class="keyword">default</span> <span class="function">defineConfig</span>({
+  <span class="comment">// 实验性功能</span>
+  <span class="variable">experimental</span>: {
+    <span class="comment">// 启用构建优化</span>
+    <span class="variable">buildTarget</span>: <span class="string">'esnext'</span>,
+    <span class="comment">// 启用 hmrPartialAccept</span>
+    <span class="variable">hmrPartialAccept</span>: <span class="keyword">true</span>
+  }
+})</pre>
+
+                <h3>📊 Worker 配置</h3>
+                <pre><span class="keyword">export</span> <span class="keyword">default</span> <span class="function">defineConfig</span>({
+  <span class="variable">worker</span>: {
+    <span class="comment">// Worker 输出格式</span>
+    <span class="variable">format</span>: <span class="string">'es'</span>,
+    <span class="comment">// Worker 插件</span>
+    <span class="variable">plugins</span>: [],
+    <span class="comment">// Worker 打包配置</span>
+    <span class="variable">rollupOptions</span>: {}
+  }
+})</pre>
+
+                <div class="tip">
+                    💡 高级配置适用于特定需求和性能优化场景
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // 列宽调节功能
+        const columnWidth = document.getElementById('columnWidth');
+        const widthVal = document.getElementById('widthVal');
+        const columns = document.getElementById('columns');
+
+        function updateColumnWidth() {
+            const width = columnWidth.value + 'px';
+            widthVal.textContent = width;
+            columns.style.columnWidth = width;
+        }
+
+        columnWidth.addEventListener('input', updateColumnWidth);
+        updateColumnWidth();
+    </script>
+</body>
+</html>
