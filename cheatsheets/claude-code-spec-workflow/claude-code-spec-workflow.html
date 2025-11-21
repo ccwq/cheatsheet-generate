@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Claude Code Spec Workflow 速查表</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../../css/variables.css">
+  <link rel="stylesheet" href="../../css/common.css">
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png" />
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png" />
+
+  <!-- Prism.js 语法高亮（用于 Bash / Markdown / JSON 等） -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <style>
+    :root {
+      --col-width: 440px;
+      --gap: 16px;
+    }
+
+    .panel label {
+      color: var(--panel-accent);
+    }
+
+    .panel .title {
+      color: var(--panel-accent);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <span class="title">Claude Code Spec Workflow 速查表</span>
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="620">
+      <span id="widthVal" class="slider-val">620px</span>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <!-- 概览与安装 -->
+      <div class="card">
+        <h2>🚀 概览与安装 <a href="https://github.com/pimzino/claude-code-spec-workflow#-installation" title="Installation" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><strong>Claude Code Spec Workflow</strong>：为 Claude Code 提供规范驱动的自动化工作流插件。</li>
+          <li><strong>核心路径</strong>：新功能采用「需求 → 设计 → 任务 → 实现」，缺陷采用「报告 → 分析 → 修复 → 验证」。</li>
+          <li><strong>版本提示</strong>：官方维护重点已迁移到 <code>spec-workflow-mcp</code>，本版本仍适合纯 Claude Code 场景与存量项目。</li>
+        </ul>
+        <h3>全局安装与项目初始化</h3>
+        <pre><code class="language-bash"># 全局安装（推荐）
+npm install -g @pimzino/claude-code-spec-workflow
+
+# 在项目目录中生成 .claude 工作流结构
+cd &lt;your-project&gt;
+claude-code-spec-workflow
+
+# 启动 Claude Code 并创建 Steering 文档
+claude
+/spec-steering-setup</code></pre>
+        <div class="desc">全局安装一次，在每个项目目录中运行一次初始化，即可开始使用 Spec 与 Bug 工作流。</div>
+      </div>
+
+      <!-- Spec 工作流（新功能） -->
+      <div class="card">
+        <h2>📊 Spec 工作流（新功能） <a href="https://github.com/pimzino/claude-code-spec-workflow#-workflows-overview" title="Workflows Overview" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><code>/spec-create &lt;name&gt; \"描述\"</code>：一条命令完成需求、设计、任务拆分以及可选的任务命令生成。</li>
+          <li><code>/spec-execute &lt;task-id&gt; &lt;name&gt;</code>：按任务编号执行，实现可控的逐步开发与回溯。</li>
+          <li><code>/spec-status [&lt;name&gt;]</code>：查看单个规格或全部规格的状态与任务完成度。</li>
+          <li><code>/spec-list</code>：列出所有规格，便于在多特性之间快速切换上下文。</li>
+          <li><code>/&lt;name&gt;-task-&lt;id&gt;</code>：为每个任务自动生成的命令，适合精细控制与重复执行。</li>
+        </ul>
+        <h3>典型新功能开发流程</h3>
+        <pre><code class="language-bash"># 1. 为新特性创建规格
+/spec-create user-auth \"安全登录系统\"
+
+# 2. 查看规格与任务拆分情况
+/spec-status user-auth
+
+# 3. 按任务编号执行实现
+/spec-execute 1 user-auth
+/spec-execute 2 user-auth
+
+# 4. 或使用自动生成的任务命令
+/user-auth-task-1
+/user-auth-task-2</code></pre>
+        <div class="desc">Spec 工作流把需求、设计与任务拆解交给 Claude Code 自动执行，适合中大型功能开发。</div>
+      </div>
+
+      <!-- Bug Fix 工作流 -->
+      <div class="card">
+        <h2>🐛 Bug Fix 工作流 <a href="https://github.com/pimzino/claude-code-spec-workflow#-workflows-overview" title="Workflows Overview" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><code>/bug-create &lt;name&gt; \"描述\"</code>：记录缺陷的现象、复现步骤与期望行为。</li>
+          <li><code>/bug-analyze</code>：让 Claude Code 分析根因并定位可能出错的代码区域。</li>
+          <li><code>/bug-fix</code>：在上下文就绪后自动生成并应用修复方案。</li>
+          <li><code>/bug-verify</code>：根据用例与检查点验证修复是否生效。</li>
+          <li><code>/bug-status [&lt;name&gt;]</code>：查看当前或指定缺陷的处理进度。</li>
+        </ul>
+        <h3>典型缺陷修复流程</h3>
+        <pre><code class="language-bash"># 1. 登记并结构化描述问题
+/bug-create login-timeout \"用户登录后过快被登出\"
+
+# 2. 分析根因
+/bug-analyze
+
+# 3. 应用修复
+/bug-fix
+
+# 4. 验证修复结果
+/bug-verify
+/bug-status login-timeout</code></pre>
+        <div class="desc">Bug 工作流将缺陷从描述到验证串成闭环，适合高频小修与回归测试场景。</div>
+      </div>
+
+      <!-- CLI 与仪表盘命令 -->
+      <div class="card">
+        <h2>🛠 CLI 与仪表盘命令 <a href="https://github.com/pimzino/claude-code-spec-workflow#-command-line-options" title="Command Line Options" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <h3>项目初始化与测试</h3>
+        <pre><code class="language-bash"># 在当前目录生成工作流文件
+claude-code-spec-workflow
+
+# 使用 npx 在指定目录初始化
+npx @pimzino/claude-code-spec-workflow --project /path/to/project
+
+# 覆盖已有文件（谨慎使用）
+npx @pimzino/claude-code-spec-workflow --force
+
+# 跳过交互确认
+npx @pimzino/claude-code-spec-workflow --yes
+
+# 检查安装与配置是否正常
+npx @pimzino/claude-code-spec-workflow test</code></pre>
+        <h3>实时仪表盘（进度与任务看板）</h3>
+        <pre><code class="language-bash"># 在本地启动仪表盘
+npx -p @pimzino/claude-code-spec-workflow claude-spec-dashboard
+
+# 启动仪表盘并通过隧道对外分享
+npx -p @pimzino/claude-code-spec-workflow claude-spec-dashboard --tunnel
+
+# 完整隧道配置示例
+npx -p @pimzino/claude-code-spec-workflow claude-spec-dashboard \
+  --tunnel \
+  --tunnel-password mySecret123 \
+  --tunnel-provider cloudflare \
+  --port 3000 \
+  --open</code></pre>
+        <div class="desc">通过 CLI 完成初始化、健康检查与仪表盘启动，让规范与任务进度一目了然。</div>
+      </div>
+
+      <!-- Steering 文档与项目上下文 -->
+      <div class="card">
+        <h2>🎯 Steering 文档与项目上下文 <a href="https://github.com/pimzino/claude-code-spec-workflow#-steering-documents-new" title="Steering Documents" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><code>product.md</code>：记录产品愿景、目标用户、核心特性与成功指标。</li>
+          <li><code>tech.md</code>：记录技术栈、开发工具、技术约束与关键三方集成。</li>
+          <li><code>structure.md</code>：约定目录结构、命名规范、导入模式与代码组织原则。</li>
+        </ul>
+        <h3>创建与维护 Steering 文档</h3>
+        <pre><code class="language-bash"># 让 Claude Code 帮你梳理项目上下文
+/spec-steering-setup</code></pre>
+        <div class="desc">Steering 文档作为持久项目上下文，所有 Spec 和 Bug 工作流都会自动参考这些约定。</div>
+      </div>
+
+      <!-- 上下文优化命令 -->
+      <div class="card">
+        <h2>⚡ 上下文优化命令 <a href="https://github.com/pimzino/claude-code-spec-workflow#-context-optimization-commands" title="Context Optimization Commands" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <h3>批量加载 Steering / Spec / 模板上下文</h3>
+        <pre><code class="language-bash"># 一次性加载所有 Steering 文档
+claude-code-spec-workflow get-steering-context
+
+# 按特性名称加载规格文档
+claude-code-spec-workflow get-spec-context feature-name
+
+# 加载所有模板
+claude-code-spec-workflow get-template-context
+
+# 仅加载指定模板类别
+claude-code-spec-workflow get-template-context spec     # 规格模板
+claude-code-spec-workflow get-template-context bug      # 缺陷模板
+claude-code-spec-workflow get-template-context steering # Steering 模板</code></pre>
+        <h3>智能上下文管理与收益</h3>
+        <pre><code class="language-markdown">- Steering / Spec / 模板等高冗余文档通过批量加载减少重复读取
+- Bug 文档仍采用直接读取，保持简单清晰
+- 主代理（如 /spec-create、/spec-execute）一次性加载全量上下文，再向子代理按需下发
+- 子代理优先使用已提供的上下文，不重复调用 get-* 命令
+- 相比逐文件加载，可节省约 60–80% token，并提升执行速度</code></pre>
+        <div class="desc">利用 get-*context 命令与分层上下文管理，让 Spec / Bug 工作流在大项目中依然高效稳定。</div>
+      </div>
+
+      <!-- 实战示例与推荐组合 -->
+      <div class="card">
+        <h2>🌟 实战示例与推荐组合 <a href="https://github.com/pimzino/claude-code-spec-workflow#-examples" title="Examples" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <h3>新功能开发（Spec 模式）</h3>
+        <pre><code class="language-bash">cd my-awesome-project
+claude-code-spec-workflow
+claude
+/spec-steering-setup
+/spec-create user-dashboard \"用户仪表盘\"
+/spec-execute 1 user-dashboard
+/spec-status user-dashboard</code></pre>
+        <h3>多项目批量启用工作流</h3>
+        <pre><code class="language-bash">for dir in project1 project2 project3; do
+  npx @pimzino/claude-code-spec-workflow --project $dir --yes
+done</code></pre>
+        <div class="desc">将初始化脚本、Steering 文档与 Spec/Bug 工作流组合使用，可在多个项目中快速统一开发方式。</div>
+      </div>
+    </div>
+  </div>
+  <script src="../../assets/common.js"></script>
+</body>
+</html>
+
