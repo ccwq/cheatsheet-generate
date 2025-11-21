@@ -1,4 +1,4 @@
-基于"""主题 ....... """内容,生成cheatsheet, 其可能是链接,或者文本,如果是链接, 需要你分析链接内容和其页面上的关联内容
+基于上下文的主题内容,生成cheatsheet, 其可能是链接,或者文本,如果是链接, 需要你分析链接内容和其页面上的关联内容
 # Role: 基于我给定的主题来生成速查表cheatsheet
 ## Profile
 - language: 中文
@@ -33,67 +33,7 @@
    - 在模块标题的后面, 需要增加对应章节的链接, 如果可以还可以带上hash, 以方便跳转
 
 """html模板
-doctype html
-html(lang="zh-CN")
-  head
-    meta(charset="UTF-8")
-    title 某某主题开发命令速查表
-    meta(name="viewport" content="width=device-width, initial-scale=1")
-    <link rel="stylesheet" href="../../css/variables.css">
-    <link rel="stylesheet" href="../../css/common.css">
-    style.
-      :root {
-        --colWidth: 340px;
-        --gap: 16px;
-      }
 
-      .panel label {
-        color: var(--panel-accent); /* 覆盖默认的panel-text颜色 */
-      }
-
-      .panel .title {
-        color: var(--panel-accent);
-      }
-  body
-    .container
-      .panel
-        span(style="color:#7bfbb7;font-size:16px;margin-right:auto;") 某某主题速查表
-        label(for="columnWidth") 🔧 调整每列宽度：
-        input#columnWidth.slider-bar(type="range" min="300" max="660" value="340")
-        span#widthVal.slider-val 340px
-      .cheat-columns#columns
-        //- 示例卡片1
-        .card
-          h2 🔧 章节 <a href="path/to/offical/api" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a>
-          ul
-            li
-              code 示例命令
-              | ：命令描述
-            li
-              code 另一个命令
-              | ：另一个描述
-          h3 子标题
-          pre 代码示例区域
-          .desc 提示信息区域
-
-        //- 示例卡片2
-        .card
-          h2 ⚡ 另一个标题
-          ul
-            li 列表项目1
-            li 列表项目2
-            li 列表项目3
-          .desc 这里是描述文字区域
-        //- 更多卡片可以按此格式添加
-    script.
-      document.getElementById('columnWidth').addEventListener('input', function(e) {
-        const width = e.target.value;
-        document.getElementById('widthVal').textContent = width + 'px';
-        const columns = document.getElementById('columns');
-        columns.style.columnWidth = width + 'px';
-      });
-"""
-
-"""主题
-cygwin使用指南
+使用这个文件作为基础模板来开发, 其保持了
+cheatsheets/_example/example-cheatsheet.html
 """

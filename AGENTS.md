@@ -6,12 +6,14 @@
 ## 工具使用
 - 对于不确定的内容, 请使用chrome浏览器打开https://www-d-perplexity-d-ai-s-per.p-tga.aiwentu.com/, 在其上进行搜索操作来调查信息, 这是一个快速全面的ai搜集整理工具
 
-## 生成与存储
-- 根据 `/base.md` 的提示词和要求生成 Cheatsheet
+## 创建生成与存储
+在收到创建cheatsheet的请求后, 按照以下步骤进行操作
+- 读取 `prompts/创建cheatsheet.md`的内容, 按照其要求生成 Cheatsheet
 - 生成的 Cheatsheet 保存在 `/cheatsheets` 目录下
-- **决策 1：数据来源目录**
-  - 统一以 `cheatsheets/` 作为唯一数据来源目录；`cheatsheets-import/` 仅作为中转与迁移来源，不参与发布。
-  - 已调整脚本：`scripts/generate-nav.js` 仅扫描 `cheatsheets/`。
+
+## 改进提升重建
+- 当用户请求重建cheatsheet时, 请按照以下步骤进行操作
+  - 读取 `prompts/重构和改进.md` 的内容, 对已经存在的cheatsheet进行改进
 
 ## Cheatsheet 文件结构
 
@@ -35,8 +37,10 @@ foo指代cheatsheet的项目名称
     - 不要包含安装和配置的内容，只需包含使用相关的内容
 - **foo.html**：作为导览页链接的高优先级选项之一（优先级：index.html > 与目录同名的.html > 按名称排序的第一个.html）
 - **desc.md**：提供cheatsheet的一句话描述，自动提取第一行内容并去除简单Markdown语法
-  - **决策 2：导航页文件名**
-    - 输出文件固定为仓库根目录 `index.html`（模板：`templates/nav.template.html`）。
+  - **冲突点 2：导航页文件名**
+    - CLAUDE.md 提到 desc.md 用于在 `nav.html` 中显示介绍
+    - AGENTS.md 提到输出文件为仓库根目录 `index.html`
+    - 请决策：导航页的文件名是 `nav.html` 还是 `index.html`
 - **refmap.md**：
   - 提供结构化的官方文档和资源链接，帮助用户查找更详细的资料
   - 创建对应的refmap.md是一个好习惯

@@ -6,13 +6,14 @@
 ## 工具使用
 - 对于不确定的内容, 请使用chrome浏览器打开https://www-d-perplexity-d-ai-s-per.p-tga.aiwentu.com/, 在其上进行搜索操作来调查信息, 这是一个快速全面的ai搜集整理工具
 
-## 生成与存储
-- 根据 `/base.md` 的提示词和要求生成 Cheatsheet
+## 创建生成与存储
+在收到创建cheatsheet的请求后, 按照以下步骤进行操作
+- 读取 `prompts/创建cheatsheet.md`的内容, 按照其要求生成 Cheatsheet
 - 生成的 Cheatsheet 保存在 `/cheatsheets` 目录下
-- **冲突点 1：数据来源目录**
-  - CLAUDE.md 仅提到输出目录为 `/cheatsheets`
-  - AGENTS.md 提到数据来源目录包括 `cheatsheets/` 和 `cheatsheets-import/`
-  - 请决策：项目的数据来源目录是仅 `cheatsheets/` 还是同时包括 `cheatsheets/` 和 `cheatsheets-import/`
+
+## 改进提升重建
+- 当用户请求重建cheatsheet时, 请按照以下步骤进行操作
+  - 读取 `prompts/重构和改进.md` 的内容, 对已经存在的cheatsheet进行改进
 
 ## Cheatsheet 文件结构
 

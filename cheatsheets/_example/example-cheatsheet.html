@@ -1,11 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>某某主题开发命令速查表</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../../css/variables.css">
+    <link rel="stylesheet" href="../../css/common.css">
+    <style>
+        :root {
+            --colWidth: 340px;
+            --gap: 16px;
+        }
+
+        .panel label {
+            color: var(--panel-accent); /* 覆盖默认的panel-text颜色 */
+        }
+
+        .panel .title {
+            color: var(--panel-accent);
+        }
+    </style>
 </head>
 <body>
-    这只是一个示例
+    <div class="container">
+        <div class="panel">
+            <span style="color:#7bfbb7;font-size:16px;margin-right:auto;">某某主题速查表</span>
+            <label for="columnWidth">🔧 调整每列宽度：</label>
+            <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+            <span id="widthVal" class="slider-val">340px</span>
+        </div>
+        <div class="cheat-columns" id="columns">
+            <!-- 示例卡片1 -->
+            <div class="card">
+                <h2>🔧 章节 <a href="path/to/offical/api" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <ul>
+                    <li>
+                        <code>示例命令</code>：命令描述
+                    </li>
+                    <li>
+                        <code>另一个命令</code>：另一个描述
+                    </li>
+                </ul>
+                <h3>子标题</h3>
+                <pre>代码示例区域</pre>
+                <div class="desc">提示信息区域</div>
+            </div>
+
+            <!-- 示例卡片2 -->
+            <div class="card">
+                <h2>⚡ 另一个标题</h2>
+                <ul>
+                    <li>列表项目1</li>
+                    <li>列表项目2</li>
+                    <li>列表项目3</li>
+                </ul>
+                <div class="desc">这里是描述文字区域</div>
+            </div>
+            <!-- 更多卡片可以按此格式添加 -->
+        </div>
+    </div>
+    <script src="../../assets/common.js"></script>
 </body>
 </html>
