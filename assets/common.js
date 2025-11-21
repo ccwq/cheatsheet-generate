@@ -8,6 +8,8 @@ const initColumnWithSidler = ()=>{
         document.getElementById('widthVal').textContent = width + 'px';
         const columns = document.getElementById('columns');
         columns.style.columnWidth = width + 'px';
+        const input = document.getElementById('columnWidth')
+        input.value = width;
     }
 
     const input = document.getElementById('columnWidth')
