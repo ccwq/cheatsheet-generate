@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Spec Kit 与 Specify CLI 速查表</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../../css/variables.css">
+  <link rel="stylesheet" href="../../css/common.css">
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png" />
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png" />
+
+  <!-- Prism.js 语法高亮（用于 Bash / Markdown / JSON 等） -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <style>
+    :root {
+      --colWidth: 340px;
+      --gap: 16px;
+    }
+    .panel label {
+      color: var(--panel-accent);
+    }
+    .panel .title {
+      color: var(--panel-accent);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <span class="title">🌱 Spec Kit 与 Specify CLI 速查表</span>
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <!-- 概览与核心理念 -->
+      <div class="card">
+        <h2>🌱 Spec Kit 概览与核心理念 <a href="https://github.com/github/spec-kit#-what-is-spec-driven-development" title="What is Spec-Driven Development?" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><strong>Spec Kit</strong>：围绕“规范驱动开发”（Spec-Driven Development，SDD）的开源工具集。</li>
+          <li><strong>核心目标</strong>：让规范（spec）成为一等公民，通过可执行规范驱动代码生成。</li>
+          <li><strong>Specify CLI</strong>：命令行入口，负责初始化项目、检测依赖等。</li>
+          <li><strong>/speckit.* 命令</strong>：在 AI 编码助手中暴露一组结构化的工作流指令。</li>
+        </ul>
+        <h3>规范驱动开发的关键思想</h3>
+        <pre><code class="language-markdown">- 规范是「真相来源」，代码是规范的表达形式
+- 通过可执行的规格、实现计划和任务清单连接「文字 → 代码」
+- 调整功能 = 演进规格和实现计划，而不是直接改动散落的代码
+- AI 负责从规范到代码的自动化过渡，人负责定义和审阅规范</code></pre>
+        <div class="desc">先写规范，再写实现，Spec Kit 把「规格 → 计划 → 任务 → 代码」变成一条自动化流水线。</div>
+      </div>
+
+      <!-- 安装与快速开始 -->
+      <div class="card">
+        <h2>⚡ 安装 Specify CLI 与快速开始 <a href="https://github.com/github/spec-kit#-get-started" title="Get Started" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><strong>推荐方式</strong>：使用 <code>uv tool</code> 持久安装。</li>
+          <li><strong>一次性使用</strong>：使用 <code>uvx</code> 直接运行而不安装。</li>
+          <li><strong>核心命令</strong>：<code>specify init</code> 初始化项目；<code>specify check</code> 检查依赖。</li>
+        </ul>
+        <h3>安装 & 升级示例（Bash）</h3>
+        <pre><code class="language-bash"># 持久安装 Specify CLI（推荐）
+uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
+
+# 快速升级到最新版本
+uv tool install specify-cli --force --from git+https://github.com/github/spec-kit.git
+
+# 一次性使用（不安装到 PATH）
+uvx --from git+https://github.com/github/spec-kit.git specify init &lt;PROJECT_NAME&gt;</code></pre>
+        <h3>初始化与系统检查</h3>
+        <pre><code class="language-bash"># 初始化一个新项目
+specify init my-project
+
+# 检查依赖（git、AI agent 工具、编辑器集成等）
+specify check</code></pre>
+        <div class="desc">使用 uv 统一管理 Specify CLI，结合 <code>specify init</code> 与 <code>specify check</code> 完成基础环境准备。</div>
+      </div>
+
+      <!-- specify init 参数速览 -->
+      <div class="card">
+        <h2>🔧 <code>specify init</code> 常用参数速查 <a href="https://github.com/github/spec-kit#-specify-cli-reference" title="Specify CLI Reference" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><code>&lt;project-name&gt;</code>：项目目录名称，可用 <code>.</code> 或 <code>--here</code> 指向当前目录。</li>
+          <li><code>--ai</code>：指定 AI 助手，例如 <code>claude</code>、<code>gemini</code>、<code>copilot</code>、<code>cursor-agent</code> 等。</li>
+          <li><code>--script</code>：脚本类型，<code>sh</code>（Bash/Zsh）或 <code>ps</code>（PowerShell）。</li>
+          <li><code>--no-git</code>：跳过 Git 仓库初始化。</li>
+          <li><code>--here</code> / <code>--force</code>：在当前目录初始化，并在非空目录中强制覆盖。</li>
+          <li><code>--ignore-agent-tools</code>：跳过对本地 AI 工具（如 Claude Code）的检测。</li>
+          <li><code>--github-token</code>：用于 API 请求的 GitHub Token。</li>
+        </ul>
+        <h3>典型用法示例</h3>
+        <pre><code class="language-bash"># 默认初始化到新目录
+specify init my-project
+
+# 指定 AI 助手为 Claude
+specify init my-project --ai claude
+
+# 支持 Cursor / Windsurf 等编辑器集成
+specify init my-project --ai cursor-agent
+specify init my-project --ai windsurf
+
+# 在当前目录初始化（可能已有代码）
+specify init . --ai copilot
+specify init --here --ai copilot
+
+# 强制合并到非空目录
+specify init . --here --force --ai copilot
+
+# 跳过 Git 初始化
+specify init my-project --ai gemini --no-git</code></pre>
+        <div class="desc"><code>specify init</code> 既负责创建项目骨架，也负责为常见 AI 助手预配置命令和脚本。</div>
+      </div>
+
+      <!-- 支持的 AI Agents 与集成 -->
+      <div class="card">
+        <h2>🤖 支持的 AI Agents 与集成 <a href="https://github.com/github/spec-kit#-supported-ai-agents" title="Supported AI Agents" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><strong>主流助手</strong>：Claude、Gemini、Copilot、Cursor、Windsurf、Qwen 等。</li>
+          <li><strong>通用模式</strong>：通过 <code>--ai &lt;agent&gt;</code> 选择具体助手。</li>
+          <li><strong>脚本自动选择</strong>：根据 OS 自动选择 Bash / PowerShell，或通过 <code>--script</code> 手动指定。</li>
+          <li><strong>Agent 特殊集成</strong>：为不同助手预配置快捷命令和工作流。</li>
+        </ul>
+        <h3>选择 AI 助手的实践建议</h3>
+        <pre><code class="language-markdown">- 团队已有主力 AI 助手时，在初始化时显式传入 `--ai`
+- 在多人协作项目中保持 `--ai` 选项一致，避免脚本差异
+- 如需跨平台脚本（Windows + Linux），优先保证两种脚本都可用
+- 在企业环境中结合 `--github-token` 以避免 API 速率或鉴权问题</code></pre>
+        <div class="desc">Spec Kit 将「项目骨架」和「AI 助手工作流」打包在一起，让不同助手共享同一套规范驱动流程。</div>
+      </div>
+
+      <!-- Spec-Driven 开发 6 步流程 -->
+      <div class="card">
+        <h2>📚 Spec-Driven 开发 6 步流程 <a href="https://github.com/github/spec-kit/blob/main/spec-driven.md" title="Spec-Driven Development Guide" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><strong>1. constitution</strong>：定义项目宪章与原则。</li>
+          <li><strong>2. specify</strong>：描述要构建的产品与场景。</li>
+          <li><strong>3. plan</strong>：将需求转化为技术实现计划。</li>
+          <li><strong>4. tasks</strong>：生成可执行的任务列表。</li>
+          <li><strong>5. implement</strong>：按任务驱动实现与重构。</li>
+          <li><strong>6. iterate</strong>：通过更新规范推动后续演进。</li>
+        </ul>
+        <h3>典型工作流（概览）</h3>
+        <pre><code class="language-text">/speckit.constitution   # 建立项目原则与质量红线
+/speckit.specify        # 聚焦「要做什么」与「为什么」
+/speckit.plan           # 选择技术栈与架构，形成实现计划
+/speckit.tasks          # 从计划中拆分出任务列表
+/speckit.implement      # 根据任务执行实现与验证</code></pre>
+        <div class="desc">把「写需求 → 画架构 → 列任务 → 实现」结构化为一条由 /speckit.* 命令串联的流水线。</div>
+      </div>
+
+      <!-- /speckit.constitution：项目原则 -->
+      <div class="card">
+        <h2>📜 /speckit.constitution：项目宪章与原则 <a href="https://github.com/github/spec-kit#-get-started" title="Get Started - constitution" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><strong>定位</strong>：定义项目层面的原则、质量标准与约束。</li>
+          <li><strong>产物</strong>：生成或更新宪章文档，作为后续规格与计划的「上位规则」。</li>
+          <li><strong>作用</strong>：统一团队对测试、性能、UX、一致性等维度的期望。</li>
+        </ul>
+        <h3>使用示例</h3>
+        <pre><code class="language-text">/speckit.constitution Create principles focused on code quality, testing standards,
+user experience consistency, and performance requirements</code></pre>
+        <h3>编写建议</h3>
+        <pre><code class="language-markdown">- 明确哪些质量指标是「必须满足」，哪些是「可选加分」
+- 写清楚测试策略（单测/集成/端到端）和覆盖率期望
+- 统一错误处理、日志、可观测性等横切关注点
+- 对「禁止使用」或「慎用」的技术栈提前声明</code></pre>
+        <div class="desc">宪章决定整个项目「怎么做事」，后续的 spec 和 plan 都应与之对齐。</div>
+      </div>
+
+      <!-- /speckit.specify：功能规格 -->
+      <div class="card">
+        <h2>📝 /speckit.specify：编写功能规格 <a href="https://github.com/github/spec-kit/blob/main/spec-driven.md" title="Spec-Driven Workflow - specify" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><strong>关注点</strong>：聚焦「做什么」「为什么」，刻意回避具体技术细节。</li>
+          <li><strong>产物</strong>：生成 feature 分支与 <code>specs/&lt;feature&gt;/spec.md</code>。</li>
+          <li><strong>内容形态</strong>：用户故事、用例场景、验收标准、边界条件等。</li>
+        </ul>
+        <h3>调用示例</h3>
+        <pre><code class="language-text">/speckit.specify Build an application that can help me organize my photos
+in separate photo albums...（省略具体描述）</code></pre>
+        <h3>编写高质量规格的技巧</h3>
+        <pre><code class="language-markdown">- 多用「用户故事」风格：作为某某角色，我希望……
+- 明确成功标准：什么情况下可以认为功能完成？
+- 标记不确定点：使用 [NEEDS CLARIFICATION: 问题] 标注模糊需求
+- 不提前锁定技术栈，把「怎么实现」留给 `/speckit.plan`</code></pre>
+        <div class="desc">规格阶段只谈「做什么」，不谈「怎么做」，确保需求在技术选型前就足够清晰。</div>
+      </div>
+
+      <!-- /speckit.plan：技术实现计划 -->
+      <div class="card">
+        <h2>🧩 /speckit.plan：技术实现计划 <a href="https://github.com/github/spec-kit/blob/main/spec-driven.md" title="Spec-Driven Workflow - plan" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><strong>输入</strong>：已有的功能规格 <code>spec.md</code> 与项目宪章。</li>
+          <li><strong>产物</strong>：生成 <code>specs/&lt;feature&gt;/plan.md</code> 等设计文档。</li>
+          <li><strong>内容</strong>：技术栈选择、架构分层、边界划分、数据模型、高层组件划分等。</li>
+        </ul>
+        <h3>调用示例</h3>
+        <pre><code class="language-text">/speckit.plan The application uses Vite with minimal number of libraries.
+Use vanilla HTML, CSS, and JavaScript as much as possible...</code></pre>
+        <h3>高质量实现计划的要点</h3>
+        <pre><code class="language-markdown">- 对每个关键技术选择写出 rationale（为什么这样选）
+- 用模块/组件的方式拆解系统，而不是按文件罗列
+- 提前思考数据模型与边界（API、消息、事件）
+- 将非功能性需求（性能、安全、监控）融入计划中</code></pre>
+        <div class="desc">实现计划连接「业务规格」与「代码结构」，是后续任务拆解与实现的蓝图。</div>
+      </div>
+
+      <!-- /speckit.tasks & /speckit.implement -->
+      <div class="card">
+        <h2>✅ /speckit.tasks 与 /speckit.implement <a href="https://github.com/github/spec-kit/blob/main/spec-driven.md" title="Tasks & Implement" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><strong>/speckit.tasks</strong>：从 plan 及相关文档自动生成任务清单 <code>tasks.md</code>。</li>
+          <li><strong>/speckit.implement</strong>：按任务顺序执行，实现代码与测试。</li>
+          <li><strong>并行标记</strong>：<code>[P]</code> 表示可以并行执行的任务。</li>
+        </ul>
+        <h3>示例工作流</h3>
+        <pre><code class="language-text">/speckit.tasks      # 生成 tasks.md
+/speckit.implement  # 按 tasks.md 执行实现</code></pre>
+        <h3>结合传统开发流程的类比</h3>
+        <pre><code class="language-markdown">- 传统：PRD → 设计文档 → 手工拆任务 → 手工实现
+- 使用 Spec Kit：
+  - `/speckit.specify` 写 PRD 级规格
+  - `/speckit.plan` 生成技术设计
+  - `/speckit.tasks` 自动拆解任务
+  - `/speckit.implement` 驱动 AI 实现</code></pre>
+        <div class="desc">tasks + implement 让「写文档」直接变成「驱动实现」，减少手工搬运与遗漏。</div>
+      </div>
+
+      <!-- 项目目录结构与 SPECIFY_FEATURE -->
+      <div class="card">
+        <h2>📂 项目目录结构与 SPECIFY_FEATURE <a href="https://github.com/github/spec-kit#environment-variables" title="Environment Variables" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><strong>feature 目录</strong>：通常位于 <code>specs/&lt;feature-branch&gt;/</code>。</li>
+          <li><strong>核心文件</strong>：<code>spec.md</code>、<code>plan.md</code>、<code>tasks.md</code>、<code>quickstart.md</code>、<code>data-model.md</code> 等。</li>
+          <li><strong>环境变量</strong>：<code>SPECIFY_FEATURE</code> 用于在非 Git 场景下指定当前 feature。</li>
+        </ul>
+        <h3>典型目录结构示意</h3>
+        <pre><code class="language-text">specs/
+  001-photo-albums/
+    spec.md          # 功能规格
+    plan.md          # 技术实现计划
+    tasks.md         # 任务清单
+    quickstart.md    # 快速验证场景
+    data-model.md    # 数据模型
+    contracts/       # API/事件契约
+    research.md      # 研究/调研记录</code></pre>
+        <h3>在无 Git 仓库下切换 feature</h3>
+        <pre><code class="language-bash"># 在当前 shell / Agent 上下文中指定要工作的 feature
+export SPECIFY_FEATURE=001-photo-albums   # Bash / Zsh
+$env:SPECIFY_FEATURE = \"001-photo-albums\"  # PowerShell</code></pre>
+        <div class="desc">使用 SPECIFY_FEATURE 可以在没有 Git 分支的环境中手动指定当前正在处理的 feature。</div>
+      </div>
+
+      <!-- 故障排查与调优建议 -->
+      <div class="card">
+        <h2>🩺 故障排查与实践建议 <a href="https://github.com/github/spec-kit#-troubleshooting" title="Troubleshooting" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><strong>Git / 鉴权问题</strong>：在 Linux 上可按 README 中脚本安装 Git Credential Manager。</li>
+          <li><strong>AI Agent 行为异常</strong>：回到宪章与规格，检查是否存在模糊或冲突。</li>
+          <li><strong>规格质量不足</strong>：重复运行 clarify / checklist / analyze 等辅助命令。</li>
+          <li><strong>计划过度设计</strong>：通过 plan 审阅阶段减少不必要的复杂度。</li>
+        </ul>
+        <h3>提升规格质量的辅助命令</h3>
+        <pre><code class="language-markdown">- `/speckit.clarify`   ：补充和澄清模糊需求（推荐在 `/speckit.plan` 之前）
+- `/speckit.checklist`：生成自定义检查清单，像「英语单元测试」一样验证规格质量
+- `/speckit.analyze`  ：在 plan → tasks 阶段做一致性与覆盖率分析</code></pre>
+        <div class="desc">一旦实现出现偏差，优先检查规格与计划是否准确，而不是直接修改代码。</div>
+      </div>
+    </div>
+  </div>
+  <script src="../../assets/common.js"></script>
+</body>
+</html>
+
