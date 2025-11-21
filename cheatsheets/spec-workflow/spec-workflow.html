@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="../../css/variables.css">
   <link rel="stylesheet" href="../../css/common.css">
   <style>
-    :root{--colWidth:340px;--gap:16px}
+    :root{--col-width:540px;--gap:16px}
     .hlink{color:#93cdfc;text-decoration:none;margin-left:6px}
     .hlink:hover{text-decoration:underline}
   </style>
@@ -269,12 +269,7 @@ And 发出事件 stock.changed，payload 含 trace_id</pre></li>
 
     </div>
   </div>
-  <script>
-    const slider=document.getElementById('columnWidth');
-    const widthVal=document.getElementById('widthVal');
-    function apply(v){document.documentElement.style.setProperty('--colWidth',v+'px');widthVal.textContent=v+'px'}
-    slider.addEventListener('input',e=>apply(e.target.value));
-    apply(slider.value);
-  </script>
+
+  <script src="../../assets/common.js"></script>
 </body>
 </html>
