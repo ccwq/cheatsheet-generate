@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>npm 与 npx 包管理速查表</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../../css/variables.css">
+  <link rel="stylesheet" href="../../css/common.css">
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png" />
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png" />
+  <style>
+    :root {
+      /* 控制多列布局的列宽与间距（与 _example 模板保持一致） */
+      --col-width: 340px;
+      --gap: 16px;
+    }
+
+    .panel label {
+      color: var(--panel-accent);
+    }
+
+    .panel .title {
+      color: var(--panel-accent);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <span class="title">📦 npm 与 npx 包管理速查表</span>
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+    </div>
+
+    <div class="cheat-columns" id="columns">
+      <div class="card">
+        <h2>🚀 基础命令与帮助 <a href="https://docs.npmjs.com/cli" title="npm CLI 文档首页" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><code>npm -v</code> | 查看 npm 版本</li>
+          <li><code>npm --help</code> | 显示帮助总览</li>
+          <li><code>npm help &lt;cmd&gt;</code> | 查看指定命令帮助</li>
+          <li><code>npm config list</code> | 查看当前配置</li>
+          <li><code>npm config get registry</code> | 查看当前 registry 地址</li>
+          <li><code>npm prefix -g</code> | 查看全局安装路径</li>
+          <li><code>npm doctor</code> | 检查常见环境问题</li>
+        </ul>
+        <h3>常用环境信息</h3>
+        <pre>npm version          # 显示 npm / node / v8 等版本
+npm config list -l  # 显示完整配置
+npm root -g         # 全局 node_modules 目录</pre>
+        <div class="desc">先熟悉版本、帮助与配置查询，再深入各子命令使用。</div>
+      </div>
+
+      <div class="card">
+        <h2>📦 依赖安装与卸载 <a href="https://docs.npmjs.com/cli/v10/commands/npm-install" title="npm install 文档" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><code>npm install</code> | 按 package.json 安装全部依赖</li>
+          <li><code>npm install &lt;pkg&gt;</code> | 安装到 dependencies</li>
+          <li><code>npm install &lt;pkg&gt; -D</code> | 安装到 devDependencies</li>
+          <li><code>npm install -g &lt;pkg&gt;</code> | 全局安装 CLI 工具</li>
+          <li><code>npm uninstall &lt;pkg&gt;</code> | 卸载依赖</li>
+          <li><code>npm install &lt;pkg&gt;@&lt;version&gt;</code> | 安装指定版本</li>
+          <li><code>npm install &lt;pkg&gt;@latest</code> | 安装最新稳定版</li>
+        </ul>
+        <h3>锁定与重装依赖</h3>
+        <pre># 严格按照 package-lock.json 安装
+npm ci
+
+# 清理并重新安装
+rm -rf node_modules package-lock.json
+npm install</pre>
+        <div class="desc">区分本地/全局、生产/开发依赖，注意 use npm ci 保证可重复构建。</div>
+      </div>
+
+      <div class="card">
+        <h2>🛠️ 依赖更新与安全审计 <a href="https://docs.npmjs.com/cli/v10/commands/npm-update" title="npm update / audit 文档" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><code>npm outdated</code> | 列出可更新依赖</li>
+          <li><code>npm update</code> | 按 semver 范围更新依赖</li>
+          <li><code>npm update &lt;pkg&gt;</code> | 更新指定依赖</li>
+          <li><code>npm audit</code> | 扫描已知安全漏洞</li>
+          <li><code>npm audit fix</code> | 自动更新可修复漏洞</li>
+          <li><code>npm audit fix --force</code> | 允许破坏性更新</li>
+        </ul>
+        <h3>常见升级策略</h3>
+        <pre># 仅修补 BUG / Patch
+# package.json 中使用 ~1.2.3
+
+# 兼容小版本的新特性
+# package.json 中使用 ^1.2.3
+
+# 全量升级并手动测试
+npm outdated
+npm update</pre>
+        <div class="desc">结合 semver 范围与 audit 报告，控制更新节奏与风险。</div>
+      </div>
+
+      <div class="card">
+        <h2>📜 npm scripts 与生命周期 <a href="https://docs.npmjs.com/cli/v10/using-npm/scripts" title="npm scripts 文档" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><code>npm run &lt;script&gt;</code> | 运行 package.json 中的脚本</li>
+          <li><code>npm test</code> | 等价于 <code>npm run test</code></li>
+          <li><code>npm start</code> | 等价于 <code>npm run start</code></li>
+          <li><code>npm run lint -- --fix</code> | 给脚本透传参数</li>
+          <li><code>npm run</code> | 列出所有脚本</li>
+          <li><code>npm set-script &lt;name&gt; &lt;cmd&gt;</code> | 命令行新增脚本</li>
+        </ul>
+        <h3>脚本与生命周期示例</h3>
+        <pre>{
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "lint": "eslint src --fix",
+
+    "prepublishOnly": "npm test",
+    "postinstall": "node scripts/postinstall.js"
+  }
+}</pre>
+        <div class="desc">统一通过 npm run 管理任务，结合生命周期脚本自动化构建与发布前检查。</div>
+      </div>
+
+      <div class="card">
+        <h2>⚡ npx 临时执行 CLI 工具 <a href="https://docs.npmjs.com/cli/v10/commands/npx" title="npx 文档" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><code>npx &lt;pkg&gt;</code> | 直接执行本地或远程包</li>
+          <li><code>npx &lt;pkg&gt;@latest</code> | 始终使用包最新版本</li>
+          <li><code>npx --yes &lt;pkg&gt;</code> | 自动确认安装提示</li>
+          <li><code>npx --no-install &lt;pkg&gt;</code> | 只使用已有安装，不触发下载</li>
+          <li><code>npx -p &lt;pkg&gt; &lt;cmd&gt;</code> | 以临时依赖方式执行命令</li>
+        </ul>
+        <h3>脚手架与一次性命令</h3>
+        <pre># 创建新项目
+npx create-vite@latest my-app
+npx create-next-app@latest my-app
+
+# 一次性代码检查
+npx eslint . --ext .js,.ts
+
+# 指定 node 选项
+NODE_OPTIONS=\"--max_old_space_size=4096\" npx jest</pre>
+        <div class="desc">npx 适合一次性脚手架与工具，不污染全局环境，同时复用本地缓存。</div>
+      </div>
+
+      <div class="card">
+        <h2>🌐 registry 与缓存管理 <a href="https://docs.npmjs.com/cli/v10/commands/npm-config" title="npm 配置与缓存" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><code>npm config get registry</code> | 查看当前源</li>
+          <li><code>npm config set registry &lt;url&gt;</code> | 设置新源</li>
+          <li><code>npm config delete registry</code> | 恢复默认 registry</li>
+          <li><code>npm cache verify</code> | 检查缓存完整性</li>
+          <li><code>npm cache clean --force</code> | 清理本地缓存</li>
+        </ul>
+        <h3>.npmrc 配置示例</h3>
+        <pre># 用户级 ~/.npmrc
+registry=https://registry.npmjs.org/
+audit=true
+save-prefix=^
+
+# 项目级 .npmrc
+legacy-peer-deps=false
+engine-strict=true</pre>
+        <div class="desc">通过 .npmrc 统一管理 registry、审计与安装策略，缓存异常时适度清理。</div>
+      </div>
+
+      <div class="card">
+        <h2>🚢 发布与版本管理 <a href="https://docs.npmjs.com/cli/v10/commands/npm-publish" title="发布与版本文档" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><code>npm login</code> | 登录 npm registry</li>
+          <li><code>npm whoami</code> | 查看当前登录用户</li>
+          <li><code>npm version &lt;major|minor|patch&gt;</code> | 自动更新版本号与 tag</li>
+          <li><code>npm publish</code> | 发布包到 registry</li>
+          <li><code>npm publish --tag next</code> | 发布到自定义标签</li>
+          <li><code>npm dist-tag add pkg@1.2.3 next</code> | 手动添加 dist-tag</li>
+          <li><code>npm unpublish pkg@1.2.3</code> | 撤回指定版本（需谨慎）</li>
+        </ul>
+        <h3>发布流程示例</h3>
+        <pre># 1. 确认工作区干净
+git status
+
+# 2. 运行测试与构建
+npm test
+npm run build
+
+# 3. 更新版本并打 tag
+npm version patch
+
+# 4. 发布到 npm
+npm publish</pre>
+        <div class="desc">以 npm version 管理版本与 Git tag，配合 dist-tag 控制灰度与稳定通道。</div>
+      </div>
+
+      <div class="card">
+        <h2>🏗️ Workspaces 多包管理 <a href="https://docs.npmjs.com/cli/v10/using-npm/workspaces" title="Workspaces 文档" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><code>\"workspaces\" 字段</code> | 在 package.json 中声明子包</li>
+          <li><code>npm install -w &lt;ws&gt;</code> | 在指定 workspace 安装依赖</li>
+          <li><code>npm run &lt;script&gt; -w &lt;ws&gt;</code> | 在单个 workspace 运行脚本</li>
+          <li><code>npm run &lt;script&gt; --workspaces</code> | 在所有 workspace 执行脚本</li>
+          <li><code>npm exec -w &lt;ws&gt; &lt;cmd&gt;</code> | 在指定 workspace 执行命令</li>
+        </ul>
+        <h3>根 package.json 示例</h3>
+        <pre>{
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "test": "npm run test --workspaces"
+  }
+}</pre>
+        <div class="desc">Workspaces 适合多包仓库，统一管理依赖与脚本，减少重复安装。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 统一使用公共脚本管理列宽滑块逻辑 -->
+  <script src="../../assets/common.js"></script>
+</body>
+</html>
