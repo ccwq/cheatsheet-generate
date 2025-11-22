@@ -205,7 +205,6 @@ dev-dependencies = [
             <li><code>uv tool update black</code> ：更新工具</li>
             <li><code>uv tool list</code> ：列出已安装工具</li>
             <li><code>uv tool run black@latest &lt;file&gt;</code> ：运行特定版本工具</li>
-            <li><code>uvx black &lt;file&gt;</code> ：临时运行工具（预览）</li>
           </ul>
           <h3>支持工具</h3>
           <pre>black, flake8, mypy, pytest,
@@ -214,10 +213,40 @@ jupyter, pre-commit等</pre>
         </div>
 
         <div class="card">
+          <h2>🚀 uvx 临时工具执行 <a href="https://docs.astral.sh/uv/reference/cli/#uvx" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+          <p style="margin-bottom: 10px;">uvx 是 uv 提供的强大命令行工具，用于无需安装即可快速运行 Python 脚本和工具，相当于 Python 界的 "npx"。</p>
+          <h3>基础用法</h3>
+          <ul>
+            <li><code>uvx &lt;tool&gt;</code> ：无需安装临时运行工具</li>
+            <li><code>uvx black &lt;file&gt;</code> ：格式化代码文件</li>
+            <li><code>uvx flake8 &lt;file&gt;</code> ：代码质量检查</li>
+            <li><code>uvx mypy &lt;file&gt;</code> ：静态类型检查</li>
+            <li><code>uvx pytest</code> ：运行测试套件</li>
+            <li><code>uvx jupyter</code> ：启动Jupyter Notebook</li>
+            <li><code>uvx http.server</code> ：启动简单HTTP服务器</li>
+          </ul>
+          <h3>高级选项</h3>
+          <pre>uvx --with-reqs requirements.txt black
+uvx --python 3.11 black
+uvx --lockfile uv.lock black
+uvx --no-cache black
+uvx --pin &lt;version&gt; black
+uvx --system-site-packages black</pre>
+          <h3>实用场景</h3>
+          <pre>uvx easy-code-reader --project-dir /path/to/project
+uvx pip-audit
+uvx pre-commit run --all-files
+uvx pipdeptree -p requests
+uvx pip-chill
+uvx poetry --version
+uvx cookiecutter https://github.com/pydantic/pydantic-settings</pre>
+          <div class="desc">无需安装即可临时使用各种Python工具，提高开发效率</div>
+        </div>
+
+        <div class="card">
           <h2>🔬 预览功能 <a href="https://docs.astral.sh/uv/concepts/preview/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
           <ul>
             <li><code>uv --preview &lt;cmd&gt;</code> ：启用预览功能</li>
-            <li><code>uvx &lt;tool&gt;</code> ：临时运行工具</li>
             <li><code>uv tool run &lt;tool&gt;</code> ：运行但不安装工具</li>
             <li><code>uv pip install --editable &lt;path&gt;</code> ：可编辑安装</li>
           </ul>

@@ -57,7 +57,36 @@
 - `uv tool update black` - 更新工具
 - `uv tool list` - 列出已安装工具
 - `uv tool run black@latest <file>` - 运行特定版本工具
-- `uvx black <file>` - 临时运行工具（预览）
+- `uvx black <file>` - 临时运行工具
+
+## uvx 临时工具执行
+uvx 是 uv 提供的强大命令行工具，用于无需安装即可快速运行 Python 脚本和工具，相当于 Python 界的 "npx"。
+
+### 基础用法
+- `uvx <tool>` - 无需安装临时运行工具
+- `uvx black <file>` - 格式化代码文件
+- `uvx flake8 <file>` - 代码质量检查
+- `uvx mypy <file>` - 静态类型检查
+- `uvx pytest` - 运行测试套件
+- `uvx jupyter` - 启动Jupyter Notebook
+- `uvx http.server` - 启动简单HTTP服务器
+
+### 高级选项
+- `uvx --with-reqs requirements.txt black` - 使用指定requirements文件中的依赖运行
+- `uvx --python 3.11 black` - 指定特定Python版本运行工具
+- `uvx --lockfile uv.lock black` - 使用锁定文件中的依赖版本运行
+- `uvx --no-cache black` - 禁用缓存强制重新下载
+- `uvx --pin <version> black` - 使用特定版本的工具
+- `uvx --system-site-packages black` - 允许访问系统安装的包
+
+### 实用场景
+- `uvx easy-code-reader --project-dir /path/to/project` - 快速分析代码库
+- `uvx pip-audit` - 安全漏洞扫描而无需安装
+- `uvx pre-commit run --all-files` - 运行pre-commit钩子而无需全局安装
+- `uvx pipdeptree -p requests` - 查看特定包的依赖树
+- `uvx pip-chill` - 简洁显示顶层依赖
+- `uvx poetry --version` - 临时使用特定版本的poetry
+- `uvx cookiecutter https://github.com/pydantic/pydantic-settings` - 使用模板创建项目
 
 ## 预览功能
 - `uv --preview <cmd>` - 启用预览功能

@@ -11,6 +11,9 @@
 
 ## 主要命令
 - [CLI 命令参考](https://docs.astral.sh/uv/reference/cli/) - 完整的命令行工具文档
+- [uvx 临时工具执行](https://docs.astral.sh/uv/reference/cli/#uvx) - 无需安装直接运行工具的命令
+- [uvx 高级用法](https://docs.astral.sh/uv/concepts/tools/) - 深入了解工具执行机制
+- [工具管理](https://docs.astral.sh/uv/guides/tools/) - 工具的安装、运行和版本控制
 - [配置设置](https://docs.astral.sh/uv/reference/settings/) - 配置文件选项
 - [环境变量](https://docs.astral.sh/uv/reference/environment/) - 环境变量配置
 
