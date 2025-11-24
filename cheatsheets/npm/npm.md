@@ -7,4 +7,4 @@
 - 发布流程：login、version、publish、dist-tag 管理发布节奏与标签
 - 工作区：workspaces 管理多包仓库，支持按 workspace 运行脚本与安装依赖
 - 配置与缓存：config、set registry、cache clean 管理镜像源与本地缓存
-
+ - 依赖树与包信息查询：list、view/info、search 检查依赖结构与远程元数据

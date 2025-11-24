@@ -39,7 +39,10 @@
         <ul>
           <li><code>npm -v</code> | 查看 npm 版本</li>
           <li><code>npm --help</code> | 显示帮助总览</li>
-          <li><code>npm help &lt;cmd&gt;</code> | 查看指定命令帮助</li>
+          <li><code>npm -l</code> | 显示所有命令的用法概览</li>
+          <li><code>npm &lt;command&gt; -h</code> | 查看某个命令的快速帮助</li>
+          <li><code>npm help &lt;term&gt;</code> | 在浏览器中搜索帮助文档</li>
+          <li><code>npm help npm</code> | 打开更完整的 npm 总览文档</li>
           <li><code>npm config list</code> | 查看当前配置</li>
           <li><code>npm config get registry</code> | 查看当前 registry 地址</li>
           <li><code>npm prefix -g</code> | 查看全局安装路径</li>
@@ -49,7 +52,98 @@
         <pre>npm version          # 显示 npm / node / v8 等版本
 npm config list -l  # 显示完整配置
 npm root -g         # 全局 node_modules 目录</pre>
-        <div class="desc">先熟悉版本、帮助与配置查询，再深入各子命令使用。</div>
+        <div class="desc">先熟悉版本、帮助与配置查询，再结合下面各模块学习高频命令的实际用法。</div>
+      </div>
+
+      <div class="card">
+        <h2>🧾 命令索引与功能分组 <a href="https://docs.npmjs.com/cli" title="npm 命令总览" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><strong>安装与依赖管理：</strong>
+            <code>install</code>,
+            <code>install-ci-test</code>,
+            <code>install-test</code>,
+            <code>ci</code>,
+            <code>update</code>,
+            <code>outdated</code>,
+            <code>uninstall</code>,
+            <code>cache</code>,
+            <code>shrinkwrap</code>,
+            <code>find-dupes</code>
+          </li>
+          <li><strong>脚本与执行：</strong>
+            <code>run</code>,
+            <code>test</code>,
+            <code>start</code>,
+            <code>stop</code>,
+            <code>restart</code>,
+            <code>exec</code>,
+            <code>completion</code>
+          </li>
+          <li><strong>发布与版本：</strong>
+            <code>publish</code>,
+            <code>version</code>,
+            <code>dist-tag</code>,
+            <code>deprecate</code>,
+            <code>undeprecate</code>,
+            <code>unpublish</code>,
+            <code>pack</code>,
+            <code>sbom</code>
+          </li>
+          <li><strong>账号与权限：</strong>
+            <code>login</code>,
+            <code>logout</code>,
+            <code>whoami</code>,
+            <code>adduser</code>,
+            <code>access</code>,
+            <code>owner</code>,
+            <code>team</code>,
+            <code>org</code>,
+            <code>token</code>,
+            <code>profile</code>
+          </li>
+          <li><strong>信息查询与文档：</strong>
+            <code>view</code>,
+            <code>search</code>,
+            <code>docs</code>,
+            <code>repo</code>,
+            <code>bugs</code>,
+            <code>explain</code>,
+            <code>explore</code>,
+            <code>edit</code>,
+            <code>pkg</code>,
+            <code>query</code>
+          </li>
+          <li><strong>配置与诊断：</strong>
+            <code>config</code>,
+            <code>get</code>,
+            <code>set</code>,
+            <code>root</code>,
+            <code>prefix</code>,
+            <code>doctor</code>,
+            <code>ping</code>,
+            <code>fund</code>,
+            <code>audit</code>
+          </li>
+          <li><strong>列表与别名工具：</strong>
+            <code>ls</code>,
+            <code>ll</code>,
+            <code>root</code>,
+            <code>prefix</code>,
+            <code>repo</code>
+          </li>
+          <li><strong>帮助与元信息：</strong>
+            <code>help</code>,
+            <code>help-search</code>,
+            <code>access</code>,
+            <code>org</code>,
+            <code>team</code>
+          </li>
+        </ul>
+        <h3>使用建议</h3>
+        <pre>1. 在本页按模块浏览核心命令示例
+2. 遇到不熟悉的命令名，先在本卡片中找到所属功能分组
+3. 再用 `npm help &lt;command&gt;` 或点击上方链接查看官方详细文档</pre>
+        <div class="desc">将官方 help 中的命令列表按功能拆成多个小模块，方便快速反查命令家族，而不是一大块难以消化的纯文本索引。</div>
       </div>
 
       <div class="card">
@@ -94,6 +188,28 @@ npm install</pre>
 npm outdated
 npm update</pre>
         <div class="desc">结合 semver 范围与 audit 报告，控制更新节奏与风险。</div>
+      </div>
+
+      <div class="card">
+        <h2>🔍 依赖树与包信息查询 <a href="https://docs.npmjs.com/cli/v10/commands/npm-list" title="npm list / view 文档" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><code>npm list</code> | 查看当前项目依赖树</li>
+          <li><code>npm list --depth=0</code> | 仅显示顶层依赖</li>
+          <li><code>npm list &lt;pkg&gt;</code> | 查看指定包在依赖树中的位置</li>
+          <li><code>npm view &lt;pkg&gt; version</code> | 查看最新稳定版本号</li>
+          <li><code>npm view &lt;pkg&gt; versions --json</code> | 获取所有已发布版本</li>
+          <li><code>npm view &lt;pkg&gt; dist-tags</code> | 查看 latest/next 等 dist-tag</li>
+          <li><code>npm search &lt;keywords&gt;</code> | 在 registry 中搜索包（交互式输出）</li>
+        </ul>
+        <h3>调试依赖版本与 peerDependencies</h3>
+        <pre>npm list react                 # 查看项目中 React 的安装情况
+npm list react --depth=0      # 只看顶层是否直接依赖 React
+
+npm view react version        # 最新稳定版本
+npm view react@18 peerDependencies
+
+npm search eslint prettier    # 按关键字搜索相关包</pre>
+        <div class="desc">使用 list 检查本地依赖树，配合 view/search 查询远程元数据，快速定位版本与依赖关系问题。</div>
       </div>
 
       <div class="card">
@@ -190,6 +306,29 @@ npm version patch
 # 4. 发布到 npm
 npm publish</pre>
         <div class="desc">以 npm version 管理版本与 Git tag，配合 dist-tag 控制灰度与稳定通道。</div>
+      </div>
+
+      <div class="card">
+        <h2>🧰 高级管理：link / pack / prune <a href="https://docs.npmjs.com/cli/v10/commands/npm-link" title="link/pack/prune 等高级命令" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><code>npm link</code> | 将本地包以全局形式链接，或在项目中链接调试本地包</li>
+          <li><code>npm pack</code> | 生成当前包的发布 tarball</li>
+          <li><code>npm prune</code> | 移除 node_modules 中多余/未声明的依赖</li>
+          <li><code>npm dedupe</code> | 去重依赖树，尽量合并相同版本</li>
+          <li><code>npm rebuild</code> | 重新编译原生模块（如 node-gyp）</li>
+        </ul>
+        <h3>本地调试与清理示例</h3>
+        <pre># 在本地同时开发库与应用
+cd my-lib
+npm link                  # 将 my-lib 链接为全局包
+
+cd ../my-app
+npm link my-lib          # 在应用中使用本地 my-lib
+
+# 清理与去重
+npm prune
+npm dedupe</pre>
+        <div class="desc">这些高级命令常用于本地包调试、生成离线包与清理/整理依赖树，在大型项目和库开发中尤为常见。</div>
       </div>
 
       <div class="card">

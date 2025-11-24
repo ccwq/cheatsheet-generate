@@ -20,6 +20,9 @@
 - [npm version 版本号管理](https://docs.npmjs.com/cli/v10/commands/npm-version)
 - [npm dist-tag 发布标签](https://docs.npmjs.com/cli/v10/commands/npm-dist-tag)
 - [npx 命令行执行器](https://docs.npmjs.com/cli/v10/commands/npx)
+ - [npm list 依赖树查看](https://docs.npmjs.com/cli/v10/commands/npm-list)
+ - [npm view 包元数据查询](https://docs.npmjs.com/cli/v10/commands/npm-view)
+ - [npm search 包搜索](https://docs.npmjs.com/cli/v10/commands/npm-search)
 
 ## 工作区与多包仓库
 - [Workspaces 概览](https://docs.npmjs.com/cli/v10/using-npm/workspaces)
@@ -29,4 +32,3 @@
 - [语义化版本 SemVer 规范](https://semver.org/lang/zh-CN/)
 - [npm registry 基本介绍](https://docs.npmjs.com/cli/v10/using-npm/registry)
 - [npmrc 配置文件说明](https://docs.npmjs.com/cli/v10/configuring-npm/npmrc)
-
