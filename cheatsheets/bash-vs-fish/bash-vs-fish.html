@@ -403,20 +403,6 @@ shift $((OPTIND-1))</pre>
     </div>
   </div>
 
-  <script>
-    // 列宽滑块：300~660，实时写入 CSS 变量，驱动 column-width
-    (function(){
-      const slider = document.getElementById('columnWidth');
-      const label = document.getElementById('widthVal');
-      const root = document.documentElement;
-      function apply(v){
-        const px = (v|0);
-        root.style.setProperty('--colWidth', px + 'px');
-        label.textContent = px + 'px';
-      }
-      slider.addEventListener('input', e => apply(e.target.value));
-      apply(slider.value);
-    })();
-  </script>
+  <script src="../../assets/common.js"></script>
 </body>
 </html>

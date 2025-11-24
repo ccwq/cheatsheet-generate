@@ -523,14 +523,6 @@
 
     </div>
   </div>
-  <script>
-    // 调整列宽（与站内深色速查保持一致的实现）
-    const slider = document.getElementById('columnWidth');
-    const columns = document.getElementById('columns');
-    const widthVal = document.getElementById('widthVal');
-    function applyWidth(w){ columns.style.columnWidth = w + 'px'; widthVal.textContent = w + 'px'; }
-    slider.addEventListener('input', (e)=> applyWidth(e.target.value));
-    applyWidth(slider.value);
-  </script>
+  <script src="../../assets/common.js"></script>
 </body>
 </html>

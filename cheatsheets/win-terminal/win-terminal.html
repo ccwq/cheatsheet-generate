@@ -92,12 +92,6 @@
 
     </div>
   </div>
-  <script>
-    const slider=document.getElementById('columnWidth');
-    const widthVal=document.getElementById('widthVal');
-    function apply(v){document.documentElement.style.setProperty('--colWidth',v+'px');widthVal.textContent=v+'px'}
-    slider.addEventListener('input',e=>apply(e.target.value));
-    apply(slider.value);
-  </script>
+  <script src="../../assets/common.js"></script>
 </body>
 </html>

@@ -759,20 +759,6 @@ viewer.scene.globe.<span class="method">preloadTerrain</span>(bounds);</pre>
         </div>
     </div>
 
-    <script>
-        // 列宽调节功能
-        const columnWidth = document.getElementById('columnWidth');
-        const widthVal = document.getElementById('widthVal');
-        const columns = document.getElementById('columns');
-
-        function updateColumnWidth() {
-            const width = columnWidth.value + 'px';
-            widthVal.textContent = width;
-            columns.style.columnWidth = width;
-        }
-
-        columnWidth.addEventListener('input', updateColumnWidth);
-        updateColumnWidth();
-    </script>
+    <script src="../../assets/common.js"></script>
 </body>
 </html>
