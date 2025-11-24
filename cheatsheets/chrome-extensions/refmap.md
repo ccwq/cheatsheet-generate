@@ -1,0 +1,10 @@
+- [Chrome 扩展 MV3 总览](https://developer.chrome.com/docs/extensions/mv3/) - 官方 MV3 入口，涵盖架构、迁移与常见策略。
+- [Manifest 文件键参考](https://developer.chrome.com/docs/extensions/reference/manifest?hl=zh-cn) - 详细列出所有 supported 清单字段及说明。
+- [权限列表与警告](https://developer.chrome.com/docs/extensions/reference/permissions-list?hl=zh-cn) - 每个权限的描述、用户警告与常见使用场景。
+- [Service Worker](https://developer.chrome.com/docs/extensions/mv3/service_workers/) - 事件生命周期、调试方式与最佳实践。
+- [Messaging](https://developer.chrome.com/docs/extensions/mv3/messaging/) - popup、content script 与 background 的通信机制。
+- [Storage API](https://developer.chrome.com/docs/extensions/reference/storage/) - sync/local/managed/session 等存储区域与事件。
+- [Declarative Net Request](https://developer.chrome.com/docs/extensions/reference/declarativeNetRequest/) - 静态与动态规则的定义与更新方式。
+- [Commands](https://developer.chrome.com/docs/extensions/reference/commands/) - 快捷键定义、触发与命名空间使用要点。
+- [Context Menus](https://developer.chrome.com/docs/extensions/reference/contextMenus/) - 右键菜单创建、分组与事件处理。
+- [Side Panel API](https://developer.chrome.com/docs/extensions/reference/sidePanel/) - 侧边栏内容入口与行为选项。
