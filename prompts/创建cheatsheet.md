@@ -33,7 +33,6 @@
    - 在模块标题的后面, 需要增加对应章节的链接, 如果可以还可以带上hash, 以方便跳转
 
 """html模板
-
-使用这个文件作为基础模板来开发, 其保持了
+使用这个文件作为基础模板来创建cheatsheet的html文件
 cheatsheets/_example/example-cheatsheet.html
 """
