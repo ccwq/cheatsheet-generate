@@ -14,6 +14,7 @@
 - [pnpm exec 执行命令](https://pnpm.io/cli/exec)
 - [pnpm dlx 临时执行包](https://pnpm.io/cli/dlx)
 - [pnpm list 查看依赖树](https://pnpm.io/cli/list)
+ - [pnpm why 依赖来源分析](https://pnpm.io/cli/why)
 
 ## 工作区与多包仓库
 - [Workspaces 概览](https://pnpm.io/workspaces)
@@ -24,3 +25,9 @@
 - [store 设计与路径](https://pnpm.io/npmrc#store-dir)
 - [pnpm store prune 清理未使用依赖](https://pnpm.io/cli/store)
 
+## 高级管理与迁移
+- [pnpm import 迁移锁文件](https://pnpm.io/cli/import)
+- [pnpm fetch 预拉取依赖](https://pnpm.io/cli/fetch)
+- [pnpm prune 清理依赖](https://pnpm.io/cli/prune)
+- [pnpm rebuild 重新构建原生模块](https://pnpm.io/cli/rebuild)
+- [pnpm env Node 版本管理](https://pnpm.io/cli/env)

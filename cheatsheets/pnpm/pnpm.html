@@ -159,6 +159,32 @@ pnpm store prune
 pnpm config set store-dir D:\\pnpm-store</pre>
         <div class="desc">pnpm 将依赖集中存储在 store 中，通过 prune 与重定向路径可兼顾性能与空间。</div>
       </div>
+
+      <div class="card">
+        <h2>🧰 高级管理与迁移 <a href="https://pnpm.io/cli/import" title="import/fetch/prune/rebuild/env 文档" target="_blank" style="color:#93cdfc;">>></a></h2>
+        <ul>
+          <li><code>pnpm import</code> | 从 npm / Yarn 等锁文件迁移到 pnpm</li>
+          <li><code>pnpm fetch</code> | 仅下载依赖到 store，不生成 node_modules</li>
+          <li><code>pnpm prune</code> | 清理未被任何项目使用的依赖</li>
+          <li><code>pnpm rebuild</code> | 重新构建原生模块</li>
+          <li><code>pnpm env use &lt;version&gt;</code> | 管理与切换 Node.js 版本</li>
+        </ul>
+        <h3>迁移与 CI 场景示例</h3>
+        <pre># 从原有 npm/yarn 项目迁移
+pnpm import
+pnpm install
+
+# CI 中预拉取依赖，加速后续安装
+pnpm fetch
+pnpm install --offline
+
+# 修复原生模块或变更 Node 版本后
+pnpm rebuild
+
+# 使用 pnpm 管理 Node 版本
+pnpm env use --global 20</pre>
+        <div class="desc">这些命令帮助从其他包管理器平滑迁移，优化 CI 下载流程，并在 Node 版本变更后修复原生模块问题。</div>
+      </div>
     </div>
   </div>
 
