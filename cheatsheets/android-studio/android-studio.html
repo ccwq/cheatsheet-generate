@@ -136,17 +136,6 @@
     </div>
   </div>
 
-  <script>
-    // 顶部滑杆：调整列宽（与站点样式保持一致）
-    const slider = document.getElementById('columnWidth');
-    const widthVal = document.getElementById('widthVal');
-    const columns = document.getElementById('columns');
-    function applyWidth(v){
-      document.documentElement.style.setProperty('--colWidth', v + 'px');
-      widthVal.textContent = v + 'px';
-    }
-    slider.addEventListener('input', e => applyWidth(e.target.value));
-    applyWidth(slider.value);
-  </script>
+  <script src="../../assets/common.js"></script>
 </body>
 </html>
