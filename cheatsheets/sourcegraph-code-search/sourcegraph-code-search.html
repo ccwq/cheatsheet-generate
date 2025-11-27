@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Sourcegraph Code Search 查询速查表</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../../css/variables.css">
+    <link rel="stylesheet" href="../../css/common.css">
+    <style>
+        :root {
+            --col-width: 500px;
+            --gap: 16px;
+        }
+        .card h2 a {
+            font-size: 0.8em;
+            margin-left: 8px;
+            color: #87d7ff;
+        }
+        .hero-note {
+            font-size: 0.9em;
+            color: #9bd4ff;
+            margin-top: 0.35rem;
+        }
+        .desc {
+            margin-top: 10px;
+            color: #b7c3e2;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="panel">
+            <span style="color:#7bfbb7;font-size:16px;margin-right:auto;">Sourcegraph Code Search 查询速查表</span>
+            <label for="columnWidth">🔧 调整每列宽度：</label>
+            <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="360">
+            <span id="widthVal" class="slider-val">360px</span>
+        </div>
+        <div class="cheat-columns" id="columns">
+            <div class="card">
+                <h2>🔍 搜索模式 <a href="https://sourcegraph.com/docs/code-search/queries#search-patterns" target="_blank">文档</a></h2>
+                <ul>
+                    <li>默认 `patternType:keyword`，空格拆词可任意顺序匹配；`Aa` 控件切换大小写敏感（`case:yes`）。</li>
+                    <li>`"foo bar"` 精确短语；`/.../` 触发 RE2 正则；`(.*)` 控件或 `patternType:regexp` 也能指定正则。</li>
+                    <li>`patternType:structural` 允许结构化匹配，需传 `structural:{pattern}` 语法，适配 AST 级别搜索。</li>
+                    <li>应对保留词，可用 `content:"repo:sourcegraph"` 让文本按字面匹配，再叠加过滤器减少冲突。</li>
+                </ul>
+                <pre><code class="language-bash"># 包含 foo 与 bar
+foo bar
+
+# 精确短语与转义
+"foo \"bar\""
+
+# 正则示例
+/foo\s+bar/i
+
+# 搜索 literal 包含 repo:sourcegraph
+repo:sourcegraph content:"repo:sourcegraph"
+
+# 指定模式类型（可加 context）
+context:global fmt.Errorf patternType:regexp
+context:@me panic patternType:structural</code></pre>
+                <div class="desc">关键词、正则与结构化三角配合，可按需在 cheatsheet 里选用最合适的模式。</div>
+            </div>
+
+            <div class="card">
+                <h2>🌐 Search Context <a href="https://sourcegraph.com/docs/code-search/queries#search-context" target="_blank">文档</a></h2>
+                <ul>
+                    <li>`context:global` 覆盖全局仓库，`context:@<user>`/`context:@<team>` 用于私有或团队上下文。</li>
+                    <li>Context 决定可见仓库集，可与 `repo:`/`file:` 组合，不填写时默认当前选中的 context。</li>
+                    <li>界面右上角 `Contexts` 下拉可切换；URL 示例：<code>https://sourcegraph.com/search?q=context:global+repo:sourcegraph/sourcegraph</code></li>
+                </ul>
+                <div class="desc">明确 Context 后，才能在多团队或多权限环境中挑对数据源。</div>
+            </div>
+
+            <div class="card">
+                <h2>🗂 通用过滤器 <a href="https://sourcegraph.com/docs/code-search/queries#filters-all-searches" target="_blank">文档</a></h2>
+                <ul>
+                    <li><strong>repo:/-repo:</strong> 路径正则，`rev:`/`context:` 限定修订与上下文；`repo:foo|bar` 表示或，多个 repo 等价交集。</li>
+                    <li><strong>file:/-file:</strong> 控制路径，默认非锚定，全匹配用 `^README.md$`，也可用 `file:has.filename` 等谓词。</li>
+                    <li><strong>language:/-language:</strong> 指定语言；<strong>select:</strong> 控制响应类型（`select:repo`、`select:file`、`select:commit.diff.added`）；<strong>type:</strong> 指向 `file`/`path`/`repo`/`symbol.kind`/`commit`/`diff` 等。</li>
+                    <li><strong>patternType:</strong> 显式 `keyword`/`regexp`/`structural`；<strong>case:yes</strong> 强制大小写敏感；`count:`/`timeout:` 控制规模；`fork:`/`archived:`/`visibility:` 过滤状态。</li>
+                    <li><strong>repo:has.*</strong> 与 <strong>file:has.*</strong>：
+                        <ul>
+                            <li>`repo:has.meta(key:value)`/`repo:has.meta(key)`/`repo:has.meta(key:)`，如 `repo:has.meta(owning-team:security)`。</li>
+                            <li>`repo:has.path(regexp)`/`repohasfile`：只在含匹配路径的仓库搜。</li>
+                            <li>`repo:has.topic(topic)`、`repo:has.commit.after(duration)` 指定 topic 与活跃度。</li>
+                        </ul>
+                    </li>
+                    <li>`repo:` 可接 glob（`@*refs/heads/*`）与排除（`@*refs/heads/*:*!refs/heads/release*`）语法。</li>
+                </ul>
+                <pre><code class="language-bash">repo:gorilla/mux testroute
+file:\.js$ httptest
+language:typescript encoding
+select:repo fmt.Errorf
+repo:sourcegraph rev:v3.14.0 mux
+repo:sourcegraph count:1000 timeout:15s func</code></pre>
+                <div class="desc">先用过滤器缩小范围，再用搜索模式匹配内容，避免无效结果浪费配额。</div>
+            </div>
+
+            <div class="card">
+                <h2>⚖ 布尔与分组 <a href="https://sourcegraph.com/docs/code-search/queries#boolean-operators" target="_blank">文档</a></h2>
+                <ul>
+                    <li>`AND`/`OR`/`NOT` 可大写或小写，AND 绑定更紧，优先级高于 OR。</li>
+                    <li>`NOT` 可写成 `-`，如 `-file:test`；若逻辑复杂，用括号强制作用范围。</li>
+                </ul>
+                <pre><code class="language-bash">foo AND bar OR baz             # 等价 (foo AND bar) OR baz
+panic NOT ever                 # 等价 panic AND NOT ever
+file:main.c (char c or (int i and int j))</code></pre>
+                <div class="desc">布尔与括号结合，用来精确控制多个过滤器或关键词的匹配范围。</div>
+            </div>
+
+            <div class="card">
+                <h2>🏷 仓库与修订 <a href="https://sourcegraph.com/docs/code-search/queries#repository-search" target="_blank">文档</a></h2>
+                <ul>
+                    <li>`repo:` 单用会列出路径，`|` 表示并集，`-repo:` 排除不想要的仓库。</li>
+                    <li>`repo:<path>@<revision>` 可指定分支/tag/commit；`rev:` 只能与 `repo:` 联用且不可重复，`@*refs/heads/*`/`@*refs/tags/*` 可替代多个 revision，Sourcegraph 会自动补全 `/*`。</li>
+                    <li>`@*refs/heads/*:*!refs/heads/release*` 等 `@...:*!...` 语法可排除 refs，`^` 表示集合差，例如 `repo:foo@main:^3.15`。</li>
+                    <li>`rev:at.time("3 days ago")` 等时间限定式需 Sourcegraph 5.4+；结合 `type:commit`/`type:diff` 查看历史。</li>
+                </ul>
+                <pre><code class="language-bash">repo:foo repo:bar
+repo:foo|bar
+repo:myteam/abc@main:^fixme type:commit
+repo:docker@*refs/tags/*</code></pre>
+                <div class="desc">优先用 `repo:`+`rev:` 定位代码库与修订，再叠加其它过滤器减少噪声。</div>
+            </div>
+
+            <div class="card">
+                <h2>🧾 提交与差异 <a href="https://sourcegraph.com/docs/code-search/queries#filters-diff-and-commit-searches-only" target="_blank">文档</a></h2>
+                <ul>
+                    <li>`type:diff`/`type:commit` 切换变更视图，自带 `repo:+` 组合可查看分支或 tag 里的差异/提交。</li>
+                    <li>`author:`/`-author:`、`committer:` 匹配提交者，支持正则；`before:`/`after:` 控制提交时间。</li>
+                    <li>`message:`/`-message:` 用于匹配提交信息，和 `type:diff` 配合可快速定位某段改动。</li>
+                </ul>
+                <pre><code class="language-bash">type:diff func author:nick
+type:commit test message:"refactor"
+before:"last thursday" after:"6 weeks ago"</code></pre>
+                <div class="desc">差异/提交过滤适合代码审查与回溯，配合 `repo:` 和 `author:` 才能迅速定位责任人。</div>
+            </div>
+
+            <div class="card">
+                <h2>💡 使用建议 <a href="https://sourcegraph.com/docs/code-search/queries" target="_blank">文档</a></h2>
+                <ul>
+                    <li>先缩小 `repo`、`file`、`language`，再层叠 `content`、`patternType` 与 `select` 筛选最相关结果。</li>
+                    <li>想看完整结果用 `count:all` + `timeout:`，想看仓库列表用 `select:repo`，想看新增/删除代码用 `select:commit.diff.added`。</li>
+                    <li>若要排除旧提交集搭配 `^`，要排除 release/tag/branch 也可借助 `*@* :*!refs/...`。</li>
+                </ul>
+                <div class="desc">遵循 “先定位再过滤” 的查找顺序，能让 Sourcegraph 查询既快又精确。</div>
+            </div>
+        </div>
+    </div>
+    <script src="../../assets/common.js"></script>
+</body>
+</html>

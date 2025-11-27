@@ -1,0 +1,2 @@
+- Sourcegraph Code Search 查询语法：官方社区文档、过滤器与布尔逻辑汇总（https://sourcegraph.com/docs/code-search/queries）
+- Sourcegraph 搜索语言参考：图形词法与 select/has 语法细节（https://sourcegraph.com/code-search/queries/language）
