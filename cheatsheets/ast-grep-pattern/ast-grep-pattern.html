@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>AST-grep 模式语法速查表</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../../css/variables.css">
+    <link rel="stylesheet" href="../../css/common.css">
+    <style>
+        :root {
+            --col-width: 420px;
+            --gap: 16px;
+        }
+
+        .panel label {
+            color: var(--panel-accent);
+        }
+
+        .panel .title {
+            color: var(--panel-accent);
+        }
+
+        code {
+            font-size: 13px;
+        }
+
+        pre code {
+            line-height: 1.2;
+        }
+    </style>
+
+    <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png" />
+    <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png" />
+  </head>
+<body>
+    <div class="container">
+        <div class="panel">
+            <span style="color:#7bfbb7;font-size:16px;margin-right:auto;">AST-grep 模式语法速查</span>
+            <label for="columnWidth">🔧 调整每列宽度：</label>
+            <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="420">
+            <span id="widthVal" class="slider-val">420px</span>
+        </div>
+        <div class="cheat-columns" id="columns">
+            <!-- 模块：模式语法全景 -->
+            <div class="card">
+                <h2>🧭 模式语法总览 <a href="https://ast-grep.github.io/guide/pattern-syntax.html#pattern-syntax" target="_blank" rel="noreferrer" style="color:#93cdfc;">#pattern-syntax</a></h2>
+                <ul>
+                    <li>模式基于 <strong>Tree-sitter AST</strong>，匹配逻辑直接作用在语法节点，而非文本。</li>
+                    <li>示例以 JavaScript 书写，但概念同样适配 Rust、Go、Python 等官方支持语言。</li>
+                    <li>优先使用简短可读的代码片段表达模式，再辅以规则文件收窄上下文。</li>
+                </ul>
+                <div class="desc">牢记：只要目标语言有可用语法树，模式语法即可复用。</div>
+            </div>
+
+            <!-- 模块：基础匹配规则 -->
+            <div class="card">
+                <h2>🧱 模式匹配核心 <a href="https://ast-grep.github.io/guide/pattern-syntax.html#pattern-matching" target="_blank" rel="noreferrer" style="color:#93cdfc;">#pattern-matching</a></h2>
+                <ul>
+                    <li>模式代码 <code>a + 1</code> 会与任意 AST 中形如 <code>a + 1</code> 的子树匹配，包含嵌套表达式。</li>
+                    <li>必须提供 <strong>可被 tree-sitter 解析</strong> 的代码；缺少上下文时使用对象式 pattern。</li>
+                    <li>借助 <a href="https://ast-grep.github.io/playground.html" target="_blank" rel="noreferrer">Playground</a> 即时校验 AST 展开与匹配结果。</li>
+                </ul>
+                <pre><code class="language-javascript">const b = a + 1;
+funcCall(a + 1);
+deeplyNested({ target: a + 1 });</code></pre>
+                <div class="desc">无法解析时，改写为对象模式注明 kind/field 可显式提供上下文。</div>
+            </div>
+
+            <!-- 模块：元变量基础 -->
+            <div class="card">
+                <h2>🔡 元变量规则 <a href="https://ast-grep.github.io/guide/pattern-syntax.html#meta-variable" target="_blank" rel="noreferrer" style="color:#93cdfc;">#meta-variable</a></h2>
+                <ul>
+                    <li>格式：<code>$</code> + <strong>大写字母/数字/下划线</strong>，示例 <code>$META_VAR1</code>、<code>$_</code>。</li>
+                    <li>非法示例：<code>$invalid</code>、<code>$123</code>、<code>$KEBAB-CASE</code>；解析将直接失败。</li>
+                    <li>单个元变量匹配 <strong>一个 named AST 节点</strong>，等价于语法级 wildcard。</li>
+                </ul>
+                <div class="desc">为便于复用，建议以语义命名：<code>$CALL</code>、<code>$ARG</code>、<code>$COND</code> 等。</div>
+            </div>
+
+            <!-- 模块：元变量匹配示例 -->
+            <div class="card">
+                <h2>📣 元变量匹配示例 <a href="https://ast-grep.github.io/guide/pattern-syntax.html#meta-variable" target="_blank" rel="noreferrer" style="color:#93cdfc;">#meta-variable</a></h2>
+                <ul>
+                    <li><code>console.log($GREETING)</code> 匹配所有单参数日志调用。</li>
+                    <li>不会匹配注释、字符串字面量中的文本，也不会匹配参数数量不符的调用。</li>
+                    <li>同一元变量在同一模式中只捕获一次，可与规则层的 <code>constraints</code> 联动做类型校验。</li>
+                </ul>
+                <pre><code class="language-javascript">console.log('Hello World');
+console
+  .log('Also matched!');</code></pre>
+                <div class="desc">若需同时校验函数名与参数，可结合 <code>kind</code> 限制或转向规则文件。</div>
+            </div>
+
+            <!-- 模块：多元变量概念 -->
+            <div class="card">
+                <h2>🌀 多元变量 $$$ <a href="https://ast-grep.github.io/guide/pattern-syntax.html#multi-meta-variable" target="_blank" rel="noreferrer" style="color:#93cdfc;">#multi-meta-variable</a></h2>
+                <ul>
+                    <li><code>$$$</code> 匹配零个或多个节点，可命名为 <code>$$$ARGS</code>、<code>$$$BODY</code>。</li>
+                    <li>常用于参数列表、语句块、对象字段等数量不固定的节点序列。</li>
+                    <li>与单元变量不同，多元变量匹配的是 <strong>节点数组</strong>，在重写时可一次性展开。</li>
+                </ul>
+                <pre><code class="language-javascript">console.log();        // $$$ 匹配空列表
+console.log('msg');   // 匹配一个节点
+console.log(key, val);</code></pre>
+                <div class="desc">在 rewrite 中引用 <code>{{ARGS}}</code> 会原样插入匹配到的节点序列。</div>
+            </div>
+
+            <!-- 模块：函数调用参数 -->
+            <div class="card">
+                <h2>📞 函数实参匹配 <a href="https://ast-grep.github.io/guide/pattern-syntax.html#function-arguments" target="_blank" rel="noreferrer" style="color:#93cdfc;">#function-arguments</a></h2>
+                <ul>
+                    <li><code>console.log($$$ARGS)</code> 允许捕获全部实参，含展开参数。</li>
+                    <li>可结合 <code>where</code> 约束判断 <code>ARGS</code> 中元素数量或具体结构。</li>
+                    <li>零参数、单参数与多参数会统一落入 <code>$$$ARGS</code> 列表。</li>
+                </ul>
+                <pre><code class="language-javascript">console.log(...args);
+console.log('debug:', key, value);</code></pre>
+                <div class="desc">在报告阶段可遍历 <code>ARGS</code>，生成更具上下文的信息。</div>
+            </div>
+
+            <!-- 模块：函数形参与主体 -->
+            <div class="card">
+                <h2>🧩 函数签名模式 <a href="https://ast-grep.github.io/guide/pattern-syntax.html#function-parameters" target="_blank" rel="noreferrer" style="color:#93cdfc;">#function-parameters</a></h2>
+                <ul>
+                    <li><code>function $FUNC($$$ARGS) { $$$BODY }</code> 同时捕获函数名、参数序列、函数体。</li>
+                    <li>空参数/空函数体同样匹配，方便批量筛选无用函数。</li>
+                    <li>命名多元变量便于 rewrite 中重排参数或内联函数体。</li>
+                </ul>
+                <pre><code class="language-javascript">function foo(bar) { return bar; }
+function noop() {}
+function add(a, b, c) { return a + b + c; }</code></pre>
+                <div class="desc">结合 <code>constraints</code> 可进一步要求 <code>$FUNC</code> 命名或 <code>BODY</code> 中必须包含特定语句。</div>
+            </div>
+
+            <!-- 模块：捕获与复用 -->
+            <div class="card">
+                <h2>♻️ 元变量捕获与复用 <a href="https://ast-grep.github.io/guide/pattern-syntax.html#meta-variable-capturing" target="_blank" rel="noreferrer" style="color:#93cdfc;">#meta-variable-capturing</a></h2>
+                <ul>
+                    <li>同名元变量要求匹配内容一致，类似正则的 back-reference。</li>
+                    <li>示例 <code>$A == $A</code> 仅匹配自比较表达式，可过滤出恒等或可简化的代码。</li>
+                    <li>通过 <code>constraints</code> 进一步检测类型（如 <code>kind: identifier</code>）。</li>
+                </ul>
+                <pre><code class="language-javascript">a == a;      // ✅
+1 + 1 == 1 + 1; // ✅
+a == b;      // ❌ 不匹配</code></pre>
+                <div class="desc">适用于识别重复调用、重复参数等需要“同一节点”保证的场景。</div>
+            </div>
+
+            <!-- 模块：非捕获与性能 -->
+            <div class="card">
+                <h2>🚫 非捕获匹配 <a href="https://ast-grep.github.io/guide/pattern-syntax.html#non-capturing-match" target="_blank" rel="noreferrer" style="color:#93cdfc;">#non-capturing-match</a></h2>
+                <ul>
+                    <li>以 <code>$_NAME</code> 命名的元变量不会进入 captures，可在不需要引用时减少开销。</li>
+                    <li>即使出现多次，<code>$_FUNC($_ARG)</code> 允许每次匹配不同节点。</li>
+                    <li>适合“只匹配，不复用”的结构，例如只要函数调用参数数量满足即可。</li>
+                </ul>
+                <pre><code class="language-javascript">$_FUNC($_ARG);
+$_CALL(...$_ARGS);</code></pre>
+                <div class="desc">标记为非捕获后，rewrite 中不可再引用该名称，确保语义清晰。</div>
+            </div>
+
+            <!-- 模块：捕获匿名节点 -->
+            <div class="card">
+                <h2>🎯 捕获匿名节点 <a href="https://ast-grep.github.io/guide/pattern-syntax.html#capture-unnamed-nodes" target="_blank" rel="noreferrer" style="color:#93cdfc;">#capture-unnamed-nodes</a></h2>
+                <ul>
+                    <li>默认仅捕获 named 节点；使用 <code>$$VAR</code> 才能包含 operator、标点等 unnamed 节点。</li>
+                    <li>结合 Tree-sitter <em>Named vs Unnamed</em> 概念，需提前查阅语言语法。</li>
+                    <li>常见于比较、算术运算中，需要捕获运算符或括号时启用。</li>
+                </ul>
+                <div class="desc">若需混合捕获 named/unnamed，可搭配规则层 <code>kind: unnamed</code> 精准限制。</div>
+            </div>
+
+            <!-- 模块：进阶规则 -->
+            <div class="card">
+                <h2>🧠 结合规则增强匹配 <a href="https://ast-grep.github.io/guide/pattern-syntax.html#more-powerful-rule" target="_blank" rel="noreferrer" style="color:#93cdfc;">#more-powerful-rule</a></h2>
+                <ul>
+                    <li>当模式无法表达上下文时，使用 rule 文件添加 <code>kind</code>、<code>pattern</code>、<code>constraints</code>、<code>relational</code> 等条件。</li>
+                    <li>可以在 YAML 中改用对象模式写法，避免缩进、空格造成的解析歧义。</li>
+                    <li>利用 <a href="https://ast-grep.github.io/guide/rule-config.html#rule-file" target="_blank" rel="noreferrer">Atomic/Relational Rule</a> 组合更复杂的条件或跨节点匹配。</li>
+                </ul>
+                <div class="desc">建议先用 pattern 快速验证，再平移到规则文件中巩固约束。</div>
+            </div>
+        </div>
+    </div>
+    <script src="../../assets/common.js"></script>
+</body>
+</html>
