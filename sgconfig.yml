@@ -1,0 +1,6 @@
+ruleDirs:
+- E:\project\cheatsheet-generate\rules
+testConfigs:
+- testDir: E:\project\cheatsheet-generate\rule-tests
+utilDirs:
+- E:\project\cheatsheet-generate\utils
