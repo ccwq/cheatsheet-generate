@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Docker CLI 速查表</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../../css/variables.css">
+    <link rel="stylesheet" href="../../css/common.css">
+    <style>
+        :root {
+            --col-width: 400px;
+            --gap: 16px;
+        }
+
+        .panel label {
+            color: var(--panel-accent);
+        }
+
+        .panel .title {
+            color: var(--panel-accent);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="panel">
+            <span style="color:#7bfbb7;font-size:16px;margin-right:auto;">Docker CLI 速查表</span>
+            <label for="columnWidth">🔧 调整每列宽度：</label>
+            <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+            <span id="widthVal" class="slider-val">340px</span>
+        </div>
+        <div class="cheat-columns" id="columns">
+            <!-- 基本命令 -->
+            <div class="card">
+                <h2>🔧 基本命令 <a href="https://docs.docker.com/reference/cli/docker/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <ul>
+                    <li>
+                        <code>docker --help</code>：显示 Docker CLI 帮助信息
+                    </li>
+                    <li>
+                        <code>docker version</code>：显示 Docker 版本信息
+                    </li>
+                    <li>
+                        <code>docker info</code>：显示 Docker 系统信息
+                    </li>
+                    <li>
+                        <code>docker login</code>：登录 Docker 仓库
+                    </li>
+                    <li>
+                        <code>docker logout</code>：退出 Docker 仓库
+                    </li>
+                    <li>
+                        <code>docker search &lt;keyword&gt;</code>：搜索 Docker 镜像
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 镜像管理 -->
+            <div class="card">
+                <h2>🖼️ 镜像管理</h2>
+                <ul>
+                    <li>
+                        <code>docker images</code>：列出本地镜像
+                    </li>
+                    <li>
+                        <code>docker images -a</code>：列出所有镜像（包括中间层）
+                    </li>
+                    <li>
+                        <code>docker pull &lt;image&gt;</code>：拉取镜像
+                    </li>
+                    <li>
+                        <code>docker push &lt;image&gt;</code>：推送镜像
+                    </li>
+                    <li>
+                        <code>docker rmi &lt;image&gt;</code>：删除镜像
+                    </li>
+                    <li>
+                        <code>docker rmi -f &lt;image&gt;</code>：强制删除镜像
+                    </li>
+                    <li>
+                        <code>docker rmi $(docker images -q)</code>：删除所有镜像
+                    </li>
+                    <li>
+                        <code>docker build &lt;path&gt;</code>：构建镜像
+                        <div class="desc">-t：指定镜像名称和标签<br>-f：指定 Dockerfile 路径<br>--no-cache：不使用缓存</div>
+                    </li>
+                    <li>
+                        <code>docker tag &lt;image&gt; &lt;tag&gt;</code>：为镜像打标签
+                    </li>
+                    <li>
+                        <code>docker inspect &lt;image&gt;</code>：查看镜像详细信息
+                    </li>
+                    <li>
+                        <code>docker history &lt;image&gt;</code>：查看镜像构建历史
+                    </li>
+                    <li>
+                        <code>docker save &lt;image&gt; -o &lt;file&gt;</code>：将镜像保存为文件
+                    </li>
+                    <li>
+                        <code>docker load -i &lt;file&gt;</code>：从文件加载镜像
+                    </li>
+                    <li>
+                        <code>docker image prune</code>：清理未使用的镜像
+                        <div class="desc">-a：清理所有未使用的镜像<br>--force：强制清理</div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 容器管理 -->
+            <div class="card">
+                <h2>📦 容器管理</h2>
+                <ul>
+                    <li>
+                        <code>docker ps</code>：列出运行中的容器
+                    </li>
+                    <li>
+                        <code>docker ps -a</code>：列出所有容器
+                    </li>
+                    <li>
+                        <code>docker ps -q</code>：只列出容器 ID
+                    </li>
+                    <li>
+                        <code>docker run &lt;image&gt;</code>：运行容器
+                        <div class="desc">-d：后台运行<br>-it：交互式终端<br>--name：指定容器名称<br>-p：端口映射（如 -p 8080:80）<br>-v：挂载卷（如 -v ./data:/app/data）<br>--network：指定网络<br>--env：设置环境变量<br>--restart：容器重启策略</div>
+                    </li>
+                    <li>
+                        <code>docker start &lt;container&gt;</code>：启动容器
+                    </li>
+                    <li>
+                        <code>docker start $(docker ps -a -q)</code>：启动所有容器
+                    </li>
+                    <li>
+                        <code>docker stop &lt;container&gt;</code>：停止容器
+                    </li>
+                    <li>
+                        <code>docker stop $(docker ps -q)</code>：停止所有运行中的容器
+                    </li>
+                    <li>
+                        <code>docker restart &lt;container&gt;</code>：重启容器
+                    </li>
+                    <li>
+                        <code>docker rm &lt;container&gt;</code>：删除容器
+                    </li>
+                    <li>
+                        <code>docker rm -f &lt;container&gt;</code>：强制删除容器
+                    </li>
+                    <li>
+                        <code>docker rm $(docker ps -a -q)</code>：删除所有容器
+                    </li>
+                    <li>
+                        <code>docker rename &lt;old-name&gt; &lt;new-name&gt;</code>：重命名容器
+                    </li>
+                    <li>
+                        <code>docker update &lt;container&gt;</code>：更新容器配置
+                        <div class="desc">--cpus：CPU 限制<br>--memory：内存限制<br>--restart：重启策略</div>
+                    </li>
+                    <li>
+                        <code>docker container prune</code>：清理停止的容器
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 容器交互 -->
+            <div class="card">
+                <h2>💬 容器交互</h2>
+                <ul>
+                    <li>
+                        <code>docker exec -it &lt;container&gt; &lt;command&gt;</code>：在容器中执行命令
+                        <div class="desc">-d：后台执行<br>--user：指定用户</div>
+                    </li>
+                    <li>
+                        <code>docker logs &lt;container&gt;</code>：查看容器日志
+                        <div class="desc">-f：实时跟踪日志<br>--tail &lt;n&gt;：显示最后 n 行<br>--since &lt;time&gt;：显示指定时间之后的日志</div>
+                    </li>
+                    <li>
+                        <code>docker inspect &lt;container&gt;</code>：查看容器详细信息
+                    </li>
+                    <li>
+                        <code>docker inspect -f '{{.NetworkSettings.IPAddress}}' &lt;container&gt;</code>：获取容器 IP 地址
+                    </li>
+                    <li>
+                        <code>docker cp &lt;container&gt;:&lt;path&gt; &lt;host-path&gt;</code>：从容器复制文件到主机
+                    </li>
+                    <li>
+                        <code>docker cp &lt;host-path&gt; &lt;container&gt;:&lt;path&gt;</code>：从主机复制文件到容器
+                    </li>
+                    <li>
+                        <code>docker stats &lt;container&gt;</code>：查看容器资源使用情况
+                    </li>
+                    <li>
+                        <code>docker top &lt;container&gt;</code>：查看容器内运行的进程
+                    </li>
+                    <li>
+                        <code>docker attach &lt;container&gt;</code>：连接到正在运行的容器
+                    </li>
+                    <li>
+                        <code>docker wait &lt;container&gt;</code>：等待容器停止
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 网络管理 -->
+            <div class="card">
+                <h2>🌐 网络管理</h2>
+                <ul>
+                    <li>
+                        <code>docker network ls</code>：列出网络
+                    </li>
+                    <li>
+                        <code>docker network create &lt;network&gt;</code>：创建网络
+                        <div class="desc">--driver：指定网络驱动（如 bridge、overlay、macvlan）<br>--subnet：指定子网<br>--gateway：指定网关</div>
+                    </li>
+                    <li>
+                        <code>docker network rm &lt;network&gt;</code>：删除网络
+                    </li>
+                    <li>
+                        <code>docker network rm $(docker network ls -q)</code>：删除所有网络
+                    </li>
+                    <li>
+                        <code>docker network inspect &lt;network&gt;</code>：查看网络详细信息
+                    </li>
+                    <li>
+                        <code>docker network connect &lt;network&gt; &lt;container&gt;</code>：将容器连接到网络
+                    </li>
+                    <li>
+                        <code>docker network disconnect &lt;network&gt; &lt;container&gt;</code>：将容器从网络断开
+                    </li>
+                    <li>
+                        <code>docker network prune</code>：清理未使用的网络
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 卷管理 -->
+            <div class="card">
+                <h2>💾 卷管理</h2>
+                <ul>
+                    <li>
+                        <code>docker volume ls</code>：列出卷
+                    </li>
+                    <li>
+                        <code>docker volume create &lt;volume&gt;</code>：创建卷
+                        <div class="desc">--driver：指定卷驱动<br>--opt：指定卷选项</div>
+                    </li>
+                    <li>
+                        <code>docker volume rm &lt;volume&gt;</code>：删除卷
+                    </li>
+                    <li>
+                        <code>docker volume rm $(docker volume ls -q)</code>：删除所有卷
+                    </li>
+                    <li>
+                        <code>docker volume inspect &lt;volume&gt;</code>：查看卷详细信息
+                    </li>
+                    <li>
+                        <code>docker volume prune</code>：清理未使用的卷
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Dockerfile 指令 -->
+            <div class="card">
+                <h2>📝 Dockerfile 指令</h2>
+                <ul>
+                    <li>
+                        <code>FROM</code>：指定基础镜像
+                        <div class="desc">FROM ubuntu:22.04</div>
+                    </li>
+                    <li>
+                        <code>MAINTAINER</code>：指定维护者信息
+                        <div class="desc">MAINTAINER name &lt;email&gt;</div>
+                    </li>
+                    <li>
+                        <code>RUN</code>：执行命令
+                        <div class="desc">RUN apt-get update && apt-get install -y nginx</div>
+                    </li>
+                    <li>
+                        <code>COPY</code>：复制文件到镜像
+                        <div class="desc">COPY . /app</div>
+                    </li>
+                    <li>
+                        <code>ADD</code>：复制文件到镜像（支持 URL 和压缩包）
+                        <div class="desc">ADD https://example.com/file.tar.gz /app</div>
+                    </li>
+                    <li>
+                        <code>WORKDIR</code>：设置工作目录
+                        <div class="desc">WORKDIR /app</div>
+                    </li>
+                    <li>
+                        <code>ENV</code>：设置环境变量
+                        <div class="desc">ENV NODE_ENV production</div>
+                    </li>
+                    <li>
+                        <code>EXPOSE</code>：声明容器端口
+                        <div class="desc">EXPOSE 80 443</div>
+                    </li>
+                    <li>
+                        <code>CMD</code>：设置容器启动命令
+                        <div class="desc">CMD ["node", "app.js"]</div>
+                    </li>
+                    <li>
+                        <code>ENTRYPOINT</code>：设置容器入口点
+                        <div class="desc">ENTRYPOINT ["node"]</div>
+                    </li>
+                    <li>
+                        <code>VOLUME</code>：创建挂载点
+                        <div class="desc">VOLUME ["/data"]</div>
+                    </li>
+                    <li>
+                        <code>USER</code>：指定运行容器的用户
+                        <div class="desc">USER node</div>
+                    </li>
+                    <li>
+                        <code>ARG</code>：定义构建参数
+                        <div class="desc">ARG VERSION=1.0.0</div>
+                    </li>
+                    <li>
+                        <code>ONBUILD</code>：设置触发指令
+                        <div class="desc">ONBUILD COPY . /app</div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Compose 命令 -->
+            <div class="card">
+                <h2>🔧 Docker Compose</h2>
+                <ul>
+                    <li>
+                        <code>docker compose up</code>：启动服务
+                        <div class="desc">-d：后台运行<br>--build：构建镜像<br>--no-deps：不启动依赖服务<br>--scale &lt;service&gt;=&lt;replicas&gt;：设置服务副本数</div>
+                    </li>
+                    <li>
+                        <code>docker compose down</code>：停止服务
+                        <div class="desc">-v：删除卷<br>--rmi all：删除所有镜像<br>--remove-orphans：删除孤立容器</div>
+                    </li>
+                    <li>
+                        <code>docker compose ps</code>：列出服务
+                    </li>
+                    <li>
+                        <code>docker compose logs</code>：查看服务日志
+                        <div class="desc">-f：实时跟踪日志<br>--tail &lt;n&gt;：显示最后 n 行</div>
+                    </li>
+                    <li>
+                        <code>docker compose build</code>：构建服务镜像
+                        <div class="desc">--no-cache：不使用缓存<br>--pull：拉取最新基础镜像</div>
+                    </li>
+                    <li>
+                        <code>docker compose exec &lt;service&gt; &lt;command&gt;</code>：在服务容器中执行命令
+                    </li>
+                    <li>
+                        <code>docker compose start &lt;service&gt;</code>：启动服务
+                    </li>
+                    <li>
+                        <code>docker compose stop &lt;service&gt;</code>：停止服务
+                    </li>
+                    <li>
+                        <code>docker compose restart &lt;service&gt;</code>：重启服务
+                    </li>
+                    <li>
+                        <code>docker compose rm &lt;service&gt;</code>：删除服务容器
+                    </li>
+                    <li>
+                        <code>docker compose scale &lt;service&gt;=&lt;replicas&gt;</code>：扩展服务
+                    </li>
+                    <li>
+                        <code>docker compose config</code>：验证 Compose 文件
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Swarm 命令 -->
+            <div class="card">
+                <h2>🐝 Docker Swarm</h2>
+                <ul>
+                    <li>
+                        <code>docker swarm init</code>：初始化 Swarm
+                        <div class="desc">--advertise-addr：指定广告地址</div>
+                    </li>
+                    <li>
+                        <code>docker swarm join</code>：加入 Swarm
+                        <div class="desc">--token：指定加入令牌<br>--advertise-addr：指定广告地址</div>
+                    </li>
+                    <li>
+                        <code>docker swarm join-token</code>：管理 Swarm 加入令牌
+                    </li>
+                    <li>
+                        <code>docker swarm leave</code>：离开 Swarm
+                        <div class="desc">--force：强制离开</div>
+                    </li>
+                    <li>
+                        <code>docker swarm update</code>：更新 Swarm 配置
+                    </li>
+                    <li>
+                        <code>docker node ls</code>：列出 Swarm 节点
+                    </li>
+                    <li>
+                        <code>docker node inspect &lt;node&gt;</code>：查看节点详细信息
+                    </li>
+                    <li>
+                        <code>docker node update</code>：更新节点配置
+                    </li>
+                    <li>
+                        <code>docker node rm &lt;node&gt;</code>：删除节点
+                    </li>
+                    <li>
+                        <code>docker service ls</code>：列出服务
+                    </li>
+                    <li>
+                        <code>docker service create</code>：创建服务
+                        <div class="desc">--name：指定服务名称<br>--replicas：指定副本数<br>--publish：发布端口</div>
+                    </li>
+                    <li>
+                        <code>docker service inspect &lt;service&gt;</code>：查看服务详细信息
+                    </li>
+                    <li>
+                        <code>docker service scale &lt;service&gt;=&lt;replicas&gt;</code>：扩展服务
+                    </li>
+                    <li>
+                        <code>docker service update</code>：更新服务配置
+                    </li>
+                    <li>
+                        <code>docker service rm &lt;service&gt;</code>：删除服务
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 实用技巧和最佳实践 -->
+            <div class="card">
+                <h2>💡 实用技巧和最佳实践</h2>
+                <ul>
+                    <li>
+                        <strong>容器命名规范</strong>：使用有意义的名称，如 <code>app-web-1</code>
+                    </li>
+                    <li>
+                        <strong>镜像标签管理</strong>：使用语义化版本号，避免使用 <code>latest</code>
+                    </li>
+                    <li>
+                        <strong>资源限制</strong>：为容器设置 CPU 和内存限制
+                        <div class="desc">docker run --cpus=1 --memory=512m &lt;image&gt;</div>
+                    </li>
+                    <li>
+                        <strong>日志管理</strong>：使用集中式日志系统，如 ELK 或 Loki
+                    </li>
+                    <li>
+                        <strong>健康检查</strong>：在 Dockerfile 中添加 HEALTHCHECK 指令
+                        <div class="desc">HEALTHCHECK CMD curl -f http://localhost/ || exit 1</div>
+                    </li>
+                    <li>
+                        <strong>多阶段构建</strong>：减少镜像大小
+                        <div class="desc">FROM golang:alpine AS builder<br>...<br>FROM alpine<br>COPY --from=builder /app /app</div>
+                    </li>
+                    <li>
+                        <strong>镜像扫描</strong>：使用 <code>docker scan &lt;image&gt;</code> 扫描镜像漏洞
+                    </li>
+                    <li>
+                        <strong>网络隔离</strong>：为不同服务创建独立网络
+                    </li>
+                    <li>
+                        <strong>卷管理</strong>：使用命名卷而非匿名卷
+                    </li>
+                    <li>
+                        <strong>环境变量</strong>：使用 <code>.env</code> 文件管理环境变量
+                    </li>
+                    <li>
+                        <strong>容器编排</strong>：对于生产环境，使用 Kubernetes 或 Docker Swarm
+                    </li>
+                    <li>
+                        <strong>清理策略</strong>：定期清理未使用的容器、镜像和卷
+                        <div class="desc">docker system prune -af</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script src="../../assets/common.js"></script>
+</body>
+</html>
