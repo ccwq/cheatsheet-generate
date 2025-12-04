@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>正则表达式速查表</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../../css/variables.css">
+    <link rel="stylesheet" href="../../css/common.css">
+    <style>
+        :root {
+            --col-width: 450px;
+            --gap: 16px;
+        }
+
+        .panel label {
+            color: var(--panel-accent);
+        }
+
+        .panel .title {
+            color: var(--panel-accent);
+        }
+    </style>
+
+    <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png" />    <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png" />
+    <!-- Prism.js 语法高亮 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  </head>
+<body>
+    <div class="container">
+        <div class="panel">
+            <span style="color:#7bfbb7;font-size:16px;margin-right:auto;">正则表达式速查表</span>
+            <label for="columnWidth">🔧 调整每列宽度：</label>
+            <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+            <span id="widthVal" class="slider-val">340px</span>
+        </div>
+        <div class="cheat-columns" id="columns">
+            <!-- 基本语法 -->
+            <div class="card">
+                <h2>🔤 基本语法 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Regular_Expressions/Basic_Regular_Expressions" title="MDN 基本正则表达式" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <ul>
+                    <li><code>.</code>：匹配任意单个字符（除换行符）</li>
+                    <li><code>\d</code>：匹配数字 [0-9]</li>
+                    <li><code>\D</code>：匹配非数字 [^0-9]</li>
+                    <li><code>\w</code>：匹配字母、数字、下划线 [a-zA-Z0-9_]</li>
+                    <li><code>\W</code>：匹配非字母、数字、下划线 [^a-zA-Z0-9_]</li>
+                    <li><code>\s</code>：匹配空白字符（空格、制表符、换行符等）</li>
+                    <li><code>\S</code>：匹配非空白字符</li>
+                    <li><code>[abc]</code>：匹配方括号内任意一个字符</li>
+                    <li><code>[^abc]</code>：匹配除方括号内字符外的任意字符</li>
+                    <li><code>[a-z]</code>：匹配小写字母范围</li>
+                    <li><code>[A-Z]</code>：匹配大写字母范围</li>
+                    <li><code>[0-9]</code>：匹配数字范围</li>
+                </ul>
+                <pre><code class="language-javascript">// 匹配一个或多个数字
+const regex = /\d+/;
+const str = "123abc"; 
+// 测试是否匹配
+console.log(regex.test(str));
+// 获取匹配结果
+console.log(str.match(regex));</code></pre>
+            </div>
+
+            <!-- 量词 -->
+            <div class="card">
+                <h2>🔢 量词 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Regular_Expressions/Quantifiers" title="MDN 正则表达式量词" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <ul>
+                    <li><code>*</code>：匹配前面的字符 0 次或多次</li>
+                    <li><code>+</code>：匹配前面的字符 1 次或多次</li>
+                    <li><code>?</code>：匹配前面的字符 0 次或 1 次（可选）</li>
+                    <li><code>{n}</code>：匹配前面的字符恰好 n 次</li>
+                    <li><code>{n,}</code>：匹配前面的字符至少 n 次</li>
+                    <li><code>{n,m}</code>：匹配前面的字符 n 到 m 次</li>
+                    <li><code>*?</code>：非贪婪匹配，尽可能少匹配</li>
+                    <li><code>+?</code>：非贪婪匹配，尽可能少匹配</li>
+                    <li><code>??</code>：非贪婪匹配，尽可能少匹配</li>
+                    <li><code>{n,m}?</code>：非贪婪匹配，尽可能少匹配</li>
+                </ul>
+                <pre><code class="language-javascript">// 贪婪匹配 vs 非贪婪匹配
+const greedy = /a.*b/;
+const lazy = /a.*?b/;
+const str = "a123b456b";
+// 贪婪匹配：匹配尽可能多的字符
+console.log(str.match(greedy));
+// 非贪婪匹配：匹配尽可能少的字符
+console.log(str.match(lazy));</code></pre>
+            </div>
+
+            <!-- 锚点 -->
+            <div class="card">
+                <h2>📌 锚点 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Regular_Expressions/Assertions#anchor_assertions" title="MDN 正则表达式锚点" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <ul>
+                    <li><code>^</code>：匹配字符串开头</li>
+                    <li><code>$</code>：匹配字符串结尾</li>
+                    <li><code>\b</code>：匹配单词边界</li>
+                    <li><code>\B</code>：匹配非单词边界</li>
+                </ul>
+                <pre><code class="language-javascript">// 匹配整个字符串
+const regex = /^\d+$/;
+// 只包含数字，匹配成功
+console.log(regex.test("123"));
+// 包含非数字字符，匹配失败
+console.log(regex.test("123abc"));
+
+// 匹配单词边界
+const wordRegex = /\bcat\b/;
+// 作为单独单词，匹配成功
+console.log(wordRegex.test("cat"));
+// 作为单词前缀，匹配失败
+console.log(wordRegex.test("category"));</code></pre>
+            </div>
+
+            <!-- 分组与引用 -->
+            <div class="card">
+                <h2>📦 分组与引用 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Regular_Expressions/Groups_and_Ranges" title="MDN 正则表达式分组" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <ul>
+                    <li><code>(abc)</code>：捕获组，匹配 abc 并记住匹配项</li>
+                    <li><code>(?:abc)</code>：非捕获组，匹配 abc 但不记住匹配项</li>
+                    <li><code>\1, \2, ...</code>：反向引用，引用之前的捕获组</li>
+                    <li><code>(?<name>abc)</code>：命名捕获组</li>
+                    <li><code>\k<name></code>：命名反向引用</li>
+                </ul>
+                <pre><code class="language-javascript">// 捕获组与反向引用
+const regex = /(\w+)\s+\1/;
+// 相同单词重复，匹配成功
+console.log(regex.test("hello hello"));
+// 不同单词，匹配失败
+console.log(regex.test("hello world"));
+
+// 命名捕获组
+const namedRegex = /(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})/;
+const match = "2023-12-25".match(namedRegex);
+// 获取命名捕获组结果
+console.log(match.groups);</code></pre>
+            </div>
+
+            <!-- 断言 -->
+            <div class="card">
+                <h2>🔍 断言 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Regular_Expressions/Assertions" title="MDN 正则表达式断言" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <ul>
+                    <li><code>(?=abc)</code>：正向先行断言，匹配后面是 abc 的位置</li>
+                    <li><code>(?!abc)</code>：负向先行断言，匹配后面不是 abc 的位置</li>
+                    <li><code>(?<=abc)</code>：正向后行断言，匹配前面是 abc 的位置</li>
+                    <li><code>(?<!abc)</code>：负向后行断言，匹配前面不是 abc 的位置</li>
+                </ul>
+                <pre><code class="language-javascript">// 正向先行断言：匹配后面是 "@gmail.com" 的邮箱
+const gmailRegex = /\w+(?=@gmail\.com)/;
+console.log("user@gmail.com".match(gmailRegex));
+
+// 负向先行断言：匹配后面不是 "@gmail.com" 的邮箱
+const nonGmailRegex = /\w+(?!@gmail\.com)/;
+console.log("user@outlook.com".match(nonGmailRegex));
+
+// 正向后行断言：匹配前面是 "https://" 的域名
+const domainRegex = /(?<=https:\/\/)\w+\.\w+/;
+console.log("https://example.com".match(domainRegex));</code></pre>
+            </div>
+
+            <!-- 修饰符 -->
+            <div class="card">
+                <h2>🔧 修饰符 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Regular_Expressions#advanced_searching_with_flags" title="MDN 正则表达式修饰符" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <ul>
+                    <li><code>g</code>：全局匹配，找到所有匹配项</li>
+                    <li><code>i</code>：忽略大小写</li>
+                    <li><code>m</code>：多行匹配，使 ^ 和 $ 匹配每行的开头和结尾</li>
+                    <li><code>s</code>：dotAll 模式，使 . 匹配包括换行符在内的所有字符</li>
+                    <li><code>u</code>：Unicode 模式，正确处理 Unicode 字符</li>
+                    <li><code>y</code>：粘性匹配，仅从目标字符串的当前位置开始匹配</li>
+                </ul>
+                <pre><code class="language-javascript">// 全局匹配所有数字
+const regex = /\d+/g;
+const str = "123abc456def789";
+// 全局匹配找到所有数字
+console.log(str.match(regex));
+
+// 忽略大小写
+const caseInsensitive = /hello/i;
+// 忽略大小写，匹配成功
+console.log(caseInsensitive.test("Hello"));
+// 忽略大小写，匹配成功
+console.log(caseInsensitive.test("HELLO"));
+
+// 多行匹配
+const multiLine = /^\d+/gm;
+const multiStr = "123\n456\n789";
+// 多行匹配，匹配每行开头的数字
+console.log(multiStr.match(multiLine));</code></pre>
+            </div>
+
+            <!-- JavaScript 正则方法 -->
+            <div class="card">
+                <h2>📚 JavaScript 正则方法 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/RegExp" title="MDN RegExp 对象" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>RegExp 对象方法</h3>
+                <ul>
+                    <li><code>test()</code>：测试字符串是否匹配，返回布尔值</li>
+                    <li><code>exec()</code>：执行匹配，返回匹配结果数组或 null</li>
+                </ul>
+                <h3>String 对象方法</h3>
+                <ul>
+                    <li><code>match()</code>：获取匹配结果数组</li>
+                    <li><code>matchAll()</code>：获取所有匹配结果的迭代器</li>
+                    <li><code>search()</code>：查找匹配位置，返回索引或 -1</li>
+                    <li><code>replace()</code>：替换匹配项，返回新字符串</li>
+                    <li><code>split()</code>：根据匹配分割字符串，返回数组</li>
+                </ul>
+                <pre><code class="language-javascript">// RegExp.test()
+const regex = /\d+/;
+// 测试字符串是否匹配
+console.log(regex.test("123"));
+
+// RegExp.exec()
+const execRegex = /(\w+)=\w+/;
+const str = "name=John&age=30";
+// 执行匹配并返回捕获组
+console.log(execRegex.exec(str));
+
+// String.replace()
+const replaceRegex = /\d+/g;
+const replaceStr = "I have 3 apples and 5 oranges";
+// 替换所有数字为 "many"
+console.log(replaceStr.replace(replaceRegex, "many"));
+
+// String.split()
+const splitRegex = /\s+/;
+const splitStr = "Hello   world\n   JavaScript";
+// 根据空白字符分割字符串
+console.log(splitStr.split(splitRegex));</code></pre>
+            </div>
+
+            <!-- 高级技巧 -->
+            <div class="card">
+                <h2>🚀 高级技巧 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Regular_Expressions/Advanced" title="MDN 正则表达式高级技巧" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>密码强度验证</h3>
+                <pre><code class="language-javascript">// 至少8个字符，包含大小写字母、数字和特殊字符
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+// 强密码，验证通过
+console.log(passwordRegex.test("Password123!"));
+// 弱密码，验证失败
+console.log(passwordRegex.test("weakpass"));
+
+// 邮箱验证
+const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+// 有效邮箱，验证通过
+console.log(emailRegex.test("user@example.com"));
+// 无效邮箱，验证失败
+console.log(emailRegex.test("invalid-email"));
+
+// URL验证
+const urlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
+// HTTPS URL，验证通过
+console.log(urlRegex.test("https://example.com"));
+// HTTP localhost URL，验证通过
+console.log(urlRegex.test("http://localhost:3000"));</code></pre>
+                <h3>复杂替换</h3>
+                <pre><code class="language-javascript">// 驼峰命名转短横线命名
+const camelToKebab = (str) => str.replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`);
+console.log(camelToKebab("helloWorld"));
+
+// 短横线命名转驼峰命名
+const kebabToCamel = (str) => str.replace(/-([a-z])/g, (match, p1) => p1.toUpperCase());
+console.log(kebabToCamel("hello-world"));
+
+// 首字母大写
+const capitalize = (str) => str.replace(/\b\w/g, (match) => match.toUpperCase());
+console.log(capitalize("hello world javascript"));</code></pre>
+            </div>
+
+            <!-- 常见问题与注意事项 -->
+            <div class="card">
+                <h2>⚠️ 常见问题与注意事项</h2>
+                <ul>
+                    <li>正则表达式中的特殊字符需要转义：<code>\^$.*+?()[]{}|</code></li>
+                    <li>使用 <code>RegExp.prototype.exec()</code> 时，全局匹配需要循环调用</li>
+                    <li>避免过度使用复杂正则表达式，考虑可读性和性能</li>
+                    <li>注意贪婪匹配与非贪婪匹配的区别</li>
+                    <li>使用命名捕获组可以提高代码可读性</li>
+                    <li>正则表达式不是万能的，某些情况下使用字符串方法更高效</li>
+                </ul>
+                <pre><code class="language-javascript">// 转义特殊字符
+const escapedRegex = /\.\*\+/;
+// 匹配特殊字符组合 ".*+"
+console.log(escapedRegex.test(".*+"));
+
+// 全局匹配循环
+const globalRegex = /\w+/g;
+const globalStr = "hello world javascript";
+let match;
+// 循环获取所有匹配结果
+while ((match = globalRegex.exec(globalStr)) !== null) {
+  console.log(`匹配到: ${match[0]}, 索引: ${match.index}`);
+}</code></pre>
+            </div>
+
+            <!-- 正则表达式工具 -->
+            <div class="card">
+                <h2>🛠️ 正则表达式工具 <a href="https://regex101.com/" title="Regex101" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <ul>
+                    <li><strong>Regex101</strong>：在线正则表达式测试工具，支持多种语言</li>
+                    <li><strong>RegExr</strong>：可视化正则表达式编辑器，包含示例和参考</li>
+                    <li><strong>JavaScript RegExp Tester</strong>：专为 JavaScript 设计的测试工具</li>
+                    <li><strong>Debuggex</strong>：正则表达式可视化工具，帮助理解复杂正则</li>
+                </ul>
+                <div class="desc">使用在线工具可以帮助你调试和优化正则表达式，提高开发效率。</div>
+            </div>
+        </div>
+    </div>
+    <script src="../../assets/common.js"></script>
+    <script>
+    // Prism.js 代码高亮初始化
+    document.addEventListener('DOMContentLoaded', function() {
+      // 确保 Prism 已加载
+      if (window.Prism) {
+        // 高亮所有代码块
+        Prism.highlightAll();
+
+        // 可选：添加行号显示
+        Prism.plugins.lineNumbers = false; // 禁用行号以保持简洁
+
+        console.log('代码高亮已启用');
+      }
+    });
+    </script>
+</body>
+</html>
