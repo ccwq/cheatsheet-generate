@@ -10,10 +10,13 @@
 在收到创建cheatsheet的请求后, 按照以下步骤进行操作
 - 读取 `prompts/创建cheatsheet.md`的内容, 按照其要求生成 Cheatsheet
 - 生成的 Cheatsheet 保存在 `/cheatsheets` 目录下
+- 需要参考``hilight-func.md``的内容,实现代码高亮的功能
+- 注释需要在代码的上一行, 从第一列开始, 除非代码和注释很短, 否则不允许代码和注释在同一行
+
 
 ## 改进提升重建
 - 当用户请求重建cheatsheet时, 请按照以下步骤进行操作
-  - 读取 `prompts/重构和改进.md` 的内容, 对已经存在的cheatsheet进行改进
+- 读取 `prompts/重构和改进.md` 的内容, 对已经存在的cheatsheet进行改进
 
 ## Cheatsheet 文件结构
 
