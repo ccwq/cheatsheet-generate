@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Python Turtle 库速查表</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../../css/variables.css">
+    <link rel="stylesheet" href="../../css/common.css">
+    <style>
+        :root {
+            --col-width: 400px;
+            --gap: 16px;
+        }
+
+        .panel label {
+            color: var(--panel-accent);
+        }
+
+        .panel .title {
+            color: var(--panel-accent);
+        }
+    </style>
+
+    <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png" />
+    <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png" />
+  </head>
+<body>
+    <div class="container">
+        <div class="panel">
+            <span style="color:#7bfbb7;font-size:16px;margin-right:auto;">Python Turtle 库速查表</span>
+            <label for="columnWidth">🔧 调整每列宽度：</label>
+            <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+            <span id="widthVal" class="slider-val">340px</span>
+        </div>
+        <div class="cheat-columns" id="columns">
+            <!-- 基本设置 -->
+            <div class="card">
+                <h2>🐢 基本设置 <a href="https://docs.python.org/zh-cn/3/library/turtle.html" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <ul>
+                    <li>
+                        <code>import turtle</code>：导入turtle模块
+                    </li>
+                    <li>
+                        <code>from turtle import *</code>：导入所有turtle函数
+                    </li>
+                    <li>
+                        <code>turtle.Screen()</code>：创建并返回绘图窗口
+                    </li>
+                    <li>
+                        <code>turtle.Turtle()</code>：创建并返回海龟对象
+                    </li>
+                    <li>
+                        <code>turtle.setup(width, height)</code>：设置窗口大小
+                    </li>
+                    <li>
+                        <code>turtle.title(name)</code>：设置窗口标题
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 海龟移动 -->
+            <div class="card">
+                <h2>🚶 海龟移动</h2>
+                <ul>
+                    <li>
+                        <code>forward(distance)</code> 或 <code>fd(distance)</code>：向前移动指定距离
+                    </li>
+                    <li>
+                        <code>backward(distance)</code> 或 <code>bk(distance)</code> 或 <code>back(distance)</code>：向后移动指定距离
+                    </li>
+                    <li>
+                        <code>right(angle)</code> 或 <code>rt(angle)</code>：向右旋转指定角度
+                    </li>
+                    <li>
+                        <code>left(angle)</code> 或 <code>lt(angle)</code>：向左旋转指定角度
+                    </li>
+                    <li>
+                        <code>goto(x, y)</code> 或 <code>setpos(x, y)</code> 或 <code>setposition(x, y)</code>：移动到指定坐标
+                    </li>
+                    <li>
+                        <code>setx(x)</code>：设置x坐标，y坐标不变
+                    </li>
+                    <li>
+                        <code>sety(y)</code>：设置y坐标，x坐标不变
+                    </li>
+                    <li>
+                        <code>home()</code>：返回原点(0, 0)，朝向x轴正方向
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 海龟状态 -->
+            <div class="card">
+                <h2>📊 海龟状态</h2>
+                <ul>
+                    <li>
+                        <code>position()</code> 或 <code>pos()</code>：返回当前位置坐标
+                    </li>
+                    <li>
+                        <code>xcor()</code>：返回当前x坐标
+                    </li>
+                    <li>
+                        <code>ycor()</code>：返回当前y坐标
+                    </li>
+                    <li>
+                        <code>heading()</code>：返回当前朝向角度
+                    </li>
+                    <li>
+                        <code>distance(x, y)</code>：返回到指定点的距离
+                    </li>
+                    <li>
+                        <code>towards(x, y)</code>：返回指向指定点的角度
+                    </li>
+                    <li>
+                        <code>degrees()</code>：设置角度为度（默认）
+                    </li>
+                    <li>
+                        <code>radians()</code>：设置角度为弧度
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 画笔控制 -->
+            <div class="card">
+                <h2>🖌️ 画笔控制</h2>
+                <ul>
+                    <li>
+                        <code>penup()</code> 或 <code>pu()</code> 或 <code>up()</code>：抬起画笔，移动时不画线
+                    </li>
+                    <li>
+                        <code>pendown()</code> 或 <code>pd()</code> 或 <code>down()</code>：放下画笔，移动时画线
+                    </li>
+                    <li>
+                        <code>pensize(width)</code> 或 <code>width(width)</code>：设置画笔宽度
+                    </li>
+                    <li>
+                        <code>pen(option=value)</code>：设置画笔属性
+                    </li>
+                    <li>
+                        <code>isdown()</code>：返回画笔是否放下
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 颜色控制 -->
+            <div class="card">
+                <h2>🎨 颜色控制</h2>
+                <ul>
+                    <li>
+                        <code>color(color1, color2)</code>：设置画笔颜色和填充颜色
+                    </li>
+                    <li>
+                        <code>pencolor(color)</code>：设置画笔颜色
+                    </li>
+                    <li>
+                        <code>fillcolor(color)</code>：设置填充颜色
+                    </li>
+                    <li>
+                        <code>begin_fill()</code>：开始填充
+                    </li>
+                    <li>
+                        <code>end_fill()</code>：结束填充
+                    </li>
+                    <li>
+                        <code>filling()</code>：返回是否正在填充
+                    </li>
+                    <li>
+                        <code>bgcolor(color)</code>：设置背景颜色
+                    </li>
+                    <li>
+                        <code>colormode(mode)</code>：设置颜色模式（1.0或255）
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 绘图形状 -->
+            <div class="card">
+                <h2>🔶 绘图形状</h2>
+                <ul>
+                    <li>
+                        <code>circle(radius, extent=None, steps=None)</code>：绘制圆形
+                    </li>
+                    <li>
+                        <code>dot(size=None, color=None)</code>：绘制点
+                    </li>
+                    <li>
+                        <code>stamp()</code>：在当前位置留下海龟形状印记
+                    </li>
+                    <li>
+                        <code>clearstamp(stampid)</code>：清除指定印记
+                    </li>
+                    <li>
+                        <code>clearstamps(n=None)</code>：清除n个印记
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 海龟外观 -->
+            <div class="card">
+                <h2>👀 海龟外观</h2>
+                <ul>
+                    <li>
+                        <code>shape(name)</code>：设置海龟形状
+                    </li>
+                    <li>
+                        <code>shapesize(stretch_wid=None, stretch_len=None, outline=None)</code>：调整海龟大小
+                    </li>
+                    <li>
+                        <code>resizemode(rmode)</code>：设置大小调整模式
+                    </li>
+                    <li>
+                        <code>shearfactor(shear=None)</code>：设置或返回剪切因子
+                    </li>
+                    <li>
+                        <code>settiltangle(angle)</code>：旋转海龟形状
+                    </li>
+                    <li>
+                        <code>tilt(angle)</code>：旋转海龟形状
+                    </li>
+                    <li>
+                        <code>tiltangle(angle=None)</code>：返回当前旋转角度
+                    </li>
+                    <li>
+                        <code>hideturtle()</code> 或 <code>ht()</code>：隐藏海龟
+                    </li>
+                    <li>
+                        <code>showturtle()</code> 或 <code>st()</code>：显示海龟
+                    </li>
+                    <li>
+                        <code>isvisible()</code>：返回海龟是否可见
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 速度与延迟 -->
+            <div class="card">
+                <h2>⚡ 速度与延迟</h2>
+                <ul>
+                    <li>
+                        <code>speed(speed=None)</code>：设置或返回海龟移动速度（0-10）
+                    </li>
+                    <li>
+                        <code>delay(delay=None)</code>：设置或返回延迟时间
+                    </li>
+                    <li>
+                        <code>tracer(n=None, delay=None)</code>：设置动画追踪
+                    </li>
+                    <li>
+                        <code>update()</code>：更新绘图窗口
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 窗口控制 -->
+            <div class="card">
+                <h2>🖼️ 窗口控制</h2>
+                <ul>
+                    <li>
+                        <code>clear()</code>：清除海龟绘制的内容
+                    </li>
+                    <li>
+                        <code>reset()</code>：重置海龟和绘图
+                    </li>
+                    <li>
+                        <code>clearscreen()</code> 或 <code>cs()</code> 或 <code>screenreset()</code>：清除屏幕
+                    </li>
+                    <li>
+                        <code>bye()</code> 或 <code>exit()</code> 或 <code>quit()</code>：关闭窗口
+                    </li>
+                    <li>
+                        <code>mainloop()</code> 或 <code>done()</code>：进入主循环
+                    </li>
+                    <li>
+                        <code>exitonclick()</code>：点击窗口关闭
+                    </li>
+                    <li>
+                        <code>listen()</code>：监听键盘事件
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 事件处理 -->
+            <div class="card">
+                <h2>🎯 事件处理</h2>
+                <ul>
+                    <li>
+                        <code>onclick(fun, btn=1, add=None)</code>：鼠标点击事件
+                    </li>
+                    <li>
+                        <code>onrelease(fun, btn=1, add=None)</code>：鼠标释放事件
+                    </li>
+                    <li>
+                        <code>ondrag(fun, btn=1, add=None)</code>：鼠标拖动事件
+                    </li>
+                    <li>
+                        <code>onkey(fun, key)</code>：键盘按键事件
+                    </li>
+                    <li>
+                        <code>onkeypress(fun, key=None)</code>：键盘按下事件
+                    </li>
+                    <li>
+                        <code>onkeyrelease(fun, key=None)</code>：键盘释放事件
+                    </li>
+                    <li>
+                        <code>ontimer(fun, t=0)</code>：定时器事件
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 示例：绘制正方形 -->
+            <div class="card">
+                <h2>📝 示例：绘制正方形</h2>
+                <pre><code>from turtle import *
+
+def draw_square(size):
+    for _ in range(4):
+        forward(size)
+        right(90)
+
+draw_square(100)
+done()</code></pre>
+                <div class="desc">绘制一个边长为100的正方形</div>
+            </div>
+
+            <!-- 示例：绘制五角星 -->
+            <div class="card">
+                <h2>⭐ 示例：绘制五角星</h2>
+                <pre><code>from turtle import *
+
+color('red')
+fillcolor('yellow')
+begin_fill()
+
+while True:
+    forward(200)
+    left(170)
+    if abs(pos()) < 1:
+        break
+
+end_fill()
+done()</code></pre>
+                <div class="desc">绘制一个红色边框黄色填充的五角星</div>
+            </div>
+
+            <!-- 示例：彩色螺旋 -->
+            <div class="card">
+                <h2>🌈 示例：彩色螺旋</h2>
+                <pre><code>from turtle import *
+
+speed(0)
+for steps in range(100):
+    for c in ('blue', 'red', 'green'):
+        color(c)
+        forward(steps)
+        right(30)
+
+done()</code></pre>
+                <div class="desc">绘制一个彩色螺旋图案</div>
+            </div>
+        </div>
+    </div>
+    <script src="../../assets/common.js"></script>
+</body>
+</html>
