@@ -1,5 +1,8 @@
 # AST-grep 模式语法参考
 
+## 核心资源
+- [ast-grep：结构化搜索与重构利器](https://juejin.cn/post/7579819594270785574) - 掘金博客，详细介绍ast-grep的理论基础和实战应用
+
 ## 官方指南
 - [Rule Cheat Sheet](https://ast-grep.github.io/cheatsheet/rule.html)
 - [Pattern Syntax](https://ast-grep.github.io/guide/pattern-syntax.html)

@@ -41,6 +41,40 @@
             <span id="widthVal" class="slider-val">420px</span>
         </div>
         <div class="cheat-columns" id="columns">
+            <!-- 模块：AST与CST理论 -->
+            <div class="card">
+                <h2>🌳 AST 与 CST 理论基础 <a href="https://ast-grep.github.io/guide/pattern-syntax.html" target="_blank" rel="noreferrer" style="color:#93cdfc;">#ast-cst</a></h2>
+                <ul>
+                    <li><strong>AST（抽象语法树）</strong>：丢弃括号、分号等细节，只保留语义结构</li>
+                    <li><strong>CST（具体语法树）</strong>：完整记录所有字符，包括空格、注释、标点</li>
+                    <li>ast-grep 内部依赖 CST，支持无损重写，保留原始代码格式</li>
+                </ul>
+                <div class="desc">示例：<code>a = b + c</code> 和 <code>a=b+c;</code> 具有相同 AST，但不同 CST</div>
+            </div>
+
+            <!-- 模块：Tree-sitter基础 -->
+            <div class="card">
+                <h2>🔧 Tree-sitter 解析引擎 <a href="https://tree-sitter.github.io/tree-sitter/" target="_blank" rel="noreferrer" style="color:#93cdfc;">#tree-sitter</a></h2>
+                <ul>
+                    <li>ast-grep 基于 Tree-sitter 生成语法树，支持多种编程语言</li>
+                    <li><strong>Named Nodes</strong>：有语义的节点（函数调用、变量声明）</li>
+                    <li><strong>Unnamed Nodes</strong>：语法结构节点（括号、逗号、运算符）</li>
+                </ul>
+                <div class="desc">元变量默认只匹配 named 节点，可通过 <code>$$</code> 捕获 unnamed 节点</div>
+            </div>
+
+            <!-- 模块：ast-grep优势 -->
+            <div class="card">
+                <h2>⚡ ast-grep 核心优势 <a href="https://ast-grep.github.io/guide/" target="_blank" rel="noreferrer" style="color:#93cdfc;">#advantages</a></h2>
+                <ul>
+                    <li>低学习曲线：使用熟悉的代码语法编写模式</li>
+                    <li>高精度匹配：基于 AST 结构，避免文本搜索的误匹配</li>
+                    <li>无损重写：保留原始代码格式，无需重新格式化</li>
+                    <li>跨语言支持：基于 Tree-sitter，支持多种编程语言</li>
+                </ul>
+                <div class="desc">填补了文本搜索与专业 AST 分析之间的空白</div>
+            </div>
+
             <!-- 模块：模式语法全景 -->
             <div class="card">
                 <h2>🧭 模式语法总览 <a href="https://ast-grep.github.io/guide/pattern-syntax.html#pattern-syntax" target="_blank" rel="noreferrer" style="color:#93cdfc;">#pattern-syntax</a></h2>
