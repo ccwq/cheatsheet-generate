@@ -35,4 +35,7 @@
 """html模板
 使用这个文件作为基础模板来创建cheatsheet的html文件
 cheatsheets/_example/example-cheatsheet.html
+内容可以参考
+- cheatsheets\cesium
+- cheatsheets\threejs
 """
