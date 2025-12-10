@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Claude Skills 速查 - 技能系统全面指南</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../../css/variables.css">
+    <link rel="stylesheet" href="../../css/common.css">
+    <style>
+        :root {
+            --col-width: 400px;
+            --gap: 16px;
+        }
+
+        .panel label {
+            color: var(--panel-accent); /* 覆盖默认的panel-text颜色 */
+        }
+
+        .panel .title {
+            color: var(--panel-accent);
+        }
+    </style>
+
+    <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png" />
+    <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png" />
+  </head>
+<body>
+    <div class="container">
+        <div class="panel">
+            <span style="color:#7bfbb7;font-size:16px;margin-right:auto;">Claude Skills 速查</span>
+            <label for="columnWidth">🔧 调整每列宽度：</label>
+            <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+            <span id="widthVal" class="slider-val">340px</span>
+        </div>
+        <div class="cheat-columns" id="columns">
+            <!-- 基本概念卡片 -->
+            <div class="card">
+                <h2>🔧 基本概念</h2>
+                <ul>
+                    <li>
+                        <strong>Skills</strong>：Claude的技能系统，通过动态加载的指令、脚本和资源文件夹，提升特定任务的性能
+                    </li>
+                    <li>
+                        <strong>核心优势</strong>：改进特定任务性能、捕获组织知识、易于自定义、与其他Claude功能互补
+                    </li>
+                    <li>
+                        <strong>渐进式披露</strong>：仅在需要时加载相关内容，优化上下文窗口使用
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 技能类型卡片 -->
+            <div class="card">
+                <h2>📁 技能类型</h2>
+                <ul>
+                    <li>
+                        <strong>Anthropic Skills</strong>：内置技能，如文档编辑（Excel、Word、PowerPoint、PDF）
+                    </li>
+                    <li>
+                        <strong>Custom Skills</strong>：用户或组织创建的自定义技能，用于特定工作流
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 技能结构卡片 -->
+            <div class="card">
+                <h2>📋 技能结构</h2>
+                <ul>
+                    <li>
+                        <strong>SKILL.md</strong>：核心文件，包含YAML元数据和Markdown指令
+                        <ul>
+                            <li>必需字段：`name`、`description`</li>
+                            <li>可选字段：`dependencies`</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>资源文件</strong>：额外的参考文档、脚本等
+                    </li>
+                    <li>
+                        <strong>脚本文件</strong>：可执行代码，用于高级功能
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 创建技能步骤卡片 -->
+            <div class="card">
+                <h2>🛠️ 创建技能步骤</h2>
+                <ol>
+                    <li><strong>编写SKILL.md</strong>：包含YAML元数据和Markdown指令</li>
+                    <li><strong>添加资源文件</strong>：如REFERENCE.md、脚本等</li>
+                    <li><strong>打包技能</strong>：将所有文件放入一个文件夹，压缩为ZIP</li>
+                    <li><strong>上传技能</strong>：在Claude设置中上传自定义技能</li>
+                    <li><strong>测试技能</strong>：使用不同提示验证技能是否被正确调用</li>
+                </ol>
+            </div>
+
+            <!-- SKILL.md示例卡片 -->
+            <div class="card">
+                <h2>📝 SKILL.md 示例</h2>
+                <pre>name: my-skill-name
+description: A clear description of what this skill does and when to use it</pre>
+            </div>
+
+            <!-- 使用技能卡片 -->
+            <div class="card">
+                <h2>🔍 使用技能</h2>
+                <ul>
+                    <li>
+                        <strong>自动调用</strong>：Claude根据任务自动识别并加载相关技能
+                    </li>
+                    <li>
+                        <strong>手动调用</strong>：在提示中明确提及技能名称
+                    </li>
+                    <li>
+                        <strong>管理技能</strong>：在Claude设置中启用/禁用/删除技能
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 技能对比卡片 -->
+            <div class="card">
+                <h2>📊 技能与其他功能对比</h2>
+                <ul>
+                    <li>
+                        <strong>vs Projects</strong>：技能动态加载，项目提供静态背景知识
+                    </li>
+                    <li>
+                        <strong>vs MCP</strong>：技能提供程序知识，MCP连接外部服务
+                    </li>
+                    <li>
+                        <strong>vs Custom Instructions</strong>：技能任务特定，自定义指令全局适用
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 最佳实践卡片 -->
+            <div class="card">
+                <h2>🚀 最佳实践</h2>
+                <ul>
+                    <li><strong>保持专注</strong>：为不同工作流创建单独的技能</li>
+                    <li><strong>清晰描述</strong>：帮助Claude决定何时使用技能</li>
+                    <li><strong>从简单开始</strong>：先编写基本指令，再添加复杂脚本</li>
+                    <li><strong>包含示例</strong>：帮助Claude理解成功案例</li>
+                    <li><strong>增量测试</strong>：每次重大更改后测试</li>
+                </ul>
+            </div>
+
+            <!-- 安全考虑卡片 -->
+            <div class="card">
+                <h2>🔐 安全考虑</h2>
+                <ul>
+                    <li>注意prompt injection风险</li>
+                    <li>监控数据泄露风险</li>
+                    <li>验证第三方包的安全性</li>
+                </ul>
+            </div>
+
+            <!-- 打包规范卡片 -->
+            <div class="card">
+                <h2>📦 打包规范</h2>
+                <ul>
+                    <li><strong>正确结构</strong>：</li>
+                </ul>
+                <pre>my-skill.zip
+└── my-skill/
+    ├── SKILL.md
+    └── resources/</pre>
+                <ul>
+                    <li><strong>错误结构</strong>：</li>
+                </ul>
+                <pre>my-skill.zip
+├── SKILL.md
+├── resources/
+└── (files directly in ZIP root)</pre>
+            </div>
+
+            <!-- 技能生态卡片 -->
+            <div class="card">
+                <h2>📚 技能生态</h2>
+                <ul>
+                    <li><strong>公开仓库</strong>：<a href="https://github.com/anthropics/skills" target="_blank">https://github.com/anthropics/skills</a></li>
+                    <li><strong>技能市场</strong>：Claude Code插件市场</li>
+                    <li><strong>企业应用</strong>：组织知识捕获、标准化工作流</li>
+                </ul>
+            </div>
+
+            <!-- 应用场景卡片 -->
+            <div class="card">
+                <h2>💡 应用场景</h2>
+                <ul>
+                    <li>创意应用：艺术、音乐、设计</li>
+                    <li>技术任务：测试Web应用、MCP服务器生成</li>
+                    <li>企业工作流：通信、品牌、数据分析</li>
+                </ul>
+            </div>
+
+            <!-- 核心命令卡片 -->
+            <div class="card">
+                <h2>🔗 核心命令（Claude Code）</h2>
+                <ul>
+                    <li>
+                        <code>/plugin marketplace add anthropics/skills</code>：添加技能市场
+                    </li>
+                    <li>
+                        <code>/plugin install document-skills@anthropic-agent-skills</code>：安装文档技能
+                    </li>
+                    <li>
+                        <code>/plugin install example-skills@anthropic-agent-skills</code>：安装示例技能
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 可用性卡片 -->
+            <div class="card">
+                <h2>📱 可用性</h2>
+                <ul>
+                    <li><strong>Claude Code</strong>：支持安装和使用技能</li>
+                    <li><strong>Claude.ai</strong>：付费计划可用</li>
+                    <li><strong>Claude API</strong>：支持上传和使用自定义技能</li>
+                </ul>
+            </div>
+
+            <!-- 技能更新卡片 -->
+            <div class="card">
+                <h2>🔄 技能更新</h2>
+                <ul>
+                    <li>定期更新技能以适应新需求</li>
+                    <li>测试更新后的技能兼容性</li>
+                    <li>记录技能版本和变更</li>
+                </ul>
+            </div>
+
+            <!-- 技能设计原则卡片 -->
+            <div class="card">
+                <h2>🎯 技能设计原则</h2>
+                <ul>
+                    <li><strong>模块化</strong>：功能分离，便于维护和扩展</li>
+                    <li><strong>可组合</strong>：多个技能可以协同工作</li>
+                    <li><strong>可发现</strong>：清晰的描述和结构</li>
+                    <li><strong>高效</strong>：优化上下文使用</li>
+                </ul>
+            </div>
+
+            <!-- 团队协作卡片 -->
+            <div class="card">
+                <h2>👥 团队协作</h2>
+                <ul>
+                    <li>共享技能模板</li>
+                    <li>建立技能审核流程</li>
+                    <li>文档化技能使用方法</li>
+                </ul>
+            </div>
+
+            <!-- 技能性能评估卡片 -->
+            <div class="card">
+                <h2>📊 技能性能评估</h2>
+                <ul>
+                    <li>监控技能调用频率</li>
+                    <li>评估任务完成质量</li>
+                    <li>收集用户反馈</li>
+                    <li>优化技能指令</li>
+                </ul>
+            </div>
+
+            <!-- Claude Code 使用技能 -->
+            <div class="card">
+                <h2>💻 Claude Code 使用 Skills</h2>
+                <ul>
+                    <li><strong>前提</strong>：在 <a href="https://claude.ai/settings/capabilities" target="_blank">Settings &gt; Capabilities</a> 启用 Code execution &amp; Skills（Pro/Max/Team/Enterprise 支持）。</li>
+                    <li><strong>安装官方技能</strong>：在终端运行 <code>/plugin marketplace add anthropics/skills</code>，再执行 <code>/plugin install document-skills@anthropic-agent-skills</code> 或 <code>example-skills</code>。</li>
+                    <li><strong>调用方式</strong>：自动按描述匹配，也可在提示中点名技能；技能需保持“已开启”。</li>
+                    <li><strong>上传自定义技能</strong>：将包含 <code>SKILL.md</code> 的文件夹打包为 ZIP，在 Settings &gt; Capabilities &gt; Skills 点击 “Upload skill”；目录名需与 <code>name</code> 小写连字符一致。</li>
+                    <li><strong>故障排查</strong>：未调用→检查 toggle/描述是否清晰/已启用 code execution；上传失败→多因 ZIP 超限、缺少 <code>SKILL.md</code>、目录名与 <code>name</code> 不符。</li>
+                </ul>
+            </div>
+
+            <!-- Codex Skills（实验特性） -->
+            <div class="card">
+                <h2>🧭 Codex Skills（实验）</h2>
+                <ul>
+                    <li><strong>特性状态</strong>：实验性，随时可能变更；使用需自担风险。</li>
+                    <li><strong>存放位置</strong>：<code>~/.codex/skills/**/SKILL.md</code>（递归，跳过隐藏项/软链，仅精确文件名）。</li>
+                    <li><strong>文件格式</strong>：YAML frontmatter <code>name</code>（≤100字符）、<code>description</code>（≤500字符），正文可任意 Markdown；正文不注入上下文，运行时只注入名称、描述、绝对路径。</li>
+                    <li><strong>加载方式</strong>：启动时一次性扫描；若存在合法技能，会在运行时追加 <code>## Skills</code> 列表（位于 <code>AGENTS.md</code> 之后），缺失则不生成。</li>
+                    <li><strong>创建步骤</strong>：<code>mkdir -p ~/.codex/skills/&lt;name&gt;/</code>；编写 <code>SKILL.md</code>（示例如下），保存后重启 Codex 加载。</li>
+                </ul>
+                <pre>---
+name: your-skill-name
+description: what it does and when to use it (<=500 chars)
+---
+
+# Optional body
+Instructions/示例保存在本地，不会自动注入上下文。</pre>
+                <ul>
+                    <li><strong>校验与报错</strong>：字段缺失/超长/非法时，启动会弹出可关闭的错误模态并写日志；需修复 <code>SKILL.md</code> 后重启。</li>
+                </ul>
+                <div class="desc">来源：<a href="https://github.com/openai/codex/blob/main/docs/skills.md" target="_blank">Codex docs/skills.md</a></div>
+            </div>
+        </div>
+    </div>
+    <script src="../../assets/common.js"></script>
+</body>
+</html>
