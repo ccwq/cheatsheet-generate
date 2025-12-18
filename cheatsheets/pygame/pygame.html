@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Pygame 速查表</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../../css/variables.css">
+    <link rel="stylesheet" href="../../css/common.css">
+    <!-- Prism.js 语法高亮 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <style>
+        :root {
+            --col-width: 400px;
+            --gap: 16px;
+        }
+
+        .panel label {
+            color: var(--panel-accent); /* 覆盖默认的panel-text颜色 */
+        }
+
+        .panel .title {
+            color: var(--panel-accent);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="panel">
+            <span style="color:#7bfbb7;font-size:16px;margin-right:auto;">Pygame 速查表</span>
+            <label for="columnWidth">🔧 调整每列宽度：</label>
+            <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+            <span id="widthVal" class="slider-val">340px</span>
+        </div>
+        <div class="cheat-columns" id="columns">
+            <!-- 核心初始化 -->
+            <div class="card">
+                <h2>🔧 核心初始化 <a href="https://www.pygame.org/docs/ref/pygame.html" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <ul>
+                    <li>
+                        <code>pygame.init()</code>：初始化所有pygame模块
+                    </li>
+                    <li>
+                        <code>pygame.quit()</code>：退出pygame，释放资源
+                    </li>
+                    <li>
+                        <code>pygame.display.set_mode((width, height))</code>：创建显示窗口
+                    </li>
+                    <li>
+                        <code>pygame.display.set_caption(title)</code>：设置窗口标题
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 游戏循环 -->
+            <div class="card">
+                <h2>🎮 游戏循环 <a href="https://www.pygame.org/docs/tut/newbieguide.html" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <pre><code class="language-python">import pygame
+
+pygame.init()
+screen = pygame.display.set_mode((1280, 720))
+clock = pygame.time.Clock()
+running = True
+
+dt = 0
+player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
+
+while running:
+    # 事件处理
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+    
+    # 绘制
+    screen.fill("purple")
+    pygame.draw.circle(screen, "red", player_pos, 40)
+    
+    # 显示更新
+    pygame.display.flip()
+    
+    # 帧率控制
+    dt = clock.tick(60) / 1000
+
+pygame.quit()</code></pre>
+                <div class="desc">基本游戏循环结构，包含事件处理、绘制和帧率控制</div>
+            </div>
+
+            <!-- 事件处理 -->
+            <div class="card">
+                <h2>🎯 事件处理 <a href="https://www.pygame.org/docs/ref/event.html" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>事件类型</h3>
+                <ul>
+                    <li><code>pygame.QUIT</code>：窗口关闭</li>
+                    <li><code>pygame.KEYDOWN</code>：按键按下</li>
+                    <li><code>pygame.KEYUP</code>：按键释放</li>
+                    <li><code>pygame.MOUSEBUTTONDOWN</code>：鼠标按下</li>
+                    <li><code>pygame.MOUSEBUTTONUP</code>：鼠标释放</li>
+                    <li><code>pygame.MOUSEMOTION</code>：鼠标移动</li>
+                </ul>
+                <h3>事件获取</h3>
+                <ul>
+                    <li><code>pygame.event.get()</code>：获取所有事件</li>
+                    <li><code>pygame.event.poll()</code>：获取单个事件</li>
+                </ul>
+            </div>
+
+            <!-- 键盘与鼠标输入 -->
+            <div class="card">
+                <h2>⌨️ 键盘输入 <a href="https://www.pygame.org/docs/ref/key.html" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <pre><code class="language-python">keys = pygame.key.get_pressed()
+if keys[pygame.K_w]:
+    player_pos.y -= 300 * dt
+if keys[pygame.K_s]:
+    player_pos.y += 300 * dt
+if keys[pygame.K_a]:
+    player_pos.x -= 300 * dt
+if keys[pygame.K_d]:
+    player_pos.x += 300 * dt</code></pre>
+                <h3>鼠标输入</h3>
+                <ul>
+                    <li><code>pygame.mouse.get_pos()</code>：获取鼠标位置</li>
+                    <li><code>pygame.mouse.get_pressed()</code>：获取鼠标按键状态</li>
+                    <li><code>pygame.mouse.set_pos(pos)</code>：设置鼠标位置</li>
+                </ul>
+            </div>
+
+            <!-- 图形绘制 -->
+            <div class="card">
+                <h2>🖌️ 图形绘制 <a href="https://www.pygame.org/docs/ref/draw.html" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <ul>
+                    <li><code>screen.fill(color)</code>：填充背景</li>
+                    <li><code>pygame.draw.rect(surface, color, rect, width=0)</code>：绘制矩形</li>
+                    <li><code>pygame.draw.circle(surface, color, center, radius, width=0)</code>：绘制圆形</li>
+                    <li><code>pygame.draw.line(surface, color, start_pos, end_pos, width=1)</code>：绘制直线</li>
+                    <li><code>pygame.draw.polygon(surface, color, points, width=0)</code>：绘制多边形</li>
+                    <li><code>pygame.draw.ellipse(surface, color, rect, width=0)</code>：绘制椭圆</li>
+                </ul>
+            </div>
+
+            <!-- 颜色 -->
+            <div class="card">
+                <h2>🎨 颜色 <a href="https://www.pygame.org/docs/ref/color.html" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <ul>
+                    <li>RGB元组：<code>(r, g, b)</code> 范围0-255</li>
+                    <li>预定义颜色字符串：<code>"red"</code>, <code>"green"</code>, <code>"blue"</code>, <code>"purple"</code>, <code>"yellow"</code></li>
+                    <li><code>pygame.Color</code> 类：提供颜色操作</li>
+                </ul>
+            </div>
+
+            <!-- 精灵系统 -->
+            <div class="card">
+                <h2>👾 精灵系统 <a href="https://www.pygame.org/docs/ref/sprite.html" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <pre><code class="language-python">class Player(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.image = pygame.Surface((50, 50))
+        self.image.fill((255, 0, 0))
+        self.rect = self.image.get_rect()
+    
+    def update(self):
+        # 更新逻辑
+        pass
+
+# 创建精灵组
+all_sprites = pygame.sprite.Group()
+player = Player()
+all_sprites.add(player)
+
+# 游戏循环中
+all_sprites.update()
+all_sprites.draw(screen)</code></pre>
+            </div>
+
+            <!-- 图像与表面 -->
+            <div class="card">
+                <h2>🖼️ 图像与表面 <a href="https://www.pygame.org/docs/ref/surface.html" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <ul>
+                    <li><code>pygame.image.load(filename)</code>：加载图像</li>
+                    <li><code>image.convert()</code>：转换图像格式，提高性能</li>
+                    <li><code>image.convert_alpha()</code>：转换带透明通道的图像</li>
+                    <li><code>image.get_rect()</code>：获取图像矩形</li>
+                    <li><code>pygame.transform.scale(image, size)</code>：图像缩放</li>
+                    <li><code>pygame.transform.rotate(image, angle)</code>：图像旋转</li>
+                </ul>
+            </div>
+
+            <!-- 文本渲染 -->
+            <div class="card">
+                <h2>📝 文本渲染 <a href="https://www.pygame.org/docs/ref/font.html" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <pre><code class="language-python"># 初始化字体模块
+pygame.font.init()
+
+# 创建字体
+font = pygame.font.SysFont(None, 36)  # 系统字体
+# font = pygame.font.Font("custom.ttf", 36)  # 自定义字体
+
+# 渲染文本
+text = font.render("Hello Pygame", True, (255, 255, 255))
+
+# 绘制文本
+screen.blit(text, (x, y))</code></pre>
+            </div>
+
+            <!-- 时间与时钟 -->
+            <div class="card">
+                <h2>⏰ 时间与时钟 <a href="https://www.pygame.org/docs/ref/time.html" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <ul>
+                    <li><code>pygame.time.Clock()</code>：创建时钟对象</li>
+                    <li><code>clock.tick(FPS)</code>：控制帧率，返回帧时间(ms)</li>
+                    <li><code>clock.get_fps()</code>：获取实际帧率</li>
+                    <li><code>pygame.time.get_ticks()</code>：获取自初始化以来的毫秒数</li>
+                </ul>
+            </div>
+
+            <!-- 音频 -->
+            <div class="card">
+                <h2>🔊 音频 <a href="https://www.pygame.org/docs/ref/mixer.html" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <ul>
+                    <li><code>pygame.mixer.init()</code>：初始化音频模块</li>
+                    <li><code>pygame.mixer.music.load(filename)</code>：加载音乐</li>
+                    <li><code>pygame.mixer.music.play(loops=0, start=0.0)</code>：播放音乐</li>
+                    <li><code>pygame.mixer.music.pause()</code>：暂停音乐</li>
+                    <li><code>pygame.mixer.Sound(filename)</code>：创建音效对象</li>
+                    <li><code>sound.play()</code>：播放音效</li>
+                </ul>
+            </div>
+
+            <!-- 数学向量 -->
+            <div class="card">
+                <h2>📐 数学向量 <a href="https://www.pygame.org/docs/ref/math.html" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <ul>
+                    <li><code>pygame.math.Vector2</code>：2D向量</li>
+                    <li><code>pygame.math.Vector3</code>：3D向量</li>
+                    <li>向量运算：<code>+</code>, <code>-</code>, <code>*</code>, <code>/</code></li>
+                    <li><code>vector.length()</code>：向量长度</li>
+                    <li><code>vector.normalize()</code>：归一化</li>
+                    <li><code>vector.dot(other)</code>：点积</li>
+                </ul>
+                <pre><code class="language-python">pos = pygame.Vector2(100, 200)
+vel = pygame.Vector2(5, 5)
+
+# 更新位置
+pos += vel
+
+# 计算距离
+dist = (pos - target_pos).length()</code></pre>
+            </div>
+
+            <!-- 碰撞检测 -->
+            <div class="card">
+                <h2>💥 碰撞检测 <a href="https://www.pygame.org/docs/ref/sprite.html#pygame.sprite.spritecollide" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <ul>
+                    <li><code>rect.colliderect(other_rect)</code>：矩形碰撞</li>
+                    <li><code>rect.collidepoint(point)</code>：点与矩形碰撞</li>
+                    <li><code>pygame.sprite.spritecollide(sprite, group, dokill)</code>：精灵与组碰撞</li>
+                    <li><code>pygame.sprite.groupcollide(group1, group2, dokill1, dokill2)</code>：组与组碰撞</li>
+                    <li><code>pygame.sprite.spritecollideany(sprite, group)</code>：检查是否有碰撞</li>
+                </ul>
+            </div>
+
+            <!-- 显示模式 -->
+            <div class="card">
+                <h2>🖥️ 显示模式 <a href="https://www.pygame.org/docs/ref/display.html" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <ul>
+                    <li><code>pygame.FULLSCREEN</code>：全屏模式</li>
+                    <li><code>pygame.RESIZABLE</code>：可调整大小</li>
+                    <li><code>pygame.NOFRAME</code>：无边框</li>
+                    <li><code>pygame.SCALED</code>：自动缩放</li>
+                </ul>
+                <pre><code class="language-python"># 创建全屏窗口
+screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+
+# 创建可调整大小的窗口
+screen = pygame.display.set_mode((800, 600), pygame.RESIZABLE)</code></pre>
+            </div>
+
+            <!-- 性能优化 -->
+            <div class="card">
+                <h2>⚡ 性能优化 <a href="https://www.pygame.org/docs/tut/optimization.html" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <ul>
+                    <li>使用 <code>convert()</code>/<code>convert_alpha()</code> 转换图像</li>
+                    <li>使用精灵组批量绘制</li>
+                    <li>避免在循环中加载资源</li>
+                    <li>使用 <code>clock.tick()</code> 控制帧率</li>
+                    <li>合理使用碰撞检测方法</li>
+                    <li>及时释放不再使用的资源</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script src="../../assets/common.js"></script>
+    <script>
+    // Prism.js 代码高亮初始化
+    document.addEventListener('DOMContentLoaded', function() {
+      // 确保 Prism 已加载
+      if (window.Prism) {
+        // 高亮所有代码块
+        Prism.highlightAll();
+
+        // 可选：添加行号显示
+        Prism.plugins.lineNumbers = false; // 禁用行号以保持简洁
+
+        console.log('代码高亮已启用');
+      }
+    });
+    </script>
+</body>
+</html>
