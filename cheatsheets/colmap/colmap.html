@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>COLMAP 影像重建速查表</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../../css/variables.css">
+  <link rel="stylesheet" href="../../css/common.css">
+
+  <!-- Prism.js 语法高亮 -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+  <style>
+    :root {
+      --col-width: 400px;
+      --gap: 16px;
+    }
+
+    .cheat-columns {
+      column-count: 4;
+    }
+
+    @media (max-width: 1500px) {
+      .cheat-columns {
+        column-count: 3;
+      }
+    }
+
+    @media (max-width: 1100px) {
+      .cheat-columns {
+        column-count: 2;
+      }
+    }
+
+    @media (max-width: 750px) {
+      .cheat-columns {
+        column-count: 1;
+      }
+    }
+
+    .panel label {
+      color: #ffe49b;
+    }
+
+    .slider-bar {
+      min-width: 120px;
+    }
+
+    .slider-val {
+      min-width: 28px;
+    }
+
+    pre code {
+      font-size: 13px;
+      line-height: 1.2;
+    }
+  </style>
+
+    <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png" />
+    <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png" />
+  </head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <span style="color:#7bfbb7;font-size:16px;margin-right:auto;">COLMAP 影像重建速查表（面向入门开发者）</span>
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+    </div>
+
+    <div class="cheat-columns" id="columns">
+      <div class="card">
+        <h2>🚀 速览与主线流程 <a href="https://colmap.github.io/tutorial.html#quickstart" target="_blank" title="Quickstart">>></a></h2>
+        <ul>
+          <li>COLMAP = 先稀疏 SfM 求相机位姿与稀疏点，再用 MVS 得到稠密点云/网格。</li>
+          <li>GUI 快捷：<code>Reconstruction &gt; Automatic Reconstruction</code> 指定图片目录即可产出稀疏/稠密结果。</li>
+          <li>推荐先跑自动重建看结果，再按需用手动流水线微调参数。</li>
+        </ul>
+        <h3>典型输出结构</h3>
+        <pre><code class="language-text">project/
+├─ images/...
+├─ database.db
+├─ sparse/0/{cameras.bin,images.bin,points3D.bin,...}
+└─ dense/0/{images,sparse,stereo,fused.ply,meshed-poisson.ply,meshed-delaunay.ply}</code></pre>
+        <div class="desc">初学者先跑自动重建，确认流程通路与硬件性能，再转到手动 CLI 细化。</div>
+      </div>
+
+      <div class="card">
+        <h2>📖 基础概念释义 <a href="https://colmap.github.io/tutorial.html#terminology" target="_blank" title="Terminology">>></a></h2>
+        <ul>
+          <li><b>相机(Camera)</b>：同一物理机位/镜头/焦段的内参模型，可对应多张图片。</li>
+          <li><b>图像(Image)</b>：磁盘上的单张照片；包含外参、关联相机内参。</li>
+          <li><b>特征/描述子</b>：SIFT 等局部特征；匹配后经几何验证成为 <b>内点匹配</b>。</li>
+          <li><b>SfM</b>：由匹配恢复相机位姿与稀疏 3D 点。</li>
+          <li><b>MVS</b>：在已知位姿上做逐像素深度/法线估计并融合，得到稠密点云/网格。</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>📷 采集与数据组织 <a href="https://colmap.github.io/tutorial.html#data-structure" target="_blank" title="Data structure">>></a></h2>
+        <ul>
+          <li>保持图片放在单一 <code>images/</code> 目录（可含子目录）；其他文件分离以免 IO 干扰。</li>
+          <li>拍摄建议：有纹理、光照一致、视角覆盖且有重叠（≥3 张看到同物体）。</li>
+          <li>避免只原地转身拍摄；移动机位获取视差，更利于三角化。</li>
+          <li>用视频帧时可降帧，减少冗余并节省匹配时间。</li>
+        </ul>
+        <pre><code class="language-bash"># 新建项目常见三件套
+/path/to/project/
+├─ images/          # 原始图
+├─ database.db      # SQLite 存特征/匹配
+└─ project.ini      # GUI 保存的项目配置，可被 --project_path 复用</code></pre>
+      </div>
+
+      <div class="card">
+        <h2>🖥️ GUI 快速操作 <a href="https://colmap.github.io/gui.html#gui" target="_blank" title="GUI">>></a></h2>
+        <ul>
+          <li><code>File &gt; New project</code> 选图片目录与数据库路径，保存 <code>.ini</code> 便于复用。</li>
+          <li><code>Processing &gt; Extract features</code>：选相机模型，EXIF 自动读焦距，默认即可。</li>
+          <li><code>Processing &gt; Feature matching</code>：按数据量选 Exhaustive/Sequential/Vocab Tree。</li>
+          <li><code>Reconstruction &gt; Start</code>：运行增量 SfM，可在工具栏选择/合并多模型。</li>
+          <li><code>Reconstruction &gt; Multi-view stereo</code>：依次 undistort → stereo → fuse → meshing。</li>
+          <li><code>Processing &gt; Manage database</code>：检查/修改相机分组、匹配质量。</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>⌨️ CLI 自动/手动流水线 <a href="https://colmap.github.io/cli.html#cli" target="_blank" title="CLI">>></a></h2>
+        <ul>
+          <li>自动一键：<code>colmap automatic_reconstructor --workspace_path $DATASET --image_path $DATASET/images</code></li>
+          <li>手动可控：典型 8 步，便于在中间检查/调参/重跑。</li>
+        </ul>
+        <pre><code class="language-bash">DATASET=/path/to/project
+
+colmap feature_extractor \
+  --database_path $DATASET/database.db \
+  --image_path $DATASET/images
+
+colmap exhaustive_matcher \
+  --database_path $DATASET/database.db
+
+mkdir -p $DATASET/sparse
+colmap mapper \
+  --database_path $DATASET/database.db \
+  --image_path $DATASET/images \
+  --output_path $DATASET/sparse
+
+mkdir -p $DATASET/dense
+colmap image_undistorter \
+  --image_path $DATASET/images \
+  --input_path $DATASET/sparse/0 \
+  --output_path $DATASET/dense \
+  --output_type COLMAP \
+  --max_image_size 2000
+
+colmap patch_match_stereo \
+  --workspace_path $DATASET/dense \
+  --workspace_format COLMAP \
+  --PatchMatchStereo.geom_consistency true
+
+colmap stereo_fusion \
+  --workspace_path $DATASET/dense \
+  --workspace_format COLMAP \
+  --input_type geometric \
+  --output_path $DATASET/dense/fused.ply
+
+colmap poisson_mesher \
+  --input_path $DATASET/dense/fused.ply \
+  --output_path $DATASET/dense/meshed-poisson.ply</code></pre>
+        <div class="desc">无显示环境时可用 <code>--FeatureExtraction.use_gpu 0</code> / <code>--FeatureMatching.use_gpu 0</code> 强制 CPU。</div>
+      </div>
+
+      <div class="card">
+        <h2>🔍 特征提取要点 <a href="https://colmap.github.io/tutorial.html#feature-detection-and-extraction" target="_blank" title="Feature extraction">>></a></h2>
+        <ul>
+          <li>默认用 GPU SIFT，服务器无显示可切 CPU；高反差场景 GPU 版质量更好。</li>
+          <li>EXIF 缺失时会尝试相机库推断焦距；同机同焦段建议共享内参（single_camera）。</li>
+          <li>导入自有特征：每张图旁边放 <code>.txt</code>，第一行 <code>NUM_FEATURES 128</code>，后续每行 <code>X Y SCALE ORI D1...D128</code>。</li>
+        </ul>
+        <pre><code class="language-text">4 128
+1.2 2.3 0.1 0.3 1 2 ... 21
+2.2 3.3 1.1 0.3 3 2 ... 32
+0.2 1.3 1.1 0.3 3 2 ... 2
+1.2 2.3 1.1 0.3 3 2 ... 3</code></pre>
+        <div class="desc">若共享相机但尺寸/EXIF 不一致会导致崩溃；必要时分组建模。</div>
+      </div>
+
+      <div class="card">
+        <h2>🤝 特征匹配模式 <a href="https://colmap.github.io/tutorial.html#feature-matching-and-geometric-verification" target="_blank" title="Feature matching">>></a></h2>
+        <ul>
+          <li>Exhaustive：小规模（≤几百张）优先，质量最佳。</li>
+          <li>Sequential：视频/序列帧用，含回环检测（需 vocab tree）。</li>
+          <li>Vocab Tree：大规模检索式匹配，需预训练树（自动下载或自建）。</li>
+          <li>Spatial：用 GPS/手工位置信息选最近邻匹配。</li>
+          <li>Transitive：基于已有匹配的传递补全。</li>
+          <li>Custom：自定义成对列表或导入匹配（<code>image1.jpg image2.jpg</code> 后跟索引对）。</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>🕸️ 稀疏重建（SfM） <a href="https://colmap.github.io/tutorial.html#sparse-reconstruction" target="_blank" title="Sparse reconstruction">>></a></h2>
+        <ul>
+          <li><code>Reconstruction &gt; Start</code> 或 CLI <code>mapper</code>，增量注册新图并三角化点。</li>
+          <li>若初始化失败，可在 GUI 指定初始成对照片后重跑。</li>
+          <li>多模型输出可用 <code>model_converter</code> 合并；注册率低多半是匹配覆盖不足。</li>
+          <li>优化思路：增加匹配（更高近邻数/回环），或人工剔除模糊/重复图。</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>🧊 稠密重建（MVS） <a href="https://colmap.github.io/tutorial.html#dense-reconstruction" target="_blank" title="Dense reconstruction">>></a></h2>
+        <ul>
+          <li>顺序：<code>undistort</code> → <code>stereo</code> → <code>fuse</code> → <code>meshing</code>。</li>
+          <li>若 GPU 显存不足/卡死，调小 <code>--PatchMatchStereo</code> 相关参数或用 FAQ 中的分块策略。</li>
+          <li>法线/网格需外部工具（Meshlab）查看；COLMAP GUI 仅显示点云。</li>
+          <li>导出 PMVS/CMP 等格式：<code>Extras &gt; Undistort images</code> 选择所需格式。</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>📤 导入导出与格式 <a href="https://colmap.github.io/tutorial.html#importing-and-exporting" target="_blank" title="Import/Export">>></a></h2>
+        <ul>
+          <li><code>File &gt; Export</code> 导出当前模型；<code>Export all</code> 导出全部组件。</li>
+          <li>COLMAP 自身格式（txt/bin）便于继续重建或做 undistort；也支持 PLY/Bundler/VRML。</li>
+          <li><code>File &gt; Import</code> 可重新载入已导出的模型或普通 PLY 点云。</li>
+          <li>格式细节见 <a href="https://colmap.github.io/format.html#output-format" target="_blank">Output Format</a>。</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>🗄️ 数据库管理 <a href="https://colmap.github.io/tutorial.html#database-management" target="_blank" title="Database management">>></a></h2>
+        <ul>
+          <li><code>Processing &gt; Manage database</code> 查看/编辑相机、图像、匹配。</li>
+          <li>共享内参：选多图 <code>Set camera</code>，统一 <code>camera_id</code>；<code>prior_focal_length</code> 置 1 表示相信标定焦距。</li>
+          <li>需要批量操作/导入自定义匹配，可直接用 SQLite 操作 <code>database.db</code>。</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>🛠️ 常见问题与排查 <a href="https://colmap.github.io/tutorial.html#preface" target="_blank" title="Preface">>></a></h2>
+        <ul>
+          <li>程序崩溃/无输出：从命令行启动查看 traceback，并调高 <code>--log_to_stderr</code> 级别。</li>
+          <li>稠密阶段卡死：参考 FAQ <a href="https://colmap.github.io/faq.html#faq-dense-timeout" target="_blank">freeze</a> / <a href="https://colmap.github.io/faq.html#faq-dense-memory" target="_blank">memory</a>，减小分辨率或拆分场景。</li>
+          <li>匹配速度慢：减少图片数（抽帧）、改用 Vocab Tree/Sequential，或调整匹配近邻数。</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>👁️ 可视化与外部工具 <a href="https://colmap.github.io/cli.html#visualization" target="_blank" title="Visualization">>></a></h2>
+        <ul>
+          <li>SfM 点云：GUI 里 <code>File &gt; Import Model</code> 选 <code>cameras.txt / images.txt / points3D.txt</code> 所在目录。</li>
+          <li>稠密点云：<code>File &gt; Import Model from...</code> 选择 <code>fused.ply</code>。</li>
+          <li>网格：<code>meshed-*.ply</code> 需 Meshlab 等外部查看。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../assets/common.js"></script>
+  <script>
+    // Prism.js 代码高亮初始化
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>
