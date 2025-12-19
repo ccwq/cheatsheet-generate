@@ -96,7 +96,7 @@ body::after {
 }
 
 .card h2 {
-  margin: -6px 0 6px 0;
+  margin: -6px 0 6px -9px;
   font-size: 15px;
   font-weight: 600;
   color: var(--text-accent);
