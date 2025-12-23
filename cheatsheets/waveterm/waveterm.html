@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Wave Terminal 开发速查表</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../css/variables.css">
+    <link rel="stylesheet" href="../../css/common.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <style>
+        .cheat-columns {
+            column-count: 4;
+        }
+
+        @media (max-width: 1500px) {
+            .cheat-columns {
+                column-count: 3;
+            }
+        }
+
+        @media (max-width: 1100px) {
+            .cheat-columns {
+                column-count: 2;
+            }
+        }
+
+        @media (max-width: 750px) {
+            .cheat-columns {
+                column-count: 1;
+            }
+        }
+
+        .panel label {
+            color: #ffe49b;
+        }
+
+        .slider-bar {
+            min-width: 120px;
+        }
+
+        .slider-val {
+            min-width: 28px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="panel">
+            <span style="color:#7bfbb7;font-size:16px;margin-right:auto;">Wave Terminal 开发速查表</span>
+            <label for="columnWidth">🔧 调整每列宽度：</label>
+            <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+            <span id="widthVal" class="slider-val">340px</span>
+        </div>
+        <div class="cheat-columns" id="columns">
+            <!-- 快速开始 -->
+            <div class="card">
+                <h2>🚀 快速开始 <a href="https://docs.waveterm.dev/gettingstarted" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>📦 平台要求</h3>
+                <ul>
+                    <li><code>架构</code>：x64（ARM64计划中，目前受上游依赖限制）</li>
+                    <li><code>Windows</code>：Windows 10 1809 或更高版本、Windows 11</li>
+                    <li><code>macOS</code>：支持 Homebrew 安装</li>
+                    <li><code>Linux</code>：支持 npm 安装</li>
+                </ul>
+
+                <h3>📦 安装</h3>
+                <pre><code class="language-bash"># Windows Package Manager
+winget install CommandLine.Wave
+
+# Chocolatey
+choco install wave
+
+# 使用 npm 安装
+npm install -g @waveterm/waveterm
+
+# 使用 Homebrew 安装 (macOS)
+brew install waveterm
+
+# 使用 Scoop 安装 (Windows)
+scoop install waveterm</code></pre>
+
+                <h3>🎯 基础操作</h3>
+                <pre><code class="language-bash"># 启动 Wave Terminal
+waveterm
+
+# 创建新标签页
+Alt + T
+
+# 创建新终端块
+Alt + N</code></pre>
+
+                <h3>🌐 快速命令</h3>
+                <pre><code class="language-bash"># 查看文件或目录
+wsh view ~/Documents
+
+# 打开网页
+wsh web open github.com
+
+# 获取 AI 帮助
+wsh ai -m "如何在当前目录查找大文件？" -s</code></pre>
+
+                <div class="tip">
+                    💡 Wave Terminal 是一个现代化的终端，支持图形化组件、web浏览和AI辅助功能，GPU加速渲染
+                </div>
+            </div>
+
+            <!-- 核心概念 -->
+            <div class="card">
+                <h2>🧩 核心概念 <a href="https://docs.waveterm.dev/gettingstarted#core-concepts" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>📑 Tabs (标签页)</h3>
+                <ul>
+                    <li><code>标签页</code>：用于组织相关的工作内容</li>
+                    <li><code>多标签管理</code>：支持同时打开多个标签页</li>
+                    <li><code>独立工作区</code>：每个标签页是独立的工作环境</li>
+                </ul>
+
+                <h3>🧱 Blocks (块)</h3>
+                <ul>
+                    <li><code>终端块</code>：运行命令行工具和脚本</li>
+                    <li><code>Web浏览器块</code>：内置浏览器查看网页</li>
+                    <li><code>文件预览块</code>：预览各种文件类型</li>
+                    <li><code>图形组件块</code>：显示图表、图像等</li>
+                </ul>
+
+                <h3>🎨 布局系统</h3>
+                <pre><code class="language-bash"># 拖拽调整块位置
+鼠标拖拽块标题栏
+
+# 调整块大小
+拖拽块边缘
+
+# 分割块
+右键 -> Split Horizontal/Vertical</code></pre>
+
+                <div class="tip">
+                    💡 Tabs 和 Blocks 是 Wave Terminal 的核心组织单元，支持灵活的布局定制
+                </div>
+            </div>
+
+            <!-- 键盘快捷键 -->
+            <div class="card">
+                <h2>⌨️ 键盘快捷键 <a href="https://docs.waveterm.dev/keybindings" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>📑 标签页操作</h3>
+                <ul>
+                    <li><code>Alt + T</code>：新建标签页</li>
+                    <li><code>Alt + W</code>：关闭当前标签页</li>
+                    <li><code>Alt + Tab</code>：切换到下一个标签页</li>
+                    <li><code>Alt + Shift + Tab</code>：切换到上一个标签页</li>
+                    <li><code>Alt + 1-9</code>：切换到指定标签页</li>
+                </ul>
+
+                <h3>🧱 块操作</h3>
+                <ul>
+                    <li><code>Alt + N</code>：新建终端块</li>
+                    <li><code>Alt + Shift + W</code>：关闭当前块</li>
+                    <li><code>Alt + Shift + [</code>：切换到上一个块</li>
+                    <li><code>Alt + Shift + ]</code>：切换到下一个块</li>
+                </ul>
+
+                <h3>🖱️ 导航操作</h3>
+                <ul>
+                    <li><code>Alt + K</code>：打开命令面板</li>
+                    <li><code>Alt + F</code>：在当前块中搜索</li>
+                    <li><code>Alt + L</code>：清空终端</li>
+                    <li><code>Alt + C</code>：复制选中内容</li>
+                    <li><code>Alt + V</code>：粘贴内容</li>
+                </ul>
+
+                <h3>🔄 视图操作</h3>
+                <ul>
+                    <li><code>Alt + B</code>：切换侧边栏</li>
+                    <li><code>F11</code>：全屏模式</li>
+                    <li><code>Alt + +</code>：放大</li>
+                    <li><code>Alt + -</code>：缩小</li>
+                </ul>
+
+                <div class="tip">
+                    💡 使用快捷键可以大幅提升工作效率，建议熟悉常用快捷键
+                </div>
+            </div>
+
+            <!-- wsh 命令 -->
+            <div class="card">
+                <h2>🛠️ wsh 命令 <a href="https://docs.waveterm.dev/wsh-reference" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>👁️ view - 查看内容</h3>
+                <pre><code class="language-bash"># 在 GUI 中查看文件
+wsh view /path/to/file.txt
+
+# 在 GUI 中查看目录
+wsh view ~/Documents
+
+# 查看远程文件
+wsh view user@remote-server:/path/to/file.txt</code></pre>
+
+                <h3>🌐 web - Web 浏览器</h3>
+                <pre><code class="language-bash"># 打开网页
+wsh web open github.com
+
+# 打开特定 URL
+wsh web open https://docs.waveterm.dev
+
+# 搜索
+wsh web open https://google.com/search?q=waveterm</code></pre>
+
+                <h3>✏️ edit - 编辑文件</h3>
+                <pre><code class="language-bash"># 在 GUI 中编辑文件
+wsh edit /path/to/file.txt
+
+# 编辑配置文件
+wsh edit ~/.bashrc
+
+# 编辑 JSON 文件
+wsh edit config.json</code></pre>
+
+                <h3>📋 getmeta - 获取元数据</h3>
+                <pre><code class="language-bash"># 获取文件元数据
+wsh getmeta /path/to/file.txt
+
+# 获取目录元数据
+wsh getmeta /path/to/directory
+
+# 获取 URL 元数据
+wsh getmeta https://example.com</code></pre>
+
+                <h3>📝 setmeta - 设置元数据</h3>
+                <pre><code class="language-bash"># 设置文件元数据
+wsh setmeta /path/to/file.txt --key "author" --value "John"
+
+# 设置多个元数据
+wsh setmeta file.txt --key "category" --value "docs" \
+  --key "priority" --value "high"</code></pre>
+
+                <div class="tip">
+                    💡 wsh 命令是 Wave Terminal 的命令行工具，用于与 GUI 功能交互
+                </div>
+            </div>
+
+            <!-- wsh 高级命令 -->
+            <div class="card">
+                <h2>⚡ wsh 高级命令 <a href="https://docs.waveterm.dev/wsh-reference" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>🤖 ai - AI 助手</h3>
+                <pre><code class="language-bash"># 使用 AI 助手
+wsh ai -m "帮我解释这段代码" -s
+
+# AI 代码审查
+wsh ai -m "审查这个文件" -s script.py
+
+# AI 生成代码
+wsh ai -m "创建一个 Python HTTP 服务器" -s</code></pre>
+
+                <h3>⚙️ editconfig - 编辑配置</h3>
+                <pre><code class="language-bash"># 打开配置编辑器
+wsh editconfig
+
+# 编辑特定配置
+wsh editconfig --key "theme" --value "dark"
+
+# 重置配置
+wsh editconfig --reset</code></pre>
+
+                <h3>🎨 setbg - 设置背景</h3>
+                <pre><code class="language-bash"># 设置背景图片
+wsh setbg /path/to/image.png
+
+# 设置背景颜色
+wsh setbg --color "#1a1a2e"
+
+# 重置背景
+wsh setbg --reset</code></pre>
+
+                <h3>▶️ run - 运行命令</h3>
+                <pre><code class="language-bash"># 在新块中运行命令
+wsh run "npm install"
+
+# 在指定标签页运行
+wsh run --tab 2 "ls -la"
+
+# 后台运行
+wsh run --background "npm start"</code></pre>
+
+                <div class="tip">
+                    💡 wsh 命令支持丰富的参数选项，使用 wsh --help 查看完整帮助
+                </div>
+            </div>
+
+            <!-- 远程连接 -->
+            <div class="card">
+                <h2>🌐 远程连接 <a href="https://docs.waveterm.dev/gettingstarted#remote-connections" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>🔌 通过连接按钮连接</h3>
+                <pre><code class="language-bash"># 点击连接按钮
+# 在界面中点击连接按钮
+
+# SSH 连接
+# 输入 username@hostname
+
+# WSL 连接（Windows）
+# 选择 WSL 发行版</code></pre>
+
+                <h3>🔌 SSH 连接</h3>
+                <pre><code class="language-bash"># SSH 连接到远程服务器
+ssh user@remote-server
+
+# 使用 SSH 配置
+ssh my-server
+
+# 指定端口连接
+ssh -p 2222 user@remote-server</code></pre>
+
+                <h3>🪟 WSL 连接</h3>
+                <pre><code class="language-bash"># 连接到 WSL
+wsl
+
+# 连接到特定发行版
+wsl -d Ubuntu-22.04
+
+# 在 WSL 中运行命令
+wsl -- ls -la</code></pre>
+
+                <h3>📁 远程文件浏览</h3>
+                <pre><code class="language-bash"># 挂载远程文件系统
+sshfs user@remote-server:/path /local/mount
+
+# 使用 wsh 查看远程文件
+wsh view user@remote-server:/path/to/file.txt</code></pre>
+
+                <h3>🔑 SSH 密钥管理</h3>
+                <pre><code class="language-bash"># 生成 SSH 密钥
+ssh-keygen -t ed25519 -C "your_email@example.com"
+
+# 复制公钥到远程服务器
+ssh-copy-id user@remote-server
+
+# 查看 SSH 配置
+cat ~/.ssh/config</code></pre>
+
+                <div class="tip">
+                    💡 Wave Terminal 原生支持 SSH 和 WSL，可无缝连接远程环境
+                </div>
+            </div>
+
+            <!-- 图形化功能 -->
+            <div class="card">
+                <h2>🎨 图形化功能 <a href="https://docs.waveterm.dev/gettingstarted#graphical-features" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>🌐 内置浏览器</h3>
+                <pre><code class="language-bash"># 打开 Web 浏览器块
+Ctrl/Cmd + Shift + W -> 选择 Web Browser
+
+# 使用 wsh 打开网页
+wsh view https://docs.waveterm.dev
+
+# 在浏览器中预览本地文件
+wsh view index.html</code></pre>
+
+                <h3>📄 文件预览</h3>
+                <pre><code class="language-bash"># 预览图片
+wsh view image.png
+
+# 预览 PDF 文件
+wsh view document.pdf
+
+# 预览 Markdown 文件
+wsh view README.md</code></pre>
+
+                <h3>📊 图表可视化</h3>
+                <pre><code class="language-bash"># 使用 wsh 查看图表数据
+wsh view data.json
+
+# 预览 CSV 数据
+wsh view data.csv
+
+# 查看日志文件
+wsh view app.log</code></pre>
+
+                <h3>🖼️ 图像处理</h3>
+                <pre><code class="language-bash"># 在 GUI 中查看图像
+wsh view screenshot.png
+
+# 批量查看图像
+wsh view images/*.jpg
+
+# 查看图像元数据
+wsh getmeta photo.jpg</code></pre>
+
+                <div class="tip">
+                    💡 Wave Terminal 支持多种文件类型的图形化预览，无需离开终端
+                </div>
+            </div>
+
+            <!-- AI 辅助 -->
+            <div class="card">
+                <h2>🤖 AI 辅助功能 <a href="https://docs.waveterm.dev/gettingstarted#ai-features" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>💬 AI 聊天</h3>
+                <pre><code class="language-bash"># 启动 AI 聊天
+wsh ai
+
+# 询问问题
+wsh ai "如何使用 Git 合并分支？"
+
+# 代码解释
+wsh ai "解释这段代码的作用"</code></pre>
+
+                <h3>🔍 代码审查</h3>
+                <pre><code class="language-bash"># AI 代码审查
+wsh ai --review script.py
+
+# 检查代码问题
+wsh ai --check /path/to/code.js
+
+# 优化建议
+wsh ai --optimize function.py</code></pre>
+
+                <h3>✨ 代码生成</h3>
+                <pre><code class="language-bash"># 生成代码
+wsh ai --generate "创建一个 Flask API"
+
+# 生成测试代码
+wsh ai --test "为这个函数生成单元测试"
+
+# 生成文档
+wsh ai --doc "为这个模块生成文档"</code></pre>
+
+                <h3>🎯 命令建议</h3>
+                <pre><code class="language-bash"># 获取命令建议
+wsh ai "如何查找大文件？"
+
+# 命令解释
+wsh ai "解释 find 命令的用法"
+
+# 最佳实践
+wsh ai "Git 工作流最佳实践"</code></pre>
+
+                <div class="tip">
+                    💡 Wave Terminal 集成了 AI 助手，可以帮助解释代码、生成代码和解决问题
+                </div>
+            </div>
+
+            <!-- 配置和自定义 -->
+            <div class="card">
+                <h2>⚙️ 配置和自定义 <a href="https://docs.waveterm.dev/gettingstarted#configuration" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>🎨 主题设置</h3>
+                <pre><code class="language-bash"># 打开配置编辑器
+wsh editconfig
+
+# 设置主题
+wsh editconfig --key "theme" --value "dark"
+
+# 可用主题
+# - dark (深色主题)
+# - light (浅色主题)
+# - monokai (Monokai 主题)
+# - solarized (Solarized 主题)</code></pre>
+
+                <h3>🔧 终端配置</h3>
+                <pre><code class="language-bash"># 设置默认 Shell
+wsh editconfig --key "shell" --value "/bin/zsh"
+
+# 设置字体大小
+wsh editconfig --key "fontSize" --value "14"
+
+# 设置字体
+wsh editconfig --key "fontFamily" --value "JetBrains Mono"</code></pre>
+
+                <h3>🌐 网络设置</h3>
+                <pre><code class="language-bash"># 设置代理
+wsh editconfig --key "proxy" --value "http://proxy:8080"
+
+# 设置超时时间
+wsh editconfig --key "timeout" --value "30000"
+
+# 禁用代理
+wsh editconfig --key "proxy" --value ""</code></pre>
+
+                <h3>📁 文件关联</h3>
+                <pre><code class="language-bash"># 设置文件关联
+wsh editconfig --key "fileAssociations" --value "*.py:python"
+
+# 设置默认编辑器
+wsh editconfig --key "defaultEditor" --value "vscode"
+
+# 配置外部工具
+wsh editconfig --key "externalTools" --value "git,docker"</code></pre>
+
+                <div class="tip">
+                    💡 使用 wsh editconfig 可以方便地修改 Wave Terminal 的各种配置选项
+                </div>
+            </div>
+
+            <!-- 常用技巧 -->
+            <div class="card">
+                <h2>💡 常用技巧 <a href="https://docs.waveterm.dev/gettingstarted" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>📋 剪贴板操作</h3>
+                <pre><code class="language-bash"># 复制到剪贴板
+echo "text" | clip
+
+# 从剪贴板粘贴
+Ctrl/Cmd + V
+
+# 查看剪贴板历史
+Ctrl/Cmd + Shift + V</code></pre>
+
+                <h3>🔍 搜索和查找</h3>
+                <pre><code class="language-bash"># 在终端中搜索
+Ctrl/Cmd + F
+
+# 搜索文件
+find . -name "*.py"
+
+# 搜索文件内容
+grep -r "keyword" .</code></pre>
+
+                <h3>📊 系统监控</h3>
+                <pre><code class="language-bash"># 查看系统资源
+htop
+
+# 查看磁盘使用
+df -h
+
+# 查看内存使用
+free -h</code></pre>
+
+                <h3>🔄 自动化工作流</h3>
+                <pre><code class="language-bash"># 创建别名
+alias ll='ls -la'
+
+# 创建函数
+function mkcd() { mkdir -p "$1"; cd "$1"; }
+
+# 使用脚本自动化
+./deploy.sh</code></pre>
+
+                <div class="tip">
+                    💡 掌握这些常用技巧可以让你更高效地使用 Wave Terminal
+                </div>
+            </div>
+
+            <!-- 故障排除 -->
+            <div class="card">
+                <h2>🔧 故障排除 <a href="https://docs.waveterm.dev/gettingstarted#troubleshooting" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>🐛 常见问题</h3>
+                <ul>
+                    <li><code>终端无响应</code>：尝试 Ctrl/Cmd + C 中断当前命令</li>
+                    <li><code>连接失败</code>：检查网络连接和 SSH 配置</li>
+                    <li><code>字体显示异常</code>：在配置中更改字体设置</li>
+                    <li><code>性能问题</code>：减少打开的标签页和块数量</li>
+                </ul>
+
+                <h3>📝 日志查看</h3>
+                <pre><code class="language-bash"># 查看 Wave Terminal 日志
+wsh view ~/.waveterm/logs/
+
+# 查看系统日志
+journalctl -u waveterm
+
+# 查看错误日志
+cat ~/.waveterm/logs/error.log</code></pre>
+
+                <h3>🔄 重置配置</h3>
+                <pre><code class="language-bash"># 重置所有配置
+wsh editconfig --reset
+
+# 清除缓存
+rm -rf ~/.waveterm/cache/
+
+# 重新安装
+npm uninstall -g @waveterm/waveterm
+npm install -g @waveterm/waveterm</code></pre>
+
+                <h3>📞 获取帮助</h3>
+                <pre><code class="language-bash"># 查看帮助
+wsh --help
+
+# 查看版本
+waveterm --version
+
+# 访问社区
+wsh view https://github.com/wavetermdev/waveterm</code></pre>
+
+                <div class="warning">
+                    ⚠️ 遇到问题时，首先查看日志文件，然后尝试重置配置
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../../assets/common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.Prism) {
+                Prism.highlightAll();
+                Prism.plugins.lineNumbers = false;
+                console.log('代码高亮已启用');
+            }
+        });
+    </script>
+</body>
+</html>
