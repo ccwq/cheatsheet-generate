@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#303d54"/>
+      <stop offset="50%" style="stop-color:#23304a"/>
+      <stop offset="100%" style="stop-color:#171b27"/>
+    </linearGradient>
+    <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7bfbb7"/>
+      <stop offset="50%" style="stop-color:#69a7ff"/>
+      <stop offset="100%" style="stop-color:#ffce5b"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <rect width="512" height="512" rx="80" fill="url(#bgGradient)"/>
+  
+  <g filter="url(#glow)">
+    <path d="M100 140h312c22 0 40 18 40 40v152c0 22-18 40-40 40H100c-22 0-40-18-40-40V180c0-22 18-40 40-40z" fill="none" stroke="url(#accentGradient)" stroke-width="8"/>
+    
+    <path d="M100 140h312c22 0 40 18 40 40v152c0 22-18 40-40 40H100c-22 0-40-18-40-40V180c0-22 18-40 40-40z" fill="url(#accentGradient)" opacity="0.1"/>
+    
+    <path d="M140 180h232v24H140z" fill="#7bfbb7"/>
+    <path d="M140 220h180v20H140z" fill="#69a7ff"/>
+    <path d="M140 260h200v20H140z" fill="#69a7ff"/>
+    <path d="M140 300h160v20H140z" fill="#ffce5b"/>
+    
+    <circle cx="380" cy="200" r="12" fill="#7bfbb7"/>
+    <circle cx="380" cy="240" r="12" fill="#69a7ff"/>
+    <circle cx="380" cy="280" r="12" fill="#69a7ff"/>
+    <circle cx="380" cy="320" r="12" fill="#ffce5b"/>
+    
+    <path d="M80 120l-30 30 30 30" fill="none" stroke="#7bfbb7" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M432 120l30 30-30 30" fill="none" stroke="#ffce5b" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <path d="M256 80v40" fill="none" stroke="#69a7ff" stroke-width="6" stroke-linecap="round"/>
+    <path d="M256 400v40" fill="none" stroke="#69a7ff" stroke-width="6" stroke-linecap="round"/>
+  </g>
+  
+  <g transform="translate(0, 440)">
+    <text x="256" y="0" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="url(#accentGradient)">&lt;/&gt;</text>
+  </g>
+</svg>

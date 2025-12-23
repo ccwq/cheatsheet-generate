@@ -4,9 +4,16 @@
     <meta charset="UTF-8" />
     <title>Cheatsheet 导览</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- 站点 favicon -->
-    <link rel="icon" type="image/png" href="assets/brand/cheatsheet.png" />
-    <link rel="apple-touch-icon" href="assets/brand/cheatsheet.png" />
+    <meta name="theme-color" content="#69a7ff" />
+    <meta name="description" content="离线聚合高质量技术速查，统一风格与交互，提供极快的检索与导航体验" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="速查库" />
+    <link rel="manifest" href="/cheatsheet-generate/manifest.json" />
+    <link rel="icon" type="image/svg+xml" href="/cheatsheet-generate/assets/brand/icon.svg" />
+    <link rel="icon" type="image/png" href="/cheatsheet-generate/assets/brand/icon-192x192.png" sizes="192x192" />
+    <link rel="icon" type="image/png" href="/cheatsheet-generate/assets/brand/icon-512x512.png" sizes="512x512" />
+    <link rel="apple-touch-icon" href="/cheatsheet-generate/assets/brand/icon-192x192.png" />
     <style>
       /*
        * 设计语言参考 base.md 中的 "html模板"
@@ -747,5 +754,18 @@
     </script>
     <!-- 基于 URL 参数的自动搜索与单结果跳转（独立维护） -->
     <script defer src="assets/nav-query.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/cheatsheet-generate/sw.js')
+            .then((registration) => {
+              console.log('Service Worker 注册成功:', registration.scope);
+            })
+            .catch((error) => {
+              console.log('Service Worker 注册失败:', error);
+            });
+        });
+      }
+    </script>
   </body>
   </html>
