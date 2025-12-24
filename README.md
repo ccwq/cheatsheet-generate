@@ -55,7 +55,7 @@ AI将根据主题内容：
 links.md 中包含了我之前整理的在线 cheatsheet 列表（JSON 代码块），其中 `url` 为其在线网址，`src` 为图标地址。可以使用内置下载器将这些在线页面离线化保存。
 
 - 运行方式：
-  - `node codepen-downloader/codepen-downloader.js`（需要 Node 16+；推荐 18+）
+  - `node utils/codepen-downloader/codepen-downloader.js`（需要 Node 16+；推荐 18+）
   - 可选参数：
     - `--only "关键词"` 仅处理匹配名称或 URL 的项
     - `--limit N` 限制处理数量

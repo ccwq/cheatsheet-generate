@@ -4,9 +4,9 @@
   "version": "0.0.33",
   "description": "AI-based cheatsheet generator and downloader",
   "scripts": {
-    "download": "node codepen-downloader/codepen-downloader.js",
-    "download:dry": "node codepen-downloader/codepen-downloader.js --dry-run",
-    "test:finalhtml": "node codepen-downloader/test-finalhtml.js",
+    "download": "node utils/codepen-downloader/codepen-downloader.js",
+    "download:dry": "node utils/codepen-downloader/codepen-downloader.js --dry-run",
+    "test:finalhtml": "node utils/codepen-downloader/test-finalhtml.js",
     "build": "node scripts/generate-nav.js && node scripts/inject-favicon.js",
     "fav:inject": "node scripts/inject-favicon.js",
     "watch": "node scripts/watch.js",
