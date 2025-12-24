@@ -75,14 +75,14 @@ winget install CommandLine.Wave
 # Chocolatey
 choco install wave
 
-# 使用 npm 安装
-npm install -g @waveterm/waveterm
-
 # 使用 Homebrew 安装 (macOS)
 brew install waveterm
 
 # 使用 Scoop 安装 (Windows)
-scoop install waveterm</code></pre>
+scoop install waveterm
+
+# 从官方网站直接下载
+# 访问 https://waveterm.dev/downloads 下载安装程序</code></pre>
 
                 <h3>🎯 基础操作</h3>
                 <pre><code class="language-bash"># 启动 Wave Terminal
@@ -111,7 +111,7 @@ wsh ai -m "如何在当前目录查找大文件？" -s</code></pre>
 
             <!-- 核心概念 -->
             <div class="card">
-                <h2>🧩 核心概念 <a href="https://docs.waveterm.dev/gettingstarted#core-concepts" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h2>🧩 核心概念 <a href="https://docs.waveterm.dev/gettingstarted#blocks" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
                 <h3>📑 Tabs (标签页)</h3>
                 <ul>
                     <li><code>标签页</code>：用于组织相关的工作内容</li>
@@ -135,7 +135,13 @@ wsh ai -m "如何在当前目录查找大文件？" -s</code></pre>
 拖拽块边缘
 
 # 分割块
-右键 -> Split Horizontal/Vertical</code></pre>
+右键 -> Split Horizontal/Vertical
+
+# 关闭块
+右键 -> Close Block
+
+# 查看块编号
+Ctrl+Shift</code></pre>
 
                 <div class="tip">
                     💡 Tabs 和 Blocks 是 Wave Terminal 的核心组织单元，支持灵活的布局定制
@@ -169,6 +175,7 @@ wsh ai -m "如何在当前目录查找大文件？" -s</code></pre>
                     <li><code>Alt + L</code>：清空终端</li>
                     <li><code>Alt + C</code>：复制选中内容</li>
                     <li><code>Alt + V</code>：粘贴内容</li>
+                    <li><code>Ctrl + Shift + 箭头键</code>：导航widgets</li>
                 </ul>
 
                 <h3>🔄 视图操作</h3>
@@ -177,6 +184,8 @@ wsh ai -m "如何在当前目录查找大文件？" -s</code></pre>
                     <li><code>F11</code>：全屏模式</li>
                     <li><code>Alt + +</code>：放大</li>
                     <li><code>Alt + -</code>：缩小</li>
+                    <li><code>Alt + Shift + A</code>：切换AI面板可见性</li>
+                    <li><code>Alt + 0</code>：聚焦AI输入</li>
                 </ul>
 
                 <div class="tip">
@@ -234,6 +243,19 @@ wsh setmeta /path/to/file.txt --key "author" --value "John"
 # 设置多个元数据
 wsh setmeta file.txt --key "category" --value "docs" \
   --key "priority" --value "high"</code></pre>
+
+                <h3>🔗 connection - 管理连接</h3>
+                <pre><code class="language-bash"># 列出所有连接
+wsh connection list
+
+# 添加新连接
+wsh connection add --name "my-server" --type "ssh" --host "example.com" --user "username"
+
+# 删除连接
+wsh connection delete --name "my-server"
+
+# 连接到服务器
+wsh connection connect --name "my-server"</code></pre>
 
                 <div class="tip">
                     💡 wsh 命令是 Wave Terminal 的命令行工具，用于与 GUI 功能交互
@@ -328,6 +350,14 @@ sshfs user@remote-server:/path /local/mount
 # 使用 wsh 查看远程文件
 wsh view user@remote-server:/path/to/file.txt</code></pre>
 
+                <h3>☁️ AWS S3 连接</h3>
+                <pre><code class="language-bash"># 连接到 AWS S3 存储桶
+# 在界面中点击连接按钮，选择 S3 选项
+# 输入 AWS 凭证和存储桶信息
+
+# 使用 wsh 查看 S3 文件
+wsh view s3://my-bucket/path/to/file.txt</code></pre>
+
                 <h3>🔑 SSH 密钥管理</h3>
                 <pre><code class="language-bash"># 生成 SSH 密钥
 ssh-keygen -t ed25519 -C "your_email@example.com"
@@ -345,7 +375,7 @@ cat ~/.ssh/config</code></pre>
 
             <!-- 图形化功能 -->
             <div class="card">
-                <h2>🎨 图形化功能 <a href="https://docs.waveterm.dev/gettingstarted#graphical-features" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h2>🎨 图形化功能 <a href="https://docs.waveterm.dev/gettingstarted#graphical-widgets" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
                 <h3>🌐 内置浏览器</h3>
                 <pre><code class="language-bash"># 打开 Web 浏览器块
 Ctrl/Cmd + Shift + W -> 选择 Web Browser
@@ -393,7 +423,7 @@ wsh getmeta photo.jpg</code></pre>
 
             <!-- AI 辅助 -->
             <div class="card">
-                <h2>🤖 AI 辅助功能 <a href="https://docs.waveterm.dev/gettingstarted#ai-features" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h2>🤖 AI 辅助功能 <a href="https://docs.waveterm.dev/gettingstarted#ai-assistant" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
                 <h3>💬 AI 聊天</h3>
                 <pre><code class="language-bash"># 启动 AI 聊天
 wsh ai
@@ -413,6 +443,13 @@ wsh ai --check /path/to/code.js
 
 # 优化建议
 wsh ai --optimize function.py</code></pre>
+
+                <h3>📊 AI 访问权限</h3>
+                <ul>
+                    <li><code>终端输出</code>：AI 可以访问当前终端的输出内容（需批准）</li>
+                    <li><code>Widget 截图</code>：AI 可以查看当前打开的 widget 内容（需批准）</li>
+                    <li><code>文件/目录</code>：AI 可以访问指定的文件或目录内容（需批准）</li>
+                </ul>
 
                 <h3>✨ 代码生成</h3>
                 <pre><code class="language-bash"># 生成代码
@@ -441,7 +478,7 @@ wsh ai "Git 工作流最佳实践"</code></pre>
 
             <!-- 配置和自定义 -->
             <div class="card">
-                <h2>⚙️ 配置和自定义 <a href="https://docs.waveterm.dev/gettingstarted#configuration" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h2>⚙️ 配置和自定义 <a href="https://docs.waveterm.dev/gettingstarted#theme-settings" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
                 <h3>🎨 主题设置</h3>
                 <pre><code class="language-bash"># 打开配置编辑器
 wsh editconfig
@@ -459,11 +496,25 @@ wsh editconfig --key "theme" --value "dark"
                 <pre><code class="language-bash"># 设置默认 Shell
 wsh editconfig --key "shell" --value "/bin/zsh"
 
+# 在 Windows 上使用 Git Bash 作为默认 Shell
+wsh editconfig --key "shell" --value "C:\Program Files\Git\bin\bash.exe"
+
 # 设置字体大小
 wsh editconfig --key "fontSize" --value "14"
 
 # 设置字体
 wsh editconfig --key "fontFamily" --value "JetBrains Mono"</code></pre>
+
+                <h3>⚙️ 配置文件管理</h3>
+                <pre><code class="language-bash"># 配置文件位置
+# Linux/macOS: ~/.config/waveterm/settings.json
+# Windows: %APPDATA%/waveterm/settings.json
+
+# 直接编辑配置文件
+wsh edit ~/.config/waveterm/settings.json
+
+# 设置系统级全局热键
+wsh editconfig --key "globalHotkeys" --value "{\"showTerminal\": \"Alt+Space\"}"</code></pre>
 
                 <h3>🌐 网络设置</h3>
                 <pre><code class="language-bash"># 设置代理
@@ -540,7 +591,7 @@ function mkcd() { mkdir -p "$1"; cd "$1"; }
 
             <!-- 故障排除 -->
             <div class="card">
-                <h2>🔧 故障排除 <a href="https://docs.waveterm.dev/gettingstarted#troubleshooting" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h2>🔧 故障排除 <a href="https://docs.waveterm.dev/gettingstarted" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
                 <h3>🐛 常见问题</h3>
                 <ul>
                     <li><code>终端无响应</code>：尝试 Ctrl/Cmd + C 中断当前命令</li>
