@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Claude Skills（Cookbook）速查表</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../../css/variables.css">
+    <link rel="stylesheet" href="../../css/common.css">
+    <style>
+        :root {
+            --col-width: 660px;
+            --gap: 16px;
+        }
+
+        .panel label {
+            color: var(--panel-accent);
+        }
+
+        .panel .title {
+            color: var(--panel-accent);
+        }
+
+        .card h2 a {
+            color: #93cdfc;
+            font-size: 14px;
+            margin-left: 6px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="panel">
+            <span style="color:#7bfbb7;font-size:16px;margin-right:auto;">Claude Skills（Cookbook）速查</span>
+            <label for="columnWidth">🔧 调整每列宽度：</label>
+            <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+            <span id="widthVal" class="slider-val">340px</span>
+        </div>
+        <div class="cheat-columns" id="columns">
+            <div class="card">
+                <h2 id="concepts">🔧 核心概念与架构 <a href="#concepts">#</a><a href="https://github.com/anthropics/claude-cookbooks/tree/main/skills#what-are-skills" target="_blank">↗</a></h2>
+                <ul>
+                    <li>Skills = 指令 + 代码 + 资源的组合包，按需加载（渐进式披露）节省上下文。</li>
+                    <li>覆盖 Excel/PPTX/PDF/Word 生成、数据分析与可视化、品牌化流程自动化。</li>
+                    <li>容器支持代码执行与文件读写，生成文件以 <code>file_id</code> 返回供后续下载。</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2 id="beta">⚙️ Beta 配置与客户端初始化 <a href="#beta">#</a><a href="https://github.com/anthropics/claude-cookbooks/blob/main/skills/README.md#api-configuration" target="_blank">↗</a></h2>
+                <pre><code class="language-python">from anthropic import Anthropic
+
+client = Anthropic(
+    api_key="your-api-key",
+    default_headers={
+        "anthropic-beta": "code-execution-2025-08-25,files-api-2025-04-14,skills-2025-10-02"
+    }
+)</code></pre>
+                <ul>
+                    <li>必需 beta 头：<code>code-execution-2025-08-25</code>、<code>files-api-2025-04-14</code>、<code>skills-2025-10-02</code>。</li>
+                    <li>所有请求保持同一批 beta 头，避免环境差异。</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2 id="builtin">📦 内置技能与调用示例 <a href="#builtin">#</a><a href="https://github.com/anthropics/claude-cookbooks/blob/main/skills/README.md#built-in-skills-reference" target="_blank">↗</a></h2>
+                <ul>
+                    <li>内置 ID：<code>xlsx</code>（Excel）、<code>pptx</code>（PowerPoint）、<code>pdf</code>（PDF）、<code>docx</code>（Word）。</li>
+                </ul>
+                <pre><code class="language-python">resp = client.messages.create(
+    model="claude-3-5-sonnet-20241022",
+    max_tokens=4096,
+    container={"skills": [{"type": "anthropic", "skill_id": "xlsx", "version": "latest"}]},
+    tools=[{"type": "code_execution_20250825", "name": "code_execution"}],
+    messages=[{"role": "user", "content": "生成部门预算表，包含收入/支出/差异三列"}]
+)</code></pre>
+                <div class="desc">提示写法：直接描述文档结构与格式；需要图表时注明数据源与图表类型。</div>
+            </div>
+
+            <div class="card">
+                <h2 id="files">📂 生成文件与 Files API 下载 <a href="#files">#</a><a href="https://docs.claude.com/en/api/files-content" target="_blank">↗</a></h2>
+                <pre><code class="language-python">file_id = next(
+    (b.output["file_id"] for b in resp.content
+     if getattr(b, "output", None) and "file_id" in str(b.output)),
+    None
+)
+if file_id:
+    content = client.beta.files.download(file_id=file_id)
+    with open("outputs/report.xlsx", "wb") as f:
+        f.write(content.read())</code></pre>
+                <ul>
+                    <li>常用 Files API：<code>download</code>（二进制流）、<code>retrieve_metadata</code>、<code>list</code>、<code>delete</code>。</li>
+                    <li>生成文件会覆盖旧文件，重新运行需注意输出路径。</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2 id="notebooks">📚 Notebook 工作流速览 <a href="#notebooks">#</a><a href="https://github.com/anthropics/claude-cookbooks/tree/main/skills/notebooks" target="_blank">↗</a></h2>
+                <ul>
+                    <li><code>01_skills_introduction.ipynb</code>：Skills 架构、Excel/PPTX/PDF 生成示例。</li>
+                    <li><code>02_skills_financial_applications.ipynb</code>：财务仪表盘、投资组合分析、CSV→Excel→PPTX→PDF 串联。</li>
+                    <li><code>03_skills_custom_development.ipynb</code>：自定义技能示范（财务比率、品牌指南、财务建模套件）。</li>
+                    <li><code>sample_data/</code>：财务报表、持仓、预算模板、季度 KPI 示例数据。</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2 id="custom">🛠️ 自定义技能结构与命名 <a href="#custom">#</a><a href="https://github.com/anthropics/claude-cookbooks/blob/main/skills/README.md#creating-custom-skills" target="_blank">↗</a></h2>
+                <pre><code>my_skill/
+├── SKILL.md           # 必需：name/description（小写连字符）
+├── scripts/           # 可选：Python/JS 逻辑
+└── resources/         # 可选：模板、数据、静态资产</code></pre>
+                <ul>
+                    <li>打包为 ZIP，目录名需与 <code>SKILL.md</code> 的 <code>name</code> 一致。</li>
+                    <li><code>description</code> 写清适用场景与触发条件，便于自动匹配。</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2 id="performance">🚀 性能与容器复用 <a href="#performance">#</a><a href="https://github.com/anthropics/claude-cookbooks/blob/main/skills/README.md#performance-tips" target="_blank">↗</a></h2>
+                <ul>
+                    <li>渐进式披露：先给结构/示例，再补充细节，降低 token。</li>
+                    <li>重用容器/对话以复用已加载技能与上下文。</li>
+                    <li>批处理同类生成，减少启动开销；常用组合：<code>xlsx + pptx + pdf</code> 串联输出。</li>
+                    <li>在提示中附上表格字段、图表类型、格式要求，减少反复迭代。</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2 id="finance">💼 常见财务用例 <a href="#finance">#</a><a href="https://github.com/anthropics/claude-cookbooks/blob/main/skills/notebooks/02_skills_financial_applications.ipynb" target="_blank">↗</a></h2>
+                <ul>
+                    <li>财务报表/差异分析，预算 vs 实际。</li>
+                    <li>投资组合表现与风险汇总，单页 KPI 仪表盘。</li>
+                    <li>财务比率计算、趋势图、透视表自动化。</li>
+                    <li>跨格式流水线：CSV → Excel → PowerPoint → PDF。</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2 id="troubleshoot">🩺 故障排查 <a href="#troubleshoot">#</a><a href="https://github.com/anthropics/claude-cookbooks/blob/main/skills/README.md#troubleshooting" target="_blank">↗</a></h2>
+                <ul>
+                    <li>缺少 API Key：确认 <code>.env</code> 已设置 <code>ANTHROPIC_API_KEY</code>。</li>
+                    <li>缺少 beta 头：补齐 <code>code-execution-2025-08-25</code>、<code>files-api-2025-04-14</code>、<code>skills-2025-10-02</code>。</li>
+                    <li>Token 超限：拆分任务、缩短提示，或分段生成。</li>
+                    <li>ZIP 上传失败：检查是否缺失 <code>SKILL.md</code>，或目录名与 <code>name</code> 不一致。</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2 id="security">🔐 安全与最佳实践 <a href="#security">#</a><a href="https://docs.claude.com/en/docs/agents-and-tools/agent-skills/best-practices" target="_blank">↗</a></h2>
+                <ul>
+                    <li>防提示注入：限制外部输入直接写入代码/模板。</li>
+                    <li>校验第三方包与数据源，必要时启用沙箱或签名校验。</li>
+                    <li><code>description</code> 中声明输入格式与风险边界，减少误触发。</li>
+                    <li>更新技能后回归测试典型用例，确认公式/格式正确。</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2 id="authoring">📑 技能编写规范（官方最佳实践） <a href="#authoring">#</a><a href="https://docs.claude.com/en/docs/agents-and-tools/agent-skills/best-practices" target="_blank">↗</a></h2>
+                <ul>
+                    <li>触发条件清晰：<code>name/description</code> 直写适用场景、输入格式、约束与不可做的事。</li>
+                    <li>目录与文件清晰：<code>SKILL.md</code> 放根目录，脚本/资源分入 <code>scripts/</code>、<code>resources/</code>，路径用相对路径。</li>
+                    <li>执行意图明确：区分“执行脚本”与“参考脚本”，示例写法如“运行 analyze_form.py 提取字段” vs “查看 analyze_form.py 的算法”。</li>
+                    <li>数据与文件访问：指明可读写目录/文件名模式，避免全盘扫描，并提供典型样例文件。</li>
+                    <li>覆盖核心用例：给 2-3 个代表性提示示例（输入+预期输出/文件），优先高频场景。</li>
+                    <li>验证与迭代：用真实请求测试文件访问和规则；若模型遗漏规则，补充到 <code>SKILL.md</code> 并重测。</li>
+                    <li>安全最小化：限制外部输入进入代码执行；高风险操作加入显式条件或确认语句。</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2 id="resources">🌐 资源索引 <a href="#resources">#</a><a href="https://github.com/anthropics/claude-cookbooks/tree/main/skills#resources" target="_blank">↗</a></h2>
+                <ul>
+                    <li>Cookbook README（总览与示例）。</li>
+                    <li>Notebook：入门 / 财务 / 自定义。</li>
+                    <li>文档：Skills Overview、Best Practices、Files API。</li>
+                    <li>支持：Skills 使用教程与官方工程博客。</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script src="../../assets/common.js"></script>
+</body>
+</html>
