@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Gemini CLI 深度速查表</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../../css/variables.css">
+    <link rel="stylesheet" href="../../css/common.css">
+    <!-- Prism.js 语法高亮 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <style>
+        :root {
+            --col-width: 360px;
+            --gap: 16px;
+        }
+        .panel label { color: var(--panel-accent); }
+        .panel .title { color: var(--panel-accent); }
+        .badge {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        .badge-pro { background: #3b82f6; color: white; }
+        .badge-warn { background: #f59e0b; color: black; }
+    </style>
+
+    <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png" />
+    <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png" />
+  </head>
+<body>
+    <div class="container">
+        <div class="panel">
+            <span style="color:#7bfbb7;font-size:16px;margin-right:auto;">Gemini CLI 深度速查表</span>
+            <label for="columnWidth">🔧 列宽：</label>
+            <input id="columnWidth" class="slider-bar" type="range" min="300" max="600" value="360">
+            <span id="widthVal" class="slider-val">360px</span>
+        </div>
+        <div class="cheat-columns" id="columns">
+            
+            <!-- 1. 安装与认证 -->
+            <div class="card">
+                <h2>📦 1. 安装与认证 <a href="https://geminicli.com/docs/get-started/authentication/" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>安装方式</h3>
+                <ul>
+                    <li><code>npm install -g @google/gemini-cli</code></li>
+                    <li><code>npx @google/gemini-cli</code> (免安装运行)</li>
+                </ul>
+                <h3>认证模式</h3>
+                <ul>
+                    <li>
+                        <strong>OAuth (Google 账号)</strong><br>
+                        <code>gemini auth</code><br>
+                        <span class="desc">限制：60 RPM / 1000 RPD。不支持 Token Cache。</span>
+                    </li>
+                    <li>
+                        <strong>API Key</strong> <span class="badge badge-pro">Pro</span><br>
+                        <code>export GEMINI_API_KEY=...</code><br>
+                        <span class="desc">100 RPD (免费)。支持 Token Cache。</span>
+                    </li>
+                    <li>
+                        <strong>Vertex AI</strong> (企业级)<br>
+                        <code>export GOOGLE_GENAI_USE_VERTEXAI=true</code><br>
+                        <code>export GOOGLE_CLOUD_PROJECT=...</code>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 2. 核心交互 -->
+            <div class="card">
+                <h2>🎮 2. 核心交互</h2>
+                <h3>启动与会话</h3>
+                <ul>
+                    <li><code>gemini</code>：默认交互模式</li>
+                    <li><code>gemini -i "prompt"</code>：带初始提示词</li>
+                    <li><code>gemini --resume [id]</code>：恢复指定会话</li>
+                    <li><code>gemini --sandbox</code>：在沙盒中启动</li>
+                </ul>
+                <h3>会话指令 (Slash)</h3>
+                <ul>
+                    <li><code>/clear</code>：清除当前屏幕</li>
+                    <li><code>/model [name]</code>：切换模型 (如 <code>gemini-2.5-flash</code>)</li>
+                    <li><code>/stats</code>：查看 Token 消耗与节省</li>
+                    <li><code>/session list</code>：查看历史会话列表</li>
+                    <li><code>/session delete [id]</code>：删除指定会话</li>
+                </ul>
+            </div>
+
+            <!-- 3. 配置管理 -->
+            <div class="card">
+                <h2>⚙️ 3. 配置管理 <a href="https://geminicli.com/docs/get-started/configuration/" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <div class="desc">优先级：项目级 <code>.gemini/</code> > 用户级 <code>~/.gemini/</code></div>
+                <h3>settings.json 结构</h3>
+                <pre><code class="language-json">{
+  "ui": { "theme": "dark", "showLineNumbers": true },
+  "general": { "checkpointing": { "enabled": true } },
+  "security": { "folderTrust": { "enabled": true } },
+  "context": { "includeDirectories": ["src"] }
+}</code></pre>
+                <h3>常用环境变量</h3>
+                <ul>
+                    <li><code>GEMINI_API_ENDPOINT</code>：自定义 API 基准 URL</li>
+                    <li><code>GEMINI_SYSTEM_MD</code>：自定义 System Prompt 文件</li>
+                    <li><code>GEMINI_DEBUG</code>：启用详细调试日志</li>
+                </ul>
+            </div>
+
+            <!-- 4. 自动化与脚本 -->
+            <div class="card">
+                <h2>🤖 4. 自动化与脚本 <a href="https://geminicli.com/docs/cli/headless/" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>Headless 模式</h3>
+                <ul>
+                    <li>
+                        <strong>JSON 输出</strong><br>
+                        <code>gemini -p "prompt" --output-format json</code>
+                    </li>
+                    <li>
+                        <strong>流式输出</strong><br>
+                        <code>gemini -p "prompt" --output-format stream-json</code>
+                    </li>
+                </ul>
+                <h3>管道与自定义</h3>
+                <ul>
+                    <li><code>git diff | gemini "生成 commit message"</code></li>
+                    <li><code>cat log.txt | gemini "提取错误摘要"</code></li>
+                </ul>
+                <h3>自定义命令 (.toml)</h3>
+                <div class="desc">存放在 <code>~/.gemini/commands/</code></div>
+                <pre><code class="language-toml">prompt = """
+分析此代码段的复杂度：
+{{args}}
+!{git status}
+@{src/core.js}
+"""</code></pre>
+            </div>
+
+            <!-- 5. 内置工具集 -->
+            <div class="card">
+                <h2>🧰 5. 内置工具集 <a href="https://geminicli.com/docs/tools/" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>文件与系统</h3>
+                <ul>
+                    <li><code>read_file</code> / <code>write_file</code></li>
+                    <li><code>list_directory</code> (浏览目录)</li>
+                    <li><code>run_shell_command</code> (执行 Shell)</li>
+                </ul>
+                <h3>搜索与联网</h3>
+                <ul>
+                    <li><code>google_web_search</code> (实时搜索)</li>
+                    <li><code>web_fetch</code> (抓取网页内容)</li>
+                </ul>
+                <h3>任务与记忆</h3>
+                <ul>
+                    <li><code>save_memory</code> (跨会话持久记忆)</li>
+                    <li><code>write_todos</code> (内置待办事项管理)</li>
+                </ul>
+            </div>
+
+            <!-- 6. 扩展能力 -->
+            <div class="card">
+                <h2>🔌 6. 扩展能力 (MCP) <a href="https://geminicli.com/docs/tools/mcp-server/" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>MCP Server 配置</h3>
+                <div class="desc">在 <code>settings.json</code> 中定义外部工具</div>
+                <pre><code class="language-json">"mcpServers": {
+  "github": {
+    "command": "npx",
+    "args": ["-y", "@modelcontextprotocol/server-github"]
+  }
+}</code></pre>
+                <h3>生命周期钩子 (Hooks)</h3>
+                <div class="desc">支持在特定阶段拦截请求</div>
+                <ul>
+                    <li><code>BeforeTool</code> / <code>AfterTool</code></li>
+                    <li><code>BeforeModel</code> (修改发送给模型的 Prompt)</li>
+                </ul>
+            </div>
+
+            <!-- 7. 高级特性 -->
+            <div class="card">
+                <h2>🚀 7. 高级特性</h2>
+                <h3>检查点 (Checkpointing)</h3>
+                <ul>
+                    <li><strong>开启</strong>：<code>"checkpointing": { "enabled": true }</code></li>
+                    <li><strong>回滚</strong>：交互模式下使用 <code>/restore</code></li>
+                    <li><strong>作用</strong>：工具修改文件前自动备份，防止损毁</li>
+                </ul>
+                <h3>Token 缓存 (Caching)</h3>
+                <ul>
+                    <li><strong>优势</strong>：大幅降低重复长上下文的成本</li>
+                    <li><strong>触发</strong>：前缀匹配时长于 1024 tokens 时触发</li>
+                    <li><span class="badge badge-warn">注意</span>：仅限 API Key 模式可用</li>
+                </ul>
+                <h3>自定义沙盒</h3>
+                <ul>
+                    <li>支持通过 <code>.gemini/sandbox.Dockerfile</code> 定制容器</li>
+                </ul>
+            </div>
+
+            <!-- 8. 安全与合规 -->
+            <div class="card">
+                <h2>🛡️ 8. 安全与合规 <a href="https://geminicli.com/docs/cli/trusted-folders/" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>受信任文件夹 (Trusted Folders)</h3>
+                <ul>
+                    <li>限制工具在未授权目录执行写操作</li>
+                    <li>配置项：<code>security.folderTrust</code></li>
+                </ul>
+                <h3>隐私与脱敏</h3>
+                <ul>
+                    <li><strong>Telemetry</strong>：默认开启数据收集</li>
+                    <li><strong>禁用</strong>：<code>gemini --no-telemetry</code></li>
+                    <li><strong>Redaction</strong>：自动隐藏环境变量中的敏感信息</li>
+                </ul>
+                <h3>YOLO 模式</h3>
+                <ul>
+                    <li><code>--yolo</code>：自动批准所有工具调用 <span class="badge badge-warn">危险</span></li>
+                </ul>
+            </div>
+
+            <!-- 9. 配置文件解析 -->
+            <div class="card">
+                <h2>🧩 9. 配置文件解析</h2>
+                <h3>设置加载优先级 (由低到高)</h3>
+                <ol>
+                    <li><code>Defaults</code> (内置默认值)</li>
+                    <li><code>User Config</code> (~/.gemini/settings.json)</li>
+                    <li><code>Project Config</code> (.gemini/settings.json)</li>
+                    <li><code>.env</code> / <code>Environment Vars</code></li>
+                    <li><code>CLI Args</code> (命令行参数)</li>
+                </ol>
+                
+                <h3>上下文组装 (GEMINI.md)</h3>
+                <div class="desc">CLI 自动拼接以下来源的 Prompt：</div>
+                <ul>
+                    <li><strong>全局</strong>：<code>~/.gemini/GEMINI.md</code></li>
+                    <li><strong>父级</strong>：路径上的所有祖先目录</li>
+                    <li><strong>当前</strong>：当前工作目录</li>
+                    <li><strong>子级</strong>：递归搜索子目录</li>
+                </ul>
+
+                <h3>忽略规则 (.geminiignore)</h3>
+                <ul>
+                    <li>语法兼容 <code>.gitignore</code></li>
+                    <li>用于排除不应被 AI 读取的敏感文件或大文件</li>
+                </ul>
+            </div>
+
+            <!-- 10. 配置详解 (1) -->
+            <div class="card">
+                <h2>⚙️ 10. 配置详解 (一)</h2>
+                <h3>General (通用)</h3>
+                <pre><code class="language-json">"general": {
+  "previewFeatures": false,
+  "disableAutoUpdate": false,
+  "checkpointing": {
+    "enabled": false // 开启检查点
+  },
+  "sessionRetention": {
+    "enabled": false, 
+    "maxAge": "30d"
+  }
+}</code></pre>
+                <h3>UI (界面)</h3>
+                <pre><code class="language-json">"ui": {
+  "theme": "dark",
+  "showLineNumbers": true,
+  "showCitations": false,
+  "useAlternateBuffer": false
+}</code></pre>
+                <h3>Context (上下文)</h3>
+                <pre><code class="language-json">"context": {
+  "fileName": "GEMINI.md",
+  "includeDirectories": [],
+  "fileFiltering": {
+    "respectGitIgnore": true,
+    "respectGeminiIgnore": true
+  }
+}</code></pre>
+            </div>
+
+            <!-- 11. 配置详解 (2) -->
+            <div class="card">
+                <h2>⚙️ 11. 配置详解 (二)</h2>
+                <h3>Tools (工具)</h3>
+                <pre><code class="language-json">"tools": {
+  "sandbox": undefined,
+  "autoAccept": false,
+  "useRipgrep": true,
+  "allowed": ["run_shell_command(git status)"]
+}</code></pre>
+                <h3>Security (安全)</h3>
+                <pre><code class="language-json">"security": {
+  "disableYoloMode": false,
+  "folderTrust": { "enabled": false },
+  "environmentVariableRedaction": {
+    "enabled": true,
+    "blocked": ["MY_SECRET"]
+  }
+}</code></pre>
+                <h3>MCP Servers</h3>
+                <pre><code class="language-json">"mcpServers": {
+  "github": {
+    "command": "npx",
+    "args": ["-y", "@modelcontextprotocol/server-github"]
+  }
+}</code></pre>
+            </div>
+
+        </div>
+    </div>
+    <script src="../../assets/common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          if (window.Prism) {
+            Prism.highlightAll();
+            Prism.plugins.lineNumbers = false;
+          }
+        });
+    </script>
+</body>
+</html>
