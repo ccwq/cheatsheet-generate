@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SDD.SYS - 规范驱动编程 (2026)</title>
+    <!-- Local Tailwind CSS -->
+    <script src="assets/js/tailwindcss.js"></script>
+    <!-- Local Swiper CSS -->
+    <link rel="stylesheet" href="assets/css/swiper-bundle.min.css" />
+    <!-- Local React & Babel -->
+    <script src="assets/js/react.production.min.js"></script>
+    <script src="assets/js/react-dom.production.min.js"></script>
+    <script src="assets/js/babel.min.js"></script>
+    <!-- Local Swiper JS -->
+    <script src="assets/js/swiper-bundle.min.js"></script>
+
+    <style>
+        /* System fonts fallback for offline capability */
+        @font-face {
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 300 900;
+            font-display: swap;
+            src: local('Inter'), local('Inter-Regular'), local('Arial');
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background: #fff;
+            color: #000;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        .font-mono {
+            font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+        }
+        .striped {
+            background-image: repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(0,0,0,0.05) 5px, rgba(0,0,0,0.05) 10px);
+        }
+        
+        /* Swiper Customization */
+        .swiper {
+            width: 100%;
+            height: 100vh;
+        }
+        .swiper-slide {
+            height: 100%;
+            box-sizing: border-box;
+        }
+        
+        /* Hide Swiper pagination (right navigation used) */
+        .swiper-pagination {
+            display: none !important;
+        }
+        
+        .card-shadow {
+            box-shadow: 12px 12px 0px 0px rgba(0,0,0,1);
+        }
+        
+        .big-number {
+            font-size: 15rem;
+            line-height: 1;
+            font-weight: 900;
+            letter-spacing: -0.05em;
+            opacity: 0.05;
+            position: absolute;
+            bottom: -2rem;
+            right: -1rem;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float { animation: float 3s ease-in-out infinite; }
+        
+        /* Navigation theme colors */
+        .nav-theme-light .top-nav,
+        .nav-theme-light .right-nav {
+            color: #000;
+        }
+        .nav-theme-dark .top-nav,
+        .nav-theme-dark .right-nav {
+            color: #fff;
+        }
+        
+        /* Top navigation */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            padding: 36px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 24px;
+            transition: all 1.6s ease;
+        }
+        .top-nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: 8px 16px;
+            max-width: 70vw;
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+        }
+        .top-nav-item {
+            position: relative;
+            padding-left: 18px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+            font-size: 16px;
+        }
+        .top-nav-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+            transform: translateY(-50%);
+            opacity: 0.6;
+        }
+        .top-nav-item::after {
+            content: '';
+            position: absolute;
+            left: 3px;
+            top: 50%;
+            width: 3px;
+            height: 1px;
+            background: currentColor;
+            transform: translate(-50%, -50%);            
+            opacity: 0.6;
+            transition: width 0.3s ease, opacity 0.3s ease;
+        }
+        .top-nav-item.active::after {
+            width: 18px;
+            opacity: 1;
+        }
+        .top-nav-item.active::before {
+            opacity: 1;
+        }
+        
+        /* Right sidebar navigation */
+        .right-nav {
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 24px;
+            align-items: flex-end;
+            z-index: 50;
+        }
+        .right-nav-item {
+            width: 90px;
+            text-align: right;
+            position: relative;
+            padding-left: 16px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+            transition: all 1.3s ease;
+        }
+        .right-nav-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 10px;
+            height: 1px;
+            background: currentColor;
+            transform: translateY(-50%);
+            opacity: 0.5;
+            transition: width 0.3s ease, opacity 0.3s ease;
+        }
+        .right-nav-item.active::before {
+            width: 18px;
+            opacity: 1;
+        }
+        
+        /* Swiper slide transition - Expo.inOut */
+        .swiper-wrapper {
+            transition-timing-function: cubic-bezier(0.87, 0, 0.13, 1) !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // --- Icons ---
+        const Icon = ({ children, size = 24, className = "" }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>{children}</svg>
+        );
+        const ArrowDown = (props) => <Icon {...props}><path d="M12 5v14M19 12l-7 7-7-7"/></Icon>;
+        const AlertCircle = (props) => <Icon {...props}><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></Icon>;
+        const CheckCircle = (props) => <Icon {...props}><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></Icon>;
+        const Cpu = (props) => <Icon {...props}><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="15" x2="23" y2="15"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="15" x2="4" y2="15"/></Icon>;
+        const Zap = (props) => <Icon {...props}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></Icon>;
+
+        // --- Components ---
+        const Label = ({ children, color = "text-gray-500" }) => (
+            <span className={`block text-xs md:text-sm font-mono tracking-[0.3em] uppercase mb-6 ${color}`}>
+                {children}
+            </span>
+        );
+
+        // Navigation items configuration
+        const navItems = [
+            { name: 'HOME', cnName: '首页', index: 0 },
+            { name: 'CONTEXT', cnName: '背景', index: 1 },
+            { name: 'CRISIS', cnName: '危机', index: 2 },
+            { name: 'PARADIGM', cnName: '范式', index: 3 },
+            { name: 'VALUE', cnName: '价值', index: 4 },
+            { name: 'WORKFLOW', cnName: '流程', index: 5 },
+            { name: 'TOOLS', cnName: '工具', index: 6 },
+            { name: 'CASE', cnName: '案例', index: 7 },
+            { name: 'FUTURE', cnName: '未来', index: 8 },
+        ];
+
+        function App() {
+            const [theme, setTheme] = useState('light');
+            const [activeIndex, setActiveIndex] = useState(0);
+            const swiperRef = useRef(null);
+            const swiperInstance = useRef(null);
+
+            useEffect(() => {
+                if (swiperRef.current && !swiperInstance.current) {
+                    swiperInstance.current = new Swiper(swiperRef.current, {
+                        direction: 'vertical',
+                        mousewheel: true,
+                        speed: 1200,
+                        effect: 'slide',
+                        grabCursor: true,
+                        resistance: 0.1,
+                        parallax: true,
+                        on: {
+                            slideChange: function() {
+                                const currentSlide = this.slides[this.activeIndex];
+                                setActiveIndex(this.activeIndex);
+                                
+                                if (currentSlide.classList.contains('section-dark')) {
+                                    setTheme('dark');
+                                } else if (currentSlide.classList.contains('section-light-gray')) {
+                                    setTheme('light-gray');
+                                } else {
+                                    setTheme('light');
+                                }
+                            }
+                        }
+                    });
+                }
+                
+                return () => {
+                    if (swiperInstance.current) {
+                        swiperInstance.current.destroy(true, true);
+                        swiperInstance.current = null;
+                    }
+                };
+            }, []);
+
+            const themeClasses = {
+                light: 'nav-theme-light',
+                'light-gray': 'nav-theme-light',
+                dark: 'nav-theme-dark',
+            };
+
+            const logoBorderClass = theme === 'light' || theme === 'light-gray' ? 'border-black' : 'border-white';
+            const logoFillClass = theme === 'light' || theme === 'light-gray' ? 'bg-black' : 'bg-white';
+
+            return (
+                <div className={`h-screen w-screen overflow-hidden ${themeClasses[theme]}`}>
+                    {/* Top Navigation */}
+                    <nav className="top-nav">
+                        <div className="flex items-center gap-3">
+                            <div className={`w-8 h-8 border-2 ${logoBorderClass} relative`}>
+                                <div className={`absolute top-0 right-0 w-1/2 h-1/2 ${logoFillClass}`}></div>
+                            </div>
+                            <span className="font-bold tracking-tighter text-lg md:text-xl font-mono">SDD.SYS</span>
+                        </div>
+                        <div className="top-nav-links">
+                            {navItems.map((item) => (
+                                <button
+                                    key={item.index}
+                                    onClick={() => swiperInstance.current?.slideTo(item.index)}
+                                    className={`top-nav-item ${activeIndex === item.index ? 'active' : 'opacity-60 hover:opacity-100'}`}
+                                    type="button"
+                                >
+                                    {item.cnName}
+                                </button>
+                            ))}
+                        </div>
+                    </nav>
+
+                    {/* Right Sidebar Navigation */}
+                    <div className="right-nav">
+                        {navItems.map((item) => (
+                            <button
+                                key={item.index}
+                                onClick={() => swiperInstance.current?.slideTo(item.index)}
+                                className={`right-nav-item ${activeIndex === item.index ? 'active' : 'opacity-60 hover:opacity-100'}`}
+                                type="button"
+                            >
+                            </button>
+                        ))}
+                    </div>
+
+                    {/* Swiper Container */}
+                    <div ref={swiperRef} className="swiper">
+                        <div className="swiper-wrapper">
+                            
+                            {/* Slide 0: Hero - Light */}
+                            <div className="swiper-slide" data-theme="light">
+                                <div className="w-full h-full px-6 md:px-24 flex flex-col justify-center bg-white">
+                                    <Label>Technical Manifesto 2026</Label>
+                                    <h1 className="text-[12vw] md:text-[10vw] font-black leading-[0.85] tracking-tighter mb-12">
+                                        SPEC<br />
+                                        DRIVEN<br />
+                                        <span className="text-blue-700">DEV.</span>
+                                    </h1>
+                                    <div className="flex flex-col md:flex-row gap-12 items-start md:items-end">
+                                        <p className="text-lg md:text-xl max-w-xl font-light leading-relaxed text-gray-500 italic">
+                                            "在 2025–2026 AI 编程浪潮中，规范驱动编程（SDD）是初级开发者从代码工匠跃迁到系统设计者的关键路径。"
+                                        </p>
+                                        <div className="flex-1 border-l-2 border-black pl-8 font-mono text-xs space-y-2 uppercase tracking-tighter">
+                                            <p>Protocol: Specification-Driven</p>
+                                            <p>Era: Post-AI Coding Crisis</p>
+                                            <p>Focus: Quality over Velocity</p>
+                                        </div>
+                                    </div>
+                                    <div className="absolute bottom-12 left-1/2 -translate-x-1/2 animate-bounce">
+                                        <ArrowDown size={32} className="text-black" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Slide 1: Context - Dark */}
+                            <div className="swiper-slide section-dark" data-theme="dark">
+                                <div className="w-full h-full px-6 md:px-24 grid grid-cols-1 md:grid-cols-2 gap-16 items-center bg-black text-white">
+                                    <div>
+                                        <Label color="text-gray-400">Context / 01</Label>
+                                        <h2 className="text-5xl md:text-7xl font-bold text-white mb-8 tracking-tighter">
+                                            从速度狂欢到<br /><span className="text-red-500">质量清算</span>
+                                        </h2>
+                                        <p className="text-gray-400 text-lg leading-relaxed mb-8">
+                                            2025 年以后，AI 已经参与了超过 41% 的代码生产。然而，繁荣背后隐藏着巨大的工程债务。
+                                        </p>
+                                        <div className="space-y-6">
+                                            <div className="flex items-center gap-4 text-white">
+                                                <div className="text-4xl font-black font-mono">82%</div>
+                                                <div className="text-xs uppercase tracking-widest text-gray-500">开发者日常使用 AI 编程</div>
+                                            </div>
+                                            <div className="flex items-center gap-4 text-red-500">
+                                                <div className="text-4xl font-black font-mono">~70%</div>
+                                                <div className="text-xs uppercase tracking-widest text-red-800">AI 代码的缺陷密度高于人工</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="relative">
+                                        <div className="bg-gray-900 border border-gray-800 p-8 font-mono text-sm text-gray-400 leading-relaxed card-shadow">
+                                            <div className="flex gap-2 mb-4">
+                                                <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                                                <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                                <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                                            </div>
+                                            <p className="text-blue-400">// Human Code Defects: 6.45/PR</p>
+                                            <p className="text-red-500 font-bold">// AI Code Defects: 10.83/PR (+70%)</p>
+                                            <p className="mt-4 text-gray-500 italic">"AI 帮你写得更快，但也正在更快地产生更多潜在问题。"</p>
+                                        </div>
+                                        <div className="big-number text-white opacity-[0.03]">2026</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Slide 2: Problem - Light */}
+                            <div className="swiper-slide" data-theme="light">
+                                <div className="w-full h-full px-6 md:px-24 flex flex-col justify-center bg-white">
+                                    <div className="max-w-4xl">
+                                        <Label>The Crisis / 02</Label>
+                                        <h2 className="text-5xl md:text-8xl font-black tracking-tighter mb-12">
+                                            告别“氛围编程”<br />
+                                            <span className="text-gray-400">(Vibe Coding)</span>
+                                        </h2>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                                            <div className="p-8 border-2 border-black flex flex-col justify-between hover:bg-red-50 transition-colors group">
+                                                <div>
+                                                    <AlertCircle size={40} className="mb-6 group-hover:rotate-12 transition-transform" />
+                                                    <h3 className="text-2xl font-bold mb-4 uppercase italic">现象：开盲盒式开发</h3>
+                                                    <p className="text-gray-600 leading-relaxed">
+                                                        随意对话、模糊描述。结果高度随机，靠多次试错。逻辑散落在 Prompt 和代码里。
+                                                    </p>
+                                                </div>
+                                                <div className="mt-8 font-mono text-xs font-bold text-red-600">FRAGILE & UNPREDICTABLE</div>
+                                            </div>
+                                            <div className="p-8 border-2 border-black flex flex-col justify-between hover:bg-gray-50 transition-colors">
+                                                <div>
+                                                    <h3 className="text-2xl font-bold mb-4 uppercase italic">后果：心智崩塌</h3>
+                                                    <p className="text-gray-600 leading-relaxed">
+                                                        初学者在陌生的代码堆里“拆炸弹”，无法理解其逻辑。改一行，崩一片。
+                                                    </p>
+                                                </div>
+                                                <div className="mt-8 font-mono text-xs font-bold">DEBT ACCUMULATION</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Slide 3: Definition - Light Gray */}
+                            <div className="swiper-slide section-light-gray" data-theme="light-gray">
+                                <div className="w-full h-full px-6 md:px-24 flex flex-col justify-center bg-[#f4f4f0]">
+                                    <Label>The Protocol / 03</Label>
+                                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-end">
+                                        <div className="lg:col-span-7">
+                                            <h2 className="text-5xl md:text-8xl font-black tracking-tighter mb-8">
+                                                什么是 <span className="text-blue-700">SDD?</span>
+                                            </h2>
+                                            <p className="text-2xl md:text-3xl font-light text-gray-600 leading-snug">
+                                                SDD 是一种以 <span className="font-bold text-black border-b-4 border-blue-700">规格文档 (Spec)</span> 为单一事实来源，驱动 AI 和人类协同开发的方法论。
+                                            </p>
+                                        </div>
+                                        <div className="lg:col-span-5 border-t-2 border-black pt-8">
+                                            <ul className="space-y-6 font-mono text-sm md:text-base">
+                                                <li className="flex items-start gap-4">
+                                                    <span className="bg-black text-white px-2 font-bold italic">01</span>
+                                                    <span><strong>Spec 是第一公民：</strong>不再是“先写代码后补文档”。而是先定义，再生成。</span>
+                                                </li>
+                                                <li className="flex items-start gap-4">
+                                                    <span className="bg-black text-white px-2 font-bold italic">02</span>
+                                                    <span><strong>逻辑的“宪法”：</strong>当实现与 Spec 冲突时，以 Spec 为准。修改需求必须先改文档。</span>
+                                                </li>
+                                                <li className="flex items-start gap-4">
+                                                    <span className="bg-black text-white px-2 font-bold italic">03</span>
+                                                    <span><strong>AI 是工程队：</strong>人类作为设计师定义问题、审查计划，AI 负责按图施工。</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div className="big-number">SPEC FIRST</div>
+                                </div>
+                            </div>
+
+                            {/* Slide 4: Why SDD - Light */}
+                            <div className="swiper-slide" data-theme="light">
+                                <div className="w-full h-full px-6 md:px-24 flex flex-col justify-center bg-white">
+                                    <Label>The Value / 04</Label>
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                        <div className="space-y-6">
+                                            <div className="w-16 h-16 bg-blue-700 flex items-center justify-center text-white rounded-none">
+                                                <Zap size={32} />
+                                            </div>
+                                            <h3 className="text-3xl font-bold tracking-tight uppercase italic">降低心智负担</h3>
+                                            <p className="text-gray-500 leading-relaxed">
+                                                你不必精通所有 API。你关注业务规则（如“除数不能为 0”），AI 负责选 API、写样板代码。
+                                            </p>
+                                        </div>
+                                        <div className="space-y-6">
+                                            <div className="w-16 h-16 bg-black flex items-center justify-center text-white rounded-none">
+                                                <CheckCircle size={32} />
+                                            </div>
+                                            <h3 className="text-3xl font-bold tracking-tight uppercase italic">减少回归风险</h3>
+                                            <p className="text-gray-500 leading-relaxed">
+                                                用 Spec 固定系统逻辑。AI 只能在约束空间里行动，避免“改一点崩一片”的调试地狱。
+                                            </p>
+                                        </div>
+                                        <div className="space-y-6">
+                                            <div className="w-16 h-16 bg-gray-200 flex items-center justify-center text-black rounded-none">
+                                                <Cpu size={32} />
+                                            </div>
+                                            <h3 className="text-3xl font-bold tracking-tight uppercase italic">沟通即契约</h3>
+                                            <p className="text-gray-500 leading-relaxed">
+                                                Spec 是产品、测试、AI 的公共语言。减少扯皮，项目按期完成率提升 15-20%。
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Slide 5: Workflow - Dark */}
+                            <div className="swiper-slide section-dark" data-theme="dark">
+                                <div className="w-full h-full px-6 md:px-24 flex flex-col justify-center bg-black">
+                                    <Label color="text-gray-400">Methodology / 05</Label>
+                                    <h2 className="text-5xl md:text-7xl font-bold text-white mb-16 tracking-tighter">
+                                        4-STEP <span className="text-blue-500 italic underline">PROTOCOL</span>
+                                    </h2>
+                                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                                        {[
+                                            { s: "01", t: "Write Spec", d: "写清“要做什么”。关注约束：精度、溢出、报错逻辑。" },
+                                            { s: "02", t: "Gen Plan", d: "AI 给出技术路径。人类审核：文件结构、模块职责、开发顺序。" },
+                                            { s: "03", t: "Split Tasks", d: "拆解为原子任务。每个任务必须有明确验收标准，可回滚。" },
+                                            { s: "04", t: "Execute", d: "驱动 AI 实施。发现问题优先改 Spec，而非打补丁。Spec 永远最新。" }
+                                        ].map((item, i) => (
+                                            <div key={i} className="bg-gray-900 border border-gray-800 p-8 group hover:border-blue-700 transition-colors relative overflow-hidden">
+                                                <div className="font-mono text-blue-700 mb-4 font-black">STEP {item.s}</div>
+                                                <h4 className="text-xl font-bold text-white mb-4 uppercase tracking-wider">{item.t}</h4>
+                                                <p className="text-gray-500 text-sm leading-relaxed">{item.d}</p>
+                                                <div className="absolute -bottom-4 -right-4 text-6xl font-black text-white/5">{item.s}</div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Slide 6: Tools - Light */}
+                            <div className="swiper-slide" data-theme="light">
+                                <div className="w-full h-full px-6 md:px-24 flex flex-col justify-center bg-white">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-24 items-center">
+                                        <div>
+                                            <Label>Ecosystem / 06</Label>
+                                            <h2 className="text-5xl md:text-7xl font-black tracking-tighter mb-8 italic">
+                                                2026<br />TOOLCHAIN
+                                            </h2>
+                                            <p className="text-gray-500 text-lg leading-relaxed mb-12">
+                                                SDD 已经不再是概念。从开源套件到企业级 IDE，主流生态已围绕“规范驱动”重构。
+                                            </p>
+                                            <div className="flex gap-4">
+                                                <div className="px-4 py-2 bg-gray-100 font-mono text-[10px] uppercase">Node.js</div>
+                                                <div className="px-4 py-2 bg-gray-100 font-mono text-[10px] uppercase">Python</div>
+                                                <div className="px-4 py-2 bg-gray-100 font-mono text-[10px] uppercase">Rust</div>
+                                            </div>
+                                        </div>
+                                        <div className="space-y-6">
+                                            <div className="flex items-center gap-6 p-6 border-2 border-black card-shadow hover:bg-gray-50 transition-colors">
+                                                <div className="font-black text-4xl italic">G.</div>
+                                                <div>
+                                                    <h4 className="font-bold uppercase tracking-tight">GitHub Spec-Kit</h4>
+                                                    <p className="text-sm text-gray-500">开源 Spec 模板、Slash 命令集与 Agent 协议。</p>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center gap-6 p-6 border-2 border-black card-shadow hover:bg-gray-50 transition-colors">
+                                                <div className="font-black text-4xl text-blue-700 italic">C.</div>
+                                                <div>
+                                                    <h4 className="font-bold uppercase tracking-tight">Cursor / Claude Code</h4>
+                                                    <p className="text-sm text-gray-500">内置 Plan Mode，修改代码前必先生成并展示计划。</p>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center gap-6 p-6 border-2 border-black card-shadow hover:bg-gray-50 transition-colors">
+                                                <div className="font-black text-4xl text-orange-600 italic">A.</div>
+                                                <div>
+                                                    <h4 className="font-bold uppercase tracking-tight">Amazon Kiro</h4>
+                                                    <p className="text-sm text-gray-500">企业级 AI IDE，原生集成“Spec-driven” 工作流。</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Slide 7: Case Study - Light Gray */}
+                            <div className="swiper-slide section-light-gray" data-theme="light-gray">
+                                <div className="w-full h-full px-6 md:px-24 flex flex-col justify-center bg-[#f4f4f0]">
+                                    <Label>Case Study / 07</Label>
+                                    <div className="bg-white border-4 border-black p-8 md:p-16 relative overflow-hidden">
+                                        <div className="absolute top-0 right-0 w-32 h-32 striped"></div>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                                            <div>
+                                                <h3 className="text-3xl md:text-5xl font-black mb-8 italic uppercase leading-none">电商权限<br/>系统 (RBAC)</h3>
+                                                <div className="space-y-10">
+                                                    <div>
+                                                        <div className="text-[10px] font-mono text-gray-400 mb-2 uppercase tracking-widest">Traditional Dev Way</div>
+                                                        <div className="text-2xl font-bold flex items-baseline gap-2">
+                                                            <span>7-9</span> <span className="text-sm font-light text-gray-400">WEEKS</span>
+                                                            <span className="text-xs bg-red-100 text-red-600 px-2 ml-4">40% BUG FIXING</span>
+                                                        </div>
+                                                    </div>
+                                                    <div className="text-blue-700">
+                                                        <div className="text-[10px] font-mono mb-2 uppercase tracking-widest text-blue-300">SDD Paradigm</div>
+                                                        <div className="text-6xl font-black flex items-baseline gap-2">
+                                                            <span>3</span> <span className="text-xl font-light text-blue-300">DAYS</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="flex flex-col justify-end">
+                                                <blockquote className="text-xl md:text-2xl font-light italic leading-relaxed text-gray-600 mb-8 border-l-8 border-blue-700 pl-8">
+                                                    "以前我们是到处救火的装修工，现在更像是在指挥一支 AI 工程队的设计师。我们从敲代码的变成了审图纸的。"
+                                                </blockquote>
+                                                <div className="grid grid-cols-2 gap-4">
+                                                    <div className="p-4 bg-black text-white text-center">
+                                                        <div className="text-2xl font-bold">-70%</div>
+                                                        <div className="text-[8px] uppercase tracking-widest opacity-60">Bug Rate</div>
+                                                    </div>
+                                                    <div className="p-4 bg-blue-700 text-white text-center">
+                                                        <div className="text-2xl font-bold">100%</div>
+                                                        <div className="text-[8px] uppercase tracking-widest opacity-60">Alignment</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Slide 8: Manifesto - Dark (Blue) */}
+                            <div className="swiper-slide section-dark" data-theme="dark">
+                                <div className="w-full h-full px-6 md:px-24 flex flex-col justify-center bg-[#1D4ED8] text-white">
+                                    <div className="max-w-4xl relative z-10">
+                                        <Label color="text-blue-300">The Future / 08</Label>
+                                        <h2 className="text-6xl md:text-[9rem] font-black tracking-tighter leading-none mb-12 uppercase italic">
+                                            COMMAND<br />THE BITS.
+                                        </h2>
+                                        <p className="text-2xl md:text-4xl font-light leading-snug mb-16">
+                                            在 AI 写大部分代码的时代，核心竞争力是 <span className="font-bold border-b-8 border-white px-2 italic">"定义能力"</span>。文档不再是负担，而是你指挥算力、驾驭 AI 的权杖。
+                                        </p>
+                                        <div className="flex flex-col md:flex-row gap-8 items-center">
+                                            <button className="w-full md:w-auto px-12 py-6 bg-white text-blue-700 font-black text-xl hover:bg-blue-50 transition-colors uppercase tracking-widest italic animate-pulse">
+                                                Start Your First Spec
+                                            </button>
+                                            <div className="flex flex-col font-mono text-[9px] uppercase tracking-[0.2em] opacity-40 text-center md:text-left">
+                                                <p>© 2026 SPECIFICATION DRIVEN DEVELOPMENT</p>
+                                                <p>Transition from Coder to Orchestrator.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[30vw] font-black text-white opacity-[0.02] pointer-events-none uppercase italic">
+                                        2026
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        const container = document.getElementById('root');
+        const root = ReactDOM.createRoot(container);
+        root.render(<App />);
+    </script>
+</body>
+</html>
