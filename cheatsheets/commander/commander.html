@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Commander.js 开发命令速查表</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../../css/variables.css">
+    <link rel="stylesheet" href="../../css/common.css">
+    <!-- Prism.js 语法高亮 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <style>
+        :root {
+            --col-width: 520px;
+            --gap: 16px;
+        }
+        .panel label {
+            color: var(--panel-accent);
+        }
+        .panel .title {
+            color: var(--panel-accent);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="panel">
+            <span style="color:#7bfbb7;font-size:16px;margin-right:auto;">Commander.js 速查表</span>
+            <label for="columnWidth">🔧 调整每列宽度：</label>
+            <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+            <span id="widthVal" class="slider-val">340px</span>
+        </div>
+        <div class="cheat-columns" id="columns">
+            
+            <!-- Installation & Setup -->
+            <div class="card">
+                <h2>🚀 安装与初始化 <a href="https://github.com/tj/commander.js#installation" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <ul>
+                    <li><code>npm install commander</code>：安装</li>
+                </ul>
+                <h3>声明变量</h3>
+                <pre><code class="language-javascript">// CommonJS
+const { program } = require('commander');
+
+// 或者创建本地实例
+const { Command } = require('commander');
+const program = new Command();
+
+// TypeScript
+import { Command } from 'commander';
+const program = new Command();</code></pre>
+            </div>
+
+            <!-- Quick Start -->
+            <div class="card">
+                <h2>⚡ 快速开始 <a href="https://github.com/tj/commander.js#quick-start" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <pre><code class="language-javascript">const { program } = require('commander');
+
+program
+  .option('--first')
+  .option('-s, --separator <char>');
+
+program.parse();
+
+const options = program.opts();
+const limit = options.first ? 1 : undefined;
+console.log(program.args[0].split(options.separator, limit));</code></pre>
+                <div class="desc">
+                    运行: <code>node split.js -s / --first a/b/c</code>
+                </div>
+            </div>
+
+            <!-- Options - Basics -->
+            <div class="card">
+                <h2>⚙️ 基础选项 <a href="https://github.com/tj/commander.js#options" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <ul>
+                    <li><code>.option(flags, description, [default])</code>：定义选项</li>
+                </ul>
+                <pre><code class="language-javascript">program
+  .option('-d, --debug', 'output extra debugging')
+  .option('-s, --small', 'small pizza size')
+  .option('-p, --pizza-type <type>', 'flavour of pizza');
+
+const options = program.opts();
+if (options.debug) console.log(options);</code></pre>
+                <div class="desc">
+                    <code>flags</code> 可以包含短标志（-d）和长名称（--debug）。
+                </div>
+            </div>
+
+            <!-- Options - Default Value -->
+            <div class="card">
+                <h2>⚙️ 选项默认值 <a href="https://github.com/tj/commander.js#default-option-value" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <pre><code class="language-javascript">program.option(
+  '-c, --cheese <type>',
+  'add the specified type of cheese',
+  'blue' // 默认值
+);</code></pre>
+            </div>
+
+            <!-- Options - Advanced -->
+            <div class="card">
+                <h2>🔧 高级选项类型 <a href="https://github.com/tj/commander.js#other-option-types-negatable-boolean-and-booleanvalue" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>取反布尔值 (Negatable)</h3>
+                <pre><code class="language-javascript">program.option('--no-sauce', 'Remove sauce');
+// 使用 --no-sauce 时，sauce 值为 false</code></pre>
+                <h3>必填选项 (Required)</h3>
+                <pre><code class="language-javascript">program.requiredOption('-c, --cheese <type>', 'pizza must have cheese');
+// 若未提供，程序会自动报错并退出</code></pre>
+                <h3>变长参数 (Variadic)</h3>
+                <pre><code class="language-javascript">program.option('-n, --number <numbers...>', 'specify numbers');
+// 解析结果为数组: { number: ['1', '2', '3'] }</code></pre>
+            </div>
+
+            <!-- Options - Configuration -->
+            <div class="card">
+                <h2>🛠️ 选项配置与处理 <a href="https://github.com/tj/commander.js#version-option" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>版本选项</h3>
+                <pre><code class="language-javascript">program.version('0.0.1', '-v, --vers', 'output current version');</code></pre>
+                <h3>自定义处理函数</h3>
+                <pre><code class="language-javascript">function myParseInt(value, dummyPrevious) {
+  return parseInt(value);
+}
+
+program.option('-i, --integer <number>', 'int arg', myParseInt);</code></pre>
+                <h3>更多配置 (Option 对象)</h3>
+                <pre><code class="language-javascript">new Option('-t, --timeout <delay>', 'timeout in seconds')
+  .default(60, 'one minute')
+  .choices(['small', 'medium', 'large'])
+  .env('PORT') // 从环境变量读取
+  .conflicts('port') // 冲突检测
+  .implies({ drink: 'small' }) // 隐含选项</code></pre>
+            </div>
+
+            <!-- Commands - Definition -->
+            <div class="card">
+                <h2>📦 定义命令 <a href="https://github.com/tj/commander.js#commands" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <ul>
+                    <li><code>.command('name <args>')</code>：定义命令</li>
+                    <li><code>.action(fn)</code>：命令处理函数</li>
+                </ul>
+                <pre><code class="language-javascript">program
+  .command('clone <source> [destination]')
+  .description('clone a repository')
+  .action((source, destination) => {
+    console.log('cloning ' + source);
+  });</code></pre>
+                <h3>参数语法</h3>
+                <ul>
+                    <li><code>&lt;required&gt;</code>：必填参数</li>
+                    <li><code>[optional]</code>：可选参数</li>
+                    <li><code>variadic...</code>：变长参数（只能是最后一个）</li>
+                </ul>
+            </div>
+
+            <!-- Commands - Independent -->
+            <div class="card">
+                <h2>📂 独立可执行子命令 <a href="https://github.com/tj/commander.js#stand-alone-executable-subcommands" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <div class="desc">当 command() 带有描述参数时，Commander 会将其视为独立可执行文件。</div>
+                <pre><code class="language-javascript">program
+  .command('install [package-names...]', 'install packages')
+  .command('search [query]', 'search with optional query');</code></pre>
+                <div class="desc">
+                    会自动寻找 <code>pm-install</code>, <code>pm-search</code> 等文件执行。
+                </div>
+            </div>
+
+            <!-- Commands - Arguments -->
+            <div class="card">
+                <h2>📝 命令参数详解 <a href="https://github.com/tj/commander.js#command-arguments" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>使用 .argument()</h3>
+                <pre><code class="language-javascript">program
+  .version('0.1.0')
+  .argument('<username>', 'user to login')
+  .argument('[password]', 'password', 'default')
+  .action((username, password) => {
+    // ...
+  });</code></pre>
+                <h3>自定义参数处理</h3>
+                <pre><code class="language-javascript">program
+  .command('add')
+  .argument('<first>', 'integer', myParseInt)
+  .action((first) => { /* ... */ });</code></pre>
+            </div>
+
+            <!-- Hooks -->
+            <div class="card">
+                <h2>🪝 生命周期钩子 <a href="https://github.com/tj/commander.js#life-cycle-hooks" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <ul>
+                    <li><code>preAction</code>：Action处理前</li>
+                    <li><code>postAction</code>：Action处理后</li>
+                </ul>
+                <pre><code class="language-javascript">program
+  .option('-t, --trace', 'display trace')
+  .hook('preAction', (thisCommand, actionCommand) => {
+    if (thisCommand.opts().trace) {
+      console.log('About to call action handler');
+    }
+  });</code></pre>
+            </div>
+
+            <!-- Help System -->
+            <div class="card">
+                <h2>❓ 帮助系统 <a href="https://github.com/tj/commander.js#automated-help" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>自定义帮助内容</h3>
+                <pre><code class="language-javascript">program.addHelpText('after', `
+Example call:
+  $ custom-help --help`);</code></pre>
+                <h3>错误后显示帮助</h3>
+                <pre><code class="language-javascript">program.showHelpAfterError('(add --help for additional information)');</code></pre>
+                <h3>代码中显示帮助</h3>
+                <ul>
+                    <li><code>program.help()</code>: 显示并退出</li>
+                    <li><code>program.outputHelp()</code>: 仅显示</li>
+                </ul>
+            </div>
+
+            <!-- Configuration -->
+            <div class="card">
+                <h2>⚙️ 程序配置 <a href="https://github.com/tj/commander.js#name" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <pre><code class="language-javascript">program
+  .name("my-command")
+  .usage("[global options] command")
+  .description("CLI description")
+  .summary("short summary"); // 用于子命令列表</code></pre>
+                <h3>自定义帮助选项/命令</h3>
+                <pre><code class="language-javascript">program.helpOption('-e, --HELP', 'read more info');
+program.helpCommand('assist [command]', 'show assistance');</code></pre>
+            </div>
+
+            <!-- Parsing -->
+            <div class="card">
+                <h2>▶️ 解析与执行 <a href="https://github.com/tj/commander.js#parse-and-parseasync" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>同步解析</h3>
+                <pre><code class="language-javascript">program.parse(); // 默认解析 process.argv
+program.parse(process.argv); // 显式传递
+program.parse(['-f', 'filename'], { from: 'user' });</code></pre>
+                <h3>异步解析</h3>
+                <pre><code class="language-javascript">await program.parseAsync(process.argv);</code></pre>
+                <div class="desc">如果有 async action handler，必须使用 parseAsync。</div>
+            </div>
+
+            <!-- Error Handling -->
+            <div class="card">
+                <h2>⚠️ 错误与输出控制 <a href="https://github.com/tj/commander.js#override-exit-and-output-handling" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>自定义错误</h3>
+                <pre><code class="language-javascript">program.error('Password must be longer than four characters');</code></pre>
+                <h3>覆盖退出行为</h3>
+                <pre><code class="language-javascript">program.exitOverride(); // 抛出错误而不是直接退出
+try {
+  program.parse(process.argv);
+} catch (err) {
+  // handle error
+}</code></pre>
+                <h3>自定义输出</h3>
+                <pre><code class="language-javascript">program.configureOutput({
+  writeOut: (str) => process.stdout.write(`[OUT] ${str}`),
+  writeErr: (str) => process.stdout.write(`[ERR] ${str}`),
+  outputError: (str, write) => write(`\x1b[31m${str}\x1b[0m`)
+});</code></pre>
+            </div>
+
+        </div>
+    </div>
+    <script src="../../assets/common.js"></script>
+    <script>
+        // Prism.js 代码高亮初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.Prism) {
+                Prism.highlightAll();
+                Prism.plugins.lineNumbers = false;
+                console.log('代码高亮已启用');
+            }
+        });
+    </script>
+</body>
+</html>
