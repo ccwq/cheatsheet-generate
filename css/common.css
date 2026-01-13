@@ -295,3 +295,13 @@ pre {
     transform: translateY(-50%);
     font-size: 0.8em;
 }
+
+
+.language-yaml{
+
+
+}
+
+pre[class^="language-"]{
+  background: var(--code-pre-bg) !important;
+}
