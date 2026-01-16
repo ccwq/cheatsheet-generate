@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>WebStorm Structural Search & Replace 速查表</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../../css/variables.css">
+    <link rel="stylesheet" href="../../css/common.css">
+    <style>
+        :root {
+            --col-width: 400px;
+            --gap: 16px;
+        }
+        .panel label { color: var(--panel-accent); }
+        .panel .title { color: var(--panel-accent); }
+    </style>
+
+    <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png" />
+    <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png" />
+  </head>
+<body>
+    <div class="container">
+        <div class="panel">
+            <span style="color:#7bfbb7;font-size:16px;margin-right:auto;">WebStorm SSR 速查表</span>
+            <label for="columnWidth">🔧 调整列宽：</label>
+            <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="380">
+            <span id="widthVal" class="slider-val">380px</span>
+        </div>
+        <div class="cheat-columns" id="columns">
+
+            <div class="card">
+                <h2>核心概念</h2>
+                <div class="desc">基于语法树而非纯文本的模式搜索与替换。</div>
+                <ul>
+                    <li><code>Template</code>：代码结构模式，包含字面量与变量</li>
+                    <li><code>$Variable$</code>：占位符，匹配特定代码节点</li>
+                    <li><code>Filters</code>：对变量的文本、类型、次数或脚本约束</li>
+                </ul>
+                <div class="desc">
+                    参考文档：
+                    <a href="https://www.jetbrains.com/help/webstorm/structural-search-and-replace.html" target="_blank">https://www.jetbrains.com/help/webstorm/structural-search-and-replace.html</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>入口与适用场景</h2>
+                <ul>
+                    <li><code>Edit | Find | Search Structurally</code>：结构化搜索</li>
+                    <li><code>Edit | Find | Replace Structurally</code>：结构化替换</li>
+                    <li>适用于 API 迁移、批量重构、编码规范检查</li>
+                    <li>当正则难以表达代码结构时优先使用 SSR</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>模板创建流程</h2>
+                <ol>
+                    <li>输入最小可匹配的代码片段作为模板</li>
+                    <li>将可变部分替换为 <code>$var$</code> 占位符</li>
+                    <li>点击变量或打开 Filters 面板设置约束</li>
+                    <li>通过结果预览确认匹配范围</li>
+                    <li>必要时保存模板或保存为 Inspection</li>
+                </ol>
+            </div>
+
+            <div class="card">
+                <h2>变量与基础语法</h2>
+                <ul>
+                    <li><code>$var$</code>：匹配任意表达式或语句</li>
+                    <li><code>"$text$"</code>：匹配字符串字面量</li>
+                    <li><code>/* $comment$ */</code>：匹配注释内容</li>
+                    <li><code>class $Name$</code>：匹配类定义</li>
+                    <li><code>function $name$($args$)</code>：匹配函数定义</li>
+                </ul>
+                <div class="desc">变量名称自由，但应与语义一致，便于复用。</div>
+            </div>
+
+            <div class="card">
+                <h2>变量修饰符与过滤</h2>
+                <ul>
+                    <li><code>Text/Regex</code>：正则限制文本内容</li>
+                    <li><code>Type</code>：限定类型或语法元素</li>
+                    <li><code>Count</code>：限定出现次数，如 <code>0..*</code></li>
+                    <li><code>Script</code>：使用 Groovy/BeanShell 进行复杂判断</li>
+                </ul>
+                <div class="desc">过滤器可作用于单个变量，也可组合使用。</div>
+            </div>
+
+            <div class="card">
+                <h2>常见模板：函数与调用</h2>
+                <h3>查找 console.log 调用</h3>
+                <pre><code class="language-javascript">console.log($args$);</code></pre>
+                <div class="desc">将 <code>$args$</code> 的 Count 设为 <code>0..*</code>。</div>
+
+                <h3>查找超过 3 个参数的函数</h3>
+                <pre><code class="language-javascript">function $name$($params$) {
+  $body$
+}</code></pre>
+                <div class="desc">将 <code>$params$</code> Count 设为 <code>4..*</code>。</div>
+
+                <h3>查找特定实例的方法调用</h3>
+                <pre><code class="language-javascript">$instance$.$method$($args$)</code></pre>
+                <div class="desc">给 <code>$instance$</code> 设置 Text 或 Script 过滤。</div>
+            </div>
+
+            <div class="card">
+                <h2>常见模板：语句与结构</h2>
+                <h3>空的 try-catch</h3>
+                <pre><code class="language-javascript">try {
+  $tryStmt$;
+} catch ($err$) {
+}</code></pre>
+                <div class="desc">将 <code>$tryStmt$</code> Count 设为 <code>0..*</code>。</div>
+
+                <h3>没有花括号的 if</h3>
+                <pre><code class="language-javascript">if ($cond$) $stmt$;</code></pre>
+                <div class="desc">用 Script 排除块语句。</div>
+            </div>
+
+            <div class="card">
+                <h2>常见模板：HTML/JSX</h2>
+                <h3>缺少 alt 的 img</h3>
+                <pre><code class="language-html">&lt;img $attrs$ /&gt;</code></pre>
+                <div class="desc">Script 判断 <code>alt=</code> 不存在。</div>
+
+                <h3>包含特定属性的组件</h3>
+                <pre><code class="language-html">&lt;MyComponent $prop$ /&gt;</code></pre>
+                <div class="desc">Text 设为 <code>deprecated.*</code>。</div>
+            </div>
+
+            <div class="card">
+                <h2>结构化替换</h2>
+                <h3>var 替换为 const</h3>
+                <div class="desc">搜索：</div>
+                <pre><code class="language-javascript">var $x$ = $y$;</code></pre>
+                <div class="desc">替换：</div>
+                <pre><code class="language-javascript">const $x$ = $y$;</code></pre>
+
+                <h3>参数顺序调整</h3>
+                <div class="desc">搜索：<code>$obj$.make($a$, $b$)</code></div>
+                <div class="desc">替换：<code>$obj$.create($b$, $a$)</code></div>
+
+                <h3>替换后重新格式化</h3>
+                <div class="desc">可在 Replace 对话框中启用 Reformat。</div>
+            </div>
+
+            <div class="card">
+                <h2>脚本约束</h2>
+                <ul>
+                    <li><code>__context__</code>：当前匹配的 PSI 节点</li>
+                    <li><code>__context__.text</code>：匹配文本内容</li>
+                    <li><code>__context__.parent</code>：父节点访问</li>
+                </ul>
+                <h3>常用脚本片段</h3>
+                <ul>
+                    <li><code>__context__.text.contains("foo")</code></li>
+                    <li><code>__context__.text.length() &gt; 50</code></li>
+                    <li><code>__context__.parent instanceof JSIfStatement</code></li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>保存与复用</h2>
+                <ul>
+                    <li><code>Save Template</code>：保存常用模板</li>
+                    <li><code>Save as Inspection</code>：转为检查项并持续提示</li>
+                    <li>模板可在搜索窗口中直接复用</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>分享与导入导出</h2>
+                <ul>
+                    <li>模板可复制为 XML 进行分享</li>
+                    <li>在 SSR 对话框中粘贴 XML 可导入</li>
+                    <li>导入会恢复变量与范围设置</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>结果确认与范围</h2>
+                <ul>
+                    <li>在 Find 工具窗预览匹配结果</li>
+                    <li>替换可逐条或批量应用</li>
+                    <li>范围建议：Project / Module / Directory / Changed Files</li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+    <script src="../../assets/common.js"></script>
+</body>
+</html>
