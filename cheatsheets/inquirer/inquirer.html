@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Inquirer.js 速查表</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../../css/variables.css">
+    <link rel="stylesheet" href="../../css/common.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <style>
+        :root {
+            --col-width: 400px;
+            --gap: 16px;
+        }
+
+        .cheat-columns {
+            column-count: 4;
+        }
+
+        @media (max-width: 1500px) {
+            .cheat-columns {
+                column-count: 3;
+            }
+        }
+
+        @media (max-width: 1100px) {
+            .cheat-columns {
+                column-count: 2;
+            }
+        }
+
+        @media (max-width: 750px) {
+            .cheat-columns {
+                column-count: 1;
+            }
+        }
+
+        .panel label {
+            color: var(--panel-accent);
+        }
+
+        .panel .title {
+            color: var(--panel-accent);
+        }
+
+        pre {
+            font-size: 13px;
+            line-height: 1.2;
+            margin: 8px 0;
+        }
+
+        code {
+            font-size: 13px;
+        }
+
+        h2 {
+            font-size: 16px;
+            margin: 0 0 12px 0;
+        }
+
+        h3 {
+            font-size: 14px;
+            margin: 12px 0 8px 0;
+        }
+
+        ul {
+            margin: 8px 0;
+            padding-left: 20px;
+        }
+
+        li {
+            margin: 4px 0;
+            font-size: 14px;
+            line-height: 1.2;
+        }
+
+        .tip {
+            background-color: rgba(34, 139, 34, 0.1);
+            border-left: 4px solid #228b22;
+            padding: 8px;
+            margin: 8px 0;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+
+        .warning {
+            background-color: rgba(255, 165, 0, 0.1);
+            border-left: 4px solid #ffa500;
+            padding: 8px;
+            margin: 8px 0;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="panel">
+            <span style="color:#7bfbb7;font-size:16px;margin-right:auto;">Inquirer.js 速查表</span>
+            <label for="columnWidth">🔧 调整每列宽度：</label>
+            <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+            <span id="widthVal" class="slider-val">340px</span>
+        </div>
+        <div class="cheat-columns" id="columns">
+            <!-- 基础使用 -->
+            <div class="card">
+                <h2>🔧 基础使用 <a href="https://www.npmjs.com/package/inquirer" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <pre><code class="language-javascript">// 安装
+// npm install inquirer
+
+// 引入
+const inquirer = require('inquirer');
+
+// 基本提问结构
+inquirer
+  .prompt([
+    // 提问配置
+  ])
+  .then(answers => {
+    console.log('答案:', answers);
+  })
+  .catch(error => {
+    if (error.isTtyError) {
+      // 无法在当前环境中使用
+    } else {
+      // 其他错误
+    }
+  });</code></pre>
+                <div class="tip">
+                    💡 Inquirer.js 是一个命令行交互工具，用于创建交互式命令行界面
+                </div>
+            </div>
+
+            <!-- Input - 文本输入 -->
+            <div class="card">
+                <h2>📝 Input - 文本输入</h2>
+                <pre><code class="language-javascript">{
+  type: 'input',
+  name: 'name',
+  message: '请输入你的名字:',
+  default: '张三', // 默认值
+  validate: function(value) {
+    // 验证函数
+    const valid = /^[a-zA-Z\u4e00-\u9fa5]+$/.test(value);
+    return valid || '请输入有效的名字';
+  },
+  filter: function(value) {
+    // 过滤函数，处理输入值
+    return value.trim();
+  },
+  transformer: function(value) {
+    // 转换显示值（不影响实际结果）
+    return `名字: ${value}`;
+  }
+}</code></pre>
+            </div>
+
+            <!-- Confirm - 确认 -->
+            <div class="card">
+                <h2>✅ Confirm - 确认</h2>
+                <pre><code class="language-javascript">{
+  type: 'confirm',
+  name: 'continue',
+  message: '是否继续?',
+  default: true
+}</code></pre>
+                <div class="tip">
+                    💡 用于获取 yes/no 类型的确认
+                </div>
+            </div>
+
+            <!-- List - 列表选择 -->
+            <div class="card">
+                <h2>📋 List - 列表选择</h2>
+                <pre><code class="language-javascript">{
+  type: 'list',
+  name: 'framework',
+  message: '选择一个框架:',
+  choices: [
+    'React',
+    'Vue',
+    'Angular',
+    { name: 'Svelte', value: 'svelte-framework' }
+  ],
+  loop: false // 是否允许循环选择
+}</code></pre>
+                <div class="tip">
+                    💡 用于从列表中选择一个选项
+                </div>
+            </div>
+
+            <!-- Checkbox - 多选 -->
+            <div class="card">
+                <h2>☑️ Checkbox - 多选</h2>
+                <pre><code class="language-javascript">{
+  type: 'checkbox',
+  name: 'languages',
+  message: '选择你熟悉的语言:',
+  choices: [
+    { name: 'JavaScript', checked: true }, // 默认选中
+    { name: 'Python', value: 'python-lang' },
+    { name: 'Java' },
+    { name: 'C++' }
+  ],
+  validate: function(answer) {
+    if (answer.length < 1) {
+      return '至少选择一个语言';
+    }
+    return true;
+  }
+}</code></pre>
+                <div class="tip">
+                    💡 用于从列表中选择多个选项
+                </div>
+            </div>
+
+            <!-- Password - 密码输入 -->
+            <div class="card">
+                <h2>🔒 Password - 密码输入</h2>
+                <pre><code class="language-javascript">{
+  type: 'password',
+  name: 'password',
+  message: '请输入密码:',
+  mask: '*', // 掩码字符
+  validate: function(value) {
+    return value.length >= 6 || '密码长度至少6位';
+  }
+}</code></pre>
+            </div>
+
+            <!-- Number - 数字输入 -->
+            <div class="card">
+                <h2>🔢 Number - 数字输入</h2>
+                <pre><code class="language-javascript">{
+  type: 'number',
+  name: 'age',
+  message: '请输入年龄:',
+  default: 18,
+  min: 0,
+  max: 120,
+  step: 1
+}</code></pre>
+                <div class="tip">
+                    💡 用于输入数字，支持范围限制
+                </div>
+            </div>
+
+            <!-- Editor - 编辑器输入 -->
+            <div class="card">
+                <h2>📄 Editor - 编辑器输入</h2>
+                <pre><code class="language-javascript">{
+  type: 'editor',
+  name: 'description',
+  message: '请输入详细描述:',
+  default: '默认内容',
+  postfix: '.md', // 临时文件后缀
+  editor: 'code' // 指定编辑器
+}</code></pre>
+                <div class="tip">
+                    💡 用于打开系统编辑器输入多行内容
+                </div>
+            </div>
+
+            <!-- Expand - 扩展选择 -->
+            <div class="card">
+                <h2>🔍 Expand - 扩展选择</h2>
+                <pre><code class="language-javascript">{
+  type: 'expand',
+  name: 'action',
+  message: '选择操作:',
+  choices: [
+    { key: 'y', name: '覆盖', value: 'overwrite' },
+    { key: 'a', name: '覆盖全部', value: 'overwriteAll' },
+    { key: 'n', name: '跳过', value: 'skip' },
+    { key: 'd', name: '查看差异', value: 'diff' }
+  ],
+  default: 'y'
+}</code></pre>
+                <div class="tip">
+                    💡 用于快速选择预定义的操作选项
+                </div>
+            </div>
+
+            <!-- SearchList - 搜索列表 -->
+            <div class="card">
+                <h2>🔎 SearchList - 搜索列表</h2>
+                <pre><code class="language-javascript">{
+  type: 'search-list',
+  name: 'package',
+  message: '搜索包名:',
+  choices: [
+    'react',
+    'react-dom',
+    'react-router',
+    'vue',
+    'vue-router',
+    'angular',
+    'svelte'
+  ]
+}</code></pre>
+                <div class="tip">
+                    💡 用于从长列表中搜索并选择选项
+                </div>
+            </div>
+
+            <!-- 分页选项 -->
+            <div class="card">
+                <h2>📑 分页选项</h2>
+                <pre><code class="language-javascript">{
+  type: 'list',
+  name: 'longList',
+  message: '长列表选择:',
+  choices: [...Array(50).keys()].map(i => `选项 ${i+1}`),
+  pageSize: 10, // 每页显示的选项数量
+  loop: true
+}</code></pre>
+                <div class="tip">
+                    💡 对于长列表，设置合理的 pageSize 可以提高用户体验
+                </div>
+            </div>
+
+            <!-- 条件提问 -->
+            <div class="card">
+                <h2>🔀 条件提问</h2>
+                <pre><code class="language-javascript">inquirer.prompt([
+  {
+    type: 'confirm',
+    name: 'useCustomConfig',
+    message: '是否使用自定义配置?',
+    default: false
+  },
+  {
+    type: 'input',
+    name: 'configPath',
+    message: '请输入配置文件路径:',
+    when: function(answers) {
+      // 只有当useCustomConfig为true时才显示
+      return answers.useCustomConfig;
+    }
+  }
+]);</code></pre>
+                <div class="tip">
+                    💡 使用 when 选项可以根据之前的答案动态调整后续提问
+                </div>
+            </div>
+
+            <!-- 循环提问 -->
+            <div class="card">
+                <h2>🔄 循环提问</h2>
+                <pre><code class="language-javascript">const promptLoop = async () => {
+  const answers = await inquirer.prompt([
+    {
+      type: 'input',
+      name: 'item',
+      message: '输入项目 (输入q退出):'
+    }
+  ]);
+  
+  if (answers.item !== 'q') {
+    // 处理输入
+    return promptLoop();
+  }
+};
+
+promptLoop();</code></pre>
+                <div class="tip">
+                    💡 使用 async/await 实现循环提问
+                </div>
+            </div>
+
+            <!-- 事件处理 -->
+            <div class="card">
+                <h2>⚡ 事件处理</h2>
+                <pre><code class="language-javascript">const prompt = inquirer.createPromptModule();
+
+// 监听键盘事件
+const ui = new inquirer.ui.BottomBar();
+ui.log.write('正在加载...');
+
+// 处理答案变化
+const answers = {};
+prompt.on('answer', (name, value) => {
+  answers[name] = value;
+  ui.updateBottomBar(`已回答: ${name} = ${value}`);
+});
+
+prompt.on('complete', () => {
+  ui.updateBottomBar('完成!');
+});
+
+prompt([
+  // 提问配置
+]);</code></pre>
+            </div>
+
+            <!-- 自定义主题 -->
+            <div class="card">
+                <h2>🎨 自定义主题</h2>
+                <pre><code class="language-javascript">inquirer
+  .prompt([
+    // 提问配置
+  ])
+  .ui
+  .setTheme({
+    prefix: '🌈',
+    spinner: 'dots',
+    styles: {
+      message: 'cyan',
+      error: 'red',
+      answer: 'green bold',
+      defaultAnswer: 'gray italic'
+    }
+  });</code></pre>
+            </div>
+
+            <!-- 工具函数 -->
+            <div class="card">
+                <h2>🛠️ 工具函数</h2>
+                <pre><code class="language-javascript">// 创建提问模块
+const prompt = inquirer.createPromptModule();
+
+prompt([
+  // 提问配置
+]).then(answers => {
+  // 处理答案
+});
+
+// 注册自定义提问类型
+inquirer.registerPrompt('custom-prompt', require('custom-prompt-module'));
+
+// 自定义验证器
+const validateEmail = (email) => {
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return re.test(email) || '请输入有效的邮箱地址';
+};</code></pre>
+            </div>
+
+            <!-- 完整示例 -->
+            <div class="card">
+                <h2>📋 完整示例</h2>
+                <pre><code class="language-javascript">const inquirer = require('inquirer');
+
+inquirer
+  .prompt([
+    {
+      type: 'input',
+      name: 'name',
+      message: '请输入你的名字:',
+      default: '开发者'
+    },
+    {
+      type: 'number',
+      name: 'age',
+      message: '请输入年龄:',
+      default: 18,
+      min: 0,
+      max: 120
+    },
+    {
+      type: 'list',
+      name: 'experience',
+      message: '选择你的开发经验:',
+      choices: ['初级', '中级', '高级']
+    },
+    {
+      type: 'checkbox',
+      name: 'skills',
+      message: '选择你掌握的技能:',
+      choices: ['JavaScript', 'Python', 'Java', 'C++', 'React', 'Vue']
+    },
+    {
+      type: 'confirm',
+      name: 'continue',
+      message: '是否继续?',
+      default: true
+    }
+  ])
+  .then(answers => {
+    console.log('\n=== 收集到的信息 ===');
+    console.log(`姓名: ${answers.name}`);
+    console.log(`年龄: ${answers.age}`);
+    console.log(`经验: ${answers.experience}`);
+    console.log(`技能: ${answers.skills.join(', ')}`);
+    console.log(`继续: ${answers.continue ? '是' : '否'}`);
+  });</code></pre>
+            </div>
+
+            <!-- 最佳实践 -->
+            <div class="card">
+                <h2>💡 最佳实践</h2>
+                <ul>
+                    <li>合理组织提问顺序：从简单到复杂</li>
+                    <li>提供默认值，减少用户输入负担</li>
+                    <li>添加验证，确保输入数据有效</li>
+                    <li>使用条件提问，动态调整后续问题</li>
+                    <li>适当使用分页，提高长列表体验</li>
+                    <li>保持消息简洁明了</li>
+                    <li>处理可能的错误</li>
+                    <li>测试各种终端环境</li>
+                </ul>
+            </div>
+
+            <!-- 版本兼容 -->
+            <div class="card">
+                <h2>📌 版本兼容</h2>
+                <ul>
+                    <li>Inquirer v9.x：支持 ESM 和 CommonJS</li>
+                    <li>Inquirer v8.x：最后支持 Node.js 10 的版本</li>
+                    <li>Inquirer v7.x：支持 Node.js 8</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script src="../../assets/common.js"></script>
+</body>
+</html>
