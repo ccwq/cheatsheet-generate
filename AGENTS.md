@@ -10,7 +10,7 @@
 在收到创建cheatsheet的请求后, 按照以下步骤进行操作
 - 读取 `prompts/创建cheatsheet.md`的内容, 按照其要求生成 Cheatsheet
 - 生成的 Cheatsheet 保存在 `/cheatsheets` 目录下
-- 需要参考``hilight-func.md``的内容,实现代码高亮的功能
+- **代码高亮**：必须实现代码高亮功能。参考 `hilight-func.md`，使用 Prism.js (Tomorrow 主题)，并将代码包裹在 `<pre><code class="language-xxx">` 中
 - 注释需要在代码的上一行, 从第一列开始, 除非代码和注释很短, 否则不允许代码和注释在同一行
 
 
@@ -95,6 +95,15 @@ foo指代cheatsheet的项目名称
 - 用户主语为中文，注释与文档优先中文
 - 适度注释关键分支与逻辑，模板中可用简短行内注释
 - 避免引入重量级依赖；以原生能力为先
+
+### 代码高亮规范
+- **库选择**：统一使用 [Prism.js](https://prismjs.com/)
+- **主题**：`prism-tomorrow.min.css` (深色极客风)
+- **实现方式**：
+  1. 在 `<head>` 引入 CSS 和 JS (core + autoloader)
+  2. 代码块使用 `<pre><code class="language-xxx">` 结构
+  3. 页面底部添加 `Prism.highlightAll()` 初始化脚本
+- **语言指定**：必须根据内容指定正确的 `language-xxx` (如 `bash`, `javascript`, `json`, `python` 等)
 
 ## 运行与发布
 

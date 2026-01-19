@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="../../css/common.css">
   <style>
     :root {
-      --colWidth: 340px;
+      --col-width: 450px;
       --gap: 16px;
     }
     .panel label {
@@ -21,6 +21,10 @@
 
     <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png" />
     <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png" />
+    <!-- Prism.js 语法高亮 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
   </head>
 <body>
   <div class="container">
@@ -39,10 +43,10 @@
           <li><code>nt</code> | 快速执行上一次运行的脚本</li>
         </ul>
         <h3>基本操作</h3>
-        <pre>cd /path/to/project  # 进入含package.json的项目目录
+        <pre><code class="language-bash">cd /path/to/project  # 进入含package.json的项目目录
 ntl                 # 启动交互式界面
 ↑↓                  # 上下键选择脚本
-Enter              # 执行选中的脚本</pre>
+Enter              # 执行选中的脚本</code></pre>
         <div class="desc">ntl会自动读取package.json中的scripts并显示交互列表</div>
       </div>
 
@@ -56,10 +60,10 @@ Enter              # 执行选中的脚本</pre>
           <li><code>--help, -h</code> | 显示帮助信息</li>
         </ul>
         <h3>高级用法示例</h3>
-        <pre>ntl -i              # 显示脚本描述
+        <pre><code class="language-bash">ntl -i              # 显示脚本描述
 ntl -m              # 多选模式执行
 ntl -m -o           # 多选并按顺序执行
-ntl --autocomplete    # 启用自动完成</pre>
+ntl --autocomplete    # 启用自动完成</code></pre>
         <div class="desc">组合选项可获得更灵活的脚本执行方式</div>
       </div>
 
@@ -71,7 +75,7 @@ ntl --autocomplete    # 启用自动完成</pre>
           <li><code>ntl.packageManager</code> | 指定使用的包管理器</li>
         </ul>
         <h3>package.json配置示例</h3>
-        <pre>{
+        <pre><code class="language-json">{
   "name": "my-project",
   "scripts": {
     "build": "make build",
@@ -89,7 +93,7 @@ ntl --autocomplete    # 启用自动完成</pre>
     "ignore": ["start"],
     "packageManager": "yarn"
   }
-}</pre>
+}</code></pre>
         <div class="desc">描述信息会在ntl界面中显示，方便理解脚本用途</div>
       </div>
 
@@ -102,11 +106,11 @@ ntl --autocomplete    # 启用自动完成</pre>
           <li><code>Esc</code> | 返回主列表或退出</li>
         </ul>
         <h3>搜索功能</h3>
-        <pre>启动ntl后：
+        <pre><code class="language-bash">启动ntl后：
 1. 输入关键词实时过滤脚本
 2. 使用Tab键在搜索框和列表间切换
 3. 上下键在匹配结果中导航
-4. 支持模糊匹配和正则表达式</pre>
+4. 支持模糊匹配和正则表达式</code></pre>
         <div class="desc">模糊搜索让你快速找到目标脚本</div>
       </div>
 
@@ -118,13 +122,13 @@ ntl --autocomplete    # 启用自动完成</pre>
           <li><code>--ordered</code> | 按选择顺序执行脚本</li>
         </ul>
         <h3>批量执行示例</h3>
-        <pre>ntl -m              # 启动多选模式
+        <pre><code class="language-bash">ntl -m              # 启动多选模式
 [ ] build          # 空格选择
 [x] test           # 再次空格取消选择
 [ ] lint
 [ ] deploy
 
-ntl -m -o         # 多选且按顺序执行</pre>
+ntl -m -o         # 多选且按顺序执行</code></pre>
         <div class="desc">多任务执行适合构建流水线和CI/CD场景</div>
       </div>
 
@@ -136,7 +140,7 @@ ntl -m -o         # 多选且按顺序执行</pre>
           <li><code>.ntlrc</code> | 项目级配置文件</li>
         </ul>
         <h3>.ntlrc配置示例</h3>
-        <pre>{
+        <pre><code class="language-json">{
   "packageManager": "pnpm",
   "descriptions": {
     "custom:build": "自定义构建流程",
@@ -144,7 +148,7 @@ ntl -m -o         # 多选且按顺序执行</pre>
   },
   "ignore": ["dev", "serve"],
   "showHidden": false
-}</pre>
+}</code></pre>
         <div class="desc">项目级配置覆盖package.json中的ntl设置</div>
       </div>
 
@@ -156,7 +160,7 @@ ntl -m -o         # 多选且按顺序执行</pre>
           <li><code>ntl --help</code> | 查看完整的帮助信息</li>
         </ul>
         <h3>团队协作配置</h3>
-        <pre>{
+        <pre><code class="language-json">{
   "scripts": {
     "start": "ntl",
     "dev": "ntl --info",
@@ -172,7 +176,7 @@ ntl -m -o         # 多选且按顺序执行</pre>
     },
     "packageManager": "pnpm"
   }
-}</pre>
+}</code></pre>
         <div class="desc">标准化脚本管理，提升团队开发效率</div>
       </div>
     </div>
@@ -184,6 +188,14 @@ ntl -m -o         # 多选且按顺序执行</pre>
       document.getElementById('widthVal').textContent = width + 'px';
       const columns = document.getElementById('columns');
       columns.style.columnWidth = width + 'px';
+    });
+
+    // Prism.js 代码高亮初始化
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.Prism) {
+        Prism.highlightAll();
+        console.log('代码高亮已启用');
+      }
     });
   </script>
 </body>
