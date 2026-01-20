@@ -454,6 +454,128 @@
         filterCards('');
         // 注意：openLinkMode, columnWidth, backTop 由 common.js 初始化
 
+        // --- 键盘导航功能 (2025-01-20) ---
+        (function() {
+          function getVisibleCards() {
+            return Array.from(document.querySelectorAll('.card')).filter(function(c){
+              return c.style.display !== 'none';
+            });
+          }
+
+          function updateHighlight(card) {
+            var all = document.querySelectorAll('.card');
+            all.forEach(function(c){ c.classList.remove('card-highlight'); });
+            if (card) {
+              card.classList.add('card-highlight');
+              // 平滑滚动可能导致连续按键时体验不佳，使用 auto
+              if (card.scrollIntoView) {
+                card.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+              }
+            }
+          }
+
+          function findNextCard(current, dir) {
+            var visible = getVisibleCards();
+            if (visible.length === 0) return null;
+            if (!current) return visible[0];
+
+            var rect = current.getBoundingClientRect();
+            var cx = rect.left + rect.width / 2;
+            var cy = rect.top + rect.height / 2;
+
+            var best = null;
+            var minDist = Infinity;
+
+            visible.forEach(function(card) {
+              if (card === current) return;
+              var r = card.getBoundingClientRect();
+              var tcx = r.left + r.width / 2;
+              var tcy = r.top + r.height / 2;
+              
+              var dx = tcx - cx;
+              var dy = tcy - cy;
+              
+              var valid = false;
+              // 宽松的方向判定 (阈值 5px)
+              if (dir === 'up')    { if (dy < -5) valid = true; }
+              else if (dir === 'down')  { if (dy > 5) valid = true; }
+              else if (dir === 'left')  { if (dx < -5) valid = true; }
+              else if (dir === 'right') { if (dx > 5) valid = true; }
+
+              if (valid) {
+                // 距离权重：主方向差异小优先，次方向差异大惩罚
+                var dist = 0;
+                if (dir === 'up' || dir === 'down') {
+                  // 垂直移动：水平偏差惩罚大 (权重 10)
+                  dist = (dy * dy) + (dx * dx * 10);
+                } else {
+                  // 水平移动：垂直偏差惩罚大 (权重 10)
+                  dist = (dx * dx) + (dy * dy * 10);
+                }
+
+                if (dist < minDist) {
+                  minDist = dist;
+                  best = card;
+                }
+              }
+            });
+
+            return best || current;
+          }
+
+          // 搜索框回车：高亮第一个并 Blur
+          search.addEventListener('keydown', function(ev) {
+            if (ev.key === 'Enter') {
+              ev.preventDefault();
+              ev.stopPropagation(); // 阻止冒泡，防止触发全局的 Enter 跳转逻辑
+              var visible = getVisibleCards();
+              if (visible.length > 0) {
+                updateHighlight(visible[0]);
+                search.blur();
+              }
+            }
+          });
+
+          // 全局导航
+          document.addEventListener('keydown', function(ev) {
+            // 搜索框聚焦时，不处理方向键，避免冲突
+            if (document.activeElement === search) return;
+            
+            // 忽略修饰键
+            if (ev.ctrlKey || ev.metaKey || ev.altKey) return;
+
+            var dir = null;
+            if (ev.key === 'ArrowUp') dir = 'up';
+            else if (ev.key === 'ArrowDown') dir = 'down';
+            else if (ev.key === 'ArrowLeft') dir = 'left';
+            else if (ev.key === 'ArrowRight') dir = 'right';
+
+            if (dir) {
+              ev.preventDefault();
+              var current = document.querySelector('.card.card-highlight');
+              // 如果当前没有高亮，或者高亮的被隐藏了，选中第一个可见的
+              if (!current || current.style.display === 'none') {
+                var visible = getVisibleCards();
+                if (visible.length > 0) updateHighlight(visible[0]);
+              } else {
+                var next = findNextCard(current, dir);
+                updateHighlight(next);
+              }
+              return;
+            }
+
+            if (ev.key === 'Enter') {
+              var current = document.querySelector('.card.card-highlight');
+              if (current && current.style.display !== 'none') {
+                var link = current.querySelector('.title-link');
+                if (link) {
+                   link.click(); 
+                }
+              }
+            }
+          });
+        })();
+
         // 暴露全局 API，便于独立脚本基于 URL 参数触发搜索/跳转
         // - __navFilterCards(q: string): 触发筛选并刷新高亮/统计
         // - __includeDesc: 是否在搜索中包含简介（默认 true，可由外部脚本切换）
