@@ -10,56 +10,13 @@
     <!-- PWA manifest -->
     <link rel="manifest" href="manifest.json" />
     <meta name="theme-color" content="#69a7ff" />
+    <!-- 公共样式 -->
+    <link rel="stylesheet" href="assets/common.css" />
     <style>
       /*
        * 设计语言参考 base.md 中的 "html模板"
        * 第1次美化：极客风+简约，增加网格装饰、搜索、徽章、SVG箭头与微交互
        */
-      :root {
-        --bg-a: #303d54; /* 背景渐变色A */
-        --bg-b: #23304a; /* 背景渐变色B */
-        --bg-c: #171b27; /* 背景渐变色C */
-        --card: rgba(29,36,53,0.85);
-        --border: rgba(78,85,130,.18);
-        --text: #e7e7ea;
-        --title: #fdbe3f;
-        --link: #93cdfc;
-        --desc: #acc3f8;
-        --panel: rgba(36,41,59,0.91);
-        --accent: #7bfbb7;
-        --accent-2: #ffce5b;
-        --glow: rgba(79,227,255,.22);
-        --import: #a5ff7a;
-        --local: #7ac8ff;
-        /* 滚动条主题色 */
-        --scroll-track: #1a2134;
-        --scroll-thumb-a: #69a7ff;
-        --scroll-thumb-b: #56ffe5;
-      }
-
-      html, body {
-        height: 100%; margin: 0; padding: 0; color: var(--text);
-        font-family: 'Segoe UI','JetBrains Mono','Fira Code','PingFang SC','Microsoft YaHei',Arial,sans-serif;
-        font-size: 12px; line-height: 1.1; overflow-x: hidden;
-        background:
-          /* 细网格叠加：极客风装饰 */
-          radial-gradient( circle at 30% 10%, rgba(255,255,255,0.04), transparent 40%),
-          radial-gradient( circle at 80% 0%, rgba(255,255,255,0.03), transparent 30%),
-          linear-gradient(130deg, var(--bg-a) 0%, var(--bg-b) 48%, var(--bg-c) 100%);
-      }
-      body { min-height: 100vh; }
-
-      /* Firefox 滚动条配色 */
-      html { scrollbar-width: thin; scrollbar-color: var(--scroll-thumb-a) var(--scroll-track); }
-      /* Chromium/WebKit 滚动条配色 */
-      ::-webkit-scrollbar { width: 10px; height: 10px; }
-      ::-webkit-scrollbar-track { background: var(--scroll-track); border-radius: 8px; }
-      ::-webkit-scrollbar-thumb {
-        background: linear-gradient(180deg, var(--scroll-thumb-a), var(--scroll-thumb-b));
-        border-radius: 8px;
-        border: 2px solid var(--scroll-track);
-      }
-      ::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #7fc0ff, #7dfbe9); }
 
       .container { width: 100%; max-width: 100%; margin: 0 auto; padding: 8px 4px 16px 4px; box-sizing: border-box; position: relative; z-index: 1; }
 
@@ -108,9 +65,22 @@
       .masthead .site-title .grad-text { background: linear-gradient(90deg,#7bfbb7 0%,#69a7ff 50%,#ffce5b 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
       .masthead .subtitle { font-size: 13px; color: #cfe4ff; opacity: .95; margin: 0 0 10px 28px; }
       .masthead .purpose { display:flex; flex-wrap:wrap; gap: 8px 10px; margin-left: 28px; }
+      /* 快捷键说明 Banner */
+      .shortcuts { display:flex; flex-wrap:wrap; gap: 8px 12px; margin-left: 28px; align-items: center; }
+      .key-chip { 
+        display:inline-flex; align-items:center; gap:6px; padding: 4px 10px; 
+        border-radius: 6px; border: 1px solid #7bfbb7; 
+        background: rgba(123, 251, 183, 0.1); color: #7bfbb7; 
+        font-weight: 600; font-size: 13px; 
+      }
+      .key-chip kbd {
+        background: #1a2134; color: #fff; padding: 2px 6px; border-radius: 4px;
+        font-family: Consolas, monospace; font-size: 12px; border: 1px solid rgba(123, 251, 183, 0.4);
+        box-shadow: 0 2px 0 rgba(0,0,0,0.2);
+      }
       .chip { display:inline-flex; align-items:center; gap:6px; padding: 5px 10px; border-radius: 999px; border: 1px solid #3c456e; background: #1a2134; color: #dbe6ff; font-weight: 600; font-size: 12px; }
       /* 版本号徽标：紧随站点名显示 */
-      .ver-chip { display:inline-flex; align-items:center; margin-left: 6px; padding: 2px 8px; border-radius: 999px; border: 1px solid #3c456e; background:#1a2134; color:#9bc2ff; font-weight:600; font-size:12px; line-height:1; }
+      .ver-chip { display:inline-flex; align-items:center; margin-left: auto; padding: 2px 8px; border-radius: 999px; border: 1px solid #3c456e; background:#1a2134; color:#9bc2ff; font-weight:600; font-size:12px; line-height:1; }
       .chip svg { width: 14px; height: 14px; }
       .masthead .decor { position:absolute; right: -40px; top: -40px; width: 220px; height: 220px; opacity:.18; filter: blur(0.2px); }
 
@@ -207,20 +177,20 @@
         </svg>
         <h1 class="site-title">
           <span class="grad-text">极客速查库</span>
-          <span class="ver-chip" title="版本号">v0.0.43</span>
+          <span style="font-size:14px;color:#9bc2ff;opacity:.9;">Cheatsheet Hub</span>
+          <span class="ver-chip" title="版本号">v0.0.44</span>
           <a href="https://github.com/ccwq/cheatsheet-generate" class="github-link" target="_blank" rel="noopener" title="GitHub 仓库">
             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
               <path fill="currentColor" d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.285 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
             </svg>
           </a>
-          <span style="font-size:14px;color:#9bc2ff;opacity:.9;">Cheatsheet Hub</span>
         </h1>
         <p class="subtitle">离线聚合高质量技术速查，统一风格与交互，提供极快的检索与导航体验。(内容由AI AGENT搜集生成, 无法保证100%准确, 请保持质疑精神)</p>
-        <div class="purpose">
-          <span class="chip"><svg><use href="#icon-terminal"/></svg>命令/代码为先</span>
-          <span class="chip"><svg><use href="#icon-book"/></svg>结构清晰可读</span>
-          <span class="chip"><svg><use href="#icon-rocket"/></svg>快速检索导航</span>
-          <span class="chip"><svg><use href="#icon-cpu"/></svg>轻量离线可用</span>
+        <div class="shortcuts">
+          <span class="key-chip"><kbd>/</kbd> 聚焦搜索</span>
+          <span class="key-chip"><kbd>Esc</kbd> 聚焦/取消</span>
+          <span class="key-chip"><kbd>↑↓←→</kbd> 切换高亮</span>
+          <span class="key-chip"><kbd>Enter</kbd> 打开条目</span>
         </div>
       </section>
       <div class="panel">
@@ -247,8 +217,6 @@
         </span>
         <span class="sep"></span>
         <input id="searchBox" class="search" type="search" placeholder="/ 快速筛选（标题/简介）" />
-        <label class="toggle"><input id="onlyLocal" type="checkbox" checked /> 本地</label>
-        <label class="toggle"><input id="onlyImport" type="checkbox" checked /> 导入</label>
         <label class="toggle"><input id="openNew" type="checkbox" /> 新窗口打开链接</label>
         <label class="toggle">排序
           <select id="sortSelect" class="btn">
@@ -526,65 +494,17 @@
       <circle cx="112" cy="104" r="2" fill="#69a7ff"/>
     </svg>
 
+    <!-- 公共 JS 逻辑 -->
+    <script src="assets/common.js"></script>
+
     <script>
       // 第1次：列宽调节 + 搜索过滤 + 自动徽章 + 复制链接
       (function() {
-        var $ = function(s, root){ return (root||document).querySelector(s); };
-        var $$ = function(s, root){ return Array.prototype.slice.call((root||document).querySelectorAll(s)); };
-
-        var columns = $('#columns');
-        var slider = $('#columnWidth');
-        var widthVal = $('#widthVal');
         var search = $('#searchBox');
         var stats = $('#stats');
-        var onlyLocal = document.getElementById('onlyLocal');
-        var onlyImport = document.getElementById('onlyImport');
-        var openNew = document.getElementById('openNew');
         var sortSel = document.getElementById('sortSelect');
-        var keyWidth = 'nav_column_width_px';
-        var keyOpen = 'nav_open_new_tab';
-        var presets = $$('.preset');
 
-        // 初始化列宽（持久化）
-        try {
-          var saved = localStorage.getItem(keyWidth);
-          if (saved) { slider.value = saved; columns.style.columnWidth = saved + 'px'; widthVal.textContent = saved + 'px'; }
-        } catch (e) {}
-        slider.addEventListener('input', function() {
-          columns.style.columnWidth = slider.value + 'px';
-          widthVal.textContent = slider.value + 'px';
-        });
-        slider.addEventListener('change', function() {
-          try { localStorage.setItem(keyWidth, slider.value); } catch (e) {}
-        });
-        presets.forEach(function(btn){
-          btn.addEventListener('click', function(){
-            var v = btn.getAttribute('data-w');
-            slider.value = v; columns.style.columnWidth = v + 'px'; widthVal.textContent = v + 'px';
-            try { localStorage.setItem(keyWidth, v); } catch (e) {}
-          });
-        });
-
-        // 打开方式开关（新窗口/当前窗口）
-        function applyOpenMode(){
-          var anchors = $$('.link');
-          var newTab = !!(openNew && openNew.checked);
-          anchors.forEach(function(a){
-            if (!a) return;
-            if (newTab) { a.setAttribute('target','_blank'); a.setAttribute('rel','noopener'); }
-            else { a.removeAttribute('target'); a.removeAttribute('rel'); }
-          });
-        }
-        try {
-          var savedOpen = localStorage.getItem(keyOpen);
-          if (openNew) openNew.checked = (savedOpen == null ? true : savedOpen === '1'); // 默认开启新窗口
-        } catch(e) { if (openNew) openNew.checked = true; }
-        if (openNew) openNew.addEventListener('change', function(){
-          try { localStorage.setItem(keyOpen, openNew.checked ? '1' : '0'); } catch(e){}
-          applyOpenMode();
-        });
-
-        // 为每张卡自动添加 copy 按钮、导入/本地徽章
+        // 为每张卡自动添加 copy 按钮
         function enhanceCards() {
           var cards = $$('.card');
           cards.forEach(function(card){
@@ -640,8 +560,6 @@
         function filterCards(q){
           var cards = $$('.card');
           var visible = 0; q = (q||'').trim().toLowerCase();
-          var showLocal = !!(onlyLocal && onlyLocal.checked);
-          var showImport = !!(onlyImport && onlyImport.checked);
           var includeDesc = (typeof window !== 'undefined' && typeof window.__includeDesc === 'boolean') ? window.__includeDesc : true; // 新增：是否在搜索中包含简介
 
           function highlight(el, originText, query){
@@ -663,11 +581,9 @@
           cards.forEach(function(card){
             var title = (card.dataset.title || '').toLowerCase();
             var desc = (card.dataset.desc || '').toLowerCase();
-            var href = ($('.link', card)?.getAttribute('href') || '');
-            var isImport = href.indexOf('cheatsheets-import/') === 0;
-            var byGroup = (isImport ? showImport : showLocal);
+            
             // 命中规则：标题命中 或（启用时）简介命中
-            var hit = (!q || title.indexOf(q) >= 0 || (includeDesc && desc.indexOf(q) >= 0)) && byGroup;
+            var hit = (!q || title.indexOf(q) >= 0 || (includeDesc && desc.indexOf(q) >= 0));
             // 仅高亮标题可见文本，避免破坏 <a href>
             highlight($('.title-link', card), card.dataset.title || '', q);
             // 简介高亮跟随 includeDesc，未启用时清除简介高亮，避免误导
@@ -689,7 +605,8 @@
           if (order === 'name-desc') nodes.reverse();
           var frag = document.createDocumentFragment();
           nodes.forEach(function(it){ frag.appendChild(it.node); });
-          columns.appendChild(frag);
+          var columns = document.getElementById('columns');
+          if (columns) columns.appendChild(frag);
         }
 
         // 快捷键：按 / 聚焦搜索，Esc 清空
@@ -725,12 +642,23 @@
             composing = false;
           }, true);
 
-          document.addEventListener('keydown', function(ev){
+          document.addEventListener('keydown', function(ev) {
             // 快捷键：/ 聚焦搜索
             if (ev.key === '/' && document.activeElement !== search) { ev.preventDefault(); search.focus(); return; }
 
-            // Esc：清空并失焦
-            if (ev.key === 'Escape') { search.value = ''; filterCards(''); try { search.blur(); } catch(e){} return; }
+            // Esc：聚焦/取消
+            if (ev.key === 'Escape') { 
+              if (document.activeElement === search) {
+                // 如果当前是聚焦状态：取消聚焦 (Blur)，不清空
+                search.blur(); 
+              } else {
+                // 如果当前不是聚焦状态：聚焦并全选，方便输入
+                ev.preventDefault();
+                search.focus();
+                search.select();
+              }
+              return; 
+            }
 
             // 仅在非输入态、非组合键、非IME合成时处理
             if (isEditable(document.activeElement) || ev.ctrlKey || ev.metaKey || ev.altKey || composing) return;
@@ -761,16 +689,135 @@
         })();
         // 输入防抖
         var tId; search.addEventListener('input', function(){ clearTimeout(tId); tId=setTimeout(function(){ filterCards(search.value); }, 100); });
-        if (onlyLocal) onlyLocal.addEventListener('change', function(){ filterCards(search.value); });
-        if (onlyImport) onlyImport.addEventListener('change', function(){ filterCards(search.value); });
         if (sortSel) sortSel.addEventListener('change', function(){ sortCards(sortSel.value); filterCards(search.value); });
 
         // 首次增强 + 初始化统计
         enhanceCards();
         if (sortSel) sortCards(sortSel.value);
         filterCards('');
-        // 初始化链接打开方式
-        applyOpenMode();
+        // 注意：openLinkMode, columnWidth, backTop 由 common.js 初始化
+
+        // --- 键盘导航功能 (2025-01-20) ---
+        (function() {
+          function getVisibleCards() {
+            return Array.from(document.querySelectorAll('.card')).filter(function(c){
+              return c.style.display !== 'none';
+            });
+          }
+
+          function updateHighlight(card) {
+            var all = document.querySelectorAll('.card');
+            all.forEach(function(c){ c.classList.remove('card-highlight'); });
+            if (card) {
+              card.classList.add('card-highlight');
+              // 平滑滚动可能导致连续按键时体验不佳，使用 auto
+              if (card.scrollIntoView) {
+                card.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+              }
+            }
+          }
+
+          function findNextCard(current, dir) {
+            var visible = getVisibleCards();
+            if (visible.length === 0) return null;
+            if (!current) return visible[0];
+
+            var rect = current.getBoundingClientRect();
+            var cx = rect.left + rect.width / 2;
+            var cy = rect.top + rect.height / 2;
+
+            var best = null;
+            var minDist = Infinity;
+
+            visible.forEach(function(card) {
+              if (card === current) return;
+              var r = card.getBoundingClientRect();
+              var tcx = r.left + r.width / 2;
+              var tcy = r.top + r.height / 2;
+              
+              var dx = tcx - cx;
+              var dy = tcy - cy;
+              
+              var valid = false;
+              // 宽松的方向判定 (阈值 5px)
+              if (dir === 'up')    { if (dy < -5) valid = true; }
+              else if (dir === 'down')  { if (dy > 5) valid = true; }
+              else if (dir === 'left')  { if (dx < -5) valid = true; }
+              else if (dir === 'right') { if (dx > 5) valid = true; }
+
+              if (valid) {
+                // 距离权重：主方向差异小优先，次方向差异大惩罚
+                var dist = 0;
+                if (dir === 'up' || dir === 'down') {
+                  // 垂直移动：水平偏差惩罚大 (权重 10)
+                  dist = (dy * dy) + (dx * dx * 10);
+                } else {
+                  // 水平移动：垂直偏差惩罚大 (权重 10)
+                  dist = (dx * dx) + (dy * dy * 10);
+                }
+
+                if (dist < minDist) {
+                  minDist = dist;
+                  best = card;
+                }
+              }
+            });
+
+            return best || current;
+          }
+
+          // 搜索框回车：高亮第一个并 Blur
+          search.addEventListener('keydown', function(ev) {
+            if (ev.key === 'Enter') {
+              ev.preventDefault();
+              ev.stopPropagation(); // 阻止冒泡，防止触发全局的 Enter 跳转逻辑
+              var visible = getVisibleCards();
+              if (visible.length > 0) {
+                updateHighlight(visible[0]);
+                search.blur();
+              }
+            }
+          });
+
+          // 全局导航
+          document.addEventListener('keydown', function(ev) {
+            // 搜索框聚焦时，不处理方向键，避免冲突
+            if (document.activeElement === search) return;
+            
+            // 忽略修饰键
+            if (ev.ctrlKey || ev.metaKey || ev.altKey) return;
+
+            var dir = null;
+            if (ev.key === 'ArrowUp') dir = 'up';
+            else if (ev.key === 'ArrowDown') dir = 'down';
+            else if (ev.key === 'ArrowLeft') dir = 'left';
+            else if (ev.key === 'ArrowRight') dir = 'right';
+
+            if (dir) {
+              ev.preventDefault();
+              var current = document.querySelector('.card.card-highlight');
+              // 如果当前没有高亮，或者高亮的被隐藏了，选中第一个可见的
+              if (!current || current.style.display === 'none') {
+                var visible = getVisibleCards();
+                if (visible.length > 0) updateHighlight(visible[0]);
+              } else {
+                var next = findNextCard(current, dir);
+                updateHighlight(next);
+              }
+              return;
+            }
+
+            if (ev.key === 'Enter') {
+              var current = document.querySelector('.card.card-highlight');
+              if (current && current.style.display !== 'none') {
+                var link = current.querySelector('.title-link');
+                if (link) {
+                   link.click(); 
+                }
+              }
+            }
+          });
+        })();
 
         // 暴露全局 API，便于独立脚本基于 URL 参数触发搜索/跳转
         // - __navFilterCards(q: string): 触发筛选并刷新高亮/统计
@@ -782,16 +829,6 @@
           }
         } catch (e) { /* ignore */ }
 
-        // 返回顶部按钮显示与行为
-        var backTop = (function(){
-          var wrap = document.createElement('div'); wrap.id = 'backTop';
-          wrap.innerHTML = '<button title="回到顶部"><svg width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M12 5l7 7-1.4 1.4L13 8.8V20h-2V8.8L6.4 13.4 5 12z"/></svg></button>';
-          document.body.appendChild(wrap);
-          function onScroll(){ wrap.className = (window.scrollY > 200 ? 'show' : ''); }
-          window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
-          wrap.querySelector('button').addEventListener('click', function(){ window.scrollTo({ top: 0, behavior: 'smooth' }); });
-          return wrap;
-        })();
       })();
     </script>
     <!-- 基于 URL 参数的自动搜索与单结果跳转（独立维护） -->
