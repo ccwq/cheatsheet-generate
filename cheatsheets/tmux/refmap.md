@@ -10,6 +10,8 @@
 ## 学习与技巧
 - [Modifier Keys 说明](https://github.com/tmux/tmux/wiki/Modifier-Keys)
 - [Recipes 示例集](https://github.com/tmux/tmux/wiki/Recipes)
+- [Tmux Cheat Sheet & Quick Reference](https://tmuxcheatsheet.com/)
+- [tmux shortcuts & cheatsheet - Gist](https://gist.github.com/MohamedAlaa/2961058)
 
 ## 社区与源码
 - [tmux 仓库](https://github.com/tmux/tmux)

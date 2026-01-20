@@ -14,7 +14,7 @@
 
     <style>
         :root {
-            --col-width: 400px;
+            --col-width: 450px;
             --gap: 16px;
         }
 
@@ -41,15 +41,17 @@
 
         <div class="cheat-columns" id="columns">
             <div class="card">
-                <h2>📌 核心概念 <a href="https://github.com/tmux/tmux/wiki/Getting-Started#basic-concepts" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h2>📌 核心概念与层级 <a href="https://github.com/tmux/tmux/wiki/Getting-Started#basic-concepts" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <div class="desc">理解 tmux 的“套娃”结构是掌握它的关键：</div>
+                <pre><code class="language-bash">Server          # 后台主进程 (掌管一切)
+ └── Session    # 会话 (对应一个项目/工作流)
+      └── Window # 窗口 (类似浏览器 Tab)
+           └── Pane # 面板 (屏幕内的分割)</code></pre>
                 <ul>
-                    <li><code>server</code>：后台主进程，保存所有 tmux 状态</li>
-                    <li><code>client</code>：外部终端中的客户端，用于连接 server</li>
-                    <li><code>session</code>：窗口集合，名称唯一，可多客户端连接</li>
-                    <li><code>window</code>：类似“标签页”，由多个 pane 覆盖整个窗口区域</li>
-                    <li><code>pane</code>：矩形分割区域，运行具体程序</li>
+                    <li><strong>Session</strong>：持久化的工作区，断开连接(Detach)后仍在后台运行。</li>
+                    <li><strong>Window</strong>：可视化的页面，一个会话可以包含多个窗口。</li>
+                    <li><strong>Pane</strong>：最小的操作单元，我们在 Pane 里运行 Shell 命令。</li>
                 </ul>
-                <div class="desc">理解 “session / window / pane” 的层级关系，基本就能上手 80% 的 tmux 操作。</div>
             </div>
 
             <div class="card">
@@ -57,6 +59,7 @@
                 <ul>
                     <li><code>tmux</code> / <code>tmux new</code>：创建并进入新会话</li>
                     <li><code>tmux new -s &lt;name&gt;</code>：创建命名会话</li>
+                    <li><code>tmux new -A -s &lt;name&gt;</code>：存在则附加，不存在则创建</li>
                     <li><code>tmux new -n &lt;win&gt; &lt;cmd...&gt;</code>：创建会话并指定首个窗口名称与运行命令</li>
                 </ul>
                 <pre><code class="language-bash">tmux new -s mysession
@@ -72,6 +75,7 @@ tmux new -s work -n monitor top</code></pre>
                     <li><code>C-b ?</code>：查看所有默认键绑定（带描述）</li>
                     <li><code>C-b /</code>：查询单个键的作用</li>
                     <li><code>C-b :</code>：打开命令提示符（输入 tmux 命令）</li>
+                    <li><code>tmux info</code>：显示服务器/会话详细信息</li>
                 </ul>
                 <pre><code class="language-bash"># 从 shell 查看键绑定（含描述）
 tmux list-keys -N | less
@@ -86,6 +90,8 @@ tmux lsk -N | less</code></pre>
                     <li><code>C-b d</code>：分离（detach）当前客户端</li>
                     <li><code>tmux attach -t &lt;name&gt;</code>：连接到会话</li>
                     <li><code>tmux ls</code>：列出会话</li>
+                    <li><code>C-b s</code>：显示并选择会话列表（交互式）</li>
+                    <li><code>C-b (</code> / <code>)</code>：切换上一个/下一个会话</li>
                     <li><code>tmux switch-client -t &lt;name&gt;</code>：在客户端间切换会话</li>
                 </ul>
                 <div class="desc">远程场景下，最常见的工作流就是：SSH 进机器 → <code>tmux attach</code> → 断线/下班 → <code>detach</code> → 下次继续。</div>
@@ -95,6 +101,7 @@ tmux lsk -N | less</code></pre>
                 <h2>🛑 关闭会话 / 关闭 tmux <a href="https://github.com/tmux/tmux/wiki/Getting-Started#killing-a-session-window-or-pane" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
                 <ul>
                     <li><code>tmux kill-session -t &lt;name&gt;</code>：关闭指定会话</li>
+                    <li><code>tmux kill-session -a</code>：关闭除当前会话外的所有会话</li>
                     <li><code>tmux kill-window -t &lt;target&gt;</code>：关闭窗口</li>
                     <li><code>tmux kill-pane -t &lt;target&gt;</code>：关闭面板</li>
                     <li><code>tmux kill-server</code>：停止整个 tmux server（所有会话都会退出）</li>
@@ -105,8 +112,10 @@ tmux lsk -N | less</code></pre>
                 <h2>🪟 窗口管理 <a href="https://github.com/tmux/tmux/wiki/Getting-Started#creating-new-windows" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
                 <ul>
                     <li><code>C-b c</code>：新建窗口</li>
+                    <li><code>C-b &</code>：关闭当前窗口（需确认）</li>
                     <li><code>C-b n</code> / <code>C-b p</code>：下一个 / 上一个窗口</li>
                     <li><code>C-b 0..9</code>：按索引切换窗口</li>
+                    <li><code>C-b f</code>：查找窗口（按名称）</li>
                     <li><code>C-b ,</code>：重命名当前窗口</li>
                     <li><code>C-b l</code>：切回上一个窗口（last window）</li>
                 </ul>
@@ -115,7 +124,8 @@ tmux new-window -n editor vim
 
 # 交换/移动窗口位置
 tmux swap-window -s 1 -t 3
-tmux move-window -s 1 -t 9</code></pre>
+tmux move-window -s 1 -t 9
+tmux move-window -r # 重新编号（移除空隙）</code></pre>
             </div>
 
             <div class="card">
@@ -123,11 +133,18 @@ tmux move-window -s 1 -t 9</code></pre>
                 <ul>
                     <li><code>C-b %</code>：左右分割</li>
                     <li><code>C-b &quot;</code>：上下分割</li>
+                    <li><code>C-b x</code>：关闭当前面板（需确认）</li>
                     <li><code>C-b o</code>：切换到下一个面板</li>
                     <li><code>C-b ;</code>：切回上一个面板</li>
+                    <li><code>C-b q</code>：显示面板编号（数字切换）</li>
+                    <li><code>C-b !</code>：面板拆分为新窗口</li>
                     <li><code>C-b z</code>：放大/还原当前面板（zoom）</li>
-                    <li><code>C-b M-←/→/↑/↓</code>：调整面板大小</li>
+                    <li><code>join-pane -s 2 -t 1</code>：合并窗口/面板</li>
+                    <li><code>setw synchronize-panes</code>：同步输入</li>
                 </ul>
+                <pre><code class="language-bash"># 调整面板大小
+C-b M-←/→/↑/↓      # 每次调整 5 单元格
+tmux resize-pane -D 20  # 向下调整 20 (U/D/L/R)</code></pre>
                 <div class="desc">记忆法：窗口像浏览器 Tab；面板像 VSCode 的 Split Editor。</div>
             </div>
 
@@ -139,7 +156,7 @@ tmux move-window -s 1 -t 9</code></pre>
                     <li><code>tmux select-layout even-horizontal</code>：左右均分</li>
                     <li><code>tmux select-layout even-vertical</code>：上下均分</li>
                     <li><code>tmux choose-tree</code>：树形选择 session/window/pane</li>
-                    <li><code>tmux find-window &lt;pattern&gt;</code>：按名称查找窗口</li>
+                    <li><code>C-b t</code>：显示时钟</li>
                 </ul>
                 <pre><code class="language-bash"># 保存并复用布局（layout string）
 tmux list-windows -F '#{window_index}: #{window_layout}'
@@ -147,14 +164,24 @@ tmux select-layout -t 0 '&lt;layout-string&gt;'</code></pre>
             </div>
 
             <div class="card">
-                <h2>📋 复制 / 滚动 / 粘贴 <a href="https://github.com/tmux/tmux/wiki/Getting-Started#copy-and-paste" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h2>📋 复制 / 滚动 (Vi 模式) <a href="https://github.com/tmux/tmux/wiki/Getting-Started#copy-and-paste" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <div class="desc">需配置 <code>set -g mode-keys vi</code></div>
                 <ul>
-                    <li><code>C-b [</code>：进入 copy mode（可滚动查看历史输出）</li>
-                    <li><code>q</code>：退出 copy/view mode</li>
-                    <li><code>C-b ]</code>：粘贴缓冲区内容</li>
-                    <li><code>tmux show-buffer</code>：查看缓冲区</li>
-                    <li><code>tmux save-buffer &lt;file&gt;</code>：保存缓冲区到文件</li>
-                    <li><code>tmux capture-pane -p</code>：抓取当前面板内容到 stdout</li>
+                    <li><code>C-b [</code>：进入 copy mode</li>
+                    <li><code>q</code>：退出模式</li>
+                    <li><code>h/j/k/l</code>：左/下/上/右移动</li>
+                    <li><code>w/b</code>：按单词前后移动</li>
+                    <li><code>0/$</code>：跳转到行首/行尾</li>
+                    <li><code>H/M/L</code>：跳转到屏幕 顶/中/底</li>
+                    <li><code>C-u/C-d</code>：上/下翻半页</li>
+                    <li><code>C-b/C-f</code>：上/下翻全页</li>
+                    <li><code>/</code> 与 <code>?</code>：向下/向上搜索</li>
+                    <li><code>n/N</code>：下一个/上一个匹配</li>
+                    <li><code>Space</code>：开始选择 (Visual)</li>
+                    <li><code>Enter</code>：复制选中内容</li>
+                    <li><code>C-b ]</code>：粘贴缓冲区</li>
+                    <li><code>tmux list-buffers</code>：列出缓冲区</li>
+                    <li><code>tmux choose-buffer</code>：选择并粘贴</li>
                 </ul>
             </div>
 
