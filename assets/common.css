@@ -1,0 +1,41 @@
+:root {
+  --bg-a: #303d54; /* 背景渐变色A */
+  --bg-b: #23304a; /* 背景渐变色B */
+  --bg-c: #171b27; /* 背景渐变色C */
+  --card: rgba(29,36,53,0.85);
+  --border: rgba(78,85,130,.18);
+  --text: #e7e7ea;
+  --title: #fdbe3f;
+  --link: #93cdfc;
+  --desc: #acc3f8;
+  --panel: rgba(36,41,59,0.91);
+  --accent: #7bfbb7;
+  --accent-2: #ffce5b;
+  --glow: rgba(79,227,255,.22);
+  --scroll-track: #1a2134;
+  --scroll-thumb-a: #69a7ff;
+  --scroll-thumb-b: #56ffe5;
+}
+
+html, body {
+  height: 100%; margin: 0; padding: 0; color: var(--text);
+  font-family: 'Segoe UI','JetBrains Mono','Fira Code','PingFang SC','Microsoft YaHei',Arial,sans-serif;
+  font-size: 12px; line-height: 1.1; overflow-x: hidden;
+  background:
+    radial-gradient( circle at 30% 10%, rgba(255,255,255,0.04), transparent 40%),
+    radial-gradient( circle at 80% 0%, rgba(255,255,255,0.03), transparent 30%),
+    linear-gradient(130deg, var(--bg-a) 0%, var(--bg-b) 48%, var(--bg-c) 100%);
+}
+body { min-height: 100vh; }
+
+/* Firefox 滚动条配色 */
+html { scrollbar-width: thin; scrollbar-color: var(--scroll-thumb-a) var(--scroll-track); }
+/* Chromium/WebKit 滚动条配色 */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--scroll-track); border-radius: 8px; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--scroll-thumb-a), var(--scroll-thumb-b));
+  border-radius: 8px;
+  border: 2px solid var(--scroll-track);
+}
+::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #7fc0ff, #7dfbe9); }
