@@ -17,7 +17,11 @@
   onReady(function () {
     // 解析 URL 参数
     var usp;
-    try { usp = new URLSearchParams(window.location.search || ''); } catch (e) { return; }
+    try {
+      usp = new URLSearchParams(window.location.search || '');
+    } catch (e) {
+      return;
+    }
     var q = usp.get('q');
     if (q) q = q.trim();
     if (!q) return; // 无 q 参数则不干预
@@ -26,7 +30,9 @@
     var includeDesc = (inDescParam === '1' || inDescParam === 'true');
 
     // 设置搜索模式到全局开关（模板内 filterCards 将读取该值）
-    try { window.__includeDesc = includeDesc; } catch (e) {}
+    try {
+      window.__includeDesc = includeDesc;
+    } catch (e) {}
 
     var search = document.getElementById('searchBox');
     if (search) search.value = q;
@@ -65,7 +71,9 @@
 
     function visibleCards() {
       var cards = Array.prototype.slice.call(document.querySelectorAll('.card'));
-      return cards.filter(function (c) { return c.style.display !== 'none'; });
+      return cards.filter(function (c) {
+        return c.style.display !== 'none';
+      });
     }
 
     function proceed() {
@@ -85,7 +93,13 @@
         }
       } else if (vis.length > 1) {
         // 多结果：滚动到第一个匹配项
-        try { vis[0].scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (e) { /* ignore */ }
+        try {
+          vis[0].scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        } catch (e) {
+          /* ignore */ }
       }
     }
 
@@ -100,7 +114,7 @@
 
       function clearHighlights() {
         var highlighted = document.querySelectorAll('.card-highlight');
-        highlighted.forEach(function(card) {
+        highlighted.forEach(function (card) {
           card.classList.remove('card-highlight');
         });
         highlightedIndex = -1;
@@ -116,8 +130,12 @@
 
         // 确保高亮项可见
         try {
-          card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        } catch (e) { /* ignore */ }
+          card.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+          });
+        } catch (e) {
+          /* ignore */ }
       }
 
       function navigateToHighlighted() {
@@ -149,12 +167,37 @@
       }
 
       // 监听键盘事件
-      document.addEventListener('keydown', function(ev) {
+      document.addEventListener('keydown', function (ev) {
+
+        const activeElement = document.activeElement;
+        const isTextarea = activeElement?.tagName === 'TEXTAREA';
+        const isEditableInput = 
+          activeElement?.tagName === 'INPUT' &&
+          activeElement.type !== 'search' &&
+          activeElement.id !== 'searchBox';
+
+
+        let noResponse = false;
+        noResponse = isTextarea || noResponse;
+
+
+        console.log(ev.key, isTextarea, isEditableInput, noResponse);
+        // 上下时候不用考虑可编辑输入框
+        if(ev.key != "ArrowUp" && ev.key != "ArrowDown"){
+          noResponse = isEditableInput || noResponse;
+        }
+
+        if (noResponse) {
+          return;
+        }
+
         // 排除在其他输入框中的情况，但允许在任何时候进行键盘导航
         if (document.activeElement && (
-            document.activeElement.tagName === 'INPUT' && document.activeElement.type !== 'search' && document.activeElement.id !== 'searchBox' ||
+            document.activeElement.tagName === 'INPUT' &&
+            document.activeElement.type !== 'search' &&
+            document.activeElement.id !== 'searchBox' ||
             document.activeElement.tagName === 'TEXTAREA'
-        )) {
+          )) {
           return;
         }
 
@@ -192,7 +235,7 @@
 
       // 当搜索内容变化时，更新可见卡片缓存并清除高亮
       if (search) {
-        search.addEventListener('input', function() {
+        search.addEventListener('input', function () {
           updateVisibleCardsCache();
           clearHighlights();
         });
@@ -203,4 +246,3 @@
     initKeyboardNavigation();
   });
 })();
-
