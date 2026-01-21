@@ -1,17 +1,18 @@
-/* CSS变量定义 - 统一主题色彩和设计系统 */
+/* CSS Variables - Consolidated */
 :root {
-  /* 背景渐变色系 */
+  /* --- Original css/variables.css Definitions --- */
+  /* Background Gradient Colors */
   --bg-gradient-start: #303d54;
   --bg-gradient-middle: #23304a;
   --bg-gradient-end: #171b27;
 
-  /* 字体系统 */
-  --font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', Arial, sans-serif;
+  /* Fonts */
+  --font-family: 'Segoe UI', 'JetBrains Mono', 'Fira Code', 'PingFang SC', 'Microsoft YaHei', Arial, sans-serif;
   --font-mono: 'Fira Mono', 'Consolas', 'Menlo', monospace;
   --font-size-base: 12px;
   --line-height-base: 1.1;
 
-  /* 颜色系统 */
+  /* Colors */
   --text-primary: #e7e7ea;
   --text-secondary: #acc3f8;
   --text-accent: #fdbe3f;
@@ -19,7 +20,7 @@
   --text-code: #e2ffd0;
   --text-code-bg: #e6e8ef;
 
-  /* 卡片系统 */
+  /* Card System */
   --card-bg: rgba(29, 36, 53, 0.85);
   --card-border: rgba(78, 85, 130, 0.12);
   --card-shadow: 0 2px 12px 1px rgba(0, 0, 0, 0.18);
@@ -27,35 +28,59 @@
   --card-padding: 14px 14px 8px 14px;
   --card-margin-bottom: 14px;
 
-  /* 面板系统 */
+  /* Panel System */
   --panel-bg: rgba(36, 41, 59, 0.91);
   --panel-border: #353e63;
   --panel-text: #ffe49b;
   --panel-accent: #7bfbb7;
   --panel-accent-2: #ffce5b;
 
-  /* 代码块 */
+  /* Code Blocks */
   --code-bg: #181d26;
   --code-pre-bg: #1a1e2b;
   --code-shadow: 0 1px 5px 0 rgba(0, 12, 22, 0.15);
 
-  /* 布局系统 */
+  /* Layout */
   --container-padding: 8px 4px 16px 4px;
   --column-gap: 16px;
   --col-width: 340px;
   --grid-gap: 16px;
 
-  /* 响应式断点 */
+  /* Breakpoints */
   --bp-desktop: 1500px;
   --bp-laptop: 1100px;
   --bp-tablet: 750px;
   --bp-mobile: 660px;
 
-  /* 品牌图标路径（相对于 css/ 目录） */
-  --brand-icon-url: url('../assets/brand/cheatsheet.png');
+  /* Brand Icon Path (Updated relative to assets/) */
+  --brand-icon-url: url('brand/cheatsheet.png');
+
+  /* --- Aliases for assets/common.css (Nav Page) Compatibility --- */
+  --bg-a: var(--bg-gradient-start);
+  --bg-b: var(--bg-gradient-middle);
+  --bg-c: var(--bg-gradient-end);
+  
+  --card: var(--card-bg);
+  --border: rgba(78,85,130,.18); /* Slightly different in nav, keeping specific value or aliasing? Keeping specific for safety */
+  
+  --text: var(--text-primary);
+  --title: var(--text-accent);
+  --link: var(--text-link);
+  --desc: var(--text-secondary);
+  
+  --panel: var(--panel-bg);
+  --accent: var(--panel-accent);
+  --accent-2: var(--panel-accent-2);
+  
+  --glow: rgba(79,227,255,.22);
+  
+  /* Scrollbar */
+  --scroll-track: #1a2134;
+  --scroll-thumb-a: #69a7ff;
+  --scroll-thumb-b: #56ffe5;
 }
 
-/* 响应式变量调整 */
+/* Responsive Variables */
 @media (max-width: 1100px) {
   :root {
     --column-gap: 12px;

@@ -1,0 +1,145 @@
+/*
+ * 设计语言参考 base.md 中的 "html模板"
+ * 第1次美化：极客风+简约，增加网格装饰、搜索、徽章、SVG箭头与微交互
+ */
+
+.container { width: 100%; max-width: 100%; margin: 0 auto; padding: 8px 4px 16px 4px; box-sizing: border-box; position: relative; z-index: 1; }
+
+/* 顶部大标题与网站目的（Masthead） */
+.masthead {
+  position: relative; z-index: 1; margin: 8px 0 12px 0; 
+  padding: 16px 16px 14px 90px;
+  border-radius: 14px; border: 1px solid transparent; overflow: hidden;
+  background-image:
+    linear-gradient(135deg, rgba(105,167,255,.22), rgba(86,255,229,.22)),
+    radial-gradient(1200px 400px at 0% 0%, rgba(110,151,255,.12), rgba(0,0,0,0)),
+    linear-gradient(130deg, rgba(34,43,68,.95), rgba(26,32,50,.92));
+  background-clip: padding-box, padding-box, padding-box;
+  box-shadow: 0 4px 20px rgba(0,0,0,.25), inset 0 0 0 1px rgba(78,85,130,.25);
+}
+.masthead .site-title {
+  font-size: 26px; font-weight: 800; letter-spacing: .6px;
+  margin: 0 0 6px 0; display:flex; align-items:center; gap:10px;
+  position: relative; padding-left: 28px;
+  min-height: 34px;
+}
+.masthead .site-title .github-link {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px; border-radius: 8px;
+  background: rgba(255,255,255,0.08); color: #9bc2ff;
+  transition: all 0.2s ease; text-decoration: none;
+}
+.masthead .site-title .github-link:hover {
+  background: rgba(255,255,255,0.15); color: #fff;
+  transform: translateY(-1px);
+}
+.masthead .site-title .github-link svg {
+  width: 20px; height: 20px;
+}
+/* 导览页品牌图标列：高度铺满 .site-title，位于左侧整列 */
+.masthead .site-title::before {
+  content: "";
+  position: absolute; left: -78px; top: 0; bottom: 0; width: 32px;
+  border-radius: 8px;
+  background-image: url('brand/cheatsheet.png');
+  background-size: cover; background-position: center; background-repeat: no-repeat;
+  filter: drop-shadow(0 0 4px rgba(0,0,0,.18));
+  width: 90px;
+  height: 90px;
+}
+.masthead .site-title .grad-text { background: linear-gradient(90deg,#7bfbb7 0%,#69a7ff 50%,#ffce5b 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.masthead .subtitle { font-size: 13px; color: #cfe4ff; opacity: .95; margin: 0 0 10px 28px; }
+.masthead .purpose { display:flex; flex-wrap:wrap; gap: 8px 10px; margin-left: 28px; }
+/* 快捷键说明 Banner */
+.shortcuts { display:flex; flex-wrap:wrap; gap: 8px 12px; margin-left: 28px; align-items: center; }
+.key-chip { 
+  display:inline-flex; align-items:center; gap:6px; padding: 4px 10px; 
+  border-radius: 6px; border: 1px solid #7bfbb7; 
+  background: rgba(123, 251, 183, 0.1); color: #7bfbb7; 
+  font-weight: 600; font-size: 13px; 
+}
+.key-chip kbd {
+  background: #1a2134; color: #fff; padding: 2px 6px; border-radius: 4px;
+  font-family: Consolas, monospace; font-size: 12px; border: 1px solid rgba(123, 251, 183, 0.4);
+  box-shadow: 0 2px 0 rgba(0,0,0,0.2);
+}
+.chip { display:inline-flex; align-items:center; gap:6px; padding: 5px 10px; border-radius: 999px; border: 1px solid #3c456e; background: #1a2134; color: #dbe6ff; font-weight: 600; font-size: 12px; }
+/* 版本号徽标：紧随站点名显示 */
+.ver-chip { display:inline-flex; align-items:center; margin-left: auto; padding: 2px 8px; border-radius: 999px; border: 1px solid #3c456e; background:#1a2134; color:#9bc2ff; font-weight:600; font-size:12px; line-height:1; }
+.chip svg { width: 14px; height: 14px; }
+.masthead .decor { position:absolute; right: -40px; top: -40px; width: 220px; height: 220px; opacity:.18; filter: blur(0.2px); }
+
+.panel {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  background: var(--panel); border-radius: 12px;
+  /* Flat 风格：无边框无阴影 */
+  border: none; box-shadow: none;
+  padding: 10px 14px; margin-bottom: 12px;
+  backdrop-filter: blur(6px);
+}
+.brand { display:flex; align-items:center; gap:8px; margin-right:auto; }
+.brand svg { width: 18px; height: 18px; filter: drop-shadow(0 0 6px var(--glow)); }
+.brand .title { color: var(--accent); font-size: 16px; letter-spacing: 0.2px; font-weight: 600; }
+.brand .note { color: #9bc2ff; font-size: 12px; opacity: .9; }
+
+.panel label { font-size: 1em; color: #ffe49b; font-weight: 700; letter-spacing: 0.2px; }
+.panel .sep { width:1px; height:20px; background: #3e4770; opacity:.7; }
+.slider-bar { min-width: 120px; margin-right: 4px; }
+.slider-val { color: var(--accent-2); font-size: 1em; margin-left: 4px; min-width: 28px; display: inline-block; font-weight: 600; }
+.search { min-width: 200px; max-width: 320px; width: 22vw; padding: 6px 10px; border-radius: 8px; border: none; background:#1f2638; color:#e9eefc; }
+.search::placeholder { color:#9db0d8 }
+.btn { cursor: pointer; padding: 6px 10px; border-radius: 8px; border: none; background:#1f2638; color:#e9eefc; }
+.toggle { display:inline-flex; align-items:center; gap:6px; color:#dbe6ff; font-weight:600; }
+.toggle input { accent-color: #69a7ff; }
+.stats { color:#9ab4ff; font-weight:600; }
+.presets { display:inline-flex; gap:6px; }
+.preset { cursor:pointer; padding:4px 8px; border-radius:999px; border:1px solid #3c456e; background:#1b2032; color:#cfe4ff; }
+.preset:hover { border-color:#4f79ff; }
+
+/* 多列容器：支持列宽调节 */
+.cheat-columns { column-count: 4; column-gap: 16px; margin-top: 12px; transition: column-width 0.2s ease; column-width: 340px; }
+@media (max-width: 1500px) { .cheat-columns { column-count: 3; } }
+@media (max-width: 1100px) { .cheat-columns { column-count: 2; column-gap: 12px; } }
+@media (max-width: 750px)  { .cheat-columns { column-count: 1; } }
+
+.card {
+  position: relative;
+  background: var(--card); border-radius: 12px;
+  /* Flat 风格：无边框无阴影 */
+  border: none; box-shadow: none; backdrop-filter: blur(2px);
+  margin-bottom: 14px; padding: 14px 14px 10px 14px; break-inside: avoid; box-sizing: border-box;
+}
+/* 取消左侧高亮条，保留纯平整洁 */
+.card::before{ display:none; }
+.card:hover { box-shadow: none; }
+.card h2 { margin: -6px 0 6px 0; font-size: 15px; font-weight: 700; color: var(--title); letter-spacing: 0.6px; display: flex; align-items: center; gap: 8px; }
+.card h2 .link { color: var(--link); font-weight: 700; display: inline-flex; align-items:center; gap:4px; }
+/* 标题可点击：淡淡下划线，悬停更明显 */
+.card h2 .title-link { color: var(--link); text-decoration: underline; text-decoration-color: rgba(147,205,252,.35); text-underline-offset: 2px; }
+.card h2 .title-link:hover { text-decoration-color: rgba(147,205,252,.75); }
+.card .desc { color: var(--desc); margin: 2px 0 2px 0; font-size: 1em; line-height: 1.2; }
+.icon { width: 16px; height: 16px; border-radius: 3px; object-fit: cover; display: inline-block; }
+/* 移除本地/导入标签（不再使用） */
+.copy { position:absolute; right:8px; top:8px; opacity:.85; }
+.copy button { background:transparent; border:none; color:#9db0d8; border-radius:8px; padding:4px 6px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; }
+.copy button:hover { color:#cfe4ff; }
+
+/* 返回顶部按钮 */
+#backTop { position: fixed; right: 18px; bottom: 18px; z-index: 20; opacity: 0; pointer-events: none; transition: opacity .2s ease; }
+#backTop button { background:#1b2032; color:#d7e6ff; border:none; border-radius:999px; padding:10px; display:flex; align-items:center; justify-content:center; box-shadow: none; }
+#backTop.show { opacity: 0.95; pointer-events: auto; }
+
+/* 卡片高亮样式 */
+.card-highlight {
+  border: 2px solid #7bfbb7;
+  box-shadow: 0 0 0 2px rgba(123, 251, 183, 0.3);
+  background: rgba(123, 251, 183, 0.1);
+  transition: all 0.2s ease;
+}
+
+/* 降噪：动效可选 */
+@media (prefers-reduced-motion: reduce) {
+  .cheat-columns { transition: none; }
+  .card:hover { box-shadow: 0 2px 12px 1px rgba(0,0,0,0.18); }
+}

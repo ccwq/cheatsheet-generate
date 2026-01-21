@@ -8,7 +8,7 @@
   // 状态
   var state = {
     selectedTags: new Set(),
-    rowCount: parseInt(localStorage.getItem('tagRowCount') || '0', 10),
+    rowCount: parseInt(localStorage.getItem('tagRowCount') || '3', 10),
     isExpanded: false,
     isMultiSelect: localStorage.getItem('tagMultiSelect') === 'true'
   };
