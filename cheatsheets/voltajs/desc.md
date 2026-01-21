@@ -1,1 +1,0 @@
-JavaScript/TypeScript 版本管理与命令执行工具，确保项目依赖一致性与可重复构建。

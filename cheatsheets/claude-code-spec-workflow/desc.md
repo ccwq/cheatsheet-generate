@@ -1,2 +1,0 @@
-Claude Code Spec Workflow 为 Claude Code 提供规范驱动的新特性与缺陷修复工作流（Spec/Bug），并集成 Steering 文档、上下文优化命令与实时仪表盘，帮助在多个项目中统一和自动化开发流程。
-
