@@ -1,2 +1,2 @@
 desc: ast-grep 是一个基于 AST 的代码搜索和重构工具，提供强大的模式匹配语法和规则配置系统。
-tags: []
+tags: ["CLI / Terminal", "CLI 工具", "重构", "命令行"]
