@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Chrome DevTools Console + Network 速查表</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../../assets/variables.css">
+    <link rel="stylesheet" href="../../assets/global.css">
+    <link rel="stylesheet" href="../../assets/cheatsheet.css">
+    <link rel="stylesheet" href="../../assets/prism-tomorrow.min.css">
+    <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png" />
+    <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png" />
+    <style>
+        :root {
+            --col-width: 492px;
+            --gap: 16px;
+        }
+        .panel .title {
+            color: var(--panel-accent);
+        }
+        .panel label {
+            color: var(--panel-accent);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="panel">
+            <span class="title">Chrome DevTools Console + Network 速查表</span>
+            <label for="columnWidth">🔧 列宽：</label>
+            <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="360">
+            <span id="widthVal" class="slider-val">360px</span>
+        </div>
+        <div class="cheat-columns" id="columns">
+            <div class="card">
+                <h2>🧭 Console 入口与布局 <a href="https://developer.chrome.com/docs/devtools/console?hl=zh-cn" title="Console Overview" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <ul>
+                    <li><code>Ctrl + Shift + J</code> / <code>Cmd + Option + J</code>：打开 Console</li>
+                    <li><code>Ctrl + Shift + I</code> / <code>Cmd + Option + I</code>：打开 DevTools</li>
+                    <li><code>Esc</code>：切换抽屉 Console</li>
+                    <li><code>Ctrl + L</code> / <code>Cmd + K</code>：清空 Console</li>
+                    <li><code>console.clear()</code>：清空输出</li>
+                </ul>
+                <div class="desc">Console 支持独立面板与抽屉模式，适合边调试边查看日志。</div>
+            </div>
+
+            <div class="card">
+                <h2>📢 Console 日志级别 <a href="https://developer.chrome.com/docs/devtools/console/log?hl=zh-cn" title="Log messages" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <ul>
+                    <li><code>console.log()</code>：Info 级日志</li>
+                    <li><code>console.info()</code>：Info 级信息</li>
+                    <li><code>console.warn()</code>：Warning 级警告</li>
+                    <li><code>console.error()</code>：Error 级错误</li>
+                    <li><code>console.debug()</code>：Verbose 级调试</li>
+                    <li><code>console.assert(expr)</code>：断言失败输出 Error</li>
+                </ul>
+                <div class="desc">可在 Log levels 下拉菜单中按级别过滤。</div>
+            </div>
+
+            <div class="card">
+                <h2>🧱 Console 分组与结构化 <a href="https://developer.chrome.com/docs/devtools/console/api?hl=zh-cn" title="Console API" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <ul>
+                    <li><code>console.group()</code> / <code>groupCollapsed()</code></li>
+                    <li><code>console.groupEnd()</code></li>
+                    <li><code>console.table(data)</code></li>
+                    <li><code>console.dir(obj)</code> / <code>console.dirxml(node)</code></li>
+                </ul>
+                <pre><code class="language-javascript">console.group('Auth');
+console.info('token ok');
+console.groupEnd();
+
+console.table([{ name: 'A', id: 1 }]);</code></pre>
+            </div>
+
+            <div class="card">
+                <h2>⏱️ Console 计时与统计 <a href="https://developer.chrome.com/docs/devtools/console/api?hl=zh-cn" title="Console API" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <ul>
+                    <li><code>console.time(label)</code> / <code>timeEnd(label)</code></li>
+                    <li><code>console.timeLog(label)</code></li>
+                    <li><code>console.count(label)</code> / <code>countReset(label)</code></li>
+                    <li><code>console.trace()</code></li>
+                </ul>
+                <pre><code class="language-javascript">console.time('load');
+// ...
+console.timeLog('load');
+console.timeEnd('load');</code></pre>
+            </div>
+
+            <div class="card">
+                <h2>🎨 Console 格式化与样式 <a href="https://developer.chrome.com/docs/devtools/console/format-style?hl=zh-cn" title="Format & Style" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <ul>
+                    <li><code>%s %d %i %f %o %O %c</code>：格式化占位符</li>
+                    <li><code>%c</code>：传入 CSS 样式</li>
+                    <li>ANSI：<code>\x1B[41;93;4mHello\x1B[m</code></li>
+                </ul>
+                <pre><code class="language-javascript">console.info('User: %s, ID: %d', 'Alice', 42);
+console.log('%cAlert', 'color: #ff6f61; font-weight: bold');</code></pre>
+            </div>
+
+            <div class="card">
+                <h2>🧪 Console 运行 JS <a href="https://developer.chrome.com/docs/devtools/console/javascript?hl=zh-cn" title="Run JS" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <ul>
+                    <li>REPL 即时求值</li>
+                    <li><code>Shift + Enter</code>：多行输入</li>
+                    <li><code>$_</code>：上一条表达式结果</li>
+                </ul>
+                <pre><code class="language-javascript">document.querySelector('h1').textContent = 'Hello Console';</code></pre>
+            </div>
+
+            <div class="card">
+                <h2>👁️ Live Expressions <a href="https://developer.chrome.com/docs/devtools/console/live-expressions?hl=zh-cn" title="Live Expressions" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <ul>
+                    <li>点击 👁️ 添加表达式</li>
+                    <li>支持多条表达式</li>
+                    <li>结果约 250ms 刷新</li>
+                    <li>点击 ✖ 移除表达式</li>
+                </ul>
+                <div class="desc">适合监控 <code>document.activeElement</code> 或状态变量。</div>
+            </div>
+
+            <div class="card">
+                <h2>🧰 Console Utilities API <a href="https://developer.chrome.com/docs/devtools/console/utilities?hl=zh-cn" title="Utilities API" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <ul>
+                    <li><code>$()</code> / <code>$$()</code> / <code>$x()</code></li>
+                    <li><code>$0</code> - <code>$4</code>：最近选中元素</li>
+                    <li><code>keys()</code> / <code>values()</code> / <code>copy()</code></li>
+                    <li><code>queryObjects()</code></li>
+                    <li><code>monitor()</code> / <code>debug()</code></li>
+                    <li><code>monitorEvents()</code> / <code>getEventListeners()</code></li>
+                </ul>
+                <pre><code class="language-javascript">copy($$('img').map(img => img.src));
+monitorEvents(window, ['resize', 'scroll']);</code></pre>
+            </div>
+
+            <div class="card">
+                <h2>🎛️ Console 交互技巧</h2>
+                <ul>
+                    <li>右键对象 → Store as global variable</li>
+                    <li>Log levels 过滤输出</li>
+                    <li>Filter 输入文本/正则筛选</li>
+                    <li>侧边栏过滤消息来源</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>🌐 Network 入口与录制 <a href="https://developer.chrome.com/docs/devtools/network/overview?hl=zh-cn" title="Network Overview" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <ul>
+                    <li>Network 面板：DevTools 顶部标签</li>
+                    <li><span style="color:#f44336">●</span> Record：开始/停止录制</li>
+                    <li>🚫 Clear：清空请求列表</li>
+                    <li>Preserve log：跳转保留请求</li>
+                    <li>Disable cache：禁用缓存</li>
+                    <li>Throttling：Fast/Slow 3G/Offline</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>📋 请求列表字段</h2>
+                <ul>
+                    <li><strong>Name</strong>：资源名称</li>
+                    <li><strong>Status</strong>：状态码</li>
+                    <li><strong>Type</strong>：资源类型</li>
+                    <li><strong>Initiator</strong>：发起者</li>
+                    <li><strong>Size</strong>：传输/解压大小</li>
+                    <li><strong>Time</strong>：总耗时</li>
+                    <li><strong>Waterfall</strong>：瀑布图</li>
+                </ul>
+                <div class="desc">右键表头 → Response Headers → Manage Header Columns 添加列。</div>
+            </div>
+
+            <div class="card">
+                <h2>📄 请求详情 Tabs</h2>
+                <ul>
+                    <li><strong>Headers</strong>：请求/响应头</li>
+                    <li><strong>Payload</strong>：请求参数</li>
+                    <li><strong>Preview</strong>：响应预览</li>
+                    <li><strong>Response</strong>：原始响应</li>
+                    <li><strong>Initiator</strong>：请求链</li>
+                    <li><strong>Timing</strong>：耗时分解</li>
+                    <li><strong>Cookies</strong>：请求/响应 Cookie</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>🔎 过滤与搜索 <a href="https://developer.chrome.com/docs/devtools/network/overview?hl=zh-cn#filter" title="Filter" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <ul>
+                    <li><code>domain:</code> / <code>method:</code> / <code>status-code:</code></li>
+                    <li><code>scheme:</code> / <code>mime-type:</code> / <code>resource-type:</code></li>
+                    <li><code>priority:</code> / <code>larger-than:</code></li>
+                    <li><code>has-response-header:</code> / <code>has-overrides:</code></li>
+                    <li><code>is:running</code> / <code>is:from-cache</code></li>
+                    <li><code>cookie-name:</code> / <code>set-cookie-name:</code></li>
+                </ul>
+                <pre><code class="language-bash">domain:example.com method:POST status-code:404
+-method:OPTIONS -status-code:200</code></pre>
+            </div>
+
+            <div class="card">
+                <h2>🧭 排序与搜索</h2>
+                <ul>
+                    <li>点击表头排序</li>
+                    <li>Activity 阶段排序</li>
+                    <li><code>Ctrl + F</code> / <code>Cmd + F</code> 搜索</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>📎 Copy 与复现</h2>
+                <ul>
+                    <li>Copy as cURL</li>
+                    <li>Copy as fetch</li>
+                    <li>Copy response</li>
+                </ul>
+                <pre><code class="language-bash">curl 'https://api.example.com/data' -H 'Authorization: Bearer xxx'</code></pre>
+            </div>
+
+            <div class="card">
+                <h2>⛔ 屏蔽与节流 <a href="https://developer.chrome.com/docs/devtools/network-request-blocking?hl=zh-cn" title="Request Blocking" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <ul>
+                    <li>右键请求 → Block request URL</li>
+                    <li>Request conditions 抽屉批量规则</li>
+                    <li>blocked:devtools 状态标识</li>
+                    <li>节流图标悬停查看规则</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>📶 Network Conditions <a href="https://developer.chrome.com/docs/devtools/device-mode/override-user-agent?hl=zh-cn#open_the_network_conditions_panel" title="Network Conditions" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <ul>
+                    <li>Network 面板右上角更多网络状况按钮</li>
+                    <li>Command Menu：Show Network conditions</li>
+                    <li>覆盖 User-Agent</li>
+                    <li>User agent client hints 调整</li>
+                    <li>节流预设与自定义配置</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>🧪 Local Overrides <a href="https://developer.chrome.com/docs/devtools/overrides?hl=zh-cn#override-headers" title="Overrides" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <ul>
+                    <li>右键请求 → Override content / Override headers</li>
+                    <li>首次使用需授权本地目录</li>
+                    <li>Response Headers 支持修改/新增</li>
+                    <li>.headers 文件集中管理规则</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>🚀 Speculation Rules <a href="https://developer.chrome.com/docs/devtools/application/debugging-speculation-rules?hl=zh-cn#debug-prefetch-network" title="Speculation Rules" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <ul>
+                    <li>Application → Speculative loads</li>
+                    <li>查看 prefetch/prerender 状态</li>
+                    <li>Network 观察 <code>Sec-Purpose</code> 标头</li>
+                    <li>预渲染需切换渲染器查看</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>💾 HAR 导入导出</h2>
+                <ul>
+                    <li>Save all as HAR with content</li>
+                    <li>拖拽 HAR 文件导入</li>
+                    <li>跨团队复现/性能分析常用</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>⌨️ 常用快捷键</h2>
+                <ul>
+                    <li><code>Ctrl + L</code> / <code>Cmd + K</code>：清空 Console</li>
+                    <li><code>Ctrl + F</code> / <code>Cmd + F</code>：Network 搜索</li>
+                    <li><code>Esc</code>：抽屉 Console</li>
+                    <li><code>Shift + Enter</code>：Console 多行输入</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script src="../../assets/common.js"></script>
+    <script src="../../assets/prism.js"></script>
+    <script src="../../assets/prism-autoloader.min.js"></script>
+    <script>Prism.highlightAll();</script>
+</body>
+</html>
