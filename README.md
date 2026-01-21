@@ -81,7 +81,7 @@ links.md 中包含了我之前整理的在线 cheatsheet 列表（JSON 代码块
 
 - 生成脚本：`node scripts/generate-nav.js`
 - 模板路径：`templates/nav.template.html`
-- 数据来源：`cheatsheets/` 与 `cheatsheets-import/` 下的各个子目录（读取 `desc.md` 与入口 HTML）
+- 数据来源：`cheatsheets/` 与 `cheatsheets-import/` 下的各个子目录（读取 `meta.yml` 与入口 HTML）
   - 规则：忽略所有以下划线开头的目录（如 `_demo`、`_wip`），这些目录视为开发中或示例，不在发布导览中展示。
 
 运行方式：
@@ -92,7 +92,7 @@ links.md 中包含了我之前整理的在线 cheatsheet 列表（JSON 代码块
 选择规则：
 
 - 链接优先级：`index.html` > 与目录同名的 `.html` > 目录内按名称排序的第一个 `.html`
-- 简介来源：`desc.md` 第一行（若缺失则留空）
+- 简介来源：`meta.yml` 中的 `desc` 字段
 - 图标：存在 `icon.png` 则显示于标题前
 
 输出文件：仓库根目录 `index.html`
@@ -135,7 +135,7 @@ links.md 中包含了我之前整理的在线 cheatsheet 列表（JSON 代码块
 
 - 新增：模板 `templates/nav.template.html`，极客风 + 扁平化样式
 - 新增：生成脚本 `scripts/generate-nav.js`，`package.json` 增加 `build`
-- 逻辑：遍历 `cheatsheets/` 与 `cheatsheets-import/`，优先级选择 HTML 入口，`desc.md` 第一行为简介，自动图标占位
+- 逻辑：遍历 `cheatsheets/` 与 `cheatsheets-import/`，优先级选择 HTML 入口，`meta.yml` 中 `desc` 为简介，自动图标占位
 - 交互：Masthead、搜索/高亮、列宽滑块与预设、复制链接（Pages 兼容）
 - 样式：自定义滚动条；左下角装饰 SVG 降低不透明度且禁用 pointer-events
 

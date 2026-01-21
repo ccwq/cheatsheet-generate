@@ -10,6 +10,7 @@
 const fs = require('fs/promises');
 const path = require('path');
 const he = require('he');
+const yaml = require('js-yaml');
 const pkg = require(path.join(process.cwd(), 'package.json'));
 
 // 需要扫描的 cheatsheet 根目录
@@ -26,20 +27,18 @@ async function exists(p) {
 }
 
 /**
- * 从 desc.md 中提取第一行作为简介
+ * 从 meta.yml 中读取元数据
  */
-async function readDesc(dirPath) {
-  const p = path.join(dirPath, 'desc.md');
-  if (!(await exists(p))) return '';
-  const content = await fs.readFile(p, 'utf8');
-  const firstLine = (content.split(/\r?\n/).find(l => l.trim().length > 0) || '').trim();
-  // 去除简单的 Markdown 语法（链接、行内代码等），保持纯文本
-  return firstLine
-    .replace(/`{1,3}([^`]+)`{1,3}/g, '$1') // 行内代码
-    .replace(/\[(.*?)\]\((.*?)\)/g, '$1') // 链接
-    .replace(/\*\*(.*?)\*\*/g, '$1') // 粗体
-    .replace(/\*(.*?)\*/g, '$1') // 斜体
-    .trim();
+async function readMeta(dirPath) {
+  const p = path.join(dirPath, 'meta.yml');
+  if (!(await exists(p))) return {};
+  try {
+    const content = await fs.readFile(p, 'utf8');
+    return yaml.load(content) || {};
+  } catch (e) {
+    console.error(`解析 meta.yml 失败: ${p}`, e);
+    return {};
+  }
 }
 
 /**
@@ -83,7 +82,8 @@ async function collectAll() {
       const dirPath = path.join(rootPath, dirName);
       const entryHtml = await findEntryHtml(dirPath, dirName);
       if (!entryHtml) continue; // 没有可链接的 html 则跳过
-      const desc = await readDesc(dirPath);
+      const meta = await readMeta(dirPath);
+      const desc = meta.desc || '';
       const icon = await hasIcon(dirPath);
       // 生成相对链接（以仓库根目录为基准）并规范为 POSIX 风格，确保在浏览器中可用
       const hrefFs = path.join(root, dirName, entryHtml);

@@ -1,0 +1,58 @@
+- name: "1️⃣ 平台 / 领域"
+  description: "用于按技术栈或使用场景快速收敛。"
+  tags:
+    - Android
+    - Web 前端
+    - Node.js
+    - JavaScript
+    - TypeScript
+    - Python
+    - Kotlin
+    - 3D / 图形
+    - GIS / 地图
+    - AI / LLM
+    - DevOps
+    - CLI / Terminal
+    - 操作系统
+    - 游戏开发
+- name: "2️⃣ 工具类型"
+  description: "这是 **cheatsheet 最核心的过滤维度**。"
+  tags:
+    - CLI 工具
+    - IDE / 编辑器
+    - 构建工具
+    - 包管理器
+    - 进程管理
+    - 版本控制
+    - 调试工具
+    - 自动化工具
+    - 网络工具
+    - 图形 / 可视化
+    - 动画引擎
+    - 地理引擎
+    - AI 辅助工具
+    - 脚本工具
+    - 多仓库管理
+- name: "3️⃣ 使用阶段"
+  description: "适合做「我现在在干什么」的快速定位。"
+  tags:
+    - 开发
+    - 构建
+    - 调试
+    - 测试
+    - 发布
+    - 运维
+    - 重构
+    - 性能优化
+    - 学习 / 入门
+    - 规范 / 流程
+- name: "4️⃣ 交互形态"
+  description: "对 CLI / GUI / 自动化区分非常有用。"
+  tags:
+    - 命令行
+    - GUI
+    - Web API
+    - 库 / SDK
+    - 框架
+    - 守护进程
+    - 代理 / 服务

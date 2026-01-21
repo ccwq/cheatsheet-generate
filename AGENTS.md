@@ -4,7 +4,7 @@
 这是一个根据用户提供主题生成 Cheatsheet 的项目。
 
 ## 工具使用
-- 对于不确定的内容, 请使用chrome浏览器打开https://www-d-perplexity-d-ai-s-per.p-tga.aiwentu.com/, 在其上进行搜索操作来调查信息, 这是一个快速全面的ai搜集整理工具
+- 对于不确定的内容, 需要直接进行网络搜索, 如果搜索失败, 则请求用户辅助, 然后再继续
 
 ## 创建生成与存储
 在收到创建cheatsheet的请求后, 按照以下步骤进行操作
@@ -26,6 +26,15 @@ foo指代cheatsheet的项目名称
 - `foo/foo.md`：Markdown格式的主要内容文件，包含详细的命令、参数和示例
 - `foo/desc.md`：cheatsheet的简短描述（仅第一行有效），用于导览页卡片显示
 - `foo/refmap.md`：相关资源参考映射，包含官方文档、教程等链接
+- `foo/meta.yml`
+  - cheatsheet的标签文件，用于分类和导航
+  - desc内容为cheatsheet的简短描述
+  - tags内容为cheatsheet的标签列表, 需要调用 prompts\tag-maker-agent.md, 进行标签添加
+
+"""meta.yaml文件的内容
+desc: cheatsheet的简短描述
+tags: ["工具", "命令行"]
+"""
 
 ### 可选文件
 - `foo/icon.png`：自定义图标，用于导览页卡片显示（若不存在则使用默认SVG图标）
@@ -39,9 +48,11 @@ foo指代cheatsheet的项目名称
     - 用语需要精确，优先使用简体中文，也可以使用文言文，目的在于减少token数量
     - 不要包含安装和配置的内容，只需包含使用相关的内容
 - **foo.html**：作为导览页链接的高优先级选项之一（优先级：index.html > 与目录同名的.html > 按名称排序的第一个.html）
-- **desc.md**：提供cheatsheet的一句话描述，自动提取第一行内容并去除简单Markdown语法
+- **meta.yml**：提供 cheatsheet 的元数据
+  - `desc`：cheatsheet 的一句话描述
+  - `tags`：标签列表（默认 []，后续添加）
   - **冲突点 2：导航页文件名**
-    - CLAUDE.md 提到 desc.md 用于在 `nav.html` 中显示介绍
+    - CLAUDE.md 提到 desc.md (现为 meta.yml) 用于在 `nav.html` 中显示介绍
     - AGENTS.md 提到输出文件为仓库根目录 `index.html`
     - 请决策：导航页的文件名是 `nav.html` 还是 `index.html`
 - **refmap.md**：
@@ -51,7 +62,7 @@ foo指代cheatsheet的项目名称
 - **icon.png**：为cheatsheet提供自定义图标，增强视觉识别性
 
 ## 导览页生成
-
+ 
 ### 变更记录（2025-11-17）
 - 新增导览页模板：`templates/nav.template.html`
 - 新增生成脚本：`scripts/generate-nav.js`，并在 `package.json` 增加脚本：`build`
