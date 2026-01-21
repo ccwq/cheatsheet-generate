@@ -78,6 +78,8 @@
   --scroll-track: #1a2134;
   --scroll-thumb-a: #69a7ff;
   --scroll-thumb-b: #56ffe5;
+
+  --mobile-width: 650px;
 }
 
 /* Responsive Variables */
