@@ -128,6 +128,7 @@ function initDetailShortcuts() {
       // 但 GitHub Pages 上往往有子路径 /repo-name/，绝对路径 /index.html 会跳出仓库
       // 所以保持相对路径通常是最佳实践。
       
+
       window.location.href = target;
     }
   });
