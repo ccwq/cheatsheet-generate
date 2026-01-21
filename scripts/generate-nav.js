@@ -18,12 +18,38 @@ const pkg = require(path.join(process.cwd(), 'package.json'));
 const ROOTS = ['cheatsheets'];
 const TEMPLATE_PATH = path.join(process.cwd(), 'templates', 'nav.template.html');
 const OUTPUT_PATH = path.join(process.cwd(), 'index.html');
+const TAGS_DEFINE_PATH = path.join(process.cwd(), 'tags', 'tags-define.yml');
 
 /**
  * 读取文件是否存在
  */
 async function exists(p) {
   try { await fs.access(p); return true; } catch { return false; }
+}
+
+/**
+ * 加载标签定义，返回 标签名 -> 分组ID 的映射
+ */
+async function loadTagDefs() {
+  if (!(await exists(TAGS_DEFINE_PATH))) return {};
+  try {
+    const content = await fs.readFile(TAGS_DEFINE_PATH, 'utf8');
+    const defs = yaml.load(content) || [];
+    const map = {};
+    // defs 是一个数组，每个元素是一个分组对象
+    // 分组ID 从 1 开始
+    defs.forEach((group, idx) => {
+      if (group.tags && Array.isArray(group.tags)) {
+        group.tags.forEach(t => {
+          map[t] = idx + 1;
+        });
+      }
+    });
+    return map;
+  } catch (e) {
+    console.error('加载标签定义失败:', e);
+    return {};
+  }
 }
 
 /**
@@ -68,7 +94,7 @@ async function hasIcon(dirPath) {
 /**
  * 收集全部 Cheatsheet 项目信息
  */
-async function collectAll() {
+async function collectAll(tagCounts) {
   const items = [];
   for (const root of ROOTS) {
     const rootPath = path.join(process.cwd(), root);
@@ -84,6 +110,13 @@ async function collectAll() {
       if (!entryHtml) continue; // 没有可链接的 html 则跳过
       const meta = await readMeta(dirPath);
       const desc = meta.desc || '';
+      const tags = Array.isArray(meta.tags) ? meta.tags : [];
+      
+      // 统计标签
+      tags.forEach(t => {
+        tagCounts[t] = (tagCounts[t] || 0) + 1;
+      });
+
       const icon = await hasIcon(dirPath);
       // 生成相对链接（以仓库根目录为基准）并规范为 POSIX 风格，确保在浏览器中可用
       const hrefFs = path.join(root, dirName, entryHtml);
@@ -96,6 +129,7 @@ async function collectAll() {
         desc,
         href,
         icon: iconHref,
+        tags
       });
     }
   }
@@ -107,15 +141,26 @@ async function collectAll() {
 /**
  * 将 items 渲染为卡片 HTML 片段
  */
-function renderItems(items) {
+function renderItems(items, tagGroupMap) {
   return items.map(it => {
     const title = he.encode(it.title);
     const desc = he.encode(it.desc || '');
     const icon = it.icon ? `<img class="icon" src="${it.icon}" alt="icon" />` : '';
+    const tagsAttr = it.tags.join(','); // 用于 data-tags 属性
+    
+    // 渲染卡片底部的标签 HTML
+    const tagsHtml = it.tags && it.tags.length > 0 
+      ? `<div class="card-tags">${it.tags.map(t => {
+          const group = tagGroupMap[t] || 0;
+          return `<span class="tag tag-group-${group}" data-group="${group}">${he.encode(t)}</span>`;
+        }).join('')}</div>` 
+      : '';
+
     return [
-      '<div class="card">',
+      `<div class="card" data-tags="${tagsAttr}">`,
       `  <h2>${icon}${title} <a class="link" href="${it.href}" target="_blank" rel="noopener">&gt;&gt;&gt;</a></h2>`,
       desc ? `  <p class="desc">${desc}</p>` : '',
+      tagsHtml,
       '</div>'
     ].filter(Boolean).join('\n');
   }).join('\n');
@@ -124,14 +169,42 @@ function renderItems(items) {
 async function main() {
   // 读取模版
   const tpl = await fs.readFile(TEMPLATE_PATH, 'utf8');
-  const items = await collectAll();
-  const html = renderItems(items);
-  // 注入卡片与版本号（占位符 __APP_VERSION__）
-  const out = tpl.replace('<!-- CHEATSHEET_ITEMS -->', html);
-  const out2 = out.replace(/__APP_VERSION__/g, (pkg && pkg.version) ? String(pkg.version) : '0.0.0');
-  await fs.writeFile(OUTPUT_PATH, out2, 'utf8');
+  
+  // 准备数据容器
+  const tagCounts = {};
+  
+  // 收集数据
+  const items = await collectAll(tagCounts);
+  
+  // 加载标签分组定义
+  const tagGroupMap = await loadTagDefs();
+  
+  // 生成标签数据 JSON
+  const tagData = Object.keys(tagCounts).map(name => ({
+    name,
+    count: tagCounts[name],
+    group: tagGroupMap[name] || 0 // 0 表示未分组
+  })).sort((a, b) => b.count - a.count); // 按数量降序
+  
+  // 渲染 HTML
+  const html = renderItems(items, tagGroupMap);
+  
+  // 注入内容
+  let out = tpl.replace('<!-- CHEATSHEET_ITEMS -->', html);
+  out = out.replace(/__APP_VERSION__/g, (pkg && pkg.version) ? String(pkg.version) : '0.0.0');
+  
+  // 注入标签数据
+  const tagScript = `<script>window.TAG_DATA = ${JSON.stringify(tagData)};</script>`;
+  // 我们在模板中寻找 <!-- TAG_DATA --> 占位符，如果没有则插在 </body> 前
+  if (out.includes('<!-- TAG_DATA -->')) {
+    out = out.replace('<!-- TAG_DATA -->', tagScript);
+  } else {
+    out = out.replace('</body>', `${tagScript}</body>`);
+  }
+
+  await fs.writeFile(OUTPUT_PATH, out, 'utf8');
   console.log(`导航页已生成: ${path.relative(process.cwd(), OUTPUT_PATH)}`);
-  console.log(`共收集到 ${items.length} 个 cheatsheet`);
+  console.log(`共收集到 ${items.length} 个 cheatsheet, ${tagData.length} 个标签`);
 }
 
 main().catch(err => {

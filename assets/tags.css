@@ -1,0 +1,177 @@
+/* 标签栏容器 */
+.tag-bar-container {
+  width: 100%;
+  padding-top: 10px;
+  border-top: 1px solid rgba(62, 71, 112, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tag-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  color: #9ab4ff;
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+/* 标签样式 */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  /* 默认使用低透明度的主色作为背景，增强区分度 */
+  border: 1px solid var(--tag-border-dim, rgba(255, 255, 255, 0.1));
+  background: var(--tag-bg-dim, rgba(255, 255, 255, 0.05));
+  color: var(--tag-text, #cfe4ff);
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.tag:hover {
+  /* 悬停时稍微加深 */
+  background: var(--tag-bg-hover, rgba(255, 255, 255, 0.1));
+  border-color: var(--tag-border, #69a7ff);
+  transform: translateY(-1px);
+  z-index: 1;
+}
+
+.tag.active {
+  /* 选中状态：高亮背景 */
+  background: var(--tag-bg, #3e5bd4);
+  border-color: var(--tag-border, #69a7ff);
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+}
+
+.tag .count {
+  margin-left: 6px;
+  font-size: 0.85em;
+  opacity: 0.7;
+}
+
+/* 分组颜色定义
+ * --tag-base-color: 主色调
+ * --tag-bg: 选中时的背景
+ * --tag-border: 选中时的边框 & 悬停时的边框
+ * --tag-bg-dim: 未选中时的背景 (低透明度主色)
+ * --tag-border-dim: 未选中时的边框 (稍高透明度主色)
+ * --tag-text: 未选中时的文字颜色 (通常是主色调或稍微变亮)
+ * --tag-bg-hover: 悬停时的背景
+ */
+
+/* 1. 平台/领域 - 蓝色系 (#69a7ff) */
+.tag-group-1 { 
+  --tag-base-color: #69a7ff;
+  --tag-bg: rgba(62, 91, 212, 0.7); 
+  --tag-border: #69a7ff;
+  --tag-bg-dim: rgba(62, 91, 212, 0.15);
+  --tag-border-dim: rgba(105, 167, 255, 0.3);
+  --tag-text: #9ec5ff;
+  --tag-bg-hover: rgba(62, 91, 212, 0.25);
+}
+
+/* 2. 工具类型 - 绿色系 (#7bfbb7) */
+.tag-group-2 { 
+  --tag-base-color: #7bfbb7;
+  --tag-bg: rgba(46, 160, 67, 0.7); 
+  --tag-border: #7bfbb7;
+  --tag-bg-dim: rgba(46, 160, 67, 0.15);
+  --tag-border-dim: rgba(123, 251, 183, 0.3);
+  --tag-text: #a0fccd;
+  --tag-bg-hover: rgba(46, 160, 67, 0.25);
+}
+
+/* 3. 使用阶段 - 橙黄色系 (#ffce5b) */
+.tag-group-3 { 
+  --tag-base-color: #ffce5b;
+  --tag-bg: rgba(189, 142, 0, 0.7); 
+  --tag-border: #ffce5b;
+  --tag-bg-dim: rgba(189, 142, 0, 0.15);
+  --tag-border-dim: rgba(255, 206, 91, 0.3);
+  --tag-text: #ffe091;
+  --tag-bg-hover: rgba(189, 142, 0, 0.25);
+}
+
+/* 4. 交互形态 - 紫粉色系 (#d783ff) */
+.tag-group-4 { 
+  --tag-base-color: #d783ff;
+  --tag-bg: rgba(163, 53, 238, 0.7); 
+  --tag-border: #d783ff;
+  --tag-bg-dim: rgba(163, 53, 238, 0.15);
+  --tag-border-dim: rgba(215, 131, 255, 0.3);
+  --tag-text: #eebaff;
+  --tag-bg-hover: rgba(163, 53, 238, 0.25);
+}
+
+/* 其他/未知 - 灰色 */
+.tag-group-0 { 
+  --tag-bg: rgba(100, 100, 100, 0.6); 
+  --tag-border: #aaa; 
+  --tag-bg-dim: rgba(255, 255, 255, 0.05);
+  --tag-border-dim: rgba(255, 255, 255, 0.1);
+  --tag-text: #ccc;
+  --tag-bg-hover: rgba(255, 255, 255, 0.1);
+}
+
+/* 选中清除按钮 */
+.tag-clear-btn {
+  margin-left: auto;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(255, 50, 50, 0.2);
+  color: #ff8888;
+  cursor: pointer;
+  border: 1px solid rgba(255, 50, 50, 0.3);
+  font-size: 12px;
+  display: none; /* 默认隐藏，有选中时显示 */
+}
+.tag-clear-btn:hover {
+  background: rgba(255, 50, 50, 0.3);
+}
+
+/* 展开/收起按钮 */
+.tag-expand-btn {
+  color: #9bc2ff;
+  cursor: pointer;
+  margin-left: 8px;
+  font-size: 12px;
+  text-decoration: underline;
+  opacity: 0.8;
+}
+.tag-expand-btn:hover { opacity: 1; }
+
+/* 卡片底部的标签 */
+.card-tags {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.card-tags .tag {
+  font-size: 10px;
+  padding: 1px 6px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  opacity: 0.8;
+}
+.card-tags .tag:hover {
+  opacity: 1;
+  transform: none;
+}

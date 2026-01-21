@@ -12,6 +12,7 @@
     <meta name="theme-color" content="#69a7ff" />
     <!-- 公共样式 -->
     <link rel="stylesheet" href="assets/common.css" />
+    <link rel="stylesheet" href="assets/tags.css" />
     <style>
       /*
        * 设计语言参考 base.md 中的 "html模板"
@@ -342,6 +343,7 @@
           var cards = $$('.card');
           var visible = 0; q = (q||'').trim().toLowerCase();
           var includeDesc = (typeof window !== 'undefined' && typeof window.__includeDesc === 'boolean') ? window.__includeDesc : true; // 新增：是否在搜索中包含简介
+          var selectedTags = window.__selectedTags || [];
 
           function highlight(el, originText, query){
             if (!el) return;
@@ -362,9 +364,21 @@
           cards.forEach(function(card){
             var title = (card.dataset.title || '').toLowerCase();
             var desc = (card.dataset.desc || '').toLowerCase();
-            
+            var cardTagsStr = (card.dataset.tags || '');
+
             // 命中规则：标题命中 或（启用时）简介命中
-            var hit = (!q || title.indexOf(q) >= 0 || (includeDesc && desc.indexOf(q) >= 0));
+            var textHit = (!q || title.indexOf(q) >= 0 || (includeDesc && desc.indexOf(q) >= 0));
+            
+            // 标签匹配：只要包含任一选中的标签即可 (OR逻辑)
+            // 如果希望是 AND (必须包含所有选中标签)，则改为 every
+            var tagHit = true;
+            if (selectedTags.length > 0) {
+              var cardTagList = cardTagsStr.split(',');
+              tagHit = selectedTags.every(function(t) { return cardTagList.includes(t); });
+            }
+
+            var hit = textHit && tagHit;
+
             // 仅高亮标题可见文本，避免破坏 <a href>
             highlight($('.title-link', card), card.dataset.title || '', q);
             // 简介高亮跟随 includeDesc，未启用时清除简介高亮，避免误导
@@ -614,5 +628,7 @@
     </script>
     <!-- 基于 URL 参数的自动搜索与单结果跳转（独立维护） -->
     <script defer src="assets/nav-query.js"></script>
+    <!-- TAG_DATA -->
+    <script src="assets/tags.js"></script>
   </body>
   </html>
