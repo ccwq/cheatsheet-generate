@@ -11,155 +11,10 @@
     <link rel="manifest" href="manifest.json" />
     <meta name="theme-color" content="#69a7ff" />
     <!-- 公共样式 -->
-    <link rel="stylesheet" href="assets/common.css" />
+    <link rel="stylesheet" href="assets/variables.css" />
+    <link rel="stylesheet" href="assets/global.css" />
+    <link rel="stylesheet" href="assets/nav.css" />
     <link rel="stylesheet" href="assets/tags.css" />
-    <style>
-      /*
-       * 设计语言参考 base.md 中的 "html模板"
-       * 第1次美化：极客风+简约，增加网格装饰、搜索、徽章、SVG箭头与微交互
-       */
-
-      .container { width: 100%; max-width: 100%; margin: 0 auto; padding: 8px 4px 16px 4px; box-sizing: border-box; position: relative; z-index: 1; }
-
-      /* 顶部大标题与网站目的（Masthead） */
-      .masthead {
-        position: relative; z-index: 1; margin: 8px 0 12px 0; 
-        padding: 16px 16px 14px 90px;
-        border-radius: 14px; border: 1px solid transparent; overflow: hidden;
-        background-image:
-          linear-gradient(135deg, rgba(105,167,255,.22), rgba(86,255,229,.22)),
-          radial-gradient(1200px 400px at 0% 0%, rgba(110,151,255,.12), rgba(0,0,0,0)),
-          linear-gradient(130deg, rgba(34,43,68,.95), rgba(26,32,50,.92));
-        background-clip: padding-box, padding-box, padding-box;
-        box-shadow: 0 4px 20px rgba(0,0,0,.25), inset 0 0 0 1px rgba(78,85,130,.25);
-      }
-      .masthead .site-title {
-        font-size: 26px; font-weight: 800; letter-spacing: .6px;
-        margin: 0 0 6px 0; display:flex; align-items:center; gap:10px;
-        position: relative; padding-left: 28px;
-        min-height: 34px;
-      }
-      .masthead .site-title .github-link {
-        display: inline-flex; align-items: center; justify-content: center;
-        width: 32px; height: 32px; border-radius: 8px;
-        background: rgba(255,255,255,0.08); color: #9bc2ff;
-        transition: all 0.2s ease; text-decoration: none;
-      }
-      .masthead .site-title .github-link:hover {
-        background: rgba(255,255,255,0.15); color: #fff;
-        transform: translateY(-1px);
-      }
-      .masthead .site-title .github-link svg {
-        width: 20px; height: 20px;
-      }
-      /* 导览页品牌图标列：高度铺满 .site-title，位于左侧整列 */
-      .masthead .site-title::before {
-        content: "";
-        position: absolute; left: -78px; top: 0; bottom: 0; width: 32px;
-        border-radius: 8px;
-        background-image: url('assets/brand/cheatsheet.png');
-        background-size: cover; background-position: center; background-repeat: no-repeat;
-        filter: drop-shadow(0 0 4px rgba(0,0,0,.18));
-        width: 90px;
-        height: 90px;
-      }
-      .masthead .site-title .grad-text { background: linear-gradient(90deg,#7bfbb7 0%,#69a7ff 50%,#ffce5b 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
-      .masthead .subtitle { font-size: 13px; color: #cfe4ff; opacity: .95; margin: 0 0 10px 28px; }
-      .masthead .purpose { display:flex; flex-wrap:wrap; gap: 8px 10px; margin-left: 28px; }
-      /* 快捷键说明 Banner */
-      .shortcuts { display:flex; flex-wrap:wrap; gap: 8px 12px; margin-left: 28px; align-items: center; }
-      .key-chip { 
-        display:inline-flex; align-items:center; gap:6px; padding: 4px 10px; 
-        border-radius: 6px; border: 1px solid #7bfbb7; 
-        background: rgba(123, 251, 183, 0.1); color: #7bfbb7; 
-        font-weight: 600; font-size: 13px; 
-      }
-      .key-chip kbd {
-        background: #1a2134; color: #fff; padding: 2px 6px; border-radius: 4px;
-        font-family: Consolas, monospace; font-size: 12px; border: 1px solid rgba(123, 251, 183, 0.4);
-        box-shadow: 0 2px 0 rgba(0,0,0,0.2);
-      }
-      .chip { display:inline-flex; align-items:center; gap:6px; padding: 5px 10px; border-radius: 999px; border: 1px solid #3c456e; background: #1a2134; color: #dbe6ff; font-weight: 600; font-size: 12px; }
-      /* 版本号徽标：紧随站点名显示 */
-      .ver-chip { display:inline-flex; align-items:center; margin-left: auto; padding: 2px 8px; border-radius: 999px; border: 1px solid #3c456e; background:#1a2134; color:#9bc2ff; font-weight:600; font-size:12px; line-height:1; }
-      .chip svg { width: 14px; height: 14px; }
-      .masthead .decor { position:absolute; right: -40px; top: -40px; width: 220px; height: 220px; opacity:.18; filter: blur(0.2px); }
-
-      .panel {
-        position: sticky; top: 0; z-index: 10;
-        display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
-        background: var(--panel); border-radius: 12px;
-        /* Flat 风格：无边框无阴影 */
-        border: none; box-shadow: none;
-        padding: 10px 14px; margin-bottom: 12px;
-        backdrop-filter: blur(6px);
-      }
-      .brand { display:flex; align-items:center; gap:8px; margin-right:auto; }
-      .brand svg { width: 18px; height: 18px; filter: drop-shadow(0 0 6px var(--glow)); }
-      .brand .title { color: var(--accent); font-size: 16px; letter-spacing: 0.2px; font-weight: 600; }
-      .brand .note { color: #9bc2ff; font-size: 12px; opacity: .9; }
-
-      .panel label { font-size: 1em; color: #ffe49b; font-weight: 700; letter-spacing: 0.2px; }
-      .panel .sep { width:1px; height:20px; background: #3e4770; opacity:.7; }
-      .slider-bar { min-width: 120px; margin-right: 4px; }
-      .slider-val { color: var(--accent-2); font-size: 1em; margin-left: 4px; min-width: 28px; display: inline-block; font-weight: 600; }
-      .search { min-width: 200px; max-width: 320px; width: 22vw; padding: 6px 10px; border-radius: 8px; border: none; background:#1f2638; color:#e9eefc; }
-      .search::placeholder { color:#9db0d8 }
-      .btn { cursor: pointer; padding: 6px 10px; border-radius: 8px; border: none; background:#1f2638; color:#e9eefc; }
-      .toggle { display:inline-flex; align-items:center; gap:6px; color:#dbe6ff; font-weight:600; }
-      .toggle input { accent-color: #69a7ff; }
-      .stats { color:#9ab4ff; font-weight:600; }
-      .presets { display:inline-flex; gap:6px; }
-      .preset { cursor:pointer; padding:4px 8px; border-radius:999px; border:1px solid #3c456e; background:#1b2032; color:#cfe4ff; }
-      .preset:hover { border-color:#4f79ff; }
-
-      /* 多列容器：支持列宽调节 */
-      .cheat-columns { column-count: 4; column-gap: 16px; margin-top: 12px; transition: column-width 0.2s ease; column-width: 340px; }
-      @media (max-width: 1500px) { .cheat-columns { column-count: 3; } }
-      @media (max-width: 1100px) { .cheat-columns { column-count: 2; column-gap: 12px; } }
-      @media (max-width: 750px)  { .cheat-columns { column-count: 1; } }
-
-      .card {
-        position: relative;
-        background: var(--card); border-radius: 12px;
-        /* Flat 风格：无边框无阴影 */
-        border: none; box-shadow: none; backdrop-filter: blur(2px);
-        margin-bottom: 14px; padding: 14px 14px 10px 14px; break-inside: avoid; box-sizing: border-box;
-      }
-      /* 取消左侧高亮条，保留纯平整洁 */
-      .card::before{ display:none; }
-      .card:hover { box-shadow: none; }
-      .card h2 { margin: -6px 0 6px 0; font-size: 15px; font-weight: 700; color: var(--title); letter-spacing: 0.6px; display: flex; align-items: center; gap: 8px; }
-      .card h2 .link { color: var(--link); font-weight: 700; display: inline-flex; align-items:center; gap:4px; }
-      /* 标题可点击：淡淡下划线，悬停更明显 */
-      .card h2 .title-link { color: var(--link); text-decoration: underline; text-decoration-color: rgba(147,205,252,.35); text-underline-offset: 2px; }
-      .card h2 .title-link:hover { text-decoration-color: rgba(147,205,252,.75); }
-      .card .desc { color: var(--desc); margin: 2px 0 2px 0; font-size: 1em; line-height: 1.2; }
-      .icon { width: 16px; height: 16px; border-radius: 3px; object-fit: cover; display: inline-block; }
-      /* 移除本地/导入标签（不再使用） */
-      .copy { position:absolute; right:8px; top:8px; opacity:.85; }
-      .copy button { background:transparent; border:none; color:#9db0d8; border-radius:8px; padding:4px 6px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; }
-      .copy button:hover { color:#cfe4ff; }
-
-      /* 返回顶部按钮 */
-      #backTop { position: fixed; right: 18px; bottom: 18px; z-index: 20; opacity: 0; pointer-events: none; transition: opacity .2s ease; }
-      #backTop button { background:#1b2032; color:#d7e6ff; border:none; border-radius:999px; padding:10px; display:flex; align-items:center; justify-content:center; box-shadow: none; }
-      #backTop.show { opacity: 0.95; pointer-events: auto; }
-
-      /* 卡片高亮样式 */
-      .card-highlight {
-        border: 2px solid #7bfbb7;
-        box-shadow: 0 0 0 2px rgba(123, 251, 183, 0.3);
-        background: rgba(123, 251, 183, 0.1);
-        transition: all 0.2s ease;
-      }
-
-      /* 降噪：动效可选 */
-      @media (prefers-reduced-motion: reduce) {
-        .cheat-columns { transition: none; }
-        .card:hover { box-shadow: 0 2px 12px 1px rgba(0,0,0,0.18); }
-      }
-    </style>
   </head>
   <body>
     <div class="container">
@@ -179,7 +34,7 @@
         <h1 class="site-title">
           <span class="grad-text">极客速查库</span>
           <span style="font-size:14px;color:#9bc2ff;opacity:.9;">Cheatsheet Hub</span>
-          <span class="ver-chip" title="版本号">v0.0.45</span>
+          <span class="ver-chip" title="版本号">v0.0.46</span>
           <a href="https://github.com/ccwq/cheatsheet-generate" class="github-link" target="_blank" rel="noopener" title="GitHub 仓库">
             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
               <path fill="currentColor" d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.285 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
@@ -195,18 +50,6 @@
         </div>
       </section>
       <div class="panel">
-        <div class="brand" title="Cheatsheet Navigation">
-          <!-- 简洁极客风SVG徽标 -->
-          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <path fill="#7bfbb7" d="M3 6h10l2 2h6v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" opacity=".18"/>
-            <path fill="#9bc2ff" d="M4 7h8l2 2h6v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z" opacity=".25"/>
-            <path fill="#ffce5b" d="M6 15h5v2H6zM6 11h9v2H6zM6 9h7v1H6z"/>
-          </svg>
-          <div>
-            <div class="title">Cheatsheet 导览</div>
-            <div class="note">极客风 · 简约 · 快速检索</div>
-          </div>
-        </div>
         <span class="sep"></span>
         <label for="columnWidth">🔧 列宽：</label>
         <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340" />
@@ -237,6 +80,11 @@
   <h2>adb <a class="link" href="cheatsheets/adb/adb.html" target="_blank" rel="noopener">&gt;&gt;&gt;</a></h2>
   <p class="desc">Android Debug Bridge (ADB) &#x5B8C;&#x6574;&#x901F;&#x67E5;&#x8868;&#x3002;&#x5305;&#x542B;&#x8BBE;&#x5907;&#x8FDE;&#x63A5;&#x3001;&#x5E94;&#x7528;&#x7BA1;&#x7406;&#x3001;Shell&#x64CD;&#x4F5C;&#x3001;&#x7F51;&#x7EDC;&#x8C03;&#x8BD5;&#x3001;&#x6027;&#x80FD;&#x76D1;&#x63A7;&#x3001;&#x7CFB;&#x7EDF;&#x8BCA;&#x65AD;&#x7B49;&#x6838;&#x5FC3;&#x529F;&#x80FD;&#x3002;&#x8986;&#x76D6;USB&#x548C;&#x65E0;&#x7EBF;&#x8C03;&#x8BD5;&#x3001;&#x7AEF;&#x53E3;&#x8F6C;&#x53D1;&#x3001;&#x6587;&#x4EF6;&#x4F20;&#x8F93;&#x3001;&#x65E5;&#x5FD7;&#x5206;&#x6790;&#x3001;UI&#x81EA;&#x52A8;&#x5316;&#x3001;&#x8BBE;&#x5907;&#x4FE1;&#x606F;&#x67E5;&#x8BE2;&#x3001;&#x5B89;&#x5168;&#x6743;&#x9650;&#x7BA1;&#x7406;&#x7B49;&#x9AD8;&#x7EA7;&#x7528;&#x6CD5;&#xFF0C;&#x662F;Android&#x5F00;&#x53D1;&#x548C;&#x6D4B;&#x8BD5;&#x5FC5;&#x5907;&#x5DE5;&#x5177;&#x3002;</p>
 <div class="card-tags"><span class="tag tag-group-1" data-group="1">Android</span><span class="tag tag-group-2" data-group="2">CLI &#x5DE5;&#x5177;</span><span class="tag tag-group-3" data-group="3">&#x8C03;&#x8BD5;</span><span class="tag tag-group-4" data-group="4">&#x547D;&#x4EE4;&#x884C;</span></div>
+</div>
+<div class="card" data-tags="Windows,自动化工具,脚本工具,开发,GUI">
+  <h2>ahk2-autohotkey <a class="link" href="cheatsheets/ahk2-autohotkey/ahk2-autohotkey.html" target="_blank" rel="noopener">&gt;&gt;&gt;</a></h2>
+  <p class="desc">AutoHotkey v2 &#x662F;&#x4E00;&#x6B3E;&#x9762;&#x5411; Windows &#x7684;&#x5F00;&#x6E90;&#x811A;&#x672C;&#x8BED;&#x8A00;&#xFF0C;&#x63D0;&#x4F9B;&#x5F3A;&#x5927;&#x7684;&#x952E;&#x76D8;/&#x9F20;&#x6807;&#x81EA;&#x52A8;&#x5316;&#x3001;&#x70ED;&#x952E;&#x5B9A;&#x4E49;&#x53CA; GUI &#x521B;&#x5EFA;&#x529F;&#x80FD;&#xFF0C;&#x8BED;&#x6CD5;&#x5168;&#x9762;&#x5347;&#x7EA7;&#x4E3A;&#x57FA;&#x4E8E;&#x8868;&#x8FBE;&#x5F0F;&#x7684;&#x73B0;&#x4EE3;&#x98CE;&#x683C;&#x3002;</p>
+<div class="card-tags"><span class="tag tag-group-1" data-group="1">Windows</span><span class="tag tag-group-2" data-group="2">&#x81EA;&#x52A8;&#x5316;&#x5DE5;&#x5177;</span><span class="tag tag-group-2" data-group="2">&#x811A;&#x672C;&#x5DE5;&#x5177;</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span><span class="tag tag-group-4" data-group="4">GUI</span></div>
 </div>
 <div class="card" data-tags="Android,IDE / 编辑器,调试,GUI">
   <h2><img class="icon" src="cheatsheets/android-studio/icon.png" alt="icon" />android-studio <a class="link" href="cheatsheets/android-studio/android-studio.html" target="_blank" rel="noopener">&gt;&gt;&gt;</a></h2>
@@ -496,7 +344,7 @@
 <div class="card" data-tags="Windows,终端工具">
   <h2><img class="icon" src="cheatsheets/win-terminal/icon.png" alt="icon" />win-terminal <a class="link" href="cheatsheets/win-terminal/win-terminal.html" target="_blank" rel="noopener">&gt;&gt;&gt;</a></h2>
   <p class="desc">Windows Terminal&#xFF1A;settings.json&#x3001;actions&#x3001;&#x5206;&#x5C4F;&#x4E0E;&#x5FEB;&#x6377;&#x952E;&#x3001;&#x5916;&#x89C2;&#x4E0E;&#x96C6;&#x6210;&#x3002;</p>
-<div class="card-tags"><span class="tag tag-group-0" data-group="0">Windows</span><span class="tag tag-group-0" data-group="0">&#x7EC8;&#x7AEF;&#x5DE5;&#x5177;</span></div>
+<div class="card-tags"><span class="tag tag-group-1" data-group="1">Windows</span><span class="tag tag-group-0" data-group="0">&#x7EC8;&#x7AEF;&#x5DE5;&#x5177;</span></div>
 </div>
 <div class="card" data-tags="Shell,命令行工具">
   <h2><img class="icon" src="cheatsheets/x-cmd/icon.png" alt="icon" />x-cmd <a class="link" href="cheatsheets/x-cmd/index.html" target="_blank" rel="noopener">&gt;&gt;&gt;</a></h2>
@@ -902,7 +750,7 @@
     </script>
     <!-- 基于 URL 参数的自动搜索与单结果跳转（独立维护） -->
     <script defer src="assets/nav-query.js"></script>
-    <script>window.TAG_DATA = [{"name":"命令行","count":34,"group":4},{"name":"开发","count":31,"group":3},{"name":"CLI 工具","count":14,"group":2},{"name":"库 / SDK","count":13,"group":4},{"name":"AI / LLM","count":10,"group":1},{"name":"运维","count":9,"group":3},{"name":"Node.js","count":8,"group":1},{"name":"CLI / Terminal","count":7,"group":1},{"name":"GUI","count":5,"group":4},{"name":"包管理器","count":5,"group":2},{"name":"Web 前端","count":5,"group":1},{"name":"Android","count":4,"group":1},{"name":"框架","count":4,"group":4},{"name":"Python","count":4,"group":1},{"name":"学习 / 入门","count":3,"group":3},{"name":"3D / 图形","count":3,"group":1},{"name":"AI 辅助工具","count":3,"group":2},{"name":"规范 / 流程","count":3,"group":3},{"name":"调试","count":2,"group":3},{"name":"重构","count":2,"group":3},{"name":"GIS / 地图","count":2,"group":1},{"name":"操作系统","count":2,"group":1},{"name":"图形 / 可视化","count":2,"group":2},{"name":"DevOps","count":2,"group":1},{"name":"自动化工具","count":2,"group":2},{"name":"脚本工具","count":2,"group":2},{"name":"JavaScript","count":2,"group":1},{"name":"构建工具","count":2,"group":2},{"name":"终端工具","count":2,"group":0},{"name":"IDE / 编辑器","count":1,"group":2},{"name":"地理引擎","count":1,"group":2},{"name":"Web API","count":1,"group":4},{"name":"版本控制","count":1,"group":2},{"name":"动画引擎","count":1,"group":2},{"name":"Kotlin","count":1,"group":1},{"name":"多仓库管理","count":1,"group":2},{"name":"代理 / 服务","count":1,"group":4},{"name":"进程管理","count":1,"group":2},{"name":"游戏开发","count":1,"group":1},{"name":"Linux","count":1,"group":0},{"name":"编辑器","count":1,"group":0},{"name":"Web","count":1,"group":0},{"name":"版本管理","count":1,"group":0},{"name":"IDE","count":1,"group":0},{"name":"查询/搜索","count":1,"group":0},{"name":"Windows","count":1,"group":0},{"name":"Shell","count":1,"group":0},{"name":"命令行工具","count":1,"group":0}];</script>
+    <script>window.TAG_DATA = [{"name":"命令行","count":34,"group":4},{"name":"开发","count":32,"group":3},{"name":"CLI 工具","count":14,"group":2},{"name":"库 / SDK","count":13,"group":4},{"name":"AI / LLM","count":10,"group":1},{"name":"运维","count":9,"group":3},{"name":"Node.js","count":8,"group":1},{"name":"CLI / Terminal","count":7,"group":1},{"name":"GUI","count":6,"group":4},{"name":"包管理器","count":5,"group":2},{"name":"Web 前端","count":5,"group":1},{"name":"Android","count":4,"group":1},{"name":"框架","count":4,"group":4},{"name":"Python","count":4,"group":1},{"name":"自动化工具","count":3,"group":2},{"name":"脚本工具","count":3,"group":2},{"name":"学习 / 入门","count":3,"group":3},{"name":"3D / 图形","count":3,"group":1},{"name":"AI 辅助工具","count":3,"group":2},{"name":"规范 / 流程","count":3,"group":3},{"name":"调试","count":2,"group":3},{"name":"Windows","count":2,"group":1},{"name":"重构","count":2,"group":3},{"name":"GIS / 地图","count":2,"group":1},{"name":"操作系统","count":2,"group":1},{"name":"图形 / 可视化","count":2,"group":2},{"name":"DevOps","count":2,"group":1},{"name":"JavaScript","count":2,"group":1},{"name":"构建工具","count":2,"group":2},{"name":"终端工具","count":2,"group":0},{"name":"IDE / 编辑器","count":1,"group":2},{"name":"地理引擎","count":1,"group":2},{"name":"Web API","count":1,"group":4},{"name":"版本控制","count":1,"group":2},{"name":"动画引擎","count":1,"group":2},{"name":"Kotlin","count":1,"group":1},{"name":"多仓库管理","count":1,"group":2},{"name":"代理 / 服务","count":1,"group":4},{"name":"进程管理","count":1,"group":2},{"name":"游戏开发","count":1,"group":1},{"name":"Linux","count":1,"group":0},{"name":"编辑器","count":1,"group":0},{"name":"Web","count":1,"group":0},{"name":"版本管理","count":1,"group":0},{"name":"IDE","count":1,"group":0},{"name":"查询/搜索","count":1,"group":0},{"name":"Shell","count":1,"group":0},{"name":"命令行工具","count":1,"group":0}];</script>
     <script src="assets/tags.js"></script>
   </body>
   </html>
