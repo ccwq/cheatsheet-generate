@@ -44,8 +44,8 @@
   /* 悬停时稍微加深 */
   background: var(--tag-bg-hover, rgba(255, 255, 255, 0.1));
   border-color: var(--tag-border, #69a7ff);
-  transform: translateY(-1px);
   z-index: 1;
+  box-shadow: 0 0 8px var(--tag-border, #69a7ff);
 }
 
 .tag.active {
@@ -54,7 +54,8 @@
   border-color: var(--tag-border, #69a7ff);
   color: #fff;
   font-weight: 600;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  box-shadow: 0 0px 10px var(--tag-bg-dim),0 0px 10px var(--tag-bg-dim), 0 0px 10px var(--tag-bg-dim);
+  
 }
 
 .tag .count {

@@ -8,8 +8,9 @@
   // 状态
   var state = {
     selectedTags: new Set(),
-    rowCount: parseInt(localStorage.getItem('tagRowCount') || '1', 10),
-    isExpanded: false
+    rowCount: parseInt(localStorage.getItem('tagRowCount') || '0', 10),
+    isExpanded: false,
+    isMultiSelect: localStorage.getItem('tagMultiSelect') === 'true'
   };
 
   // DOM 元素
@@ -37,6 +38,9 @@
     
     controls.innerHTML = `
       <label>🏷️ 标签筛选：</label>
+      <label class="toggle" style="margin-right: 8px; font-size: 12px; cursor: pointer;" title="勾选后可选择多个标签，默认单选">
+        <input id="tagMultiSelect" type="checkbox" ${state.isMultiSelect ? 'checked' : ''} /> 多选
+      </label>
       <select id="tagRowSelect" class="btn" style="padding: 2px 6px; font-size: 12px;">
         <option value="1">1 行</option>
         <option value="2">2 行</option>
@@ -79,6 +83,14 @@
 
   // 绑定事件
   function bindEvents() {
+    var multiSelectCb = container.querySelector('#tagMultiSelect');
+    if (multiSelectCb) {
+      multiSelectCb.addEventListener('change', function(e) {
+        state.isMultiSelect = e.target.checked;
+        localStorage.setItem('tagMultiSelect', state.isMultiSelect);
+      });
+    }
+
     rowSelect.addEventListener('change', function(e) {
       state.rowCount = parseInt(e.target.value, 10);
       localStorage.setItem('tagRowCount', state.rowCount);
@@ -99,12 +111,33 @@
 
   // 切换标签选中状态
   function toggleTag(name, el) {
-    if (state.selectedTags.has(name)) {
-      state.selectedTags.delete(name);
-      el.classList.remove('active');
+    var isSelected = state.selectedTags.has(name);
+
+    if (!state.isMultiSelect) {
+      // 单选模式
+      if (isSelected) {
+        // 已选中 -> 取消选中
+        state.selectedTags.delete(name);
+        el.classList.remove('active');
+      } else {
+        // 未选中 -> 清除其他所有，选中当前
+        state.selectedTags.clear();
+        // UI 清除
+        var activeTags = tagList.querySelectorAll('.tag.active');
+        activeTags.forEach(function(t) { t.classList.remove('active'); });
+        
+        state.selectedTags.add(name);
+        el.classList.add('active');
+      }
     } else {
-      state.selectedTags.add(name);
-      el.classList.add('active');
+      // 多选模式
+      if (isSelected) {
+        state.selectedTags.delete(name);
+        el.classList.remove('active');
+      } else {
+        state.selectedTags.add(name);
+        el.classList.add('active');
+      }
     }
     updateClearBtn();
     triggerFilter();
