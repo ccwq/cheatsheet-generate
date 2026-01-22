@@ -131,12 +131,11 @@
 /* 选中清除按钮 */
 .tag-clear-btn {
   margin-left: auto;
-  padding: 2px 8px;
   border-radius: 4px;
   background: rgba(255, 50, 50, 0.2);
   color: #ff8888;
   cursor: pointer;
-  border: 1px solid rgba(255, 50, 50, 0.3);
+  border: 0px solid rgba(255, 50, 50, 0.3);
   font-size: 12px;
   display: none; /* 默认隐藏，有选中时显示 */
 }
