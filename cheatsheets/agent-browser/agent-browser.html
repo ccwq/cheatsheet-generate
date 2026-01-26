@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Agent Browser 速查表</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../../assets/variables.css">
+    <link rel="stylesheet" href="../../assets/global.css">
+    <link rel="stylesheet" href="../../assets/cheatsheet.css">
+    <!-- Prism.js 语法高亮 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <style>
+        :root {
+            --col-width: 400px;
+            --gap: 16px;
+        }
+
+        .panel label {
+            color: var(--panel-accent);
+        }
+
+        .panel .title {
+            color: var(--panel-accent);
+        }
+    </style>
+
+    <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png" />
+    <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png" />
+  </head>
+<body>
+    <div class="container">
+        <div class="panel">
+            <span style="color:#7bfbb7;font-size:16px;margin-right:auto;">Agent Browser 速查表</span>
+            <label for="columnWidth">🔧 调整每列宽度：</label>
+            <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+            <span id="widthVal" class="slider-val">340px</span>
+        </div>
+        <div class="cheat-columns" id="columns">
+            <!-- 快速开始 -->
+            <div class="card">
+                <h2>🚀 快速开始 <a href="https://github.com/vercel-labs/agent-browser" title="GitHub 仓库" target="_blank" style="color:#93cdfc; margin-left: 10px;">>>></a></h2>
+                <ul>
+                    <li>
+                        <code>open &lt;url&gt;</code>：打开页面
+                    </li>
+                    <li>
+                        <code>snapshot -i</code>：获取交互元素（带 refs）
+                    </li>
+                    <li>
+                        <code>click @e1</code>：通过 ref 点击元素
+                    </li>
+                    <li>
+                        <code>fill @e2 "text"</code>：填写输入框
+                    </li>
+                    <li>
+                        <code>close</code>：关闭浏览器
+                    </li>
+                </ul>
+                <div class="desc">基础工作流：导航 → 快照 → 交互 → 关闭</div>
+            </div>
+
+            <!-- 核心工作流 -->
+            <div class="card">
+                <h2>🔄 核心工作流</h2>
+                <h3>步骤</h3>
+                <div class="desc">1. 导航: open &lt;url&gt;</div>
+                <div class="desc">2. 快照: snapshot -i (返回带 @ref 的元素)</div>
+                <div class="desc">3. 使用快照中的 refs 交互</div>
+                <div class="desc">4. 导航或 DOM 变化后重新快照</div>
+            </div>
+
+            <!-- 导航命令 -->
+            <div class="card">
+                <h2>🧭 导航命令 <a href="https://playwright.dev/docs/navigations" title="Playwright 文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <ul>
+                    <li>
+                        <code>open &lt;url&gt;</code>：导航到 URL（别名：goto, navigate）
+                    </li>
+                    <li>
+                        <code>back</code>：后退
+                    </li>
+                    <li>
+                        <code>forward</code>：前进
+                    </li>
+                    <li>
+                        <code>reload</code>：刷新页面
+                    </li>
+                    <li>
+                        <code>close</code>：关闭浏览器（别名：quit, exit）
+                    </li>
+                    <li>
+                        <code>connect &lt;port&gt;</code>：通过 CDP 端口连接
+                    </li>
+                </ul>
+                <div class="desc">支持协议：https://, http://, file://, about:, data://（未指定则自动添加 https://）</div>
+            </div>
+
+            <!-- 快照分析 -->
+            <div class="card">
+                <h2>📸 快照分析</h2>
+                <ul>
+                    <li>
+                        <code>snapshot</code>：完整可访问树
+                    </li>
+                    <li>
+                        <code>snapshot -i</code>：仅交互元素（推荐）
+                    </li>
+                    <li>
+                        <code>snapshot -c</code>：紧凑输出
+                    </li>
+                    <li>
+                        <code>snapshot -d 3</code>：限制深度到 3
+                    </li>
+                    <li>
+                        <code>snapshot -s "#selector"</code>：限定 CSS 选择器范围
+                    </li>
+                </ul>
+                <div class="desc">快照返回带 @ref 的元素供后续交互使用</div>
+            </div>
+
+            <!-- 交互操作：点击 -->
+            <div class="card">
+                <h2>👆 点击与聚焦</h2>
+                <ul>
+                    <li>
+                        <code>click @e1</code>：单击元素
+                    </li>
+                    <li>
+                        <code>dblclick @e1</code>：双击元素
+                    </li>
+                    <li>
+                        <code>focus @e1</code>：聚焦元素
+                    </li>
+                    <li>
+                        <code>hover @e1</code>：悬停元素
+                    </li>
+                </ul>
+                <div class="desc">所有操作需使用快照返回的 @ref 标识符</div>
+            </div>
+
+            <!-- 交互操作：输入 -->
+            <div class="card">
+                <h2>⌨️ 文本输入</h2>
+                <ul>
+                    <li>
+                        <code>fill @e2 "text"</code>：清空后输入
+                    </li>
+                    <li>
+                        <code>type @e2 "text"</code>：输入不先清空
+                    </li>
+                    <li>
+                        <code>press Enter</code>：按键（别名：key）
+                    </li>
+                    <li>
+                        <code>press Control+a</code>：组合键
+                    </li>
+                    <li>
+                        <code>keydown Shift</code>：按下按键
+                    </li>
+                    <li>
+                        <code>keyup Shift</code>：释放按键
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 表单操作 -->
+            <div class="card">
+                <h2>📝 表单操作</h2>
+                <ul>
+                    <li>
+                        <code>check @e1</code>：选中复选框
+                    </li>
+                    <li>
+                        <code>uncheck @e1</code>：取消选中
+                    </li>
+                    <li>
+                        <code>select @e1 "value"</code>：下拉选择
+                    </li>
+                    <li>
+                        <code>select @e1 "a" "b"</code>：多选
+                    </li>
+                    <li>
+                        <code>upload @e1 file.pdf</code>：上传文件
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 滚动 -->
+            <div class="card">
+                <h2>📜 滚动控制</h2>
+                <ul>
+                    <li>
+                        <code>scroll down 500</code>：向下滚动（默认：300px）
+                    </li>
+                    <li>
+                        <code>scroll up 500</code>：向上滚动
+                    </li>
+                    <li>
+                        <code>scrollintoview @e1</code>：滚动元素到视图（别名：scrollinto）
+                    </li>
+                    <li>
+                        <code>drag @e1 @e2</code>：拖拽操作
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 获取信息 -->
+            <div class="card">
+                <h2>🔍 获取信息</h2>
+                <ul>
+                    <li>
+                        <code>get text @e1</code>：元素文本
+                    </li>
+                    <li>
+                        <code>get html @e1</code>：元素 HTML
+                    </li>
+                    <li>
+                        <code>get value @e1</code>：输入值
+                    </li>
+                    <li>
+                        <code>get attr @e1 href</code>：属性值
+                    </li>
+                    <li>
+                        <code>get title</code>：页面标题
+                    </li>
+                    <li>
+                        <code>get url</code>：当前 URL
+                    </li>
+                    <li>
+                        <code>get count ".item"</code>：匹配元素数量
+                    </li>
+                    <li>
+                        <code>get box @e1</code>：边界框
+                    </li>
+                    <li>
+                        <code>get styles @e1</code>：计算样式
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 检查状态 -->
+            <div class="card">
+                <h2>✅ 检查状态</h2>
+                <ul>
+                    <li>
+                        <code>is visible @e1</code>：是否可见
+                    </li>
+                    <li>
+                        <code>is enabled @e1</code>：是否可用
+                    </li>
+                    <li>
+                        <code>is checked @e1</code>：是否已选中
+                    </li>
+                </ul>
+                <div class="desc">返回真值或假值用于条件判断</div>
+            </div>
+
+            <!-- 截图与 PDF -->
+            <div class="card">
+                <h2>📷 截图与 PDF</h2>
+                <ul>
+                    <li>
+                        <code>screenshot</code>：截图到 stdout
+                    </li>
+                    <li>
+                        <code>screenshot path.png</code>：保存到文件
+                    </li>
+                    <li>
+                        <code>screenshot --full</code>：全页截图
+                    </li>
+                    <li>
+                        <code>pdf output.pdf</code>：保存为 PDF
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 视频录制 -->
+            <div class="card">
+                <h2>🎬 视频录制</h2>
+                <ul>
+                    <li>
+                        <code>record start ./demo.webm</code>：开始录制
+                    </li>
+                    <li>
+                        <code>record stop</code>：停止并保存视频
+                    </li>
+                    <li>
+                        <code>record restart ./take2.webm</code>：停止当前 + 开始新录制
+                    </li>
+                </ul>
+                <div class="desc">录制创建新上下文但保留 cookies/storage。未提供 URL 时自动回到当前页</div>
+            </div>
+
+            <!-- 等待 -->
+            <div class="card">
+                <h2>⏳ 等待</h2>
+                <ul>
+                    <li>
+                        <code>wait @e1</code>：等待元素出现
+                    </li>
+                    <li>
+                        <code>wait 2000</code>：等待毫秒数
+                    </li>
+                    <li>
+                        <code>wait --text "Success"</code>：等待文本（或 -t）
+                    </li>
+                    <li>
+                        <code>wait --url "**/dashboard"</code>：等待 URL 模式（或 -u）
+                    </li>
+                    <li>
+                        <code>wait --load networkidle</code>：等待网络空闲（或 -l）
+                    </li>
+                    <li>
+                        <code>wait --fn "window.ready"</code>：等待 JS 条件（或 -f）
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 鼠标控制 -->
+            <div class="card">
+                <h2>🖱️ 鼠标控制</h2>
+                <ul>
+                    <li>
+                        <code>mouse move 100 200</code>：移动鼠标
+                    </li>
+                    <li>
+                        <code>mouse down left</code>：按下按钮
+                    </li>
+                    <li>
+                        <code>mouse up left</code>：释放按钮
+                    </li>
+                    <li>
+                        <code>mouse wheel 100</code>：滚轮滚动
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 语义定位器 -->
+            <div class="card">
+                <h2>🎯 语义定位器</h2>
+                <ul>
+                    <li>
+                        <code>find role button click --name "Submit"</code>：按角色定位
+                    </li>
+                    <li>
+                        <code>find text "Sign In" click</code>：按文本定位
+                    </li>
+                    <li>
+                        <code>find text "Sign In" click --exact</code>：精确匹配
+                    </li>
+                    <li>
+                        <code>find label "Email" fill "user@test.com"</code>：按标签定位
+                    </li>
+                    <li>
+                        <code>find placeholder "Search" type "query"</code>：按占位符定位
+                    </li>
+                    <li>
+                        <code>find alt "Logo" click</code>：按 alt 文本定位
+                    </li>
+                    <li>
+                        <code>find testid "submit-btn" click</code>：按测试 ID 定位
+                    </li>
+                    <li>
+                        <code>find first ".item" click</code>：首个匹配
+                    </li>
+                    <li>
+                        <code>find last ".item" click</code>：最后一个匹配
+                    </li>
+                    <li>
+                        <code>find nth 2 "a" hover</code>：第 n 个匹配
+                    </li>
+                </ul>
+                <div class="desc">除 @refs 外的替代定位方案，更语义化</div>
+            </div>
+
+            <!-- 浏览器设置 -->
+            <div class="card">
+                <h2>⚙️ 浏览器设置</h2>
+                <ul>
+                    <li>
+                        <code>set viewport 1920 1080</code>：设置视口大小
+                    </li>
+                    <li>
+                        <code>set device "iPhone 14"</code>：模拟设备
+                    </li>
+                    <li>
+                        <code>set user-agent "custom"</code>：自定义 User-Agent
+                    </li>
+                    <li>
+                        <code>set geolocation 37.7 -122.4</code>：设置地理位置
+                    </li>
+                    <li>
+                        <code>set timezone "America/LA"</code>：设置时区
+                    </li>
+                    <li>
+                        <code>set locale "ja-JP"</code>：设置语言环境
+                    </li>
+                    <li>
+                        <code>set permissions geolocation</code>：权限设置
+                    </li>
+                    <li>
+                        <code>set extra-http-headers</code>：额外 HTTP 头
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 网络模拟 -->
+            <div class="card">
+                <h2>🌐 网络模拟</h2>
+                <h3>离线与速度</h3>
+                <ul>
+                    <li>
+                        <code>network offline</code>：离线模式
+                    </li>
+                    <li>
+                        <code>network online</code>：在线模式
+                    </li>
+                    <li>
+                        <code>network slow "good3g"</code>：模拟慢速网络
+                    </li>
+                    <li>
+                        <code>network fast</code>：快速网络
+                    </li>
+                </ul>
+                <div class="desc">支持：offline, good3g, slow3g, fast</div>
+            </div>
+
+            <!-- 请求拦截 -->
+            <div class="card">
+                <h2>🔌 请求拦截</h2>
+                <ul>
+                    <li>
+                        <code>network route "**/api/*" --status 200 --body '{"mock":true}'</code>：Mock 响应
+                    </li>
+                    <li>
+                        <code>network route "**/api/*" --file mock.json</code>：从文件加载
+                    </li>
+                    <li>
+                        <code>network route "**/api/*" --abort</code>：中止请求
+                    </li>
+                    <li>
+                        <code>network unroute "**/api/*"</code>：移除路由
+                    </li>
+                    <li>
+                        <code>network requests</code>：查看请求
+                    </li>
+                    <li>
+                        <code>network requests --filter api</code>：过滤请求
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 标签页与窗口 -->
+            <div class="card">
+                <h2>📑 标签页与窗口</h2>
+                <ul>
+                    <li>
+                        <code>tab</code>：列出标签
+                    </li>
+                    <li>
+                        <code>tab new [url]</code>：新标签
+                    </li>
+                    <li>
+                        <code>tab 2</code>：按索引切换
+                    </li>
+                    <li>
+                        <code>tab close</code>：关闭当前
+                    </li>
+                    <li>
+                        <code>tab close 2</code>：按索引关闭
+                    </li>
+                    <li>
+                        <code>window new</code>：新窗口
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 框架 -->
+            <div class="card">
+                <h2>🏗️ 框架操作</h2>
+                <ul>
+                    <li>
+                        <code)frame "#iframe"</code>：切换到 iframe
+                    </li>
+                    <li>
+                        <code>frame main</code>：回到主框架
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 对话框 -->
+            <div class="card">
+                <h2>💬 对话框</h2>
+                <ul>
+                    <li>
+                        <code>dialog accept [text]</code>：接受对话框
+                    </li>
+                    <li>
+                        <code>dialog dismiss</code>：拒绝对话框
+                    </li>
+                </ul>
+                <div class="desc">处理 alert、confirm、prompt 等原生对话框</div>
+            </div>
+
+            <!-- JavaScript -->
+            <div class="card">
+                <h2>📜 JavaScript</h2>
+                <ul>
+                    <li>
+                        <code>eval "document.title"</code>：执行 JavaScript
+                    </li>
+                </ul>
+                <div class="desc">在页面上下文中执行任意 JS 代码</div>
+            </div>
+
+            <!-- 全局选项 -->
+            <div class="card">
+                <h2>🛠️ 全局选项</h2>
+                <ul>
+                    <li>
+                        <code>--session &lt;name&gt;</code>：隔离浏览器会话
+                    </li>
+                    <li>
+                        <code>--json</code>：JSON 输出
+                    </li>
+                    <li>
+                        <code>--headed</code>：显示浏览器窗口
+                    </li>
+                    <li>
+                        <code>--full</code>：全页截图（-f）
+                    </li>
+                    <li>
+                        <code>--cdp &lt;port&gt;</code>：CDP 端口连接
+                    </li>
+                    <li>
+                        <code>-p &lt;provider&gt;</code>：云浏览器提供商
+                    </li>
+                    <li>
+                        <code>--proxy &lt;url&gt;</code>：代理服务器
+                    </li>
+                    <li>
+                        <code>--headers &lt;json&gt;</code>：HTTP 头
+                    </li>
+                    <li>
+                        <code>--executable-path &lt;p&gt;</code>：浏览器路径
+                    </li>
+                    <li>
+                        <code>--extension &lt;path&gt;</code>：加载扩展（可重复）
+                    </li>
+                    <li>
+                        <code>--help</code>：帮助（-h）
+                    </li>
+                    <li>
+                        <code>--version</code>：版本（-V）
+                    </li>
+                    <li>
+                        <code>&lt;command&gt; --help</code>：命令帮助
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 代理支持 -->
+            <div class="card">
+                <h2>🌍 代理支持</h2>
+                <pre><code class="language-bash">agent-browser --proxy http://proxy.com:8080 open example.com
+agent-browser --proxy http://user:pass@proxy.com:8080 open example.com
+agent-browser --proxy socks5://proxy.com:1080 open example.com</code></pre>
+                <div class="desc">支持 HTTP、HTTPS、SOCKS5 代理协议</div>
+            </div>
+
+            <!-- 环境变量 -->
+            <div class="card">
+                <h2>🔧 环境变量</h2>
+                <ul>
+                    <li>
+                        <code>AGENT_BROWSER_SESSION</code>：默认会话名
+                    </li>
+                    <li>
+                        <code>AGENT_BROWSER_EXECUTABLE_PATH</code>：自定义浏览器路径
+                    </li>
+                    <li>
+                        <code>AGENT_BROWSER_EXTENSIONS</code>：扩展路径（逗号分隔）
+                    </li>
+                    <li>
+                        <code>AGENT_BROWSER_PROVIDER</code>：云浏览器提供商
+                    </li>
+                    <li>
+                        <code>AGENT_BROWSER_STREAM_PORT</code>：WebSocket 流端口
+                    </li>
+                    <li>
+                        <code>AGENT_BROWSER_HOME</code>：自定义安装位置
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 示例：表单提交 -->
+            <div class="card">
+                <h2>📝 示例：表单提交</h2>
+                <pre><code class="language-bash">agent-browser open https://example.com/form
+agent-browser snapshot -i
+agent-browser fill @e1 "user@example.com"
+agent-browser fill @e2 "password123"
+agent-browser click @e3
+agent-browser wait --load networkidle
+agent-browser snapshot -i</code></pre>
+                <div class="desc">使用快照中的 @ref 填写表单并提交</div>
+            </div>
+
+            <!-- 示例：认证状态保存 -->
+            <div class="card">
+                <h2>🔐 示例：认证状态保存</h2>
+                <h3>登录一次</h3>
+                <pre><code class="language-bash">agent-browser open https://app.example.com/login
+agent-browser snapshot -i
+agent-browser fill @e1 "username"
+agent-browser fill @e2 "password"
+agent-browser click @e3
+agent-browser wait --url "**/dashboard"
+agent-browser state save auth.json</code></pre>
+                <h3>后续会话</h3>
+                <pre><code class="language-bash">agent-browser state load auth.json
+agent-browser open https://app.example.com/dashboard</code></pre>
+            </div>
+
+            <!-- 会话 -->
+            <div class="card">
+                <h2>🔄 会话（并行浏览器）</h2>
+                <pre><code class="language-bash">agent-browser --session test1 open site-a.com
+agent-browser --session test2 open site-b.com
+agent-browser session list</code></pre>
+                <div class="desc">支持多个并行浏览器会话，每个会话独立</div>
+            </div>
+
+            <!-- JSON 输出 -->
+            <div class="card">
+                <h2>📊 JSON 输出</h2>
+                <pre><code class="language-bash">agent-browser snapshot -i --json
+agent-browser get text @e1 --json</code></pre>
+                <div class="desc">机器可读输出，便于脚本解析和自动化</div>
+            </div>
+
+            <!-- 调试 -->
+            <div class="card">
+                <h2>🐛 调试</h2>
+                <ul>
+                    <li>
+                        <code>--headed</code>：显示浏览器窗口
+                    </li>
+                    <li>
+                        <code>--cdp 9222</code>：CDP 端口连接
+                    </li>
+                    <li>
+                        <code>connect 9222</code>：连接命令
+                    </li>
+                    <li>
+                        <code>console</code>：查看控制台消息
+                    </li>
+                    <li>
+                        <code>console --clear</code>：清空控制台
+                    </li>
+                    <li>
+                        <code>errors</code>：查看页面错误
+                    </li>
+                    <li>
+                        <code>errors --clear</code>：清空错误
+                    </li>
+                    <li>
+                        <code>highlight @e1</code>：高亮元素
+                    </li>
+                    <li>
+                        <code>trace start</code>：开始录制 trace
+                    </li>
+                    <li>
+                        <code>trace stop trace.zip</code>：保存 trace
+                    </li>
+                    <li>
+                        <code>record start ./debug.webm</code>：录制视频
+                    </li>
+                    <li>
+                        <code>record stop</code>：保存录制
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script src="../../assets/common.js"></script>
+    <script>
+    // Prism.js 代码高亮初始化
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.Prism) {
+        Prism.highlightAll();
+        Prism.plugins.lineNumbers = false;
+        console.log('代码高亮已启用');
+      }
+    });
+    </script>
+</body>
+</html>
