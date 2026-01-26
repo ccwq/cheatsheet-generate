@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Obsidian Dataview 速查表</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../../assets/variables.css">
+    <link rel="stylesheet" href="../../assets/global.css">
+    <link rel="stylesheet" href="../../assets/cheatsheet.css">
+    <style>
+        :root {
+            --col-width: 400px;
+            --gap: 16px;
+        }
+        .panel label {
+            color: var(--panel-accent);
+        }
+        .panel .title {
+            color: var(--panel-accent);
+        }
+        .warning-box {
+            background: rgba(255, 165, 0, 0.1);
+            border-left: 3px solid orange;
+            padding: 8px;
+            margin: 8px 0;
+            font-size: 0.9em;
+            color: #ddd;
+        }
+        .tip-box {
+            background: rgba(0, 200, 150, 0.1);
+            border-left: 3px solid #00c896;
+            padding: 8px;
+            margin: 8px 0;
+            font-size: 0.9em;
+            color: #ddd;
+        }
+    </style>
+
+    <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png" />
+    <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png" />
+  </head>
+<body>
+    <div class="container">
+        <div class="panel">
+            <span style="color:#7bfbb7;font-size:16px;margin-right:auto;">Obsidian Dataview 速查表</span>
+            <label for="columnWidth">🔧 调整每列宽度：</label>
+            <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+            <span id="widthVal" class="slider-val">340px</span>
+        </div>
+        <div class="cheat-columns" id="columns">
+            
+            <!-- 元数据核心 -->
+            <div class="card">
+                <h2>📝 元数据核心 <a href="https://blacksmithgu.github.io/obsidian-dataview/annotation/add-metadata/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>Frontmatter (YAML)</h3>
+                <pre><code class="language-yaml">---
+author: "Edgar Allan Poe"
+published: 1845-01-01
+tags: [poems, horror]
+rating: 5
+price: 19.99
+contact:
+  email: "test@example.com"
+---</code></pre>
+
+                <h3>行内字段 (Inline)</h3>
+                <pre><code class="language-yaml">Basic Field:: Some Value
+I rate this [rating:: 9]!
+Hidden key (secretKey:: value)</code></pre>
+
+                <h3>列表/任务字段</h3>
+                <pre><code class="language-markdown">- [ ] 发邮件 [due:: 2024-12-31]
+- 购买 [quantity:: 5] 苹果</code></pre>
+
+                <div class="tip-box">💡 嵌套访问: <code>contact.email</code> | 数组索引: <code>tags[0]</code></div>
+            </div>
+
+            <!-- 隐式字段完整版 -->
+            <div class="card">
+                <h2>📋 隐式字段 (file.*) <a href="https://blacksmithgu.github.io/obsidian-dataview/annotation/metadata-pages/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>基本信息</h3>
+                <ul>
+                    <li><code>file.name</code> - 文件名 (不含扩展)</li>
+                    <li><code>file.folder</code> - 父文件夹路径</li>
+                    <li><code>file.path</code> - 完整路径</li>
+                    <li><code>file.link</code> - 文件链接对象</li>
+                    <li><code>file.ext</code> - 扩展名 (.md)</li>
+                    <li><code>file.size</code> - 大小 (字节)</li>
+                    <li><code>file.aliases</code> - 别名数组</li>
+                </ul>
+
+                <h3>时间字段</h3>
+                <ul>
+                    <li><code>file.cday</code> - 创建日期 (日粒度)</li>
+                    <li><code>file.mday</code> - 修改日期 (日粒度)</li>
+                    <li><code>file.ctime</code> - 创建时间 (datetime)</li>
+                    <li><code>file.mtime</code> - 修改时间 (datetime)</li>
+                    <li><code>file.day</code> - 自动提取的日期</li>
+                </ul>
+
+                <h3>链接与标签</h3>
+                <ul>
+                    <li><code>file.tags</code> - 所有标签 (含嵌套展开)</li>
+                    <li><code>file.etags</code> - 显式标签 (仅 #tag)</li>
+                    <li><code>file.outlinks</code> - 出链数组</li>
+                    <li><code>file.inlinks</code> - 入链数组</li>
+                </ul>
+
+                <h3>列表与任务</h3>
+                <ul>
+                    <li><code>file.lists</code> - 所有列表项</li>
+                    <li><code>file.tasks</code> - 所有任务</li>
+                </ul>
+            </div>
+
+            <!-- FROM 数据源 -->
+            <div class="card">
+                <h2>📂 FROM 数据源 <a href="https://blacksmithgu.github.io/obsidian-dataview/reference/sources/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>标签与文件夹</h3>
+                <pre><code class="language-sql">FROM #tag              "标签及其子标签"
+FROM #tag AND -"exclude" "排除某文件夹"
+FROM "folder/"         "文件夹及其子文件夹"
+FROM "folder" AND #tag "组合条件"</code></pre>
+
+                <h3>文件与链接</h3>
+                <pre><code class="language-sql">FROM [[Note]]          "指定页面"
+FROM outgoing([[Note]]) "Note 链接出的页面"
+FROM incoming([[Note]]) "链接到 Note 的页面"
+FROM [[Note]] OR #tag  "多数据源"</code></pre>
+
+                <h3>组合与排除</h3>
+                <pre><code class="language-sql">FROM #a AND #b         "同时满足"
+FROM #a OR #b           "满足任一"
+FROM #tag AND -"30 School" "排除"
+FROM ("path/" OR [[Note]]) AND -#archive</code></pre>
+
+                <div class="tip-box">💡 可用括号改变优先级，支持 NOT 前缀</div>
+            </div>
+
+            <!-- 查询结构与操作符 -->
+            <div class="card">
+                <h2>🔍 查询结构 <a href="https://blacksmithgu.github.io/obsidian-dataview/queries/structure/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>通用格式</h3>
+                <pre><code class="language-sql">TABLE file.day, (price * 0.8) AS "Discount"
+FROM "Books"
+WHERE rating >= 4
+SORT file.day DESC</code></pre>
+
+                <h3>操作符</h3>
+                <ul>
+                    <li><strong>比较</strong>: <code>=</code> <code>!=</code> <code>&lt;</code> <code>&gt;</code> <code>&lt;=</code> <code>&gt;=</code></li>
+                    <li><strong>逻辑</strong>: <code>&</code> (且) <code>|</code> (或) <code>!</code> (非)</li>
+                    <li><strong>算术</strong>: <code>+</code> <code>-</code> <code>*</code> <code>/</code></li>
+                </ul>
+
+                <h3>日期简写</h3>
+                <ul>
+                    <li><code>date(today)</code> <code>date(yesterday)</code> <code>date(tomorrow)</code></li>
+                    <li><code>date(now)</code> - 当前时刻</li>
+                    <li><code>date(sow)</code> - 本周初 (Start of Week)</li>
+                    <li><code>date(eom)</code> - 本月末 (End of Month)</li>
+                    <li><code>date(som)</code> - 本月初 (Start of Month)</li>
+                </ul>
+            </div>
+
+            <!-- 查询类型 -->
+            <div class="card">
+                <h2>📊 查询类型 <a href="https://blacksmithgu.github.io/obsidian-dataview/queries/query-types/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>TABLE - 表格视图</h3>
+                <pre><code class="language-sql">TABLE author, published, rating AS "Score"
+FROM #books
+WHERE rating >= 4</code></pre>
+
+                <h3>LIST - 列表视图</h3>
+                <pre><code class="language-sql">LIST file.link
+FROM #projects
+WHERE !completed</code></pre>
+
+                <h3>TASK - 任务视图</h3>
+                <pre><code class="language-sql">TASK
+FROM #work
+WHERE !completed AND due <= date(today)</code></pre>
+
+                <h3>CALENDAR - 日历视图</h3>
+                <pre><code class="language-sql">CALENDAR file.cday
+FROM #journal</code></pre>
+            </div>
+
+            <!-- 数据命令 -->
+            <div class="card">
+                <h2>⚙️ 数据命令 <a href="https://blacksmithgu.github.io/obsidian-dataview/queries/data-commands/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>WHERE - 筛选</h3>
+                <pre><code class="language-sql">WHERE !completed          "字段不存在或为空"
+WHERE completed           "字段存在且为真"
+WHERE due AND due < date(today)
+WHERE file.mtime >= date(today) - dur(7 days)
+WHERE contains(tags, "work")
+WHERE icontains(author, "john")</code></pre>
+
+                <h3>SORT - 排序</h3>
+                <pre><code class="language-sql">SORT file.ctime DESC      "降序"
+SORT rating ASC, file.name ASC "多字段"</code></pre>
+
+                <h3>LIMIT - 限制</h3>
+                <pre><code class="language-sql">LIMIT 10                  "取前10条"</code></pre>
+            </div>
+
+            <!-- FLATTEN 与 GROUP BY -->
+            <div class="card">
+                <h2>🔀 FLATTEN & GROUP BY <a href="https://blacksmithgu.github.io/obsidian-dataview/queries/data-commands/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>FLATTEN - 展开数组</h3>
+                <pre><code class="language-sql">FLATTEN authors           "每作者一行"
+FLATTEN file.tags AS tag   "带别名展开"
+FLATTEN list(1,2,3) AS num</code></pre>
+
+                <h3>GROUP BY - 分组</h3>
+                <div class="warning-box">⚠️ 分组后通过 <code>rows</code> 访问原始字段</div>
+                <pre><code class="language-sql">GROUP BY file.folder
+SORT rows.file.ctime DESC</code></pre>
+
+                <h3>分组后聚合</h3>
+                <pre><code class="language-sql">GROUP BY author
+FLATTEN length(rows) AS "count"
+FLATTEN sum(rows.rating) AS "total"
+FLATTEN average(rows.rating) AS "avg"
+SORT count DESC</code></pre>
+
+                <div class="tip-box">💡 常用聚合: <code>length(rows)</code>, <code>min/max/sum/average(rows.field)</code></div>
+            </div>
+
+            <!-- 表达式与类型处理 -->
+            <div class="card">
+                <h2>🧮 表达式与类型 <a href="https://blacksmithgu.github.io/obsidian-dataview/reference/expressions/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>字段不存在/空值处理</h3>
+                <pre><code class="language-sql">WHERE !field             "不存在或空值"
+WHERE field              "存在且非空"
+WHERE default(rating, 0) >= 3
+WHERE field != ""        "字符串非空"</code></pre>
+
+                <h3>日期与时长运算</h3>
+                <pre><code class="language-sql">WHERE file.day >= date(sow) - dur(7 days)
+WHERE due + dur(1 day) <= date(today)
+WHERE striptime(due) = striptime(date(today))
+WHERE dateformat(due, "yyyy-MM") = "2024-01"</code></pre>
+
+                <h3>字符串操作</h3>
+                <pre><code class="language-sql">WHERE contains(title, "Note")
+WHERE regexmatch("^\d{4}", file.name)
+WHERE lower(author) = lower("JOHN")
+WHERE split(tags, "/")[0] = "work"</code></pre>
+
+                <h3>链接与列表</h3>
+                <pre><code class="language-sql">WHERE contains(file.outlinks, [[Target]])
+WHERE meta(link).path = "path/to/note"
+WHERE length(file.tags) > 0</code></pre>
+            </div>
+
+            <!-- 常用函数速查 -->
+            <div class="card">
+                <h2>🛠️ 常用函数速查 <a href="https://blacksmithgu.github.io/obsidian-dataview/reference/functions/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>构造函数</h3>
+                <ul>
+                    <li><code>list(a, b, c)</code> - 创建数组</li>
+                    <li><code>object("key", val)</code> - 创建对象</li>
+                    <li><code>date("2024-01-01")</code> - 解析日期</li>
+                    <li><code>dur("3 days")</code> - 解析时长</li>
+                    <li><code>link("path", "显示名")</code> - 创建链接</li>
+                    <li><code>choice(true, "yes", "no")</code> - 条件选择</li>
+                </ul>
+
+                <h3>数值与统计</h3>
+                <ul>
+                    <li><code>round(3.14159, 2)</code> - 四舍五入</li>
+                    <li><code>min/max(a, b)</code> - 最值</li>
+                    <li><code>sum/avg(array)</code> - 求和/平均</li>
+                    <li><code>length(array)</code> - 长度</li>
+                </ul>
+
+                <h3>字符串</h3>
+                <ul>
+                    <li><code>contains/replace/split</code> - 包含/替换/分割</li>
+                    <li><code</code> - >icontains忽略大小写包含</li>
+                    <li><code>regexmatch/regexreplace</code> - 正则</li>
+                    <li><code>lower/upper</code> - 大小写</li>
+                </ul>
+
+                <h3>日期格式化</h3>
+                <ul>
+                    <li><code>dateformat(date, "yyyy-MM-dd")</code></li>
+                    <li><code>dateformat(date, "HH:mm")</code></li>
+                    <li><code>dateformat(date, "cccc")</code> - 星期几</li>
+                    <li><code>striptime(date)</code> - 去除时间</li>
+                </ul>
+            </div>
+
+            <!-- TASK 场景模板 -->
+            <div class="card">
+                <h2>✅ TASK 场景模板 <a href="https://blacksmithgu.github.io/obsidian-dataview/annotation/metadata-tasks/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>任务字段</h3>
+                <ul>
+                    <li><code>completed</code> - 是否完成 (bool)</li>
+                    <li><code>fullyCompleted</code> - 子任务全部完成</li>
+                    <li><code>status</code> - 状态字符 (<code>x</code>/<code>-</code>/<code>></code>)</li>
+                    <li><code>text</code> - 任务文本</li>
+                    <li><code>due</code> - 截止日期</li>
+                    <li><code>section</code> - 所在标题链接</li>
+                </ul>
+
+                <h3>常用模板</h3>
+                <pre><code class="language-sql">"未完成任务"
+TASK WHERE !completed
+
+"逾期任务"
+TASK WHERE !completed AND due < date(today)
+
+"最近到期"
+TASK WHERE due AND due >= date(sow)
+SORT due ASC
+
+"按项目分组统计"
+TASK FROM #projects
+GROUP BY section
+FLATTEN length(rows) AS "count"
+SORT count DESC</code></pre>
+
+                <h3>状态筛选</h3>
+                <pre><code class="language-sql">TASK WHERE status = ">"   "进行中"
+TASK WHERE status = "-"   "待办"
+TASK WHERE status = "x"   "已完成"</code></pre>
+            </div>
+
+            <!-- 行内查询 (Inline) -->
+            <div class="card">
+                <h2>🔗 行内查询 (Inline) <a href="https://blacksmithgu.github.io/obsidian-dataview/queries/dql-js-inline/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>行内表达式</h3>
+                <pre><code class="language-markdown">共有 = dv.pages("#books").length 本书
+评分: = this.rating
+更新时间: = dateformat(this.file.mtime, "yyyy-MM-dd")</code></pre>
+
+                <h3>内联 DQL 块</h3>
+                <pre><code class="language-markdown">\`\``dataview
+LIST file.link
+FROM #projects
+LIMIT 5
+\`\`\`</code></pre>
+
+                <h3>行内 JS 表达式</h3>
+                <pre><code class="language-markdown">当前时间: =[[$= dv.date("now").toFormat("yyyy-MM-dd HH:mm")]]</code></pre>
+
+                <div class="tip-box">💡 行内表达式可在任意位置嵌入结果</div>
+            </div>
+
+            <!-- DataviewJS 入门 -->
+            <div class="card">
+                <h2>⚡ DataviewJS <a href="https://blacksmithgu.github.io/obsidian-dataview/api/intro/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <div class="desc">JavaScript 高级查询，需要放入 <code>```dataviewjs</code> 代码块</div>
+                <pre><code class="language-javascript">let pages = dv.pages("#book");
+
+// 表格: 链接与评分
+dv.table(
+  ["File", "Rating"],
+  pages.map(p => [p.file.link, p.rating])
+);
+
+// 任务: 未完成且过期
+dv.taskList(
+  pages.file.tasks
+  .where(t => !t.completed && t.due < dv.date("today"))
+);</code></pre>
+
+                <h3>常用 API</h3>
+                <ul>
+                    <li><code>dv.pages("#tag")</code> - 查询页面</li>
+                    <li><code>dv.page(path)</code> - 单个页面</li>
+                    <li><code>dv.current()</code> - 当前文件</li>
+                    <li><code>dv.table(headers, rows)</code> - 表格</li>
+                    <li><code>dv.list(array)</code> - 列表</li>
+                    <li><code>dv.taskList(tasks)</code> - 任务列表</li>
+                </ul>
+            </div>
+
+            <!-- DataArray 链式操作 -->
+            <div class="card">
+                <h2>🔄 DataArray 链式操作 <a href="https://blacksmithgu.github.io/obsidian-dataview/api/data-array/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>链式方法</h3>
+                <pre><code class="language-javascript">dv.pages("#book")
+  .where(p => p.rating >= 4)
+  .sort(p => p.published, "desc")
+  .map(p => [p.file.link, p.rating])</code></pre>
+
+                <h3>常用方法</h3>
+                <ul>
+                    <li><code>.where(predicate)</code> - 过滤</li>
+                    <li><code>.sort(field, [order])</code> - 排序</li>
+                    <li><code>.map(func)</code> - 映射</li>
+                    <li><code>.filter(func)</code> - 过滤 (同 where)</li>
+                    <li><code>.flatten(arrayField)</code> - 展开数组</li>
+                    <li><code>.groupBy(field)</code> - 分组</li>
+                    <li><code>.length</code> - 长度</li>
+                    <li><code>.first(n)</code> - 取前 n 条</li>
+                    <li><code>.array</code> - 转为普通数组</li>
+                </ul>
+
+                <h3>实战示例</h3>
+                <pre><code class="language-javascript">// 按标签分组统计
+dv.pages("#note")
+  .flatten(p => p.tags)
+  .groupBy(t => t)
+  .sort(g => g.rows.length, "desc")
+  .forEach(g => {
+    dv.header(3, g.key + ": " + g.rows.length);
+  });</code></pre>
+            </div>
+
+            <!-- 调试与排错 -->
+            <div class="card">
+                <h2>🐛 调试与排错 <a href="https://blacksmithgu.github.io/obsidian-dataview/resources/faq/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>常用调试技巧</h3>
+                <pre><code class="language-sql">"查看实际字段值"
+TABLE field1, field2
+FROM [[CurrentPage]]
+
+"检查字段是否存在"
+TABLE file.name, field
+WHERE file.name = [[CurrentPage]].file.name</code></pre>
+
+                <h3>常见问题</h3>
+                <ul>
+                    <li><strong>无结果</strong>: 检查字段名拼写、类型是否匹配</li>
+                    <li><strong>日期比较失败</strong>: 用 <code>striptime()</code> 去除时间部分</li>
+                    <li><strong>空值问题</strong>: 用 <code>default(field, value)</code></li>
+                    <li><strong>数组包含</strong>: 用 <code>contains()</code> 而不是 <code>=</code></li>
+                </ul>
+
+                <h3>类型转换</h3>
+                <ul>
+                    <li><code>date(string)</code> - 字符串转日期</li>
+                    <li><code>number(string)</code> - 字符串转数字</li>
+                    <li><code>string(any)</code> - 任意转字符串</li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+    <script src="../../assets/prism.js"></script>
+    <script src="../../assets/prism-autoloader.min.js"></script>
+    <script src="../../assets/common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+             Prism.highlightAll();
+        });
+    </script>
+</body>
+</html>
