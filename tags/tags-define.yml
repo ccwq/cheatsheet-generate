@@ -17,6 +17,8 @@
     - 操作系统
     - 游戏开发
     - Windows
+    - Obsidian
+    - 知识管理
 - name: "2️⃣ 工具类型"
   description: "这是 **cheatsheet 最核心的过滤维度**。"
   tags:
@@ -58,3 +60,4 @@
     - 框架
     - 守护进程
     - 代理 / 服务
+    - 插件
