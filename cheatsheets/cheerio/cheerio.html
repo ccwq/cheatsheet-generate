@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Cheerio 服务器端 jQuery 速查表</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../../assets/variables.css">
+    <link rel="stylesheet" href="../../assets/global.css">
+    <link rel="stylesheet" href="../../assets/cheatsheet.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --col-width: 520px;
+            --gap: 16px;
+        }
+
+        .panel label {
+            color: var(--panel-accent);
+        }
+
+        .panel .title {
+            color: var(--panel-accent);
+        }
+
+        pre code[class*="language-"] {
+            font-size: 13px;
+            line-height: 1.2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="panel">
+            <span style="color:#7bfbb7;font-size:16px;margin-right:auto;">Cheerio 服务器端 jQuery 速查表</span>
+            <label for="columnWidth">🔧 调整每列宽度：</label>
+            <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+            <span id="widthVal" class="slider-val">340px</span>
+        </div>
+        <div class="cheat-columns" id="columns">
+            <!-- 介绍 -->
+            <div class="card">
+                <h2>📖 介绍 <a href="https://cheerio.js.org/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>🎯 什么是 Cheerio</h3>
+                <pre><span class="comment">专为服务器(后端)开发的，快速、灵活、有效的 jQuery 核心实现</span>
+<span class="comment">Cheerio 删除了所有 DOM 矛盾以及浏览器的尴尬部分</span></pre>
+
+                <h3>💡 快速开始</h3>
+                <pre><span class="keyword">const</span> cheerio = <span class="function">require</span>(<span class="string">"cheerio"</span>);
+<span class="keyword">const</span> $ = cheerio.<span class="function">load</span>(<span class="string">'&lt;h2 class="title"&gt;Hello world&lt;/h2&gt;'</span>);
+
+$(<span class="string">"h2.title"</span>).<span class="function">text</span>(<span class="string">"Hello there!"</span>);
+$(<span class="string">"h2"</span>).<span class="function">addClass</span>(<span class="string">"welcome"</span>);
+
+$.<span class="function">html</span>();
+<span class="comment">//=> &lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;&lt;h2 class="title welcome"&gt;Hello there!&lt;/h2&gt;&lt;/body&gt;&lt;/html&gt;</span></pre>
+            </div>
+
+            <!-- 安装与特点 -->
+            <div class="card">
+                <h2>📦 安装 <a href="https://cheerio.js.org/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <pre>npm install cheerio</pre>
+
+                <h3>🌟 核心特点</h3>
+                <ul>
+                    <li><span class="highlight">❤ 相似语法</span> - 与 jQuery 选择器几乎相同</li>
+                    <li><span class="highlight">ϟ 非常快</span> - 速度是 JSDOM 的 8 倍</li>
+                    <li><span class="highlight">❁ 非常灵活</span> - 基于 forgiving htmlparser2</li>
+                    <li><span class="highlight">📊 轻量级</span> - 无浏览器依赖</li>
+                </ul>
+
+                <div class="tip">
+                    💡 Cheerio 无法解决所有问题，如需浏览器环境请使用 JSDOM
+                </div>
+            </div>
+
+            <!-- 加载 HTML -->
+            <div class="card">
+                <h2>🔧 加载 HTML <a href="https://cheerio.js.org/docs/basics/loading" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>📋 推荐方式</h3>
+                <pre><span class="keyword">var</span> cheerio = <span class="function">require</span>(<span class="string">"cheerio"</span>),
+  $ = cheerio.<span class="function">load</span>(<span class="string">'&lt;ul id="fruits"&gt;...&lt;/ul&gt;'</span>);</pre>
+
+                <h3>📝 其他加载方式</h3>
+                <pre><span class="comment">传递字符串加载 HTML</span>
+$ = <span class="function">require</span>(<span class="string">"cheerio"</span>);
+$(<span class="string">"ul"</span>, <span class="string">'&lt;ul id="fruits"&gt;...&lt;/ul&gt;'</span>);
+
+<span class="comment">作为根(root)</span>
+$(<span class="string">"li"</span>, <span class="string">"ul"</span>, <span class="string">'&lt;ul id="fruits"&gt;...&lt;/ul&gt;'</span>);</pre>
+
+                <h3>⚙️ 解析选项</h3>
+                <pre>$ = cheerio.<span class="function">load</span>(<span class="string">'&lt;ul id="fruits"&gt;...&lt;/ul&gt;'</span>, {
+  normalizeWhitespace: <span class="keyword">true</span>,
+  xmlMode: <span class="keyword">true</span>,
+});</pre>
+
+                <div class="desc">
+                    默认选项：normalizeWhitespace: false, xmlMode: false, decodeEntities: true
+                </div>
+            </div>
+
+            <!-- 选择器 -->
+            <div class="card">
+                <h2>🎯 元素选择器 <a href="https://cheerio.js.org/docs/basics/selecting" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>📋 基本语法</h3>
+                <pre>$(<span class="string">"selector"</span>, <span class="string">[context]</span>, <span class="string">[root]</span>)</pre>
+
+                <h3>💡 示例</h3>
+                <pre><span class="comment">在上下文中选择</span>
+$(<span class="string">".apple"</span>, <span class="string">"#fruits"</span>).<span class="function">text</span>();
+<span class="comment">//=> Apple</span>
+
+<span class="comment">组合选择器</span>
+$(<span class="string">"ul .pear"</span>).<span class="function">attr</span>(<span class="string">"class"</span>);
+<span class="comment">//=> pear</span>
+
+<span class="comment">属性选择器</span>
+$(<span class="string">"li[class=orange]"</span>).<span class="function">html</span>();
+<span class="comment">//=> Orange</span></pre>
+
+                <div class="tip">
+                    💡 与 jQuery 选择器几乎相同，基于 CSSSelect 库实现
+                </div>
+            </div>
+
+            <!-- 属性操作 -->
+            <div class="card">
+                <h2>⚙️ 属性操作 <a href="https://cheerio.js.org/docs/api/attributes" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>📋 .attr(name, value)</h3>
+                <pre><span class="comment">获取属性</span>
+$(<span class="string">"ul"</span>).<span class="function">attr</span>(<span class="string">"id"</span>);
+<span class="comment">//=> fruits</span>
+
+<span class="comment">设置属性</span>
+$(<span class="string">".apple"</span>).<span class="function">attr</span>(<span class="string">"id"</span>, <span class="string">"favorite"</span>).<span class="function">html</span>();
+<span class="comment">//=> &lt;li class="apple" id="favorite"&gt;Apple&lt;/li&gt;</span></pre>
+
+                <h3>📋 .prop(name, value)</h3>
+                <pre><span class="comment">获取属性值</span>
+$(<span class="string">'input[type="checkbox"]'</span>).<span class="function">prop</span>(<span class="string">"checked"</span>);
+<span class="comment">//=> false</span>
+
+<span class="comment">设置属性值</span>
+$(<span class="string">'input[type="checkbox"]'</span>).<span class="function">prop</span>(<span class="string">"checked"</span>, <span class="keyword">true</span>);</pre>
+
+                <h3>📋 .data(name, value)</h3>
+                <pre><span class="comment">获取所有数据属性</span>
+$(<span class="string">'&lt;div data-apple-color="red"&gt;&lt;/div&gt;'</span>).<span class="function">data</span>();
+<span class="comment">//=> { appleColor: 'red' }</span>
+
+<span class="comment">获取特定数据属性</span>
+$(<span class="string">'&lt;div data-apple-color="red"&gt;&lt;/div&gt;'</span>).<span class="function">data</span>(<span class="string">"apple-color"</span>);
+<span class="comment">//=> 'red'</span></pre>
+
+                <h3>📋 .val([value])</h3>
+                <pre><span class="comment">获取值</span>
+$(<span class="string">'input[type="text"]'</span>).<span class="function">val</span>();
+
+<span class="comment">设置值</span>
+$(<span class="string">'input[type="text"]'</span>).<span class="function">val</span>(<span class="string">"test"</span>);</pre>
+            </div>
+
+            <!-- 类操作 -->
+            <div class="card">
+                <h2>🎨 类操作 <a href="https://cheerio.js.org/docs/api/classes" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>📋 .addClass(className)</h3>
+                <pre><span class="comment">添加单个类</span>
+$(<span class="string">".pear"</span>).<span class="function">addClass</span>(<span class="string">"fruit"</span>).<span class="function">html</span>();
+<span class="comment">//=> &lt;li class="pear fruit"&gt;Pear&lt;/li&gt;</span>
+
+<span class="comment">添加多个类</span>
+$(<span class="string">".apple"</span>).<span class="function">addClass</span>(<span class="string">"fruit red"</span>).<span class="function">html</span>();
+<span class="comment">//=> &lt;li class="apple fruit red"&gt;Apple&lt;/li&gt;</span></pre>
+
+                <h3>📋 .removeClass([className])</h3>
+                <pre><span class="comment">移除指定类</span>
+$(<span class="string">".pear"</span>).<span class="function">removeClass</span>(<span class="string">"pear"</span>).<span class="function">html</span>();
+<span class="comment">//=> &lt;li class=""&gt;Pear&lt;/li&gt;</span>
+
+<span class="comment">移除所有类</span>
+$(<span class="string">".apple"</span>).<span class="function">addClass</span>(<span class="string">"red"</span>).<span class="function">removeClass</span>().<span class="function">html</span>();
+<span class="comment">//=> &lt;li class=""&gt;Apple&lt;/li&gt;</span></pre>
+
+                <h3>📋 .hasClass(className)</h3>
+                <pre>$(<span class="string">".pear"</span>).<span class="function">hasClass</span>(<span class="string">"pear"</span>);
+<span class="comment">//=> true</span>
+
+$(<span class="string">"apple"</span>).<span class="function">hasClass</span>(<span class="string">"fruit"</span>);
+<span class="comment">//=> false</span></pre>
+
+                <h3>📋 .toggleClass(className, [switch])</h3>
+                <pre><span class="comment">切换类</span>
+$(<span class="string">".apple.green"</span>).<span class="function">toggleClass</span>(<span class="string">"fruit green red"</span>).<span class="function">html</span>();
+<span class="comment">//=> &lt;li class="apple fruit red"&gt;Apple&lt;/li&gt;</span>
+
+<span class="comment">强制添加</span>
+$(<span class="string">".apple.green"</span>).<span class="function">toggleClass</span>(<span class="string">"fruit green red"</span>, <span class="keyword">true</span>);</pre>
+            </div>
+
+            <!-- 表单处理 -->
+            <div class="card">
+                <h2>📝 表单处理 <a href="https://cheerio.js.org/docs/api/forms" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>📋 .serializeArray()</h3>
+                <pre><span class="comment">将表单元素编码为键值对数组</span>
+$(<span class="string">'&lt;form&gt;&lt;input name="foo" value="bar" /&gt;&lt;/form&gt;'</span>).<span class="function">serializeArray</span>();
+<span class="comment">//=> [ { name: 'foo', value: 'bar' } ]</span></pre>
+
+                <div class="desc">
+                    serializeArray 将一组表单元素编码为一组键值对
+                </div>
+            </div>
+
+            <!-- DOM 遍历 -->
+            <div class="card">
+                <h2>🔍 DOM 遍历 <a href="https://cheerio.js.org/docs/api/traversing" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>📋 .find(selector)</h3>
+                <pre><span class="comment">获取后代元素</span>
+$(<span class="string">"#fruits"</span>).<span class="function">find</span>(<span class="string">"li"</span>).length;
+<span class="comment">//=> 3</span>
+
+$(<span class="string">"#fruits"</span>).<span class="function">find</span>($(<span class="string">".apple"</span>)).length;
+<span class="comment">//=> 1</span></pre>
+
+                <h3>📋 .parent([selector])</h3>
+                <pre><span class="comment">获取父元素</span>
+$(<span class="string">".pear"</span>).<span class="function">parent</span>().<span class="function">attr</span>(<span class="string">"id"</span>);
+<span class="comment">//=> fruits</span></pre>
+
+                <h3>📋 .parents([selector])</h3>
+                <pre><span class="comment">获取所有祖先元素</span>
+$(<span class="string">".orange"</span>).<span class="function">parents</span>().length;
+<span class="comment">// => 2</span>
+
+<span class="comment">筛选祖先元素</span>
+$(<span class="string">".orange"</span>).<span class="function">parents</span>(<span class="string">"#fruits"</span>).length;
+<span class="comment">// => 1</span></pre>
+
+                <h3>📋 .children([selector])</h3>
+                <pre><span class="comment">获取子元素</span>
+$(<span class="string">"#fruits"</span>).<span class="function">children</span>().length;
+<span class="comment">//=> 3</span>
+
+$(<span class="string">"#fruits"</span>).<span class="function">children</span>(<span class="string">".pear"</span>).<span class="function">text</span>();
+<span class="comment">//=> Pear</span></pre>
+            </div>
+
+            <!-- 兄弟节点 -->
+            <div class="card">
+                <h2>👥 兄弟节点 <a href="https://cheerio.js.org/docs/api/traversing" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>📋 .next([selector])</h3>
+                <pre><span class="comment">获取下一个兄弟节点</span>
+$(<span class="string">".apple"</span>).<span class="function">next</span>().<span class="function">hasClass</span>(<span class="string">"orange"</span>);
+<span class="comment">//=> true</span></pre>
+
+                <h3>📋 .prev([selector])</h3>
+                <pre><span class="comment">获取前一个兄弟节点</span>
+$(<span class="string">".orange"</span>).<span class="function">prev</span>().<span class="function">hasClass</span>(<span class="string">"apple"</span>);
+<span class="comment">//=> true</span></pre>
+
+                <h3>📋 .siblings([selector])</h3>
+                <pre><span class="comment">获取所有兄弟节点</span>
+$(<span class="string">".pear"</span>).<span class="function">siblings</span>().length;
+<span class="comment">//=> 2</span>
+
+$(<span class="string">".pear"</span>).<span class="function">siblings</span>(<span class="string">".orange"</span>).length;
+<span class="comment">//=> 1</span></pre>
+
+                <h3>📋 .nextAll([selector])</h3>
+                <pre><span class="comment">获取后面的所有兄弟节点</span>
+$(<span class="string">".apple"</span>).<span class="function">nextAll</span>();
+<span class="comment">//=> [&lt;li class="orange"&gt;Orange&lt;/li&gt;, &lt;li class="pear"&gt;Pear&lt;/li&gt;]</span></pre>
+
+                <h3>📋 .prevAll([selector])</h3>
+                <pre><span class="comment">获取前面的所有兄弟节点</span>
+$(<span class="string">".pear"</span>).<span class="function">prevAll</span>();
+<span class="comment">//=> [&lt;li class="orange"&gt;Orange&lt;/li&gt;, &lt;li class="apple"&gt;Apple&lt;/li&gt;]</span></pre>
+            </div>
+
+            <!-- 过滤方法 -->
+            <div class="card">
+                <h2>🔎 过滤方法 <a href="https://cheerio.js.org/docs/api/traversing" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>📋 .filter(selector)</h3>
+                <pre><span class="comment">通过选择器过滤</span>
+$(<span class="string">"li"</span>).<span class="function">filter</span>(<span class="string">".orange"</span>).<span class="function">attr</span>(<span class="string">"class"</span>);
+<span class="comment">//=> orange</span>
+
+<span class="comment">通过函数过滤</span>
+$(<span class="string">"li"</span>).<span class="function">filter</span>(<span class="keyword">function</span> (i, el) {
+  <span class="keyword">return</span> $(<span class="keyword">this</span>).<span class="function">attr</span>(<span class="string">"class"</span>) === <span class="string">"orange"</span>;
+}).<span class="function">attr</span>(<span class="string">"class"</span>);
+<span class="comment">//=> orange</span></pre>
+
+                <h3>📋 .not(selector)</h3>
+                <pre><span class="comment">排除匹配的元素</span>
+$(<span class="string">"li"</span>).<span class="function">not</span>(<span class="string">".apple"</span>).length;
+<span class="comment">//=> 2</span></pre>
+
+                <h3>📋 .first()</h3>
+                <pre><span class="comment">选择第一个元素</span>
+$(<span class="string">"#fruits"</span>).<span class="function">children</span>().<span class="function">first</span>().<span class="function">text</span>();
+<span class="comment">//=> Apple</span></pre>
+
+                <h3>📋 .last()</h3>
+                <pre><span class="comment">选择最后一个元素</span>
+$(<span class="string">"#fruits"</span>).<span class="function">children</span>().<span class="function">last</span>().<span class="function">text</span>();
+<span class="comment">//=> Pear</span></pre>
+
+                <h3>📋 .eq(i)</h3>
+                <pre><span class="comment">根据索引选择元素</span>
+$(<span class="string">"li"</span>).<span class="function">eq</span>(<span class="number">0</span>).<span class="function">text</span>();
+<span class="comment">//=> Apple</span>
+
+<span class="comment">负数倒序</span>
+$(<span class="string">"li"</span>).<span class="function">eq</span>(-<span class="number">1</span>).<span class="function">text</span>();
+<span class="comment">//=> Pear</span></pre>
+            </div>
+
+            <!-- DOM 操作 -->
+            <div class="card">
+                <h2>🛠️ DOM 操作 <a href="https://cheerio.js.org/docs/api/manipulation" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>📋 .append(content)</h3>
+                <pre><span class="comment">在元素末尾插入内容</span>
+$(<span class="string">"ul"</span>).<span class="function">append</span>(<span class="string">'&lt;li class="plum"&gt;Plum&lt;/li&gt;'</span>);
+$.<span class="function">html</span>();
+<span class="comment">//=> &lt;ul id="fruits"&gt;...&lt;li class="plum"&gt;Plum&lt;/li&gt;&lt;/ul&gt;</span></pre>
+
+                <h3>📋 .prepend(content)</h3>
+                <pre><span class="comment">在元素开头插入内容</span>
+$(<span class="string">"ul"</span>).<span class="function">prepend</span>(<span class="string">'&lt;li class="plum"&gt;Plum&lt;/li&gt;'</span>);
+$.<span class="function">html</span>();
+<span class="comment">//=> &lt;ul id="fruits"&gt;&lt;li class="plum"&gt;Plum&lt;/li&gt;...&lt;/ul&gt;</span></pre>
+
+                <h3>📋 .after(content)</h3>
+                <pre><span class="comment">在元素后面插入内容</span>
+$(<span class="string">".apple"</span>).<span class="function">after</span>(<span class="string">'&lt;li class="plum"&gt;Plum&lt;/li&gt;'</span>);
+$.<span class="function">html</span>();
+<span class="comment">//=> &lt;ul id="fruits"&gt;&lt;li class="apple"&gt;Apple&lt;/li&gt;&lt;li class="plum"&gt;Plum&lt;/li&gt;...&lt;/ul&gt;</span></pre>
+
+                <h3>📋 .before(content)</h3>
+                <pre><span class="comment">在元素前面插入内容</span>
+$(<span class="string">".apple"</span>).<span class="function">before</span>(<span class="string">'&lt;li class="plum"&gt;Plum&lt;/li&gt;'</span>);
+$.<span class="function">html</span>();
+<span class="comment">//=> &lt;ul id="fruits"&gt;&lt;li class="plum"&gt;Plum&lt;/li&gt;&lt;li class="apple"&gt;Apple&lt;/li&gt;...&lt;/ul&gt;</span></pre>
+
+                <h3>📋 .remove([selector])</h3>
+                <pre><span class="comment">删除元素</span>
+$(<span class="string">".pear"</span>).<span class="function">remove</span>();
+$.<span class="function">html</span>();
+<span class="comment">//=> &lt;ul id="fruits"&gt;&lt;li class="apple"&gt;Apple&lt;/li&gt;&lt;li class="orange"&gt;Orange&lt;/li&gt;&lt;/ul&gt;</span></pre>
+
+                <h3>📋 .empty()</h3>
+                <pre><span class="comment">清空元素内容</span>
+$(<span class="string">"ul"</span>).<span class="function">empty</span>();
+$.<span class="function">html</span>();
+<span class="comment">//=> &lt;ul id="fruits"&gt;&lt;/ul&gt;</span></pre>
+            </div>
+
+            <!-- 内容操作 -->
+            <div class="card">
+                <h2>📄 内容操作 <a href="https://cheerio.js.org/docs/api/manipulation" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>📋 .html([htmlString])</h3>
+                <pre><span class="comment">获取 HTML 内容</span>
+$(<span class="string">".orange"</span>).<span class="function">html</span>();
+<span class="comment">//=> Orange</span>
+
+<span class="comment">设置 HTML 内容</span>
+$(<span class="string">"#fruits"</span>).<span class="function">html</span>(<span class="string">'&lt;li class="mango"&gt;Mango&lt;/li&gt;'</span>).<span class="function">html</span>();
+<span class="comment">//=> &lt;li class="mango"&gt;Mango&lt;/li&gt;</span></pre>
+
+                <h3>📋 .text([textString])</h3>
+                <pre><span class="comment">获取文本内容</span>
+$(<span class="string">".orange"</span>).<span class="function">text</span>();
+<span class="comment">//=> Orange</span>
+
+<span class="comment">获取所有文本</span>
+$(<span class="string">"ul"</span>).<span class="function">text</span>();
+<span class="comment">//=> Apple\nOrange\nPear</span></pre>
+
+                <h3>📋 .wrap(content)</h3>
+                <pre><span class="comment">包装元素</span>
+<span class="keyword">var</span> redFruit = $(<span class="string">'&lt;div class="red-fruit"&gt;&lt;/div&gt;'</span>);
+$(<span class="string">".apple"</span>).<span class="function">wrap</span>(redFruit);
+<span class="comment">//=> &lt;div class="red-fruit"&gt;&lt;li class="apple"&gt;Apple&lt;/li&gt;&lt;/div&gt;</span></pre>
+            </div>
+
+            <!-- 渲染 -->
+            <div class="card">
+                <h2>🖼️ 渲染 <a href="https://cheerio.js.org/docs/basics/rendering" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>📋 .html()</h3>
+                <pre><span class="comment">渲染 HTML</span>
+$.<span class="function">html</span>();
+<span class="comment">//=> &lt;ul id="fruits"&gt;...&lt;/ul&gt;</span>
+
+<span class="comment">渲染特定选择器</span>
+$.<span class="function">html</span>(<span class="string">".pear"</span>);
+<span class="comment">//=> &lt;li class="pear"&gt;Pear&lt;/li&gt;</span></pre>
+
+                <h3>📋 .xml()</h3>
+                <pre><span class="comment">渲染 XML（保留自闭合标签）</span>
+$ = cheerio.<span class="function">load</span>(<span class="string">'&lt;media:thumbnail url="http://www.foo.com/keyframe.jpg" width="75" height="50" time="12:05:01.123"/&gt;'</span>);
+$.<span class="function">xml</span>();
+<span class="comment">//=> &lt;media:thumbnail url="http://www.foo.com/keyframe.jpg" width="75" height="50" time="12:05:01.123"/&gt;</span></pre>
+
+                <div class="tip">
+                    💡 xml() 适用于 XML 文档，会保留自闭合标签
+                </div>
+            </div>
+
+            <!-- 实用工具 -->
+            <div class="card">
+                <h2>🔧 实用工具 <a href="https://cheerio.js.org/docs/api/utility" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>📋 $.root()</h3>
+                <pre><span class="comment">获取根元素</span>
+$.<span class="function">root</span>().<span class="function">append</span>(<span class="string">'&lt;ul id="vegetables"&gt;&lt;/ul&gt;'</span>).<span class="function">html</span>();
+<span class="comment">//=> &lt;ul id="fruits"&gt;...&lt;/ul&gt;&lt;ul id="vegetables"&gt;&lt;/ul&gt;</span></pre>
+
+                <h3>📋 $.contains(container, contained)</h3>
+                <pre><span class="comment">检查元素是否包含另一个元素</span>
+$.<span class="function">contains</span>(container, contained);</pre>
+
+                <h3>📋 $.parseHTML(data [, context] [, keepScripts])</h3>
+                <pre><span class="comment">将字符串解析为 DOM 节点数组</span>
+$.<span class="function">parseHTML</span>(data, context, keepScripts);</pre>
+
+                <h3>📋 .toArray()</h3>
+                <pre><span class="comment">检索所有 DOM 元素为数组</span>
+$(<span class="string">"li"</span>).<span class="function">toArray</span>();
+<span class="comment">//=> [ {...}, {...}, {...} ]</span></pre>
+
+                <h3>📋 .clone()</h3>
+                <pre><span class="comment">克隆 cheerio 对象</span>
+<span class="keyword">var</span> moreFruit = $(<span class="string">"#fruits"</span>).<span class="function">clone</span>();</pre>
+            </div>
+
+            <!-- 迭代方法 -->
+            <div class="card">
+                <h2>🔄 迭代方法 <a href="https://cheerio.js.org/docs/api/traversing" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>📋 .each(function(index, element))</h3>
+                <pre><span class="keyword">var</span> fruits = [];
+
+$(<span class="string">"li"</span>).<span class="function">each</span>(<span class="keyword">function</span> (i, elem) {
+  fruits[i] = $(<span class="keyword">this</span>).<span class="function">text</span>();
+});
+
+fruits.<span class="function">join</span>(<span class="string">", "</span>);
+<span class="comment">//=> Apple, Orange, Pear</span></pre>
+
+                <h3>📋 .map(function(index, element))</h3>
+                <pre><span class="comment">映射元素为新集合</span>
+$(<span class="string">"li"</span>)
+  .<span class="function">map</span>(<span class="keyword">function</span> (i, el) {
+    <span class="keyword">return</span> $(<span class="keyword">this</span>).<span class="function">text</span>();
+  })
+  .<span class="function">get</span>()
+  .<span class="function">join</span>(<span class="string">" "</span>);
+<span class="comment">//=> "apple orange pear"</span></pre>
+
+                <h3>📋 .get([i])</h3>
+                <pre><span class="comment">获取 DOM 元素</span>
+$(<span class="string">"li"</span>).<span class="function">get</span>(<span class="number">0</span>).tagName;
+<span class="comment">//=> li</span>
+
+<span class="comment">获取所有 DOM 元素</span>
+$(<span class="string">"li"</span>).<span class="function">get</span>().length;
+<span class="comment">//=> 3</span></pre>
+            </div>
+
+            <!-- 插件扩展 -->
+            <div class="card">
+                <h2>🔌 插件扩展 <a href="https://cheerio.js.org/docs/api/plugins" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>📋 扩展原型</h3>
+                <pre><span class="keyword">var</span> $ = cheerio.<span class="function">load</span>(<span class="string">"&lt;html&gt;&lt;body&gt;Hello, &lt;b&gt;world&lt;/b&gt;!&lt;/body&gt;&lt;/html&gt;"</span>);
+$.prototype.logHtml = <span class="keyword">function</span> () {
+  console.<span class="function">log</span>(<span class="keyword">this</span>.<span class="function">html</span>());
+};
+
+$(<span class="string">"body"</span>).<span class="function">logHtml</span>();
+<span class="comment">// logs "Hello, &lt;b&gt;world&lt;/b&gt;!" to the console</span></pre>
+
+                <div class="tip">
+                    💡 可以通过扩展 fn 属性或原型来添加自定义方法
+                </div>
+            </div>
+
+            <!-- DOM Node 对象 -->
+            <div class="card">
+                <h2>📦 DOM Node 对象 <a href="https://cheerio.js.org/docs/api/dom-node" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
+                <h3>📋 可用属性</h3>
+                <pre><span class="comment">Cheerio 集合包含类似浏览器的 DOM 节点对象</span>
+
+<span class="comment">可用属性：</span>
+- tagName
+- parentNode
+- previousSibling
+- nextSibling
+- nodeValue
+- firstChild
+- childNodes
+- lastChild</pre>
+
+                <div class="desc">
+                    Cheerio 集合由类似浏览器 DOM 节点的对象组成
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script src="../../assets/common.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script>
+        Prism.highlightAll();
+    </script>
+</body>
+</html>
