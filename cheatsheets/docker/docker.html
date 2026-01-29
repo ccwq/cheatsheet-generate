@@ -473,6 +473,107 @@
                     </li>
                 </ul>
             </div>
+
+            <!-- 镜像加速与代理配置 (Linux) -->
+            <div class="card">
+                <h2>🚀 镜像加速与代理配置 (Linux)</h2>
+                <ul>
+                    <li>
+                        <strong>配置镜像加速 (daemon.json)</strong>
+                        <div class="desc">编辑 <code>/etc/docker/daemon.json</code></div>
+                        <div class="desc" style="background: rgba(0,0,0,0.2); padding: 8px; border-radius: 4px; font-family: monospace;">
+                            { "registry-mirrors": ["https://mirror.example.com"] }
+                        </div>
+                    </li>
+                    <li>
+                        <strong>配置 HTTP/HTTPS 代理</strong>
+                        <div class="desc">编辑 <code>/etc/systemd/system/docker.service.d/proxy.conf</code></div>
+                        <div class="desc" style="background: rgba(0,0,0,0.2); padding: 8px; border-radius: 4px; font-family: monospace;">
+                            [Service]<br>
+                            Environment="HTTP_PROXY=http://192.168.1.100:7890"<br>
+                            Environment="HTTPS_PROXY=http://192.168.1.100:7890"<br>
+                            Environment="NO_PROXY=localhost,127.0.0.1"
+                        </div>
+                    </li>
+                    <li>
+                        <strong>重启服务</strong>
+                        <div class="desc">sudo systemctl daemon-reload<br>sudo systemctl restart docker</div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Podman 配置差异 -->
+            <div class="card">
+                <h2>🐳 Podman 配置差异</h2>
+                <ul>
+                    <li>
+                        <strong>无守护进程架构</strong>：直接读取 Shell 环境变量。
+                    </li>
+                    <li>
+                        <strong>配置文件对比</strong>：
+                        <div class="desc">
+                            - Docker: <code>daemon.json</code> (JSON)<br>
+                            - Podman: <code>registries.conf</code> (TOML)
+                        </div>
+                    </li>
+                    <li>
+                        <strong>镜像加速示例</strong>：
+                        <div class="desc" style="background: rgba(0,0,0,0.2); padding: 8px; border-radius: 4px; font-family: monospace;">
+                            [[registry.mirror]]<br>
+                            location = "mirror.example.com"
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Windows / WSL2 / NAS -->
+            <div class="card">
+                <h2>💻 Windows / WSL2 / NAS</h2>
+                <ul>
+                    <li>
+                        <strong>Docker Desktop (GUI)</strong>
+                        <div class="desc">Settings -> Resources -> Proxies 设置代理。<br>Settings -> Docker Engine 设置镜像。</div>
+                    </li>
+                    <li>
+                        <strong>WSL2 (原生)</strong>
+                        <div class="desc">代理指向宿主机 IP 或 <code>host.docker.internal</code>。</div>
+                    </li>
+                    <li>
+                        <strong>群晖 NAS (DSM 7.2+)</strong>
+                        <div class="desc">路径：<code>/var/packages/ContainerManager/etc/dockerd.json</code></div>
+                    </li>
+                    <li>
+                        <strong>OpenWrt</strong>
+                        <div class="desc">修改 <code>/etc/init.d/dockerd</code> 注入环境变量。</div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 验证与故障排查 -->
+            <div class="card">
+                <h2>🔍 验证与故障排查</h2>
+                <ul>
+                    <li>
+                        <strong>检查代理生效</strong>
+                        <div class="desc">PID=$(pgrep -n dockerd)<br>sudo cat /proc/$PID/environ | tr '\0' '\n' | grep PROXY</div>
+                    </li>
+                    <li>
+                        <strong>检查镜像源</strong>
+                        <div class="desc"><code>docker info --format '{{json .RegistryConfig.Mirrors}}'</code></div>
+                    </li>
+                    <li>
+                        <strong>网络连通性测试</strong>
+                        <div class="desc"><code>docker pull hello-world</code></div>
+                    </li>
+                    <li>
+                        <strong>常见问题</strong>
+                        <div class="desc">
+                            - JSON 语法：使用 <code>jq .</code> 验证<br>
+                            - DNS 失败：在 <code>daemon.json</code> 中添加 8.8.8.8
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
     <script src="../../assets/common.js"></script>

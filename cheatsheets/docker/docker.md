@@ -233,3 +233,117 @@
   - `--force`：强制清理
 - `docker system events`：监听 Docker 系统事件
 - `docker system info`：显示 Docker 系统信息
+
+## 镜像加速与代理配置
+
+### 核心概念
+
+*   **镜像加速 (Registry Mirror)**：仅针对 `docker pull` 操作，作用于 Daemon 层面。
+*   **通用代理 (HTTP Proxy)**：影响 `docker build`、`docker push` 及容器运行时的外网访问。
+
+> **⚠️ 安全提示**：
+> - 务必配置 `NO_PROXY` 排除 `localhost`、`127.0.0.1` 及内部域名。
+> - 严禁将包含账号密码的代理 URL 提交到公共仓库。
+
+### Linux (Systemd) 配置
+
+#### 1. 配置镜像加速 (daemon.json)
+编辑 `/etc/docker/daemon.json`：
+```json
+{
+  "registry-mirrors": ["https://mirror.example.com"],
+  "insecure-registries": [],
+  "debug": false
+}
+```
+
+#### 2. 配置 HTTP/HTTPS 代理
+创建目录：`sudo mkdir -p /etc/systemd/system/docker.service.d`
+编辑 `proxy.conf`：
+```ini
+[Service]
+Environment="HTTP_PROXY=http://192.168.1.100:7890"
+Environment="HTTPS_PROXY=http://192.168.1.100:7890"
+Environment="NO_PROXY=localhost,127.0.0.1,docker-registry.somecorporation.com"
+```
+重载并重启：
+```bash
+sudo systemctl daemon-reload && sudo systemctl restart docker
+```
+
+### Podman 配置差异
+
+Podman 采用无守护进程架构，配置与 Docker 有显著不同：
+
+| 配置项 | Docker | Podman |
+| --- | --- | --- |
+| **配置文件** | `daemon.json` (JSON) | `registries.conf` (TOML) |
+| **系统路径** | `/etc/docker/daemon.json` | `/etc/containers/registries.conf` |
+| **用户路径** | 不支持 | `~/.config/containers/registries.conf` |
+| **代理生效** | Systemd Service 注入 | 直接读取 Shell 环境变量 |
+
+**Podman 镜像源配置示例 (`registries.conf`)**:
+```toml
+[[registry]]
+prefix = "docker.io"
+location = "docker.io"
+
+[[registry.mirror]]
+location = "mirror.example.com"
+
+unqualified-search-registries = ["docker.io"]
+```
+
+### Windows (Docker Desktop) & WSL2
+
+#### Docker Desktop (GUI)
+1. **设置代理**：Settings -> Resources -> Proxies -> 开启 "Manual proxy configuration"。
+2. **设置镜像**：Settings -> Docker Engine -> 在 JSON 中添加 `"registry-mirrors"`。
+
+#### WSL2 原生发行版 (非 Desktop)
+需注意 WSL2 无法直接通过 `127.0.0.1` 访问 Windows 代理，需使用 `host.docker.internal`。
+编辑 `/etc/systemd/system/docker.service.d/proxy.conf`：
+```ini
+[Service]
+Environment="HTTP_PROXY=http://host.docker.internal:7890"
+Environment="HTTPS_PROXY=http://host.docker.internal:7890"
+Environment="NO_PROXY=localhost,127.0.0.1,*.internal,172.16.0.0/12"
+```
+
+### 特殊环境：NAS 与 路由器
+
+#### Synology 群晖 (DSM)
+- **图形界面**：Container Manager -> Registry -> 选中 Docker Hub -> 编辑 -> 启用“存储库镜像”。
+- **配置文件 (SSH)**：`/var/packages/ContainerManager/etc/dockerd.json` (DSM 7.2+)。
+
+#### OpenWrt
+修改 `/etc/init.d/dockerd`，在 `start_service()` 中注入：
+```bash
+procd_set_param env HTTP_PROXY=http://192.168.1.5:7890
+procd_set_param env HTTPS_PROXY=http://192.168.1.5:7890
+```
+
+### 验证与故障排查
+
+#### 自动化验证脚本
+```bash
+# 检查 Proxy 环境变量
+PID=$(pgrep -n dockerd)
+sudo cat /proc/$PID/environ | tr '\0' '\n' | grep -E 'HTTP_PROXY|HTTPS_PROXY|NO_PROXY'
+
+# 检查 Registry Mirrors
+docker info --format '{{json .RegistryConfig.Mirrors}}'
+```
+
+#### 常见问题
+1. **JSON 语法错误**：使用 `jq . /etc/docker/daemon.json` 验证。
+2. **代理不可达**：检查宿主机是否能 ping 通代理 IP，检查防火墙设置。
+3. **DNS 解析失败**：在 `daemon.json` 中添加 `"dns": ["8.8.8.8"]`。
+
+#### 配置文件路径速查
+| 文件用途 | 典型路径 |
+| --- | --- |
+| Docker 镜像配置 | `/etc/docker/daemon.json` |
+| Docker 代理配置 | `/etc/systemd/system/docker.service.d/proxy.conf` |
+| Podman 系统配置 | `/etc/containers/registries.conf` |
+| TLS 证书目录 | `/etc/docker/certs.d/<domain>/ca.crt` |
