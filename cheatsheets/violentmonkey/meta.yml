@@ -1,0 +1,13 @@
+name: Violentmonkey
+description: 浏览器用户脚本管理器开发速查表，涵盖元数据块、GM_API、DOM观察、网络请求、数据存储、界面交互及现代语法。
+tags:
+  - Browser
+  - JavaScript
+  - Userscript
+  - Violentmonkey
+  - Tampermonkey
+  - Greasemonkey
+  - BrowserExtension
+  - WebAutomation
+  - DOM
+  - API

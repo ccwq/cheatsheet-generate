@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Violentmonkey 速查表</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Violentmonkey (暴力猴) 脚本开发速查表，涵盖元数据块、GM_API、DOM观察及现代语法。">
+    <meta name="keywords" content="Violentmonkey, Userscript, GM_API, JavaScript, Tampermonkey">
+    <link rel="stylesheet" href="../../assets/variables.css">
+    <link rel="stylesheet" href="../../assets/global.css">
+    <link rel="stylesheet" href="../../assets/cheatsheet.css">
+    <link rel="stylesheet" href="../../assets/prism-tomorrow.min.css">
+    <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png" />
+</head>
+<body>
+
+<div class="container">
+    <!-- Header / Controls -->
+    <div class="panel">
+        <span class="title">Violentmonkey 速查表</span>
+        <label for="columnWidth">📏 分栏宽度:</label>
+        <input type="range" id="columnWidth" class="slider-bar" min="300" max="660" value="400">
+        <span id="widthVal" class="slider-val">400px</span>
+    </div>
+
+    <!-- Main Content -->
+    <div class="cheat-columns" id="columns">
+
+        <!-- 1. 元数据块 (Metadata) -->
+        <div class="card">
+            <h2>元数据块 (Metadata Block) <a href="https://violentmonkey.github.io/api/metadata-block/" target="_blank" style="float:right; text-decoration:none; opacity:0.5;">#</a></h2>
+            <p>脚本头部配置，定义基本信息、权限和运行规则。</p>
+            <pre><code class="language-javascript">// ==UserScript==
+// @name            Script Name
+// @namespace       https://example.com
+// @version         1.0.0
+// @description     Description
+// @author          Author
+// @match           *://google.com/*
+// @grant           GM_setValue
+// @grant           GM_xmlhttpRequest
+// @require         https://cdn.js/jquery.min.js
+// @run-at          document-end
+// @connect         api.example.com
+// ==/UserScript==</code></pre>
+            <table style="width:100%; border-collapse: collapse; font-size: 13px;">
+                <tr><td style="color:#a5d6ff; padding: 2px 0;">@name</td><td style="color:#ccc;">脚本名称</td></tr>
+                <tr><td style="color:#a5d6ff; padding: 2px 0;">@namespace</td><td style="color:#ccc;">唯一标识符</td></tr>
+                <tr><td style="color:#a5d6ff; padding: 2px 0;">@match</td><td style="color:#ccc;">匹配规则 (推荐)</td></tr>
+                <tr><td style="color:#a5d6ff; padding: 2px 0;">@grant</td><td style="color:#ccc;">申请权限</td></tr>
+                <tr><td style="color:#a5d6ff; padding: 2px 0;">@require</td><td style="color:#ccc;">引入JS库</td></tr>
+                <tr><td style="color:#a5d6ff; padding: 2px 0;">@run-at</td><td style="color:#ccc;">执行时机</td></tr>
+                <tr><td style="color:#a5d6ff; padding: 2px 0;">@connect</td><td style="color:#ccc;">允许跨域域名</td></tr>
+            </table>
+        </div>
+
+        <!-- 2. 执行时机与匹配 -->
+        <div class="card">
+            <h2>执行时机 (@run-at)</h2>
+            <table style="width:100%; border-collapse: collapse; font-size: 13px;">
+                <tr><td style="color:#a5d6ff; padding: 3px 0;">document-start</td><td style="color:#ccc;">文档开始加载</td></tr>
+                <tr><td style="color:#a5d6ff; padding: 3px 0;">document-body</td><td style="color:#ccc;">&lt;body&gt;出现时</td></tr>
+                <tr><td style="color:#a5d6ff; padding: 3px 0;">document-end</td><td style="color:#ccc;">DOM完成 (默认)</td></tr>
+                <tr><td style="color:#a5d6ff; padding: 3px 0;">document-idle</td><td style="color:#ccc;">页面完全加载</td></tr>
+            </table>
+            <h3 style="margin-top: 12px;">匹配规则</h3>
+            <pre><code class="language-javascript">// @match *://*/*           // 所有 http/https
+// @match https://google.com/*
+// @include /https:\/\/.*\.com\/.*/  // 正则
+// @exclude https://*/login</code></pre>
+        </div>
+
+        <!-- 3. 数据存储 -->
+        <div class="card">
+            <h2>数据存储 (Storage) <a href="https://violentmonkey.github.io/api/gm/" target="_blank" style="float:right; text-decoration:none; opacity:0.5;">#</a></h2>
+            <p>需 <code>@grant GM_setValue</code> 等。</p>
+            <pre><code class="language-javascript">// 存储（支持任意类型）
+GM_setValue('config', { theme: 'dark' });
+
+// 读取（支持默认值）
+const conf = GM_getValue('config', {});
+
+// 删除
+GM_deleteValue('config');
+
+// 列出所有键
+const keys = GM_listValues();
+
+// 监听变化（跨标签页）
+GM_addValueChangeListener('key', (n, o, v, r) => {
+  console.log('Changed:', v);
+});</code></pre>
+        </div>
+
+        <!-- 4. 网络请求 -->
+        <div class="card">
+            <h2>网络请求 (XHR) <a href="https://violentmonkey.github.io/api/gm/#gm_xmlhttprequest" target="_blank" style="float:right; text-decoration:none; opacity:0.5;">#</a></h2>
+            <p>跨域请求需 <code>@grant GM_xmlhttpRequest</code> 和 <code>@connect</code>。</p>
+            <pre><code class="language-javascript">GM_xmlhttpRequest({
+  method: 'GET',
+  url: 'https://api.example.com/data',
+  headers: {
+    'Authorization': 'Bearer token'
+  },
+  onload: (res) => {
+    if (res.status === 200) {
+      console.log(res.responseText);
+    }
+  },
+  onerror: (err) => console.error(err),
+  ontimeout: () => console.error('超时')
+});</code></pre>
+        </div>
+
+        <!-- 5. 样式与资源 -->
+        <div class="card">
+            <h2>样式与资源 <a href="https://violentmonkey.github.io/api/gm/#gm_addstyle" target="_blank" style="float:right; text-decoration:none; opacity:0.5;">#</a></h2>
+            <h3>注入 CSS</h3>
+            <pre><code class="language-javascript">GM_addStyle(`
+  #my-panel {
+    position: fixed;
+    top: 10px; right: 10px;
+    z-index: 99999;
+  }
+`);</code></pre>
+            <h3>使用外部资源</h3>
+            <pre><code class="language-javascript">// @resource myCSS https://site.com/s.css
+const css = GM_getResourceText('myCSS');
+GM_addStyle(css);
+
+// @resource icon https://site.com/icon.png
+const iconUrl = GM_getResourceURL('icon');
+// 返回 base64 数据 URL</code></pre>
+        </div>
+
+        <!-- 6. 界面交互 -->
+        <div class="card">
+            <h2>界面交互 (UI) <a href="https://violentmonkey.github.io/api/gm/#gm_registermenucommand" target="_blank" style="float:right; text-decoration:none; opacity:0.5;">#</a></h2>
+            <h3>菜单命令</h3>
+            <pre><code class="language-javascript">GM_registerMenuCommand('⚙️ 设置', () => {
+  toggleSettings();
+}, 's'); // 快捷键</code></pre>
+            <h3>通知与剪贴板</h3>
+            <pre><code class="language-javascript">// 桌面通知
+GM_notification({
+  text: '任务完成',
+  title: '提示',
+  onclick: () => console.log('点击')
+});
+
+// 写入剪贴板
+GM_setClipboard('文本内容');
+
+// 新标签页打开
+GM_openInTab(url, { active: false });</code></pre>
+        </div>
+
+        <!-- 7. DOM 观察 -->
+        <div class="card">
+            <h2>DOM 观察 <a href="https://violentmonkey.github.io/guide/observing-dom/" target="_blank" style="float:right; text-decoration:none; opacity:0.5;">#</a></h2>
+            <p>SPA 必备，监听动态加载元素。</p>
+            <pre><code class="language-javascript">const obs = new MutationObserver(muts => {
+  for (const m of muts) {
+    for (const node of m.addedNodes) {
+      if (node.nodeType === 1 &&
+          node.matches('.ad-banner')) {
+        node.remove();
+      }
+    }
+  }
+});
+
+obs.observe(document.body, {
+  childList: true,
+  subtree: true
+});</code></pre>
+        </div>
+
+        <!-- 8. 实用片段 -->
+        <div class="card">
+            <h2>实用片段 (Snippets)</h2>
+            <h3>等待元素</h3>
+            <pre><code class="language-javascript">function waitFor(selector, timeout = 10000) {
+  return new Promise((resolve, reject) => {
+    if (document.querySelector(selector)) {
+      return resolve(document.querySelector(selector));
+    }
+    const observer = new MutationObserver(() => {
+      const el = document.querySelector(selector);
+      if (el) {
+        observer.disconnect();
+        resolve(el);
+      }
+    });
+    observer.observe(document.body, {
+      childList: true, subtree: true
+    });
+    setTimeout(() => {
+      observer.disconnect();
+      reject(new Error('Timeout'));
+    }, timeout);
+  });
+}
+
+// await waitFor('.btn');</code></pre>
+        </div>
+
+        <!-- 9. 防抖节流 -->
+        <div class="card">
+            <h2>防抖与节流</h2>
+            <h3>防抖 (debounce)</h3>
+            <pre><code class="language-javascript">function debounce(fn, delay = 300) {
+  let timer = null;
+  return function(...args) {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn.apply(this, args), delay);
+  };
+}</code></pre>
+            <h3>节流 (throttle)</h3>
+            <pre><code class="language-javascript">function throttle(fn, interval = 300) {
+  let lastTime = 0;
+  return function(...args) {
+    const now = Date.now();
+    if (now - lastTime >= interval) {
+      lastTime = now;
+      fn.apply(this, args);
+    }
+  };
+}</code></pre>
+        </div>
+
+        <!-- 10. 现代 API -->
+        <div class="card">
+            <h2>现代 API (GM.*) <a href="https://violentmonkey.github.io/guide/using-modern-syntax/" target="_blank" style="float:right; text-decoration:none; opacity:0.5;">#</a></h2>
+            <p>Greasemonkey 4+ 风格的异步 API。</p>
+            <pre><code class="language-javascript">(async () => {
+  // 数据存储
+  await GM.setValue('key', 123);
+  const val = await GM.getValue('key');
+  await GM.deleteValue('key');
+  const keys = await GM.listValues();
+  
+  // 网络请求（回调方式不变）
+  GM.xmlHttpRequest({
+    url: '...',
+    onload: res => console.log(res)
+  });
+})();</code></pre>
+            <table style="width:100%; border-collapse: collapse; font-size: 13px; margin-top: 8px;">
+                <tr><td style="color:#a5d6ff; padding: 2px 0;">GM.setValue</td><td style="color:#ccc;">异步存储</td></tr>
+                <tr><td style="color:#a5d6ff; padding: 2px 0;">GM.getValue</td><td style="color:#ccc;">异步读取</td></tr>
+                <tr><td style="color:#a5d6ff; padding: 2px 0;">GM.xmlHttpRequest</td><td style="color:#ccc;">网络请求</td></tr>
+            </table>
+        </div>
+
+        <!-- 11. 调试技巧 -->
+        <div class="card">
+            <h2>调试技巧</h2>
+            <h3>unsafeWindow</h3>
+            <pre><code class="language-javascript">// 访问页面原生 window
+unsafeWindow.nativeFunction();
+
+// 暴露调试变量
+unsafeWindow.myDebug = { config, data };</code></pre>
+            <h3>错误捕获</h3>
+            <pre><code class="language-javascript">// 全局错误
+window.addEventListener('error', (e) => {
+  console.error('[Script]', e.error);
+});
+
+// Promise 错误
+window.addEventListener('unhandledrejection', (e) => {
+  console.error('[Script]', e.reason);
+});</code></pre>
+        </div>
+
+        <!-- 12. 完整示例 -->
+        <div class="card">
+            <h2>完整示例</h2>
+            <p>自动暗黑模式脚本</p>
+            <pre><code class="language-javascript">// ==UserScript==
+// @name         暗黑模式
+// @match        https://example.com/*
+// @grant        GM_setValue
+// @grant        GM_getValue
+// @grant        GM_registerMenuCommand
+// @grant        GM_addStyle
+// ==/UserScript==
+
+(function() {
+  const KEY = 'darkEnabled';
+  let enabled = GM_getValue(KEY, true);
+  
+  function apply() {
+    if (enabled) {
+      GM_addStyle(`body {
+        background: #1a1a1a !important;
+        color: #e0e0e0 !important;
+      }`);
+    }
+  }
+  
+  GM_registerMenuCommand('🌙 切换', () => {
+    enabled = !enabled;
+    GM_setValue(KEY, enabled);
+    location.reload();
+  });
+  
+  apply();
+})();</code></pre>
+        </div>
+
+    </div>
+</div>
+
+<script src="../../assets/common.js"></script>
+<script src="../../assets/prism.js"></script>
+<script src="../../assets/prism-autoloader.min.js"></script>
+</body>
+</html>
