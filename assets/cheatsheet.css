@@ -122,6 +122,8 @@ pre[class^="language-"] { background: var(--code-pre-bg) !important; }
   gap: 16px;
   flex-wrap: wrap;
   box-sizing: border-box;
+
+
 }
 
 .panel label {
@@ -139,7 +141,7 @@ pre[class^="language-"] { background: var(--code-pre-bg) !important; }
 .slider-val.narrow { min-width: 28px; }
 /* 元信息（版本/更新日志/GitHub） */
 .meta-info {
-  width: 100%;
+  flex: 1;
   display: flex;
   flex-wrap: wrap;
   gap: 6px 10px;
@@ -163,7 +165,10 @@ pre[class^="language-"] { background: var(--code-pre-bg) !important; }
 
 /* Responsive */
 @media (max-width: 660px) {
-  .panel { flex-direction: column; gap: 8px; padding: 6px 4px; }
+  .panel { gap: 8px; padding: 6px 4px; }
+  label[for="columnWidth"],#columnWidth, #widthVal{
+    display: none;
+  }
 }
 @media (max-width: 750px) {
   pre { font-size: 1em; padding: 6px 8px; }
