@@ -1,2 +1,9 @@
 desc: COLMAP 影像三维重建速查：从拍摄建议、GUI/CLI 流水线到 SfM/MVS 输出与导出格式，帮助入门开发者快速跑通稀疏与稠密重建。
-tags: ["3D / 图形", "图形 / 可视化", "开发", "命令行"]
+tags:
+  - 3D / 图形
+  - 图形 / 可视化
+  - 开发
+  - 命令行
+version: unknown
+github: colmap/colmap
+date: "2025-12-18"

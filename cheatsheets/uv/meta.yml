@@ -1,2 +1,8 @@
 desc: 高性能事件驱动网络库，适用于构建高并发的网络应用与代理服务。
-tags: ["Python", "包管理器", "命令行"]
+tags:
+  - Python
+  - 包管理器
+  - 命令行
+version: unknown
+github: astral-sh/uv
+date: "2025-11-12"

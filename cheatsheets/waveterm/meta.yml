@@ -1,4 +1,7 @@
-desc: >-
-  Wave Terminal
-  现代化终端开发速查表，涵盖快速开始、核心概念、键盘快捷键、wsh命令、远程连接、图形化功能、AI辅助、配置自定义等核心功能，为现代化终端开发提供完整参考。
-tags: ["终端工具", "GUI"]
+desc: Wave Terminal 现代化终端开发速查表，涵盖快速开始、核心概念、键盘快捷键、wsh命令、远程连接、图形化功能、AI辅助、配置自定义等核心功能，为现代化终端开发提供完整参考。
+tags:
+  - 终端工具
+  - GUI
+version: unknown
+github: wavetermdev/waveterm
+date: "2025-12-23"

@@ -1,2 +1,9 @@
 desc: npm 与 npx 包管理与脚本执行速查表
-tags: ["Node.js", "包管理器", "开发", "命令行"]
+tags:
+  - Node.js
+  - 包管理器
+  - 开发
+  - 命令行
+version: unknown
+github: npm/cli
+date: "2025-11-22"

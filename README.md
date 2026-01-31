@@ -81,7 +81,7 @@ links.md 中包含了我之前整理的在线 cheatsheet 列表（JSON 代码块
 
 - 生成脚本：`node scripts/generate-nav.js`
 - 模板路径：`templates/nav.template.html`
-- 数据来源：`cheatsheets/` 与 `cheatsheets-import/` 下的各个子目录（读取 `meta.yml` 与入口 HTML）
+- 数据来源：`cheatsheets/` 下的各个子目录（读取 `meta.yml` 与入口 HTML）
   - 规则：忽略所有以下划线开头的目录（如 `_demo`、`_wip`），这些目录视为开发中或示例，不在发布导览中展示。
 
 运行方式：
@@ -96,6 +96,14 @@ links.md 中包含了我之前整理的在线 cheatsheet 列表（JSON 代码块
 - 图标：存在 `icon.png` 则显示于标题前
 
 输出文件：仓库根目录 `index.html`
+
+`meta.yml` 字段（建议每个 cheatsheet 都补齐）：
+
+- `desc`: 一句话简介
+- `tags`: 标签列表
+- `version`: 整理时参考/采集的信息版本（不确定填 `"unknown"`）
+- `github`: 上游 GitHub 仓库（`owner/repo`，不确定填 `"unknown"`）
+- `date`: 创建/整理日期（`YYYY-MM-DD`，不确定填 `"unknown"`）
 
 ## 导航 UI 与交互
 

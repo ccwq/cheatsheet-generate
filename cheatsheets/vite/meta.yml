@@ -1,2 +1,8 @@
 desc: Vite 下一代前端构建工具配置速查表，包含基础配置、条件配置、异步配置、环境变量使用、核心配置选项和性能优化配置。
-tags: ["Web", "构建工具", "命令行"]
+tags:
+  - Web
+  - 构建工具
+  - 命令行
+version: unknown
+github: vitejs/vite
+date: "2025-11-20"

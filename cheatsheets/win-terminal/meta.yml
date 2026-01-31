@@ -1,2 +1,7 @@
 desc: Windows Terminal：settings.json、actions、分屏与快捷键、外观与集成。
-tags: ["Windows", "终端工具"]
+tags:
+  - Windows
+  - 终端工具
+version: unknown
+github: microsoft/terminal
+date: "2025-11-18"

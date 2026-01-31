@@ -1,2 +1,8 @@
 desc: Kotlin 语法与特性速览：空安全、集合、类与协程等核心用法。
-tags: ["Kotlin", "开发", "库 / SDK"]
+tags:
+  - Kotlin
+  - 开发
+  - 库 / SDK
+version: unknown
+github: JetBrains/kotlin
+date: "2025-11-18"

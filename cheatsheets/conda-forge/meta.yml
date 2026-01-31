@@ -1,2 +1,9 @@
 desc: 面向社区的 Conda 软件包和元数据仓库，扩展了跨平台的开源科学计算环境可用性。
-tags: ["Python", "包管理器", "运维", "命令行"]
+tags:
+  - Python
+  - 包管理器
+  - 运维
+  - 命令行
+version: unknown
+github: conda-forge/conda-forge.github.io
+date: "2025-11-12"

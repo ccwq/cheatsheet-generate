@@ -1,2 +1,9 @@
 desc: Script Kit是强大的桌面自动化脚本平台，支持TypeScript/JavaScript脚本开发与系统集成。
-tags: ["Node.js", "自动化工具", "开发", "GUI"]
+tags:
+  - Node.js
+  - 自动化工具
+  - 开发
+  - GUI
+version: unknown
+github: johnlindquist/kit
+date: "2025-11-18"

@@ -1,2 +1,9 @@
 desc: Podman 常用操作：运行/日志/检查/构建/Pod 与退出码约定。
-tags: ["DevOps", "CLI 工具", "运维", "命令行"]
+tags:
+  - DevOps
+  - CLI 工具
+  - 运维
+  - 命令行
+version: unknown
+github: containers/podman
+date: "2025-11-18"

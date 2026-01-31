@@ -1,2 +1,9 @@
 desc: Node Package Scripts - 构建可组合、可维护的脚本来提升大型项目构建和管理效能。
-tags: ["Node.js", "自动化工具", "开发", "命令行"]
+tags:
+  - Node.js
+  - 自动化工具
+  - 开发
+  - 命令行
+version: unknown
+github: ehang-io/nps
+date: "2025-11-18"
