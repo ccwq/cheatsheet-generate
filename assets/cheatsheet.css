@@ -98,6 +98,16 @@ pre {
   box-shadow: var(--code-shadow);
 }
 
+/* Card 内部代码行高 */
+.card code,
+.card pre {
+  line-height: 0.8;
+}
+
+.card pre {
+  line-height: 0.8;
+}
+
 pre[class^="language-"] { background: var(--code-pre-bg) !important; }
 
 /* Description */
