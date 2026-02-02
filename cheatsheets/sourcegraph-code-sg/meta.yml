@@ -1,2 +1,9 @@
 desc: Sourcegraph Code Search 查询语法与关键过滤器速查
-tags: ["CLI / Terminal", "CLI 工具", "开发", "命令行"]
+tags:
+  - CLI / Terminal
+  - CLI 工具
+  - 开发
+  - 命令行
+version: unknown
+github: sourcegraph/src-cli
+date: "2025-11-27"

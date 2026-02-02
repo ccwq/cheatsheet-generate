@@ -1,2 +1,9 @@
 desc: 命令行界面的 Codex 驱动工具，快速生成、修改和管理代码片段与文档。
-tags: ["AI / LLM", "CLI 工具", "开发", "命令行"]
+tags:
+  - AI / LLM
+  - CLI 工具
+  - 开发
+  - 命令行
+version: unknown
+github: tom-doerr/codex-cli
+date: "2025-11-13"

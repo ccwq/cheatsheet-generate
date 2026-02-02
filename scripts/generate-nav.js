@@ -111,6 +111,9 @@ async function collectAll(tagCounts) {
       const meta = await readMeta(dirPath);
       const desc = meta.desc || '';
       const tags = Array.isArray(meta.tags) ? meta.tags : [];
+      const version = meta.version || '';
+      const github = meta.github || '';
+      const date = meta.date || '';
       
       // 统计标签
       tags.forEach(t => {
@@ -129,7 +132,10 @@ async function collectAll(tagCounts) {
         desc,
         href,
         icon: iconHref,
-        tags
+        tags,
+        version,
+        github,
+        date
       });
     }
   }
@@ -147,6 +153,16 @@ function renderItems(items, tagGroupMap) {
     const desc = he.encode(it.desc || '');
     const icon = it.icon ? `<img class="icon" src="${it.icon}" alt="icon" />` : '';
     const tagsAttr = it.tags.join(','); // 用于 data-tags 属性
+    const version = (it.version || '').trim();
+    const date = (it.date || '').trim();
+    const github = (it.github || '').trim();
+
+    const verText = version
+      ? (version.toLowerCase() === 'unknown' ? 'unknown' : (version.startsWith('v') ? version : `v${version}`))
+      : '';
+    const dateText = date || '';
+    const githubText = github || '';
+    const githubHref = githubText && githubText !== 'unknown' ? `https://github.com/${githubText}` : '';
     
     // 渲染卡片底部的标签 HTML
     const tagsHtml = it.tags && it.tags.length > 0 
@@ -156,10 +172,21 @@ function renderItems(items, tagGroupMap) {
         }).join('')}</div>` 
       : '';
 
+    const metaParts = [];
+    if (verText) metaParts.push(`<span class="meta-chip">版本 <b>${he.encode(verText)}</b></span>`);
+    if (dateText) metaParts.push(`<span class="meta-chip">更新日志 <b>${he.encode(dateText)}</b></span>`);
+    if (githubText) {
+      const gh = he.encode(githubText);
+      const ghHtml = githubHref ? `<a class="meta-link" href="${githubHref}" target="_blank" rel="noopener">${gh}</a>` : `<span>${gh}</span>`;
+      metaParts.push(`<span class="meta-chip">GitHub ${ghHtml}</span>`);
+    }
+    const metaHtml = metaParts.length ? `<div class="card-meta">${metaParts.join('')}</div>` : '';
+
     return [
       `<div class="card" data-tags="${tagsAttr}">`,
       `  <h2>${icon}${title} <a class="link" href="${it.href}" target="_blank" rel="noopener">&gt;&gt;&gt;</a></h2>`,
       desc ? `  <p class="desc">${desc}</p>` : '',
+      metaHtml ? `  ${metaHtml}` : '',
       tagsHtml,
       '</div>'
     ].filter(Boolean).join('\n');

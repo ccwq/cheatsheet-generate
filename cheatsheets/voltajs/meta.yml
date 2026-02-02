@@ -1,2 +1,8 @@
 desc: JavaScript/TypeScript 版本管理与命令执行工具，确保项目依赖一致性与可重复构建。
-tags: ["JavaScript", "版本管理", "命令行"]
+tags:
+  - JavaScript
+  - 版本管理
+  - 命令行
+version: unknown
+github: volta-cli/volta
+date: "2025-11-17"

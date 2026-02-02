@@ -132,6 +132,8 @@ pre[class^="language-"] { background: var(--code-pre-bg) !important; }
   gap: 16px;
   flex-wrap: wrap;
   box-sizing: border-box;
+
+
 }
 
 .panel label {
@@ -147,10 +149,36 @@ pre[class^="language-"] { background: var(--code-pre-bg) !important; }
 .slider-val { color: var(--panel-accent-2); font-size: 1em; margin-left: 4px; min-width: 36px; display: inline-block; font-weight: 600; }
 .slider-bar.narrow { min-width: 120px; }
 .slider-val.narrow { min-width: 28px; }
+/* 元信息（版本/更新日志/GitHub） */
+.meta-info {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  margin-top: 4px;
+  color: var(--panel-text);
+  font-size: 12px;
+}
+.meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: rgba(31, 38, 56, 0.4);
+  border: 1px solid rgba(105,167,255,.2);
+}
+.meta-label { color: var(--panel-accent); font-weight: 700; }
+.meta-value { color: #cfe4ff; font-weight: 600; }
+.meta-link { color: var(--text-link); text-decoration: none; }
+.meta-link:hover { text-decoration: underline; }
 
 /* Responsive */
 @media (max-width: 660px) {
-  .panel { flex-direction: column; gap: 8px; padding: 6px 4px; }
+  .panel { gap: 8px; padding: 6px 4px; }
+  label[for="columnWidth"],#columnWidth, #widthVal{
+    display: none;
+  }
 }
 @media (max-width: 750px) {
   pre { font-size: 1em; padding: 6px 8px; }

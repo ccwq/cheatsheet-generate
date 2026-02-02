@@ -1,2 +1,11 @@
 desc: 高性能 Node.js 结构化日志库 Pino 的核心 API 与实战用法速查。
-tags: ["Node.js", "JavaScript", "调试工具", "开发", "运维", "库 / SDK"]
+tags:
+  - Node.js
+  - JavaScript
+  - 调试工具
+  - 开发
+  - 运维
+  - 库 / SDK
+version: unknown
+github: pinojs/pino
+date: "2026-01-28"

@@ -24,16 +24,23 @@
 foo指代cheatsheet的项目名称
 - `foo/foo.html`：HTML版本的cheatsheet内容
 - `foo/foo.md`：Markdown格式的主要内容文件，包含详细的命令、参数和示例
-- `foo/desc.md`：cheatsheet的简短描述（仅第一行有效），用于导览页卡片显示
 - `foo/refmap.md`：相关资源参考映射，包含官方文档、教程等链接
 - `foo/meta.yml`
   - cheatsheet的标签文件，用于分类和导航
   - desc内容为cheatsheet的简短描述
   - tags内容为cheatsheet的标签列表, 需要调用 prompts\tag-maker-agent.md, 进行标签添加
+  - version内容为整理 cheatsheet 时参考/采集的信息版本（不是“最新版本”）
+  - github内容为上游 GitHub 仓库（格式固定为 `owner/repo`）
+  - date内容为 cheatsheet 的创建/整理日期，格式固定为 `YYYY-MM-DD`
+    - 对存量 cheatsheet：优先从目录的 git 首次出现日期提取
+    - 对新建 cheatsheet：直接写创建当天日期
 
 """meta.yaml文件的内容
 desc: cheatsheet的简短描述
 tags: ["工具", "命令行"]
+version: "unknown"
+github: "owner/repo"
+date: "2024-01-01"
 """
 
 ### 可选文件
@@ -51,10 +58,9 @@ foo指代cheatsheet的项目名称
 - **meta.yml**：提供 cheatsheet 的元数据
   - `desc`：cheatsheet 的一句话描述
   - `tags`：标签列表（默认 []，后续添加）
-  - **冲突点 2：导航页文件名**
-    - CLAUDE.md 提到 desc.md (现为 meta.yml) 用于在 `nav.html` 中显示介绍
-    - AGENTS.md 提到输出文件为仓库根目录 `index.html`
-    - 请决策：导航页的文件名是 `nav.html` 还是 `index.html`
+  - `version`：整理 cheatsheet 时参考/采集的信息版本（允许为 "unknown"）
+  - `github`：上游 GitHub 仓库（`owner/repo`，允许为 "unknown"）
+  - `date`：创建/整理日期（`YYYY-MM-DD`，缺失时允许为 "unknown"）
 - **refmap.md**：
   - 提供结构化的官方文档和资源链接，帮助用户查找更详细的资料
   - 创建对应的refmap.md是一个好习惯
@@ -70,7 +76,7 @@ foo指代cheatsheet的项目名称
 ### 生成逻辑
 - 目录过滤：忽略所有以 `_` 开头的目录（开发中/WIP 或 demo），不纳入发布导览
 - 链接优先级：`index.html` > "与目录同名的 .html" > "目录内按名称排序的第一个 .html`
-- 简介来源：`desc.md` 第一行（自动去除简单 Markdown 语法）
+- 简介来源：`meta.yml` 中的 `desc`
 - 图标：若存在 `icon.png` 则使用；若不存在，在模板渲染时为该卡片插入默认 SVG 图标
 - 输出文件：仓库根目录 `index.html`
 

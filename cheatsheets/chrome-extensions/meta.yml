@@ -1,2 +1,9 @@
 desc: Chrome 扩展开发核心 API 与实践速查
-tags: ["Web 前端", "框架", "开发", "Web API"]
+tags:
+  - Web 前端
+  - 框架
+  - 开发
+  - Web API
+version: unknown
+github: GoogleChrome/chrome-extensions-samples
+date: "2025-11-24"

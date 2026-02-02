@@ -1,2 +1,9 @@
 desc: Lerna 管理/发布多包仓库：变更集、运行/执行、版本与发布。
-tags: ["多仓库管理", "CLI 工具", "开发", "命令行"]
+tags:
+  - 多仓库管理
+  - CLI 工具
+  - 开发
+  - 命令行
+version: unknown
+github: lerna/lerna
+date: "2025-11-18"

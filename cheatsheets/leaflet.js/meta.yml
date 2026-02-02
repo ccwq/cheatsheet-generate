@@ -1,2 +1,9 @@
 desc: 轻量级开源前端地图库，便于在网页中创建交互式地图和标记层。
-tags: ["Web 前端", "GIS / 地图", "开发", "库 / SDK"]
+tags:
+  - Web 前端
+  - GIS / 地图
+  - 开发
+  - 库 / SDK
+version: unknown
+github: Leaflet/Leaflet
+date: "2025-11-14"

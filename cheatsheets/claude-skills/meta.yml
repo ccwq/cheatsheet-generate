@@ -1,2 +1,9 @@
 desc: Claude Skills（Cookbook版）速查：内置/自定义技能、Beta头、文件下载、财务用例
-tags: ["AI / LLM", "AI 辅助工具", "开发", "库 / SDK"]
+tags:
+  - AI / LLM
+  - AI 辅助工具
+  - 开发
+  - 库 / SDK
+version: unknown
+github: ComposioHQ/awesome-claude-skills
+date: "2025-12-25"

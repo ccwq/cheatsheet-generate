@@ -1,8 +1,11 @@
 desc: 基于 Playwright 的浏览器自动化 CLI 工具，支持网页交互、表单填写、截图和视频录制。
 tags:
-  - "Node.js"
-  - "JavaScript"
-  - "自动化工具"
-  - "命令行"
-  - "开发"
-  - "测试"
+  - Node.js
+  - JavaScript
+  - 自动化工具
+  - 命令行
+  - 开发
+  - 测试
+version: unknown
+github: skyvern-ai/skyvern
+date: "2026-01-26"

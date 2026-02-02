@@ -1,2 +1,9 @@
 desc: Docker CLI 命令速查表，涵盖镜像管理、容器操作、网络配置、卷管理等核心功能。
-tags: ["DevOps", "CLI 工具", "运维", "命令行"]
+tags:
+  - DevOps
+  - CLI 工具
+  - 运维
+  - 命令行
+version: unknown
+github: docker/docker-ce
+date: "2025-12-04"
