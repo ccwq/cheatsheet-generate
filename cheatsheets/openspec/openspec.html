@@ -224,14 +224,63 @@ openspec archive &lt;change&gt; --yes</code></pre>
             <div class="card">
                 <h2 id="opsx-commands">⚡ OPSX 命令清单
                     <a class="hash-link" href="#opsx-commands" title="本页锚点">#</a>
-                    <a class="ext-link" href="https://github.com/Fission-AI/OpenSpec#readme" target="_blank" title="OPSX 命令">>>></a>
+                    <a class="ext-link" href="https://github.com/Fission-AI/OpenSpec/blob/main/docs/commands.md" target="_blank" title="官方文档">>>></a>
                 </h2>
-                <pre><code class="language-bash">/opsx:new
-/opsx:continue
-/opsx:ff
+
+                <h3>1. 探索与初始化</h3>
+                <pre><code class="language-bash"># 探索想法 (不创建文件)
+/opsx:explore [topic]
+# 示例: /opsx:explore "如何集成 OAuth"
+
+# 创建新变更
+/opsx:new [change-name]
+# 示例: /opsx:new add-oauth-login</code></pre>
+                <ul>
+                    <li><b>explore</b>: 明确需求或技术方案。下一步 → <span class="mono">/opsx:new</span></li>
+                    <li><b>new</b>: 初始化变更目录。下一步 → <span class="mono">/opsx:continue</span></li>
+                </ul>
+
+                <h3>2. 规划与生成 Artifacts</h3>
+                <pre><code class="language-bash"># 逐步生成 (推荐)
+/opsx:continue [change-name]
+
+# 一键生成 (Fast-forward)
+/opsx:ff [change-name]</code></pre>
+                <ul>
+                    <li><b>continue</b>: 按 Proposal → Specs → Design → Tasks 顺序生成。</li>
+                    <li><b>ff</b>: 快速生成所有规划文件。下一步 → <span class="mono">/opsx:apply</span></li>
+                </ul>
+
+                <h3>3. 实施与验证</h3>
+                <pre><code class="language-bash"># 实施变更
 /opsx:apply
-/opsx:archive</code></pre>
-                <div class="tip">OPSX 支持随时回到任意阶段并修改 artifact。</div>
+
+# 验证结果
+/opsx:verify</code></pre>
+                <ul>
+                    <li><b>apply</b>: 执行 tasks.md 中的任务列表。下一步 → <span class="mono">/opsx:verify</span></li>
+                    <li><b>verify</b>: 校验实现是否符合 Specs。下一步 → <span class="mono">/opsx:archive</span></li>
+                </ul>
+
+                <h3>4. 归档与维护</h3>
+                <pre><code class="language-bash"># 归档变更
+/opsx:archive [change-name]
+# 示例: /opsx:archive add-oauth-login
+
+# 批量归档
+/opsx:bulk-archive
+
+# 同步规格 (通常自动)
+/opsx:sync</code></pre>
+                <ul>
+                    <li><b>archive</b>: 合并 Delta Specs 到真源并移动目录。下一步 → 新周期</li>
+                </ul>
+
+                <h3>5. 辅助命令</h3>
+                <pre><code class="language-bash"># 新手引导
+/opsx:onboard</code></pre>
+
+                <div class="tip">OPSX 支持非线性流程，随时可修改 artifact 并重新运行命令。</div>
             </div>
 
             <div class="card">

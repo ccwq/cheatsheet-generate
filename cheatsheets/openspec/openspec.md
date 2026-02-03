@@ -11,14 +11,40 @@ OpenSpec / OPSX 使用提示（精简版）
 4) openspec validate <change>
 5) /opsx:archive 归档并合并 Delta
 
-OPSX 命令
-- /opsx:new
-- /opsx:continue
-- /opsx:ff
+OPSX 命令清单
+1. 探索与初始化
+- /opsx:explore [topic]
+  - 明确需求或技术方案
+  - 示例: /opsx:explore "如何集成 OAuth"
+- /opsx:new [change-name]
+  - 初始化变更目录
+  - 示例: /opsx:new add-oauth-login
+
+2. 规划与生成 Artifacts
+- /opsx:continue [change-name]
+  - 按 Proposal → Specs → Design → Tasks 顺序逐步生成
+- /opsx:ff [change-name]
+  - 快速生成所有规划文件 (Fast-forward)
+
+3. 实施与验证
 - /opsx:apply
-- /opsx:archive
-- 启用实验性：openspec artifact-experimental-setup
-- 新手引导：/opsx:onboard
+  - 执行 tasks.md 中的任务列表
+- /opsx:verify
+  - 校验实现是否符合 Specs
+
+4. 归档与维护
+- /opsx:archive [change-name]
+  - 合并 Delta Specs 到真源并移动目录
+  - 示例: /opsx:archive add-oauth-login
+- /opsx:bulk-archive
+  - 批量归档
+- /opsx:sync
+  - 同步规格
+
+5. 辅助命令
+- /opsx:onboard
+  - 新手引导
+
 
 CLI 命令
 - openspec list
