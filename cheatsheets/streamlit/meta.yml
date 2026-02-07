@@ -1,0 +1,5 @@
+desc: Streamlit 是一款开源 Python 框架，可让您在几分钟内将数据脚本转换为交互式 Web 应用。覆盖从基础 UI 控件到 Session State、性能优化、多页应用及 LLM 聊天集成的全栈速查。
+tags: ["Python", "框架", "开发", "学习 / 入门", "图形 / 可视化", "AI / LLM"]
+version: "1.54.0"
+github: "streamlit/streamlit"
+date: "2026-02-07"
