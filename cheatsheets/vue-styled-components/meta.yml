@@ -1,0 +1,5 @@
+desc: 一个面向 Vue 的 CSS-in-JS 库，提供高性能的组件样式方案。
+tags: ["Vue", "CSS-in-JS", "Web 前端", "库 / SDK"]
+version: "v1.7.x"
+github: "vue-styled-components/core"
+date: "2026-02-11"
