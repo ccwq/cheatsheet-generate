@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Streamlit 开发命令速查表</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../../assets/variables.css">
+    <link rel="stylesheet" href="../../assets/global.css">
+    <link rel="stylesheet" href="../../assets/cheatsheet.css">
+
+    <!-- Prism.js 语法高亮 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+    <style>
+        :root {
+            --col-width: 400px;
+            --gap: 16px;
+        }
+        .panel label { color: var(--panel-accent); }
+        .panel .title { color: var(--panel-accent); }
+    </style>
+
+    <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png" />
+    <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png" />
+  </head>
+<body>
+    <div class="container">
+        <div class="panel">
+            <span class="title">Streamlit 极速查</span>
+            <!-- META_INFO_START -->
+            <div class="meta-info">
+                <span class="meta-item"><span class="meta-label">版本</span><span class="meta-value">v1.54.0</span></span>
+                <span class="meta-item"><span class="meta-label">更新日志</span><span class="meta-value">2026-02-07</span></span>
+                <span class="meta-item"><span class="meta-label">GitHub</span><span class="meta-value"><a class="meta-link" href="https://github.com/streamlit/streamlit" target="_blank" rel="noopener">streamlit/streamlit</a></span></span>
+            </div>
+            <!-- META_INFO_END -->
+            <label for="columnWidth">🔧 列宽：</label>
+            <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+            <span id="widthVal" class="slider-val">340px</span>
+        </div>
+
+        <div class="cheat-columns" id="columns">
+
+            <!-- 1. 运行模型与页面骨架 -->
+            <div class="card">
+                <h2>🏗️ 运行模型与骨架 <a href="https://docs.streamlit.io/get-started/fundamentals/main-concepts" title="核心概念" target="_blank">>>></a></h2>
+                <div class="desc">理解“自上而下”重跑逻辑是入门关键</div>
+                <ul>
+                    <li><code>st.set_page_config</code>: 必须在首行调用，配置标题、布局、侧边栏。</li>
+                    <li><strong>重跑机制</strong>: 任何 widget 交互或代码保存，脚本都会从头执行。</li>
+                    <li><code>st.stop()</code>: 满足特定条件时，中断后续代码执行。</li>
+                    <li><code>st.rerun()</code>: 立刻手动触发一次脚本重跑。</li>
+                </ul>
+                <pre><code class="language-python">import streamlit as st
+
+# 必须放在脚本第一行
+st.set_page_config(
+    page_title="仪表盘",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)</code></pre>
+            </div>
+
+            <!-- 2. 输入控件 Widgets -->
+            <div class="card">
+                <h2>🔘 输入控件 Widgets <a href="https://docs.streamlit.io/develop/api-reference/widgets" title="控件参考" target="_blank">>>></a></h2>
+                <div class="desc">组件返回值即为当前状态值</div>
+                <ul>
+                    <li>常用控件: <code>st.button</code>, <code>st.checkbox</code>, <code>st.radio</code>, <code>st.selectbox</code>, <code>st.multiselect</code>, <code>st.slider</code>, <code>st.text_input</code>, <code>st.date_input</code>, <code>st.file_uploader</code>。</li>
+                    <li><code>key=</code>: <strong>极其重要</strong>。用于区分同类组件，且在循环中创建组件时必须唯一。</li>
+                    <li><code>on_change</code> / <code>on_click</code>: 注册回调处理状态。</li>
+                </ul>
+                <pre><code class="language-python"># 返回值为用户选择结果
+genre = st.radio(
+    "选择你喜欢的流派",
+    ["喜剧", "剧情", "纪录片"],
+    key="genre_radio"
+)
+
+if st.button("提交"):
+    st.write(f"你选择了: {genre}")</code></pre>
+            </div>
+
+            <!-- 3. 布局与容器 -->
+            <div class="card">
+                <h2>📦 布局与容器 <a href="https://docs.streamlit.io/develop/api-reference/layout" title="布局参考" target="_blank">>>></a></h2>
+                <ul>
+                    <li><code>st.sidebar</code>: 侧边栏，适合放全局过滤器。</li>
+                    <li><code>st.columns(n)</code>: 水平分栏，支持 <code>[1, 2, 1]</code> 权重。</li>
+                    <li><code>st.tabs(["A", "B"])</code>: 页面内的标签切换。</li>
+                    <li><code>st.expander("Label")</code>: 可收起的详情区域。</li>
+                    <li><code>st.empty()</code>: <strong>占位符</strong>。可后续调用 <code>placeholder.write(...)</code> 覆盖旧内容。</li>
+                </ul>
+                <pre><code class="language-python">col1, col2 = st.columns([1, 2])
+with col1:
+    st.metric("日活", "1.2k", "12%")
+with col2:
+    with st.expander("查看明细"):
+        st.write("表格内容...")</code></pre>
+            </div>
+
+            <!-- 4. Session State (进阶核心) -->
+            <div class="card">
+                <h2>🧠 Session State <a href="https://docs.streamlit.io/develop/concepts/architecture/session-state" title="状态管理" target="_blank">>>></a></h2>
+                <div class="desc">跨重跑持久化数据的唯一途径</div>
+                <ul>
+                    <li>行为类似字典: <code>st.session_state["k"]</code>。</li>
+                    <li><strong>初始化范式</strong>: 必须先检查 key 是否存在。</li>
+                    <li><strong>Widget 绑定</strong>: widget 的 key 会自动映射到 session_state。</li>
+                    <li><strong>警告</strong>: 不能用 state 设置 button/file_uploader。</li>
+                </ul>
+                <pre><code class="language-python">if "counter" not in st.session_state:
+    st.session_state.counter = 0
+
+def increment():
+    st.session_state.counter += 1
+
+st.button("加 1", on_click=increment)
+st.write(f"当前值: {st.session_state.counter}")</code></pre>
+            </div>
+
+            <!-- 5. 性能优化：缓存 -->
+            <div class="card">
+                <h2>⚡ 性能优化与缓存 <a href="https://docs.streamlit.io/develop/concepts/architecture/caching" title="缓存机制" target="_blank">>>></a></h2>
+                <ul>
+                    <li><code>@st.cache_data</code>: 缓存<strong>数据/序列化结果</strong>。支持 <code>ttl</code> (过期时间), <code>max_entries</code> (最大条数)。</li>
+                    <li><code>@st.cache_resource</code>: 缓存<strong>单例对象</strong> (如 DB 连接、ML 模型)。</li>
+                    <li><strong>参数过滤</strong>: 前缀带下划线的参数 (如 <code>_db</code>) 不参与 hash 计算。</li>
+                </ul>
+                <pre><code class="language-python">@st.cache_data(ttl=3600)
+def fetch_api_data(url):
+    # 昂贵操作
+    return requests.get(url).json()
+
+@st.cache_resource
+def load_model():
+    return pipeline("sentiment-analysis")</code></pre>
+            </div>
+
+            <!-- 6. LLM & Chat (大模型集成) -->
+            <div class="card">
+                <h2>🤖 LLM & Chat 集成 <a href="https://docs.streamlit.io/develop/tutorials/llms/build-conversational-apps" title="聊天教程" target="_blank">>>></a></h2>
+                <div class="desc">快速构建 AI 聊天应用</div>
+                <ul>
+                    <li><code>st.chat_message("user" | "assistant")</code>: 气泡容器。</li>
+                    <li><code>st.chat_input("...")</code>: 固定底部的输入框。</li>
+                    <li><code>st.write_stream(generator)</code>: <strong>流式输出</strong>，支持将 LLM 生成器直接渲染为打字机效果。</li>
+                </ul>
+                <pre><code class="language-python">if prompt := st.chat_input():
+    st.chat_message("user").write(prompt)
+    with st.chat_message("assistant"):
+        # 直接传入生成器即可流式渲染
+        full_res = st.write_stream(response_gen(prompt))
+        st.session_state.messages.append(full_res)</code></pre>
+            </div>
+
+            <!-- 7. 数据与图表 -->
+            <div class="card">
+                <h2>📊 数据与图表 <a href="https://docs.streamlit.io/develop/api-reference/charts" title="图表参考" target="_blank">>>></a></h2>
+                <ul>
+                    <li><code>st.dataframe</code>: 交互式表格，支持排序/筛选。</li>
+                    <li><code>st.data_editor</code>: <strong>可编辑表格</strong>，可捕获变更。</li>
+                    <li><code>st.metric</code>: 大字指标，支持增量 delta 颜色。</li>
+                    <li>图表事件: <code>st.plotly_chart(..., on_select="rerun")</code> 可返回用户选中的点。</li>
+                </ul>
+                <pre><code class="language-python">df = pd.DataFrame({"x": [1,2], "y": [3,4]})
+# 开启自动拉伸
+st.dataframe(df, use_container_width=True)
+
+# 捕获用户编辑
+edited_df = st.data_editor(df)</code></pre>
+            </div>
+
+            <!-- 8. 表单提交 (批量计算) -->
+            <div class="card">
+                <h2>📝 表单与提交 <a href="https://docs.streamlit.io/develop/api-reference/execution-flow/st.form" title="表单参考" target="_blank">>>></a></h2>
+                <div class="desc">防止在输入参数过程中由于重跑导致的频繁计算</div>
+                <ul>
+                    <li><code>st.form("my_form")</code>: 内部所有 widget 交互不会触发重跑。</li>
+                    <li><code>st.form_submit_button</code>: 必须存在且仅能在此组件点击时提交并触发重跑。</li>
+                </ul>
+                <pre><code class="language-python">with st.form("settings"):
+    n = st.number_input("数量", 10)
+    mode = st.selectbox("模式", ["A", "B"])
+    # 只有点击这里才会执行后续昂贵任务
+    submitted = st.form_submit_button("开始计算")
+
+if submitted:
+    st.write(f"计算中: {n}, {mode}")</code></pre>
+            </div>
+
+            <!-- 9. 多页应用与导航 -->
+            <div class="card">
+                <h2>🧭 多页与导航 <a href="https://docs.streamlit.io/develop/concepts/multipage-apps" title="多页参考" target="_blank">>>></a></h2>
+                <ul>
+                    <li><strong>动态定义</strong>: <code>st.navigation([st.Page("a.py"), ...])</code>。</li>
+                    <li><strong>目录模式</strong>: 自动识别项目根目录下的 <code>pages/</code> 文件夹。</li>
+                    <li><code>st.switch_page</code>: 代码逻辑强制跳转页面。</li>
+                    <li><code>st.page_link</code>: 正文中插入直达链接（带图标）。</li>
+                </ul>
+                <pre><code class="language-python"># 新版(推荐) 统一导航配置
+pg = st.navigation([
+    st.Page("home.py", title="首页", icon="🏠"),
+    st.Page("dash.py", title="图表", icon="📊")
+])
+pg.run()</code></pre>
+            </div>
+
+            <!-- 10. URL 状态管理 -->
+            <div class="card">
+                <h2>🔗 URL 与查询参数 <a href="https://docs.streamlit.io/develop/api-reference/user/st.query_params" title="参数参考" target="_blank">>>></a></h2>
+                <div class="desc">让应用状态可分享（Deep Linking）</div>
+                <ul>
+                    <li><code>st.query_params</code>: 获取或设置 URL 后的 <code>?k=v</code>。</li>
+                    <li><strong>典型场景</strong>: 把选定的过滤器同步到 URL，刷新不丢失。</li>
+                </ul>
+                <pre><code class="language-python"># 读取 URL 参数
+region = st.query_params.get("region", "CN")
+
+# 设置 URL 参数 (同步状态)
+if st.button("切换到美国区"):
+    st.query_params["region"] = "US"</code></pre>
+            </div>
+
+            <!-- 11. CLI 常用命令 -->
+            <div class="card">
+                <h2>💻 CLI 命令行参考 <a href="https://docs.streamlit.io/develop/api-reference/cli" title="CLI 参考" target="_blank">>>></a></h2>
+                <ul>
+                    <li><code>streamlit run app.py</code>: 启动。</li>
+                    <li><code>--server.port=8501</code>: 指定端口。</li>
+                    <li><code>--server.headless=true</code>: 无头模式运行。</li>
+                    <li><code>streamlit config show</code>: 打印全量配置。</li>
+                    <li><code>streamlit cache clear</code>: 清理本地磁盘缓存。</li>
+                </ul>
+                <pre><code class="language-bash"># 常用启动组合
+streamlit run main.py \
+  --server.address=0.0.0.0 \
+  --theme.primaryColor="#ff4b4b"</code></pre>
+            </div>
+
+            <!-- 12. 状态与提示 -->
+            <div class="card">
+                <h2>🔔 状态与进度反馈 <a href="https://docs.streamlit.io/develop/api-reference/status" title="状态参考" target="_blank">>>></a></h2>
+                <ul>
+                    <li><code>st.spinner("...")</code>: 临时加载动效。</li>
+                    <li><code>st.status("...")</code>: <strong>进阶状态容器</strong>，支持逐步更新步骤。</li>
+                    <li>反馈: <code>st.toast</code>, <code>st.balloons</code>, <code>st.snow</code>。</li>
+                    <li>警告: <code>st.error</code>, <code>st.warning</code>, <code>st.info</code>, <code>st.success</code>。</li>
+                </ul>
+                <pre><code class="language-python">with st.status("正在拉取数据...", expanded=True) as s:
+    st.write("正在连接 API...")
+    time.sleep(1)
+    st.write("正在处理 JSON...")
+    s.update(label="完成!", state="complete")</code></pre>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="../../assets/common.js"></script>
+    <script>
+        // Prism.js 代码高亮初始化
+        document.addEventListener('DOMContentLoaded', function () {
+            if (window.Prism) {
+                Prism.highlightAll();
+            }
+        });
+    </script>
+</body>
+</html>
