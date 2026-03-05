@@ -51,11 +51,21 @@ desc: 创建、连接、分离和切换会话
 
 ### 列表与切换
 - `tmux ls`：列出所有会话
-- `C-b s`：交互式会话列表（树形选择）
+- `C-b s`：交互式会话列表
+- `C-b :`：重命名当前会话
 - `C-b (`：切换到上一个会话
 - `C-b )`：切换到下一个会话
 
+### 交互式列表状态
+- `C-b s`：进入
+- `x [y]`: 关闭
+- `t [y]`: 选择关闭
+- `:new -s <name>`：新建会话（交互模式）
+
 ### 管理与删除
+- `C-b :new [Enter]`：新建会话（交互模式）
+- `C-b :new -s foo [Enter]`：新建会话（交互模式）
+- `C-b $`：重命名会话
 - `tmux rename-session -t <old> <new>`：重命名会话
 - `tmux kill-session -t <name>`：关闭指定会话
 - `tmux kill-session -a`：关闭除当前外的所有会话
@@ -83,6 +93,7 @@ desc: 创建、切换和管理窗口
 - `C-b f`：查找窗口（按名称）
 
 ### 窗口管理
+- `C-b w`：列举所有会话和window
 - `C-b ,`：重命名当前窗口
 - `tmux swap-window -s <src> -t <dst>`：交换窗口位置
 - `tmux move-window -s <src> -t <dst>`：移动窗口
