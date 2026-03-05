@@ -1,0 +1,30 @@
+{
+  "name": "cheatsheet-html-maker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./index.js",
+  "description": "Generate cheatsheet HTML from markdown",
+  "bin": {
+    "cheatsheet-html-maker": "./index.js"
+  },
+  "scripts": {
+    "start": "node ./index.js",
+    "test": "node --test ./tests/*.test.js",
+    "demo": "node ./index.js --input ./demos/**/*.md"
+  },
+  "dependencies": {
+    "commander": "^13.1.0",
+    "glob": "^13.0.6",
+    "inquirer": "^12.4.1",
+    "js-yaml": "^4.1.1",
+    "node-fetch": "^3.3.2",
+    "prismjs": "^1.30.0",
+    "remark-frontmatter": "^5.0.0",
+    "remark-parse": "^11.0.0",
+    "unified": "^11.0.5"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

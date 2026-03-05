@@ -4,10 +4,9 @@
   "version": "0.0.61",
   "description": "AI-based cheatsheet generator and downloader",
   "scripts": {
-    "download": "node utils/codepen-downloader/codepen-downloader.js",
-    "download:dry": "node utils/codepen-downloader/codepen-downloader.js --dry-run",
-    "test:finalhtml": "node utils/codepen-downloader/test-finalhtml.js",
-    "build": "node scripts/generate-nav.js && node scripts/inject-favicon.js",
+    "build": "npm run build:cheat:all && npm run build:nav",
+    "build:nav":"node scripts/generate-nav.js && node scripts/inject-favicon.js",
+    "build:cheat:all":"node ./cheatsheet-html-maker/index.js --input ./cheatsheets/**/*.md",
     "meta:migrate": "node scripts/migrate-meta.js",
     "meta:validate": "node scripts/validate-meta.js",
     "meta:inject": "node scripts/inject-meta-into-html.js",
@@ -15,9 +14,7 @@
     "watch": "node scripts/watch.js",
     "workflow": "node scripts/workflow.js",
     "release": "npm run release:patch",
-    "release:patch": "node scripts/workflow.js --bump patch",
-    "release:minor": "node scripts/workflow.js --bump minor",
-    "release:major": "node scripts/workflow.js --bump major"
+    "update-skill":"npx -y skills add ./cheatsheet-maker-skill"
   },
   "dependencies": {
     "canvas": "^3.2.0",
