@@ -1,12 +1,12 @@
 {
   "name": "cheatsheet-generate",
   "private": true,
-  "version": "0.0.61",
+  "version": "0.1.0",
   "description": "AI-based cheatsheet generator and downloader",
   "scripts": {
     "build": "npm run build:cheat:all && npm run build:nav",
-    "build:nav":"node scripts/generate-nav.js && node scripts/inject-favicon.js",
-    "build:cheat:all":"node ./cheatsheet-html-maker/index.js --input ./cheatsheets/**/*.md",
+    "build:nav": "node scripts/generate-nav.js && node scripts/inject-favicon.js",
+    "build:cheat:all": "node ./cheatsheet-html-maker/index.js --input ./cheatsheets/**/*.md",
     "meta:migrate": "node scripts/migrate-meta.js",
     "meta:validate": "node scripts/validate-meta.js",
     "meta:inject": "node scripts/inject-meta-into-html.js",
@@ -14,7 +14,7 @@
     "watch": "node scripts/watch.js",
     "workflow": "node scripts/workflow.js",
     "release": "npm run release:patch",
-    "update-skill":"npx -y skills add ./cheatsheet-html-maker/cheatsheet-maker-skill"
+    "update-skill": "npx -y skills add ./cheatsheet-html-maker/cheatsheet-maker-skill"
   },
   "dependencies": {
     "canvas": "^3.2.0",
