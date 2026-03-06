@@ -6,7 +6,8 @@ var $ = function(s, root){ return (root||document).querySelector(s); };
 var $$ = function(s, root){ return Array.prototype.slice.call((root||document).querySelectorAll(s)); };
 
 /**
- * 初始化列宽调节 (Slider + Presets + LocalStorage)
+ * 初始化列宽调节 (Slider + Presets)
+ * 导航页使用 LocalStorage 持久化，内页仅使用默认值
  */
 function initColumnWidth() {
   var columns = $('#columns');
@@ -17,33 +18,49 @@ function initColumnWidth() {
 
   if (!columns || !slider) return;
 
+  // 通过 searchBox 判断是否为导航页
+  var isNavPage = !!document.getElementById('searchBox');
+
   function setWidth(val) {
     slider.value = val;
     columns.style.columnWidth = val + 'px';
     if (widthVal) widthVal.textContent = val + 'px';
   }
 
-  // Load saved
-  try {
-    var saved = localStorage.getItem(keyWidth);
-    if (saved) setWidth(saved);
-  } catch (e) {}
+  if (isNavPage) {
+    // 导航页：从 LocalStorage 读取
+    try {
+      var saved = localStorage.getItem(keyWidth);
+      if (saved) setWidth(saved);
+    } catch (e) {}
+  } else {
+    // 内页：优先从 CSS 变量 --col-width 读取，其次使用 input 的 value，最后兜底 340px
+    var cssVal = getComputedStyle(document.documentElement).getPropertyValue('--col-width').trim();
+    var defaultVal = parseInt(cssVal, 10) || parseInt(slider.getAttribute('value'), 10) || 340;
+    setWidth(defaultVal);
+  }
 
   // Slider input
   slider.addEventListener('input', function() {
     columns.style.columnWidth = slider.value + 'px';
     if (widthVal) widthVal.textContent = slider.value + 'px';
   });
-  slider.addEventListener('change', function() {
-    try { localStorage.setItem(keyWidth, slider.value); } catch (e) {}
-  });
+
+  // 导航页才保存到 LocalStorage
+  if (isNavPage) {
+    slider.addEventListener('change', function() {
+      try { localStorage.setItem(keyWidth, slider.value); } catch (e) {}
+    });
+  }
 
   // Presets
   presets.forEach(function(btn){
     btn.addEventListener('click', function(){
       var v = btn.getAttribute('data-w');
       setWidth(v);
-      try { localStorage.setItem(keyWidth, v); } catch (e) {}
+      if (isNavPage) {
+        try { localStorage.setItem(keyWidth, v); } catch (e) {}
+      }
     });
   });
 }
