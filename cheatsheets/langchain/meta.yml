@@ -1,9 +1,5 @@
-desc: LangChain v1.0框架构建基于语言模型的链式应用，提供统一的开发接口和丰富的生态集成。
-tags:
-  - AI / LLM
-  - 框架
-  - 开发
-  - 库 / SDK
-version: unknown
-github: langchain-ai/langchain
-date: "2025-11-18"
+desc: LangChain 速查，覆盖 Agent、工具调用、检索增强、记忆与观测调试的高频开发用法。
+tags: ["Python", "AI / LLM", "框架", "开发", "库 / SDK", "AI 辅助工具"]
+version: "langchain==1.2.10"
+github: "langchain-ai/langchain"
+date: "2026-03-05"

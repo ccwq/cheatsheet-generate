@@ -2,928 +2,164 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <title>LangChain开发命令速查表</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LangChain 速查</title>
   <link rel="stylesheet" href="../../assets/variables.css">
   <link rel="stylesheet" href="../../assets/global.css">
   <link rel="stylesheet" href="../../assets/cheatsheet.css">
-  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png" />
-  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png" />
-
-  <!-- Prism.js 语法高亮 -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png">
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png">
   <style>
     :root {
-      --colWidth: 340px;
+      --col-width: 340px;
       --gap: 16px;
     }
+
     .panel label {
       color: var(--panel-accent);
     }
+
     .panel .title {
       color: var(--panel-accent);
+    }
+
+    .card pre,
+    .card pre code[class^="language-"] {
+      font-size: 13px;
+      line-height: 1.2;
+    }
+
+    .card h2 {
+      font-size: 16px;
+    }
+
+    .card,
+    .card li,
+    .desc {
+      font-size: 14px;
+      line-height: 1.2;
+    }
+
+    .meta-link {
+      color: var(--text-link);
+    }
+
+    .meta-link:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="panel">
-      <span class="title">🦜🔗 LangChain开发速查表</span>
-<!-- META_INFO_START -->
-<div class="meta-info">
-  <span class="meta-item"><span class="meta-label">版本</span><span class="meta-value">unknown</span></span>
-  <span class="meta-item"><span class="meta-label">更新日志</span><span class="meta-value">2025-11-18</span></span>
-  <span class="meta-item"><span class="meta-label">GitHub</span><span class="meta-value"><a class="meta-link" href="https://github.com/langchain-ai/langchain" target="_blank" rel="noopener">langchain-ai/langchain</a></span></span>
-</div>
-<!-- META_INFO_END -->
-
+      <span class="title">LangChain 速查</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label">版本</span><span class="meta-value">langchain==1.2.10</span></span>
+        <span class="meta-item"><span class="meta-label">更新日志</span><span class="meta-value">2026-03-05</span></span>
+        <span class="meta-item"><span class="meta-label">GitHub</span><span class="meta-value"><a class="meta-link" href="https://github.com/langchain-ai/langchain" target="_blank" rel="noopener">langchain-ai/langchain</a></span></span>
+      </div>
+      <!-- META_INFO_END -->
       <label for="columnWidth">🔧 调整每列宽度：</label>
       <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
       <span id="widthVal" class="slider-val">340px</span>
     </div>
     <div class="cheat-columns" id="columns">
-      <div class="card">
-        <h2>📦 安装与配置 <a href="https://python.langchain.com/docs/introduction/" title="官方安装指南" target="_blank" style="color:#93cdfc;">>></a></h2>
-        <ul>
-          <li><code>pip install --pre -U langchain</code> | 安装最新预览版</li>
-          <li><code>uv add langchain</code> | 使用uv安装（推荐）</li>
-          <li><code>pip install langchain-core</code> | 安装核心库</li>
-          <li><code>pip install langchain-community</code> | 社区集成包</li>
-        </ul>
-        <h3>模块化安装</h3>
-        <pre><code class="language-bash"># OpenAI集成
-pip install langchain-openai
-
-# Anthropic集成
-pip install langchain-anthropic
-
-# Google集成
-pip install langchain-google-vertexai
-
-# 向量存储
-pip install chromadb faiss-cpu
-pip install langchain-qdrant
-pip install langchain-milvus
-
-# 如果需要旧版功能
-pip install langchain-classic</code></pre>
-        <div class="desc">LangChain v1.0 采用模块化安装，按需集成特定组件</div>
-      </div>
-
-      <div class="card">
-        <h2>🤖 统一模型初始化 <a href="https://python.langchain.com/docs/integrations/llms/" title="模型集成文档" target="_blank" style="color:#93cdfc;">>></a></h2>
-        <ul>
-          <li><code>init_chat_model()</code> | 统一LLM初始化</li>
-          <li><code>init_embeddings()</code> | 统一嵌入初始化</li>
-          <li><code>提供商标识符</code> | 自动选择合适提供商</li>
-          <li><code>配置参数</code> | 支持所有LLM参数</li>
-        </ul>
-        <h3>模型初始化示例</h3>
-        <pre><code class="language-python">from langchain.chat_models import init_chat_model
-from langchain.embeddings import init_embeddings
-
-# 统一初始化方式
-llm = init_chat_model("openai:gpt-4o-mini")
-embeddings = init_embeddings("openai:text-embedding-3-large")
-
-# 支持多种提供商
-llm = init_chat_model("anthropic:claude-sonnet-4-20250514")
-llm = init_chat_model("google:gemini-pro")
-llm = init_chat_model("cohere:command-r-plus")
-
-# 配置参数
-llm = init_chat_model(
-    "openai:gpt-4o",
-    temperature=0.7,
-    max_tokens=1000,
-    streaming=True,
-    timeout=30
-)</code></pre>
-        <div class="desc">新API提供统一的初始化接口，简化模型切换</div>
-      </div>
-
-      <div class="card">
-        <h2>📝 高级Prompt模板 <a href="https://python.langchain.com/docs/concepts/prompt_templates/" title="Prompt模板文档" target="_blank" style="color:#93cdfc;">>></a></h2>
-        <ul>
-          <li><code>ChatPromptTemplate</code> | 聊天消息模板</li>
-          <li><code>FewShotPromptTemplate</code> | 少样本学习模板</li>
-          <li><code>PipelinePromptTemplate</code> | 多级管道模板</li>
-          <li><code>示例驱动</code> | 支持示例和格式化</li>
-        </ul>
-        <h3>高级模板示例</h3>
-        <pre><code class="language-python">from langchain_core.prompts import (
-    ChatPromptTemplate,
-    FewShotPromptTemplate,
-    PipelinePromptTemplate
-)
-
-# 聊天模板
-chat_prompt = ChatPromptTemplate.from_messages([
-    ("system", "你是一个专业的助手"),
-    ("user", "{input}"),
-    ("assistant", "{response}"),
-    ("user", "{followup}")
-])
-
-# 少样本模板
-examples = [
-    {"input": "2+2", "output": "4"},
-    {"input": "3*5", "output": "15"}
-]
-
-few_shot = FewShotPromptTemplate(
-    examples=examples,
-    example_prompt=PromptTemplate.from_template(
-        "输入: {input}\n输出: {output}"
-    ),
-    prefix="解决以下数学问题：",
-    suffix="\n输入: {question}\n输出：",
-    input_variables=["question"]
-)
-
-# 管道模板
-final_prompt = PipelinePromptTemplate(
-    final_prompt=PromptTemplate.from_template(
-        "{background}\n\n{task}\n\n上下文：{context}\n\n{question}"
-    ),
-    pipeline_prompts=[
-        ("background", PromptTemplate.from_template("背景：{bg}")),
-        ("task", PromptTemplate.from_template("任务：{task}")),
-        ("context", PromptTemplate.from_template("上下文：{context}"))
-    ]
-)</code></pre>
-        <div class="desc">高级模板支持复杂提示工程和示例驱动</div>
-      </div>
-
-      <div class="card">
-        <h2>🔗 LCEL v1.0链式调用 <a href="https://python.langchain.com/docs/concepts/lcel/" title="LCEL文档" target="_blank" style="color:#93cdfc;">>></a></h2>
-        <ul>
-          <li><code>管道操作符 |</code> | 组件链式组合</li>
-          <li><code>create_*</code> | 专用链创建函数</li>
-          <li><code>RunnableParallel</code> | 并行执行组件</li>
-          <li><code>结构化输出</code> | 类型安全的结果解析</li>
-        </ul>
-        <h3>高级链组合示例</h3>
-        <pre><code class="language-python">from langchain_core.chains import (
-    create_structured_output_chain,
-    create_retrieval_chain,
-    create_history_aware_retriever_chain
-)
-from langchain_core.output_parsers import JsonOutputParser
-from langchain_core.runnables import RunnableParallel
-from pydantic import BaseModel, Field
-
-# 结构化输出链
-class Answer(BaseModel):
-    answer: str = Field(description="问题答案")
-    confidence: float = Field(description="置信度")
-
-structured_chain = create_structured_output_chain(
-    llm=llm,
-    prompt=prompt,
-    output_schema=Answer
-)
-
-# 历史感知检索器
-retriever_chain = create_history_aware_retriever_chain(
-    llm=llm,
-    retriever=vectorstore.as_retriever(),
-    rephrase_prompt=ChatPromptTemplate.from_template("""
-    基于聊天历史和最新问题生成检索查询。
-    聊天历史：{chat_history}
-    最新问题：{input}
-    检索查询：""")
-)
-
-# 并行执行
-parallel_chain = RunnableParallel({
-    "analysis": analysis_chain,
-    "summary": summary_chain,
-    "recommendations": recommendation_chain
-})
-
-# 完整的检索链
-retrieval_chain = create_retrieval_chain(
-    llm=llm,
-    retriever=vectorstore.as_retriever()
-)
-
-result = retrieval_chain.invoke({
-    "input": "问题内容",
-    "chat_history": []
-})</code></pre>
-        <div class="desc">LCEL v1.0提供更强的类型安全和组合能力</div>
-      </div>
-
-      <div class="card">
-        <h2>🎯 LangGraph代理系统 <a href="https://python.langchain.com/docs/concepts/agents/" title="LangGraph文档" target="_blank" style="color:#93cdfc;">>></a></h2>
-        <ul>
-          <li><code>create_react_agent</code> | 创建React代理</li>
-          <li><code>create_agent()</code> | v1.0标准代理创建</li>
-          <li><code>ToolStrategy</code> | 结构化输出策略</li>
-          <li><code>预构建代理</code> | 多种代理类型选择</li>
-        </ul>
-        <h3>LangGraph代理示例</h3>
-        <pre><code class="language-python">from langgraph.prebuilt import create_react_agent
+      <div class="card"><h2>🚀 快速开始：创建最小 Agent <a href="https://docs.langchain.com/oss/python/langchain/quickstart" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">先跑通最小可用 Agent，再逐步叠加工具、记忆和检索。</div><ul><li><code>pip install -U langchain &quot;langchain[openai]&quot;</code>：安装核心包与 OpenAI 集成</li><li><code>from langchain.agents import create_agent</code>：创建高层 Agent 入口</li><li><code>agent.invoke({&quot;messages&quot;: [...]})</code>：同步执行单轮请求</li></ul><pre><code class="language-bash"># 安装 LangChain 与 OpenAI Provider
+pip install -U langchain &quot;langchain[openai]&quot;</code></pre><pre><code class="language-python"># 最小 Agent 示例
 from langchain.agents import create_agent
-from langchain.agents.structured_output import ToolStrategy
-
-# React代理（推荐）
-react_agent = create_react_agent(
-    model="claude-sonnet-4-5-20250929",
-    tools=tools,
-    state_modifier="你是一个有用的助手，能够使用工具解决问题。"
-)
-
-# v1.0标准代理
-from pydantic import BaseModel, Field
-
-class ContactInfo(BaseModel):
-    name: str = Field(description="联系人姓名")
-    email: str = Field(description="邮箱地址")
-    phone: str = Field(description="电话号码")
 
 agent = create_agent(
-    model="openai:gpt-4o-mini",
-    tools=[search_tool, email_tool],
-    response_format=ToolStrategy(ContactInfo)
+    model=&quot;openai:gpt-4o-mini&quot;,
+    tools=[],
+    system_prompt=&quot;你是一个简洁的中文助手&quot;
 )
 
-result = agent.invoke({
-    "messages": [
-        {"role": "user", "content": "提取联系信息：John Doe, john@example.com, (555) 123-4567"}
-    ]
-})
-
-# 结构化结果
-contact_info = result["structured_response"]
-print(f"姓名：{contact_info.name}")
-print(f"邮箱：{contact_info.email}")
-print(f"电话：{contact_info.phone}")</code></pre>
-        <div class="desc">LangGraph提供更强的状态管理和执行控制</div>
-      </div>
-
-      <div class="card">
-        <h2>🛠️ 高级工具定义 <a href="https://python.langchain.com/docs/concepts/tools/" title="工具文档" target="_blank" style="color:#93cdfc;">>></a></h2>
-        <ul>
-          <li><code>@tool装饰器</code> | 快速工具定义</li>
-          <li><code>类型提示</code> | 自动参数验证</li>
-          <li><code>复杂类型</code> | 支持嵌套对象和列表</li>
-          <li><code>异步支持</code> | 原生异步工具</li>
-        </ul>
-        <h3>高级工具示例</h3>
-        <pre><code class="language-python">from langchain.tools import tool
-from typing import List, Dict, Optional
-import requests
-import asyncio
-
-@tool
-def search_web(query: str, max_results: int = 5) -> List[Dict]:
-    """搜索网络信息并返回结果列表
-
-    Args:
-        query: 搜索关键词
-        max_results: 最大结果数量（默认5）
-    """
-    response = requests.get(f"https://api.search.example.com/search", params={
-        "q": query,
-        "limit": max_results
-    })
-    return response.json().get("results", [])
-
-@tool
-async def async_database_query(
-    sql: str,
-    database: str = "primary"
-) -> Dict:
-    """异步查询数据库
-
-    Args:
-        sql: SQL查询语句
-        database: 数据库名称（默认primary）
-    """
-    await asyncio.sleep(0.1)  # 模拟网络延迟
-    return {"status": "success", "data": f"查询结果：{sql}"}
-
-@tool
-def file_operations(
-    operation: str,
-    path: str,
-    content: Optional[str] = None
-) -> str:
-    """文件操作工具
-
-    Args:
-        operation: 操作类型（read/write/delete）
-        path: 文件路径
-        content: 写入内容（仅写操作需要）
-    """
-    if operation == "read":
-        with open(path, 'r', encoding='utf-8') as f:
-            return f.read()
-    elif operation == "write":
-        with open(path, 'w', encoding='utf-8') as f:
-            f.write(content)
-        return f"成功写入：{path}"
-    elif operation == "delete":
-        import os
-        os.remove(path)
-        return f"成功删除：{path}"
-
-tools = [search_web, async_database_query, file_operations]</code></pre>
-        <div class="desc">工具定义支持复杂参数、异步操作和类型安全</div>
-      </div>
-
-      <div class="card">
-        <h2>💾 扩展向量存储 <a href="https://python.langchain.com/docs/concepts/vectorstores/" title="向量存储文档" target="_blank" style="color:#93cdfc;">>></a></h2>
-        <ul>
-          <li><code>QdrantVectorStore</code> | Qdrant向量数据库</li>
-          <li><code>Milvus</code> | 高性能向量搜索</li>
-          <li><code>CacheBackedEmbeddings</code> | 嵌入缓存优化</li>
-          <li><code>批量操作</code> | 高效的向量管理</li>
-        </ul>
-        <h3>高级向量存储示例</h3>
-        <pre><code class="language-python"># Qdrant配置
-from qdrant_client.models import Distance, VectorParams
-from langchain_qdrant import QdrantVectorStore
-from qdrant_client import QdrantClient
-
-client = QdrantClient(":memory:")
-vector_size = len(embeddings.embed_query("sample"))
-
-if not client.collection_exists("test"):
-    client.create_collection(
-        collection_name="test",
-        vectors_config=VectorParams(size=vector_size, distance=Distance.COSINE)
-    )
-
-vector_store = QdrantVectorStore(
-    client=client,
-    collection_name="test",
-    embedding=embeddings
-)
-
-# Milvus配置
-from langchain_milvus import Milvus
-
-vector_store = Milvus(
-    embedding_function=embeddings,
-    connection_args={"uri": "./milvus_example.db"},
-    index_params={"index_type": "FLAT", "metric_type": "L2"},
-)
-
-# 嵌入缓存优化
-from langchain.embeddings import CacheBackedEmbeddings
-from langchain.storage import LocalFileStore
-
-store = LocalFileStore("./cache/")
-cached_embedder = CacheBackedEmbeddings.from_bytes_store(
-    underlying_embeddings=embeddings,
-    store=store,
-    namespace=embeddings.model
-)
-
-# 使用缓存嵌入
-import time
-tic = time.time()
-result1 = cached_embedder.embed_query("Hello, world!")
-print(f"首次调用耗时：{time.time() - tic:.2f}秒")
-
-tic = time.time()
-result2 = cached_embedder.embed_query("Hello, world!")
-print(f"缓存调用耗时：{time.time() - tic:.4f}秒")</code></pre>
-        <div class="desc">高级向量存储和缓存策略提升检索性能</div>
-      </div>
-
-      <div class="card">
-        <h2>🧠 高级记忆管理 <a href="https://python.langchain.com/docs/concepts/memory/" title="记忆文档" target="_blank" style="color:#93cdfc;">>></a></h2>
-        <ul>
-          <li><code>VectorStoreRetrieverMemory</code> | 向量记忆检索</li>
-          <li><code>ConversationSummaryMemory</code> | 对话摘要记忆</li>
-          <li><code>ConversationBufferWindowMemory</code> | 滑动窗口记忆</li>
-          <li><code>组合记忆</code> | 多种记忆类型集成</li>
-        </ul>
-        <h3>记忆系统示例</h3>
-        <pre><code class="language-python">from langchain.memory import (
-    ConversationBufferMemory,
-    ConversationBufferWindowMemory,
-    ConversationSummaryMemory,
-    VectorStoreRetrieverMemory
-)
-
-# 窗口记忆（保留最近5轮对话）
-window_memory = ConversationBufferWindowMemory(
-    k=5,
-    return_messages=True,
-    memory_key="chat_history"
-)
-
-# 摘要记忆（适合长对话）
-summary_memory = ConversationSummaryMemory(
-    llm=llm,
-    return_messages=True,
-    memory_key="chat_history"
-)
-
-# 向量记忆（语义检索）
-vector_memory = VectorStoreRetrieverMemory(
-    retriever=vectorstore.as_retriever(
-        search_kwargs={"k": 5, "score_threshold": 0.7}
-    ),
-    memory_key="relevant_history"
-)
-
-# 组合记忆系统
-from langchain_core.runnables import RunnablePassthrough
-
-def format_history(messages):
-    return "\n".join([f"{m.type}: {m.content}" for m in messages])
-
-# 在链中使用记忆
-chain_with_memory = (
+result = agent.invoke(
     {
-        "relevant_history": vector_memory.load_history_variables(["input"])["relevant_history"],
-        "recent_history": window_memory.load_memory_variables({})["chat_history"],
-        "summary": summary_memory.load_memory_variables({})["chat_history"],
-        "input": RunnablePassthrough()
-    }
-    | {
-        "context": lambda x: f"相关历史：{x['relevant_history']}\n\n近期历史：{x['recent_history']}\n\n摘要：{x['summary']}",
-        "input": lambda x: x["input"]
-    }
-    | prompt
-    | llm
-)
-
-# 保存记忆
-def save_memory(inputs, outputs):
-    # 保存到所有记忆系统
-    vector_memory.save_context(inputs, {"output": outputs})
-    window_memory.save_context(inputs, {"output": outputs})
-
-    # 更新摘要记忆
-    summary_memory.save_context(inputs, {"output": outputs})
-
-# 完整的记忆循环
-result = chain_with_memory.invoke({
-    "input": "根据我们之前的对话，总结我的主要需求"
-})
-save_memory({"input": "根据我们之前的对话，总结我的主要需求"}, {"output": result})</code></pre>
-        <div class="desc">多层级记忆系统支持长期和短期信息管理</div>
-      </div>
-
-      <div class="card">
-        <h2>📊 LangSmith集成与评估 <a href="https://python.langchain.com/docs/concepts/tracing/" title="LangSmith文档" target="_blank" style="color:#93cdfc;">>></a></h2>
-        <ul>
-          <li><code>LANGCHAIN_TRACING_V2</code> | 启用追踪</li>
-          <li><code>Evaluation</code> | 自动化评估框架</li>
-          <li><code>StringEvaluator</code> | 自定义评估器</li>
-          <li><code>LLMCriteriaEvaluator</code> | LLM评估器</li>
-        </ul>
-        <h3>监控与评估示例</h3>
-        <pre><code class="language-python">import os
-from langchain.evaluation import StringEvaluator, LLMCriteriaEvaluator
-from langchain.evaluation.criteria import LLMCriteriaEvaluator
-
-# 配置LangSmith追踪
-os.environ["LANGCHAIN_TRACING_V2"] = "true"
-os.environ["LANGCHAIN_PROJECT"] = "MyLangChainProject"
-os.environ["LANGSMITH_ENDPOINT"] = "https://api.smith.langchain.com"
-
-# 自定义评估器
-class CustomEvaluator(StringEvaluator):
-    def evaluate_strings(self, prediction, reference, input=None):
-        return {
-            "score": 0.8 if prediction.lower().strip() == reference.lower().strip() else 0.2,
-            "reasoning": "字符串匹配评估",
-            "details": f"预测：{prediction}，参考：{reference}"
-        }
-
-# LLM评估器
-llm_evaluator = LLMCriteriaEvaluator.from_llm(
-    llm=llm,
-    criteria={
-        "准确性": "回答是否准确无误",
-        "相关性": "回答是否与问题相关",
-        "完整性": "回答是否完整",
-        "清晰度": "回答是否清晰易懂"
+        &quot;messages&quot;: [
+            {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;用一句话介绍 LangChain&quot;}
+        ]
     }
 )
 
-# 运行评估
-evaluator = CustomEvaluator()
-result = evaluator.evaluate_strings(
-    prediction="Hello",
-    reference="hello",
-    input="打招呼"
-)
-print(f"评估结果：{result}")
+print(result)</code></pre></div><div class="card"><h2>🧩 模型与消息 <a href="https://docs.langchain.com/oss/python/langchain/models" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">用统一模型接口对接不同提供商，并使用消息对象管理上下文。</div><ul><li><code>from langchain.chat_models import init_chat_model</code>：标准化初始化聊天模型</li><li><code>from langchain_core.messages import HumanMessage, SystemMessage</code>：显式消息类型</li><li><code>model.invoke(messages)</code>：传入消息列表并获得回复</li></ul><pre><code class="language-python"># 统一模型初始化
+from langchain.chat_models import init_chat_model
+from langchain_core.messages import HumanMessage, SystemMessage
 
-# LLM评估
-llm_result = llm_evaluator.evaluate_strings(
-    prediction="机器学习是AI的一个子领域",
-    reference="机器学习是人工智能的重要分支",
-    input="什么是机器学习？"
-)
-print(f"LLM评估结果：{llm_result}")
+model = init_chat_model(&quot;openai:gpt-4o-mini&quot;)
 
-# 批量评估
-from langchain.evaluation import load_evaluator
-
-evaluator = load_evaluator("labeled_string_string_distance")
-dataset = [
-    {"input": "问题1", "prediction": "答案1", "reference": "标准答案1"},
-    {"input": "问题2", "prediction": "答案2", "reference": "标准答案2"}
-]
-
-results = []
-for item in dataset:
-    result = evaluator.evaluate_strings(**item)
-    results.append(result)
-
-# 计算平均分数
-avg_score = sum(r["score"] for r in results) / len(results)
-print(f"平均评估分数：{avg_score:.2f}")</code></pre>
-        <div class="desc">完整的监控和评估体系保障应用质量</div>
-      </div>
-
-      <div class="card">
-        <h2>🌊 高级流式处理 <a href="https://python.langchain.com/docs/concepts/streaming/" title="流式文档" target="_blank" style="color:#93cdfc;">>></a></h2>
-        <ul>
-          <li><code>JsonOutputParser</code> | JSON流式解析</li>
-          <li><code>自定义解析器</code> | 实时数据处理</li>
-          <li><code>回调机制</code> | 流式事件处理</li>
-          <li><code>异步流</code> | 高性能流处理</li>
-        </ul>
-        <h3>流式处理示例</h3>
-        <pre><code class="language-python">from langchain_core.output_parsers import JsonOutputParser
-from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
-from langchain_core.callbacks import BaseCallbackHandler
-
-class CustomStreamingHandler(BaseCallbackHandler):
-    def on_llm_new_token(self, token: str, **kwargs) -> None:
-        print(token, end="", flush=True)
-
-    def on_llm_end(self, response, **kwargs) -> None:
-        print("\n--- 生成完成 ---")
-
-# JSON流式输出
-json_parser = JsonOutputParser()
-json_chain = prompt | llm | json_parser
-
-async def stream_json_response():
-    print("JSON流式输出：")
-    async for chunk in json_chain.astream({"input": "生成用户JSON数据"}):
-        print(f"收到：{chunk}", flush=True)
-
-# 文本流式处理
-streaming_handler = CustomStreamingHandler()
-
-chain = prompt | llm
-result = chain.invoke(
-    {"input": "写一个简短的故事"},
-    callbacks=[streaming_handler]
-)
-
-# 结构化数据流
-class DataExtractor(BaseModel):
-    title: str
-    items: List[str]
-    priority: int
-
-structured_parser = JsonOutputParser(pydantic_object=DataExtractor)
-structured_chain = prompt | llm | structured_parser
-
-async def stream_structured_data():
-    print("\n结构化数据流：")
-    buffer = ""
-    async for chunk in structured_chain.astream({"input": "提取项目清单"}):
-        if chunk:
-            buffer += str(chunk)
-            print(f"部分数据：{chunk}")
-        else:
-            print(f"完整数据：{buffer}")
-
-# 运行流式示例
-import asyncio
-
-async def main():
-    print("=== 流式处理演示 ===\n")
-
-    await stream_json_response()
-
-    print("\n" + "="*50 + "\n")
-
-    await stream_structured_data()
-
-# 运行
-asyncio.run(main())</code></pre>
-        <div class="desc">强大的流式处理能力支持实时应用</div>
-      </div>
-
-      <div class="card">
-        <h2>📤 输出解析器扩展 <a href="https://python.langchain.com/docs/concepts/output_parsers/" title="输出解析文档" target="_blank" style="color:#93cdfc;">>></a></h2>
-        <ul>
-          <li><code>PydanticOutputParser</code> | 结构化数据解析</li>
-          <li><code>RegexParser</code> | 正则表达式解析</li>
-          <li><code>EnumOutputParser</code> | 枚举类型解析</li>
-          <li><code>ListOutputParser</code> | 列表数据解析</li>
-        </ul>
-        <h3>高级解析器示例</h3>
-        <pre><code class="language-python">from langchain.output_parsers import (
-    PydanticOutputParser,
-    RegexParser,
-    EnumOutputParser,
-    ListOutputParser
-)
-
-# Pydantic解析器
-from pydantic import BaseModel, Field, validator
-
-class ProductInfo(BaseModel):
-    name: str = Field(description="产品名称")
-    price: float = Field(description="产品价格")
-    category: str = Field(description="产品类别")
-    in_stock: bool = Field(description="是否有库存")
-
-    @validator('price')
-    def price_must_be_positive(cls, v):
-        if v <= 0:
-            raise ValueError('价格必须为正数')
-        return v
-
-product_parser = PydanticOutputParser(pydantic_object=ProductInfo)
-
-# 正则表达式解析器
-regex_parser = RegexParser(
-    regex=r"价格：\s*(\d+(?:\.\d+)?)\s*元",
-    output_keys=["price"],
-    default_output_key="price"
-)
-
-# 枚举解析器
-enum_parser = EnumOutputParser(
-    enum=["高", "中", "低"],
-    default="中"
-)
-
-# 列表解析器
-list_parser = ListOutputParser()
-
-# 组合解析器
-class ComplexAnalysis(BaseModel):
-    sentiment: str = Field(description="情感倾向（正面/负面/中性）")
-    keywords: List[str] = Field(description="关键词列表")
-    confidence: float = Field(description="置信度（0-1）")
-
-complex_parser = PydanticOutputParser(pydantic_object=ComplexAnalysis)
-
-# 使用示例
-chain = prompt | llm | complex_parser
-
-result = chain.invoke({
-    "input": "分析这段文本：这个产品质量很好，价格实惠，物超所值"
-})
-
-print(f"情感：{result.sentiment}")
-print(f"关键词：{result.keywords}")
-print(f"置信度：{result.confidence:.2f}")
-
-# 错误处理
-try:
-    result = product_parser.parse("产品名称：手机，价格：-500元")
-except Exception as e:
-    print(f"解析错误：{e}")
-    # 使用默认值重试
-    corrected_result = ProductInfo(
-        name="手机",
-        price=500.0,  # 修正负价格
-        category="电子产品",
-        in_stock=True
-    )
-    print(f"修正后的结果：{corrected_result}")</code></pre>
-        <div class="desc">类型安全的输出解析支持复杂结构数据</div>
-      </div>
-
-      <div class="card">
-        <h2>📚 最佳实践与模式 <a href="https://python.langchain.com/docs/tutorials/" title="教程文档" target="_blank" style="color:#93cdfc;">>></a></h2>
-        <ul>
-          <li><code>错误处理</code> | 完整的异常处理机制</li>
-          <li><code>性能优化</code> | 缓存和批处理策略</li>
-          <li><code>类型安全</code> | Pydantic模型验证</li>
-          <li><code>异步编程</code> | 充分利用异步特性</li>
-        </ul>
-        <h3>最佳实践示例</h3>
-        <pre><code class="language-python">from typing import Optional, Dict, Any
-import asyncio
-from functools import wraps
-
-# 错误装饰器
-def handle_errors(func):
-    @wraps(func)
-    async def wrapper(*args, **kwargs):
-        try:
-            return await func(*args, **kwargs)
-        except Exception as e:
-            print(f"错误 {func.__name__}: {e}")
-            return {"error": str(e), "success": False}
-    return wrapper
-
-# 重试机制
-async def retry_with_backoff(
-    func,
-    max_retries: int = 3,
-    initial_delay: float = 1.0
-):
-    for attempt in range(max_retries):
-        try:
-            return await func()
-        except Exception as e:
-            if attempt == max_retries - 1:
-                raise e
-            delay = initial_delay * (2 ** attempt)
-            print(f"重试 {attempt + 1}/{max_retries}，延迟 {delay:.1f}s")
-            await asyncio.sleep(delay)
-
-# 缓存装饰器
-_cache = {}
-def cached_result(ttl_seconds: int = 300):
-    def decorator(func):
-        @wraps(func)
-        async def wrapper(*args, **kwargs):
-            key = f"{func.__name__}_{str(args)}_{str(kwargs)}"
-
-            # 检查缓存
-            if key in _cache:
-                cached_item = _cache[key]
-                import time
-                if time.time() - cached_item["timestamp"] < ttl_seconds:
-                    print(f"使用缓存结果：{key}")
-                    return cached_item["result"]
-
-            # 计算新结果
-            result = await func(*args, **kwargs)
-
-            # 存储到缓存
-            import time
-            _cache[key] = {
-                "result": result,
-                "timestamp": time.time()
-            }
-            return result
-        return wrapper
-    return decorator
-
-# 应用最佳实践
-@handle_errors
-@cached_result(ttl_seconds=600)
-async def expensive_llm_call(query: str) -> Dict[str, Any]:
-    """调用LLM的包装函数，包含错误处理和缓存"""
-    response = await llm.ainvoke(query)
-
-    # 验证响应
-    if not response or not response.content:
-        raise ValueError("LLM返回空响应")
-
-    return {
-        "content": response.content,
-        "model": getattr(response, 'model', 'unknown'),
-        "tokens_used": getattr(response, 'usage', {}).get('total_tokens', 0)
-    }
-
-# 批处理优化
-async def batch_process(items: list, batch_size: int = 5) -> list:
-    """批量处理以提高性能"""
-    results = []
-
-    for i in range(0, len(items), batch_size):
-        batch = items[i:i + batch_size]
-        batch_tasks = [expensive_llm_call(item) for item in batch]
-
-        # 并行处理批次
-        batch_results = await asyncio.gather(*batch_tasks, return_exceptions=True)
-
-        # 处理结果和异常
-        for result in batch_results:
-            if isinstance(result, Exception):
-                results.append({"error": str(result), "success": False})
-            else:
-                results.append(result)
-
-    return results
-
-# 使用示例
-async def main():
-    queries = [
-        "什么是机器学习？",
-        "解释深度学习的原理",
-        "神经网络是如何工作的？",
-        "计算机视觉的应用有哪些？",
-        "自然语言处理的挑战是什么？"
+resp = model.invoke(
+    [
+        SystemMessage(content=&quot;你是 Python 助手&quot;),
+        HumanMessage(content=&quot;解释什么是 RAG&quot;)
     ]
+)
 
-    print("=== 批处理示例 ===")
-    results = await batch_process(queries, batch_size=3)
+print(resp.content)</code></pre></div><div class="card"><h2>🛠️ 工具调用（Tools） <a href="https://docs.langchain.com/oss/python/langchain/tools" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">把 Python 函数声明成可调用工具，让 Agent 具备外部能力。</div><ul><li><code>@tool</code>：将函数暴露为工具</li><li><code>create_agent(..., tools=[...])</code>：在 Agent 中注册工具</li><li>工具函数参数建议加类型注解 : 提升模型选择工具的准确率</li></ul><pre><code class="language-python"># 定义并挂载工具
+from langchain.agents import create_agent
+from langchain.tools import tool
 
-    for i, (query, result) in enumerate(zip(queries, results)):
-        print(f"{i+1}. 问题：{query[:30]}...")
-        if result.get("success"):
-            print(f"   回答：{result['content'][:50]}...")
-            print(f"   使用模型：{result['model']}")
-            print(f"   Token数：{result['tokens_used']}")
-        else:
-            print(f"   错误：{result['error']}")
+@tool
+def get_weather(city: str) -&gt; str:
+    &quot;&quot;&quot;查询天气（示例）&quot;&quot;&quot;
+    return f&quot;{city}：晴，25C&quot;
 
-# 运行最佳实践示例
-asyncio.run(main())</code></pre>
-        <div class="desc">完整的错误处理、性能优化和缓存策略</div>
-      </div>
+agent = create_agent(
+    model=&quot;openai:gpt-4o-mini&quot;,
+    tools=[get_weather],
+    system_prompt=&quot;你可以在需要时调用工具&quot;
+)
 
-      <div class="card">
-        <h2>🔗 学习资源与工具 <a href="https://python.langchain.com/docs/" title="官方文档首页" target="_blank" style="color:#93cdfc;">>></a></h2>
-        <ul>
-          <li><code>官方文档</code> | https://python.langchain.com/docs/</li>
-          <li><code>LangSmith</code> | https://smith.langchain.com/</li>
-          <li><code>GitHub仓库</code> | https://github.com/langchain-ai/langchain</li>
-          <li><code>社区论坛</code> | https://discord.gg/langchain</li>
-        </ul>
-        <h3>开发工具集成</h3>
-        <pre><code class="language-bash"># 开发环境设置
-pip install langchain[dev]  # 安装开发依赖
+print(agent.invoke({&quot;messages&quot;: [{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;北京天气如何？&quot;}]}))</code></pre></div><div class="card"><h2>📦 结构化输出 <a href="https://docs.langchain.com/oss/python/langchain/structured-output" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">通过 schema 约束输出，降低后处理成本与解析失败率。</div><ul><li><code>response_format=MySchema</code>：让 Agent 直接输出结构化对象</li><li><code>pydantic</code>：便于校验与类型提示</li><li>适用于提取、分类、路由等任务 : 减少正则解析</li></ul><pre><code class="language-python"># 使用 Pydantic 获取结构化输出
+from pydantic import BaseModel, Field
+from langchain.agents import create_agent
 
-# 代码质量工具
-pip install black flake8 mypy  # 代码格式化和检查
+class Contact(BaseModel):
+    name: str = Field(description=&quot;姓名&quot;)
+    email: str = Field(description=&quot;邮箱&quot;)
 
-# 测试工具
-pip install pytest pytest-asyncio  # 异步测试支持
+agent = create_agent(
+    model=&quot;openai:gpt-4o-mini&quot;,
+    tools=[],
+    response_format=Contact
+)
 
-# 性能分析
-pip install memory-profiler  # 内存分析
-pip install line-profiler  # 行级性能分析
+resp = agent.invoke(
+    {
+        &quot;messages&quot;: [
+            {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;从文本提取：张三，邮箱 zhangsan@example.com&quot;}
+        ]
+    }
+)
 
-# VSCode扩展推荐
-# - LangChain Assistant
-# - Python
-# - Pylance
-# - GitLens
+print(resp)</code></pre></div><div class="card"><h2>🧱 中间件（Middleware） <a href="https://docs.langchain.com/oss/python/langchain/middleware/overview" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">在请求生命周期插入鉴权、审计、重试、限流等横切逻辑。</div><ul><li>中间件用于请求前后拦截 : 统一治理调用策略</li><li>预置中间件可快速上线 : 自定义中间件用于业务规则</li><li>适合与多模型路由组合 : 管理成本更低</li></ul><h3>常见场景</h3><ul><li>请求日志与耗时统计</li><li>动态附加系统提示词</li><li>按租户注入 API Key 或配额策略</li></ul></div><div class="card"><h2>🧠 短期记忆（会话内） <a href="https://docs.langchain.com/oss/python/langchain/short-term-memory" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">在会话线程中保存上下文，避免每轮手工拼接历史消息。</div><ul><li>短期记忆聚焦“当前会话” : 适合客服与助手类对话</li><li>建议搭配线程 ID : 明确区分不同用户会话</li><li>对长对话可做摘要压缩 : 降低 token 成本</li></ul></div><div class="card"><h2>🔎 检索增强（Retrieval / RAG） <a href="https://docs.langchain.com/oss/python/langchain/retrieval" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">通过检索器把外部知识注入上下文，减少幻觉并提升可追溯性。</div><ul><li>文档入库流程 : 切分 -&gt; 向量化 -&gt; 写入向量库</li><li>查询流程 : 重写查询 -&gt; 检索 -&gt; 重排 -&gt; 生成</li><li>可与工具调用结合 : 先检索再调用业务接口</li></ul><pre><code class="language-python"># 最简 RAG 流程（示意）
+from langchain.chat_models import init_chat_model
 
-# 常用开发模式
-# 1. 模块化开发
-#    - 每个功能模块独立开发
-#    - 使用TypeScript提示增强类型安全
-#    - 实现完整的错误处理
+model = init_chat_model(&quot;openai:gpt-4o-mini&quot;)
 
-# 2. 迭代测试
-#    - 使用LangSmith追踪和调试
-#    - 编写自动化评估脚本
-#    - 性能基准测试
+context = &quot;LangChain 的 Agent 构建在 LangGraph 之上，支持持久化与流式输出。&quot;
+question = &quot;LangChain Agent 的底层能力来自哪里？&quot;
 
-# 3. 持续集成
-#    - 自动化测试流水线
-#    - 代码质量检查
-#    - 文档自动生成
+answer = model.invoke(
+    f&quot;请基于上下文回答。\n上下文：{context}\n问题：{question}&quot;
+)
 
-# 推荐学习路径
-# 1. 基础概念（1-2周）
-#    - 理解LCEL链式调用
-#    - 掌握Prompt模板
-#    - 学习基本工具使用
-
-# 2. 进阶功能（2-3周）
-#    - LangGraph代理系统
-#    - 高级记忆管理
-#    - 复杂输出解析
-
-# 3. 实战项目（3-4周）
-#    - 构建RAG应用
-#    - 开发多代理系统
-#    - 生产环境部署</code></pre>
-        <div class="desc">完整的开发生态和学习路径指导</div>
-      </div>
+print(answer.content)</code></pre></div><div class="card"><h2>🗃️ 长期记忆（跨会话） <a href="https://docs.langchain.com/oss/python/langchain/long-term-memory" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">把稳定用户信息与业务事实沉淀到长期存储，支持跨会话个性化。</div><ul><li>适合存偏好、画像、历史决策 : 避免每次重复收集</li><li>写入时建议加来源与时间戳 : 便于冲突处理</li><li>读取时按场景过滤 : 不要无差别注入所有历史</li></ul></div><div class="card"><h2>🌊 流式输出（Streaming） <a href="https://docs.langchain.com/oss/python/langchain/streaming" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">以 token 或事件流方式返回结果，优化首字节延迟与交互体验。</div><ul><li><code>agent.stream(...)</code>：在前端逐步渲染回复</li><li>事件流适合显示工具执行轨迹 : 提升可解释性</li><li>与 LangSmith 结合可追踪每个阶段耗时</li></ul></div><div class="card"><h2>🧪 观测与调试（LangSmith） <a href="https://docs.langchain.com/oss/python/langchain/observability" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">打开 tracing 后可追踪每次调用链路，定位提示词和工具问题。</div><ul><li><code>LANGSMITH_TRACING=true</code>：打开链路追踪</li><li><code>LANGSMITH_API_KEY</code>：配置平台密钥</li><li><code>LANGSMITH_PROJECT</code>：按项目隔离实验数据</li></ul><pre><code class="language-bash"># 启用 LangSmith 追踪
+export LANGSMITH_TRACING=true
+export LANGSMITH_API_KEY=&quot;&lt;your_api_key&gt;&quot;
+export LANGSMITH_PROJECT=&quot;langchain-cheatsheet&quot;</code></pre></div><div class="card"><h2>🛡️ 人类介入与安全护栏 <a href="https://docs.langchain.com/oss/python/langchain/human-in-the-loop" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">对高风险操作增加人工确认，并用 Guardrails 约束输入输出。</div><ul><li>Human-in-the-loop : 在执行关键动作前人工审批</li><li>Guardrails : 对越权请求、敏感词、格式错误做拦截</li><li>生产建议 : 审批 + 审计 + 回滚三件套</li></ul><h3>常见坑位</h3><ul><li>直接让 Agent 执行写操作且无审批</li><li>仅靠系统提示词，不做结构化校验</li><li>不记录工具调用参数，事后无法审计</li></ul></div><div class="card"><h2>⚠️ 迁移与版本提示（v1 系） <a href="https://docs.langchain.com/oss/python/releases/changelog" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">LangChain 迭代快，升级时先看变更日志与版本策略再改代码。</div><ul><li>优先查官方 Changelog 与 Versioning 文档</li><li><code>langchain</code>：避免依赖错位</li><li>升级后先跑关键链路回归 : Agent、RAG、工具调用</li></ul></div>
     </div>
   </div>
 
+  <script src="../../assets/common.js"></script>
   <script>
-    document.getElementById('columnWidth').addEventListener('input', function(e) {
-      const width = e.target.value;
-      document.getElementById('widthVal').textContent = width + 'px';
-      const columns = document.getElementById('columns');
-      columns.style.columnWidth = width + 'px';
-    });
-
-    // Prism.js 代码高亮初始化
-    document.addEventListener('DOMContentLoaded', function() {
-      // 确保 Prism 已加载
+    document.addEventListener('DOMContentLoaded', function () {
       if (window.Prism) {
-        // 高亮所有代码块
         Prism.highlightAll();
-
-        // 可选：添加行号显示
-        Prism.plugins.lineNumbers = false; // 禁用行号以保持简洁
-
-        console.log('代码高亮已启用');
       }
     });
   </script>
