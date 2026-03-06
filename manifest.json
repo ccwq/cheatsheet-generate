@@ -70,7 +70,12 @@
       "purpose": "maskable"
     }
   ],
-  "categories": ["productivity", "utilities", "education", "developer"],
+  "categories": [
+    "productivity",
+    "utilities",
+    "education",
+    "developer"
+  ],
   "shortcuts": [
     {
       "name": "搜索速查",
@@ -84,5 +89,6 @@
         }
       ]
     }
-  ]
+  ],
+  "version": "0.1.1"
 }

@@ -1,7 +1,7 @@
 {
   "name": "cheatsheet-generate",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "AI-based cheatsheet generator and downloader",
   "scripts": {
     "build": "npm run build:cheat:all && npm run build:nav",
@@ -14,6 +14,7 @@
     "watch": "node scripts/watch.js",
     "workflow": "node scripts/workflow.js",
     "release": "npm run release:patch",
+    "changelog": "npx -y standard-version",
     "update-skill": "npx -y skills add ./cheatsheet-html-maker/cheatsheet-maker-skill"
   },
   "dependencies": {
