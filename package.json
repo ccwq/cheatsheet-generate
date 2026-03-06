@@ -14,7 +14,7 @@
     "watch": "node scripts/watch.js",
     "workflow": "node scripts/workflow.js",
     "release": "npm run release:patch",
-    "update-skill":"npx -y skills add ./cheatsheet-maker-skill"
+    "update-skill":"npx -y skills add ./cheatsheet-html-maker/cheatsheet-maker-skill"
   },
   "dependencies": {
     "canvas": "^3.2.0",
