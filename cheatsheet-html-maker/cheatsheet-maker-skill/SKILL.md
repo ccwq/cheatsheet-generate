@@ -81,7 +81,7 @@ desc: 模块的一句话描述
 - **代码块**：渲染为 `<pre><code class="language-xxx">`。必须带语言标识。
 
 ### 5. 更多完整的语法
-请参考"../references/guide.md"
+请参考"./references/guide.md"
 
 ## 🏷️ 元数据与参考规范
 
