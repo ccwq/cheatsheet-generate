@@ -1,10 +1,10 @@
 ---
-title: tmux2 速查表
+title: tmux 速查表
 lang: bash
 version: "3.6a"
 date: 2026-03-05
 github: tmux/tmux
-colWidth: 300px
+colWidth: 500px
 ---
 
 ## 🧭 架构与层级
