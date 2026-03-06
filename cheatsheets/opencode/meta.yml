@@ -1,0 +1,5 @@
+desc: OpenCode 开源 AI 编码代理的终端使用速查表，涵盖安装、配置、计划模式、撤销重做等核心功能
+tags: ["AI工具", "终端", "代码助手", "CLI", "开发工具"]
+version: "latest"
+github: "anomalyco/opencode"
+date: "2026-03-06"
