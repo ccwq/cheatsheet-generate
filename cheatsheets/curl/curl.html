@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>curl 命令行工具速查表</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png">
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 340px; 
+      --gap: 16px;
+    }
+
+    .panel label {
+      color: var(--panel-accent);
+    }
+
+    .panel .title {
+      color: var(--panel-accent);
+    }
+
+    .card pre,
+    .card pre code[class^="language-"] {
+      font-size: 13px;
+      line-height: 1.2;
+    }
+
+    .card h2 {
+      font-size: 16px;
+    }
+
+    .card,
+    .card li,
+    .desc {
+      font-size: 14px;
+      line-height: 1.2;
+    }
+
+    .meta-link {
+      color: var(--text-link);
+    }
+
+    .meta-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <span class="title">curl 命令行工具速查表</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label">版本</span><span class="meta-value">8.12.0</span></span>
+        <span class="meta-item"><span class="meta-label">更新日志</span><span class="meta-value">2026-03-06</span></span>
+        <span class="meta-item"><span class="meta-label">GitHub</span><span class="meta-value"><a class="meta-link" href="https://github.com/curl/curl" target="_blank" rel="noopener">curl/curl</a></span></span>
+      </div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>🚀 基础请求 <a href="https://curl.se/docs/manual.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">curl 最核心的 HTTP 请求功能</div><ul><li><code>curl &lt;url&gt;</code>：发起 GET 请求</li><li><code>curl -X POST &lt;url&gt;</code>：指定请求方法</li><li><code>curl -X PUT &lt;url&gt;</code>：发送 PUT 请求</li><li><code>curl -X DELETE &lt;url&gt;</code>：发送 DELETE 请求</li><li><code>curl -X PATCH &lt;url&gt;</code>：发送 PATCH 请求</li><li><code>curl -I &lt;url&gt;</code>：仅获取响应头</li><li><code>curl -i &lt;url&gt;</code>：显示响应头和响应体</li><li><code>curl -v &lt;url&gt;</code>：显示详细通信过程</li><li><code>curl -s &lt;url&gt;</code>：静默模式（不显示进度）</li><li><code>curl -L &lt;url&gt;</code>：跟随重定向</li><li><code>curl --max-redirs &lt;n&gt; &lt;url&gt;</code>：限制重定向次数</li></ul><pre><code class="language-bash"># 基本 GET 请求
+curl https://api.example.com/users
+
+# 跟随重定向并显示响应头
+curl -iL https://httpbin.org/redirect/1
+
+# 静默模式获取纯响应内容
+curl -s https://api.example.com/data | jq .</code></pre></div><div class="card"><h2>📤 发送数据 <a href="https://curl.se/docs/httpscripting.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">使用 curl 发送各种格式的数据</div><ul><li><code>curl -d &quot;data&quot; &lt;url&gt;</code>：发送 POST 数据</li><li><code>curl -d @file.json &lt;url&gt;</code>：从文件读取数据</li><li><code>curl --data-urlencode &quot;key=value&quot; &lt;url&gt;</code>：URL 编码数据</li><li><code>curl -F &quot;name=value&quot; &lt;url&gt;</code>：发送表单数据</li><li><code>curl -F &quot;file=@path/to/file&quot; &lt;url&gt;</code>：上传文件</li><li><code>curl -T file.txt &lt;url&gt;</code>：直接上传文件内容</li><li><code>curl --json &#39;{&quot;key&quot;:&quot;val&quot;}&#39; &lt;url&gt;</code>：发送 JSON 数据 (8.5+)</li></ul><pre><code class="language-bash"># 发送表单数据
+curl -X POST -d &quot;name=John&amp;age=30&quot; https://api.example.com/users
+
+# 发送 JSON 数据
+curl -X POST \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#39;{&quot;name&quot;:&quot;John&quot;,&quot;age&quot;:30}&#39; \
+  https://api.example.com/users
+
+# 从文件读取 JSON 数据
+curl -X POST \
+  -H &quot;Content-Type: application/json&quot; \
+  -d @user.json \
+  https://api.example.com/users
+
+# 上传文件
+curl -F &quot;file=@photo.jpg&quot; \
+  -F &quot;description=My photo&quot; \
+  https://api.example.com/upload
+
+# 使用 --json 简化 JSON 请求 (curl 8.5+)
+curl --json &#39;{&quot;name&quot;:&quot;John&quot;}&#39; https://api.example.com/users</code></pre></div><div class="card"><h2>📝 请求头设置 <a href="https://curl.se/docs/manpage.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">自定义 HTTP 请求头</div><ul><li><code>curl -H &quot;Header: Value&quot; &lt;url&gt;</code>：添加自定义请求头</li><li><code>curl -A &quot;User-Agent&quot; &lt;url&gt;</code>：设置 User-Agent</li><li><code>curl -e &quot;referer&quot; &lt;url&gt;</code>：设置 Referer</li><li><code>curl -b &quot;cookie=data&quot; &lt;url&gt;</code>：发送 Cookie</li><li><code>curl -c cookies.txt &lt;url&gt;</code>：保存 Cookie 到文件</li><li><code>curl -b cookies.txt &lt;url&gt;</code>：从文件读取 Cookie</li></ul><pre><code class="language-bash"># 设置多个请求头
+curl -H &quot;Authorization: Bearer token123&quot; \
+  -H &quot;Accept: application/json&quot; \
+  -H &quot;X-Custom-Header: value&quot; \
+  https://api.example.com/data
+
+# 设置 User-Agent
+curl -A &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64)&quot; \
+  https://example.com
+
+# 保存和复用 Cookie
+curl -c cookies.txt https://example.com/login
+curl -b cookies.txt https://example.com/profile</code></pre></div><div class="card"><h2>💾 输出控制 <a href="https://curl.se/docs/manpage.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">控制 curl 的输出行为</div><ul><li><code>curl -o file.txt &lt;url&gt;</code>：保存响应到指定文件</li><li><code>curl -O &lt;url&gt;</code>：使用远程文件名保存</li><li><code>curl -C - -o file.txt &lt;url&gt;</code>：断点续传</li><li><code>curl -# &lt;url&gt;</code>：显示简单进度条</li><li><code>curl --progress-bar &lt;url&gt;</code>：强制显示进度条</li><li><code>curl --create-dirs &lt;url&gt;</code>：自动创建目录</li></ul><pre><code class="language-bash"># 保存到指定文件
+curl -o output.json https://api.example.com/data
+
+# 使用远程原始文件名
+curl -O https://example.com/files/document.pdf
+
+# 断点续传下载大文件
+curl -C - -O https://example.com/large-file.zip
+
+# 下载到指定目录（自动创建）
+curl --create-dirs -o downloads/file.txt https://example.com/file.txt</code></pre></div><div class="card"><h2>🔐 认证授权 <a href="https://curl.se/docs/manpage.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">各种认证方式</div><ul><li><code>curl -u user:pass &lt;url&gt;</code>：HTTP Basic 认证</li><li><code>curl --digest -u user:pass &lt;url&gt;</code>：Digest 认证</li><li><code>curl --ntlm -u user:pass &lt;url&gt;</code>：NTLM 认证</li><li><code>curl --negotiate -u : &lt;url&gt;</code>：SPNEGO/Kerberos</li><li><code>curl --oauth2-bearer token &lt;url&gt;</code>：OAuth2 Bearer Token</li><li><code>curl -E cert.pem &lt;url&gt;</code>：使用客户端证书</li></ul><pre><code class="language-bash"># Basic 认证
+curl -u username:password https://api.example.com/private
+
+# 交互式输入密码（更安全）
+curl -u username https://api.example.com/private
+
+# Bearer Token 认证
+curl -H &quot;Authorization: Bearer &lt;token&gt;&quot; https://api.example.com/data
+
+# 使用客户端证书
+curl -E client.pem:password \
+  --cacert ca.pem \
+  https://secure.example.com/api
+
+# 跳过证书验证（仅开发使用）
+curl -k https://self-signed.example.com</code></pre></div><div class="card"><h2>⚡ 高级选项 <a href="https://curl.se/docs/manpage.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">高级功能和性能优化</div><ul><li><code>curl --connect-timeout &lt;s&gt; &lt;url&gt;</code>：连接超时</li><li><code>curl --max-time &lt;s&gt; &lt;url&gt;</code>：最大传输时间</li><li><code>curl --retry &lt;n&gt; &lt;url&gt;</code>：失败重试次数</li><li><code>curl --retry-delay &lt;s&gt; &lt;url&gt;</code>：重试间隔</li><li><code>curl --limit-rate &lt;speed&gt; &lt;url&gt;</code>：限速下载</li><li><code>curl -Y &lt;speed&gt; &lt;url&gt;</code>：最小下载速度</li><li><code>curl --compressed &lt;url&gt;</code>：请求压缩响应</li><li><code>curl --http2 &lt;url&gt;</code>：强制使用 HTTP/2</li><li><code>curl --http3 &lt;url&gt;</code>：尝试使用 HTTP/3</li></ul><pre><code class="language-bash"># 设置超时和重试
+curl --connect-timeout 10 \
+  --max-time 30 \
+  --retry 3 \
+  --retry-delay 2 \
+  https://api.example.com/data
+
+# 限速下载（避免占用全部带宽）
+curl --limit-rate 500K -O https://example.com/large-file.zip
+
+# 请求压缩响应
+curl --compressed https://api.example.com/data
+
+# 强制 HTTP/2
+curl --http2 https://example.com</code></pre></div><div class="card"><h2>🌐 代理设置 <a href="https://curl.se/docs/manpage.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">配置代理服务器</div><ul><li><code>curl -x proxy:port &lt;url&gt;</code>：使用 HTTP 代理</li><li><code>curl -x socks5://proxy:port &lt;url&gt;</code>：使用 SOCKS5 代理</li><li><code>curl --proxy-user user:pass &lt;url&gt;</code>：代理认证</li><li><code>curl --proxy-basic &lt;url&gt;</code>：Basic 代理认证</li><li><code>curl --proxy-digest &lt;url&gt;</code>：Digest 代理认证</li><li><code>curl --noproxy &quot;*&quot; &lt;url&gt;</code>：禁用代理</li></ul><pre><code class="language-bash"># HTTP 代理
+curl -x http://proxy.example.com:8080 https://api.example.com
+
+# SOCKS5 代理
+curl -x socks5://localhost:1080 https://api.example.com
+
+# 代理认证
+curl -x http://proxy.example.com:8080 \
+  --proxy-user username:password \
+  https://api.example.com
+
+# 特定主机不走代理
+curl -x http://proxy:8080 --noproxy &quot;localhost,*.local&quot; \
+  https://api.example.com</code></pre></div><div class="card"><h2>📊 调试诊断 <a href="https://curl.se/docs/manpage.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">调试和诊断网络问题</div><ul><li><code>curl -v &lt;url&gt;</code>：详细模式</li><li><code>curl --trace - &lt;url&gt;</code>：完整跟踪输出到 stdout</li><li><code>curl --trace trace.txt &lt;url&gt;</code>：完整跟踪输出到文件</li><li><code>curl --trace-ascii - &lt;url&gt;</code>：ASCII 格式跟踪</li><li><code>curl --write-out &quot;%{http_code}&quot; &lt;url&gt;</code>：自定义输出格式</li><li><code>curl -w &quot;@format.txt&quot; &lt;url&gt;</code>：从文件读取输出格式</li></ul><pre><code class="language-bash"># 详细模式查看请求和响应头
+curl -v https://api.example.com/users
+
+# 查看 HTTP 状态码和时间信息
+curl -w &quot;\nHTTP Code: %{http_code}\nTime: %{time_total}s\n&quot; \
+  https://api.example.com
+
+# 完整跟踪保存到文件
+curl --trace debug.log https://api.example.com
+
+# 仅获取状态码
+curl -s -o /dev/null -w &quot;%{http_code}&quot; https://api.example.com
+
+# 获取详细的连接信息
+curl -w @- -o /dev/null -s https://api.example.com &lt;&lt;&#39;EOF&#39;
+DNS: %{time_namelookup}s
+Connect: %{time_connect}s
+SSL: %{time_appconnect}s
+Total: %{time_total}s
+EOF</code></pre></div><div class="card"><h2>🔧 FTP/SFTP 操作 <a href="https://curl.se/docs/manual.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">FTP 和 SFTP 文件传输</div><ul><li><code>curl ftp://user:pass@host/file</code>：下载 FTP 文件</li><li><code>curl -T file ftp://user:pass@host/path/</code>：上传文件到 FTP</li><li><code>curl -l ftp://user:pass@host/</code>：列出 FTP 目录</li><li><code>curl -Q &quot;command&quot; ftp://...</code>：发送 FTP 命令</li><li><code>curl sftp://user@host/file</code>：SFTP 下载</li><li><code>curl --ftp-create-dirs -T file ftp://...</code>：自动创建目录</li></ul><pre><code class="language-bash"># FTP 下载文件
+curl ftp://username:password@ftp.example.com/file.txt -o file.txt
+
+# FTP 上传文件
+curl -T localfile.txt ftp://username:password@ftp.example.com/remote/
+
+# 列出 FTP 目录
+curl -l ftp://username:password@ftp.example.com/
+
+# SFTP 下载
+curl sftp://username@example.com/path/to/file.txt -o file.txt
+
+# FTP 被动模式（解决防火墙问题）
+curl --ftp-pasv ftp://username:password@ftp.example.com/file.txt</code></pre></div><div class="card"><h2>🛡️ SSL/TLS 配置 <a href="https://curl.se/docs/sslcerts.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">SSL/TLS 证书和加密配置</div><ul><li><code>curl -k &lt;url&gt;</code>：跳过 SSL 证书验证</li><li><code>curl --cacert ca.pem &lt;url&gt;</code>：指定 CA 证书</li><li><code>curl --cert client.pem &lt;url&gt;</code>：使用客户端证书</li><li><code>curl --cert-type P12 &lt;url&gt;</code>：指定证书类型</li><li><code>curl --key key.pem &lt;url&gt;</code>：指定私钥</li><li><code>curl --ciphers &lt;list&gt; &lt;url&gt;</code>：指定加密套件</li><li><code>curl --tlsv1.2 &lt;url&gt;</code>：强制 TLS 1.2</li><li><code>curl --tls-max 1.2 &lt;url&gt;</code>：设置最大 TLS 版本</li></ul><pre><code class="language-bash"># 使用自签名证书（开发环境）
+curl -k https://self-signed.example.com
+
+# 指定 CA 证书验证
+curl --cacert /path/to/ca-bundle.crt \
+  https://secure.example.com
+
+# 使用客户端证书
+curl --cert client.crt --key client.key \
+  https://secure.example.com/api
+
+# 使用 P12 证书
+curl --cert client.p12:password \
+  --cert-type P12 \
+  https://secure.example.com
+
+# 强制 TLS 1.3
+curl --tlsv1.3 https://secure.example.com</code></pre></div><div class="card"><h2>📋 实用技巧 <a href="https://curl.se/docs/manual.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">日常开发中的实用技巧</div><h3>常用组合</h3><ul><li><code>curl -sL -o file &lt;url&gt;</code>： CODE </li><li><code>curl -s -o /dev/null -w &quot;%{http_code}&quot; &lt;url&gt;</code>： CODE </li><li><code>curl -# -O &lt;url&gt;</code>： CODE </li><li><code>curl -s -H &quot;Accept: application/json&quot; &lt;url&gt; | jq .</code>： CODE </li></ul><h3>性能测试</h3><pre><code class="language-bash"># 测试响应时间
+for i in {1..10}; do
+  curl -s -o /dev/null -w &quot;%{time_total}\n&quot; https://api.example.com
+done
+
+# 并行请求测试
+seq 1 10 | xargs -n1 -P10 -I{} \
+  curl -s -o /dev/null -w &quot;%{http_code}\n&quot; https://api.example.com</code></pre><h3>与 jq 配合处理 JSON</h3><pre><code class="language-bash"># 格式化 JSON 响应
+curl -s https://api.example.com/users | jq .
+
+# 提取特定字段
+curl -s https://api.example.com/users | jq &#39;.[0].name&#39;
+
+# 遍历数组
+curl -s https://api.example.com/users | jq &#39;.[] | {id, name}&#39;</code></pre><h3>保存会话 Cookie</h3><pre><code class="language-bash"># 登录并保存 Cookie
+curl -c cookies.txt \
+  -d &quot;username=admin&amp;password=secret&quot; \
+  https://example.com/login
+
+# 使用 Cookie 访问受保护资源
+curl -b cookies.txt https://example.com/dashboard</code></pre></div><div class="card"><h2>🌟 新特性 (curl 8.x) <a href="https://curl.se/changes.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">curl 8.x 版本的新功能</div><ul><li><code>curl --json &#39;&lt;json&gt;&#39; &lt;url&gt;</code>：简化 JSON 请求 (8.5.0+)</li><li><code>curl --url-query &quot;key=value&quot; &lt;url&gt;</code>：URL 查询参数 (8.0.0+)</li><li><code>curl --rate &lt;speed&gt;</code>：请求速率限制 (8.0.0+)</li><li><code>curl --proxy-http2</code>：HTTP/2 代理支持</li><li><code>curl --http3-only</code>：仅使用 HTTP/3</li></ul><pre><code class="language-bash"># 简化 JSON POST 请求 (8.5+)
+curl --json &#39;{&quot;name&quot;:&quot;test&quot;,&quot;value&quot;:123}&#39; \
+  https://api.example.com/data
+
+# URL 查询参数（自动编码）
+curl --url-query &quot;search=hello world&quot; \
+  --url-query &quot;page=1&quot; \
+  https://api.example.com/search
+
+# 限制请求速率（每秒 2 个请求）
+curl --rate 2/s https://api.example.com/data[1-10]</code></pre></div>
+    </div>
+  </div>
+
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>
