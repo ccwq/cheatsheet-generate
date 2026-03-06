@@ -143,6 +143,8 @@ export function renderDocument(model, templateHtml) {
     : metaGithub
   const cardsHtml = renderCards(model)
 
+  const colWidth = escapeHtml(model.meta?.colWidth || '340px')
+
   return templateHtml
     .replace('<!-- APP_TITLE -->', title)
     .replace('<!-- PAGE_TITLE -->', title)
@@ -150,4 +152,6 @@ export function renderDocument(model, templateHtml) {
     .replace('<!-- META_DATE -->', metaDate)
     .replace('<!-- META_GITHUB -->', githubHtml)
     .replace('<!-- CHEATSHEET_CONTENT -->', cardsHtml)
+    .replace('<!-- CHEATSHEET_CONTENT -->', cardsHtml)
+    .replace('<!-- COL_WIDTH -->', colWidth)
 }

@@ -26,6 +26,10 @@
 ---
 title: tmux 速查
 lang: bash
+version: "1.0"
+date: "2026-03-05"
+github: "owner/repo"
+colWidth: 300px
 ---
 ```
 

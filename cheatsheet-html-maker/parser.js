@@ -8,7 +8,7 @@ import yaml from 'js-yaml'
  * @property {string} type
  * @property {string} title
  * @property {string} lang
- * @property {{version: string, date: string, github: string}} meta
+ * @property {{version: string, date: string, github: string, colWidth: string}} meta
  * @property {CardModel[]} cards
  */
 
@@ -369,6 +369,7 @@ export function parseCheatsheetMarkdown(markdown) {
       version: typeof frontmatter.version === 'string' && frontmatter.version.trim() ? frontmatter.version.trim() : 'unknown',
       date: typeof frontmatter.date === 'string' && frontmatter.date.trim() ? frontmatter.date.trim() : 'unknown',
       github: typeof frontmatter.github === 'string' && frontmatter.github.trim() ? frontmatter.github.trim() : 'unknown',
+      colWidth: typeof frontmatter.colWidth === 'string' && frontmatter.colWidth.trim() ? frontmatter.colWidth.trim() : '340px',
     },
     cards: [],
   }

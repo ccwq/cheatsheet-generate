@@ -161,6 +161,7 @@ function mergeMetaWithFallback(model, fallbackMeta) {
     version: current.version && current.version !== 'unknown' ? current.version : fallbackMeta.version,
     date: current.date && current.date !== 'unknown' ? current.date : fallbackMeta.date,
     github: current.github && current.github !== 'unknown' ? current.github : fallbackMeta.github,
+    colWidth: current.colWidth && current.colWidth !== '340px' ? current.colWidth : fallbackMeta.colWidth,
   }
 }
 
