@@ -1,10 +1,10 @@
 {
   "version": 1,
   "skills": {
-    "cheatsheet-mk": {
+    "cheatsheet-maker": {
       "source": "E:\\project\\self.project\\cheatsheet-generate\\cheatsheet-html-maker\\cheatsheet-maker-skill",
       "sourceType": "local",
-      "computedHash": "0dd272efa1f2f3fb439c6ff7305c3aa93219d8a24f82453f0addca5715c2fbcd"
+      "computedHash": "953e7dfcc0529a5712d3a1e1634d7a4a170a00819ef10d21f978652b514bd511"
     }
   }
 }

@@ -1,9 +1,9 @@
 ---
-name: cheatsheet-mk
+name: cheatsheet-maker
 description: 一个用于从主题、正文或网址自动化生成技术速查表（Cheatsheet）源文件的技能。它能够完成“资料爬取 -> 内容整理 -> 生成 <topic>.md -> 生成 meta.yml -> 生成 refmap.md”的完整闭环。本技能专注于内容创作与结构化排版，不负责生成 HTML 页面。只要用户提到“创建/整理/重建速查表（Cheatsheet）”，即应触发。
 ---
 
-# cheatsheet-mk
+# cheatsheet-maker
 
 本技能是一个完全独立的、自包含的速查表生成工具。它内置了内容组织规范、语法约束及元数据标准，确保产出的源文件具有高权威性、高可读性且兼容特定 HTML 渲染器。
 

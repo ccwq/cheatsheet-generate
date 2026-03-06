@@ -16,19 +16,21 @@ lang: bash
 version: 1.0
 date: 2026-03-05
 github: owner/repo
+colWidth: 300px
 ---
 ```
 
 #### 解析行为
 
-- 支持字段：`title`、`lang`、`version`、`date`、`github`。
-- 缺省值：`title=Cheatsheet`、`lang=bash`、`version/date/github=unknown`。
+- 支持字段：`title`、`lang`、`version`、`date`、`github`、`colWidth`。
+- 缺省值：`title=Cheatsheet`、`lang=bash`、`version/date/github=unknown`、`colWidth=340px`。
 - `lang` 会做归一化校验，不合法则回退为 `bash`。
 
 #### HTML 映射
 
-- 通过模板替换注入：`APP_TITLE`、`PAGE_TITLE`、`META_VERSION`、`META_DATE`、`META_GITHUB`。
+- 通过模板替换注入：`APP_TITLE`、`PAGE_TITLE`、`META_VERSION`、`META_DATE`、`META_GITHUB`、`COL_WIDTH`。
 - `github` 若匹配 `owner/repo`，会额外映射成可点击链接：`https://github.com/owner/repo`。
+- `colWidth` 用于设置卡片列宽的 CSS 变量，默认值为 `340px`。
 
 ### 规则 2：一级标题 `# 标题`
 
