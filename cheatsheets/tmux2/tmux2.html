@@ -109,7 +109,49 @@ bind - split-window -v -c &quot;#{pane_current_path}&quot;
 
 # 新窗口保持当前路径
 bind c new-window -c &quot;#{pane_current_path}&quot;</code></pre><h3>快速重载配置</h3><pre><code class="language-bash"># 按 C-b r 重载配置
-bind r source-file ~/.tmux.conf \; display-message &quot;配置已重载&quot;</code></pre></div><div class="card"><h2>🎯 高级技巧 <a href="https://github.com/tmux/tmux/wiki/Advanced-Use" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">提升效率的高级操作</div><h3>同步面板输入</h3><pre><code class="language-bash"># 开启所有面板同步输入（批量执行命令）
+bind r source-file ~/.tmux.conf \; display-message &quot;配置已重载&quot;</code></pre></div><div class="card"><h2>🎯 目标语法与定位 <a href="https://github.com/tmux/tmux/wiki/Formats" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">掌握 target 语法，精准操作会话/窗口/面板</div><h3>常见 target 写法</h3><ul><li><code>session</code> <code>work</code>：会话名，例如  CODE </li><li><code>session:window</code> <code>work:2</code> <code>work:editor</code>：窗口目标，例如  CODE 、 CODE </li><li><code>session:window.pane</code> <code>work:2.1</code>：面板目标，例如  CODE </li><li><code>:window</code> <code>:1</code>：当前会话中的窗口，例如  CODE </li><li><code>%pane_id</code> <code>%3</code>：面板唯一 ID，例如  CODE </li></ul><h3>精准定位示例</h3><pre><code class="language-bash"># 向指定面板发送命令
+tmux send-keys -t work:editor.1 &#39;npm run dev&#39; C-m
+
+# 在指定窗口创建面板并运行命令
+tmux split-window -t work:server -v &#39;htop&#39;
+
+# 关闭指定窗口
+tmux kill-window -t work:logs
+
+# 切换客户端到指定会话
+tmux switch-client -t work</code></pre><h3>常用列表命令</h3><ul><li><code>tmux list-sessions</code>：列出会话</li><li><code>tmux list-windows -t &lt;session&gt;</code>：列出会话内窗口</li><li><code>tmux list-panes -a</code>：列出所有面板</li><li><code>tmux display-message -p &#39;#S:#I.#P&#39;</code>：打印当前定位信息</li></ul></div><div class="card"><h2>🧩 格式化字符串与状态栏变量 <a href="https://github.com/tmux/tmux/wiki/Formats" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">用 format 变量构建动态状态栏与脚本输出</div><h3>高频 format 变量</h3><ul><li><code>#{session_name}</code>：会话名</li><li><code>#{window_index}</code> <code>#{window_name}</code>：窗口编号 / 名称</li><li><code>#{pane_index}</code> <code>#{pane_id}</code>：面板编号 / 唯一 ID</li><li><code>#{pane_current_path}</code>：当前面板路径</li><li><code>#{pane_current_command}</code>：当前前台命令</li></ul><h3>状态栏实战</h3><pre><code class="language-bash"># 左侧显示: 会话名 + 窗口 + 面板
+set -g status-left &#39;#[fg=green]#S #[fg=yellow]#I.#P&#39;
+
+# 右侧显示: 命令 + 路径
+set -g status-right &#39;#[fg=cyan]#{pane_current_command} #[fg=white]#{pane_current_path}&#39;</code></pre><h3>调试 format</h3><pre><code class="language-bash"># 直接在终端打印 format 结果
+tmux display-message -p &#39;session=#{session_name} window=#{window_name} pane=#{pane_id}&#39;</code></pre></div><div class="card"><h2>🤖 自动化与 Control Mode <a href="https://github.com/tmux/tmux/wiki/Control-Mode" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">用脚本和控制模式批量编排 tmux 工作流</div><h3>批量编排会话</h3><pre><code class="language-bash"># 无界面启动一个完整开发会话
+tmux new-session -d -s app -n editor
+tmux send-keys -t app:editor &#39;nvim&#39; C-m
+tmux new-window -t app -n api
+tmux send-keys -t app:api &#39;pnpm dev&#39; C-m
+tmux new-window -t app -n logs
+tmux send-keys -t app:logs &#39;tail -f /var/log/app.log&#39; C-m
+tmux attach -t app</code></pre><h3>条件执行与外壳命令</h3><pre><code class="language-bash"># 条件判断（在 tmux 命令行中执行）
+if-shell &#39;[ -f ~/.tmux.conf ]&#39; &#39;display-message &quot;配置存在&quot;&#39; &#39;display-message &quot;配置缺失&quot;&#39;
+
+# 执行外部 shell 命令并提示
+run-shell &#39;date &gt; /tmp/tmux-last-run.txt&#39;
+display-message &quot;外部命令已执行&quot;</code></pre><h3>Control Mode 入口</h3><ul><li><code>tmux -C attach -t &lt;session&gt;</code>：以控制模式连接</li><li><code>tmux -C new -s &lt;name&gt;</code>：以控制模式创建会话</li><li>适用场景：IDE 集成、自动化测试驱动、远程会话编排</li></ul></div><div class="card"><h2>🪄 Popup 与临时任务 <a href="https://github.com/tmux/tmux/wiki/Advanced-Use" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">使用弹窗执行临时命令，避免打断当前布局</div><h3>打开弹窗</h3><ul><li><code>C-b :display-popup</code>：打开空弹窗</li><li><code>C-b :display-popup -E htop</code>：弹窗执行命令并自动退出</li><li><code>C-b :display-popup -w 80% -h 70% -E btop</code>：指定弹窗尺寸</li></ul><h3>常见场景</h3><pre><code class="language-bash"># 临时看 git 历史，不打乱当前 pane 布局
+tmux display-popup -E &#39;git log --oneline --graph --decorate -n 30&#39;
+
+# 临时执行交互式命令
+tmux display-popup -E &#39;lazygit&#39;</code></pre></div><div class="card"><h2>🧪 Hooks 事件驱动 <a href="https://github.com/tmux/tmux/wiki/Advanced-Use" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">用 hook 在会话创建、窗口切换等事件触发自动动作</div><h3>常见 hook</h3><ul><li><code>client-attached</code>：客户端连接后触发</li><li><code>session-created</code>：会话创建后触发</li><li><code>window-linked</code>：窗口链接后触发</li><li><code>pane-died</code>：面板进程退出后触发</li></ul><h3>配置示例</h3><pre><code class="language-bash"># 客户端连接时给出提示
+set-hook -g client-attached &#39;display-message &quot;客户端已连接: #S&quot;&#39;
+
+# 会话创建时自动提示
+set-hook -g session-created &#39;display-message &quot;新会话: #S&quot;&#39;
+
+# 取消某个 hook
+set-hook -gu client-attached</code></pre></div><div class="card"><h2>📎 剪贴板集成（OSC52） <a href="https://github.com/tmux/tmux/wiki/Clipboard" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">在 SSH/远程场景下提高复制到系统剪贴板的成功率</div><h3>推荐配置</h3><pre><code class="language-bash"># 允许 tmux 通过终端能力写入系统剪贴板
+set -s set-clipboard on
+
+# 复制模式下进入 Vi 键位
+set -g mode-keys vi</code></pre><h3>诊断思路</h3><ul><li>先检查终端是否支持 OSC52（iTerm2、kitty、新版 WezTerm 等）</li><li><code>xclip</code></li><li><code>tmux show -s set-clipboard</code></li></ul></div><div class="card"><h2>🎯 高级技巧 <a href="https://github.com/tmux/tmux/wiki/Advanced-Use" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">提升效率的高级操作</div><h3>同步面板输入</h3><pre><code class="language-bash"># 开启所有面板同步输入（批量执行命令）
 :setw synchronize-panes on
 
 # 关闭同步

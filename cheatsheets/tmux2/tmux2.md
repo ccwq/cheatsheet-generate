@@ -52,12 +52,12 @@ desc: 创建、连接、分离和切换会话
 ### 列表与切换
 - `tmux ls`：列出所有会话
 - `C-b s`：交互式会话列表
-- `C-b :`：重命名当前会话
+- `C-b $`：重命名当前会话
 - `C-b (`：切换到上一个会话
 - `C-b )`：切换到下一个会话
 
 ### 交互式列表状态
-- `C-b s`：进入
+- `C-b s`：进入交互列表状态
 - `x [y]`: 关闭
 - `t [y]`: 选择关闭
 - `:new -s <name>`：新建会话（交互模式）
@@ -312,6 +312,177 @@ bind c new-window -c "#{pane_current_path}"
 # 按 C-b r 重载配置
 bind r source-file ~/.tmux.conf \; display-message "配置已重载"
 ```
+
+## 🎯 目标语法与定位
+---
+lang: bash
+emoji: 🎯
+link: https://github.com/tmux/tmux/wiki/Formats
+desc: 掌握 target 语法，精准操作会话/窗口/面板
+---
+
+### 常见 target 写法
+- `session`：会话名，例如 `work`
+- `session:window`：窗口目标，例如 `work:2`、`work:editor`
+- `session:window.pane`：面板目标，例如 `work:2.1`
+- `:window`：当前会话中的窗口，例如 `:1`
+- `%pane_id`：面板唯一 ID，例如 `%3`
+
+### 精准定位示例
+```bash
+# 向指定面板发送命令
+tmux send-keys -t work:editor.1 'npm run dev' C-m
+
+# 在指定窗口创建面板并运行命令
+tmux split-window -t work:server -v 'htop'
+
+# 关闭指定窗口
+tmux kill-window -t work:logs
+
+# 切换客户端到指定会话
+tmux switch-client -t work
+```
+
+### 常用列表命令
+- `tmux list-sessions`：列出会话
+- `tmux list-windows -t <session>`：列出会话内窗口
+- `tmux list-panes -a`：列出所有面板
+- `tmux display-message -p '#S:#I.#P'`：打印当前定位信息
+
+## 🧩 格式化字符串与状态栏变量
+---
+lang: bash
+emoji: 🧩
+link: https://github.com/tmux/tmux/wiki/Formats
+desc: 用 format 变量构建动态状态栏与脚本输出
+---
+
+### 高频 format 变量
+- `#{session_name}`：会话名
+- `#{window_index}` / `#{window_name}`：窗口编号 / 名称
+- `#{pane_index}` / `#{pane_id}`：面板编号 / 唯一 ID
+- `#{pane_current_path}`：当前面板路径
+- `#{pane_current_command}`：当前前台命令
+
+### 状态栏实战
+```bash
+# 左侧显示: 会话名 + 窗口 + 面板
+set -g status-left '#[fg=green]#S #[fg=yellow]#I.#P'
+
+# 右侧显示: 命令 + 路径
+set -g status-right '#[fg=cyan]#{pane_current_command} #[fg=white]#{pane_current_path}'
+```
+
+### 调试 format
+```bash
+# 直接在终端打印 format 结果
+tmux display-message -p 'session=#{session_name} window=#{window_name} pane=#{pane_id}'
+```
+
+## 🤖 自动化与 Control Mode
+---
+lang: bash
+emoji: 🤖
+link: https://github.com/tmux/tmux/wiki/Control-Mode
+desc: 用脚本和控制模式批量编排 tmux 工作流
+---
+
+### 批量编排会话
+```bash
+# 无界面启动一个完整开发会话
+tmux new-session -d -s app -n editor
+tmux send-keys -t app:editor 'nvim' C-m
+tmux new-window -t app -n api
+tmux send-keys -t app:api 'pnpm dev' C-m
+tmux new-window -t app -n logs
+tmux send-keys -t app:logs 'tail -f /var/log/app.log' C-m
+tmux attach -t app
+```
+
+### 条件执行与外壳命令
+```bash
+# 条件判断（在 tmux 命令行中执行）
+if-shell '[ -f ~/.tmux.conf ]' 'display-message "配置存在"' 'display-message "配置缺失"'
+
+# 执行外部 shell 命令并提示
+run-shell 'date > /tmp/tmux-last-run.txt'
+display-message "外部命令已执行"
+```
+
+### Control Mode 入口
+- `tmux -C attach -t <session>`：以控制模式连接
+- `tmux -C new -s <name>`：以控制模式创建会话
+- 适用场景：IDE 集成、自动化测试驱动、远程会话编排
+
+## 🪄 Popup 与临时任务
+---
+lang: bash
+emoji: 🪄
+link: https://github.com/tmux/tmux/wiki/Advanced-Use
+desc: 使用弹窗执行临时命令，避免打断当前布局
+---
+
+### 打开弹窗
+- `C-b :display-popup`：打开空弹窗
+- `C-b :display-popup -E htop`：弹窗执行命令并自动退出
+- `C-b :display-popup -w 80% -h 70% -E btop`：指定弹窗尺寸
+
+### 常见场景
+```bash
+# 临时看 git 历史，不打乱当前 pane 布局
+tmux display-popup -E 'git log --oneline --graph --decorate -n 30'
+
+# 临时执行交互式命令
+tmux display-popup -E 'lazygit'
+```
+
+## 🧪 Hooks 事件驱动
+---
+lang: bash
+emoji: 🧪
+link: https://github.com/tmux/tmux/wiki/Advanced-Use
+desc: 用 hook 在会话创建、窗口切换等事件触发自动动作
+---
+
+### 常见 hook
+- `client-attached`：客户端连接后触发
+- `session-created`：会话创建后触发
+- `window-linked`：窗口链接后触发
+- `pane-died`：面板进程退出后触发
+
+### 配置示例
+```bash
+# 客户端连接时给出提示
+set-hook -g client-attached 'display-message "客户端已连接: #S"'
+
+# 会话创建时自动提示
+set-hook -g session-created 'display-message "新会话: #S"'
+
+# 取消某个 hook
+set-hook -gu client-attached
+```
+
+## 📎 剪贴板集成（OSC52）
+---
+lang: bash
+emoji: 📎
+link: https://github.com/tmux/tmux/wiki/Clipboard
+desc: 在 SSH/远程场景下提高复制到系统剪贴板的成功率
+---
+
+### 推荐配置
+```bash
+# 允许 tmux 通过终端能力写入系统剪贴板
+set -s set-clipboard on
+
+# 复制模式下进入 Vi 键位
+set -g mode-keys vi
+```
+
+### 诊断思路
+- 先检查终端是否支持 OSC52（iTerm2、kitty、新版 WezTerm 等）
+- SSH 跳板较多时优先用 OSC52，避免依赖远端 `xclip`
+- 若复制异常，先执行 `tmux show -s set-clipboard` 确认状态
 
 ## 🎯 高级技巧
 ---
