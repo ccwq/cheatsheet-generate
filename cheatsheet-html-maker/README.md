@@ -2,7 +2,7 @@
 
 将 cheatsheet Markdown 自动转换为结构化 HTML，保持与项目现有页面语义一致，并内置 Prism.js Tomorrow 代码高亮。
 
-规则文件放在 [规则文件](../cheatsheet-maker-skill/references/guide.md)
+规则文件放在 [规则文件](./cheatsheet-maker-skill/references/guide.md)
 
 ## 语法映射
 
