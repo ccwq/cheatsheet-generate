@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WezTerm 速查表</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png">
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 330px; 
+      --gap: 16px;
+    }
+
+    .panel label {
+      color: var(--panel-accent);
+    }
+
+    .panel .title {
+      color: var(--panel-accent);
+    }
+
+    .card pre,
+    .card pre code[class^="language-"] {
+      font-size: 13px;
+      line-height: 1.2;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .card h2 {
+      font-size: 16px;
+    }
+
+    .card,
+    .card li,
+    .desc {
+      font-size: 14px;
+      line-height: 1.2;
+    }
+
+    .meta-link {
+      color: var(--text-link);
+    }
+
+    .meta-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <span class="title">WezTerm 速查表</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label">版本</span><span class="meta-value">20240203-110809-5046fc22</span></span>
+        <span class="meta-item"><span class="meta-label">更新日志</span><span class="meta-value">2026-03-09</span></span>
+        <span class="meta-item"><span class="meta-label">GitHub</span><span class="meta-value"><a class="meta-link" href="https://github.com/wez/wezterm" target="_blank" rel="noopener">wez/wezterm</a></span></span>
+      </div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>🚀 安装与下载 <a href="https://wezterm.org/installation.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><h3>Windows 安装</h3><pre><code class="language-bash"># 下载 .exe 安装程序
+# https://wezfurlong.org/wezterm/releases/latest.html
+wezterm-20240203-110809-5046fc22.silent.exe
+
+# 使用 Scoop
+scoop install wezterm
+
+# 使用 Chocolatey
+choco install wezterm</code></pre><h3>macOS 安装</h3><pre><code class="language-bash"># Homebrew
+brew install --cask wezterm
+
+# 下载 .dmg
+wezterm-20240203-110809-5046fc22.dmg</code></pre><h3>Linux 安装</h3><pre><code class="language-bash"># Ubuntu/Debian - 下载 .deb 或使用 AppImage
+# 从 https://github.com/wez/wezterm/releases 下载
+wget https://github.com/wez/wezterm/releases/download/20240203-110809-5046fc22/wezterm_20240203-110809-5046fc22_amd64.deb
+sudo dpkg -i wezterm_*.deb
+
+# 或使用 AppImage（推荐）
+wget https://github.com/wez/wezterm/releases/download/20240203-110809-5046fc22/wezterm-20240203-110809-5046fc22-x86_64.AppImage
+chmod +x wezterm-*.AppImage
+./wezterm-*.AppImage
+
+# Fedora - 使用 COPR
+sudo dnf copr enable zevm/wezterm
+sudo dnf install wezterm
+
+# Arch Linux
+yay -S wezterm
+
+# NixOS
+nix-env -iA nixpkgs.wezterm</code></pre><h3>Docker 运行</h3><pre><code class="language-bash">docker run --rm -it wez/wezterm:latest</code></pre></div><div class="card"><h2>⚙️ 配置文件 <a href="https://wezterm.org/config/files.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><h3>配置文件位置</h3><pre><code class="language-bash"># Windows
+C:\Users\&lt;你的用户名&gt;\.wezterm.lua
+C:\Users\&lt;你的用户名&gt;\.config\wezterm\wezterm.lua
+
+# 或使用 %USERPROFILE% 环境变量
+%USERPROFILE%\.wezterm.lua
+%USERPROFILE%\.config\wezterm\wezterm.lua
+
+# macOS/Linux
+~/.wezterm.lua
+~/.config/wezterm/wezterm.lua</code></pre><h3>基础配置示例</h3><pre><code class="language-lua">local wezterm = require &#39;wezterm&#39;
+-- 使用 config_builder() 作为配置初始化（推荐）
+local config = wezterm.config_builder()
+
+-- 字体配置
+config.font = wezterm.font &#39;JetBrains Mono&#39;
+config.font_size = 14.0
+
+-- 颜色主题
+config.color_scheme = &#39;OneHalfDark&#39;
+
+-- 窗口配置
+config.window_padding = {
+  left = 8,
+  right = 8,
+  top = 8,
+  bottom = 8,
+}
+
+-- 标签栏配置
+config.use_fancy_tab_bar = true
+config.hide_tab_bar_if_only_one_tab = true
+
+return config</code></pre><h3>启用配置</h3><pre><code class="language-bash"># 大部分配置修改后会自动检测并生效
+# 但某些配置可能需要重启 WezTerm
+
+# 强制重新加载配置文件
+Ctrl+Shift+R
+
+# 或重启 WezTerm 确保所有配置生效</code></pre></div><div class="card"><h2>⌨️ 快捷键配置 <a href="https://wezterm.org/config/lua/keyassignment/index.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><h3>重要说明</h3><pre><code class="language-bash"># WezTerm 几乎没有默认快捷键
+# 所有快捷键都需要在配置文件中手动定义
+# 以下为推荐的快捷键配置示例</code></pre><h3>窗口管理（推荐配置）</h3><pre><code class="language-lua">-- 新建标签页
+Ctrl+Shift+T
+
+-- 新建窗口
+Ctrl+Shift+N
+
+-- 关闭当前标签页
+Ctrl+Shift+W
+
+-- 切换标签页
+Ctrl+Tab      -- 下一个
+Ctrl+Shift+Tab -- 上一个</code></pre><h3>分屏操作（推荐配置）</h3><pre><code class="language-lua">-- 水平分割
+Ctrl+Shift+H
+
+-- 垂直分割
+Ctrl+Shift+V
+
+-- 切换到相邻分屏
+Ctrl+Shift+方向键
+
+-- 调整分屏大小
+Ctrl+Shift+Alt+方向键</code></pre><h3>复制粘贴（需配置）</h3><pre><code class="language-bash"># WezTerm 几乎没有默认快捷键
+# 以下为推荐配置，需在配置文件中定义
+
+# 复制（推荐配置）
+Ctrl+Shift+C (选中文字后)
+
+# 粘贴（推荐配置）
+Ctrl+Shift+V
+
+# 粘贴选中内容
+Shift+Insert
+
+# 全选（推荐配置）
+Ctrl+Shift+A</code></pre><h3>其他常用（推荐配置）</h3><pre><code class="language-bash"># 打开命令面板
+Ctrl+Shift+P
+
+# 搜索滚动历史
+Ctrl+Shift+F
+
+# 放大字体
+Ctrl++
+
+# 缩小字体
+Ctrl+-
+
+# 重置缩放
+Ctrl+0
+
+# 切换全屏
+F11
+
+# 打开调试器
+Ctrl+Shift+D</code></pre><h3>配置示例（Lua）</h3><pre><code class="language-lua">local wezterm = require &#39;wezterm&#39;
+local act = wezterm.action
+
+return {
+  keys = {
+    -- 新建标签页
+    {
+      key = &#39;t&#39;,
+      mods = &#39;CTRL|SHIFT&#39;,
+      action = act.SpawnTab &#39;CurrentPaneDomain&#39;,
+    },
+    -- 新建窗口
+    {
+      key = &#39;n&#39;,
+      mods = &#39;CTRL|SHIFT&#39;,
+      action = act.SpawnWindow,
+    },
+    -- 水平分割
+    {
+      key = &#39;h&#39;,
+      mods = &#39;CTRL|SHIFT&#39;,
+      action = act.SplitHorizontal { domain = &#39;CurrentPaneDomain&#39; },
+    },
+    -- 垂直分割
+    {
+      key = &#39;v&#39;,
+      mods = &#39;CTRL|SHIFT&#39;,
+      action = act.SplitVertical { domain = &#39;CurrentPaneDomain&#39; },
+    },
+  },
+}</code></pre></div><div class="card"><h2>🎯 自定义快捷键 <a href="https://wezterm.org/config/lua/keyassignment/index.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><h3>基础键位绑定</h3><pre><code class="language-lua">local wezterm = require &#39;wezterm&#39;
+local act = wezterm.action
+local config = wezterm.config_builder()
+
+config.keys = {
+  -- 发送 Ctrl+C 到终端
+  {
+    key = &#39;c&#39;,
+    mods = &#39;CTRL&#39;,
+    action = act.SendKey { key = &#39;c&#39;, mods = &#39;CTRL&#39; },
+  },
+  
+  -- 新建标签页
+  {
+    key = &#39;t&#39;,
+    mods = &#39;CTRL|SHIFT&#39;,
+    action = act.SpawnTab &#39;CurrentPaneDomain&#39;,
+  },
+  
+  -- 关闭标签页
+  {
+    key = &#39;w&#39;,
+    mods = &#39;CTRL|SHIFT&#39;,
+    action = act.CloseCurrentTab { confirm = true },
+  },
+}
+
+return config</code></pre><h3>Tmux 风格键位</h3><pre><code class="language-lua">local wezterm = require &#39;wezterm&#39;
+local act = wezterm.action
+local config = wezterm.config_builder()
+
+config.leader = { key = &#39;b&#39;, mods = &#39;CTRL&#39;, timeout_milliseconds = 1000 }
+
+config.keys = {
+  -- 前缀键后按 c 创建新标签页
+  { key = &#39;c&#39;, mods = &#39;LEADER&#39;, action = act.SpawnTab &#39;CurrentPaneDomain&#39; },
+  
+  -- 前缀键后按 % 垂直分割
+  { key = &#39;%&#39;, mods = &#39;LEADER&#39;, action = act.SplitVertical { domain = &#39;CurrentPaneDomain&#39; } },
+  
+  -- 前缀键后按 &quot; 水平分割
+  { key = &#39;&quot;&#39;, mods = &#39;LEADER&#39;, action = act.SplitHorizontal { domain = &#39;CurrentPaneDomain&#39; } },
+  
+  -- 前缀键后按方向键切换分屏
+  { key = &#39;LeftArrow&#39;, mods = &#39;LEADER&#39;, action = act.ActivatePaneDirection &#39;Left&#39; },
+  { key = &#39;RightArrow&#39;, mods = &#39;LEADER&#39;, action = act.ActivatePaneDirection &#39;Right&#39; },
+  { key = &#39;UpArrow&#39;, mods = &#39;LEADER&#39;, action = act.ActivatePaneDirection &#39;Up&#39; },
+  { key = &#39;DownArrow&#39;, mods = &#39;LEADER&#39;, action = act.ActivatePaneDirection &#39;Down&#39; },
+}
+
+return config</code></pre><h3>命令面板快捷键</h3><pre><code class="language-lua">{
+  key = &#39;p&#39;,
+  mods = &#39;CTRL|SHIFT&#39;,
+  action = act.ActivateCommandPalette,
+}</code></pre></div><div class="card"><h2>🔀 多路复用与分屏 <a href="https://wezterm.org/multiplexing.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><h3>CLI 分屏命令</h3><pre><code class="language-bash"># 水平分割
+wezterm split-pane --horizontal
+
+# 垂直分割
+wezterm split-pane --vertical
+
+# 指定分割目录
+wezterm split-pane --top-level
+
+# 在新窗口中启动
+wezterm start</code></pre><h3>标签页管理</h3><pre><code class="language-bash"># 创建新标签页
+wezterm cli spawn-tab
+
+# 切换到指定标签页
+wezterm cli activate-tab --tab-id 1
+
+# 切换到下一个标签页
+wezterm cli activate-tab --next
+
+# 切换到上一个标签页
+wezterm cli activate-tab --prev
+
+# 关闭标签页
+wezterm cli kill-tab</code></pre><h3>窗口管理</h3><pre><code class="language-bash"># 创建新窗口
+wezterm cli spawn-window
+
+# 列出所有窗口
+wezterm cli list --windows
+
+# 激活指定窗口
+wezterm cli activate-window --window-id 123</code></pre></div><div class="card"><h2>📋 复制模式 <a href="https://wezterm.org/copy-mode.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><h3>进入复制模式</h3><pre><code class="language-bash"># 快捷键
+Ctrl+Shift+F
+
+# 或使用命令面板选择 Copy Mode</code></pre><h3>复制模式操作（需配置）</h3><pre><code class="language-bash"># WezTerm 复制模式默认快捷键与 Vim 不同
+# 以下为 Vim 风格配置示例，需在配置文件中定义
+
+# 移动光标
+h/j/k/l 或 方向键
+
+# 选择文本（Vim 风格，需配置）
+v          -- 进入选择模式
+V          -- 行选择
+Ctrl+v     -- 块选择
+
+# 复制选中
+Enter 或 y
+
+# 搜索
+/          -- 向前搜索
+?          -- 向后搜索
+n          -- 下一个匹配
+N          -- 上一个匹配
+
+# 跳转到（Vim 风格，需配置）
+0          -- 行首
+$          -- 行尾
+gg         -- 顶部
+G          -- 底部
+
+# 退出
+q 或 Escape</code></pre><h3>自定义复制模式键位</h3><pre><code class="language-lua">local wezterm = require &#39;wezterm&#39;
+local config = wezterm.config_builder()
+
+config.copy_mode = {
+  enter_select_mode = &#39;v&#39;,
+  enter_line_mode = &#39;V&#39;,
+  enter_block_mode = &#39;Ctrl+v&#39;,
+  select_all = &#39;Ctrl+a&#39;,
+  copy = &#39;Enter&#39;,
+  cancel = &#39;q&#39;,
+}
+
+return config</code></pre></div><div class="card"><h2>🔍 滚动历史 <a href="https://wezterm.org/config/lua/config/scrollback_lines.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><h3>滚动操作</h3><pre><code class="language-bash"># 向上滚动一行
+Shift+PageUp 或 Ctrl+↑
+
+# 向下滚动一行
+Shift+PageDown 或 Ctrl+↓
+
+# 向上滚动一页
+PageUp
+
+# 向下滚动一页
+PageDown
+
+# 滚动到顶部
+Ctrl+Shift+Home
+
+# 滚动到底部
+Ctrl+Shift+End</code></pre><h3>配置滚动历史</h3><pre><code class="language-lua">local wezterm = require &#39;wezterm&#39;
+local config = wezterm.config_builder()
+
+-- 设置滚动历史行数
+config.scrollback_lines = 3500
+
+-- 设置鼠标滚动速度
+config.mouse_wheel_scrolls_tabs = false
+
+-- 鼠标滚动倍率
+config.mouse_wheel_ease = 1.0
+
+return config</code></pre><h3>搜索滚动历史</h3><pre><code class="language-bash"># 打开搜索
+Ctrl+Shift+F
+
+# 搜索操作
+输入关键词      -- 搜索
+Enter           -- 下一个匹配
+Shift+Enter     -- 上一个匹配
+Escape          -- 关闭搜索</code></pre></div><div class="card"><h2>🎨 外观配置 <a href="https://wezterm.org/config/appearance.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><h3>字体配置</h3><pre><code class="language-lua">local wezterm = require &#39;wezterm&#39;
+local config = wezterm.config_builder()
+
+config.font = wezterm.font &#39;JetBrains Mono&#39;
+config.font_size = 14.0
+
+-- 使用带连字的字体
+config.harfbuzz_features = { &#39;calt&#39;, &#39;clig&#39;, &#39;liga&#39; }
+
+-- 自定义行高
+config.line_height = 1.2
+
+-- 自定义字间距
+config.cell_width = 1.0
+
+return config</code></pre><h3>颜色主题</h3><pre><code class="language-lua">local wezterm = require &#39;wezterm&#39;
+local config = wezterm.config_builder()
+
+-- 使用内置主题
+config.color_scheme = &#39;OneHalfDark&#39;
+
+-- 热门主题
+-- &#39;Dracula&#39;
+-- &#39;Gruvbox&#39;
+-- &#39;Nord&#39;
+-- &#39;Solarized Dark&#39;
+-- &#39;Tokyo Night&#39;
+-- &#39;Catppuccin Mocha&#39;
+
+return config</code></pre><h3>窗口透明度</h3><pre><code class="language-lua">local wezterm = require &#39;wezterm&#39;
+local config = wezterm.config_builder()
+
+-- 设置背景透明度 (0-100)
+config.window_background_opacity = 0.85
+
+-- 毛玻璃效果 (macOS)
+config.macos_window_background_blur = 10
+
+-- 文本不透明度
+config.text_background_opacity = 1.0
+
+return config</code></pre><h3>光标配置</h3><pre><code class="language-lua">local wezterm = require &#39;wezterm&#39;
+local config = wezterm.config_builder()
+
+-- 光标样式
+config.default_cursor_style = &#39;SteadyBlock&#39;
+-- &#39;SteadyBlock&#39; - 实心底座
+-- &#39;BlinkingBlock&#39; - 闪烁底座
+-- &#39;SteadyUnderline&#39; - 实线下划线
+-- &#39;BlinkingUnderline&#39; - 闪烁下划线
+-- &#39;SteadyBar&#39; - 实线竖条
+-- &#39;BlinkingBar&#39; - 闪烁竖条
+
+-- 光标闪烁频率
+config.cursor_blink_rate = 800
+
+return config</code></pre></div><div class="card"><h2>🔗 SSH 与远程 <a href="https://wezterm.org/multiplexing.html#ssh" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><h3>SSH 连接</h3><pre><code class="language-bash"># 通过 SSH 启动
+wezterm ssh user@hostname
+
+# 指定端口
+wezterm ssh -p 2222 user@hostname
+
+# 使用 SSH 配置
+wezterm ssh my-alias</code></pre><h3>SSH 域配置</h3><pre><code class="language-lua">local wezterm = require &#39;wezterm&#39;
+local config = wezterm.config_builder()
+
+config.ssh_domains = {
+  {
+    name = &#39;myserver&#39;,
+    remote_address = &#39;server.example.com&#39;,
+    username = &#39;myuser&#39;,
+  },
+  {
+    name = &#39;work&#39;,
+    remote_address = &#39;work.example.com&#39;,
+    username = &#39;dev&#39;,
+    port = 2222,
+  },
+}
+
+return config</code></pre><h3>多路复用 SSH</h3><pre><code class="language-lua">-- 启用 SSH 多路复用
+config.ssh_backend = &#39;WezTerm&#39;
+
+-- 使用内置多路复用器
+-- 支持会话持久化、断线重连</code></pre></div><div class="card"><h2>📦 域与命名空间 <a href="https://wezterm.org/config/lua/domain-reference/index.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><h3>本地域</h3><pre><code class="language-lua">local wezterm = require &#39;wezterm&#39;
+local config = wezterm.config_builder()
+
+config.domains = {
+  local_domain = {
+    name = &#39;local&#39;,
+  },
+}
+
+return config</code></pre><h3>WSL 域</h3><pre><code class="language-lua">local wezterm = require &#39;wezterm&#39;
+local config = wezterm.config_builder()
+
+config.wsl_domains = {
+  {
+    name = &#39;WSL:Ubuntu&#39;,
+    distribution = &#39;Ubuntu&#39;,
+    username = &#39;wez&#39;,
+    default_cwd = &#39;/home/wez&#39;,
+  },
+}
+
+return config</code></pre><h3>Docker 域</h3><pre><code class="language-lua">local wezterm = require &#39;wezterm&#39;
+local config = wezterm.config_builder()
+
+config.docker_domains = {
+  {
+    name = &#39;docker&#39;,
+    image = &#39;ubuntu:latest&#39;,
+    user = &#39;root&#39;,
+  },
+}
+
+return config</code></pre><h3>跨域操作</h3><pre><code class="language-bash"># 列出所有域
+wezterm cli list --domains
+
+# 在指定域中启动
+wezterm cli spawn --domain myserver</code></pre></div><div class="card"><h2>🛠️ CLI 命令参考 <a href="https://wezterm.org/command-reference.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><h3>基础命令</h3><pre><code class="language-bash"># 启动 WezTerm
+wezterm
+
+# 显示帮助
+wezterm --help
+
+# 显示版本
+wezterm --version
+
+# 启动时执行命令
+wezterm start -- bash -c &quot;echo hello&quot;</code></pre><h3>窗口管理命令</h3><pre><code class="language-bash"># 列出窗口
+wezterm cli list
+
+# 激活窗口
+wezterm cli activate-window --window-id 123
+
+# 创建窗口
+wezterm cli spawn-window
+
+# 关闭窗口
+wezterm cli kill-window --window-id 123</code></pre><h3>标签页命令</h3><pre><code class="language-bash"># 创建标签页
+wezterm cli spawn-tab
+
+# 激活标签页
+wezterm cli activate-tab --tab-id 456
+
+# 切换标签页
+wezterm cli activate-tab --next
+wezterm cli activate-tab --prev</code></pre><h3>分屏命令</h3><pre><code class="language-bash"># 分割窗格
+wezterm cli split-pane --horizontal
+wezterm cli split-pane --vertical
+
+# 激活窗格
+wezterm cli activate-pane --pane-direction right</code></pre></div><div class="card"><h2>🔌 插件与扩展 <a href="https://wezterm.org/config/lua/index.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><h3>加载外部模块</h3><pre><code class="language-lua">local wezterm = require &#39;wezterm&#39;
+local my_module = require &#39;my_module&#39;
+
+config = my_module.apply(config)</code></pre><h3>状态栏配置</h3><pre><code class="language-lua">wezterm.on(&#39;update-right-status&#39;, function(window, pane)
+  local date = os.date &#39;%Y-%m-%d %H:%M:%S&#39;
+  window:set_right_status(date)
+end)
+
+config.enable_tab_bar = true</code></pre><h3>事件处理</h3><pre><code class="language-lua">-- 窗口焦点变化
+wezterm.on(&#39;window-focus-changed&#39;, function(window, pane)
+  if window:is_focused() then
+    window:set_config_overrides({
+      window_background_opacity = 0.85,
+    })
+  else
+    window:set_config_overrides({
+      window_background_opacity = 1.0,
+    })
+  end
+end)</code></pre></div><div class="card"><h2>💡 使用技巧 <a href="https://wezterm.org/guides.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><h3>快速启动</h3><pre><code class="language-bash"># 启动到指定目录
+wezterm start --cwd /path/to/project
+
+# 启动并执行命令
+wezterm start -- bash -c &quot;nvim&quot;
+
+# 启动到新标签页
+wezterm cli spawn-tab</code></pre><h3>会话恢复</h3><pre><code class="language-bash"># WezTerm 自动保存会话
+# 重启后会恢复之前的窗口、标签页和分屏
+
+# 手动保存会话状态
+# 配置自动保存
+config.exit_behavior = &quot;Close&quot;</code></pre><h3>性能优化</h3><pre><code class="language-lua">local wezterm = require &#39;wezterm&#39;
+local config = wezterm.config_builder()
+
+-- 禁用 GPU 加速（如有问题）
+config.front_end = &quot;OpenGL&quot;
+
+-- 调整渲染器
+config.webgpu_power_preference = &quot;HighPerformance&quot;
+
+-- 减少滚动历史（节省内存）
+config.scrollback_lines = 1000
+
+return config</code></pre><h3>调试技巧</h3><pre><code class="language-bash"># 打开调试控制台
+Ctrl+Shift+D
+
+# 查看日志
+wezterm ls-fonts
+
+# 检查配置
+wezterm show-config</code></pre></div><div class="card"><h2>🔧 故障排除 <a href="https://wezterm.org/troubleshooting.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><h3>常见问题</h3><pre><code class="language-bash"># 字体渲染问题
+wezterm ls-fonts --text &quot;测试文本&quot;
+
+# 性能问题
+# 尝试禁用 GPU 加速
+config.front_end = &quot;Software&quot;
+
+# 颜色显示异常
+# 检查 color_scheme 配置</code></pre><h3>重置配置</h3><pre><code class="language-bash"># 临时禁用配置文件
+wezterm --config-file /dev/null
+
+# 恢复默认配置
+# 删除或重命名 .wezterm.lua</code></pre><h3>获取帮助</h3><pre><code class="language-bash"># 查看完整文档
+https://wezterm.org/
+
+# GitHub Issues
+https://github.com/wez/wezterm/issues
+
+# 社区讨论
+https://github.com/wez/wezterm/discussions</code></pre></div>
+    </div>
+  </div>
+
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>
