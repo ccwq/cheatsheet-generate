@@ -1,5 +1,9 @@
 desc: Clink 为 cmd.exe 提供 Readline 风格编辑、补全、历史和 Lua 扩展能力。
-tags: ["CLI / Terminal", "Windows", "CLI 工具", "开发", "学习 / 入门", "命令行"]
-version: "v1.9.17"
-github: "chrisant996/clink"
+tags:
+  - CLI
+  - Learning
+  - OS
+  - 开发
+version: v1.9.17
+github: chrisant996/clink
 date: "2025-11-18"

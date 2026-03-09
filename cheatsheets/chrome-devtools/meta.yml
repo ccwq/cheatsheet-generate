@@ -1,10 +1,9 @@
 desc: Chrome DevTools Console 与 Network 面板合并速查表
 tags:
-  - Web 前端
-  - 调试工具
-  - 调试
+  - Debug
   - GUI
-  - 网络工具
+  - Network
+  - Web
 version: unknown
 github: ChromeDevTools/devtools-frontend
 date: "2026-01-21"

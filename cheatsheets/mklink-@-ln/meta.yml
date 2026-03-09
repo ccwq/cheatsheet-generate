@@ -1,9 +1,8 @@
 desc: 符号链接与硬链接：Windows mklink 与 Unix ln 的核心用法与差异。
 tags:
-  - 操作系统
-  - CLI 工具
-  - 运维
-  - 命令行
+  - CLI
+  - DevOps
+  - OS
 version: unknown
 github: unknown
 date: "2025-11-18"

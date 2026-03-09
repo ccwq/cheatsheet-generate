@@ -1,5 +1,9 @@
 desc: Agent Skills 开放规范速查，覆盖 SKILL.md 结构、激活流程、脚本集成与评测实践。
-tags: ["AI / LLM", "CLI / Terminal", "AI 辅助工具", "开发", "规范 / 流程", "命令行"]
-version: "main@a3d02daa (2026-03-05)"
-github: "agentskills/agentskills"
+tags:
+  - AI
+  - CLI
+  - Documentation
+  - 开发
+version: main@a3d02daa (2026-03-05)
+github: agentskills/agentskills
 date: "2026-03-06"
