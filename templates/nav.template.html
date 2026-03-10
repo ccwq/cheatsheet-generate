@@ -4,6 +4,17 @@
     <meta charset="UTF-8" />
     <title>Cheatsheet 导览</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script>
+      (function() {
+        var key = 'theme-mode';
+        var mode = localStorage.getItem(key) || 'auto';
+        var resolved = mode;
+        if (resolved === 'auto') {
+          resolved = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-theme', resolved);
+      })();
+    </script>
     <!-- 站点 favicon -->
     <link rel="icon" type="image/png" href="assets/brand/cheatsheet.png" />
     <link rel="apple-touch-icon" href="assets/brand/cheatsheet.png" />
@@ -15,6 +26,7 @@
     <link rel="stylesheet" href="assets/global.css" />
     <link rel="stylesheet" href="assets/nav.css" />
     <link rel="stylesheet" href="assets/tags.css" />
+    <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
   </head>
   <body>
     <div class="container">
@@ -65,6 +77,13 @@
           <select id="sortSelect" class="btn">
             <option value="name-asc">名称 ↑</option>
             <option value="name-desc">名称 ↓</option>
+          </select>
+        </label>
+        <label class="toggle">🌓 主题
+          <select id="themeSelect" class="btn">
+            <option value="auto">自动 (系统)</option>
+            <option value="light">亮色</option>
+            <option value="dark">暗色</option>
           </select>
         </label>
         <span id="stats" class="stats"></span>
