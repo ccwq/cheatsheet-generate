@@ -3,6 +3,19 @@
         var search = $('#searchBox');
         var stats = $('#stats');
         var sortSel = document.getElementById('sortSelect');
+        var themeSel = document.getElementById('themeSelect');
+
+        // 主题切换逻辑
+        if (themeSel && window.__themeManager) {
+          themeSel.value = window.__themeManager.getMode();
+          themeSel.addEventListener('change', function() {
+            window.__themeManager.setMode(themeSel.value);
+          });
+          // 监听外部变化（比如系统主题变化或其它脚本修改）
+          window.addEventListener('theme-changed', function(e) {
+            themeSel.value = e.detail.mode;
+          });
+        }
 
         // 为每张卡自动添加 copy 按钮
         function enhanceCards() {

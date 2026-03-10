@@ -151,15 +151,95 @@ function initDetailShortcuts() {
   });
 }
 
+/**
+ * 初始化主题管理
+ */
+function initTheme() {
+  var key = 'theme-mode';
+  var root = document.documentElement;
+
+  function getMode() {
+    try {
+      return localStorage.getItem(key) || 'auto';
+    } catch (e) {
+      return 'auto';
+    }
+  }
+
+  function setMode(mode) {
+    try {
+      localStorage.setItem(key, mode);
+    } catch (e) {}
+    applyTheme();
+  }
+
+  function applyTheme() {
+    var mode = getMode();
+    var resolved = mode;
+    if (mode === 'auto') {
+      resolved = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    root.setAttribute('data-theme', resolved);
+    
+    // 更新 Prism 主题
+    var prismLink = document.getElementById('prism-theme');
+    if (prismLink) {
+      var tomorrow = 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css';
+      var light = 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css';
+      prismLink.setAttribute('href', resolved === 'dark' ? tomorrow : light);
+    }
+
+    // 更新 theme-color meta 标签
+    var themeColor = resolved === 'dark' ? '#171b27' : '#f5f8ff';
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', themeColor);
+
+    // 触发自定义事件，通知页面更新 UI
+    window.dispatchEvent(new CustomEvent('theme-changed', { detail: { mode: mode, resolved: resolved } }));
+  }
+
+  // 监听系统主题变化
+  var media = window.matchMedia('(prefers-color-scheme: dark)');
+  var handler = function() {
+    if (getMode() === 'auto') applyTheme();
+  };
+  if (media.addEventListener) media.addEventListener('change', handler);
+  else if (media.addListener) media.addListener(handler);
+
+  // 初始应用
+  applyTheme();
+
+  // 暴露给全局以便手动切换
+  window.__themeManager = {
+    getMode: getMode,
+    setMode: setMode,
+    applyTheme: applyTheme
+  };
+
+  // 自动绑定页面上的 themeSelect 元素 (如果存在)
+  var themeSel = document.getElementById('themeSelect');
+  if (themeSel) {
+    themeSel.value = getMode();
+    themeSel.addEventListener('change', function() {
+      setMode(themeSel.value);
+    });
+    window.addEventListener('theme-changed', function(e) {
+      themeSel.value = e.detail.mode;
+    });
+  }
+}
+
 // Auto init if DOM is ready, or wait
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', function() {
+    initTheme();
     initColumnWidth();
     initOpenLinkMode();
     initBackToTop();
     initDetailShortcuts();
   });
 } else {
+  initTheme();
   initColumnWidth();
   initOpenLinkMode();
   initBackToTop();
