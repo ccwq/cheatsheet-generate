@@ -80,6 +80,117 @@
   --scroll-thumb-b: #56ffe5;
 
   --mobile-width: 650px;
+
+  /* Masthead & Hero */
+  --masthead-bg: linear-gradient(130deg, rgba(34,43,68,.95), rgba(26,32,50,.92));
+  --masthead-overlay: linear-gradient(135deg, rgba(105,167,255,.22), rgba(86,255,229,.22));
+  --masthead-radial: radial-gradient(1200px 400px at 0% 0%, rgba(110,151,255,.12), rgba(0,0,0,0));
+  --masthead-shadow: 0 4px 20px rgba(0,0,0,.25), inset 0 0 0 1px rgba(78,85,130,.25);
+  --masthead-subtitle: #cfe4ff;
+
+  /* Input & Controls */
+  --input-bg: #1f2638;
+  --input-text: #e9eefc;
+  --input-placeholder: #9db0d8;
+  
+  /* Tips & Warnings */
+  --tip-bg: linear-gradient(135deg, #2b7489, #1a5270);
+  --tip-border: #3b82f6;
+  --tip-text: #e8f5ff;
+
+  --warning-bg: linear-gradient(135deg, #854d0e, #713f12);
+  --warning-border: #f0883e;
+  --warning-text: #ffeaa7;
+
+  /* Meta Chips */
+  --meta-bg: rgba(31, 38, 56, 0.4);
+  --meta-border: rgba(105,167,255,.2);
+  --meta-text: #cfe4ff;
+}
+
+/* --- Light Theme Overrides --- */
+[data-theme="light"] {
+  /* Background Gradient Colors */
+  --bg-gradient-start: #f5f8ff;
+  --bg-gradient-middle: #edf2f9;
+  --bg-gradient-end: #e5ebf5;
+
+  /* Colors */
+  --text-primary: #1a1f2c;
+  --text-secondary: #4a5b7d;
+  --text-accent: #c27803;
+  --text-link: #1d4ed8;
+  --text-code: #0f172a;
+  --text-code-bg: #f1f5f9;
+
+  /* Card System */
+  --card-bg: rgba(255, 255, 255, 0.8);
+  --card-border: rgba(0, 0, 0, 0.06);
+  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.02);
+  
+  /* Panel System */
+  --panel-bg: #ffffff;
+  --panel-border: #cbd5e1;
+  --panel-text: #334155;
+  --panel-accent: #059669;
+  --panel-accent-2: #d97706;
+
+  /* Code Blocks - Light theme for code */
+  --code-bg: #f8fafc;
+  --code-pre-bg: #f1f5f9; 
+  --code-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --text-code: #0f172a;
+  --text-code-bg: #334155;
+
+  /* Aliases Compatibility */
+  --bg-a: var(--bg-gradient-start);
+  --bg-b: var(--bg-gradient-middle);
+  --bg-c: var(--bg-gradient-end);
+  
+  --card: var(--card-bg);
+  --border: rgba(0, 0, 0, 0.08);
+  
+  --text: var(--text-primary);
+  --title: var(--text-accent);
+  --link: var(--text-link);
+  --desc: var(--text-secondary);
+  
+  --panel: var(--panel-bg);
+  --accent: var(--panel-accent);
+  --accent-2: var(--panel-accent-2);
+  
+  --glow: rgba(30, 64, 175, 0.1);
+  
+  /* Scrollbar */
+  --scroll-track: #e2e8f0;
+  --scroll-thumb-a: #94a3b8;
+  --scroll-thumb-b: #64748b;
+
+  /* Masthead & Hero */
+  --masthead-bg: linear-gradient(130deg, #ffffff, #f8faff);
+  --masthead-overlay: linear-gradient(135deg, rgba(59, 130, 246, 0.04), rgba(16, 185, 129, 0.04));
+  --masthead-radial: radial-gradient(1200px 400px at 0% 0%, rgba(59, 130, 246, 0.06), rgba(0,0,0,0));
+  --masthead-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05), inset 0 0 0 1px rgba(0,0,0,0.05);
+  --masthead-subtitle: #475569;
+
+  /* Input & Controls */
+  --input-bg: #f8fafc;
+  --input-text: #1e293b;
+  --input-placeholder: #94a3b8;
+
+  /* Tips & Warnings */
+  --tip-bg: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+  --tip-border: #0ea5e9;
+  --tip-text: #0369a1;
+
+  --warning-bg: linear-gradient(135deg, #fffbeb, #fef3c7);
+  --warning-border: #d97706;
+  --warning-text: #92400e;
+
+  /* Meta Chips */
+  --meta-bg: rgba(255, 255, 255, 0.6);
+  --meta-border: rgba(0, 0, 0, 0.08);
+  --meta-text: #475569;
 }
 
 /* Responsive Variables */

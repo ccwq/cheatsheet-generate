@@ -30,3 +30,11 @@ html { scrollbar-width: thin; scrollbar-color: var(--scroll-thumb-a) var(--scrol
   border: 2px solid var(--scroll-track);
 }
 ::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #7fc0ff, #7dfbe9); }
+
+/* --- Light Theme Overrides --- */
+[data-theme="light"], [data-theme="light"] body {
+  background:
+    radial-gradient( circle at 30% 10%, rgba(0,0,0,0.02), transparent 40%),
+    radial-gradient( circle at 80% 0%, rgba(0,0,0,0.01), transparent 30%),
+    linear-gradient(130deg, var(--bg-gradient-start) 0%, var(--bg-gradient-middle) 48%, var(--bg-gradient-end) 100%);
+}
