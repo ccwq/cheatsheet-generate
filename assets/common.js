@@ -190,7 +190,7 @@ function initTheme() {
     }
 
     // 更新 theme-color meta 标签
-    var themeColor = resolved === 'dark' ? '#171b27' : '#f5f8ff';
+    var themeColor = getComputedStyle(root).getPropertyValue('--theme-color-meta').trim();
     var meta = document.querySelector('meta[name="theme-color"]');
     if (meta) meta.setAttribute('content', themeColor);
 

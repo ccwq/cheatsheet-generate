@@ -87,7 +87,10 @@
             try {
               var safe = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
               var re = new RegExp('(' + safe + ')', 'ig');
-              var html = text.replace(re, '<mark style="background:#3e5bd4;color:#fff;border-radius:3px;padding:0 2px">$1</mark>');
+              var html = text.replace(
+                re,
+                '<mark style="background:var(--search-highlight-bg);color:var(--search-highlight-text);border-radius:3px;padding:0 2px">$1</mark>'
+              );
               el.innerHTML = html;
             } catch(e){ el.textContent = text; }
           }
@@ -126,9 +129,32 @@
 
         function sortCards(order){
           var cards = $$('.card');
-          var nodes = cards.map(function(c){ return { node: c, key: (c.dataset.title||'').toLowerCase() }; });
-          nodes.sort(function(a,b){ return a.key.localeCompare(b.key, 'zh-Hans-CN'); });
-          if (order === 'name-desc') nodes.reverse();
+          var nodes = cards.map(function(c){ 
+            return { 
+              node: c, 
+              title: (c.dataset.title||'').toLowerCase(),
+              timestamp: parseInt(c.dataset.timestamp || '0', 10)
+            }; 
+          });
+
+          if (order === 'name-asc' || order === 'name-desc') {
+            nodes.sort(function(a,b){ return a.title.localeCompare(b.title, 'zh-Hans-CN'); });
+            if (order === 'name-desc') nodes.reverse();
+          } else if (order === 'date-new' || order === 'date-old') {
+            nodes.sort(function(a, b) {
+              // 无日期的排在最后
+              if (a.timestamp === 0 && b.timestamp !== 0) return 1;
+              if (a.timestamp !== 0 && b.timestamp === 0) return -1;
+              if (a.timestamp === 0 && b.timestamp === 0) return a.title.localeCompare(b.title, 'zh-Hans-CN');
+              
+              // 按时间戳排序
+              var diff = b.timestamp - a.timestamp; // 默认最新在前 (desc)
+              if (diff === 0) return a.title.localeCompare(b.title, 'zh-Hans-CN');
+              return diff;
+            });
+            if (order === 'date-old') nodes.reverse();
+          }
+
           var frag = document.createDocumentFragment();
           nodes.forEach(function(it){ frag.appendChild(it.node); });
           var columns = document.getElementById('columns');
@@ -219,6 +245,64 @@
 
         // 首次增强 + 初始化统计
         enhanceCards();
+        
+        // --- 新增：卡片新旧程度指示器 (Recency Indicator) ---
+        (function applyRecencyIndicator() {
+          var cards = $$('.card');
+          var dates = [];
+          
+          cards.forEach(function(card) {
+            var metaChips = Array.from(card.querySelectorAll('.card-meta .meta-chip'));
+            var dateChip = metaChips.find(function(chip) {
+              return chip.textContent.indexOf('更新日志') >= 0;
+            });
+            if (dateChip) {
+              var dateStr = (dateChip.querySelector('b')?.textContent || '').trim();
+              // 严格校验 YYYY-MM-DD 格式
+              if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+                var parts = dateStr.split('-');
+                // 使用年月日构造，避免时区造成的偏差
+                var timestamp = new Date(parts[0], parts[1] - 1, parts[2]).getTime();
+                if (!isNaN(timestamp)) {
+                  card.dataset.timestamp = timestamp;
+                  dates.push(timestamp);
+                }
+              }
+            }
+          });
+
+          // 如果没有任何有效日期，则不执行后续归一化
+          var hasDates = dates.length > 0;
+          var min = hasDates ? Math.min.apply(null, dates) : 0;
+          var max = hasDates ? Math.max.apply(null, dates) : 0;
+          var range = max - min;
+
+          cards.forEach(function(card) {
+            var ratio = 0;
+            var isUnknown = !card.dataset.timestamp;
+            
+            if (!isUnknown) {
+              var ts = parseInt(card.dataset.timestamp, 10);
+              if (range > 0) {
+                ratio = (ts - min) / range;
+              } else {
+                ratio = 1.0; // 所有日期相同时，视为“新”
+              }
+              card.style.setProperty('--recency-ratio', ratio.toFixed(3));
+              card.dataset.recency = 'valid';
+            } else {
+              card.dataset.recency = 'unknown';
+            }
+            
+            // 注入底部色条节点
+            if (!card.querySelector('.card-recency-bar')) {
+              var bar = document.createElement('div');
+              bar.className = 'card-recency-bar';
+              card.appendChild(bar);
+            }
+          });
+        })();
+
         if (sortSel) sortCards(sortSel.value);
         filterCards('');
         // 注意：openLinkMode, columnWidth, backTop 由 common.js 初始化

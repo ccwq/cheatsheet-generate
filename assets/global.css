@@ -29,7 +29,7 @@ html { scrollbar-width: thin; scrollbar-color: var(--scroll-thumb-a) var(--scrol
   border-radius: 8px;
   border: 2px solid var(--scroll-track);
 }
-::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #7fc0ff, #7dfbe9); }
+::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, var(--scroll-thumb-a-hover), var(--scroll-thumb-b-hover)); }
 
 /* --- Light Theme Overrides --- */
 [data-theme="light"], [data-theme="light"] body {
