@@ -185,12 +185,12 @@ pre[class^="language-"] { background: var(--code-pre-bg) !important; }
 }
 
 /* Syntax Highlighting Extras */
-.comment { color: #608b4e; font-style: italic; }
-.keyword { color: #c678dd; font-weight: bold; }
-.method { color: #d19a66; }
-.number { color: #d19a66; }
-.string { color: #98c379; }
-.highlight { color: #e5c07b; background: rgba(229, 192, 123, 0.1); padding: 1px 3px; border-radius: 3px; }
+.comment { color: var(--syntax-comment); font-style: italic; }
+.keyword { color: var(--syntax-keyword); font-weight: bold; }
+.method { color: var(--syntax-method); }
+.number { color: var(--syntax-number); }
+.string { color: var(--syntax-string); }
+.highlight { color: var(--syntax-highlight-text); background: var(--syntax-highlight-bg); padding: 1px 3px; border-radius: 3px; }
 
 /* Tips & Warnings */
 .tip {

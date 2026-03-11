@@ -87,7 +87,10 @@
             try {
               var safe = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
               var re = new RegExp('(' + safe + ')', 'ig');
-              var html = text.replace(re, '<mark style="background:#3e5bd4;color:#fff;border-radius:3px;padding:0 2px">$1</mark>');
+              var html = text.replace(
+                re,
+                '<mark style="background:var(--search-highlight-bg);color:var(--search-highlight-text);border-radius:3px;padding:0 2px">$1</mark>'
+              );
               el.innerHTML = html;
             } catch(e){ el.textContent = text; }
           }
