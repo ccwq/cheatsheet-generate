@@ -23,7 +23,11 @@ function initColumnWidth() {
 
   function setWidth(val) {
     slider.value = val;
-    columns.style.columnWidth = val + 'px';
+    if (isNavPage) {
+      columns.style.setProperty('--col-width', val + 'px');
+    } else {
+      columns.style.columnWidth = val + 'px';
+    }
     if (widthVal) widthVal.textContent = val + 'px';
   }
 
@@ -42,7 +46,11 @@ function initColumnWidth() {
 
   // Slider input
   slider.addEventListener('input', function() {
-    columns.style.columnWidth = slider.value + 'px';
+    if (isNavPage) {
+      columns.style.setProperty('--col-width', slider.value + 'px');
+    } else {
+      columns.style.columnWidth = slider.value + 'px';
+    }
     if (widthVal) widthVal.textContent = slider.value + 'px';
   });
 

@@ -161,11 +161,24 @@
   color: var(--interactive-hover-text);
 }
 
-/* 多列容器：支持列宽调节 */
-.cheat-columns { column-count: 4; column-gap: 16px; margin-top: 12px; transition: column-width 0.2s ease; column-width: 340px; }
-@media (max-width: 1500px) { .cheat-columns { column-count: 3; } }
-@media (max-width: 1100px) { .cheat-columns { column-count: 2; column-gap: 12px; } }
-@media (max-width: 750px)  { .cheat-columns { column-count: 1; } }
+/* 导览页瀑布流：保持从左到右、从上到下的阅读顺序 */
+.cheat-columns {
+  --col-width: 340px;
+  --masonry-row: 8px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--col-width)), 1fr));
+  grid-auto-flow: row;
+  grid-auto-rows: var(--masonry-row);
+  gap: 16px;
+  margin-top: 12px;
+  align-items: start;
+  transition: grid-template-columns 0.2s ease;
+}
+@media (max-width: 1100px) {
+  .cheat-columns {
+    gap: 12px;
+  }
+}
 
 .card {
   position: relative;
@@ -174,9 +187,12 @@
   border: 1px solid var(--card-border); 
   box-shadow: var(--card-shadow); 
   backdrop-filter: blur(2px);
-  margin-bottom: 14px; padding: 14px 14px 10px 14px; break-inside: avoid; box-sizing: border-box;
+  margin: 0;
+  padding: 14px 14px 10px 14px;
+  box-sizing: border-box;
   /* 确保底部 bar 不溢出圆角 */
   overflow: hidden;
+  height: max-content;
 }
 .card-layout {
   display: grid;

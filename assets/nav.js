@@ -4,6 +4,60 @@
         var stats = $('#stats');
         var sortSel = document.getElementById('sortSelect');
         var sortKey = 'nav_sort_mode';
+        var masonry = initMasonry();
+
+        function initMasonry() {
+          var columns = document.getElementById('columns');
+          var resizeObserver = null;
+          var rafId = 0;
+
+          function scheduleLayout() {
+            if (!columns) return;
+            if (rafId) cancelAnimationFrame(rafId);
+            rafId = requestAnimationFrame(layout);
+          }
+
+          function layout() {
+            if (!columns) return;
+
+            rafId = 0;
+            var styles = window.getComputedStyle(columns);
+            var rowHeight = parseFloat(styles.getPropertyValue('grid-auto-rows')) || 8;
+            var rowGap = parseFloat(styles.getPropertyValue('row-gap')) || parseFloat(styles.getPropertyValue('gap')) || 0;
+
+            $$('.card', columns).forEach(function(card) {
+              if (card.style.display === 'none') {
+                card.style.gridRowEnd = '';
+                return;
+              }
+
+              card.style.gridRowEnd = 'span 1';
+              var span = Math.max(1, Math.ceil((card.getBoundingClientRect().height + rowGap) / (rowHeight + rowGap)));
+              card.style.gridRowEnd = 'span ' + span;
+            });
+          }
+
+          function observeCards() {
+            if (!columns || typeof ResizeObserver === 'undefined') return;
+            if (!resizeObserver) {
+              resizeObserver = new ResizeObserver(function() {
+                scheduleLayout();
+              });
+            }
+
+            $$('.card', columns).forEach(function(card) {
+              resizeObserver.observe(card);
+            });
+          }
+
+          window.addEventListener('resize', scheduleLayout);
+          window.addEventListener('load', scheduleLayout);
+
+          return {
+            schedule: scheduleLayout,
+            observeCards: observeCards
+          };
+        }
 
         // 为每张卡自动添加 copy 按钮
         function enhanceCards() {
@@ -53,6 +107,9 @@
             });
             card.appendChild(wrap);
           });
+
+          masonry.observeCards();
+          masonry.schedule();
         }
 
         // 搜索过滤（标题+简介可选）
@@ -112,6 +169,7 @@
             if (hit) visible++;
           });
           stats.textContent = (q ? ('匹配 ' + visible + ' 项') : ('共 ' + cards.length + ' 项')) + ' · 可见：' + visible;
+          masonry.schedule();
         }
 
         function sortCards(order){
@@ -146,6 +204,8 @@
           nodes.forEach(function(it){ frag.appendChild(it.node); });
           var columns = document.getElementById('columns');
           if (columns) columns.appendChild(frag);
+          masonry.observeCards();
+          masonry.schedule();
         }
 
         function initSortMode() {
@@ -317,6 +377,7 @@
 
         if (sortSel) sortCards(initSortMode());
         filterCards('');
+        masonry.schedule();
         // 注意：openLinkMode, columnWidth, backTop 由 common.js 初始化
 
         // --- 键盘导航功能 (2025-01-20) ---
