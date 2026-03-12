@@ -1,4 +1,4 @@
 interface:
   display_name: "Cheatsheet Maker"
-  short_description: "创建、重建、补图标并维护 cheatsheet 源文件"
-  default_prompt: "Use $cheatsheet-maker to create, rebuild, or supplement a cheatsheet including meta, refmap, and icon."
+  short_description: "创建并维护 cheatsheet 源文件，必要时联动图标技能"
+  default_prompt: "Use $cheatsheet-maker to create or rebuild a cheatsheet, and delegate icon work to $icon-complete-skill when needed."

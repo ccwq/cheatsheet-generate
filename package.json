@@ -15,7 +15,7 @@
     "workflow": "node scripts/workflow.js",
     "release": "npm run release:patch",
     "changelog": "npx -y standard-version",
-    "update-skill": "npx -y skills add ./cheatsheet-html-maker/cheatsheet-maker-skill",
+    "update-skills": "node scripts/update-skills.js",
     "preview": "npx -y live-server ."
   },
   "dependencies": {

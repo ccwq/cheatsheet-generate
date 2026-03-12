@@ -1,6 +1,6 @@
 ---
 name: cheatsheet-maker
-description: 创建、整理、重建技术速查表（Cheatsheet）源文件的技能。用于从主题、正文或网址采集资料并生成或改进 cheatsheets/主题目录 下的主题.md、meta.yml、refmap.md；也用于补齐或批量附加缺失的 icon.png、补全标签与元数据，且仅在需要时调用 HTML 生成器，不直接把 HTML 产出当作本技能核心职责。
+description: 创建、整理、重建技术速查表（Cheatsheet）源文件的技能。用于从主题、正文或网址采集资料并生成或改进 cheatsheets/主题目录 下的主题.md、meta.yml、refmap.md，补全标签与元数据，并在需要时联动图标技能与 HTML 生成器；不直接把“手写 HTML 页面”当作主路径。
 ---
 
 # cheatsheet-maker
@@ -12,13 +12,14 @@ description: 创建、整理、重建技术速查表（Cheatsheet）源文件的
 - 生成或改进 `<topic>.md`
 - 生成或改进 `meta.yml`
 - 生成或改进 `refmap.md`
-- 按需补齐 `icon.png`
+- 需要图标时，联动 agentskill: icon-complete-skill
 
 ## 工作边界
 
 - 先处理源文件，再决定是否调用 HTML 生成器
 - 不把“直接手写 HTML 页面”当作本技能主路径
-- 用户只要求补图标、补标签、补元数据时，只改对应文件，不重写正文
+- 用户只要求补图标时，转交 agentskill: icon-complete-skill
+- 用户只要求补标签、补元数据时，只改对应文件，不重写正文
 - 用户要求“仅处理缺失部分”时，只补缺，不覆盖已有内容
 
 ## 资料采集
@@ -58,20 +59,13 @@ description: 创建、整理、重建技术速查表（Cheatsheet）源文件的
 - 按主题分组整理官方文档、仓库、关键章节链接
 - 让正文中的核心模块都能在 `refmap.md` 找到来源
 
-### `icon.png`
-
-- 仅在缺失、用户要求替换、或需要统一风格时处理
-- 优先使用品牌或项目图标；找不到时退回语义图标或缩写图标
-- 保持适合导览页卡片的小尺寸展示，避免复杂插画
-- 批量补图标时，先按日期、缺失状态或用户范围过滤，再写入目标目录
-
 ## 执行流程
 
 1. 识别任务类型：新建、重建、补元数据、补标签、补图标、整理 `refmap`
 2. 读取现有目录与文件，判断哪些文件缺失，哪些内容应保留
 3. 需要写正文时，按规范生成或改进 `<topic>.md`
 4. 补齐 `meta.yml` 与 `refmap.md`
-5. 需要图标时，只为目标条目生成或补齐 `icon.png`
+5. 需要图标时，读取并遵循 agentskill: icon-complete-skill
 6. 需要 HTML 时，执行：
 
 ```bash
@@ -86,4 +80,4 @@ node cheatsheet-html-maker/index.js --input cheatsheets/<topic>/<topic>.md
 - 确认代码语言标识正确
 - 确认正文没有夹带安装/配置大段内容
 - 确认用户要求“仅补缺”时，没有覆盖现有有效内容
-- 确认新增图标只落到目标目录，命名固定为 `icon.png`
+- 图标若有变更，确认已按 agentskill: icon-complete-skill 处理
