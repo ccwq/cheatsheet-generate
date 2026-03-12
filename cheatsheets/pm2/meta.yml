@@ -1,5 +1,5 @@
 desc: PM2 常用运维工作流速览，覆盖进程管理、日志、集群、ecosystem、自启动与容器运行。
 tags: ["Node.js", "DevOps", "进程管理", "运维", "命令行", "守护进程"]
-version: "6.0.8"
+version: "6.0.10"
 github: Unitech/pm2
 date: "2026-01-09"

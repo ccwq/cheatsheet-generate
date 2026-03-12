@@ -38,6 +38,25 @@ gsap.to(".card", {
 });
 ```
 
+## 模块导入与注册
+---
+emoji: 📦
+link: https://gsap.com/docs/
+desc: 当前官方包默认提供 ESM；插件使用前先 import，再 `registerPlugin()`。
+---
+- `import gsap from "gsap"` : 导入核心
+- `import ScrollTrigger from "gsap/ScrollTrigger"` : 单独导入插件
+- `import { gsap, Flip, ScrollTrigger } from "gsap/all"` : 一次导入常用公开插件
+- `gsap.registerPlugin(ScrollTrigger, Flip)` : 注册后才能使用插件能力
+
+```javascript
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
+import Flip from "gsap/Flip";
+
+gsap.registerPlugin(ScrollTrigger, Flip);
+```
+
 ## Tween 常用参数
 ---
 emoji: 🎛️
@@ -170,7 +189,7 @@ gsap.to(".feature-image", {
 ---
 emoji: 🧩
 link: https://gsap.com/docs/v3/Plugins/
-desc: ScrollTrigger、Flip、MotionPath、ScrollTo 是最常见组合。
+desc: ScrollTrigger、Flip、MotionPath、Observer、SplitText 是当前常见插件组合。
 ---
 - `ScrollTrigger` : 滚动驱动动画
 - `ScrollToPlugin` : 平滑滚动到目标
@@ -179,6 +198,16 @@ desc: ScrollTrigger、Flip、MotionPath、ScrollTo 是最常见组合。
 - `Observer` : 统一鼠标、触控、滚轮输入
 - `Draggable` : 拖拽交互
 - `TextPlugin` : 文本渐变显示
+- `SplitText` : 文本拆分动效
+
+```javascript
+// GSAP 3.13 起，原 bonus plugins 已免费开放
+import { SplitText } from "gsap/SplitText";
+
+gsap.registerPlugin(SplitText);
+const split = SplitText.create(".headline", { type: "chars,words" });
+gsap.from(split.chars, { y: 24, opacity: 0, stagger: 0.03 });
+```
 
 ```javascript
 gsap.registerPlugin(Flip);
@@ -242,6 +271,29 @@ const moveY = gsap.quickTo(".cursor-follower", "y", {
 window.addEventListener("pointermove", (event) => {
   moveX(event.clientX);
   moveY(event.clientY);
+});
+```
+
+## 响应式重算
+---
+emoji: 📐
+link: https://gsap.com/docs/v3/GSAP/gsap.matchMedia()
+desc: 断点变化明显时，除了 `matchMedia()` 本身，也要配合刷新与重建逻辑。
+---
+- `gsap.matchMedia()` : 注册断点级动画
+- `mm.revert()` : 清理当前媒体查询中的动画
+- `gsap.matchMediaRefresh()` : 重新评估所有 matchMedia 逻辑
+- `ScrollTrigger.refresh()` : 重新计算滚动触发器
+
+```javascript
+const mm = gsap.matchMedia();
+
+mm.add("(max-width: 767px)", () => {
+  gsap.set(".sidebar", { clearProps: "all" });
+});
+
+window.addEventListener("resize", () => {
+  gsap.matchMediaRefresh();
 });
 ```
 

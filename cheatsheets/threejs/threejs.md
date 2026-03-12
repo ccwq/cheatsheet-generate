@@ -103,6 +103,24 @@ const material = new THREE.MeshStandardMaterial({
 });
 ```
 
+## 颜色管理
+---
+emoji: 🌈
+link: https://threejs.org/manual/en/color-management.html
+desc: 贴图发灰或颜色失真时，优先检查 color space，而不是先怀疑灯光。
+---
+- `THREE.ColorManagement.enabled` : 默认启用
+- `texture.colorSpace = THREE.SRGBColorSpace` : 标记颜色贴图
+- `renderer.outputColorSpace = THREE.SRGBColorSpace` : 设置输出色彩空间
+- 法线、粗糙度、金属度等数据贴图通常保持默认色彩空间
+
+```javascript
+const colorMap = textureLoader.load("/textures/basecolor.jpg");
+colorMap.colorSpace = THREE.SRGBColorSpace;
+
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+```
+
 ## 灯光与阴影
 ---
 emoji: 💡
@@ -259,17 +277,20 @@ renderer.setAnimationLoop(() => {
 ---
 emoji: 🧪
 link: https://threejs.org/docs/#api/en/renderers/webgpu/WebGPURenderer
-desc: 新项目如果目标平台支持 WebGPU，可以关注 `WebGPURenderer` 与 TSL 节点材质。
+desc: 官方新版手册建议从 `three/webgpu` 入口使用 WebGPU，传统 `EffectComposer` 流程不应原样照搬。
 ---
 - `WebGPURenderer` : WebGPU 渲染器
 - `NodeMaterial` : 节点材质系统
 - `TSL` : three.js Shading Language
 - `renderer.init()` : WebGPU 初始化
+- `import * as THREE from "three/webgpu"` : WebGPU 推荐入口
+- `import "three/tsl"` : TSL 能力入口
+- WebGPU 下后处理需要按新栈组织 : 不直接照抄传统 `EffectComposer`
 
 ```javascript
-import { WebGPURenderer } from "three/addons/renderers/webgpu/WebGPURenderer.js";
+import * as THREE from "three/webgpu";
 
-const renderer = new WebGPURenderer({ antialias: true });
+const renderer = new THREE.WebGPURenderer({ antialias: true });
 await renderer.init();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);

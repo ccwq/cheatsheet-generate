@@ -1,7 +1,7 @@
 ---
 title: Docker
 lang: bash
-version: "unknown"
+version: "28.5.1"
 date: "2025-12-04"
 github: docker/docker-ce
 colWidth: 360px
@@ -77,6 +77,31 @@ RUN pnpm build
 # 第二阶段：只保留运行时文件
 FROM nginx:1.29-alpine
 COPY --from=builder /app/dist /usr/share/nginx/html
+```
+
+## Buildx 与 Bake
+---
+emoji: 🧪
+link: https://docs.docker.com/reference/cli/docker/buildx/
+desc: 新版构建工作流以 BuildKit 为核心；批量、多平台和远程构建优先走 buildx。
+---
+- `docker buildx ls` : 查看可用 builder
+- `docker buildx create --name multiarch --use` : 创建并启用 builder
+- `docker buildx inspect --bootstrap` : 预热并输出 builder 能力
+- `docker buildx imagetools inspect repo/app:latest` : 查看多平台镜像清单
+- `docker buildx bake` : 按声明式配置批量构建多个目标
+
+```hcl
+group "default" {
+  targets = ["app"]
+}
+
+target "app" {
+  context = "."
+  dockerfile = "Dockerfile"
+  platforms = ["linux/amd64", "linux/arm64"]
+  tags = ["registry.example.com/team/app:latest"]
+}
 ```
 
 ## 容器启动
@@ -182,6 +207,7 @@ desc: Compose 负责多容器开发与测试环境的启动、变更与校验。
 - `docker compose logs -f api` : 查看指定服务日志
 - `docker compose exec api sh` : 进入服务容器
 - `docker compose config` : 展开并校验配置
+- `docker compose --profile jobs up` : 按 profile 启动部分服务
 
 ```yaml
 services:
@@ -295,4 +321,22 @@ docker ps -a --filter "name=api"
 docker logs api --tail 200
 docker inspect -f '{{json .State.Health}}' api
 docker port api
+```
+
+## 版本与 API 协商
+---
+emoji: 🔢
+link: https://docs.docker.com/reference/cli/docker/version/
+desc: 新版 Docker CLI 会和目标 Engine 自动协商 API 版本，远端 context 和旧集群排障时尤其重要。
+---
+- `docker version` : 同时查看 Client 与 Server 版本
+- `docker version --format '{{.Server.Version}}'` : 只看服务端版本
+- `docker version --format '{{.Client.APIVersion}}'` : 查看协商后的 API 版本
+- `DOCKER_API_VERSION=1.50` : 临时覆盖 API 版本协商结果
+
+```bash
+# 远端 context 排障时先核对版本
+docker context use remote-test-server
+docker version
+docker version --format '{{.Client.APIVersion}}'
 ```

@@ -1,7 +1,7 @@
 ---
 title: PM2
 lang: bash
-version: "6.0.8"
+version: "6.0.10"
 date: "2026-01-09"
 github: Unitech/pm2
 colWidth: 360px
@@ -221,6 +221,27 @@ pm2 save
 pm2 resurrect
 ```
 
+## 优雅启动与停止
+---
+emoji: 🤝
+link: https://pm2.keymetrics.io/docs/usage/signals-clean-restart/
+desc: 最新官方文档把 graceful reload、wait-ready、kill-timeout 和 Windows 消息退出收敛到同一组能力。
+---
+- `pm2 reload api` : 对支持优雅退出的服务做平滑重载
+- `pm2 start app.js --wait-ready` : 等待应用显式发送 ready
+- `pm2 start app.js --listen-timeout 8000` : 放宽启动等待
+- `pm2 start app.js --kill-timeout 3000` : 放宽停止等待
+- `pm2 start app.js --shutdown-with-message` : Windows 下用消息而不是 Unix 信号
+
+```javascript
+process.on("SIGINT", async () => {
+  await server.close();
+  process.exit(0);
+});
+
+process.send?.("ready");
+```
+
 ## Docker 与 pm2-runtime
 ---
 emoji: 🐳
@@ -265,6 +286,6 @@ link: https://pm2.keymetrics.io/docs/usage/process-management/
 desc: 先确认脚本路径、cwd、环境变量，再看日志与重启策略。
 ---
 - 反复重启时先检查 `cwd`、启动命令、环境变量和端口占用
-- 集群 reload 不生效时，确认应用是否支持优雅退出
+- 集群 reload 不生效时，确认应用是否支持优雅退出与 `wait_ready`
 - watch 误触发时，缩小监听目录并加 `ignore_watch`
 - 容器里不要用 `pm2 start ... --no-daemon`，优先用 `pm2-runtime`

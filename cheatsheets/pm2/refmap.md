@@ -10,6 +10,7 @@
 - [Environment Variables](https://pm2.keymetrics.io/docs/usage/environment/)
 - [Watch and Restart](https://pm2.keymetrics.io/docs/usage/watch-and-restart/)
 - [Startup Script Generator](https://pm2.keymetrics.io/docs/usage/startup/)
+- [Graceful Start / Shutdown](https://pm2.keymetrics.io/docs/usage/signals-clean-restart/)
 - [Docker Integration](https://pm2.keymetrics.io/docs/usage/docker-pm2-nodejs/)
 - [Monitoring](https://pm2.keymetrics.io/docs/usage/monitoring/)
 

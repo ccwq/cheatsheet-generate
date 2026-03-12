@@ -2,11 +2,15 @@
 
 ## 官方文档
 - [Docker CLI 总入口](https://docs.docker.com/reference/cli/docker/)
+- [docker version](https://docs.docker.com/reference/cli/docker/version/)
 - [容器运行与生命周期](https://docs.docker.com/reference/cli/docker/container/run/)
 - [镜像子命令](https://docs.docker.com/reference/cli/docker/image/)
 - [Docker Compose CLI](https://docs.docker.com/reference/cli/docker/compose/)
 - [Dockerfile Reference](https://docs.docker.com/reference/dockerfile/)
 - [多阶段构建](https://docs.docker.com/build/building/multi-stage/)
+- [Buildx CLI](https://docs.docker.com/reference/cli/docker/buildx/)
+- [Bake](https://docs.docker.com/build/bake/)
+- [BuildKit](https://docs.docker.com/build/buildkit/)
 - [网络概览](https://docs.docker.com/engine/network/)
 - [Daemon 代理配置](https://docs.docker.com/engine/daemon/proxy/)
 - [system prune](https://docs.docker.com/reference/cli/docker/system/prune/)

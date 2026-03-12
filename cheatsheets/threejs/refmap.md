@@ -3,6 +3,7 @@
 ## 官方文档
 - [three.js Docs](https://threejs.org/docs/)
 - [Creating a scene](https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene)
+- [Color management](https://threejs.org/manual/en/color-management.html)
 - [PerspectiveCamera](https://threejs.org/docs/#api/en/cameras/PerspectiveCamera)
 - [BufferGeometry](https://threejs.org/docs/#api/en/core/BufferGeometry)
 - [MeshStandardMaterial](https://threejs.org/docs/#api/en/materials/MeshStandardMaterial)
@@ -17,6 +18,7 @@
 - [EffectComposer](https://threejs.org/docs/#examples/en/postprocessing/EffectComposer)
 - [UnrealBloomPass](https://threejs.org/docs/#examples/en/postprocessing/UnrealBloomPass)
 - [WebGPURenderer](https://threejs.org/docs/#api/en/renderers/webgpu/WebGPURenderer)
+- [WebGPURenderer 手册](https://threejs.org/manual/en/webgpurenderer)
 - [TSL](https://threejs.org/docs/#api/en/nodes/TSL)
 
 ## 官方站点与仓库

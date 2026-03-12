@@ -1,5 +1,5 @@
 desc: Docker 常用工作流速览，覆盖镜像构建、容器运行、Compose、多容器排障与清理。
 tags: ["DevOps", "CLI / Terminal", "CLI 工具", "运维", "命令行"]
-version: "unknown"
+version: "28.5.1"
 github: docker/docker-ce
 date: "2025-12-04"

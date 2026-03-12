@@ -121,7 +121,10 @@ const material = new THREE.MeshStandardMaterial({
   map: albedo,
   normalMap: normal,
   roughness: 0.8
-});</code></pre></div><div class="card"><h2>💡 灯光与阴影 <a href="https://threejs.org/docs/#api/en/lights/DirectionalLight" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">阴影链路通常是“灯光 castShadow + mesh cast/receiveShadow + renderer.shadowMap.enabled”。</div><ul><li><code>AmbientLight</code>：环境光</li><li><code>DirectionalLight</code>：方向光，常模拟太阳</li><li><code>PointLight</code>：点光源</li><li><code>SpotLight</code>：聚光灯</li><li><code>renderer.shadowMap.enabled = true</code>：启用阴影</li></ul><pre><code class="language-javascript">renderer.shadowMap.enabled = true;
+});</code></pre></div><div class="card"><h2>🌈 颜色管理 <a href="https://threejs.org/manual/en/color-management.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">贴图发灰或颜色失真时，优先检查 color space，而不是先怀疑灯光。</div><ul><li><code>THREE.ColorManagement.enabled</code>：默认启用</li><li><code>texture.colorSpace = THREE.SRGBColorSpace</code>：标记颜色贴图</li><li><code>renderer.outputColorSpace = THREE.SRGBColorSpace</code>：设置输出色彩空间</li><li>法线、粗糙度、金属度等数据贴图通常保持默认色彩空间</li></ul><pre><code class="language-javascript">const colorMap = textureLoader.load(&quot;/textures/basecolor.jpg&quot;);
+colorMap.colorSpace = THREE.SRGBColorSpace;
+
+renderer.outputColorSpace = THREE.SRGBColorSpace;</code></pre></div><div class="card"><h2>💡 灯光与阴影 <a href="https://threejs.org/docs/#api/en/lights/DirectionalLight" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">阴影链路通常是“灯光 castShadow + mesh cast/receiveShadow + renderer.shadowMap.enabled”。</div><ul><li><code>AmbientLight</code>：环境光</li><li><code>DirectionalLight</code>：方向光，常模拟太阳</li><li><code>PointLight</code>：点光源</li><li><code>SpotLight</code>：聚光灯</li><li><code>renderer.shadowMap.enabled = true</code>：启用阴影</li></ul><pre><code class="language-javascript">renderer.shadowMap.enabled = true;
 
 const sun = new THREE.DirectionalLight(&quot;#ffffff&quot;, 2.2);
 sun.position.set(4, 8, 3);
@@ -180,9 +183,9 @@ composer.addPass(new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window
 
 renderer.setAnimationLoop(() =&gt; {
   composer.render();
-});</code></pre></div><div class="card"><h2>🧪 WebGPU 与 TSL <a href="https://threejs.org/docs/#api/en/renderers/webgpu/WebGPURenderer" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">新项目如果目标平台支持 WebGPU，可以关注 `WebGPURenderer` 与 TSL 节点材质。</div><ul><li><code>WebGPURenderer</code>：WebGPU 渲染器</li><li><code>NodeMaterial</code>：节点材质系统</li><li><code>TSL</code>：three.js Shading Language</li><li><code>renderer.init()</code>：WebGPU 初始化</li></ul><pre><code class="language-javascript">import { WebGPURenderer } from &quot;three/addons/renderers/webgpu/WebGPURenderer.js&quot;;
+});</code></pre></div><div class="card"><h2>🧪 WebGPU 与 TSL <a href="https://threejs.org/docs/#api/en/renderers/webgpu/WebGPURenderer" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">官方新版手册建议从 `three/webgpu` 入口使用 WebGPU，传统 `EffectComposer` 流程不应原样照搬。</div><ul><li><code>WebGPURenderer</code>：WebGPU 渲染器</li><li><code>NodeMaterial</code>：节点材质系统</li><li><code>TSL</code>：three.js Shading Language</li><li><code>renderer.init()</code>：WebGPU 初始化</li><li><code>import * as THREE from &quot;three/webgpu&quot;</code>：WebGPU 推荐入口</li><li><code>import &quot;three/tsl&quot;</code>：TSL 能力入口</li><li><code>EffectComposer</code>：不直接照抄传统  CODE </li></ul><pre><code class="language-javascript">import * as THREE from &quot;three/webgpu&quot;;
 
-const renderer = new WebGPURenderer({ antialias: true });
+const renderer = new THREE.WebGPURenderer({ antialias: true });
 await renderer.init();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);</code></pre></div><div class="card"><h2>🩺 性能与释放 <a href="https://threejs.org/manual/en/introduction/How-to-dispose-of-objects.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">three.js 最常见问题不是“不会画”，而是“资源不释放、draw call 太高、像素比太满”。</div><ul><li><code>geometry.dispose()</code>：释放几何体 GPU 资源</li><li><code>material.dispose()</code>：释放材质资源</li><li><code>texture.dispose()</code>：释放纹理</li><li><code>renderer.setPixelRatio(Math.min(devicePixelRatio, 2))</code>：限制像素比</li><li><code>InstancedMesh</code>：大量重复对象时减少 draw call</li><li><code>frustumCulled</code>：利用视锥裁剪减少无效渲染</li></ul><pre><code class="language-javascript">function destroyMesh(mesh) {
