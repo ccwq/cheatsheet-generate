@@ -1,9 +1,5 @@
-desc: PM2 进程管理器速查表 - Node.js 应用的生产级守护进程管理工具，支持集群模式、日志管理和自动重启
-tags:
-  - CLI
-  - DevOps
-  - Node.js
-  - Process
-version: unknown
+desc: PM2 常用运维工作流速览，覆盖进程管理、日志、集群、ecosystem、自启动与容器运行。
+tags: ["Node.js", "DevOps", "进程管理", "运维", "命令行", "守护进程"]
+version: "6.0.8"
 github: Unitech/pm2
 date: "2026-01-09"
