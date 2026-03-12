@@ -1,3 +1,12 @@
+---
+title: Leaflet.js交互式地图开发速查提示词
+lang: zh
+version: "1.9.4"
+date: "2025-11-14"
+github: Leaflet/Leaflet
+colWidth: 4
+---
+
 # Leaflet.js交互式地图开发速查提示词
 
 ## 地图初始化

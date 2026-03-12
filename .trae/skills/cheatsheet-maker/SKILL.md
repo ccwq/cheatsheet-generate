@@ -52,7 +52,11 @@ description: 创建、整理、重建技术速查表（Cheatsheet）源文件的
 - 必含 `desc`、`tags`、`version`、`github`、`date`
 - `github` 固定为 `owner/repo`，不确定时写 `unknown`
 - `date` 使用 `YYYY-MM-DD`
-- 处理存量 cheatsheet 时，优先保留已有日期；新建时写当天日期
+
+** data字段处理的逻辑 **
+- 如果存在github和版本, 需要从github调查版本发布的日期, 写入`date`
+- 如果不存在版本, 则写入则根据搜索信息以及你自身的知识库推断获得
+
 
 ### `refmap.md`
 
