@@ -11,11 +11,11 @@
           cards.forEach(function(card){
             var h2 = $('h2', card);
             var link = $('.link', card);
+            var iconSlot = $('.card-icon-slot', card);
             if (!h2 || !link) return;
             // 规范化标题文本（去除图标与现有链接显示内容）
             var h2clone = h2.cloneNode(true);
             var toRemove = h2clone.querySelector('.link'); if (toRemove) toRemove.remove();
-            var iconClone = h2clone.querySelector('.icon'); if (iconClone) iconClone.remove();
             var titleText = (h2clone.textContent || '').trim();
 
             // 数据缓存（搜索/排序用）
@@ -24,15 +24,14 @@
             card.dataset.desc = descRaw;
 
             // 若无图标，添加默认文档图标
-            var iconEl = h2.querySelector('.icon');
-            if (!iconEl) {
-              h2.insertAdjacentHTML('afterbegin', '<svg class="icon" width="16" height="16" viewBox="0 0 24 24"><use href="#icon-doc"/></svg>');
+            var iconEl = card.querySelector('.card-icon-slot .icon');
+            if (!iconEl && iconSlot) {
+              iconSlot.innerHTML = '<svg class="icon" width="72" height="72" viewBox="0 0 24 24"><use href="#icon-doc"/></svg>';
             }
 
             // 将标题文本变为可点击链接（使用原有 .link 元素）
-            // 清理 h2 中除图标与 link 外的其它节点
-            var iconKeep = h2.querySelector('.icon');
-            Array.from(h2.childNodes).forEach(function(n){ if (n !== iconKeep && n !== link) h2.removeChild(n); });
+            // 清理 h2 中除链接外的其它节点
+            Array.from(h2.childNodes).forEach(function(n){ if (n !== link) h2.removeChild(n); });
             link.classList.add('title-link');
             link.innerHTML = '';
             link.appendChild(document.createTextNode(titleText));

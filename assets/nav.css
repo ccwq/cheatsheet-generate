@@ -178,6 +178,22 @@
   /* 确保底部 bar 不溢出圆角 */
   overflow: hidden;
 }
+.card-layout {
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+}
+.card-icon-slot {
+  width: 88px;
+  min-height: 88px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+.card-content {
+  min-width: 0;
+}
 
 /* --- 卡片新旧程度指示器 (Recency Indicator) --- */
 :root {
@@ -223,7 +239,7 @@
 /* 取消左侧高亮条，保留纯平整洁 */
 .card::before{ display:none; }
 .card:hover { box-shadow: var(--card-shadow); }
-.card h2 { margin: -6px 0 6px 0; font-size: 15px; font-weight: 700; color: var(--title); letter-spacing: 0.6px; display: flex; align-items: center; gap: 8px; }
+.card h2 { margin: -2px 0 6px 0; padding-right: 58px; font-size: 15px; font-weight: 700; color: var(--title); letter-spacing: 0.6px; display: flex; align-items: flex-start; gap: 8px; flex-wrap: wrap; }
 .card h2 .link { color: var(--link); font-weight: 700; display: inline-flex; align-items:center; gap:4px; }
 /* 标题可点击：淡淡下划线，悬停更明显 */
 .card h2 .title-link { color: var(--link); text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--link) 34%, transparent); text-underline-offset: 2px; }
@@ -231,7 +247,12 @@
 .card h2 .title-link:hover { text-decoration-color: color-mix(in srgb, var(--link) 70%, transparent); }
 [data-theme="light"] .card h2 .title-link:hover { text-decoration-color: color-mix(in srgb, var(--link) 58%, transparent); }
 .card .desc { color: var(--desc); margin: 2px 0 2px 0; font-size: 1em; line-height: 1.2; }
-.icon { width: 16px; height: 16px; border-radius: 3px; object-fit: cover; display: inline-block; }
+.icon { width: 72px; height: 72px; border-radius: 16px; object-fit: cover; display: block; flex: 0 0 auto; }
+.card-icon-slot .icon,
+.card-icon-slot svg.icon {
+  width: 72px;
+  height: 72px;
+}
 /* 元信息（版本/更新日志/GitHub） */
 .card-meta {
   display: flex;
@@ -260,6 +281,27 @@
 .copy { position:absolute; right:8px; top:8px; opacity:.85; }
 .copy button { background:transparent; border:none; color:var(--input-placeholder); border-radius:8px; padding:4px 6px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; }
 .copy button:hover { color:var(--text-link); }
+
+@media (max-width: 560px) {
+  .card-layout {
+    grid-template-columns: 64px minmax(0, 1fr);
+    gap: 12px;
+  }
+  .card-icon-slot {
+    width: 64px;
+    min-height: 64px;
+  }
+  .icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+  }
+  .card-icon-slot .icon,
+  .card-icon-slot svg.icon {
+    width: 56px;
+    height: 56px;
+  }
+}
 
 /* 返回顶部按钮 */
 #backTop { position: fixed; right: 18px; bottom: 18px; z-index: 20; opacity: 0; pointer-events: none; transition: opacity .2s ease; }

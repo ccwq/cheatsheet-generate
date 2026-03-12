@@ -184,10 +184,15 @@ function renderItems(items, tagGroupMap) {
 
     return [
       `<div class="card" data-tags="${tagsAttr}">`,
-      `  <h2>${icon}${title} <a class="link" href="${it.href}" target="_blank" rel="noopener">&gt;&gt;&gt;</a></h2>`,
-      desc ? `  <p class="desc">${desc}</p>` : '',
-      metaHtml ? `  ${metaHtml}` : '',
-      tagsHtml,
+      '  <div class="card-layout">',
+      `    <div class="card-icon-slot">${icon}</div>`,
+      '    <div class="card-content">',
+      `      <h2>${title} <a class="link" href="${it.href}" target="_blank" rel="noopener">&gt;&gt;&gt;</a></h2>`,
+      desc ? `      <p class="desc">${desc}</p>` : '',
+      metaHtml ? `      ${metaHtml}` : '',
+      tagsHtml ? `      ${tagsHtml}` : '',
+      '    </div>',
+      '  </div>',
       '</div>'
     ].filter(Boolean).join('\n');
   }).join('\n');
