@@ -1,0 +1,5 @@
+desc: 轻量级、直观的终端 Git 交互界面
+tags: ["CLI / Terminal", "CLI 工具", "版本控制", "命令行"]
+version: "0.40.2"
+github: "jesseduffield/lazygit"
+date: "2026-03-11"

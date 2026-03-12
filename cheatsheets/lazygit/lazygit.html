@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var mode = localStorage.getItem(key) || 'auto';
+      var resolved = mode;
+      if (resolved === 'auto') {
+        resolved = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>Lazygit 速查</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png">
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 420px; 
+      --gap: 16px;
+    }
+
+    .panel label {
+      color: var(--panel-accent);
+    }
+
+    .panel .title {
+      color: var(--panel-accent);
+    }
+
+    .card pre,
+    .card pre code[class^="language-"] {
+      font-size: 13px;
+      line-height: 1.2;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .card h2 {
+      font-size: 16px;
+    }
+
+    .card,
+    .card li,
+    .desc {
+      font-size: 14px;
+      line-height: 1.2;
+    }
+
+    .meta-link {
+      color: var(--text-link);
+    }
+
+    .meta-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <span class="title">Lazygit 速查</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label">版本</span><span class="meta-value">0.40.2</span></span>
+        <span class="meta-item"><span class="meta-label">更新日志</span><span class="meta-value">2026-03-11</span></span>
+        <span class="meta-item"><span class="meta-label">GitHub</span><span class="meta-value"><a class="meta-link" href="https://github.com/jesseduffield/lazygit" target="_blank" rel="noopener">jesseduffield/lazygit</a></span></span>
+      </div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <label class="toggle">🌓 主题
+        <select id="themeSelect" class="btn">
+          <option value="auto">自动 (系统)</option>
+          <option value="light">亮色</option>
+          <option value="dark">暗色</option>
+        </select>
+      </label>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>📦 安装</h2><div class="desc">emoji: 📦
+link: https://github.com/jesseduffield/lazygit#installation
+desc: 多平台安装方式</div><h3>macOS</h3><ul><li><code>brew install lazygit</code>：使用 Homebrew</li></ul><h3>Windows</h3><ul><li><code>scoop install lazygit</code>：使用 Scoop</li><li><code>winget install lazygit</code>：使用 Winget</li><li><code>choco install lazygit</code>：使用 Chocolatey</li></ul><h3>Linux</h3><ul><li><code>sudo pacman -S lazygit</code>：Arch Linux</li><li><code>dnf copr enable atim/lazygit</code> <code>dnf install lazygit</code>：Fedora</li><li><code>go install github.com/jesseduffield/lazygit@latest</code>：使用 Go (需要 Go 环境)</li></ul></div><div class="card"><h2>🧭 全局操作</h2><div class="desc">emoji: 🧭
+link: https://github.com/jesseduffield/lazygit/blob/master/docs/keybindings/Keybindings_en.md
+desc: 通用导航与控制</div><ul><li><code>q</code>：退出程序</li><li><code>x</code>：打开当前面板菜单</li><li><code>1</code> <code>5</code>：跳转面板 (状态/文件/分支/提交/贮藏)</li><li><code>[</code> <code>]</code>：面板内切换标签页</li><li><code>ctrl+p</code>：打开面板选择器</li><li><code>?</code>：查看全部快捷键</li><li><code>tab</code>：切换子视图 (如暂存/未暂存)</li><li><code>0</code>：快速聚焦主视图</li></ul></div><div class="card"><h2>📁 文件面板 (Files)</h2><div class="desc">emoji: 📁
+link: https://github.com/jesseduffield/lazygit/blob/master/docs/keybindings/Keybindings_en.md#files-panel
+desc: 管理暂存、提交与变更</div><ul><li><code>space</code>：切换文件暂存状态</li><li><code>a</code>：全选/全不选文件</li><li><code>c</code>：提交变更</li><li><code>C</code>：使用外部编辑器提交</li><li><code>d</code>：放弃文件变更菜单</li><li><code>e</code>：编辑文件</li><li><code>o</code>：打开文件</li><li><code>f</code>：获取远程更新 (Fetch)</li><li><code>p</code>：拉取更新 (Pull)</li><li><code>P</code>：推送更新 (Push)</li><li><code>s</code>：快捷贮藏全部变更 (Stash All)</li><li><code>S</code>：贮藏选项菜单</li></ul></div><div class="card"><h2>🌿 分支面板 (Branches)</h2><div class="desc">emoji: 🌿
+link: https://github.com/jesseduffield/lazygit/blob/master/docs/keybindings/Keybindings_en.md#branches-panel
+desc: 分支管理与集成</div><ul><li><code>space</code>：检出选定分支</li><li><code>n</code>：创建新分支</li><li><code>d</code>：删除分支</li><li><code>m</code>：合并到当前分支</li><li><code>M</code>：变基 (Rebase) 当前分支</li><li><code>R</code>：重命名分支</li><li><code>F</code>：强制检出 (Force checkout)</li><li><code>w</code>：打开工作树 (Worktree) 菜单</li></ul></div><div class="card"><h2>📝 提交面板 (Commits)</h2><div class="desc">emoji: 📝
+link: https://github.com/jesseduffield/lazygit/blob/master/docs/keybindings/Keybindings_en.md#commits-panel
+desc: 历史审计与交互式变基</div><ul><li><code>s</code>：压缩提交 (Squash)</li><li><code>f</code>：修正提交 (Fixup)</li><li><code>r</code>：修改提交信息 (Reword)</li><li><code>A</code>：修补最后一次提交 (Amend)</li><li><code>v</code>：撤销选定提交 (Revert)</li><li><code>g</code>：重置到该提交 (Reset)</li><li><code>t</code>：拣选提交 (Cherry-pick)</li><li><code>L</code>：查看日志 (Log)</li><li><code>i</code>：开始交互式变基 (Interactive Rebase)</li><li><code>ctrl+j</code> <code>ctrl+k</code>：移动提交位置 (变基中)</li><li><code>b</code>：打开 Bisect (二分查找) 菜单</li></ul></div><div class="card"><h2>⚡ 交互式变基详情</h2><div class="desc">emoji: ⚡
+desc: 在提交面板中的高级操作</div><ul><li><code>s</code>：Squash - 合并到下方提交并保留信息</li><li><code>f</code>：Fixup - 合并到下方提交并丢弃信息</li><li><code>d</code>：Drop - 删除该提交</li><li><code>r</code>：Reword - 重写提交信息</li><li><code>p</code>：Pick - 标记为拾取 (恢复删除或暂停的变基)</li><li><code>A</code>：Amend - 使用暂存区修改该提交</li><li><code>S</code>：Autosquash - 自动应用所有 fixup! 提交</li></ul></div><div class="card"><h2>🔍 块/行级暂存 (Patch Building)</h2><div class="desc">emoji: 🔍
+desc: 在文件上按回车进入细节视图</div><ul><li><code>enter</code>：进入文件细节视图</li><li><code>space</code>：暂存/取消暂存选中的行/块</li><li><code>a</code>：切换 块(Hunk) / 行(Line) 选择模式</li><li><code>v</code>：开启范围选择模式</li><li><code>d</code>：放弃选中的修改</li><li><code>E</code>：在外部编辑器中编辑该块</li></ul></div><div class="card"><h2>🤝 冲突解决</h2><div class="desc">emoji: 🤝
+desc: 优雅处理合并冲突</div><ul><li><code>space</code>：选择当前版本的代码块</li><li><code>b</code>：保留双方修改 (Pick Both)</li><li><code>up</code> <code>down</code>：在冲突间跳转</li><li><code>M</code>：更多合并选项菜单</li><li><code>z</code>：撤销上一个冲突选择</li></ul></div><div class="card"><h2>🛠️ 主界面/导航</h2><div class="desc">emoji: 🛠️
+desc: 通用操作与视口控制</div><ul><li><code>z</code>：撤销操作 (Undo) - 基于 Reflog</li><li><code>Z</code>：重做操作 (Redo)</li><li><code>H</code> <code>L</code>：左右滚动主视图</li><li><code>ctrl+u</code> <code>ctrl+d</code>：向上/下滚动</li><li><code>/</code>：在当前面板内搜索</li><li><code>ctrl+s</code>：打开高级过滤 (Author, Path, Message)</li></ul></div><div class="card"><h2>⚙️ 常用自定义命令</h2><div class="desc">emoji: ⚙️
+link: https://github.com/jesseduffield/lazygit/wiki/Custom-Commands-Compendium
+desc: config.yml 实用配置</div><pre><code class="language-yaml">customCommands:
+  - key: &quot;f&quot;
+    context: &quot;files&quot;
+    command: &quot;git difftool {{.SelectedFile.Name}}&quot;
+    description: &quot;使用工具对比&quot;
+  - key: &quot;b&quot;
+    context: &quot;branches&quot;
+    command: &quot;git checkout {{.SelectedBranch.Name}} -- {{.SelectedFile.Name}}&quot;
+    description: &quot;从分支检出该文件&quot;</code></pre></div>
+    </div>
+  </div>
+
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>
