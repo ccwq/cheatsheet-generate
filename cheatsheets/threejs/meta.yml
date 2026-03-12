@@ -1,11 +1,5 @@
-desc: Three.js 引擎速查，聚焦 3D 场景、材质与动画的核心用法。包含最新WebGPU渲染器、TSL着色语言、Node材质系统、物理引擎集成等新特性。
-tags:
-  - 3D
-  - JavaScript
-  - Library
-  - Visualization
-  - Web
-  - 开发
-version: unknown
+desc: three.js 场景开发速览，覆盖场景骨架、材质纹理、加载器、交互、后处理与性能治理。
+tags: ["Web 前端", "JavaScript", "3D / 图形", "图形 / 可视化", "开发", "库 / SDK"]
+version: "0.180.0"
 github: mrdoob/three.js
 date: "2025-11-17"
