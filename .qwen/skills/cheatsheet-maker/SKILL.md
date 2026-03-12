@@ -54,8 +54,8 @@ description: 创建、整理、重建技术速查表（Cheatsheet）源文件的
 - `date` 使用 `YYYY-MM-DD`
 
 ** data字段处理的逻辑 **
-- 如果存在github和版本, 需要从github调查版本发布的日期, 写入`date`
-- 如果不存在版本, 则写入则根据搜索信息以及你自身的知识库推断获得
+- 如果<topic>存在github仓库和版本, 需要从github仓库调查版本发布的日期, 写入`date`
+- 如果不存在github仓库和version, 则根据搜索信息以及你自身的知识库推断获得
 
 
 ### `refmap.md`
