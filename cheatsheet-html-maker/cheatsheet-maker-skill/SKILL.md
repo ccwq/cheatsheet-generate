@@ -1,6 +1,6 @@
 ---
 name: cheatsheet-maker
-description: 创建、整理、重建技术速查表（Cheatsheet）源文件的技能。用于从主题、正文或网址采集资料并生成或改进 cheatsheets/<topic>/ 下的 <topic>.md、meta.yml、refmap.md；也用于补齐或批量附加缺失的 icon.png、补全标签与元数据，且仅在需要时调用 HTML 生成器，不直接把 HTML 产出当作本技能核心职责。
+description: 创建、整理、重建技术速查表（Cheatsheet）源文件的技能。用于从主题、正文或网址采集资料并生成或改进 cheatsheets/主题目录 下的主题.md、meta.yml、refmap.md；也用于补齐或批量附加缺失的 icon.png、补全标签与元数据，且仅在需要时调用 HTML 生成器，不直接把 HTML 产出当作本技能核心职责。
 ---
 
 # cheatsheet-maker
