@@ -4,6 +4,6 @@ tags:
   - DevOps
   - VersionControl
   - 开发
-version: unknown
+version: "2.49.0"
 github: git/git
-date: "2025-11-17"
+date: "2026-03-12"
