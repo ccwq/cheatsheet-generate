@@ -127,12 +127,39 @@
 .search::placeholder { color:var(--input-placeholder) }
 .btn { cursor: pointer; padding: 6px 10px; border-radius: 8px; border: none; background:var(--input-bg); color:var(--input-text); }
 .toggle { display:inline-flex; align-items:center; gap:6px; color:var(--text-secondary); font-weight:600; }
+.toggle-group { gap: 8px; }
 .toggle input { accent-color: var(--text-link); }
 .stats { color:var(--text-link); font-weight:600; }
 .presets { display:inline-flex; gap:6px; }
 .preset { cursor:pointer; padding:4px 8px; border-radius:999px; border:1px solid var(--interactive-muted-border); background:var(--input-bg); color:var(--text-primary); }
 [data-theme="light"] .preset { border: 1px solid var(--interactive-muted-border); }
 .preset:hover { border-color:var(--text-link); }
+.segmented-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  background: var(--input-bg);
+}
+.segmented-toggle__btn {
+  cursor: pointer;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--input-text);
+  font-weight: 600;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.segmented-toggle__btn:hover {
+  background: var(--interactive-hover-bg);
+  color: var(--interactive-hover-text);
+}
+.segmented-toggle__btn.is-active {
+  background: var(--brand-primary-strong);
+  color: var(--interactive-hover-text);
+}
 
 /* 多列容器：支持列宽调节 */
 .cheat-columns { column-count: 4; column-gap: 16px; margin-top: 12px; transition: column-width 0.2s ease; column-width: 340px; }

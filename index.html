@@ -81,13 +81,14 @@
             <option value="date-old">日期：最旧</option>
           </select>
         </label>
-        <label class="toggle">🌓 主题
-          <select id="themeSelect" class="btn">
-            <option value="auto">自动 (系统)</option>
-            <option value="light">亮色</option>
-            <option value="dark">暗色</option>
-          </select>
-        </label>
+        <div class="toggle toggle-group" aria-label="主题切换">
+          <span>🌓 主题</span>
+          <div id="themeToggle" class="segmented-toggle" role="group" aria-label="主题模式">
+            <button type="button" class="segmented-toggle__btn" data-theme-mode="auto">自动</button>
+            <button type="button" class="segmented-toggle__btn" data-theme-mode="light">亮色</button>
+            <button type="button" class="segmented-toggle__btn" data-theme-mode="dark">暗色</button>
+          </div>
+        </div>
         <span id="stats" class="stats"></span>
       </div>
       <div id="columns" class="cheat-columns">

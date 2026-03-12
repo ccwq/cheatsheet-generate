@@ -157,6 +157,8 @@ function initDetailShortcuts() {
 function initTheme() {
   var key = 'theme-mode';
   var root = document.documentElement;
+  var themeToggle = document.getElementById('themeToggle');
+  var themeButtons = themeToggle ? Array.prototype.slice.call(themeToggle.querySelectorAll('[data-theme-mode]')) : [];
 
   function getMode() {
     try {
@@ -171,6 +173,20 @@ function initTheme() {
       localStorage.setItem(key, mode);
     } catch (e) {}
     applyTheme();
+  }
+
+  function syncThemeControls(mode) {
+    var themeSel = document.getElementById('themeSelect');
+
+    if (themeSel) {
+      themeSel.value = mode;
+    }
+
+    themeButtons.forEach(function(btn) {
+      var active = btn.getAttribute('data-theme-mode') === mode;
+      btn.classList.toggle('is-active', active);
+      btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
   }
 
   function applyTheme() {
@@ -193,6 +209,8 @@ function initTheme() {
     var themeColor = getComputedStyle(root).getPropertyValue('--theme-color-meta').trim();
     var meta = document.querySelector('meta[name="theme-color"]');
     if (meta) meta.setAttribute('content', themeColor);
+
+    syncThemeControls(mode);
 
     // 触发自定义事件，通知页面更新 UI
     window.dispatchEvent(new CustomEvent('theme-changed', { detail: { mode: mode, resolved: resolved } }));
@@ -225,6 +243,17 @@ function initTheme() {
     });
     window.addEventListener('theme-changed', function(e) {
       themeSel.value = e.detail.mode;
+    });
+  }
+
+  if (themeButtons.length > 0) {
+    themeButtons.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        setMode(btn.getAttribute('data-theme-mode') || 'auto');
+      });
+    });
+    window.addEventListener('theme-changed', function(e) {
+      syncThemeControls(e.detail.mode);
     });
   }
 }

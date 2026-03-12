@@ -3,19 +3,7 @@
         var search = $('#searchBox');
         var stats = $('#stats');
         var sortSel = document.getElementById('sortSelect');
-        var themeSel = document.getElementById('themeSelect');
-
-        // 主题切换逻辑
-        if (themeSel && window.__themeManager) {
-          themeSel.value = window.__themeManager.getMode();
-          themeSel.addEventListener('change', function() {
-            window.__themeManager.setMode(themeSel.value);
-          });
-          // 监听外部变化（比如系统主题变化或其它脚本修改）
-          window.addEventListener('theme-changed', function(e) {
-            themeSel.value = e.detail.mode;
-          });
-        }
+        var sortKey = 'nav_sort_mode';
 
         // 为每张卡自动添加 copy 按钮
         function enhanceCards() {
@@ -161,6 +149,23 @@
           if (columns) columns.appendChild(frag);
         }
 
+        function initSortMode() {
+          if (!sortSel) return 'name-asc';
+
+          var savedOrder = '';
+          try {
+            savedOrder = localStorage.getItem(sortKey) || '';
+          } catch (e) {}
+
+          if (savedOrder && Array.from(sortSel.options).some(function(option) {
+            return option.value === savedOrder;
+          })) {
+            sortSel.value = savedOrder;
+          }
+
+          return sortSel.value || 'name-asc';
+        }
+
         // 快捷键：按 / 聚焦搜索，Esc 清空
         // 全局键盘输入即搜索（无需先点到输入框）
         (function(){
@@ -241,7 +246,15 @@
         })();
         // 输入防抖
         var tId; search.addEventListener('input', function(){ clearTimeout(tId); tId=setTimeout(function(){ filterCards(search.value); }, 100); });
-        if (sortSel) sortSel.addEventListener('change', function(){ sortCards(sortSel.value); filterCards(search.value); });
+        if (sortSel) {
+          sortSel.addEventListener('change', function(){
+            try {
+              localStorage.setItem(sortKey, sortSel.value);
+            } catch (e) {}
+            sortCards(sortSel.value);
+            filterCards(search.value);
+          });
+        }
 
         // 首次增强 + 初始化统计
         enhanceCards();
@@ -303,7 +316,7 @@
           });
         })();
 
-        if (sortSel) sortCards(sortSel.value);
+        if (sortSel) sortCards(initSortMode());
         filterCards('');
         // 注意：openLinkMode, columnWidth, backTop 由 common.js 初始化
 
