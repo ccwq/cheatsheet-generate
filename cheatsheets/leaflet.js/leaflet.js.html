@@ -14,7 +14,7 @@
       document.documentElement.setAttribute('data-theme', resolved);
     })();
   </script>
-  <title>Leaflet.js交互式地图开发速查提示词</title>
+  <title>Leaflet.js交互式地图开发速查</title>
   <link rel="stylesheet" href="../../assets/variables.css">
   <link rel="stylesheet" href="../../assets/global.css">
   <link rel="stylesheet" href="../../assets/cheatsheet.css">
@@ -70,11 +70,11 @@
 <body>
   <div class="container">
     <div class="panel">
-      <span class="title">Leaflet.js交互式地图开发速查提示词</span>
+      <span class="title">Leaflet.js交互式地图开发速查</span>
       <!-- META_INFO_START -->
       <div class="meta-info">
         <span class="meta-item"><span class="meta-label">版本</span><span class="meta-value">1.9.4</span></span>
-        <span class="meta-item"><span class="meta-label">更新日志</span><span class="meta-value">2025-11-14</span></span>
+        <span class="meta-item"><span class="meta-label">更新日志</span><span class="meta-value">2023-05-18</span></span>
         <span class="meta-item"><span class="meta-label">GitHub</span><span class="meta-value"><a class="meta-link" href="https://github.com/Leaflet/Leaflet" target="_blank" rel="noopener">Leaflet/Leaflet</a></span></span>
       </div>
       <!-- META_INFO_END -->
@@ -91,7 +91,514 @@
       </label>
     </div>
     <div class="cheat-columns" id="columns">
-      <div class="card"><h2>地图初始化</h2><div class="desc">L.map(&#39;mapId&#39;, {center: [lat, lng], zoom: level, zoomControl: true, scrollWheelZoom: true, dragging: true, keyboard: true, touchZoom: true, doubleClickZoom: true, boxZoom: true, minZoom: 1, maxZoom: 18, maxBounds: bounds})</div></div><div class="card"><h2>视图控制</h2><div class="desc">map.setView([lat, lng], zoom), map.setZoom(zoom), map.zoomIn(delta), map.zoomOut(delta), map.panTo([lat, lng]), map.flyTo([lat, lng], zoom, {duration: 2}), map.fitBounds(bounds, {padding: [20, 20]}), map.setMaxBounds(bounds)</div></div><div class="card"><h2>瓦片图层</h2><div class="desc">L.tileLayer(&#39;https://{s}.domain.com/{z}/{x}/{y}.png&#39;, {attribution: &#39;© attribution&#39;, maxZoom: 19, subdomains: [&#39;a&#39;,&#39;b&#39;,&#39;c&#39;], opacity: 1.0, zIndex: 1}), L.tileLayer.wms(url, {layers: &#39;layer_name&#39;, format: &#39;image/png&#39;, transparent: true, version: &#39;1.1.1&#39;})</div></div><div class="card"><h2>标记系统</h2><div class="desc">L.marker([lat, lng], {icon: L.icon({iconUrl: &#39;url&#39;, iconSize: [25, 41], iconAnchor: [12, 41]}), draggable: true, title: &#39;标题&#39;, alt: &#39;描述&#39;, opacity: 1.0}).addTo(map), L.divIcon({html: &#39;HTML内容&#39;, className: &#39;class&#39;, iconSize: [30, 42]})</div></div><div class="card"><h2>弹窗提示</h2><div class="desc">L.popup({maxWidth: 300, autoPan: true, closeButton: true, autoClose: true, className: &#39;custom-popup&#39;}).setLatLng([lat, lng]).setContent(&#39;内容&#39;).openOn(map), marker.bindPopup(&#39;内容&#39;), marker.bindTooltip(&#39;提示&#39;, {permanent: false, direction: &#39;auto&#39;, sticky: false, opacity: 0.9})</div></div><div class="card"><h2>几何图形</h2><div class="desc">L.polyline([[lat, lng], ...], {color: &#39;#ff7800&#39;, weight: 3, opacity: 1, fillColor: &#39;#ff7800&#39;, fillOpacity: 0.5, dashArray: &#39;5,10&#39;}), L.polygon([[lat, lng], ...], options), L.circle([lat, lng], {color: &#39;red&#39;, fillColor: &#39;#f03&#39;, fillOpacity: 0.5, radius: 500}), L.circleMarker([lat, lng], {radius: 10}), L.rectangle([[lat, lng], [lat, lng]], options)</div></div><div class="card"><h2>事件处理</h2><div class="desc">map.on(&#39;click dblclick mousedown mouseup mouseover mouseout movestart move moveend zoomstart zoomend layeradd layerremove&#39;, handler), map.off(&#39;event&#39;, handler), map.fire(&#39;event&#39;, data), marker.on(&#39;click dblclick dragstart drag dragend mouseover mouseout&#39;, handler)</div></div><div class="card"><h2>控件系统</h2><div class="desc">L.control.zoom({position: &#39;topleft&#39;, zoomInText: &#39;+&#39;, zoomOutText: &#39;-&#39;}).addTo(map), L.control.scale({position: &#39;bottomleft&#39;, maxWidth: 100, metric: true, imperial: true}).addTo(map), L.control.attribution({position: &#39;bottomright&#39;, prefix: &#39;Leaflet&#39;}).addTo(map), L.control.layers(baseLayers, overlays, {position: &#39;topright&#39;, collapsed: true}).addTo(map)</div></div><div class="card"><h2>GeoJSON处理</h2><div class="desc">L.geoJSON(data, {style: function(feature){return {color: feature.properties.color, weight: 2, fillOpacity: 0.6}}, pointToLayer: function(feature, latlng){return L.circleMarker(latlng, {radius: 8, fillColor: &#39;#ff7800&#39;})}, onEachFeature: function(feature, layer){layer.bindPopup(feature.properties.name)}, filter: function(feature){return feature.properties.show !== false}})</div></div><div class="card"><h2>图层组管理</h2><div class="desc">L.layerGroup([layer1, layer2]), L.featureGroup([layer1, layer2]), group.addLayer(layer), group.removeLayer(layer), group.clearLayers(), group.eachLayer(function(layer){console.log(layer)}), map.addLayer(group), map.removeLayer(group)</div></div><div class="card"><h2>坐标系统</h2><div class="desc">L.latLng(lat, lng), L.latLngBounds(corner1, corner2), L.CRS.EPSG3857, L.CRS.EPSG4326, L.CRS.Simple, map.latLngToLayerPoint(latlng), map.latLngToContainerPoint(latlng), latlng.distanceTo(latlng2), bounds.getCenter(), bounds.contains(latlng)</div></div><div class="card"><h2>插件扩展</h2><div class="desc">L.markerClusterGroup({chunkedLoading: true, maxClusterRadius: 80, spiderfyOnMaxZoom: true}), L.heatLayer([[lat, lng, intensity], ...], {radius: 25, blur: 15, maxZoom: 17}), L.Control.Draw({edit: {featureGroup: group}, draw: {polygon: true, polyline: true, circle: true}})</div></div><div class="card"><h2>性能优化</h2><div class="desc">preferCanvas: true, renderer: L.canvas(), updateWhenIdle: false, 分批加载大量标记, 视图范围内标记管理, requestAnimationFrame优化动画, 大数据使用Canvas渲染器, 标记聚合优化</div></div><div class="card"><h2>移动端适配</h2><div class="desc">tap: true, tapTolerance: 15, touchZoom: true, bounceAtZoomLimits: false, zoomSnap: 1, zoomDelta: 1, wheelDebounceTime: 40, wheelPxPerZoomLevel: 60, L.Browser.mobile检测, resize和orientationchange事件处理</div></div><div class="card"><h2>实用工具</h2><div class="desc">map.getCenter(), map.getZoom(), map.getBounds(), map.getSize(), map.hasLayer(layer), map.eachLayer(callback), L.DomUtil.create(&#39;div&#39;, &#39;class&#39;, parent), L.DomEvent.on(element, &#39;click&#39;, handler), L.Util.stamp(obj), L.Util.extend(dest, src), L.Util.bind(fn, obj), L.Util.template(&#39;Hello {name}!&#39;, {name: &#39;World&#39;})</div></div><div class="card"><h2>调试测试</h2><div class="desc">map.on(&#39;all events&#39;, console.log), performance.now()计时, performance.memory监控, map.eachLayer(function(layer){console.log(layer.constructor.name, map.hasLayer(layer))}), 图层状态检查, 事件流调试</div></div>
+      <div class="card"><h2>🗺 地图初始化 <a href="https://leafletjs.com/reference.html#map-constructor" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">创建地图实例</div><pre><code class="language-javascript">// 通过DOM ID创建
+var map = L.map(&#39;mapId&#39;).setView([51.505, -0.09], 13)
+
+// 通过HTMLElement创建
+var map = L.map(document.getElementById(&#39;map&#39;), {
+    center: [51.505, -0.09],
+    zoom: 13,
+    preferCanvas: true,
+    zoomControl: false
+})</code></pre><ul><li><code>L.map()</code>：创建地图实例</li><li><code>setView()</code>：设置中心点和缩放级别</li><li><code>preferCanvas: true</code>：使用Canvas渲染提升性能</li></ul><h3>地图Pane</h3><ul><li><code>mapPane</code>：包含所有其他map pane</li><li><code>tilePane</code>：GridLayers和TileLayers (z-index: 200)</li><li><code>overlayPane</code>：矢量图层 (z-index: 400)</li><li><code>shadowPane</code>：阴影 (z-index: 500)</li><li><code>markerPane</code>：标记图标 (z-index: 600)</li><li><code>tooltipPane</code>：提示 (z-index: 650)</li><li><code>popupPane</code>：弹窗 (z-index: 700)</li></ul></div><div class="card"><h2>🎯 视图控制 <a href="https://leafletjs.com/reference.html#map-methods-for-modifying-map-state" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">地图视图操作方法</div><pre><code class="language-javascript">// 视图设置
+map.setView([lat, lng], zoom)
+map.setZoom(zoom)
+
+// 缩放控制
+map.zoomIn()
+map.zoomOut()
+map.zoomIn(delta)
+map.zoomOut(delta)
+
+// 缩放并保持点固定
+map.setZoomAround(latlng, zoom)
+map.setZoomAround(offsetPoint, zoom)
+
+// 平移动画
+map.panTo([lat, lng])
+map.panBy(point)
+map.flyTo([lat, lng], zoom)
+
+// 边界控制
+map.fitBounds(bounds)
+map.fitWorld()
+map.setMaxBounds(bounds)
+map.setMinZoom(zoom)
+map.setMaxZoom(zoom)
+map.panInsideBounds(bounds)
+map.panInside(latlng)
+
+// 停止动画
+map.stop()</code></pre></div><div class="card"><h2>🧱 瓦片图层 <a href="https://leafletjs.com/reference.html#tilelayer" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">加载地图瓦片服务</div><pre><code class="language-javascript">// 标准瓦片图层
+L.tileLayer(&#39;https://tile.openstreetmap.org/{z}/{x}/{y}.png&#39;, {
+    maxZoom: 19,
+    attribution: &#39;&amp;copy; OpenStreetMap&#39;,
+    subdomains: [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;],
+    opacity: 1.0,
+    zIndex: 1
+}).addTo(map)
+
+// 视网膜屏幕支持
+L.tileLayer(url, {
+    detectRetina: true,
+    maxZoom: 19
+})
+
+// 自定义URL参数
+L.tileLayer(&#39;https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png?{foo}&#39;, {
+    foo: &#39;bar&#39;
+})
+
+// 瓦片范围限制
+L.tileLayer(url, {
+    bounds: [[lat1, lng1], [lat2, lng2]],
+    minZoom: 5,
+    maxZoom: 15
+})</code></pre><h3>TileLayer.WMS</h3><pre><code class="language-javascript">L.tileLayer.wms(&#39;http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi&#39;, {
+    layers: &#39;nexrad-n0r-900913&#39;,
+    format: &#39;image/png&#39;,
+    transparent: true,
+    version: &#39;1.1.1&#39;,
+    uppercase: true
+}).addTo(map)</code></pre><h3>GridLayer 选项</h3><pre><code class="language-javascript">L.tileLayer(url, {
+    tileSize: 256,
+    updateWhenIdle: true,
+    updateWhenZooming: false,
+    updateInterval: 200,
+    zIndex: 1,
+    maxNativeZoom: 18,
+    minNativeZoom: 0,
+    noWrap: false,
+    keepBuffer: 2
+})</code></pre></div><div class="card"><h2>📍 标记系统 <a href="https://leafletjs.com/reference.html#marker" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">添加标记</div><pre><code class="language-javascript">// 基础标记
+L.marker([51.5, -0.09]).addTo(map)
+
+// 带弹窗
+L.marker([51.5, -0.09]).bindPopup(&#39;Hello&#39;).addTo(map)
+
+// 可拖拽标记
+L.marker([51.5, -0.09], {
+    draggable: true,
+    autoPan: true,
+    autoPanPadding: [50, 50],
+    autoPanSpeed: 10
+}).addTo(map)
+
+// 自定义图标
+var icon = L.icon({
+    iconUrl: &#39;marker-icon.png&#39;,
+    iconRetinaUrl: &#39;marker-icon-2x.png&#39;,
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowUrl: &#39;marker-shadow.png&#39;,
+    shadowSize: [41, 41],
+    shadowAnchor: [12, 41]
+})
+L.marker([lat, lng], {icon: icon}).addTo(map)
+
+// DivIcon
+L.divIcon({
+    html: &#39;&lt;div&gt;HTML内容&lt;/div&gt;&#39;,
+    className: &#39;custom-icon&#39;,
+    iconSize: [30, 30],
+    iconAnchor: [15, 15]
+})</code></pre><h3>Marker 选项</h3><pre><code class="language-javascript">L.marker([lat, lng], {
+    icon: L.Icon.Default,
+    keyboard: true,
+    title: &#39;提示文本&#39;,
+    alt: &#39;Marker&#39;,
+    zIndexOffset: 0,
+    opacity: 1.0,
+    riseOnHover: false,
+    riseOffset: 250,
+    pane: &#39;markerPane&#39;,
+    bubblingMouseEvents: false,
+    autoPanOnFocus: true
+})</code></pre><h3>Marker 方法</h3><pre><code class="language-javascript">marker.setLatLng([lat, lng])
+marker.setZIndexOffset(1000)
+marker.setIcon(icon)
+marker.setOpacity(0.8)
+marker.getLatLng()
+marker.getIcon()
+marker.toGeoJSON()</code></pre></div><div class="card"><h2>💬 弹窗 <a href="https://leafletjs.com/reference.html#popup" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">弹出框</div><pre><code class="language-javascript">// 创建弹窗
+L.popup().setLatLng([51.5, -0.09]).setContent(&#39;内容&#39;).addTo(map)
+
+// 快捷方式
+map.bindPopup(&#39;内容&#39;)
+marker.bindPopup(&#39;Hello&#39;, {maxWidth: 200})</code></pre><h3>Popup 选项</h3><pre><code class="language-javascript">L.popup({
+    maxWidth: 300,
+    minWidth: 50,
+    maxHeight: null,
+    autoPan: true,
+    autoPanPaddingTopLeft: null,
+    autoPanPaddingBottomRight: null,
+    autoPanPadding: [5, 5],
+    keepInView: false,
+    closeButton: true,
+    autoClose: true,
+    closeOnEscapeKey: true,
+    closeOnClick: undefined,
+    className: &#39;&#39;
+})</code></pre><h3>Popup 方法</h3><pre><code class="language-javascript">popup.setLatLng(latlng)
+popup.setContent(htmlContent)
+popup.getLatLng()
+popup.getContent()
+popup.getElement()
+popup.update()
+popup.isOpen()
+popup.bringToFront()
+popup.bringToBack()
+popup.openOn(map)
+popup.close()
+popup.toggle()</code></pre></div><div class="card"><h2>💡 提示 <a href="https://leafletjs.com/reference.html#tooltip" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">工具提示</div><pre><code class="language-javascript">// 创建提示
+L.tooltip().setLatLng([51.5, -0.09]).setContent(&#39;提示&#39;).addTo(map)
+
+// 快捷方式
+marker.bindTooltip(&#39;提示文本&#39;)
+polyline.bindTooltip(&#39;提示&#39;, {direction: &#39;center&#39;})</code></pre><h3>Tooltip 选项</h3><pre><code class="language-javascript">L.tooltip({
+    pane: &#39;tooltipPane&#39;,
+    offset: [0, 0],
+    direction: &#39;auto&#39;,
+    permanent: false,
+    sticky: false,
+    opacity: 0.9
+})</code></pre><h3>Direction 值</h3><ul><li><code>right</code> <code>left</code> <code>top</code> <code>bottom</code> <code>center</code> <code>auto</code></li></ul></div><div class="card"><h2>⬜ 几何图形 <a href="https://leafletjs.com/reference.html#path" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">矢量图形</div><h3>Polyline</h3><pre><code class="language-javascript">L.polyline([
+    [45.51, -122.68],
+    [37.77, -122.43],
+    [34.04, -118.24]
+], {
+    color: &#39;#ff7800&#39;,
+    weight: 3,
+    opacity: 1,
+    smoothFactor: 1.0,
+    noClip: false,
+    lineCap: &#39;round&#39;,
+    lineJoin: &#39;round&#39;,
+    dashArray: null,
+    dashOffset: null,
+    fillColor: undefined,
+    fillOpacity: 0.2,
+    fillRule: &#39;evenodd&#39;
+}).addTo(map)</code></pre><h3>Polygon</h3><pre><code class="language-javascript">L.polygon([
+    [[lat1, lng1], [lat2, lng2], [lat3, lng3]]
+], options).addTo(map)</code></pre><h3>Rectangle</h3><pre><code class="language-javascript">L.rectangle([[lat1, lng1], [lat2, lng2]], {
+    color: &#39;#ff7800&#39;,
+    fillColor: &#39;#f03&#39;,
+    fillOpacity: 0.5
+}).addTo(map)</code></pre><h3>Circle</h3><pre><code class="language-javascript">L.circle([51.508, -0.11], {
+    color: &#39;red&#39;,
+    fillColor: &#39;#f03&#39;,
+    fillOpacity: 0.5,
+    radius: 500
+}).addTo(map)</code></pre><h3>CircleMarker</h3><pre><code class="language-javascript">L.circleMarker([51.508, -0.11], {
+    radius: 10,
+    fillColor: &#39;#ff7800&#39;,
+    color: &#39;#ff7800&#39;,
+    weight: 1,
+    opacity: 1,
+    fillOpacity: 0.8
+}).addTo(map)</code></pre></div><div class="card"><h2>🗂 图层叠加 <a href="https://leafletjs.com/reference.html#imageoverlay" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><h3>ImageOverlay</h3><pre><code class="language-javascript">L.imageOverlay(&#39;image.jpg&#39;, [[40.7, -74.2], [40.8, -74.0]], {
+    opacity: 0.8,
+    alt: &#39;图像描述&#39;,
+    interactive: false,
+    crossOrigin: false,
+    errorOverlayUrl: &#39;error.png&#39;,
+    zIndex: 1,
+    className: &#39;&#39;
+}).addTo(map)</code></pre><h3>VideoOverlay</h3><pre><code class="language-javascript">L.videoOverlay(&#39;video.webm&#39;, bounds, {
+    autoplay: true,
+    loop: true,
+    muted: false,
+    playsInline: true
+}).addTo(map)</code></pre><h3>SVGOverlay</h3><pre><code class="language-javascript">var svgElement = document.createElementNS(&quot;http://www.w3.org/2000/svg&quot;, &quot;svg&quot;)
+svgElement.setAttribute(&#39;viewBox&#39;, &quot;0 0 200 200&quot;)
+L.svgOverlay(svgElement, bounds).addTo(map)</code></pre></div><div class="card"><h2>⚡ 事件处理 <a href="https://leafletjs.com/reference.html#events" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">事件监听</div><pre><code class="language-javascript">// 添加监听
+map.on(&#39;click&#39;, function(e) {
+    console.log(e.latlng)
+})
+map.on({
+    click: handler,
+    dblclick: handler,
+    mousedown: handler,
+    mouseup: handler,
+    mouseover: handler,
+    mouseout: handler,
+    mousemove: handler
+}, handler)
+
+// 移除监听
+map.off(&#39;click&#39;, handler)
+map.off(&#39;click&#39;)
+
+// 只触发一次
+map.once(&#39;click&#39;, handler)
+
+// 触发事件
+map.fire(&#39;click&#39;, {latlng: ...})
+
+// 检查监听
+map.listens(&#39;click&#39;)
+
+// 事件传播
+layer.addEventParent(parent)
+layer.removeEventParent(parent)</code></pre><h3>常用事件类型</h3><ul><li><code>click</code> <code>dblclick</code> <code>mousedown</code> <code>mouseup</code></li><li><code>mouseover</code> <code>mouseout</code> <code>mousemove</code></li><li><code>contextmenu</code> <code>preclick</code></li><li><code>movestart</code> <code>move</code> <code>moveend</code></li><li><code>zoomstart</code> <code>zoom</code> <code>zoomend</code></li><li><code>layeradd</code> <code>layerremove</code></li><li><code>popupopen</code> <code>popupclose</code></li><li><code>tooltipopen</code> <code>tooltipclose</code></li><li><code>load</code> <code>unload</code> <code>viewreset</code></li></ul><h3>Marker 拖拽事件</h3><pre><code class="language-javascript">marker.on(&#39;dragstart&#39;, handler)
+marker.on(&#39;movestart&#39;, handler)
+marker.on(&#39;drag&#39;, handler)
+marker.on(&#39;dragend&#39;, handler)
+marker.on(&#39;moveend&#39;, handler)</code></pre></div><div class="card"><h2>🎛 控件 <a href="https://leafletjs.com/reference.html#control" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><h3>Zoom</h3><pre><code class="language-javascript">L.control.zoom({
+    position: &#39;topleft&#39;,
+    zoomInText: &#39;+&#39;,
+    zoomInTitle: &#39;放大&#39;,
+    zoomOutText: &#39;-&#39;,
+    zoomOutTitle: &#39;缩小&#39;
+}).addTo(map)</code></pre><h3>Scale</h3><pre><code class="language-javascript">L.control.scale({
+    position: &#39;bottomleft&#39;,
+    maxWidth: 100,
+    metric: true,
+    imperial: true,
+    updateWhenIdle: false
+}).addTo(map)</code></pre><h3>Attribution</h3><pre><code class="language-javascript">L.control.attribution({
+    position: &#39;bottomright&#39;,
+    prefix: &#39;Leaflet&#39;
+}).addTo(map)
+
+layer.bindAttribution(&#39;&amp;copy; Provider&#39;)</code></pre><h3>Layers</h3><pre><code class="language-javascript">L.control.layers(baseLayers, overlays, {
+    position: &#39;topright&#39;,
+    collapsed: true,
+    hideSingleBase: false,
+    sortLayers: false,
+    sortFunction: function(a, b) { return a.name - b.name }
+}).addTo(map)</code></pre><h3>自定义控件</h3><pre><code class="language-javascript">L.Control.extend({
+    options: {
+        position: &#39;topright&#39;
+    },
+    onAdd: function(map) {
+        var div = L.DomUtil.create(&#39;div&#39;, &#39;my-control&#39;)
+        div.innerHTML = &#39;Custom Control&#39;
+        return div
+    },
+    onRemove: function(map) {}
+})</code></pre></div><div class="card"><h2>📊 GeoJSON <a href="https://leafletjs.com/reference.html#geojson" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">处理 GeoJSON 数据</div><pre><code class="language-javascript">// 加载GeoJSON
+L.geoJSON(data, {
+    style: function(feature) {
+        return {color: feature.properties.color, weight: 2}
+    },
+    pointToLayer: function(feature, latlng) {
+        return L.circleMarker(latlng, {radius: 8})
+    },
+    onEachFeature: function(feature, layer) {
+        layer.bindPopup(feature.properties.name)
+    },
+    filter: function(feature) {
+        return feature.properties.show !== false
+    }
+}).addTo(map)
+
+// 转换为GeoJSON
+geoJSONLayer.toGeoJSON()
+
+// 添加数据
+geoJSONLayer.addData(geoJsonObject)</code></pre></div><div class="card"><h2>👥 图层组 <a href="https://leafletjs.com/reference.html#layergroup" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><h3>LayerGroup</h3><pre><code class="language-javascript">var group = L.layerGroup([layer1, layer2])
+group.addTo(map)
+group.addLayer(layer)
+group.removeLayer(layer)
+group.clearLayers()
+group.eachLayer(function(layer) {})</code></pre><h3>FeatureGroup</h3><pre><code class="language-javascript">var group = L.featureGroup([layer1, layer2])
+group.addTo(map)
+
+// 自动绑定弹出框
+group.bindPopup(&#39;All in one&#39;).openPopup()
+
+// 获取bounds
+map.fitBounds(group.getBounds())</code></pre></div><div class="card"><h2>📐 坐标系统 <a href="https://leafletjs.com/reference.html#crs" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">坐标参考系统</div><pre><code class="language-javascript">// CRS
+L.CRS.EPSG3857    // Web Mercator (默认)
+L.CRS.EPSG4326    // WGS84
+L.CRS.Simple      // 平面坐标
+L.CRS.EPSG3395    // WGS84球体
+
+// 创建坐标
+L.latLng(lat, lng)
+L.latLngBounds(corner1, corner2)
+L.latLngBounds(corner1, corner2)
+
+// 坐标转换
+map.latLngToLayerPoint(latlng)
+map.latLngToContainerPoint(latlng)
+map.containerPointToLatLng(point)
+map.layerPointToLatLng(point)
+map.latLngToGPS(latlng)
+
+// 距离计算
+latlng.distanceTo(latlng2)
+
+// Bounds操作
+bounds.getCenter()
+bounds.contains(latlng)
+bounds.intersects(otherBounds)
+bounds.isValid()
+bounds.pad(buffer)
+
+// 坐标包装
+map.wrapLatLng(latlng)
+map.wrapLatLngBounds(bounds)
+
+// 投影
+map.project(latlng, zoom)
+map.unproject(point, zoom)</code></pre></div><div class="card"><h2>🔌 插件扩展 <a href="https://leafletjs.com/plugins" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">常用插件</div><h3>MarkerCluster</h3><pre><code class="language-javascript">L.markerClusterGroup({
+    chunkedLoading: true,
+    maxClusterRadius: 80,
+    spiderfyOnMaxZoom: true,
+    showCoverageOnHover: true,
+    zoomToBoundsOnClick: true,
+    disableClusteringAtZoom: 18
+}).addLayers(markers).addTo(map)</code></pre><h3>Leaflet.draw</h3><pre><code class="language-javascript">L.Control.Draw({
+    edit: {
+        featureGroup: drawnItems
+    },
+    draw: {
+        polygon: true,
+        polyline: true,
+        circle: true,
+        rectangle: true,
+        marker: true,
+        circlemarker: true
+    }
+}).addTo(map)</code></pre><h3>Leaflet.heat</h3><pre><code class="language-javascript">L.heatLayer([[lat, lng, intensity], ...], {
+    radius: 25,
+    blur: 15,
+    maxZoom: 17,
+    max: 1.0,
+    gradient: {0.4: &#39;blue&#39;, 0.65: &#39;lime&#39;, 1: &#39;red&#39;}
+}).addTo(map)</code></pre></div><div class="card"><h2>📱 移动端适配 <a href="https://leafletjs.com/reference.html#map-options" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">移动端选项</div><pre><code class="language-javascript">L.map(&#39;map&#39;, {
+    tap: true,
+    tapTolerance: 15,
+    touchZoom: true,
+    bounceAtZoomLimits: false,
+    zoomSnap: 1,
+    zoomDelta: 1,
+    wheelDebounceTime: 40,
+    wheelPxPerZoomLevel: 60
+})</code></pre><h3>浏览器检测</h3><pre><code class="language-javascript">L.Browser.mobile
+L.Browser.touch
+L.Browser.retina
+L.Browser.ielt9
+L.Browser.ie
+L.Browser.webkit
+L.Browser.android
+L.Browser.android23
+L.Browser.opera
+L.Browser.chrome
+L.Browser.gecko</code></pre></div><div class="card"><h2>🛠 实用工具 <a href="https://leafletjs.com/reference.html#util" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><h3>地图状态</h3><pre><code class="language-javascript">map.getCenter()
+map.getZoom()
+map.getBounds()
+map.getBoundsZoom(bounds, inside)
+map.getSize()
+map.getPixelBounds()
+map.getPixelOrigin()
+map.getMinZoom()
+map.getMaxZoom()
+map.hasLayer(layer)</code></pre><h3>Pane 管理</h3><pre><code class="language-javascript">map.createPane(&#39;myPane&#39;)
+map.getPane(&#39;tilePane&#39;)
+map.getPanes()
+map.getContainer()</code></pre><h3>定位</h3><pre><code class="language-javascript">map.locate({
+    setView: true,
+    maxZoom: 16,
+    watch: true,
+    enableHighAccuracy: true,
+    timeout: 10000,
+    maximumAge: 0
+})
+
+map.on(&#39;locationfound&#39;, function(e) {
+    L.marker(e.latlng).addTo(map)
+})
+map.on(&#39;locationerror&#39;, function(e) {
+    console.log(e.message)
+})
+map.stopLocate()</code></pre><h3>DOM工具</h3><pre><code class="language-javascript">L.DomUtil.get(&#39;id&#39;)
+L.DomUtil.create(&#39;div&#39;, &#39;class&#39;, container)
+L.DomUtil.hasClass(el, &#39;class&#39;)
+L.DomUtil.addClass(el, &#39;class&#39;)
+L.DomUtil.removeClass(el, &#39;class&#39;)
+L.DomUtil.setOpacity(el, 0.5)
+L.DomUtil.setPosition(el, point)
+L.DomUtil.getPosition(el)
+L.DomUtil.remove(el)</code></pre><h3>事件工具</h3><pre><code class="language-javascript">L.DomEvent.on(el, &#39;click&#39;, handler, context)
+L.DomEvent.off(el, &#39;click&#39;, handler)
+L.DomEvent.stopPropagation(e)
+L.DomEvent.preventDefault(e)
+L.DomEvent.getMousePosition(e)
+L.DomEvent.getWheelDelta(e)</code></pre><h3>通用工具</h3><pre><code class="language-javascript">L.Util.stamp(obj)
+L.Util.extend(dest, src)
+L.Util.bind(fn, obj)
+L.Util.template(&#39;Hello {name}!&#39;, {name: &#39;World&#39;})
+L.Util.formatNum(num, digits)
+L.Util.trim(str)
+L.Util.splitWords(str)
+L.Util.setOptions(layer, options)
+L.Util.getParamString(obj)
+L.Util.requestAnimFrame(callback)
+L.Util.cancelAnimFrame(id)</code></pre></div><div class="card"><h2>🧪 调试测试</h2><div class="desc">调试技巧</div><pre><code class="language-javascript">// 事件调试
+map.on(&#39;click dblclick mousedown&#39;, console.log)
+
+// 图层检查
+map.eachLayer(function(layer) {
+    console.log(layer.constructor.name)
+})
+
+// 坐标调试
+map.on(&#39;click&#39;, function(e) {
+    console.log(&#39;lat:&#39;, e.latlng.lat)
+    console.log(&#39;lng:&#39;, e.latlng.lng)
+})
+
+// Bounds调试
+console.log(map.getBounds())
+
+// 性能
+console.time(&#39;operation&#39;)
+operation()
+console.timeEnd(&#39;operation&#39;)</code></pre></div><div class="card"><h2>🔧 Map 选项完整参考 <a href="https://leafletjs.com/reference.html#map-options" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><h3>Interaction Options</h3><pre><code class="language-javascript">{
+    closePopupOnClick: true,
+    boxZoom: true,
+    doubleClickZoom: true,
+    dragging: true,
+    zoomSnap: 1,
+    zoomDelta: 1,
+    trackResize: true,
+    keyboard: true,
+    keyboardPanDelta: 80,
+    scrollWheelZoom: true,
+    wheelDebounceTime: 40,
+    wheelPxPerZoomLevel: 60,
+    tapHold: false,
+    tapTolerance: 15,
+    touchZoom: true,
+    bounceAtZoomLimits: true
+}</code></pre><h3>Panning Inertia Options</h3><pre><code class="language-javascript">{
+    inertia: true,
+    inertiaDeceleration: 3000,
+    inertiaMaxSpeed: Infinity,
+    easeLinearity: 0.2,
+    worldCopyJump: false,
+    maxBoundsViscosity: 0.0
+}</code></pre><h3>Map State Options</h3><pre><code class="language-javascript">{
+    crs: L.CRS.EPSG3857,
+    center: undefined,
+    zoom: undefined,
+    minZoom: undefined,
+    maxZoom: undefined,
+    layers: [],
+    maxBounds: null,
+    renderer: undefined
+}</code></pre><h3>Animation Options</h3><pre><code class="language-javascript">{
+    zoomAnimation: true,
+    zoomAnimationThreshold: 4,
+    fadeAnimation: true,
+    markerZoomAnimation: true,
+    transform3DLimit: 8388608
+}</code></pre></div>
     </div>
   </div>
 

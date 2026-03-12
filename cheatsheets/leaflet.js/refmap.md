@@ -5,6 +5,7 @@
 - [Leaflet 官方网站](https://leafletjs.com/)
 - [快速入门指南](https://leafletjs.com/examples/quick-start/)
 - [API 参考文档](https://leafletjs.com/reference.html)
+- [官方博客](https://leafletjs.com/blog.html)
 
 ## 教程
 
@@ -15,6 +16,11 @@
 - [矢量图形](https://leafletjs.com/examples/geojson/)
 - [图层叠加](https://leafletjs.com/examples/layers-control/)
 - [地图事件](https://leafletjs.com/examples/events/)
+
+## 版本信息
+
+- [Leaflet 1.9.4 发布说明](https://github.com/Leaflet/Leaflet/releases/tag/v1.9.4) (2023-05-18)
+- [Leaflet 2.0.0-alpha 发布公告](https://leafletjs.com/2025/05/18/leaflet-2.0.0-alpha.html)
 
 ## 地图瓦片服务
 
