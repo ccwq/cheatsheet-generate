@@ -2,14 +2,14 @@
   "version": 1,
   "skills": {
     "cheatsheet-maker": {
-      "source": "E:\\project\\self.project\\cheatsheet-generate\\cheatsheet-html-maker\\cheatsheet-maker-skill",
+      "source": "D:\\project\\cheatsheet-generate\\cheatsheet-html-maker\\cheatsheet-maker-skill",
       "sourceType": "local",
-      "computedHash": "2c244c293a1782a08266243d6f72fcfd0764b135cfe3fd0f3a1c6e56895eb871"
+      "computedHash": "b185055ce8bed02fadacf3ab6d1a022c66d74c3eb8714a7df5903834669fce6d"
     },
     "icon-complete-skill": {
-      "source": "E:\\project\\self.project\\cheatsheet-generate\\cheatsheet-html-maker\\icon-complete-skill",
+      "source": "D:\\project\\cheatsheet-generate\\cheatsheet-html-maker\\icon-complete-skill",
       "sourceType": "local",
-      "computedHash": "2204be087f8d70bec108416b52c5f64f4f35ba235c93783b7aee791e44bc0016"
+      "computedHash": "8f0b5e3cfba452d9dfb64b42872504ed6107625152face2ec3f2450eefce3873"
     }
   }
 }
