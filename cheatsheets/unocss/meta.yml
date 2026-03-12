@@ -1,0 +1,5 @@
+desc: UnoCSS 使用速查，覆盖 preset、rules、shortcuts、Attributify、transformer、提取与调试。
+tags: ["Web 前端", "TypeScript", "框架", "开发", "构建"]
+version: "66.6.6"
+github: "unocss/unocss"
+date: "2026-03-12"

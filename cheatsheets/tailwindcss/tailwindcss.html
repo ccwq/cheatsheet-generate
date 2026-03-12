@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var mode = localStorage.getItem(key) || 'auto';
+      var resolved = mode;
+      if (resolved === 'auto') {
+        resolved = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>Tailwind CSS 速查</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png">
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 420px; 
+      --gap: 16px;
+    }
+
+    .panel label {
+      color: var(--panel-accent);
+    }
+
+    .panel .title {
+      color: var(--panel-accent);
+    }
+
+    .card pre,
+    .card pre code[class^="language-"] {
+      font-size: 13px;
+      line-height: 1.2;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .card h2 {
+      font-size: 16px;
+    }
+
+    .card,
+    .card li,
+    .desc {
+      font-size: 14px;
+      line-height: 1.2;
+    }
+
+    .meta-link {
+      color: var(--text-link);
+    }
+
+    .meta-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <span class="title">Tailwind CSS 速查</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label">版本</span><span class="meta-value">4.2.1</span></span>
+        <span class="meta-item"><span class="meta-label">更新日志</span><span class="meta-value">2026-03-12</span></span>
+        <span class="meta-item"><span class="meta-label">GitHub</span><span class="meta-value"><a class="meta-link" href="https://github.com/tailwindlabs/tailwindcss" target="_blank" rel="noopener">tailwindlabs/tailwindcss</a></span></span>
+      </div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <label class="toggle">🌓 主题
+        <select id="themeSelect" class="btn">
+          <option value="auto">自动 (系统)</option>
+          <option value="light">亮色</option>
+          <option value="dark">暗色</option>
+        </select>
+      </label>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>🚀 CSS 入口与生成 <a href="https://tailwindcss.com/docs/functions-and-directives" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Tailwind CSS v4 以 CSS 为主入口，常见工作是导入框架、声明数据源、构建输出。</div><h3>最小入口</h3><pre><code class="language-css">/* 载入 Tailwind 全量能力 */
+@import &quot;tailwindcss&quot;;</code></pre><h3>显式声明扫描源</h3><pre><code class="language-css">/* 补充默认自动检测之外的模板路径 */
+@source &quot;../packages/ui/src&quot;;
+
+/* 内联补充常用类，避免运行时拼接导致丢失 */
+@source inline(&quot;text-red-500 font-bold md:grid&quot;);</code></pre><h3>CLI 构建</h3><pre><code class="language-bash"># 监听输入 CSS 并输出产物
+npx @tailwindcss/cli -i ./src/app.css -o ./dist/app.css --watch
+
+# 生产构建并压缩
+npx @tailwindcss/cli -i ./src/app.css -o ./dist/app.css --minify</code></pre></div><div class="card"><h2>🎨 主题变量 <a href="https://tailwindcss.com/docs/theme" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">v4 用 @theme 定义设计令牌，生成对应 utility，同时也可直接当 CSS 变量使用。</div><h3>自定义颜色与字体</h3><pre><code class="language-css">/* 定义品牌色、字号和字体族 */
+@theme {
+  --color-brand-50: oklch(0.97 0.02 250);
+  --color-brand-500: oklch(0.62 0.19 255);
+  --font-display: &quot;IBM Plex Sans&quot;, &quot;PingFang SC&quot;, sans-serif;
+  --radius-card: 1.25rem;
+}</code></pre><h3>在样式中引用变量</h3><pre><code class="language-css">/* theme 变量可直接用于自定义组件 */
+.hero {
+  color: var(--color-brand-500);
+  border-radius: var(--radius-card);
+  font-family: var(--font-display);
+}</code></pre><h3>断点与容器变量</h3><pre><code class="language-css">/* 自定义断点与容器尺寸 */
+@theme {
+  --breakpoint-3xl: 120rem;
+  --container-content: 72rem;
+}</code></pre></div><div class="card"><h2>🧱 常用布局与排版 <a href="https://tailwindcss.com/docs/styling-with-utility-classes" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">日常开发高频仍是组合 utility；优先用组合表达布局，减少单独写组件 CSS。</div><h3>布局骨架</h3><pre><code class="language-html">&lt;!-- 居中容器 + 响应式网格 --&gt;
+&lt;main class=&quot;mx-auto max-w-7xl px-4 sm:px-6 lg:px-8&quot;&gt;
+  &lt;section class=&quot;grid gap-6 md:grid-cols-2 xl:grid-cols-4&quot;&gt;
+    &lt;article class=&quot;rounded-2xl border border-black/10 bg-white p-6 shadow-sm&quot;&gt;&lt;/article&gt;
+  &lt;/section&gt;
+&lt;/main&gt;</code></pre><h3>文本与间距</h3><ul><li><code>text-sm</code>：小字号</li><li><code>text-balance</code>：平衡多行标题换行</li><li><code>leading-6</code>：行高</li><li><code>tracking-tight</code>：收紧字距</li><li><code>space-y-4</code>：子项纵向间距</li><li><code>gap-4</code> <code>gap-x-6</code> <code>gap-y-2</code>：网格或弹性间距</li></ul><h3>对齐与尺寸</h3><ul><li><code>flex items-center justify-between</code>：主轴与交叉轴对齐</li><li><code>min-h-screen</code>：满屏高度</li><li><code>aspect-video</code>：视频比例</li><li><code>size-10</code>：同时设置宽高</li><li><code>overflow-x-auto</code>：横向滚动</li></ul></div><div class="card"><h2>🔀 状态与变体 <a href="https://tailwindcss.com/docs/hover-focus-and-other-states" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Variant 是 Tailwind 的核心表达力来源，可叠加伪类、媒体条件、父级状态和属性状态。</div><h3>常用状态组合</h3><pre><code class="language-html">&lt;!-- hover + focus + disabled --&gt;
+&lt;button class=&quot;rounded-lg bg-slate-900 px-4 py-2 text-white hover:bg-slate-700 focus:outline-2 focus:outline-offset-2 focus:outline-sky-500 disabled:cursor-not-allowed disabled:opacity-40&quot;&gt;
+  保存
+&lt;/button&gt;</code></pre><h3>响应式与暗色</h3><pre><code class="language-html">&lt;!-- 响应式与深色主题叠加 --&gt;
+&lt;aside class=&quot;hidden lg:block dark:bg-slate-950 dark:text-slate-100&quot;&gt;&lt;/aside&gt;</code></pre><h3>group / peer / data / aria</h3><pre><code class="language-html">&lt;!-- 父元素状态 --&gt;
+&lt;a class=&quot;group inline-flex items-center gap-2&quot;&gt;
+  &lt;span class=&quot;transition group-hover:translate-x-1&quot;&gt;详情&lt;/span&gt;
+&lt;/a&gt;
+
+&lt;!-- 相邻表单状态 --&gt;
+&lt;input class=&quot;peer rounded border px-3 py-2&quot; /&gt;
+&lt;p class=&quot;mt-2 hidden text-sm text-red-600 peer-invalid:block&quot;&gt;请输入有效邮箱&lt;/p&gt;
+
+&lt;!-- 属性驱动状态 --&gt;
+&lt;div class=&quot;data-[state=open]:block aria-selected:bg-sky-100&quot;&gt;&lt;/div&gt;</code></pre></div><div class="card"><h2>🧮 任意值与动态语法 <a href="https://tailwindcss.com/docs/adding-custom-styles" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">需要突破设计令牌时，优先用 arbitrary value；但不要在模板里运行时拼接不完整 class。</div><h3>任意值</h3><pre><code class="language-html">&lt;!-- 任意长度、颜色和选择器 --&gt;
+&lt;div class=&quot;top-[117px] grid-cols-[200px_minmax(0,1fr)] bg-[oklch(0.62_0.19_255)] [&amp;&gt;kbd]:rounded-sm&quot;&gt;&lt;/div&gt;</code></pre><h3>CSS 变量桥接</h3><pre><code class="language-html">&lt;!-- 将运行时变量交给 utility 消费 --&gt;
+&lt;div class=&quot;w-[var(--sidebar-width)] translate-y-[var(--offset)]&quot;&gt;&lt;/div&gt;</code></pre><h3>不推荐的动态拼接</h3><pre><code class="language-tsx">// 不要把类名拆成不完整片段
+const bad = `text-${color}-600`
+
+// 应改成可静态检测的完整映射
+const colorMap = {
+  danger: &quot;text-red-600&quot;,
+  success: &quot;text-emerald-600&quot;,
+}</code></pre></div><div class="card"><h2>🧩 自定义 Utility / Variant <a href="https://tailwindcss.com/docs/functions-and-directives" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">v4 原生支持在 CSS 中注册 utility、variant 与组件样式，适合沉淀团队约定。</div><h3>自定义 utility</h3><pre><code class="language-css">/* 生成可复用的新 utility */
+@utility content-auto {
+  content-visibility: auto;
+}
+
+@utility stack-4 {
+  display: grid;
+  gap: 1rem;
+}</code></pre><h3>自定义 variant</h3><pre><code class="language-css">/* 自定义主题域变体 */
+@custom-variant theme-midnight (&amp;:where([data-theme=&quot;midnight&quot;] *));</code></pre><pre><code class="language-html">&lt;!-- 在类名中直接使用自定义 variant --&gt;
+&lt;section class=&quot;theme-midnight:bg-slate-950 theme-midnight:text-white&quot;&gt;&lt;/section&gt;</code></pre><h3>在组件层复用</h3><pre><code class="language-css">/* 组件类中复用 utility */
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-xl bg-sky-600 px-4 py-2 font-medium text-white hover:bg-sky-500;
+  }
+}</code></pre></div><div class="card"><h2>🪄 在模块化样式中引用 <a href="https://tailwindcss.com/docs/functions-and-directives#reference-directive" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">在 Vue/Svelte/CSS Modules 中使用 @apply、@variant 时，通常需要先 @reference 主样式文件。</div><h3>CSS Modules</h3><pre><code class="language-css">/* Button.module.css */
+@reference &quot;../app.css&quot;;
+
+.button {
+  @apply inline-flex items-center rounded-lg px-3 py-2 text-sm font-medium;
+  @apply bg-slate-900 text-white hover:bg-slate-700;
+}</code></pre><h3>Vue 单文件组件</h3><pre><code class="language-vue">&lt;style scoped&gt;
+@reference &quot;../app.css&quot;;
+
+.card {
+  @apply rounded-2xl border border-black/10 bg-white p-6;
+}
+&lt;/style&gt;</code></pre></div><div class="card"><h2>📦 组件模式 <a href="https://tailwindcss.com/docs/reusing-styles" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Tailwind 不鼓励过早抽象；先在模板中直接组合，重复明显后再抽 utility 或组件类。</div><h3>操作条</h3><pre><code class="language-html">&lt;!-- 直接在模板里组织“可读的类串” --&gt;
+&lt;div class=&quot;flex flex-wrap items-center gap-3 rounded-2xl border border-black/10 bg-white/90 p-3 backdrop-blur&quot;&gt;
+  &lt;button class=&quot;rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-700&quot;&gt;发布&lt;/button&gt;
+  &lt;button class=&quot;rounded-lg border border-black/10 px-4 py-2 text-sm hover:bg-slate-50&quot;&gt;预览&lt;/button&gt;
+&lt;/div&gt;</code></pre><h3>卡片模板</h3><pre><code class="language-html">&lt;!-- 用数据状态控制视觉切换 --&gt;
+&lt;article class=&quot;rounded-3xl border border-black/10 bg-white p-6 shadow-sm data-[featured=true]:ring-2 data-[featured=true]:ring-sky-500&quot;&gt;
+  &lt;h2 class=&quot;text-lg font-semibold text-slate-900&quot;&gt;Starter&lt;/h2&gt;
+  &lt;p class=&quot;mt-2 text-sm text-slate-600&quot;&gt;适合静态站点与内部工具。&lt;/p&gt;
+&lt;/article&gt;</code></pre></div><div class="card"><h2>🔍 排障与迁移要点 <a href="https://tailwindcss.com/docs/detecting-classes-in-source-files" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Tailwind v4 最常见问题都和 class 检测、样式引用路径、旧版配置思维残留有关。</div><h3>高频检查项</h3><ul><li><code>@import &quot;tailwindcss&quot;;</code>：确认主入口 CSS 已被打包链路处理</li><li><code>@source</code>：Monorepo、外部组件库、运行时生成类名时补充数据源</li><li><code>@reference</code> <code>@apply</code>：模块化样式里使用  CODE  前先引用主样式</li><li><code>dark:</code> <code>data-*:</code> <code>aria-*:</code>：确认触发属性真的落在 DOM 上</li><li>动态类名：不要拼出半截字符串，保持完整 class 文本可被扫描</li></ul><h3>迁移提示</h3><pre><code class="language-bash"># 从旧项目迁移时，先定位仍依赖 JS 配置的部分
+rg &quot;tailwind\\.config|safelist|content:&quot; .
+
+# 再检查是否已改成 CSS-first 写法
+rg &quot;@import \&quot;tailwindcss\&quot;|@theme|@source|@utility|@custom-variant&quot; src</code></pre></div>
+    </div>
+  </div>
+
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>

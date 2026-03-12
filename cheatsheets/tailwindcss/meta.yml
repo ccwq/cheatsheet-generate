@@ -1,0 +1,5 @@
+desc: Tailwind CSS v4 使用速查，覆盖 CSS-first 入口、主题变量、变体、自定义 utility 与排障要点。
+tags: ["Web 前端", "JavaScript", "框架", "开发", "构建"]
+version: "4.2.1"
+github: "tailwindlabs/tailwindcss"
+date: "2026-03-12"
