@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var mode = localStorage.getItem(key) || 'auto';
+      var resolved = mode;
+      if (resolved === 'auto') {
+        resolved = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>VueUse 速查</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png">
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 340px; 
+      --gap: 16px;
+    }
+
+    .panel label {
+      color: var(--panel-accent);
+    }
+
+    .panel .title {
+      color: var(--panel-accent);
+    }
+
+    .card pre,
+    .card pre code[class^="language-"] {
+      font-size: 13px;
+      line-height: 1.2;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .card h2 {
+      font-size: 16px;
+    }
+
+    .card,
+    .card li,
+    .desc {
+      font-size: 14px;
+      line-height: 1.2;
+    }
+
+    .meta-link {
+      color: var(--text-link);
+    }
+
+    .meta-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <span class="title">VueUse 速查</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label">版本</span><span class="meta-value">14.2.1</span></span>
+        <span class="meta-item"><span class="meta-label">更新日志</span><span class="meta-value">2026-03-12</span></span>
+        <span class="meta-item"><span class="meta-label">GitHub</span><span class="meta-value"><a class="meta-link" href="https://github.com/vueuse/vueuse" target="_blank" rel="noopener">vueuse/vueuse</a></span></span>
+      </div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <label class="toggle">🌓 主题
+        <select id="themeSelect" class="btn">
+          <option value="auto">自动 (系统)</option>
+          <option value="light">亮色</option>
+          <option value="dark">暗色</option>
+        </select>
+      </label>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>💾 状态管理 <a href="https://vueuse.org/core/useLocalStorage" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">响应式 LocalStorage，自动序列化为 JSON</div><pre><code class="language-javascript">import { useLocalStorage } from &#39;@vueuse/core&#39;
+
+// 基础用法
+const store = useLocalStorage(&#39;my-key&#39;, { name: &#39;Vue&#39;, version: 3 })
+
+// 支持多种类型
+const str = useLocalStorage(&#39;str&#39;, &#39;default&#39;)
+const num = useLocalStorage(&#39;num&#39;, 0)
+const bool = useLocalStorage(&#39;bool&#39;, true)
+
+// 监听变化
+watch(store, (newVal) =&gt; {
+  console.log(&#39;storage changed:&#39;, newVal)
+}, { deep: true })</code></pre><pre><code class="language-javascript">import { useSessionStorage } from &#39;@vueuse/core&#39;
+
+// SessionStorage 版本
+const session = useSessionStorage(&#39;session-key&#39;, { foo: &#39;bar&#39; })</code></pre><pre><code class="language-javascript">import { useStorage } from &#39;@vueuse/core&#39;
+
+// 自定义存储后端
+const store = useStorage(&#39;my-key&#39;, {}, {
+  storage: customStorageApi,
+  mergeDefaults: true
+})</code></pre></div><div class="card"><h2>🖱️ 响应式鼠标与键盘 <a href="https://vueuse.org/core/useMouse" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">响应式追踪鼠标位置</div><pre><code class="language-javascript">import { useMouse, usePreferredDark, useClipboard, useFullscreen } from &#39;@vueuse/core&#39;
+
+// 鼠标位置
+const { x, y, sourceType } = useMouse()
+
+// 暗黑模式偏好
+const isDark = usePreferredDark()
+
+// 剪贴板
+const { text, copy, pasted } = useClipboard()
+
+// 全屏
+const { isFullscreen, toggle: toggleFullscreen } = useFullscreen()</code></pre><pre><code class="language-javascript">import { useKeyModifier } from &#39;@vueuse/core&#39;
+
+// 键盘修饰键状态
+const isCtrlPressed = useKeyModifier(&#39;Control&#39;)
+const isShiftPressed = useKeyModifier(&#39;Shift&#39;)
+const isAltPressed = useKeyModifier(&#39;Alt&#39;)
+const isMetaPressed = useKeyModifier(&#39;Meta&#39;)</code></pre><pre><code class="language-javascript">import { useMagicKeys, whenever } from &#39;@vueuse/core&#39;
+
+// 快捷键组合
+const { 
+  Ctrl_K, 
+  Shift_Alt_P, 
+  Meta_Escape,
+  Escape
+} = useMagicKeys()
+
+whenever(Ctrl_K, () =&gt; {
+  console.log(&#39;Ctrl+K pressed&#39;)
+})
+
+whenever(Escape, () =&gt; {
+  console.log(&#39;Escape pressed&#39;)
+})</code></pre></div><div class="card"><h2>🪟 响应式窗口与屏幕 <a href="https://vueuse.org/core/useWindowSize" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">响应式窗口尺寸与视口</div><pre><code class="language-javascript">import { 
+  useWindowSize, 
+  useWindowScroll,
+  useWindowFocus,
+  useDocumentVisibility,
+  useOnline,
+  useOffline
+} from &#39;@vueuse/core&#39;
+
+// 窗口尺寸
+const { width, height } = useWindowSize()
+
+// 窗口滚动位置
+const { x, y } = useWindowScroll()
+
+// 窗口焦点
+const isFocused = useWindowFocus()
+
+// 页面可见性
+const isVisible = useDocumentVisibility()
+
+// 网络状态
+const isOnline = useOnline()
+const isOffline = useOffline()</code></pre></div><div class="card"><h2>🎨 响应式主题与样式 <a href="https://vueuse.org/core/useDark" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">响应式暗黑模式与主题切换</div><pre><code class="language-javascript">import { useDark, useToggle, usePreferredColorScheme } from &#39;@vueuse/core&#39;
+
+// 暗黑模式
+const isDark = useDark({
+  selector: &#39;html&#39;,
+  attribute: &#39;class&#39;,
+  valueDark: &#39;dark&#39;,
+  valueLight: &#39;light&#39;,
+})
+
+const toggleDark = useToggle(isDark)
+
+// 首选颜色方案
+const preferredScheme = usePreferredColorScheme() // &#39;dark&#39; | &#39;light&#39; | &#39;no-preference&#39;</code></pre><pre><code class="language-javascript">import { useCssVar } from &#39;@vueuse/core&#39;
+
+// CSS 变量响应式操作
+const primaryColor = useCssVar(&#39;--primary-color&#39;, el)
+primaryColor.value = &#39;#007acc&#39;</code></pre></div><div class="card"><h2>📡 传感器与用户状态 <a href="https://vueuse.org/core/useIdle" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">追踪用户空闲状态与活动检测</div><pre><code class="language-javascript">import { 
+  useIdle, 
+  usePermission,
+  useDeviceOrientation,
+  useDeviceMotion,
+  useGeolocation,
+  useMediaControls
+} from &#39;@vueuse/core&#39;
+
+// 用户空闲状态（默认 1 分钟）
+const { idle, lastActive } = useIdle(60000)
+
+// 权限请求
+const { permission, query: queryPermission } = usePermission(&#39;camera&#39;)
+
+// 设备方向
+const { alpha, beta, gamma } = useDeviceOrientation()
+
+// 设备运动
+const { acceleration, rotationRate, interval } = useDeviceMotion()
+
+// 地理位置
+const { 
+  coords: { latitude, longitude },
+  accuracy,
+  timestamp
+} = useGeolocation()</code></pre><pre><code class="language-javascript">import { useMediaQuery, usePreferredReducedMotion } from &#39;@vueuse/core&#39;
+
+// 媒体查询
+const isMobile = useMediaQuery(&#39;(max-width: 768px)&#39;)
+const isDark = useMediaQuery(&#39;(prefers-color-scheme: dark)&#39;)
+
+// 减少动画偏好
+const prefersReducedMotion = usePreferredReducedMotion()</code></pre></div><div class="card"><h2>🌐 网络请求 <a href="https://vueuse.org/core/useFetch" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">响应式 Fetch API 封装</div><pre><code class="language-javascript">import { useFetch, useAxios } from &#39;@vueuse/core&#39;
+
+// 基础请求
+const { data, error, isFetching, abort } = useFetch(&#39;/api/user&#39;)
+
+// 带配置
+const { data, status } = useFetch(&#39;/api/posts&#39;, {
+  method: &#39;POST&#39;,
+  headers: { &#39;Content-Type&#39;: &#39;application/json&#39; },
+  body: JSON.stringify({ title: &#39;foo&#39; }),
+  immediate: false,
+  timeout: 5000,
+  refetch: ref(true)
+})
+
+// 监听器
+watch(data, (newData) =&gt; {
+  console.log(&#39;response:&#39;, newData)
+})</code></pre><pre><code class="language-javascript">import { useEventSource, useWebSocket } from &#39;@vueuse/core&#39;
+
+// Server-Sent Events
+const { data, status, close } = useEventSource(&#39;/api/stream&#39;)
+
+// WebSocket
+const { data, send, close, open, isEstablished } = useWebSocket(&#39;ws://localhost:8080&#39;)</code></pre></div><div class="card"><h2>⏱️ 定时器与动画 <a href="https://vueuse.org/core/useNow" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">响应式时间与动画帧</div><pre><code class="language-javascript">import { 
+  useNow, 
+  useTimestamp,
+  useDateFormat,
+  useTimeAgo,
+  useInterval,
+  useTimeout
+} from &#39;@vueuse/core&#39;
+
+// 当前时间
+const now = useNow({ interval: 1000 })
+
+// 时间戳
+const timestamp = useTimestamp()
+
+// 格式化
+const formatted = useDateFormat(now, &#39;YYYY-MM-DD HH:mm:ss&#39;)
+
+// 相对时间
+const timeAgo = useTimeAgo(ref(new Date(Date.now() - 60000)))
+
+// 定时器
+const counter = useInterval(1000) // 每秒 +1
+const isReady = useTimeout(5000)   // 5 秒后变为 true
+
+// 清理
+counter.pause()
+counter.resume()
+counter.reset()</code></pre><pre><code class="language-javascript">import { useRafFn, useAnimationFrame, useSpring } from &#39;@vueuse/core&#39;
+
+// RAF 动画
+const { pause, resume } = useRafFn((delta) =&gt; {
+  // delta 为帧间隔时间(ms)
+  position.value += velocity.value * delta
+})
+
+// 弹簧动画
+const { value, target, precision, stiffness, damping, mass } = useSpring(0, {
+  stiffness: 0.1,
+  damping: 0.4
+})</code></pre></div><div class="card"><h2>🧩 响应式 DOM <a href="https://vueuse.org/core/useElementBounding" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">响应式元素尺寸与位置</div><pre><code class="language-javascript">import { 
+  useElementBounding,
+  useElementSize,
+  useElementHover,
+  useResizeObserver,
+  useMutationObserver
+} from &#39;@vueuse/core&#39;
+
+const el = ref(null)
+
+// 元素边界
+const { 
+  top, right, bottom, left,
+  width, height,
+  update
+} = useElementBounding(el)
+
+// 元素尺寸
+const { width, height } = useElementSize(el)
+
+// 元素悬停
+const isHovered = useElementHover(el)
+
+// 尺寸变化监听
+useResizeObserver(el, (entries) =&gt; {
+  for (const entry of entries) {
+    console.log(entry.contentRect)
+  }
+})</code></pre><pre><code class="language-javascript">import { 
+  useDraggable, 
+  useDroppable,
+  useResizable,
+  useMovable
+} from &#39;@vueuse/core&#39;
+
+// 可拖拽
+const { x, y, isDragging } = useDraggable(el, {
+  initialValue: { x: 0, y: 0 },
+  handle: handleEl,
+  preventDefault: true
+})
+
+// 可放置区域
+const { isDropped } = useDroppable(targetEl)
+
+// 可调整大小
+const { width, height } = useResizable(el)</code></pre></div><div class="card"><h2>📝 响应式表单 <a href="https://vueuse.org/core/useVModel" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">响应式表单与双向绑定</div><pre><code class="language-javascript">import { 
+  useVModel, 
+  useModel,
+  useInput,
+  useTextarea,
+  useCheckbox,
+  useRadio,
+  useSelect,
+  useFileSystemAccess
+} from &#39;@vueuse/core&#39;
+
+// v-model 简化
+const props = defineProps([&#39;modelValue&#39;])
+const emit = defineEmits([&#39;update:modelValue&#39;])
+const data = useVModel(props, &#39;modelValue&#39;, emit)
+
+// 文本输入
+const { input, attributes, eventListeners } = useInput(&#39;default value&#39;)
+
+// 文件系统访问
+const { 
+  data,
+  save,
+  open,
+  isSupported,
+  file: ref(null)
+} = useFileSystemAccess({
+  dataType: &#39;Text&#39;,
+  types: [{ description: &#39;Text&#39;, accept: { &#39;text/plain&#39;: [&#39;.txt&#39;] } }]
+})</code></pre></div><div class="card"><h2>👁️ Watch 工具 <a href="https://vueuse.org/core/until" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Vue Watch 增强工具</div><pre><code class="language-javascript">import { 
+  until, 
+  watchOnce,
+  watchDebounced,
+  watchThrottled,
+  watchArray,
+  watchDeep,
+  whenever
+} from &#39;@vueuse/core&#39;
+
+// 等待条件满足（一次性）
+await until(ref(0)).toBeGreaterThan(10)
+await until(isLoading).toBe(false)
+
+// 只监听一次
+watchOnce(source, (val) =&gt; {
+  console.log(&#39;first change:&#39;, val)
+})
+
+// 防抖监听
+watchDebounced(source, () =&gt; {}, { debounce: 500, maxWait: 1000 })
+
+// 节流监听
+watchThrottled(source, () =&gt; {}, { throttle: 500, leading: true, trailing: false })
+
+// 数组变化监听
+watchArray(items, (array, diffs) =&gt; {
+  console.log(&#39;added:&#39;, diffs.added)
+  console.log(&#39;removed:&#39;, diffs.removed)
+}, { deep: true })
+
+// 深度监听简写
+watchDeep(source, () =&gt; {})
+
+// 条件监听
+whenever(isLoggedIn, () =&gt; {
+  console.log(&#39;user logged in!&#39;)
+})</code></pre></div><div class="card"><h2>⚡ Reactivity 工具 <a href="https://vueuse.org/core/reactify" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">响应式转换与工具函数</div><pre><code class="language-javascript">import { 
+  reactive, 
+  ref, computed,
+  refAutoReset,
+  syncRef,
+  syncRefs,
+  toRef,
+  toRefs,
+  createRef,
+  isDefined,
+  isRef,
+  unref,
+  triggerRef
+} from &#39;@vueuse/core&#39;
+
+// 自动重置 ref
+const counter = refAutoReset(0, 1000)
+
+// 同步两个 ref
+const source = ref(&#39;hello&#39;)
+const target = ref(&#39;&#39;)
+syncRef(source, target)
+
+// 同步多个 ref
+const data = ref({ a: 1, b: 2 })
+syncRefs(data, { a: ref(0), b: ref(0) })
+
+// 类型守卫
+if (isDefined(value)) {
+  // value 在此处类型收窄
+}
+
+// 手动触发更新
+triggerRef(counter)</code></pre><pre><code class="language-javascript">import { 
+  reactify,
+  reactifyObject,
+  createUnrefFn,
+  createReactiveFn,
+  toReactive
+} from &#39;@vueuse/core&#39;
+
+// 普通函数转响应式
+const getRandom = () =&gt; Math.random()
+const reactiveRandom = reactify(getRandom)
+
+// 批量响应式
+const obj = { a: 1, b: 2 }
+const reactiveObj = toReactive(obj)
+
+// 深度响应式包装
+const deepReactive = createReactiveFn(target)</code></pre></div><div class="card"><h2>🔢 Array 工具 <a href="https://vueuse.org/core/useArray" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">响应式数组操作</div><pre><code class="language-javascript">import { 
+  useArrayFilter,
+  useArrayFind,
+  useArrayFindLast,
+  useArrayJoin,
+  useArrayMap,
+  useArrayReduce,
+  useArraySome,
+  useArrayEvery,
+  useUnique,
+  useSorted
+} from &#39;@vueuse/core&#39;
+
+// 响应式数组操作
+const filtered = useArrayFilter(list, (item) =&gt; item.age &gt; 18)
+const found = useArrayFind(list, (item) =&gt; item.id === 1)
+const mapped = useArrayMap(list, (item) =&gt; item.name)
+
+// 数组去重
+const uniqueList = useUnique(items)
+
+// 数组排序
+const sorted = useSorted(items, (a, b) =&gt; a - b)
+
+// 组合操作
+const result = computed(() =&gt; 
+  useArrayFilter(
+    useArrayMap(items, i =&gt; i * 2),
+    i =&gt; i &gt; 10
+  )
+)</code></pre></div><div class="card"><h2>🧩 Component 组件工具 <a href="https://vueuse.org/core/templateRef" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">简化组件 ref 操作</div><pre><code class="language-javascript">import { 
+  templateRef,
+  useTemplateRefsList,
+  unrefElement,
+  useChild,
+  useParent
+} from &#39;@vueuse/core&#39;
+
+// 模板 ref（自动解包）
+const el = templateRef&lt;HTMLElement&gt;(&#39;my-element&#39;)
+
+// 列表 ref
+const refs = useTemplateRefsList&lt;HTMLDivElement&gt;()
+
+// 获取 DOM 元素
+const dom = unrefElement(el)
+
+// 父子组件通信
+const parent = useParent()
+const children = useChild()</code></pre><pre><code class="language-javascript">import { 
+  computedAsync,
+  computedEager,
+  computedWithControl,
+  controlledComputed,
+  controlledRef,
+  debouncedRef,
+  lazyRef,
+  refDebounced,
+  refThrottled,
+  refWithControl
+} from &#39;@vueuse/core&#39;
+
+// 异步计算属性
+const user = computedAsync(async () =&gt; {
+  return await fetchUser(id.value)
+})
+
+// 立即计算（不追踪依赖）
+const eagerVal = computedEager(() =&gt; expensive())
+
+// 防抖/节流 ref
+const debouncedInput = refDebounced(input, 500)
+const throttledValue = refThrottled(value, 1000)
+
+// 受控 ref
+const controlled = refWithControl(initialValue)</code></pre></div><div class="card"><h2>🔧 Utilities 工具函数 <a href="https://vueuse.org/core/useAsyncQueue" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">异步队列与工具函数</div><pre><code class="language-javascript">import { 
+  useAsyncQueue,
+  useAsyncTask,
+  useDebounceFn,
+  useThrottleFn,
+  useMemoize,
+  useCached,
+  useToggle,
+  useTruncated,
+  useUrlSearchParams,
+  useQueryParam,
+  useRouteQuery
+} from &#39;@vueuse/core&#39;
+
+// 异步任务队列
+const { result, index } = await useAsyncQueue([
+  () =&gt; fetch(&#39;/api/1&#39;).then(r =&gt; r.json()),
+  () =&gt; fetch(&#39;/api/2&#39;).then(r =&gt; r.json()),
+])
+
+// 防抖/节流函数
+const debouncedFn = useDebounceFn(() =&gt; {}, 300)
+const throttledFn = useThrottleFn(() =&gt; {}, 100)
+
+// 记忆化
+const fetchUser = useMemoize(async (id) =&gt; {
+  return await api.getUser(id)
+})
+
+// 布尔切换
+const [value, toggle] = useToggle(false)
+
+// URL 参数
+const params = useUrlSearchParams(&#39;history&#39;)
+const page = useQueryParam(&#39;page&#39;)
+const sort = useRouteQuery(&#39;sort&#39;, &#39;date&#39;)</code></pre></div><div class="card"><h2>🟢 Nuxt 集成 <a href="https://vueuse.org/guide/nuxt.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Nuxt 3 自动导入配置</div><pre><code class="language-bash"># 安装
+npm i -D @vueuse/nuxt @vueuse/core</code></pre><pre><code class="language-typescript">// nuxt.config.ts
+export default defineNuxtConfig({
+  modules: [&#39;@vueuse/nuxt&#39;],
+  vueuse: {
+    // 配置选项
+    ssrExceptions: [&#39;useLocalStorage&#39;],
+    autoImports: [&#39;useMouse&#39;],
+  }
+})</code></pre><pre><code class="language-vue">&lt;script setup lang=&quot;ts&quot;&gt;
+// 自动导入，无需手动 import
+const { x, y } = useMouse()
+const isDark = useDark()
+const store = useLocalStorage(&#39;app&#39;, {})
+&lt;/script&gt;</code></pre><pre><code class="language-html">&lt;!-- 组件中使用 --&gt;
+&lt;template&gt;
+  &lt;div&gt;Mouse: {{ x }}, {{ y }}&lt;/div&gt;
+  &lt;div&gt;Dark: {{ isDark }}&lt;/div&gt;
+&lt;/template&gt;</code></pre></div><div class="card"><h2>⚙️ 全局配置 <a href="https://vueuse.org/guide/config.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">VueUse 全局配置</div><pre><code class="language-javascript">import { 
+  useVueUse,
+  configRef,
+  setGlobalDefaults
+} from &#39;@vueuse/core&#39;
+
+// 全局默认配置
+setGlobalDefaults({
+  window: window,
+  document: document,
+  silent: false,
+})
+
+// 运行时配置
+configRef({
+  // 响应式配置
+  window: window,
+  eventFilters: {
+    throttle: (fn) =&gt; fn,
+    debounce: (fn) =&gt; fn
+  }
+})</code></pre><pre><code class="language-javascript">// 自定义事件过滤器
+import { eventFilter, throttleFilter, debounceFilter } from &#39;@vueuse/core&#39;
+
+// 全局配置
+setGlobalDefaults({
+  eventFilter: throttleFilter(100)
+})
+
+// 单次使用覆盖
+useMouse({ eventFilter: debounceFilter(200) })</code></pre></div>
+    </div>
+  </div>
+
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>

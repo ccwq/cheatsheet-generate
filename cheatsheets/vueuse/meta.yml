@@ -1,0 +1,5 @@
+desc: 基于 Vue 3 Composition API 的实用工具函数库，提供 200+ 响应式 Hooks
+tags: ["JavaScript", "TypeScript", "Web 前端", "库 / SDK", "开发", "性能优化"]
+version: "14.2.1"
+github: "vueuse/vueuse"
+date: "2026-03-12"
