@@ -1,349 +1,298 @@
-# Docker CLI 速查表
+---
+title: Docker
+lang: bash
+version: "unknown"
+date: "2025-12-04"
+github: docker/docker-ce
+colWidth: 360px
+---
 
-## 基本命令
+# Docker
 
-- `docker --help`：显示 Docker CLI 帮助信息
-- `docker version`：显示 Docker 版本信息
-- `docker info`：显示 Docker 系统信息
-- `docker login`：登录 Docker 仓库
-- `docker logout`：退出 Docker 仓库
-- `docker search <keyword>`：搜索 Docker 镜像
+## CLI 总览
+---
+emoji: 🧭
+link: https://docs.docker.com/reference/cli/docker/
+desc: 先看客户端、服务端与当前上下文，再决定后续操作落点。
+---
+- `docker version` : 查看客户端与服务端版本
+- `docker info` : 查看 daemon、存储驱动、镜像源等环境信息
+- `docker context ls` : 查看当前可用上下文
+- `docker context use default` : 切回默认上下文
+- `docker system df` : 查看镜像、容器、卷占用
 
-## 镜像管理
+```bash
+# 先确认当前命令打到哪个 daemon
+docker context ls
+docker context show
 
-- `docker images`：列出本地镜像
-- `docker images -a`：列出所有镜像（包括中间层）
-- `docker pull <image>`：拉取镜像
-- `docker push <image>`：推送镜像
-- `docker rmi <image>`：删除镜像
-- `docker rmi -f <image>`：强制删除镜像
-- `docker rmi $(docker images -q)`：删除所有镜像
-- `docker build <path>`：构建镜像
-  - `-t`：指定镜像名称和标签
-  - `-f`：指定 Dockerfile 路径
-  - `--no-cache`：不使用缓存
-- `docker tag <image> <tag>`：为镜像打标签
-- `docker inspect <image>`：查看镜像详细信息
-- `docker history <image>`：查看镜像构建历史
-- `docker save <image> -o <file>`：将镜像保存为文件
-- `docker load -i <file>`：从文件加载镜像
-- `docker image prune`：清理未使用的镜像
-  - `-a`：清理所有未使用的镜像
-  - `--force`：强制清理
+# 快速检查环境与磁盘占用
+docker version
+docker info
+docker system df
+```
 
-## 容器管理
+## 镜像获取与标记
+---
+emoji: 📦
+link: https://docs.docker.com/reference/cli/docker/image/
+desc: 拉取、打标签、导出导入是镜像流转的基础闭环。
+---
+- `docker pull nginx:1.29` : 拉取指定标签镜像
+- `docker image ls` : 列出本地镜像
+- `docker tag app:dev registry.example.com/team/app:2026.03` : 重打标签
+- `docker push registry.example.com/team/app:2026.03` : 推送到远端仓库
+- `docker image inspect nginx:1.29` : 查看镜像元数据
+- `docker image save -o app.tar app:dev` : 导出镜像
+- `docker image load -i app.tar` : 导入镜像
 
-- `docker ps`：列出运行中的容器
-- `docker ps -a`：列出所有容器
-- `docker ps -q`：只列出容器 ID
-- `docker run <image>`：运行容器
-  - `-d`：后台运行
-  - `-it`：交互式终端
-  - `--name`：指定容器名称
-  - `-p`：端口映射（如 -p 8080:80）
-  - `-v`：挂载卷（如 -v ./data:/app/data）
-  - `--network`：指定网络
-  - `--env`：设置环境变量
-  - `--restart`：容器重启策略
-- `docker start <container>`：启动容器
-- `docker start $(docker ps -a -q)`：启动所有容器
-- `docker stop <container>`：停止容器
-- `docker stop $(docker ps -q)`：停止所有运行中的容器
-- `docker restart <container>`：重启容器
-- `docker rm <container>`：删除容器
-- `docker rm -f <container>`：强制删除容器
-- `docker rm $(docker ps -a -q)`：删除所有容器
-- `docker rename <old-name> <new-name>`：重命名容器
-- `docker update <container>`：更新容器配置
-  - `--cpus`：CPU 限制
-  - `--memory`：内存限制
-  - `--restart`：重启策略
-- `docker container prune`：清理停止的容器
+```bash
+# 拉取后重命名并推送到私有仓库
+docker pull node:22-alpine
+docker tag node:22-alpine registry.example.com/base/node:22-alpine
+docker push registry.example.com/base/node:22-alpine
+```
 
-## 容器交互
+## 构建镜像
+---
+emoji: 🏗️
+link: https://docs.docker.com/build/building/multi-stage/
+desc: 常用构建参数、BuildKit 与多阶段构建是日常高频项。
+---
+- `docker build -t app:dev .` : 在当前目录构建
+- `docker build -f docker/prod.Dockerfile -t app:prod .` : 指定 Dockerfile
+- `docker build --no-cache -t app:fresh .` : 禁用缓存
+- `docker build --build-arg NODE_ENV=production -t app:prod .` : 传入构建参数
+- `docker buildx build --platform linux/amd64,linux/arm64 -t repo/app:multi .` : 多平台构建
 
-- `docker exec -it <container> <command>`：在容器中执行命令
-  - `-d`：后台执行
-  - `--user`：指定用户
-- `docker logs <container>`：查看容器日志
-  - `-f`：实时跟踪日志
-  - `--tail <n>`：显示最后 n 行
-  - `--since <time>`：显示指定时间之后的日志
-- `docker inspect <container>`：查看容器详细信息
-- `docker inspect -f '{{.NetworkSettings.IPAddress}}' <container>`：获取容器 IP 地址
-- `docker cp <container>:<path> <host-path>`：从容器复制文件到主机
-- `docker cp <host-path> <container>:<path>`：从主机复制文件到容器
-- `docker stats <container>`：查看容器资源使用情况
-- `docker top <container>`：查看容器内运行的进程
-- `docker attach <container>`：连接到正在运行的容器
-- `docker wait <container>`：等待容器停止
+```dockerfile
+# 第一阶段：构建产物
+FROM node:22-alpine AS builder
+WORKDIR /app
+COPY package.json pnpm-lock.yaml ./
+RUN corepack enable && pnpm install --frozen-lockfile
+COPY . .
+RUN pnpm build
 
-## 网络管理
+# 第二阶段：只保留运行时文件
+FROM nginx:1.29-alpine
+COPY --from=builder /app/dist /usr/share/nginx/html
+```
 
-- `docker network ls`：列出网络
-- `docker network create <network>`：创建网络
-  - `--driver`：指定网络驱动（如 bridge、overlay、macvlan）
-  - `--subnet`：指定子网
-  - `--gateway`：指定网关
-- `docker network rm <network>`：删除网络
-- `docker network rm $(docker network ls -q)`：删除所有网络
-- `docker network inspect <network>`：查看网络详细信息
-- `docker network connect <network> <container>`：将容器连接到网络
-- `docker network disconnect <network> <container>`：将容器从网络断开
-- `docker network prune`：清理未使用的网络
+## 容器启动
+---
+emoji: 🚀
+link: https://docs.docker.com/reference/cli/docker/container/run/
+desc: 重点掌握命名、端口、卷、环境变量、重启策略与后台运行。
+---
+- `docker run --name web -d -p 8080:80 nginx:1.29` : 后台启动并映射端口
+- `docker run --rm -it alpine sh` : 启动临时交互容器
+- `docker run -v ${PWD}:/workspace -w /workspace node:22 pnpm test` : 挂载当前目录执行命令
+- `docker run --env-file .env app:dev` : 从文件注入环境变量
+- `docker run --restart unless-stopped redis:7` : 设置自动重启策略
 
-## 卷管理
+```bash
+# 本地开发容器
+docker run \
+  --name api-dev \
+  --detach \
+  --publish 3000:3000 \
+  --env-file .env.local \
+  --volume ${PWD}:/app \
+  --workdir /app \
+  node:22-alpine \
+  sh -lc "corepack enable && pnpm dev --host 0.0.0.0"
+```
 
-- `docker volume ls`：列出卷
-- `docker volume create <volume>`：创建卷
-  - `--driver`：指定卷驱动
-  - `--opt`：指定卷选项
-- `docker volume rm <volume>`：删除卷
-- `docker volume rm $(docker volume ls -q)`：删除所有卷
-- `docker volume inspect <volume>`：查看卷详细信息
-- `docker volume prune`：清理未使用的卷
+## 容器生命周期
+---
+emoji: 🔄
+link: https://docs.docker.com/reference/cli/docker/container/
+desc: 用 start stop restart rm prune 形成清晰的生命周期操作链。
+---
+- `docker ps` : 查看运行中的容器
+- `docker ps -a` : 查看全部容器
+- `docker start web` : 启动已存在容器
+- `docker stop web` : 停止容器
+- `docker restart web` : 重启容器
+- `docker rm web` : 删除已停止容器
+- `docker rm -f web` : 强制删除运行中的容器
+- `docker container prune` : 清理已停止容器
 
-## Dockerfile 指令
+```bash
+# 只清理 exited 容器
+docker ps -a --filter "status=exited"
+docker container prune --force
+```
 
-- `FROM`：指定基础镜像
-  - 示例：`FROM ubuntu:22.04`
-- `MAINTAINER`：指定维护者信息
-  - 示例：`MAINTAINER name <email>`
-- `RUN`：执行命令
-  - 示例：`RUN apt-get update && apt-get install -y nginx`
-- `COPY`：复制文件到镜像
-  - 示例：`COPY . /app`
-- `ADD`：复制文件到镜像（支持 URL 和压缩包）
-  - 示例：`ADD https://example.com/file.tar.gz /app`
-- `WORKDIR`：设置工作目录
-  - 示例：`WORKDIR /app`
-- `ENV`：设置环境变量
-  - 示例：`ENV NODE_ENV production`
-- `EXPOSE`：声明容器端口
-  - 示例：`EXPOSE 80 443`
-- `CMD`：设置容器启动命令
-  - 示例：`CMD ["node", "app.js"]`
-- `ENTRYPOINT`：设置容器入口点
-  - 示例：`ENTRYPOINT ["node"]`
-- `VOLUME`：创建挂载点
-  - 示例：`VOLUME ["/data"]`
-- `USER`：指定运行容器的用户
-  - 示例：`USER node`
-- `ARG`：定义构建参数
-  - 示例：`ARG VERSION=1.0.0`
-- `ONBUILD`：设置触发指令
-  - 示例：`ONBUILD COPY . /app`
+## 进入容器与观测
+---
+emoji: 🔍
+link: https://docs.docker.com/reference/cli/docker/container/exec/
+desc: 进入容器、看日志、拷文件、查进程与资源，是排障最常见路径。
+---
+- `docker exec -it web sh` : 进入容器 shell
+- `docker logs -f --tail 200 web` : 实时查看最后 200 行日志
+- `docker inspect web` : 查看容器详细配置
+- `docker cp web:/usr/share/nginx/html ./html` : 从容器复制文件
+- `docker stats web` : 查看资源占用
+- `docker top web` : 查看容器进程
 
-## Docker Compose
+```bash
+# 直接拿容器 IP 与挂载信息
+docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' web
+docker inspect -f '{{json .Mounts}}' web
+```
 
-- `docker compose up`：启动服务
-  - `-d`：后台运行
-  - `--build`：构建镜像
-  - `--no-deps`：不启动依赖服务
-  - `--scale <service>=<replicas>`：设置服务副本数
-- `docker compose down`：停止服务
-  - `-v`：删除卷
-  - `--rmi all`：删除所有镜像
-  - `--remove-orphans`：删除孤立容器
-- `docker compose ps`：列出服务
-- `docker compose logs`：查看服务日志
-  - `-f`：实时跟踪日志
-  - `--tail <n>`：显示最后 n 行
-- `docker compose build`：构建服务镜像
-  - `--no-cache`：不使用缓存
-  - `--pull`：拉取最新基础镜像
-- `docker compose exec <service> <command>`：在服务容器中执行命令
-- `docker compose start <service>`：启动服务
-- `docker compose stop <service>`：停止服务
-- `docker compose restart <service>`：重启服务
-- `docker compose rm <service>`：删除服务容器
-- `docker compose scale <service>=<replicas>`：扩展服务
-- `docker compose config`：验证 Compose 文件
+## 网络与卷
+---
+emoji: 🌐
+link: https://docs.docker.com/engine/network/
+desc: 自定义网络和命名卷是服务编排的基础设施层。
+---
+- `docker network ls` : 列出网络
+- `docker network create app-net` : 创建桥接网络
+- `docker network connect app-net web` : 将容器接入网络
+- `docker volume ls` : 列出卷
+- `docker volume create pgdata` : 创建命名卷
+- `docker volume inspect pgdata` : 查看卷详情
+- `docker volume prune` : 清理未使用卷
 
-## Docker Swarm
+```bash
+# 创建隔离网络并挂卷运行数据库
+docker network create app-net
+docker volume create pgdata
+docker run -d --name postgres \
+  --network app-net \
+  --volume pgdata:/var/lib/postgresql/data \
+  -e POSTGRES_PASSWORD=secret \
+  postgres:17
+```
 
-- `docker swarm init`：初始化 Swarm
-  - `--advertise-addr`：指定广告地址
-- `docker swarm join`：加入 Swarm
-  - `--token`：指定加入令牌
-  - `--advertise-addr`：指定广告地址
-- `docker swarm join-token`：管理 Swarm 加入令牌
-- `docker swarm leave`：离开 Swarm
-  - `--force`：强制离开
-- `docker swarm update`：更新 Swarm 配置
-- `docker node ls`：列出 Swarm 节点
-- `docker node inspect <node>`：查看节点详细信息
-- `docker node update`：更新节点配置
-- `docker node rm <node>`：删除节点
-- `docker service ls`：列出服务
-- `docker service create`：创建服务
-  - `--name`：指定服务名称
-  - `--replicas`：指定副本数
-  - `--publish`：发布端口
-- `docker service inspect <service>`：查看服务详细信息
-- `docker service scale <service>=<replicas>`：扩展服务
-- `docker service update`：更新服务配置
-- `docker service rm <service>`：删除服务
+## Compose 日常
+---
+emoji: 🧩
+link: https://docs.docker.com/reference/cli/docker/compose/
+desc: Compose 负责多容器开发与测试环境的启动、变更与校验。
+---
+- `docker compose up -d` : 后台启动全部服务
+- `docker compose up --build` : 构建后再启动
+- `docker compose down` : 停止并移除服务
+- `docker compose down -v` : 连同卷一起删除
+- `docker compose logs -f api` : 查看指定服务日志
+- `docker compose exec api sh` : 进入服务容器
+- `docker compose config` : 展开并校验配置
 
-## 实用技巧和最佳实践
+```yaml
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    depends_on:
+      - redis
 
-### 容器管理
-- **容器命名规范**：使用有意义的名称，如 `app-web-1`
-- **资源限制**：为容器设置 CPU 和内存限制
-  - 示例：`docker run --cpus=1 --memory=512m <image>`
-- **清理策略**：定期清理未使用的容器、镜像和卷
-  - 示例：`docker system prune -af`
+  redis:
+    image: redis:7
+```
 
-### 镜像管理
-- **镜像标签管理**：使用语义化版本号，避免使用 `latest`
-- **多阶段构建**：减少镜像大小
-  - 示例：
-    ```dockerfile
-    FROM golang:alpine AS builder
-    ...
-    FROM alpine
-    COPY --from=builder /app /app
-    ```
-- **镜像扫描**：使用 `docker scan <image>` 扫描镜像漏洞
+## Dockerfile 关键指令
+---
+emoji: 📝
+link: https://docs.docker.com/reference/dockerfile/
+desc: 常用指令与缓存顺序决定镜像是否可维护、可复用、可加速。
+---
+- `FROM` : 设定基础镜像
+- `WORKDIR` : 设定工作目录
+- `COPY` : 复制上下文文件
+- `RUN` : 在构建阶段执行命令
+- `ENV` : 写入运行时环境变量
+- `ARG` : 定义构建参数
+- `EXPOSE` : 说明监听端口
+- `ENTRYPOINT` : 固定入口命令
+- `CMD` : 提供默认参数
+- `HEALTHCHECK` : 定义健康检查
 
-### 日志和监控
-- **日志管理**：使用集中式日志系统，如 ELK 或 Loki
-- **健康检查**：在 Dockerfile 中添加 HEALTHCHECK 指令
-  - 示例：`HEALTHCHECK CMD curl -f http://localhost/ || exit 1`
+```dockerfile
+FROM python:3.13-slim
+WORKDIR /srv/app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY . .
+ENV PYTHONUNBUFFERED=1
+EXPOSE 8000
+HEALTHCHECK CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')"
+CMD ["python", "-m", "app"]
+```
 
-### 网络和存储
-- **网络隔离**：为不同服务创建独立网络
-- **卷管理**：使用命名卷而非匿名卷
+## 清理与过滤
+---
+emoji: 🧹
+link: https://docs.docker.com/reference/cli/docker/system/prune/
+desc: 过滤器和 prune 能避免误删，也能快速回收磁盘。
+---
+- `docker image prune` : 清理悬空镜像
+- `docker image prune -a` : 清理未被容器使用的镜像
+- `docker network prune` : 清理未使用网络
+- `docker system prune` : 一次清理未使用资源
+- `docker system prune -a --volumes` : 连同未使用卷一起清理
+- `docker ps --filter "status=running"` : 按条件过滤容器
+- `docker image ls --filter "reference=node:*"` : 过滤镜像列表
 
-### 环境和配置
-- **环境变量**：使用 `.env` 文件管理环境变量
-- **容器编排**：对于生产环境，使用 Kubernetes 或 Docker Swarm
+```bash
+# 删除 24 小时前退出的容器
+docker container prune --force --filter "until=24h"
 
-### 安全最佳实践
-- **最小权限原则**：使用非 root 用户运行容器
-- **镜像签名**：使用 Docker Content Trust 签名镜像
-- **定期更新**：定期更新基础镜像和依赖
+# 只看某个 compose 项目的容器
+docker ps --filter "label=com.docker.compose.project=myapp"
+```
 
-## 系统管理
+## 代理与镜像源
+---
+emoji: 🚥
+link: https://docs.docker.com/engine/daemon/proxy/
+desc: 镜像源配置作用于 daemon，HTTP 代理同时影响 build 与 push。
+---
+- `registry-mirrors` : 配置 daemon 镜像加速地址
+- `HTTP_PROXY` : 构建和拉取外网资源时的代理
+- `NO_PROXY` : 排除内网、localhost 与私有仓库
+- `docker info` : 验证镜像源与代理是否生效
 
-- `docker system df`：显示 Docker 系统磁盘使用情况
-- `docker system prune`：清理未使用的资源
-  - `-a`：清理所有未使用的资源
-  - `--volumes`：清理未使用的卷
-  - `--force`：强制清理
-- `docker system events`：监听 Docker 系统事件
-- `docker system info`：显示 Docker 系统信息
-
-## 镜像加速与代理配置
-
-### 核心概念
-
-*   **镜像加速 (Registry Mirror)**：仅针对 `docker pull` 操作，作用于 Daemon 层面。
-*   **通用代理 (HTTP Proxy)**：影响 `docker build`、`docker push` 及容器运行时的外网访问。
-
-> **⚠️ 安全提示**：
-> - 务必配置 `NO_PROXY` 排除 `localhost`、`127.0.0.1` 及内部域名。
-> - 严禁将包含账号密码的代理 URL 提交到公共仓库。
-
-### Linux (Systemd) 配置
-
-#### 1. 配置镜像加速 (daemon.json)
-编辑 `/etc/docker/daemon.json`：
 ```json
 {
-  "registry-mirrors": ["https://mirror.example.com"],
-  "insecure-registries": [],
-  "debug": false
+  "registry-mirrors": [
+    "https://mirror.example.com"
+  ]
 }
 ```
 
-#### 2. 配置 HTTP/HTTPS 代理
-创建目录：`sudo mkdir -p /etc/systemd/system/docker.service.d`
-编辑 `proxy.conf`：
 ```ini
 [Service]
-Environment="HTTP_PROXY=http://192.168.1.100:7890"
-Environment="HTTPS_PROXY=http://192.168.1.100:7890"
-Environment="NO_PROXY=localhost,127.0.0.1,docker-registry.somecorporation.com"
+Environment="HTTP_PROXY=http://127.0.0.1:7890"
+Environment="HTTPS_PROXY=http://127.0.0.1:7890"
+Environment="NO_PROXY=localhost,127.0.0.1,registry.internal"
 ```
-重载并重启：
+
+## 常见排障
+---
+emoji: 🩺
+link: https://docs.docker.com/engine/containers/run/
+desc: 先定位容器是否启动、端口是否映射、健康检查是否通过，再追日志。
+---
+- `docker ps -a` : 先看容器是否不断退出
+- `docker logs <container>` : 优先看应用日志
+- `docker inspect <container>` : 看环境变量、挂载、健康状态
+- `docker port <container>` : 校验端口映射
+- `docker events` : 观察容器实时事件流
+
 ```bash
-sudo systemctl daemon-reload && sudo systemctl restart docker
+# 连续排查容器退出
+docker ps -a --filter "name=api"
+docker logs api --tail 200
+docker inspect -f '{{json .State.Health}}' api
+docker port api
 ```
-
-### Podman 配置差异
-
-Podman 采用无守护进程架构，配置与 Docker 有显著不同：
-
-| 配置项 | Docker | Podman |
-| --- | --- | --- |
-| **配置文件** | `daemon.json` (JSON) | `registries.conf` (TOML) |
-| **系统路径** | `/etc/docker/daemon.json` | `/etc/containers/registries.conf` |
-| **用户路径** | 不支持 | `~/.config/containers/registries.conf` |
-| **代理生效** | Systemd Service 注入 | 直接读取 Shell 环境变量 |
-
-**Podman 镜像源配置示例 (`registries.conf`)**:
-```toml
-[[registry]]
-prefix = "docker.io"
-location = "docker.io"
-
-[[registry.mirror]]
-location = "mirror.example.com"
-
-unqualified-search-registries = ["docker.io"]
-```
-
-### Windows (Docker Desktop) & WSL2
-
-#### Docker Desktop (GUI)
-1. **设置代理**：Settings -> Resources -> Proxies -> 开启 "Manual proxy configuration"。
-2. **设置镜像**：Settings -> Docker Engine -> 在 JSON 中添加 `"registry-mirrors"`。
-
-#### WSL2 原生发行版 (非 Desktop)
-需注意 WSL2 无法直接通过 `127.0.0.1` 访问 Windows 代理，需使用 `host.docker.internal`。
-编辑 `/etc/systemd/system/docker.service.d/proxy.conf`：
-```ini
-[Service]
-Environment="HTTP_PROXY=http://host.docker.internal:7890"
-Environment="HTTPS_PROXY=http://host.docker.internal:7890"
-Environment="NO_PROXY=localhost,127.0.0.1,*.internal,172.16.0.0/12"
-```
-
-### 特殊环境：NAS 与 路由器
-
-#### Synology 群晖 (DSM)
-- **图形界面**：Container Manager -> Registry -> 选中 Docker Hub -> 编辑 -> 启用“存储库镜像”。
-- **配置文件 (SSH)**：`/var/packages/ContainerManager/etc/dockerd.json` (DSM 7.2+)。
-
-#### OpenWrt
-修改 `/etc/init.d/dockerd`，在 `start_service()` 中注入：
-```bash
-procd_set_param env HTTP_PROXY=http://192.168.1.5:7890
-procd_set_param env HTTPS_PROXY=http://192.168.1.5:7890
-```
-
-### 验证与故障排查
-
-#### 自动化验证脚本
-```bash
-# 检查 Proxy 环境变量
-PID=$(pgrep -n dockerd)
-sudo cat /proc/$PID/environ | tr '\0' '\n' | grep -E 'HTTP_PROXY|HTTPS_PROXY|NO_PROXY'
-
-# 检查 Registry Mirrors
-docker info --format '{{json .RegistryConfig.Mirrors}}'
-```
-
-#### 常见问题
-1. **JSON 语法错误**：使用 `jq . /etc/docker/daemon.json` 验证。
-2. **代理不可达**：检查宿主机是否能 ping 通代理 IP，检查防火墙设置。
-3. **DNS 解析失败**：在 `daemon.json` 中添加 `"dns": ["8.8.8.8"]`。
-
-#### 配置文件路径速查
-| 文件用途 | 典型路径 |
-| --- | --- |
-| Docker 镜像配置 | `/etc/docker/daemon.json` |
-| Docker 代理配置 | `/etc/systemd/system/docker.service.d/proxy.conf` |
-| Podman 系统配置 | `/etc/containers/registries.conf` |
-| TLS 证书目录 | `/etc/docker/certs.d/<domain>/ca.crt` |
