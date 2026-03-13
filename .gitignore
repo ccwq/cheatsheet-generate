@@ -6,3 +6,5 @@ live-server.pid
 node_modules/
 
 .trae/documents
+
+/temp

@@ -60,6 +60,12 @@ body::after {
   font-weight: 600;
   color: var(--text-accent);
   letter-spacing: 0.6px;
+  display: flex;
+  align-items: center;
+}
+
+.card h2>a{
+  margin-left: auto;
 }
 
 .card h3 {
