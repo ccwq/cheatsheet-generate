@@ -1,8 +1,8 @@
 desc: ntl交互式npm脚本管理工具，提供可视化的脚本浏览与执行界面。
 tags:
-  - Automation
-  - CLI
+  - CLI 工具
   - Node.js
+  - 命令行
   - 开发
 version: unknown
 github: ntl/ntl

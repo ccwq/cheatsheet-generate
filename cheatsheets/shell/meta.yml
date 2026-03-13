@@ -1,8 +1,10 @@
 desc: Shell 脚本速查，总结常用命令、结构与示例。
 tags:
-  - Automation
-  - CLI
+  - 自动化工具
+  - 脚本工具
+  - CLI / Terminal
   - DevOps
+  - 命令行
 version: unknown
 github: bminor/bash
 date: "2025-11-17"
