@@ -1,0 +1,9 @@
+desc: Yazi - 用 Rust 编写的极速终端文件管理器，支持异步操作、图像预览、多标签页。
+tags:
+  - CLI
+  - 文件管理
+  - Rust
+  - 终端
+version: v26.1.22
+github: sxyazi/yazi
+date: "2026-03-13"
