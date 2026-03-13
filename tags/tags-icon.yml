@@ -1,0 +1,102 @@
+default:
+  icon: mdi:tag-outline
+
+tags:
+  "2.0": mdi:numeric-2-circle-outline
+  "3D": mdi:cube-outline
+  "3D / 图形": mdi:cube-scan
+  "版本控制": mdi:source-branch
+  "VersionControl": mdi:source-branch
+  "地图": mdi:map-outline
+  "GIS": mdi:map-marker-radius-outline
+  "Leaflet": mdi:map-legend
+  "动画引擎": mdi:motion-outline
+  "Visualization": mdi:chart-areaspline
+  "图形 / 可视化": mdi:chart-areaspline
+  "反爬虫": mdi:shield-alert-outline
+  "构建": mdi:hammer-wrench
+  "Build": mdi:hammer-wrench
+  "进程管理": mdi:timeline-cog-outline
+  "开发": mdi:code-tags
+  "库 / SDK": mdi:library-outline
+  "Library": mdi:library-outline
+  "框架": mdi:toy-brick-outline
+  "Framework": mdi:toy-brick-outline
+  "命令行": mdi:console
+  "终端": mdi:console-line
+  "Terminal": mdi:console-line
+  "CLI": mdi:console
+  "CLI / Terminal": mdi:console
+  "CLI 工具": mdi:console-network-outline
+  "爬虫": mdi:spider-outline
+  "守护进程": mdi:server-outline
+  "数据提取": mdi:database-export-outline
+  "文件管理": mdi:folder-outline
+  "效率": mdi:lightning-bolt-outline
+  "性能优化": mdi:speedometer
+  "运维": mdi:server
+  "DevOps": mdi:infinity
+  "AI": mdi:brain
+  "AI工具": mdi:robot-outline
+  "AI / LLM": mdi:brain
+  "AI 辅助工具": mdi:robot-outline
+  "Android": mdi:android
+  "API": mdi:api
+  "Automation": mdi:robot
+  "CSS": mdi:language-css3
+  "CSS-in-JS": mdi:code-braces
+  "Debug": mdi:bug-outline
+  "Documentation": mdi:file-document-outline
+  "Editor": mdi:file-edit-outline
+  "IDE / 编辑器": mdi:application-brackets-outline
+  "ESM": mdi:language-javascript
+  "Extension": mdi:puzzle-outline
+  "Game": mdi:gamepad-variant-outline
+  "GUI": mdi:monitor-dashboard
+  "JavaScript": mdi:language-javascript
+  "TypeScript": mdi:language-typescript
+  "Python": mdi:language-python
+  "Kotlin": mdi:language-kotlin
+  "Lua": mdi:language-lua
+  "Rust": mdi:language-rust
+  "Vue": mdi:vuejs
+  "Knowledge": mdi:book-open-variant
+  "知识管理": mdi:book-open-page-variant-outline
+  "Learning": mdi:school-outline
+  "学习 / 入门": mdi:school-outline
+  "Logging": mdi:file-document-multiple-outline
+  "Monorepo": mdi:source-fork
+  "多仓库管理": mdi:source-fork
+  "Network": mdi:lan
+  "网络工具": mdi:lan-connect
+  "Node.js": mdi:nodejs
+  "OS": mdi:laptop
+  "操作系统": mdi:desktop-classic
+  "Windows": mdi:microsoft-windows
+  "PackageManager": mdi:package-variant-closed
+  "包管理器": mdi:package-variant-closed
+  "Plugin": mdi:puzzle
+  "插件": mdi:puzzle
+  "Refactor": mdi:file-replace-outline
+  "重构": mdi:file-replace-outline
+  "Search": mdi:magnify
+  "Shell": mdi:console-line
+  "Test": mdi:test-tube
+  "Web": mdi:web
+  "Web 前端": mdi:monitor-cellphone
+  "Web API": mdi:webhook
+  "Workflow": mdi:timeline-text-outline
+  "平台 / 领域": mdi:shape-outline
+  "工具类型": mdi:tools
+  "使用阶段": mdi:timeline-outline
+  "交互形态": mdi:gesture-tap-box
+  "地理引擎": mdi:earth
+  "构建工具": mdi:hammer-wrench
+  "调试工具": mdi:bug
+  "自动化工具": mdi:robot
+  "脚本工具": mdi:script-text-outline
+  "发布": mdi:rocket-launch-outline
+  "测试": mdi:test-tube
+  "规范 / 流程": mdi:clipboard-check-outline
+  "代理 / 服务": mdi:server-network-outline
+  "Obsidian": mdi:book-open-variant

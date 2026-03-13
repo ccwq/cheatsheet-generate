@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.4](https://github.com/ccwq/cheatsheet-generate/compare/v0.1.3...v0.1.4) (2026-03-13)
+
+### Features
+
+* **nav:** 为导航页和速查表详情页引入带图标的标签组件，并补充标签图标映射
+* **build:** 固定预览服务版本并补充标签图标依赖
+
+
 ### [0.1.3](https://github.com/ccwq/cheatsheet-generate/compare/v0.1.2...v0.1.3) (2026-03-11)
 
 

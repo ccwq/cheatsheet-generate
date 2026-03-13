@@ -28,40 +28,16 @@
 .tag {
   display: inline-flex;
   align-items: center;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 12px;
-  cursor: pointer;
-  /* 默认使用低透明度的主色作为背景，增强区分度 */
-  border: 1px solid var(--tag-border-dim, rgba(255, 255, 255, 0.1));
-  background: var(--tag-bg-dim, rgba(255, 255, 255, 0.05));
   color: var(--tag-text, #cfe4ff);
-  transition: all 0.2s ease;
   user-select: none;
 }
 
 .tag:hover {
-  /* 悬停时稍微加深 */
-  background: var(--tag-bg-hover, rgba(255, 255, 255, 0.1));
-  border-color: var(--tag-border, #69a7ff);
   z-index: 1;
-  box-shadow: 0 0 8px var(--tag-border, #69a7ff);
 }
 
 .tag.active {
-  /* 选中状态：高亮背景 */
-  background: var(--tag-bg, #3e5bd4);
-  border-color: var(--tag-border, #69a7ff);
   color: #fff;
-  font-weight: 600;
-  box-shadow: 0 0px 10px var(--tag-bg-dim),0 0px 10px var(--tag-bg-dim), 0 0px 10px var(--tag-bg-dim);
-  
-}
-
-.tag .count {
-  margin-left: 6px;
-  font-size: 0.85em;
-  opacity: 0.7;
 }
 
 /* 分组颜色定义
@@ -223,13 +199,24 @@
 }
 
 .card-tags .tag {
-  font-size: 10px;
-  padding: 1px 6px;
-  background: var(--tag-card-bg);
-  border: 1px solid var(--tag-card-border);
-  opacity: 0.8;
+  --tag-chip-font-size: 10px;
+  --tag-chip-padding: 1px 6px;
+  --tag-chip-cursor: default;
+  --tag-card-opacity: 0.82;
 }
 .card-tags .tag:hover {
-  opacity: 1;
   transform: none;
+}
+
+.meta-tags {
+  margin: 4px 0 2px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.meta-tags .tag {
+  --tag-chip-font-size: 11px;
+  --tag-chip-padding: 3px 8px;
+  --tag-chip-cursor: default;
 }

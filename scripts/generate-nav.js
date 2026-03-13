@@ -12,44 +12,18 @@ const path = require('path');
 const he = require('he');
 const yaml = require('js-yaml');
 const pkg = require(path.join(process.cwd(), 'package.json'));
+const { createTagIconResolver } = require('./tag-icon-utils.cjs');
 
 // 需要扫描的 cheatsheet 根目录
 // 决策：仅从 `cheatsheets/` 目录收集数据，避免发布时混入导入源目录
 const ROOTS = ['cheatsheets'];
 const TEMPLATE_PATH = path.join(process.cwd(), 'templates', 'nav.template.html');
 const OUTPUT_PATH = path.join(process.cwd(), 'index.html');
-const TAGS_DEFINE_PATH = path.join(process.cwd(), 'tags', 'tags-define.yml');
-
 /**
  * 读取文件是否存在
  */
 async function exists(p) {
   try { await fs.access(p); return true; } catch { return false; }
-}
-
-/**
- * 加载标签定义，返回 标签名 -> 分组ID 的映射
- */
-async function loadTagDefs() {
-  if (!(await exists(TAGS_DEFINE_PATH))) return {};
-  try {
-    const content = await fs.readFile(TAGS_DEFINE_PATH, 'utf8');
-    const defs = yaml.load(content) || [];
-    const map = {};
-    // defs 是一个数组，每个元素是一个分组对象
-    // 分组ID 从 1 开始
-    defs.forEach((group, idx) => {
-      if (group.tags && Array.isArray(group.tags)) {
-        group.tags.forEach(t => {
-          map[t] = idx + 1;
-        });
-      }
-    });
-    return map;
-  } catch (e) {
-    console.error('加载标签定义失败:', e);
-    return {};
-  }
 }
 
 /**
@@ -198,7 +172,7 @@ function attachRecencyMeta(items) {
 /**
  * 将 items 渲染为卡片 HTML 片段
  */
-function renderItems(items, tagGroupMap) {
+function renderItems(items, tagRenderer) {
   return items.map(it => {
     const title = he.encode(it.title);
     const desc = he.encode(it.desc || '');
@@ -217,10 +191,7 @@ function renderItems(items, tagGroupMap) {
     
     // 渲染卡片底部的标签 HTML
     const tagsHtml = it.tags && it.tags.length > 0 
-      ? `<div class="card-tags">${it.tags.map(t => {
-          const group = tagGroupMap[t] || 0;
-          return `<span class="tag tag-group-${group}" data-group="${group}">${he.encode(t)}</span>`;
-        }).join('')}</div>` 
+      ? `<div class="card-tags">${it.tags.map(t => tagRenderer(t, { variant: 'card', className: 'card-tag' })).join('')}</div>` 
       : '';
 
     const metaParts = [];
@@ -266,18 +237,22 @@ async function main() {
   const rawItems = await collectAll(tagCounts);
   const items = attachRecencyMeta(rawItems);
   
-  // 加载标签分组定义
-  const tagGroupMap = await loadTagDefs();
+  const tagResolver = createTagIconResolver();
   
   // 生成标签数据 JSON
-  const tagData = Object.keys(tagCounts).map(name => ({
-    name,
-    count: tagCounts[name],
-    group: tagGroupMap[name] || 0 // 0 表示未分组
-  })).sort((a, b) => b.count - a.count); // 按数量降序
+  const tagData = Object.keys(tagCounts).map(name => {
+    const tagMeta = tagResolver.resolveTagMeta(name);
+    return {
+      name,
+      count: tagCounts[name],
+      group: tagMeta.group,
+      icon: tagMeta.icon,
+      iconSvg: tagMeta.iconSvg,
+    };
+  }).sort((a, b) => b.count - a.count); // 按数量降序
   
   // 渲染 HTML
-  const html = renderItems(items, tagGroupMap);
+  const html = renderItems(items, tagResolver.renderTagChip);
   
   // 注入内容
   let out = tpl.replace('<!-- CHEATSHEET_ITEMS -->', html);

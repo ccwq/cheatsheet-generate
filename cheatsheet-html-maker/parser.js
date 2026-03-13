@@ -8,7 +8,7 @@ import yaml from 'js-yaml'
  * @property {string} type
  * @property {string} title
  * @property {string} lang
- * @property {{version: string, date: string, github: string, colWidth: string}} meta
+ * @property {{version: string, date: string, github: string, colWidth: string, tags: string[]}} meta
  * @property {CardModel[]} cards
  */
 
@@ -393,6 +393,9 @@ export function parseCheatsheetMarkdown(markdown) {
       date: typeof frontmatter.date === 'string' && frontmatter.date.trim() ? frontmatter.date.trim() : 'unknown',
       github: typeof frontmatter.github === 'string' && frontmatter.github.trim() ? frontmatter.github.trim() : 'unknown',
       colWidth: normalizeColWidth(frontmatter.colWidth, DEFAULT_COL_WIDTH),
+      tags: Array.isArray(frontmatter.tags)
+        ? frontmatter.tags.map((tag) => String(tag || '').trim()).filter(Boolean)
+        : [],
     },
     cards: [],
   }

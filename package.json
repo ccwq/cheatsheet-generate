@@ -1,7 +1,7 @@
 {
   "name": "cheatsheet-generate",
   "private": true,
-  "version": "1.0.0",  
+  "version": "0.1.4",
   "description": "AI-based cheatsheet generator and downloader",
   "scripts": {
     "build": "npm run build:cheat:all && npm run build:nav",
@@ -13,12 +13,13 @@
     "fav:inject": "node scripts/inject-favicon.js",
     "watch": "node scripts/watch.js",
     "workflow": "node scripts/workflow.js",
-    "release": "npm run release:patch",
+    "release": "npx -y standard-version",
     "changelog": "npx -y standard-version",
     "update-skills": "node scripts/update-skills.js",
-    "preview": "npx -y live-server . --port=36715"
+    "preview": "npx -y live-server@1.2.2 . --port=36715"
   },
   "dependencies": {
+    "@iconify-json/mdi": "^1.2.3",
     "canvas": "^3.2.0",
     "chalk": "^4.1.2",
     "cheerio": "^1.0.0-rc.12",

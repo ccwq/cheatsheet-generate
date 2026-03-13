@@ -58,12 +58,21 @@
 
     // 渲染标签
     window.TAG_DATA.forEach(function(tag) {
-      var el = document.createElement('span');
+      var el = document.createElement('tag-chip');
       el.className = 'tag tag-group-' + (tag.group || 0);
       el.dataset.name = tag.name;
       el.dataset.group = tag.group;
+      el.setAttribute('label', tag.name);
+      el.setAttribute('group', tag.group || 0);
+      el.setAttribute('variant', 'filter');
+      el.setAttribute('count', tag.count || 0);
+      if (tag.icon) {
+        el.setAttribute('icon', tag.icon);
+      }
+      if (tag.iconSvg) {
+        el.setAttribute('icon-svg', tag.iconSvg);
+      }
       el.title = tag.name;
-      el.innerHTML = `${tag.name} <span class="count">${tag.count}</span>`;
       el.onclick = function() { toggleTag(tag.name, el); };
       tagList.appendChild(el);
     });

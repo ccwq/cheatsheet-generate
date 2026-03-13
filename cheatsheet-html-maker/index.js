@@ -145,6 +145,10 @@ async function loadMetaFromYml(inputPath) {
       version: typeof data.version === 'string' && data.version.trim() ? data.version.trim() : 'unknown',
       date: typeof data.date === 'string' && data.date.trim() ? data.date.trim() : 'unknown',
       github: typeof data.github === 'string' && data.github.trim() ? data.github.trim() : 'unknown',
+      tags: Array.isArray(data.tags)
+        ? data.tags.map((tag) => String(tag || '').trim()).filter(Boolean)
+        : [],
+      colWidth: typeof data.colWidth === 'string' && data.colWidth.trim() ? data.colWidth.trim() : '',
     }
   } catch {
     return null
@@ -162,6 +166,7 @@ function mergeMetaWithFallback(model, fallbackMeta) {
     date: current.date && current.date !== 'unknown' ? current.date : fallbackMeta.date,
     github: current.github && current.github !== 'unknown' ? current.github : fallbackMeta.github,
     colWidth: current.colWidth && current.colWidth !== '340px' ? current.colWidth : fallbackMeta.colWidth,
+    tags: Array.isArray(current.tags) && current.tags.length > 0 ? current.tags : fallbackMeta.tags,
   }
 }
 

@@ -1,3 +1,7 @@
+import tagIconUtils from '../scripts/tag-icon-utils.cjs'
+
+const { createTagIconResolver } = tagIconUtils
+
 function escapeHtml(value) {
   return String(value || '')
     .replace(/&/g, '&amp;')
@@ -133,6 +137,7 @@ export function renderCards(model) {
 }
 
 export function renderDocument(model, templateHtml) {
+  const tagResolver = createTagIconResolver()
   const title = escapeHtml(model.title || 'Cheatsheet')
   const metaVersion = escapeHtml(model.meta?.version || 'unknown')
   const metaDate = escapeHtml(model.meta?.date || 'unknown')
@@ -142,6 +147,10 @@ export function renderDocument(model, templateHtml) {
     ? `<a class="meta-link" href="${escapeHtml(githubUrl)}" target="_blank" rel="noopener">${metaGithub}</a>`
     : metaGithub
   const cardsHtml = renderCards(model)
+  const metaTags = Array.isArray(model.meta?.tags) ? model.meta.tags : []
+  const metaTagsHtml = metaTags.length > 0
+    ? `<div class="meta-tags">${metaTags.map((tag) => tagResolver.renderTagChip(tag, { variant: 'detail', className: 'detail-tag' })).join('')}</div>`
+    : ''
 
   const colWidth = escapeHtml(model.meta?.colWidth || '340px')
 
@@ -151,6 +160,7 @@ export function renderDocument(model, templateHtml) {
     .replace('<!-- META_VERSION -->', metaVersion)
     .replace('<!-- META_DATE -->', metaDate)
     .replace('<!-- META_GITHUB -->', githubHtml)
+    .replace('<!-- META_TAGS -->', metaTagsHtml)
     .replace('<!-- CHEATSHEET_CONTENT -->', cardsHtml)
     .replace('<!-- CHEATSHEET_CONTENT -->', cardsHtml)
     .replace('<!-- COL_WIDTH -->', colWidth)
