@@ -16,7 +16,7 @@
     "release": "npm run release:patch",
     "changelog": "npx -y standard-version",
     "update-skills": "node scripts/update-skills.js",
-    "preview": "npx -y live-server ."
+    "preview": "npx -y live-server . --port=36715"
   },
   "dependencies": {
     "canvas": "^3.2.0",
