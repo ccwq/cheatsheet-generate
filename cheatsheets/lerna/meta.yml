@@ -1,7 +1,7 @@
 desc: Lerna 管理/发布多包仓库：变更集、运行/执行、版本与发布。
 tags:
-  - CLI
-  - Monorepo
+  - CLI 工具
+  - 多仓库管理
   - Node.js
   - 开发
 version: unknown

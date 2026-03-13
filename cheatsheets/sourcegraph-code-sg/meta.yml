@@ -1,6 +1,6 @@
 desc: Sourcegraph Code Search 查询语法与关键过滤器速查
 tags:
-  - CLI
+  - CLI 工具
   - 开发
 version: unknown
 github: sourcegraph/src-cli

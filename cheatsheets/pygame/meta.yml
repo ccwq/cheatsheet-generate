@@ -1,7 +1,7 @@
 desc: Pygame游戏开发库核心API速查表，包含游戏循环、图形绘制、精灵系统、事件处理等核心功能
 tags:
-  - Game
-  - Library
+  - 游戏开发
+  - 库 / SDK
   - Python
   - 开发
 version: unknown

@@ -1,8 +1,8 @@
 desc: curl 命令行工具速查表，涵盖 HTTP 请求、数据传输、认证授权、代理设置、调试诊断等核心功能。
 tags:
-  - CLI
-  - Network
-  - Web
+  - CLI 工具
+  - 网络工具
+  - Web 前端
   - 开发
 version: 8.12.0
 github: curl/curl

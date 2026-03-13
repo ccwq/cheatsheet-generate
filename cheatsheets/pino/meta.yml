@@ -1,10 +1,9 @@
 desc: 高性能 Node.js 结构化日志库 Pino 的核心 API 与实战用法速查。
 tags:
-  - Debug
+  - 调试
   - DevOps
   - JavaScript
-  - Library
-  - Logging
+  - 库 / SDK
   - Node.js
   - 开发
 version: unknown

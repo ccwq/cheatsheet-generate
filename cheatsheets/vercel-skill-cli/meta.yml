@@ -1,7 +1,7 @@
 desc: Vercel Skills CLI 是 AI Agent 技能生态系统的管理工具，支持 40+ 个 AI 编码工具，一键安装和管理可复用的 Agent 技能
 tags:
-  - AI
-  - CLI
+  - AI / LLM
+  - CLI 工具
   - Node.js
   - 开发
 version: latest

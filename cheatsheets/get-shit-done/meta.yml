@@ -1,9 +1,9 @@
 desc: 面向 Claude Code 的元提示和上下文工程框架，解决大模型上下文腐败问题
 tags:
-  - AI
-  - CLI
+  - AI / LLM
+  - CLI 工具
   - 开发
   - 效率
-version: "latest"
+version: latest
 github: gsd-build/get-shit-done
 date: "2026-03-12"

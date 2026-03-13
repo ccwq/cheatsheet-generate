@@ -1,8 +1,8 @@
 desc: uTools 插件开发指南，涵盖插件结构、API 使用和发布流程。
 tags:
-  - Framework
+  - 框架
   - GUI
-  - Web
+  - Web 前端
   - 开发
 version: unknown
 github: unknown

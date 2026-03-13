@@ -1,9 +1,9 @@
 desc: WezTerm 跨平台终端模拟器的使用速查表，涵盖安装、Lua 配置、快捷键、多路复用、分屏、复制模式等核心功能
 tags:
   - Lua
-  - OS
+  - 操作系统
   - Rust
-  - Terminal
+  - CLI / Terminal
 version: 20240203-110809-5046fc22
 github: wez/wezterm
 date: "2026-03-09"

@@ -1,8 +1,8 @@
 desc: pnpm 高性能 Node.js 包管理与多包工作区速查表
 tags:
-  - CLI
+  - CLI 工具
   - Node.js
-  - PackageManager
+  - 包管理器
   - 开发
 version: unknown
 github: pnpm/pnpm

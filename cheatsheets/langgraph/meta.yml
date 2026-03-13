@@ -1,0 +1,10 @@
+desc: LangGraph 速查，覆盖 StateGraph、持久化、Interrupt、流式输出与多代理编排的高频用法。
+tags:
+  - AI / LLM
+  - Python
+  - 开发
+  - 库 / SDK
+  - 框架
+version: 1.0.6
+github: langchain-ai/langgraph
+date: "2026-01-12"

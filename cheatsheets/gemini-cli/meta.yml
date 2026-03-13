@@ -1,7 +1,7 @@
 desc: Google 官方 Gemini 命令行工具，支持代码分析、交互式对话、上下文记忆及自动化任务。
 tags:
-  - AI
-  - CLI
+  - AI / LLM
+  - CLI 工具
   - 开发
 version: unknown
 github: google-gemini/generative-ai-python

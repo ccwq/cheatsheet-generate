@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>LangGraph 速查表</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png">
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 460px; 
+      --gap: 16px;
+    }
+
+    .panel label {
+      color: var(--panel-accent);
+    }
+
+    .panel .title {
+      color: var(--panel-accent);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-link);
+      text-decoration: none;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .home-link:hover {
+      text-decoration: underline;
+    }
+
+    .home-link svg {
+      width: 16px;
+      height: 16px;
+      flex: none;
+    }
+
+    .card pre,
+    .card pre code[class^="language-"] {
+      font-size: 13px;
+      line-height: 1.2;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .card h2 {
+      font-size: 16px;
+    }
+
+    .card,
+    .card li,
+    .desc {
+      font-size: 14px;
+      line-height: 1.2;
+    }
+
+    .meta-link {
+      color: var(--text-link);
+    }
+
+    .meta-link:hover {
+      text-decoration: underline;
+    }
+
+    .meta-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
+      <span class="title">LangGraph 速查表</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label">版本</span><span class="meta-value">1.0.6</span></span>
+        <span class="meta-item"><span class="meta-label">更新日志</span><span class="meta-value">2026-01-12</span></span>
+        <span class="meta-item"><span class="meta-label">GitHub</span><span class="meta-value"><a class="meta-link" href="https://github.com/langchain-ai/langgraph" target="_blank" rel="noopener">langchain-ai/langgraph</a></span></span>
+      </div>
+      <div class="meta-tags"><tag-chip class="tag tag-group-1 detail-tag" data-name="AI / LLM" data-group="1" label="AI / LLM" group="1" variant="detail" icon="mdi:brain" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M21.33 12.91c.09 1.55-.62 3.04-1.89 3.95l.77 1.49c.23.45.26.98.06 1.45c-.19.47-.58.84-1.06 1l-.79.25a1.69 1.69 0 0 1-1.86-.55L14.44 18c-.89-.15-1.73-.53-2.44-1.1c-.5.15-1 .23-1.5.23c-.88 0-1.76-.27-2.5-.79c-.53.16-1.07.23-1.62.22c-.79.01-1.57-.15-2.3-.45a4.1 4.1 0 0 1-2.43-3.61c-.08-.72.04-1.45.35-2.11c-.29-.75-.32-1.57-.07-2.33C2.3 7.11 3 6.32 3.87 5.82c.58-1.69 2.21-2.82 4-2.7c1.6-1.5 4.05-1.66 5.83-.37c.42-.11.86-.17 1.3-.17c1.36-.03 2.65.57 3.5 1.64c2.04.53 3.5 2.35 3.58 4.47c.05 1.11-.25 2.2-.86 3.13c.07.36.11.72.11 1.09m-5-1.41c.57.07 1.02.5 1.02 1.07a1 1 0 0 1-1 1h-.63c-.32.9-.88 1.69-1.62 2.29c.25.09.51.14.77.21c5.13-.07 4.53-3.2 4.53-3.25a2.59 2.59 0 0 0-2.69-2.49a1 1 0 0 1-1-1a1 1 0 0 1 1-1c1.23.03 2.41.49 3.33 1.3c.05-.29.08-.59.08-.89c-.06-1.24-.62-2.32-2.87-2.53c-1.25-2.96-4.4-1.32-4.4-.4c-.03.23.21.72.25.75a1 1 0 0 1 1 1c0 .55-.45 1-1 1c-.53-.02-1.03-.22-1.43-.56c-.48.31-1.03.5-1.6.56c-.57.05-1.04-.35-1.07-.9a.97.97 0 0 1 .88-1.1c.16-.02.94-.14.94-.77c0-.66.25-1.29.68-1.79c-.92-.25-1.91.08-2.91 1.29C6.75 5 6 5.25 5.45 7.2C4.5 7.67 4 8 3.78 9c1.08-.22 2.19-.13 3.22.25c.5.19.78.75.59 1.29c-.19.52-.77.78-1.29.59c-.73-.32-1.55-.34-2.3-.06c-.32.27-.32.83-.32 1.27c0 .74.37 1.43 1 1.83c.53.27 1.12.41 1.71.4q-.225-.39-.39-.81a1.038 1.038 0 0 1 1.96-.68c.4 1.14 1.42 1.92 2.62 2.05c1.37-.07 2.59-.88 3.19-2.13c.23-1.38 1.34-1.5 2.56-1.5m2 7.47l-.62-1.3l-.71.16l1 1.25zm-4.65-8.61a1 1 0 0 0-.91-1.03c-.71-.04-1.4.2-1.93.67c-.57.58-.87 1.38-.84 2.19a1 1 0 0 0 1 1c.57 0 1-.45 1-1c0-.27.07-.54.23-.76c.12-.1.27-.15.43-.15c.55.03 1.02-.38 1.02-.92&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-1 detail-tag" data-name="Python" data-group="1" label="Python" group="1" variant="detail" icon="mdi:language-python" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M19.14 7.5A2.86 2.86 0 0 1 22 10.36v3.78A2.86 2.86 0 0 1 19.14 17H12c0 .39.32.96.71.96H17v1.68a2.86 2.86 0 0 1-2.86 2.86H9.86A2.86 2.86 0 0 1 7 19.64v-3.75a2.85 2.85 0 0 1 2.86-2.85h5.25a2.85 2.85 0 0 0 2.85-2.86V7.5zm-4.28 11.79c-.4 0-.72.3-.72.89s.32.71.72.71a.71.71 0 0 0 .71-.71c0-.59-.32-.89-.71-.89m-10-1.79A2.86 2.86 0 0 1 2 14.64v-3.78A2.86 2.86 0 0 1 4.86 8H12c0-.39-.32-.96-.71-.96H7V5.36A2.86 2.86 0 0 1 9.86 2.5h4.28A2.86 2.86 0 0 1 17 5.36v3.75a2.85 2.85 0 0 1-2.86 2.85H8.89a2.85 2.85 0 0 0-2.85 2.86v2.68zM9.14 5.71c.4 0 .72-.3.72-.89s-.32-.71-.72-.71c-.39 0-.71.12-.71.71s.32.89.71.89&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-3 detail-tag" data-name="开发" data-group="3" label="开发" group="3" variant="detail" icon="mdi:code-tags" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m14.6 16.6l4.6-4.6l-4.6-4.6L16 6l6 6l-6 6zm-5.2 0L4.8 12l4.6-4.6L8 6l-6 6l6 6z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-4 detail-tag" data-name="库 / SDK" data-group="4" label="库 / SDK" group="4" variant="detail" icon="mdi:library-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M12 14.27L10.64 13A11.24 11.24 0 0 0 5 10.18v6.95c2.61.34 5 1.34 7 2.82c2-1.48 4.39-2.48 7-2.82v-6.95c-2.16.39-4.09 1.39-5.64 2.82M19 8.15c.65-.1 1.32-.15 2-.15v11c-3.5 0-6.64 1.35-9 3.54C9.64 20.35 6.5 19 3 19V8c.68 0 1.35.05 2 .15c2.69.41 5.1 1.63 7 3.39c1.9-1.76 4.31-2.98 7-3.39M12 6c.27 0 .5-.1.71-.29c.19-.21.29-.44.29-.71s-.1-.5-.29-.71C12.5 4.11 12.27 4 12 4s-.5.11-.71.29c-.18.21-.29.45-.29.71s.11.5.29.71c.21.19.45.29.71.29m2.12 1.12a2.997 2.997 0 1 1-4.24-4.24a2.997 2.997 0 1 1 4.24 4.24&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-4 detail-tag" data-name="框架" data-group="4" label="框架" group="4" variant="detail" icon="mdi:toy-brick-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M19 6V5a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v1h-2V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v1H3v14h18V6m-2 12H5V8h14Z&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>🧭 核心定位 <a href="https://docs.langchain.com/oss/python/langgraph/overview" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">LangGraph 适合需要状态、持久化、中断恢复和自定义编排的 Agent / Workflow 场景。</div><ul><li><code>StateGraph</code>：用  CODE  把节点、边和状态连接起来</li><li><code>create_agent</code>：标准 ReAct / tool loop 优先用 LangChain，高定制工作流再下沉到 LangGraph</li><li>适合长时运行、需要人工审批、需要 checkpoint、需要 time travel 的任务</li><li><code>StateGraph</code> <code>START</code> <code>END</code> <code>Command</code> <code>interrupt</code> <code>checkpointer</code>： CODE 、 CODE 、 CODE 、 CODE 、 CODE 、 CODE </li><li>常见心智模型：节点负责“读状态 -&gt; 产出局部更新”，图负责“路由 + 持久化 + 恢复”</li></ul></div><div class="card"><h2>🚀 最小可运行图 <a href="https://docs.langchain.com/oss/python/langgraph/quickstart" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">从一个只有单节点的图开始，先跑通 compile -&gt; invoke 的最小闭环。</div><ul><li><code>StateGraph(State)</code>：声明图使用的状态结构</li><li><code>add_node()</code>：注册节点函数</li><li><code>add_edge(START, &quot;...&quot;)</code> <code>add_edge(&quot;...&quot;, END)</code>：连接执行路径</li><li><code>compile()</code>：生成可执行 graph</li><li><code>invoke(input)</code>：同步执行并返回最终状态</li></ul><pre><code class="language-python">from typing_extensions import TypedDict
+from langgraph.graph import StateGraph, START, END
+
+
+class State(TypedDict):
+    topic: str
+    draft: str
+
+
+def write_draft(state: State):
+    return {&quot;draft&quot;: f&quot;围绕 {state[&#39;topic&#39;]} 生成一段摘要&quot;}
+
+
+builder = StateGraph(State)
+builder.add_node(&quot;write_draft&quot;, write_draft)
+builder.add_edge(START, &quot;write_draft&quot;)
+builder.add_edge(&quot;write_draft&quot;, END)
+
+graph = builder.compile()
+result = graph.invoke({&quot;topic&quot;: &quot;LangGraph&quot;})
+print(result)</code></pre></div><div class="card"><h2>💬 MessagesState 聊天骨架 <a href="https://docs.langchain.com/oss/python/langgraph/use-graph-api" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">需要自己控制消息流、节点顺序和工具节点时，用 MessagesState 比直接写 Agent 更灵活。</div><ul><li><code>MessagesState</code>：内置消息状态结构，适合聊天式图</li><li><code>{&quot;messages&quot;: [new_message]}</code>：由运行时追加到消息列表</li><li><code>langchain.agents.create_agent</code>：优先  CODE </li><li>需要定制路由、审批和恢复：再切回 LangGraph</li></ul><pre><code class="language-python"># 假设模型 provider 已配置
+from langchain.chat_models import init_chat_model
+from langgraph.graph import StateGraph, MessagesState, START, END
+
+model = init_chat_model(&quot;openai:gpt-4o-mini&quot;)
+
+
+def chatbot(state: MessagesState):
+    reply = model.invoke(state[&quot;messages&quot;])
+    return {&quot;messages&quot;: [reply]}
+
+
+builder = StateGraph(MessagesState)
+builder.add_node(&quot;chatbot&quot;, chatbot)
+builder.add_edge(START, &quot;chatbot&quot;)
+builder.add_edge(&quot;chatbot&quot;, END)
+
+graph = builder.compile()
+graph.invoke({&quot;messages&quot;: [{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;用一句话解释 LangGraph&quot;}]})</code></pre></div><div class="card"><h2>🧱 状态 Schema 与 Reducer <a href="https://docs.langchain.com/oss/python/langgraph/graph-api" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Reducer 用来定义同一状态字段在多步或并行分支下该如何合并。</div><ul><li><code>TypedDict</code>：最常见的状态 schema 载体</li><li><code>Annotated[..., reducer]</code>：声明字段的合并策略</li><li>没有 reducer 的字段：后写覆盖前写</li><li>列表累积、日志聚合、消息追加：通常要显式写 reducer</li></ul><pre><code class="language-python">from operator import add
+from typing_extensions import Annotated, TypedDict
+
+
+class State(TypedDict):
+    query: str
+    steps: Annotated[list[str], add]
+    answer: str
+
+
+def plan(state: State):
+    return {&quot;steps&quot;: [&quot;plan&quot;]}
+
+
+def search(state: State):
+    return {&quot;steps&quot;: [&quot;search&quot;], &quot;answer&quot;: f&quot;已检索：{state[&#39;query&#39;]}&quot;}</code></pre></div><div class="card"><h2>🔀 条件路由与 Command <a href="https://docs.langchain.com/oss/python/langgraph/use-graph-api" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">需要同时更新状态和跳转目标时，直接从节点返回 Command 最干净。</div><ul><li><code>add_conditional_edges()</code>：适合把“路由函数”和“业务节点”分开</li><li><code>Command(goto=..., update=...)</code>：适合在同一个节点里同时做状态更新和跳转</li><li><code>goto</code></li><li><code>update</code></li></ul><pre><code class="language-python">from typing import Literal
+from typing_extensions import TypedDict
+from langgraph.types import Command
+
+
+class RouteState(TypedDict):
+    question: str
+    need_search: bool
+    route: str
+
+
+def router(state: RouteState) -&gt; Command[Literal[&quot;search&quot;, &quot;answer&quot;]]:
+    if state[&quot;need_search&quot;]:
+        return Command(goto=&quot;search&quot;, update={&quot;route&quot;: &quot;search&quot;})
+    return Command(goto=&quot;answer&quot;, update={&quot;route&quot;: &quot;answer&quot;})</code></pre><h3>什么时候用哪种方式</h3><ul><li><code>add_edge()</code>：路径固定</li><li><code>add_conditional_edges()</code>：只负责分流</li><li><code>Command</code>：分流同时还要写状态</li></ul></div><div class="card"><h2>💾 持久化与 Thread <a href="https://docs.langchain.com/oss/python/langgraph/persistence" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Checkpointer 会在每个 super-step 保存状态；同一个 thread_id 就是同一条可恢复执行链。</div><ul><li><code>checkpointer</code>：LangGraph 内建持久化入口</li><li><code>thread_id</code>：恢复、记忆、time travel 的主键</li><li><code>InMemorySaver</code></li><li>生产环境优先 SQLite / Postgres 等持久化后端</li></ul><pre><code class="language-python">from langgraph.checkpoint.memory import InMemorySaver
+
+
+memory = InMemorySaver()
+graph = builder.compile(checkpointer=memory)
+
+config = {&quot;configurable&quot;: {&quot;thread_id&quot;: &quot;user-42&quot;}}
+
+# 首轮执行
+graph.invoke({&quot;topic&quot;: &quot;LangGraph&quot;}, config=config)
+
+# 继续同一线程；运行时会从已有 checkpoint 恢复状态
+graph.invoke({&quot;topic&quot;: &quot;继续补充案例&quot;}, config=config)
+
+# 检查当前线程状态
+snapshot = graph.get_state(config)
+print(snapshot.values)</code></pre><h3>常见规则</h3><ul><li><code>thread_id</code></li><li><code>interrupt</code></li><li>临时实验可用内存 saver，线上不要依赖进程内内存</li></ul></div><div class="card"><h2>🛑 Interrupt 与人工审批 <a href="https://docs.langchain.com/oss/python/langgraph/interrupts" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">用 interrupt 在节点中暂停执行，等待人工输入，再用 Command(resume=...) 接着跑。</div><ul><li><code>interrupt(payload)</code>：在节点内部抛出暂停点</li><li><code>Command(resume=value)</code> <code>value</code> <code>interrupt()</code>：恢复执行，并把  CODE  作为  CODE  的返回值</li><li><code>thread_id</code></li><li><code>interrupt</code>： CODE  前的副作用要保持幂等</li></ul><pre><code class="language-python">from typing_extensions import TypedDict
+from langgraph.checkpoint.memory import InMemorySaver
+from langgraph.graph import StateGraph, START, END
+from langgraph.types import Command, interrupt
+
+
+class ReviewState(TypedDict):
+    draft: str
+    approved: bool
+
+
+def human_review(state: ReviewState):
+    approved = interrupt(
+        {
+            &quot;kind&quot;: &quot;approval&quot;,
+            &quot;message&quot;: &quot;是否发布这段内容？&quot;,
+            &quot;draft&quot;: state[&quot;draft&quot;],
+        }
+    )
+    return {&quot;approved&quot;: bool(approved)}
+
+
+builder = StateGraph(ReviewState)
+builder.add_node(&quot;human_review&quot;, human_review)
+builder.add_edge(START, &quot;human_review&quot;)
+builder.add_edge(&quot;human_review&quot;, END)
+
+graph = builder.compile(checkpointer=InMemorySaver())
+config = {&quot;configurable&quot;: {&quot;thread_id&quot;: &quot;review-1&quot;}}
+
+paused = graph.invoke({&quot;draft&quot;: &quot;LangGraph 可实现持久化 Agent&quot;}, config=config)
+print(paused[&quot;__interrupt__&quot;])
+
+final_state = graph.invoke(Command(resume=True), config=config)
+print(final_state[&quot;approved&quot;])</code></pre></div><div class="card"><h2>🌊 流式输出与实时观测 <a href="https://docs.langchain.com/oss/python/langgraph/streaming" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">在前端或控制台边跑边看状态更新、消息 token 和 interrupt，更适合长任务与调试。</div><ul><li><code>stream_mode=&quot;updates&quot;</code>：看每一步状态更新</li><li><code>stream_mode=&quot;values&quot;</code>：看完整状态快照</li><li><code>stream_mode=[&quot;updates&quot;, &quot;messages&quot;]</code> <code>version=&quot;v2&quot;</code>：同时看图进度与模型 token</li><li>Agent UI、审批台、调试面板通常都基于流式接口</li></ul><pre><code class="language-python"># 观察每一步状态更新
+for chunk in graph.stream({&quot;topic&quot;: &quot;LangGraph&quot;}, stream_mode=&quot;updates&quot;):
+    print(chunk)</code></pre><pre><code class="language-python"># v2 模式下同时拿到更新事件与消息 token
+for chunk in graph.stream(
+    {&quot;messages&quot;: [{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;总结 LangGraph&quot;}]},
+    stream_mode=[&quot;updates&quot;, &quot;messages&quot;],
+    version=&quot;v2&quot;,
+):
+    print(chunk)</code></pre></div><div class="card"><h2>🧩 子图、多代理与上下文边界 <a href="https://docs.langchain.com/oss/python/langgraph/use-subgraphs" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">子图适合把复杂流程拆成可复用模块；多代理场景要先决定“谁维护状态、谁拿到哪些上下文”。</div><ul><li>子图可作为父图节点复用：适合研究、审批、执行等阶段拆分</li><li><code>checkpointer=False</code>：子图无持久化，像普通函数调用</li><li><code>checkpointer=True</code>：子图跨调用保留线程态，但同一子图实例并发调用要谨慎</li><li>多代理 handoff 时，不要把全部内部消息原样传给下游代理，优先传最小必要上下文</li></ul><pre><code class="language-python"># 研究子图只做单次调用，不保留线程状态
+research_graph = research_builder.compile(checkpointer=False)
+
+# 父图负责全局状态与线程持久化
+app_graph = app_builder.compile(checkpointer=True)</code></pre><h3>经验判断</h3><ul><li>只是把一段逻辑封装起来：用子图</li><li><code>create_agent</code>：用 LangChain  CODE </li><li>需要状态驱动 handoff / 人审 / 恢复 / 分阶段编排：用 LangGraph</li></ul></div><div class="card"><h2>🕰️ Time Travel 与调试 <a href="https://docs.langchain.com/oss/python/langgraph/use-time-travel" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">通过 checkpoint 历史回放或分叉旧状态，是定位复杂 Agent 问题时最有价值的能力之一。</div><ul><li><code>get_state_history(config)</code>：获取该线程的 checkpoint 历史</li><li><code>config</code> <code>invoke()</code>：可 replay 或 fork</li><li>time travel 会重跑 checkpoint 之后的节点：外部 API、LLM、interrupt 可能再次触发</li><li>调试重点：观察哪一步把状态改坏了，而不是只看最终输出</li></ul><pre><code class="language-python">history = list(graph.get_state_history(config))
+
+# 选一个旧 checkpoint 回放
+checkpoint_config = history[-2].config
+replayed = graph.invoke(None, config=checkpoint_config)
+print(replayed)</code></pre></div><div class="card"><h2>⚠️ v1 迁移提示 <a href="https://docs.langchain.com/oss/python/releases/langgraph-v1" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">LangGraph v1 是稳定版，核心图 API 基本延续；最大的心智变化是预置 Agent 入口迁移到 LangChain v1。</div><ul><li><code>langgraph.prebuilt.create_react_agent</code> <code>langchain.agents.create_agent</code>：优先改用  CODE </li><li>LangGraph 继续负责底层运行时：图、状态、checkpoint、interrupt、streaming</li><li>升级时先确认：自定义节点返回值、checkpointer、streaming 代码路径是否仍符合 v1 文档</li><li>不确定时先看官方 migration / release notes，再改生产图</li></ul></div>
+    </div>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>

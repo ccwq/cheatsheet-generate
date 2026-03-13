@@ -1,9 +1,9 @@
 desc: Python turtle库速查表，包含核心API、绘图命令、颜色控制和示例代码，帮助快速掌握海龟绘图。
 tags:
-  - Learning
-  - Library
+  - 学习 / 入门
+  - 库 / SDK
   - Python
-  - Visualization
+  - 图形 / 可视化
 version: unknown
 github: python/cpython
 date: "2025-12-04"

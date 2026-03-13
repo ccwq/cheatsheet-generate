@@ -1,7 +1,7 @@
 desc: Commander.js 是 node.js 命令行界面的完整解决方案。
 tags:
-  - CLI
-  - Library
+  - CLI 工具
+  - 库 / SDK
   - Node.js
   - 开发
 version: unknown

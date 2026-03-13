@@ -1,8 +1,8 @@
 desc: tmux 进阶速查表：深入讲解会话/窗口/面板管理、复制模式、鼠标支持、配置优化与高级技巧，适合进阶用户。
 tags:
-  - CLI
+  - CLI 工具
   - DevOps
-  - Terminal
+  - CLI / Terminal
 version: 3.6a
 github: tmux/tmux
 date: "2026-03-05"

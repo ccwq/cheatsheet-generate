@@ -1,8 +1,8 @@
 desc: 面向社区的 Conda 软件包和元数据仓库，扩展了跨平台的开源科学计算环境可用性。
 tags:
-  - CLI
+  - CLI 工具
   - DevOps
-  - PackageManager
+  - 包管理器
   - Python
 version: unknown
 github: conda-forge/conda-forge.github.io

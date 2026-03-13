@@ -1,7 +1,7 @@
 desc: Bash 与 Fish 对比速查：收录二者常用语法、内建与实践要点，并给出关键差异清单。
 tags:
-  - CLI
-  - Learning
+  - CLI 工具
+  - 学习 / 入门
 version: unknown
 github: fish-shell/fish-shell
 date: "2025-11-17"

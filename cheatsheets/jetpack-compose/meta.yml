@@ -1,10 +1,10 @@
 desc: Compose 声明式 UI 基础：状态、布局、列表、Material3 与导航。
 tags:
   - Android
-  - Framework
+  - 框架
   - GUI
   - Kotlin
-  - OS
+  - 操作系统
   - 开发
 version: unknown
 github: androidx/androidx

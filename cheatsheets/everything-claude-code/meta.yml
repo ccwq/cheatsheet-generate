@@ -1,0 +1,11 @@
+desc: 面向 Claude Code、Codex、Cursor、OpenCode 的 agent harness cookbook，覆盖代理、技能、命令、hooks、规则与编排工作流。
+tags:
+  - AI / LLM
+  - CLI / Terminal
+  - AI 辅助工具
+  - 自动化工具
+  - 规范 / 流程
+  - 命令行
+version: 1.8.0
+github: affaan-m/everything-claude-code
+date: "2026-03-05"
