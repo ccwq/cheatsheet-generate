@@ -73,8 +73,8 @@
       <span class="title">OpenClaw 速查</span>
       <!-- META_INFO_START -->
       <div class="meta-info">
-        <span class="meta-item"><span class="meta-label">版本</span><span class="meta-value">docs snapshot 2026-03-05</span></span>
-        <span class="meta-item"><span class="meta-label">更新日志</span><span class="meta-value">2026-03-05</span></span>
+        <span class="meta-item"><span class="meta-label">版本</span><span class="meta-value">2026.3.11</span></span>
+        <span class="meta-item"><span class="meta-label">更新日志</span><span class="meta-value">2026-03-12</span></span>
         <span class="meta-item"><span class="meta-label">GitHub</span><span class="meta-value"><a class="meta-link" href="https://github.com/openclaw/openclaw" target="_blank" rel="noopener">openclaw/openclaw</a></span></span>
       </div>
       <!-- META_INFO_END -->
@@ -91,56 +91,195 @@
       </label>
     </div>
     <div class="cheat-columns" id="columns">
-      <div class="card"><h2>🦞 网关启动与基础流程 <a href="https://docs.openclaw.ai/start/getting-started" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">从初始化到启动网关的最短路径。</div><h3>常用启动链路</h3><ul><li><code>openclaw onboard</code>：交互式初始化本地配置、模型与网关。</li><li><code>openclaw gateway</code>：启动网关主进程（默认本地地址）。</li><li><code>openclaw gateway --port 18789 --bind loopback</code>：显式绑定端口与监听模式。</li><li><code>openclaw gateway run</code>：前台运行网关（便于排障）。</li><li><code>openclaw dashboard</code>：打开控制台 UI。</li></ul><pre><code class="language-bash"># 首次初始化并选择 provider/channel
+      <div class="card"><h2>🚀 如何快速启动 OpenClaw <a href="https://docs.openclaw.ai/start/getting-started" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">从零开始运行网关的最短路径。</div><pre><code class="language-bash"># 交互式初始化（首次使用）
 openclaw onboard
 
 # 启动网关
 openclaw gateway --port 18789
 
-# 查看基础状态
-openclaw status</code></pre></div><div class="card"><h2>🔌 频道与账号管理 <a href="https://docs.openclaw.ai/cli/channels" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">管理 Telegram/WhatsApp/Discord 等频道账号与运行状态。</div><h3>高频命令</h3><ul><li><code>openclaw channels list</code>：列出已配置频道与账号。</li><li><code>openclaw channels add --channel telegram --token &lt;TOKEN&gt;</code>：添加 Telegram 账号。</li><li><code>openclaw channels remove --channel telegram --delete</code>：删除指定频道账号配置。</li><li><code>openclaw channels status --probe</code>：探测频道连通性和常见配置问题。</li><li><code>openclaw channels logs --channel all</code>：查看频道相关日志。</li></ul><pre><code class="language-bash"># 添加 Telegram 机器人账号
+# 打开控制台 UI
+openclaw dashboard
+
+# 查看状态
+openclaw status</code></pre><div class="desc">前台运行（排障用）</div><pre><code class="language-bash">openclaw gateway run</code></pre></div><div class="card"><h2>� 如何连接聊天平台（Telegram/Discord/WhatsApp） <a href="https://docs.openclaw.ai/cli/channels" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">让 OpenClaw 连接到即时通讯平台。</div><pre><code class="language-bash"># 添加 Telegram 机器人
 openclaw channels add --channel telegram --account default --token &quot;$TELEGRAM_BOT_TOKEN&quot;
 
-# 探测频道与权限
-openclaw channels status --probe</code></pre></div><div class="card"><h2>🔐 Pairing 与设备批准 <a href="https://docs.openclaw.ai/channels/pairing" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">管理 DM 访问配对和节点设备配对。</div><h3>DM 配对</h3><ul><li><code>openclaw pairing list telegram</code>：查看 Telegram 待审批配对请求。</li><li><code>openclaw pairing approve telegram &lt;CODE&gt;</code>：批准指定配对码。</li></ul><h3>设备配对</h3><ul><li><code>openclaw devices list</code>：查看已配对与待审批设备。</li><li><code>openclaw devices approve &lt;requestId&gt;</code>：通过设备接入。</li><li><code>openclaw devices reject &lt;requestId&gt;</code>：拒绝设备接入。</li></ul><pre><code class="language-bash"># 批准用户 DM 配对
+# 添加 Discord Bot
+openclaw channels add --channel discord --account default --token &quot;$DISCORD_BOT_TOKEN&quot;
+
+# 查看已配置的频道
+openclaw channels list
+
+# 测试频道连通性
+openclaw channels status --probe</code></pre><div class="desc">常见配置项</div><pre><code class="language-json">{
+  &quot;channels&quot;: {
+    &quot;whatsapp&quot;: {
+      &quot;allowFrom&quot;: [&quot;+15555550123&quot;],
+      &quot;groups&quot;: { &quot;*&quot;: { &quot;requireMention&quot;: true } }
+    }
+  }
+}</code></pre></div><div class="card"><h2>🔐 如何批准用户配对请求 <a href="https://docs.openclaw.ai/channels/pairing" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">管理 DM 访问和设备配对。</div><pre><code class="language-bash"># 查看待审批的配对请求
 openclaw pairing list telegram
+
+# 批准配对
 openclaw pairing approve telegram ABCD1234
 
-# 批准节点设备
+# 查看已配对设备
 openclaw devices list
-openclaw devices approve req_123456</code></pre></div><div class="card"><h2>✉️ 消息与频道动作 <a href="https://docs.openclaw.ai/cli/message" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">用统一命令发送消息、投票、反应、线程等动作。</div><h3>核心子命令</h3><ul><li><code>openclaw message send</code>：发送文本/媒体消息。</li><li><code>openclaw message poll</code>：创建投票（支持 Discord/Telegram/WhatsApp/MS Teams）。</li><li><code>openclaw message react</code>：对消息添加或移除反应。</li><li><code>openclaw message read</code>：读取频道消息（按频道能力支持）。</li><li><code>openclaw message thread create|reply|list</code>：线程相关动作（如 Discord）。</li></ul><pre><code class="language-bash"># 向 Telegram 发送消息
-openclaw message send --channel telegram --target @mychat --message &quot;今天的巡检已完成&quot;
 
-# 在 Discord 创建投票
-openclaw message poll --channel discord --target channel:123 --poll-question &quot;午饭?&quot; --poll-option 米饭 --poll-option 面条</code></pre></div><div class="card"><h2>🧵 会话与子代理协作 <a href="https://docs.openclaw.ai/cli/sessions" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">查看会话、清理历史、跨会话投递任务。</div><h3>会话管理</h3><ul><li><code>openclaw sessions</code>：查看当前 agent 的会话列表。</li><li><code>openclaw sessions --all-agents --json</code>：聚合查看所有 agent 会话。</li><li><code>openclaw sessions cleanup --dry-run</code>：预览会话维护清理动作。</li><li><code>openclaw sessions cleanup --enforce</code>：强制执行维护策略。</li></ul><h3>与工具会话协同</h3><ul><li><code>sessions_list</code>：通过 tool 获取会话索引。</li><li><code>sessions_history</code>：拉取目标会话历史。</li><li><code>sessions_send</code>：向目标会话发送消息。</li><li><code>sessions_spawn</code>：派生子代理执行任务。</li></ul><pre><code class="language-bash"># 查看最近活跃会话
-openclaw sessions --active 120
+# 批准设备接入
+openclaw devices approve req_123456</code></pre></div><div class="card"><h2>💬 如何让 AI 自动回复消息 <a href="https://docs.openclaw.ai/cli/message" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">发送消息、创建投票、添加反应。</div><pre><code class="language-bash"># 发送文本消息
+openclaw message send --channel telegram --target @mychat --message &quot;巡检完成&quot;
 
-# 预演清理，不落盘
-openclaw sessions cleanup --dry-run</code></pre></div><div class="card"><h2>🤖 Agent 与模型管理 <a href="https://docs.openclaw.ai/cli/index" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">管理 agent、模型、鉴权 profile 与回退链。</div><h3>Agent 侧</h3><ul><li><code>openclaw agents list</code>：列出已配置 agent。</li><li><code>openclaw agents add &lt;name&gt; --workspace &lt;dir&gt;</code>：新增隔离 agent。</li><li><code>openclaw agents bind --agent &lt;id&gt; --bind telegram:default</code>：将频道账号绑定到 agent。</li></ul><h3>模型侧</h3><ul><li><code>openclaw models status</code>：查看模型与鉴权状态。</li><li><code>openclaw models set &lt;model&gt;</code>：设置默认主模型。</li><li><code>openclaw models fallbacks add &lt;model&gt;</code>：添加回退模型。</li><li><code>openclaw models auth add</code>：交互式添加模型凭据。</li></ul><pre><code class="language-bash"># 为主 agent 设定默认模型
+# 创建投票
+openclaw message poll --channel discord --target channel:123 \
+  --poll-question &quot;午饭选什么?&quot; \
+  --poll-option 米饭 \
+  --poll-option 面条
+
+# 添加反应
+openclaw message react --channel telegram --message-id 123 --emoji &quot;✅&quot;</code></pre></div><div class="card"><h2>🤖 如何管理 Agent 和模型 <a href="https://docs.openclaw.ai/cli/index" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">配置 AI 模型和回退链。</div><pre><code class="language-bash"># 查看已配置的 agent
+openclaw agents list
+
+# 新增隔离 agent
+openclaw agents add dev --workspace ./dev-agent
+
+# 绑定频道到 agent
+openclaw agents bind --agent dev --bind telegram:default
+
+# 查看模型状态
+openclaw models status
+
+# 设置默认模型
 openclaw models set zai/glm-5
 
 # 添加回退模型
-openclaw models fallbacks add openai/gpt-5</code></pre></div><div class="card"><h2>⚙️ Gateway 运维与服务管理 <a href="https://docs.openclaw.ai/cli/gateway" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">网关健康检查、服务安装、重启与 RPC 调试。</div><h3>运维命令</h3><ul><li><code>openclaw gateway health</code>：查询网关健康状态。</li><li><code>openclaw gateway status --deep</code>：服务状态 + 深度扫描。</li><li><code>openclaw gateway install --runtime node</code>：安装网关服务。</li><li><code>openclaw gateway restart</code>：重启服务实例。</li><li><code>openclaw gateway call &lt;method&gt; --params &lt;json&gt;</code>：直接调用 RPC。</li><li><code>openclaw logs --follow</code>：持续跟踪网关日志。</li></ul><pre><code class="language-bash"># 深度状态检查
-openclaw gateway status --deep
+openclaw models fallbacks add openai/gpt-5</code></pre></div><div class="card"><h2>🧵 如何查看和管理会话 <a href="https://docs.openclaw.ai/cli/sessions" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">会话列表、清理、历史管理。</div><pre><code class="language-bash"># 查看当前 agent 的活跃会话
+openclaw sessions --active 120
 
-# 观察实时日志
-openclaw logs --follow</code></pre></div><div class="card"><h2>🌐 Browser / Nodes / Canvas 工具链 <a href="https://docs.openclaw.ai/tools" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">通过内置工具做网页自动化、节点控制与画布操作。</div><h3>Browser CLI</h3><ul><li><code>openclaw browser status</code>：查询浏览器控制器状态。</li><li><code>openclaw browser start</code>：启动受管浏览器。</li><li><code>openclaw browser snapshot --format ai</code>：抓取 AI 可操作快照。</li><li><code>openclaw browser screenshot --full-page</code>：全页截图。</li></ul><h3>Nodes CLI</h3><ul><li><code>openclaw nodes status --connected</code>：查看在线节点。</li><li><code>openclaw nodes describe --node &lt;id&gt;</code>：查看节点能力。</li><li><code>openclaw nodes run --node &lt;id&gt; &lt;command...&gt;</code>：在节点执行命令。</li><li><code>openclaw nodes camera snap --node &lt;id&gt;</code>：节点相机抓拍。</li></ul><pre><code class="language-bash"># 启动浏览器并抓取页面快照
+# 查看所有 agent 的会话（JSON 格式）
+openclaw sessions --all-agents --json
+
+# 预览清理动作（不实际执行）
+openclaw sessions cleanup --dry-run
+
+# 执行清理
+openclaw sessions cleanup --enforce</code></pre></div><div class="card"><h2>🌐 如何使用浏览器自动化工具 <a href="https://docs.openclaw.ai/tools/browser" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">网页抓取、截图、表单填写。</div><pre><code class="language-bash"># 启动受管浏览器
 openclaw browser start
+
+# 获取 AI 可用快照
 openclaw browser snapshot --format ai
 
+# 全页截图
+openclaw browser screenshot --full-page
+
+# 查询浏览器状态
+openclaw browser status</code></pre></div><div class="card"><h2>📡 如何管理远程节点 <a href="https://docs.openclaw.ai/tools" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">在远程设备上执行命令、拍照等。</div><pre><code class="language-bash"># 查看在线节点
+openclaw nodes status --connected
+
+# 查看节点能力
+openclaw nodes describe --node office-mac
+
 # 在节点执行命令
-openclaw nodes run --node office-mac echo hello</code></pre></div><div class="card"><h2>⏱️ 自动化与定时任务 <a href="https://docs.openclaw.ai/automation/cron-jobs" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">使用 cron 与 system event 做定时任务和心跳驱动。</div><h3>cron 命令</h3><ul><li><code>openclaw cron list</code>：列出所有任务。</li><li><code>openclaw cron add --name ... --every ... --system-event ...</code>：新增定时任务。</li><li><code>openclaw cron edit &lt;id&gt;</code>：修改任务。</li><li><code>openclaw cron run &lt;id&gt;</code>：立即执行任务。</li><li><code>openclaw cron runs --id &lt;id&gt;</code>：查看任务执行记录。</li></ul><h3>system 命令</h3><ul><li><code>openclaw system event --text &quot;...&quot;</code>：注入系统事件。</li><li><code>openclaw system heartbeat enable</code>：开启心跳。</li><li><code>openclaw system presence --json</code>：查看 presence 状态。</li></ul><pre><code class="language-bash"># 每 5 分钟注入系统事件
+openclaw nodes run --node office-mac &quot;ls -la&quot;
+
+# 节点相机抓拍
+openclaw nodes camera snap --node office-mac</code></pre></div><div class="card"><h2>⏰ 如何设置定时任务和心跳 <a href="https://docs.openclaw.ai/automation/cron-jobs" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">定时执行任务、监控系统状态。</div><pre><code class="language-bash"># 创建定时任务（每 5 分钟）
 openclaw cron add --name ping --every &quot;*/5 * * * *&quot; --system-event &quot;巡检心跳&quot;
 
-# 立即触发一次
-openclaw cron run ping</code></pre></div><div class="card"><h2>🧯 排障与安全基线 <a href="https://docs.openclaw.ai/gateway/security" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">快速定位常见故障并强化最小权限配置。</div><h3>排障路线</h3><ul><li><code>openclaw status --deep</code>：一键总览网关/频道/节点状态。</li><li><code>openclaw doctor</code>：自动检查并给出修复建议。</li><li><code>openclaw doctor --fix</code>：自动修复可安全迁移项。</li><li><code>openclaw channels status --probe</code>：频道专项探针。</li><li><code>openclaw models status --probe</code>：模型与凭据可用性探测。</li></ul><h3>安全建议</h3><ul><li><code>dmPolicy</code> <code>pairing</code> <code>allowlist</code></li><li><code>loopback</code> <code>tailnet</code></li><li>生产环境开启 token/password 鉴权，避免匿名网关。</li><li>敏感密钥使用引用（SecretRef）而非明文落盘。</li></ul><pre><code class="language-bash"># 执行安全审计
-openclaw security audit --deep
+# 列出所有任务
+openclaw cron list
 
-# 修复常见配置问题
-openclaw doctor --fix</code></pre></div><div class="card"><h2>🧠 速记：常见组合 <a href="https://docs.openclaw.ai/cli/index" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">高价值组合命令，适合日常值守与自动化脚本。</div><ul><li><code>openclaw onboard &amp;&amp; openclaw gateway</code>：初始化后立刻上线。</li><li><code>openclaw channels add ... &amp;&amp; openclaw channels status --probe</code>：新增频道后立即验收。</li><li><code>openclaw status --deep &amp;&amp; openclaw logs --follow</code>：故障时先看面再盯点。</li><li><code>openclaw models status &amp;&amp; openclaw sessions --active 60</code>：检查模型与会话负载。</li></ul><pre><code class="language-bash"># 值守巡检脚本示例
+# 立即执行任务
+openclaw cron run ping
+
+# 查看任务执行记录
+openclaw cron runs --id ping
+
+# 注入系统事件
+openclaw system event --text &quot;手动触发检查&quot;
+
+# 开启心跳
+openclaw system heartbeat enable</code></pre></div><div class="card"><h2>💾 如何备份和恢复配置 <a href="https://docs.openclaw.ai/cli/backup" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">本地状态归档与验证。</div><pre><code class="language-bash"># 创建完整备份
+openclaw backup create
+
+# 仅备份配置
+openclaw backup create --only-config
+
+# 不包含工作区
+openclaw backup create --no-include-workspace
+
+# 验证备份
+openclaw backup verify backup-latest.tar.gz</code></pre><div class="desc">配置文件操作</div><pre><code class="language-bash"># 查看配置路径
+openclaw config file
+
+# 验证配置语法
+openclaw config validate
+
+# JSON 格式输出
+openclaw config validate --json</code></pre></div><div class="card"><h2>🔧 如何调试和修复问题 <a href="https://docs.openclaw.ai/gateway/troubleshooting" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">诊断常见故障、自动修复。</div><pre><code class="language-bash"># 一键状态检查
+openclaw status --deep
+
+# 自动诊断并给出修复建议
+openclaw doctor
+
+# 自动修复问题
+openclaw doctor --fix
+
+# 频道专项探测
+openclaw channels status --probe
+
+# 模型可用性探测
+openclaw models status --probe
+
+# 实时日志
+openclaw logs --follow</code></pre><div class="desc">安全加固</div><pre><code class="language-bash"># 安全审计
+openclaw security audit --deep</code></pre></div><div class="card"><h2>� � 如何加强网关安全 <a href="https://docs.openclaw.ai/gateway/security" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">最小权限配置、鉴权加固。</div><div class="desc">安全建议</div><ul><li><code>pairing</code> <code>allowlist</code></li><li><code>loopback</code> <code>tailnet</code></li><li>开启 token/password 鉴权</li><li>敏感密钥使用 SecretRef 引用</li></ul><div class="desc">配置示例</div><pre><code class="language-json">{
+  &quot;gateway&quot;: {
+    &quot;auth&quot;: {
+      &quot;mode&quot;: &quot;token&quot;,
+      &quot;token&quot;: &quot;secret://gateway-token&quot;
+    }
+  },
+  &quot;channels&quot;: {
+    &quot;telegram&quot;: {
+      &quot;dmPolicy&quot;: &quot;pairing&quot;
+    }
+  }
+}</code></pre></div><div class="card"><h2>🔌 如何使用 ACP 会话溯源 <a href="https://docs.openclaw.ai/tools/acp-agents" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">ACP 代理运行与追踪。</div><pre><code class="language-bash"># 开启会话溯源（记录元数据）
+openclaw acp --provenance meta
+
+# 开启溯源并显示收据
+openclaw acp --provenance meta+receipt
+
+# 关闭溯源
+openclaw acp --provenance off</code></pre></div><div class="card"><h2>🛠️ 运维常用命令速查 <a href="https://docs.openclaw.ai/cli/gateway" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">网关运维和服务管理。</div><pre><code class="language-bash"># 网关健康检查
+openclaw gateway health
+
+# 深度状态扫描
+openclaw gateway status --deep
+
+# 安装网关服务
+openclaw gateway install --runtime node
+
+# 重启网关
+openclaw gateway restart
+
+# 直接调用 RPC
+openclaw gateway call sessions.list --params &#39;{}&#39;</code></pre></div><div class="card"><h2>📋 日常值守脚本 <a href="https://docs.openclaw.ai/cli/index" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">常用命令组合。</div><pre><code class="language-bash">#!/bin/bash
+# 值守巡检脚本
+
 openclaw status --deep
 openclaw channels status --probe
-openclaw models status</code></pre></div>
+openclaw models status</code></pre><div class="desc">常用组合</div><pre><code class="language-bash"># 初始化后启动
+openclaw onboard &amp;&amp; openclaw gateway
+
+# 新增频道后验证
+openclaw channels add --channel telegram --token &quot;$TOKEN&quot;
+openclaw channels status --probe
+
+# 故障排查
+openclaw status --deep &amp;&amp; openclaw logs --follow</code></pre></div>
     </div>
   </div>
 

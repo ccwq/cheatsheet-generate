@@ -37,6 +37,9 @@
 - [Web Tools](https://docs.openclaw.ai/tools/web.md) - `web_search` / `web_fetch`。
 - [Automation - Cron Jobs](https://docs.openclaw.ai/automation/cron-jobs.md) - 定时任务配置。
 - [Hooks](https://docs.openclaw.ai/automation/hooks.md) - Hook 自动化入口。
+- [ACP Agents](https://docs.openclaw.ai/tools/acp-agents.md) - ACP 代理运行机制。
+- [Backup CLI](https://docs.openclaw.ai/cli/backup.md) - 本地状态归档与验证。
+- [Config Validation](https://docs.openclaw.ai/cli/config.md) - 配置文件校验命令。
 
 ## 架构与扩展
 - [Pi Integration Architecture](https://docs.openclaw.ai/pi.md) - 嵌入式代理架构。
@@ -45,5 +48,5 @@
 - [Plugins](https://docs.openclaw.ai/tools/plugin.md) - 插件扩展机制。
 
 ## 备注
-- 本速查整理时使用 `docs.openclaw.ai` 在线文档快照（2026-03-05）。
+- 本速查整理时使用 GitHub Release v2026.3.11（2026-03-12）快照。
 - 若某页面临时不可访问，优先从 `llms.txt` 获取替代路径再交叉校验。
