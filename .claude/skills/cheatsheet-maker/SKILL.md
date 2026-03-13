@@ -1,6 +1,6 @@
 ---
 name: cheatsheet-maker
-description: 创建、整理、重建技术速查表（Cheatsheet）源文件的技能。用于从主题、正文或网址采集资料并生成或改进 cheatsheets/主题目录 下的主题.md、meta.yml、refmap.md，补全标签与元数据，并在需要时联动图标技能与 HTML 生成器；不直接把“手写 HTML 页面”当作主路径。
+description: 创建、整理、重建技术速查表（Cheatsheet）源文件的技能。用于从主题、正文或网址采集资料并生成或改进 cheatsheets/主题目录 下的主题.md、meta.yml、refmap.md，补全元数据，并在需要时联动标签技能、图标技能与 HTML 生成器；不直接把“手写 HTML 页面”当作主路径。
 ---
 
 # cheatsheet-maker
@@ -12,6 +12,7 @@ description: 创建、整理、重建技术速查表（Cheatsheet）源文件的
 - 生成或改进 `<topic>.md`
 - 生成或改进 `meta.yml`
 - 生成或改进 `refmap.md`
+- 需要处理标签时，联动 agentskill: tag-ci
 - 需要图标时，联动 agentskill: icon-complete-skill
 
 ## 工作边界
@@ -19,7 +20,7 @@ description: 创建、整理、重建技术速查表（Cheatsheet）源文件的
 - 先处理源文件，再决定是否调用 HTML 生成器
 - 不把“直接手写 HTML 页面”当作本技能主路径
 - 用户只要求补图标时，转交 agentskill: icon-complete-skill
-- 用户只要求补标签、补元数据时，只改对应文件，不重写正文
+- 用户只要求补标签时，转交 agentskill: tag-ci；若同时补元数据，只改对应文件，不重写正文
 - 用户要求“仅处理缺失部分”时，只补缺，不覆盖已有内容
 
 ## 资料采集
@@ -52,6 +53,7 @@ description: 创建、整理、重建技术速查表（Cheatsheet）源文件的
 - 必含 `desc`、`tags`、`version`、`github`、`date`
 - `github` 固定为 `owner/repo`，不确定时写 `unknown`
 - `date` 使用 `YYYY-MM-DD`
+- `tags` 的选择、归一化与新建策略统一遵循 agentskill: tag-ci
 
 ** data字段处理的逻辑 **
 - 如果<topic>存在github仓库和版本, 需要从github仓库调查版本发布的日期, 写入`date`
@@ -69,14 +71,15 @@ description: 创建、整理、重建技术速查表（Cheatsheet）源文件的
 2. 读取现有目录与文件，判断哪些文件缺失，哪些内容应保留
 3. 需要写正文时，按规范生成或改进 `<topic>.md`
 4. 补齐 `meta.yml` 与 `refmap.md`
-5. 需要图标时，读取并遵循 agentskill: icon-complete-skill
-6. 需要 HTML 时，执行：
+5. 处理 `tags` 时，读取并遵循 agentskill: tag-ci
+6. 需要图标时，读取并遵循 agentskill: icon-complete-skill
+7. 需要 HTML 时，执行：
 
 ```bash
 node cheatsheet-html-maker/index.js --input cheatsheets/<topic>/<topic>.md
 ```
 
-7. 若改动影响导览页，再执行导航页重建
+8. 若改动影响导览页，再执行导航页重建
 
 ## 自检
 
@@ -84,4 +87,5 @@ node cheatsheet-html-maker/index.js --input cheatsheets/<topic>/<topic>.md
 - 确认代码语言标识正确
 - 确认正文没有夹带安装/配置大段内容
 - 确认用户要求“仅补缺”时，没有覆盖现有有效内容
+- 标签若有变更，确认已按 agentskill: tag-ci 处理
 - 图标若有变更，确认已按 agentskill: icon-complete-skill 处理

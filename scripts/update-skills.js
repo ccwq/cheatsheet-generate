@@ -4,6 +4,7 @@ const path = require("node:path");
 const sources = [
   "./cheatsheet-html-maker/cheatsheet-maker-skill",
   "./cheatsheet-html-maker/icon-complete-skill",
+  "./cheatsheet-html-maker/tag-ci-skills",
 ];
 
 const agents = [
