@@ -6,11 +6,10 @@
   <script>
     (function() {
       var key = 'theme-mode';
-      var mode = localStorage.getItem(key) || 'auto';
-      var resolved = mode;
-      if (resolved === 'auto') {
-        resolved = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      }
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
       document.documentElement.setAttribute('data-theme', resolved);
     })();
   </script>
@@ -36,6 +35,26 @@
 
     .panel .title {
       color: var(--panel-accent);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-link);
+      text-decoration: none;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .home-link:hover {
+      text-decoration: underline;
+    }
+
+    .home-link svg {
+      width: 16px;
+      height: 16px;
+      flex: none;
     }
 
     .card pre,
@@ -70,6 +89,12 @@
 <body>
   <div class="container">
     <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
       <span class="title">OpenClaw 速查</span>
       <!-- META_INFO_START -->
       <div class="meta-info">
@@ -82,13 +107,7 @@
       <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
       <span id="widthVal" class="slider-val">340px</span>
       <span class="sep"></span>
-      <label class="toggle">🌓 主题
-        <select id="themeSelect" class="btn">
-          <option value="auto">自动 (系统)</option>
-          <option value="light">亮色</option>
-          <option value="dark">暗色</option>
-        </select>
-      </label>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
     </div>
     <div class="cheat-columns" id="columns">
       <div class="card"><h2>🚀 如何快速启动 OpenClaw <a href="https://docs.openclaw.ai/start/getting-started" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">从零开始运行网关的最短路径。</div><pre><code class="language-bash"># 交互式初始化（首次使用）
@@ -101,7 +120,7 @@ openclaw gateway --port 18789
 openclaw dashboard
 
 # 查看状态
-openclaw status</code></pre><div class="desc">前台运行（排障用）</div><pre><code class="language-bash">openclaw gateway run</code></pre></div><div class="card"><h2>� 如何连接聊天平台（Telegram/Discord/WhatsApp） <a href="https://docs.openclaw.ai/cli/channels" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">让 OpenClaw 连接到即时通讯平台。</div><pre><code class="language-bash"># 添加 Telegram 机器人
+openclaw status</code></pre><div class="desc">前台运行（排障用）</div><pre><code class="language-bash">openclaw gateway run</code></pre></div><div class="card"><h2>📱 如何连接聊天平台（Telegram/Discord/WhatsApp） <a href="https://docs.openclaw.ai/cli/channels" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">让 OpenClaw 连接到即时通讯平台。</div><pre><code class="language-bash"># 添加 Telegram 机器人
 openclaw channels add --channel telegram --account default --token &quot;$TELEGRAM_BOT_TOKEN&quot;
 
 # 添加 Discord Bot
@@ -234,7 +253,7 @@ openclaw models status --probe
 
 # 实时日志
 openclaw logs --follow</code></pre><div class="desc">安全加固</div><pre><code class="language-bash"># 安全审计
-openclaw security audit --deep</code></pre></div><div class="card"><h2>� � 如何加强网关安全 <a href="https://docs.openclaw.ai/gateway/security" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">最小权限配置、鉴权加固。</div><div class="desc">安全建议</div><ul><li><code>pairing</code> <code>allowlist</code></li><li><code>loopback</code> <code>tailnet</code></li><li>开启 token/password 鉴权</li><li>敏感密钥使用 SecretRef 引用</li></ul><div class="desc">配置示例</div><pre><code class="language-json">{
+openclaw security audit --deep</code></pre></div><div class="card"><h2>🛡️ � 如何加强网关安全 <a href="https://docs.openclaw.ai/gateway/security" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">最小权限配置、鉴权加固。</div><div class="desc">安全建议</div><ul><li><code>pairing</code> <code>allowlist</code></li><li><code>loopback</code> <code>tailnet</code></li><li>开启 token/password 鉴权</li><li>敏感密钥使用 SecretRef 引用</li></ul><div class="desc">配置示例</div><pre><code class="language-json">{
   &quot;gateway&quot;: {
     &quot;auth&quot;: {
       &quot;mode&quot;: &quot;token&quot;,

@@ -4,7 +4,7 @@ import fs from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { parseCheatsheetMarkdown } from '../parser.js'
+import { normalizeColWidth, parseCheatsheetMarkdown } from '../parser.js'
 import { renderDocument } from '../renderer.js'
 
 const sampleMarkdown = `---
@@ -87,6 +87,12 @@ test('renderer: 输出结构与高亮类名', async () => {
   assert.ok(html.includes('class="language-python"'))
   assert.ok(html.includes('class="language-js"'))
   assert.ok(html.includes('Prism.highlightAll();'))
+})
+
+test('parser: 非法 colWidth 回退到默认值', () => {
+  assert.equal(normalizeColWidth('6'), '340px')
+  assert.equal(normalizeColWidth('380'), '380px')
+  assert.equal(normalizeColWidth('420px'), '420px')
 })
 
 test('parser/renderer: 支持 card 元数据 link/desc 与嵌套列表', async () => {

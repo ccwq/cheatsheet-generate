@@ -4,7 +4,7 @@ lang: bash
 version: "2026.03"
 date: 2026-03-13
 github: vim/vim
-colWidth: 6
+colWidth: 380px
 ---
 
 # Vim 速查

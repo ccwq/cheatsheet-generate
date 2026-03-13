@@ -1,0 +1,9 @@
+desc: Bash 速查手册，涵盖基础语法、条件循环、函数、输入输出、字符串处理等常用命令与技巧。
+tags:
+  - Automation
+  - CLI
+  - DevOps
+  - Shell
+version: "5.2"
+github: bminor/bash
+date: "2026-03-13"

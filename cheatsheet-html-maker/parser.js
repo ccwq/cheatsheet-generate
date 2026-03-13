@@ -77,6 +77,7 @@ import yaml from 'js-yaml'
  */
 
 const DEFAULT_LANG = 'bash'
+const DEFAULT_COL_WIDTH = '340px'
 
 export function normalizeLang(lang, fallback = DEFAULT_LANG) {
   const value = String(lang || '').trim().toLowerCase()
@@ -89,6 +90,28 @@ export function normalizeLang(lang, fallback = DEFAULT_LANG) {
   }
 
   return value
+}
+
+export function normalizeColWidth(colWidth, fallback = DEFAULT_COL_WIDTH) {
+  const value = String(colWidth || '').trim()
+  if (!value) {
+    return fallback
+  }
+
+  // 允许明确的 CSS 长度，避免把历史遗留的 `6` 解析成 6px 破坏布局。
+  if (/^\d+(\.\d+)?(px|rem|em|vw|vh|%)$/i.test(value)) {
+    return value
+  }
+
+  // 兼容纯数字像素值，但限制在合理范围内。
+  if (/^\d+(\.\d+)?$/.test(value)) {
+    const numeric = Number(value)
+    if (numeric >= 240 && numeric <= 960) {
+      return `${numeric}px`
+    }
+  }
+
+  return fallback
 }
 
 export function extractFrontmatter(markdown) {
@@ -369,7 +392,7 @@ export function parseCheatsheetMarkdown(markdown) {
       version: typeof frontmatter.version === 'string' && frontmatter.version.trim() ? frontmatter.version.trim() : 'unknown',
       date: typeof frontmatter.date === 'string' && frontmatter.date.trim() ? frontmatter.date.trim() : 'unknown',
       github: typeof frontmatter.github === 'string' && frontmatter.github.trim() ? frontmatter.github.trim() : 'unknown',
-      colWidth: typeof frontmatter.colWidth === 'string' && frontmatter.colWidth.trim() ? frontmatter.colWidth.trim() : '340px',
+      colWidth: normalizeColWidth(frontmatter.colWidth, DEFAULT_COL_WIDTH),
     },
     cards: [],
   }

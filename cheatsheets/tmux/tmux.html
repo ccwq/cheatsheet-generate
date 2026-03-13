@@ -6,11 +6,10 @@
   <script>
     (function() {
       var key = 'theme-mode';
-      var mode = localStorage.getItem(key) || 'auto';
-      var resolved = mode;
-      if (resolved === 'auto') {
-        resolved = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      }
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
       document.documentElement.setAttribute('data-theme', resolved);
     })();
   </script>
@@ -36,6 +35,26 @@
 
     .panel .title {
       color: var(--panel-accent);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-link);
+      text-decoration: none;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .home-link:hover {
+      text-decoration: underline;
+    }
+
+    .home-link svg {
+      width: 16px;
+      height: 16px;
+      flex: none;
     }
 
     .card pre,
@@ -70,6 +89,12 @@
 <body>
   <div class="container">
     <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
       <span class="title">tmux 速查表</span>
       <!-- META_INFO_START -->
       <div class="meta-info">
@@ -82,13 +107,7 @@
       <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
       <span id="widthVal" class="slider-val">340px</span>
       <span class="sep"></span>
-      <label class="toggle">🌓 主题
-        <select id="themeSelect" class="btn">
-          <option value="auto">自动 (系统)</option>
-          <option value="light">亮色</option>
-          <option value="dark">暗色</option>
-        </select>
-      </label>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
     </div>
     <div class="cheat-columns" id="columns">
       <div class="card"><h2>🧭 架构与层级 <a href="https://github.com/tmux/tmux/wiki/Getting-Started#basic-concepts" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">理解 tmux 的&quot;套娃&quot;架构是掌握它的核心</div><ul><li><code>Server</code>：后台主进程，管理所有会话，断开终端后仍运行</li><li><code>Session</code>：会话，对应一个&quot;项目/工作流&quot;，包含多个窗口</li><li><code>Window</code>：窗口，类似浏览器 Tab，包含多个面板</li><li><code>Pane</code>：面板，最小操作单元，运行终端程序</li><li><code>Client</code>：客户端，连接到 Server 的终端窗口</li></ul><pre><code class="language-bash"># 层级关系图示

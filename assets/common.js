@@ -165,18 +165,28 @@ function initDetailShortcuts() {
 function initTheme() {
   var key = 'theme-mode';
   var root = document.documentElement;
-  var themeToggle = document.getElementById('themeToggle');
-  var themeButtons = themeToggle ? Array.prototype.slice.call(themeToggle.querySelectorAll('[data-theme-mode]')) : [];
+  var themeToggleBtn = document.getElementById('themeToggleBtn');
+
+  function getSystemMode() {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
 
   function getMode() {
     try {
-      return localStorage.getItem(key) || 'auto';
+      var saved = localStorage.getItem(key);
+      if (saved === 'light' || saved === 'dark') {
+        return saved;
+      }
+      return getSystemMode();
     } catch (e) {
-      return 'auto';
+      return getSystemMode();
     }
   }
 
   function setMode(mode) {
+    if (mode !== 'light' && mode !== 'dark') {
+      mode = getSystemMode();
+    }
     try {
       localStorage.setItem(key, mode);
     } catch (e) {}
@@ -184,33 +194,29 @@ function initTheme() {
   }
 
   function syncThemeControls(mode) {
-    var themeSel = document.getElementById('themeSelect');
+    if (!themeToggleBtn) return;
 
-    if (themeSel) {
-      themeSel.value = mode;
-    }
+    var isDark = mode === 'dark';
+    themeToggleBtn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+    themeToggleBtn.setAttribute('data-theme-mode', mode);
+    themeToggleBtn.setAttribute('title', isDark ? '切换到亮色' : '切换到暗色');
+    themeToggleBtn.textContent = isDark ? '☀️ 亮色' : '🌙 暗色';
+  }
 
-    themeButtons.forEach(function(btn) {
-      var active = btn.getAttribute('data-theme-mode') === mode;
-      btn.classList.toggle('is-active', active);
-      btn.setAttribute('aria-pressed', active ? 'true' : 'false');
-    });
+  function toggleMode() {
+    setMode(getMode() === 'dark' ? 'light' : 'dark');
   }
 
   function applyTheme() {
     var mode = getMode();
-    var resolved = mode;
-    if (mode === 'auto') {
-      resolved = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-    root.setAttribute('data-theme', resolved);
+    root.setAttribute('data-theme', mode);
     
     // 更新 Prism 主题
     var prismLink = document.getElementById('prism-theme');
     if (prismLink) {
       var tomorrow = 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css';
       var light = 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css';
-      prismLink.setAttribute('href', resolved === 'dark' ? tomorrow : light);
+      prismLink.setAttribute('href', mode === 'dark' ? tomorrow : light);
     }
 
     // 更新 theme-color meta 标签
@@ -221,13 +227,20 @@ function initTheme() {
     syncThemeControls(mode);
 
     // 触发自定义事件，通知页面更新 UI
-    window.dispatchEvent(new CustomEvent('theme-changed', { detail: { mode: mode, resolved: resolved } }));
+    window.dispatchEvent(new CustomEvent('theme-changed', { detail: { mode: mode, resolved: mode } }));
   }
 
   // 监听系统主题变化
   var media = window.matchMedia('(prefers-color-scheme: dark)');
   var handler = function() {
-    if (getMode() === 'auto') applyTheme();
+    try {
+      var saved = localStorage.getItem(key);
+      if (saved !== 'light' && saved !== 'dark') {
+        applyTheme();
+      }
+    } catch (e) {
+      applyTheme();
+    }
   };
   if (media.addEventListener) media.addEventListener('change', handler);
   else if (media.addListener) media.addListener(handler);
@@ -239,27 +252,12 @@ function initTheme() {
   window.__themeManager = {
     getMode: getMode,
     setMode: setMode,
+    toggleMode: toggleMode,
     applyTheme: applyTheme
   };
 
-  // 自动绑定页面上的 themeSelect 元素 (如果存在)
-  var themeSel = document.getElementById('themeSelect');
-  if (themeSel) {
-    themeSel.value = getMode();
-    themeSel.addEventListener('change', function() {
-      setMode(themeSel.value);
-    });
-    window.addEventListener('theme-changed', function(e) {
-      themeSel.value = e.detail.mode;
-    });
-  }
-
-  if (themeButtons.length > 0) {
-    themeButtons.forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        setMode(btn.getAttribute('data-theme-mode') || 'auto');
-      });
-    });
+  if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', toggleMode);
     window.addEventListener('theme-changed', function(e) {
       syncThemeControls(e.detail.mode);
     });

@@ -40,7 +40,7 @@ openclaw gateway run
 ## 📱 如何连接聊天平台（Telegram/Discord/WhatsApp）
 ---
 lang: bash
-emoji: �
+emoji: 📱
 link: https://docs.openclaw.ai/cli/channels
 desc: 让 OpenClaw 连接到即时通讯平台。
 ---
@@ -328,7 +328,7 @@ openclaw security audit --deep
 ## � 如何加强网关安全
 ---
 lang: bash
-emoji: �
+emoji: 🛡️
 link: https://docs.openclaw.ai/gateway/security
 desc: 最小权限配置、鉴权加固。
 ---

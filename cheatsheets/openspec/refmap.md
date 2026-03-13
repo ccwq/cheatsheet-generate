@@ -1,13 +1,24 @@
 # 参考资源（OpenSpec）
 
-- 官网（产品与概览）：https://openspec.dev/
-- GitHub 仓库（源码与最新说明）：https://github.com/Fission-AI/OpenSpec
-- README（工作流与工具支持）：https://github.com/Fission-AI/OpenSpec#readme
-- 工作流概念：https://thedocs.io/openspec/concepts/workflow/
-- 规格格式：https://thedocs.io/openspec/concepts/spec-format/
-- AI 集成与 AGENTS.md：https://thedocs.io/openspec/ai-integration/
-- 命令参考与 OPSX：https://github.com/Fission-AI/OpenSpec#readme
+## 官方资源
+
+- 官网：https://openspec.dev/
+- GitHub 仓库：https://github.com/Fission-AI/OpenSpec
 - NPM 包：https://www.npmjs.com/package/@fission-ai/openspec
+- 支持的工具列表：https://openspec.dev/tools
 - Discord 社区：https://discord.gg/YctCnvvshC
 
-建议阅读顺序：README → Workflow → Spec Format → AI Integration。
+## 文档
+
+- 快速开始：https://openspec.dev/docs/getting-started
+- 工作流：https://openspec.dev/docs/workflows
+- 命令参考：https://openspec.dev/docs/commands
+- CLI 参考：https://openspec.dev/docs/cli
+- 支持的工具：https://openspec.dev/tools
+- 概念：https://openspec.dev/docs/concepts
+- 多语言：https://openspec.dev/docs/multi-language
+- 自定义：https://openspec.dev/docs/customization
+
+## 建议阅读顺序
+
+README → Getting Started → Workflows → Commands → CLI

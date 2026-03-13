@@ -223,34 +223,109 @@
 
 .card-recency-bar {
   position: absolute;
-  bottom: 0;
+  top: 0;
+  left: 0;
+  width: var(--recency-progress, 18%);
+  height: 100%;
+  border-radius: inherit;
+  background:
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--brand-primary) 90%, white 10%) 0%,
+      color-mix(in srgb, var(--brand-secondary) 82%, white 18%) 52%,
+      color-mix(in srgb, var(--accent) 88%, white 12%) 100%
+    );
+  box-shadow:
+    0 0 10px color-mix(in srgb, var(--brand-secondary) 38%, transparent),
+    0 0 18px color-mix(in srgb, var(--brand-primary) 22%, transparent);
+  transition: width 0.3s ease, opacity 0.3s ease, filter 0.3s ease, transform 0.3s ease;
+  filter: saturate(calc(0.8 + var(--recency-ratio, 0) * 0.5));
+}
+
+[data-theme="light"] .card-recency-bar {
+  background:
+    linear-gradient(
+      90deg,
+      #2563eb 0%,
+      #0ea5e9 38%,
+      #06b6d4 68%,
+      #14b8a6 100%
+    );
+  box-shadow:
+    0 0 8px rgba(14, 165, 233, 0.18),
+    0 0 14px rgba(20, 184, 166, 0.12);
+}
+
+.card-recency-track {
+  position: absolute;
+  bottom: -3px;
   left: 0;
   right: 0;
-  height: 3px; /* 细条指示器 */
+  height: 6px;
   z-index: 2;
-  transition: all 0.3s ease;
-  background: var(--card-recency-color, var(--recency-old-color));
+  border-radius: 999px;
+  overflow: hidden;
+  background:
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--recency-old-color) 55%, transparent),
+      color-mix(in srgb, var(--recency-old-color) 18%, transparent)
+    );
+  border: 1px solid color-mix(in srgb, var(--brand-secondary) 14%, transparent);
+}
+
+[data-theme="light"] .card-recency-track {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(37, 99, 235, 0.12),
+      rgba(6, 182, 212, 0.06)
+    );
+  border-color: rgba(14, 165, 233, 0.14);
+}
+
+.card[data-recency="unknown"] .card-recency-track {
+  background:
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--recency-old-color) 38%, transparent),
+      color-mix(in srgb, var(--recency-old-color) 12%, transparent)
+    );
 }
 
 .card[data-recency="unknown"] .card-recency-bar {
-  opacity: 0.15;
-  background: var(--recency-old-color);
+  width: 18%;
+  opacity: 0.24;
+  background:
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--recency-old-color) 85%, transparent),
+      color-mix(in srgb, var(--brand-secondary) 18%, transparent)
+    );
+  box-shadow: none;
+}
+
+[data-theme="light"] .card[data-recency="unknown"] .card-recency-bar {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(37, 99, 235, 0.38),
+      rgba(20, 184, 166, 0.18)
+    );
 }
 
 .card[data-recency="valid"] .card-recency-bar {
-  opacity: 0.9;
-  /* 使用 color-mix 实现平滑的梯度映射 */
-  --card-recency-color: color-mix(
-    in srgb,
-    var(--recency-new-color) calc(var(--recency-ratio, 0) * 100%),
-    var(--recency-old-color)
-  );
+  opacity: 0.96;
 }
 
-/* Hover 时色条稍微加厚以示反馈 */
+.card:hover .card-recency-track {
+  height: 8px;
+}
+
 .card:hover .card-recency-bar {
-  height: 4px;
   opacity: 1;
+  transform: translateZ(0);
+  filter: saturate(calc(1 + var(--recency-ratio, 0) * 0.6));
 }
 /* 取消左侧高亮条，保留纯平整洁 */
 .card::before{ display:none; }

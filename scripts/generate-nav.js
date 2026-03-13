@@ -144,6 +144,57 @@ async function collectAll(tagCounts) {
   return items;
 }
 
+function parseDateValue(value) {
+  const text = String(value || '').trim();
+  if (!text) return null;
+
+  const timestamp = Date.parse(text);
+  if (Number.isNaN(timestamp)) {
+    return null;
+  }
+
+  return timestamp;
+}
+
+function attachRecencyMeta(items) {
+  const timestamps = items
+    .map((item) => parseDateValue(item.date))
+    .filter((value) => Number.isFinite(value));
+
+  if (timestamps.length === 0) {
+    return items.map((item) => ({
+      ...item,
+      recency: { status: 'unknown', ratio: 0, width: 18 },
+    }));
+  }
+
+  const min = Math.min(...timestamps);
+  const max = Math.max(...timestamps);
+  const span = Math.max(max - min, 1);
+
+  return items.map((item) => {
+    const timestamp = parseDateValue(item.date);
+    if (!Number.isFinite(timestamp)) {
+      return {
+        ...item,
+        recency: { status: 'unknown', ratio: 0, width: 18 },
+      };
+    }
+
+    const ratio = max === min ? 1 : (timestamp - min) / span;
+    const width = Math.round(18 + ratio * 82);
+
+    return {
+      ...item,
+      recency: {
+        status: 'valid',
+        ratio: Number(ratio.toFixed(4)),
+        width,
+      },
+    };
+  });
+}
+
 /**
  * 将 items 渲染为卡片 HTML 片段
  */
@@ -182,8 +233,11 @@ function renderItems(items, tagGroupMap) {
     }
     const metaHtml = metaParts.length ? `<div class="card-meta">${metaParts.join('')}</div>` : '';
 
+    const recency = it.recency || { status: 'unknown', ratio: 0, width: 18 };
+    const recencyStyle = `--recency-ratio:${recency.ratio};--recency-progress:${recency.width}%;`;
+
     return [
-      `<div class="card" data-tags="${tagsAttr}">`,
+      `<div class="card" data-tags="${tagsAttr}" data-recency="${recency.status}" style="${recencyStyle}">`,
       '  <div class="card-layout">',
       `    <div class="card-icon-slot">${icon}</div>`,
       '    <div class="card-content">',
@@ -192,6 +246,9 @@ function renderItems(items, tagGroupMap) {
       metaHtml ? `      ${metaHtml}` : '',
       tagsHtml ? `      ${tagsHtml}` : '',
       '    </div>',
+      '  </div>',
+      '  <div class="card-recency-track" aria-hidden="true">',
+      '    <div class="card-recency-bar"></div>',
       '  </div>',
       '</div>'
     ].filter(Boolean).join('\n');
@@ -206,7 +263,8 @@ async function main() {
   const tagCounts = {};
   
   // 收集数据
-  const items = await collectAll(tagCounts);
+  const rawItems = await collectAll(tagCounts);
+  const items = attachRecencyMeta(rawItems);
   
   // 加载标签分组定义
   const tagGroupMap = await loadTagDefs();

@@ -6,11 +6,10 @@
   <script>
     (function() {
       var key = 'theme-mode';
-      var mode = localStorage.getItem(key) || 'auto';
-      var resolved = mode;
-      if (resolved === 'auto') {
-        resolved = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      }
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
       document.documentElement.setAttribute('data-theme', resolved);
     })();
   </script>
@@ -36,6 +35,26 @@
 
     .panel .title {
       color: var(--panel-accent);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-link);
+      text-decoration: none;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .home-link:hover {
+      text-decoration: underline;
+    }
+
+    .home-link svg {
+      width: 16px;
+      height: 16px;
+      flex: none;
     }
 
     .card pre,
@@ -70,6 +89,12 @@
 <body>
   <div class="container">
     <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
       <span class="title">curl 命令行工具速查表</span>
       <!-- META_INFO_START -->
       <div class="meta-info">
@@ -82,13 +107,7 @@
       <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
       <span id="widthVal" class="slider-val">340px</span>
       <span class="sep"></span>
-      <label class="toggle">🌓 主题
-        <select id="themeSelect" class="btn">
-          <option value="auto">自动 (系统)</option>
-          <option value="light">亮色</option>
-          <option value="dark">暗色</option>
-        </select>
-      </label>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
     </div>
     <div class="cheat-columns" id="columns">
       <div class="card"><h2>🚀 基础请求 <a href="https://curl.se/docs/manual.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">curl 最核心的 HTTP 请求功能</div><ul><li><code>curl &lt;url&gt;</code>：发起 GET 请求</li><li><code>curl -X POST &lt;url&gt;</code>：指定请求方法</li><li><code>curl -X PUT &lt;url&gt;</code>：发送 PUT 请求</li><li><code>curl -X DELETE &lt;url&gt;</code>：发送 DELETE 请求</li><li><code>curl -X PATCH &lt;url&gt;</code>：发送 PATCH 请求</li><li><code>curl -I &lt;url&gt;</code>：仅获取响应头</li><li><code>curl -i &lt;url&gt;</code>：显示响应头和响应体</li><li><code>curl -v &lt;url&gt;</code>：显示详细通信过程</li><li><code>curl -s &lt;url&gt;</code>：静默模式（不显示进度）</li><li><code>curl -L &lt;url&gt;</code>：跟随重定向</li><li><code>curl --max-redirs &lt;n&gt; &lt;url&gt;</code>：限制重定向次数</li></ul><pre><code class="language-bash"># 基本 GET 请求

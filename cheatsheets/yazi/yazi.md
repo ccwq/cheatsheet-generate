@@ -4,7 +4,7 @@ lang: bash
 version: v26.1.22
 date: 2026-03-13
 github: sxyazi/yazi
-colWidth: 6
+colWidth: 380px
 ---
 
 # Yazi 速查

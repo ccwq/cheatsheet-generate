@@ -6,11 +6,10 @@
   <script>
     (function() {
       var key = 'theme-mode';
-      var mode = localStorage.getItem(key) || 'auto';
-      var resolved = mode;
-      if (resolved === 'auto') {
-        resolved = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      }
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
       document.documentElement.setAttribute('data-theme', resolved);
     })();
   </script>
@@ -26,7 +25,7 @@
   <style>
     :root {
       /*默认列宽*/
-      --col-width: 340px; 
+      --col-width: 380px; 
       --gap: 16px;
     }
 
@@ -36,6 +35,26 @@
 
     .panel .title {
       color: var(--panel-accent);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-link);
+      text-decoration: none;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .home-link:hover {
+      text-decoration: underline;
+    }
+
+    .home-link svg {
+      width: 16px;
+      height: 16px;
+      flex: none;
     }
 
     .card pre,
@@ -70,6 +89,12 @@
 <body>
   <div class="container">
     <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
       <span class="title">Vim 速查</span>
       <!-- META_INFO_START -->
       <div class="meta-info">
@@ -82,13 +107,7 @@
       <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
       <span id="widthVal" class="slider-val">340px</span>
       <span class="sep"></span>
-      <label class="toggle">🌓 主题
-        <select id="themeSelect" class="btn">
-          <option value="auto">自动 (系统)</option>
-          <option value="light">亮色</option>
-          <option value="dark">暗色</option>
-        </select>
-      </label>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
     </div>
     <div class="cheat-columns" id="columns">
       <div class="card"><h2>📝 进入和退出编辑模式 <a href="https://www.vim.org/docs.php" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">模式切换是 Vim 的核心概念。</div><h3>进入插入模式</h3><ul><li><code>i</code>：在光标前插入</li><li><code>a</code>：在光标后插入</li><li><code>I</code>：在行首插入</li><li><code>A</code>：在行尾插入</li><li><code>o</code>：在下方新建一行</li><li><code>O</code>：在上方新建一行</li><li><code>s</code>：删除光标字符并插入</li><li><code>S</code>：删除整行并插入</li></ul><h3>退出插入模式</h3><ul><li><code>Esc</code>：退回到普通模式</li><li><code>Ctrl+[</code>：退回到普通模式（等价于 Esc）</li></ul><h3>退出保存</h3><ul><li><code>:wq</code>：保存并退出</li><li><code>ZZ</code>：保存并退出</li><li><code>:q!</code>：强制退出（不保存）</li><li><code>ZQ</code>：不保存退出</li></ul></div><div class="card"><h2>🖱️ 移动光标 <a href="https://www.vim.org/docs.php" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Vim 的高效移动方式。</div><h3>字符移动</h3><ul><li><code>h</code>：左移</li><li><code>j</code>：下移</li><li><code>k</code>：上移</li><li><code>l</code>：右移</li></ul><h3>词级移动</h3><ul><li><code>w</code>：移到下一个词首</li><li><code>b</code>：移到上一个词首</li><li><code>e</code>：移到词尾</li><li><code>ge</code>：移到前一个词尾</li></ul><h3>行内移动</h3><ul><li><code>0</code>：移到行首</li><li><code>^</code>：移到行首（非空白）</li><li><code>$</code>：移到行尾</li><li><code>g_</code>：移到行尾（非空白）</li></ul><h3>文件内移动</h3><ul><li><code>gg</code>：移到文件开头</li><li><code>G</code>：移到文件结尾</li><li><code>:n</code>：跳转到第 n 行</li><li><code>:nG</code>：跳转到第 n 行</li></ul><h3>屏幕移动</h3><ul><li><code>Ctrl+f</code>：向下翻页</li><li><code>Ctrl+b</code>：向上翻页</li><li><code>Ctrl+d</code>：向下半页</li><li><code>Ctrl+u</code>：向上半页</li><li><code>H</code>：移到屏幕顶部</li><li><code>M</code>：移到屏幕中间</li><li><code>L</code>：移到屏幕底部</li></ul><h3>括号匹配</h3><ul><li><code>%</code>：跳转到匹配的括号</li></ul></div><div class="card"><h2>✂️ 删除和修改文本 <a href="https://www.vim.org/docs.php" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">删除、替换、修改操作。</div><h3>删除</h3><ul><li><code>x</code>：删除光标处字符</li><li><code>X</code>：删除光标前字符</li><li><code>dw</code>：删除到词尾</li><li><code>dd</code>：删除整行</li><li><code>D</code>：删除到行尾</li><li><code>d$</code>：删除到行尾</li><li><code>d0</code>：删除到行首</li></ul><h3>替换</h3><ul><li><code>r</code>：替换光标处字符（单个）</li><li><code>R</code>：进入替换模式</li><li><code>cw</code>：修改词</li><li><code>cc</code>：修改整行</li><li><code>C</code>：修改到行尾</li></ul><h3>撤销</h3><ul><li><code>u</code>：撤销上一次操作</li><li><code>Ctrl+r</code>：重做</li><li><code>.</code>：重复上一次操作</li></ul></div><div class="card"><h2>📋 复制和粘贴 <a href="https://www.vim.org/docs.php" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">复制、剪切、粘贴。</div><h3>复制</h3><ul><li><code>yw</code>：复制到词尾</li><li><code>yy</code>：复制整行</li><li><code>y$</code>：复制到行尾</li><li><code>y0</code>：复制到行首</li></ul><h3>粘贴</h3><ul><li><code>p</code>：在光标后粘贴</li><li><code>P</code>：在光标前粘贴</li></ul><h3>寄存器操作</h3><ul><li><code>&quot;ayy</code>：复制到寄存器 a</li><li><code>&quot;ap</code>：从寄存器 a 粘贴</li></ul></div><div class="card"><h2>🔍 搜索和替换 <a href="https://www.vim.org/docs.php" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">查找和批量替换。</div><h3>搜索</h3><ul><li><code>/pattern</code>：向下搜索</li><li><code>?pattern</code>：向上搜索</li><li><code>n</code>：下一个匹配</li><li><code>N</code>：上一个匹配</li><li><code>*</code>：搜索光标所在词（向下）</li><li><code>#</code>：搜索光标所在词（向上）</li></ul><h3>替换</h3><ul><li><code>:s/old/new/</code>：替换当前行第一个</li><li><code>:s/old/new/g</code>：替换当前行全部</li><li><code>:%s/old/new/g</code>：替换文件全部</li><li><code>:%s/old/new/gc</code>：替换文件全部（确认）</li></ul><h3>正则模式</h3><ul><li><code>/\cpattern</code>：忽略大小写</li><li><code>/\Cpattern</code>：区分大小写</li><li><code>/\vpattern</code>：很&quot;魔法&quot;正则</li><li><code>/\Vpattern</code>：很&quot;_literal&quot;字面</li></ul></div><div class="card"><h2>🔧 文本对象 <a href="https://www.vim.org/docs.php" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">快速选中词、句、段落、引号内等。</div><h3>内部对象</h3><ul><li><code>iw</code>：整个词（不含空格）</li><li><code>aw</code>：整个词（含空格）</li><li><code>is</code>：整个句子</li><li><code>ip</code>：整个段落</li></ul><h3>引号内</h3><ul><li><code>i&quot;</code>：双引号内</li><li><code>i&#39;</code>：单引号内</li><li>`i`` : 反引号内</li></ul><h3>括号内</h3><ul><li><code>ib</code>：圆括号内</li><li><code>i)</code>：圆括号内</li><li><code>i]</code>：方括号内</li><li><code>i}</code>：大括号内</li><li><code>i&gt;</code>：尖括号内</li></ul><h3>配合动作</h3><ul><li><code>diw</code>：删除光标所在词</li><li><code>ciw</code>：修改光标所在词</li><li><code>yiw</code>：复制光标所在词</li><li><code>da&quot;</code>：删除包括引号</li><li><code>ca&quot;</code>：修改包括引号</li></ul></div><div class="card"><h2>🔄 宏和标记 <a href="https://www.vim.org/docs.php" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">录制命令序列和位置标记。</div><h3>宏录制</h3><ul><li><code>q a</code>：开始录制宏到寄存器 a</li><li><code>q</code>：结束录制</li><li><code>@ a</code>：执行寄存器 a 的宏</li><li><code>@@</code>：重复上次宏执行</li></ul><h3>标记</h3><ul><li><code>m a</code>：在光标位置设置标记 a</li><li><code>` a</code>：跳转到标记 a</li><li><code>&#39; a</code>：跳转到标记 a 所在行</li></ul><h3>特殊标记</h3><ul><li>``.` : 上次修改位置</li><li><code>&#39;&#39;</code>：上次跳转前的位置</li></ul></div><div class="card"><h2>🪟 窗口和标签页 <a href="https://www.vim.org/docs.php" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">分屏和标签页管理。</div><h3>分屏</h3><ul><li><code>:sp</code>：水平分屏</li><li><code>:vsp</code>：垂直分屏</li><li><code>:sp filename</code>：水平分屏打开文件</li><li><code>:vsp filename</code>：垂直分屏打开文件</li></ul><h3>窗口操作（Ctrl+w 前缀）</h3><ul><li><code>Ctrl+w s</code>：水平分割当前窗口</li><li><code>Ctrl+w v</code>：垂直分割当前窗口</li><li><code>Ctrl+w h/j/k/l</code>：切换到 左/下/上/右 窗口</li><li><code>Ctrl+w w</code>：切换到下一个窗口</li><li><code>Ctrl+w q</code>：关闭当前窗口</li><li><code>Ctrl+w =</code>：所有窗口等宽高</li><li><code>Ctrl+w _</code>：最大化当前窗口高度</li><li><code>Ctrl+w |</code>：最大化当前窗口宽度</li></ul><h3>标签页</h3><ul><li><code>:tabnew</code>：新建标签页</li><li><code>:tabe filename</code>：在新标签页打开文件</li><li><code>gt</code>：切换到下一个标签</li><li><code>gT</code>：切换到上一个标签</li><li><code>:tabclose</code>：关闭当前标签</li></ul></div><div class="card"><h2>⚙️ 配置选项 <a href="https://www.vim.org/docs.php" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">常用配置选项。</div><h3>常用设置</h3><ul><li><code>:set nu</code>：显示行号</li><li><code>:set nonu</code>：隐藏行号</li><li><code>:set ai</code>：自动缩进</li><li><code>:set noai</code>：取消自动缩进</li><li><code>:set ic</code>：搜索忽略大小写</li><li><code>:set noic</code>：搜索区分大小写</li><li><code>:set ts=4</code>：Tab 宽度为 4</li><li><code>:set sw=4</code>：缩进宽度为 4</li><li><code>:set et</code>：用空格代替 Tab</li><li><code>:set wrap</code>：自动换行</li><li><code>:set nowrap</code>：不自动换行</li><li><code>:set hlsearch</code>：高亮搜索结果</li><li><code>:set nuw=6</code>：行号宽度</li></ul><h3>查看帮助</h3><ul><li><code>:help option-name</code>：查看选项帮助</li></ul></div><div class="card"><h2>🔀 常用命令组合 <a href="https://www.vim.org/docs.php" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">实用的高效操作组合。</div><ul><li><code>cc</code>：删除当前行并进入插入模式</li><li><code>A;</code>：在行尾添加分号</li><li><code>ciw</code>：删除当前单词并修改</li><li><code>yyp</code>：复制当前行并粘贴到下方</li><li><code>V y</code>：选中当前行</li><li><code>C</code>：删除光标到行尾并进入插入模式</li><li><code>r x</code>：替换当前光标字符</li><li><code>.</code>：重复上次操作</li></ul></div><div class="card"><h2>💡 实用技巧 <a href="https://www.vim.org/docs.php" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">提升效率的技巧。</div><h3>大小写转换</h3><ul><li><code>gUU</code>：整行转大写</li><li><code>guu</code>：整行转小写</li><li><code>gUiw</code>：光标所在词转大写</li><li><code>guiw</code>：光标所在词转小写</li><li><code>~</code>：切换光标处字符大小写</li></ul><h3>数字递增/递减</h3><ul><li><code>Ctrl+a</code>：光标处数字加 1</li><li><code>Ctrl+x</code>：光标处数字减 1</li></ul><h3>格式化</h3><ul><li><code>=</code>：格式化当前代码块</li><li><code>gg=G</code>：格式化整个文件</li></ul><h3>移动</h3><ul><li><code>gm</code>：移到行中间</li><li><code>g;</code>：跳转到上次修改位置</li><li><code>g,</code>：跳转到下次修改位置</li></ul></div>

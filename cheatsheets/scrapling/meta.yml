@@ -1,0 +1,10 @@
+desc: Scrapling - 自适应网页爬虫框架，支持反爬绕过、动态渲染、并发爬取、暂停恢复和代理轮换
+tags:
+  - Python
+  - 爬虫
+  - 反爬虫
+  - 框架
+  - 数据提取
+version: 0.4.2
+github: D4Vinci/Scrapling
+date: "2026-03-13"

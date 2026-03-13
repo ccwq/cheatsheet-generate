@@ -6,11 +6,10 @@
   <script>
     (function() {
       var key = 'theme-mode';
-      var mode = localStorage.getItem(key) || 'auto';
-      var resolved = mode;
-      if (resolved === 'auto') {
-        resolved = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      }
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
       document.documentElement.setAttribute('data-theme', resolved);
     })();
   </script>
@@ -36,6 +35,26 @@
 
     .panel .title {
       color: var(--panel-accent);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-link);
+      text-decoration: none;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .home-link:hover {
+      text-decoration: underline;
+    }
+
+    .home-link svg {
+      width: 16px;
+      height: 16px;
+      flex: none;
     }
 
     .card pre,
@@ -70,6 +89,12 @@
 <body>
   <div class="container">
     <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
       <span class="title">LangChain 速查</span>
       <!-- META_INFO_START -->
       <div class="meta-info">
@@ -82,13 +107,7 @@
       <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
       <span id="widthVal" class="slider-val">340px</span>
       <span class="sep"></span>
-      <label class="toggle">🌓 主题
-        <select id="themeSelect" class="btn">
-          <option value="auto">自动 (系统)</option>
-          <option value="light">亮色</option>
-          <option value="dark">暗色</option>
-        </select>
-      </label>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
     </div>
     <div class="cheat-columns" id="columns">
       <div class="card"><h2>🚀 快速开始：创建最小 Agent <a href="https://docs.langchain.com/oss/python/langchain/quickstart" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">先跑通最小可用 Agent，再逐步叠加工具、记忆和检索。</div><ul><li><code>pip install -U langchain &quot;langchain[openai]&quot;</code>：安装核心包与 OpenAI 集成</li><li><code>from langchain.agents import create_agent</code>：创建高层 Agent 入口</li><li><code>agent.invoke({&quot;messages&quot;: [...]})</code>：同步执行单轮请求</li></ul><pre><code class="language-bash"># 安装 LangChain 与 OpenAI Provider

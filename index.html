@@ -7,11 +7,10 @@
     <script>
       (function() {
         var key = 'theme-mode';
-        var mode = localStorage.getItem(key) || 'auto';
-        var resolved = mode;
-        if (resolved === 'auto') {
-          resolved = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-        }
+        var saved = localStorage.getItem(key);
+        var resolved = (saved === 'light' || saved === 'dark')
+          ? saved
+          : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
         document.documentElement.setAttribute('data-theme', resolved);
       })();
     </script>
@@ -81,18 +80,11 @@
             <option value="date-old">日期：最旧</option>
           </select>
         </label>
-        <div class="toggle toggle-group" aria-label="主题切换">
-          <span>🌓 主题</span>
-          <div id="themeToggle" class="segmented-toggle" role="group" aria-label="主题模式">
-            <button type="button" class="segmented-toggle__btn" data-theme-mode="auto">自动</button>
-            <button type="button" class="segmented-toggle__btn" data-theme-mode="light">亮色</button>
-            <button type="button" class="segmented-toggle__btn" data-theme-mode="dark">暗色</button>
-          </div>
-        </div>
+        <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
         <span id="stats" class="stats"></span>
       </div>
       <div id="columns" class="cheat-columns">
-        <div class="card" data-tags="Build,OS">
+        <div class="card" data-tags="Build,OS" data-recency="valid" style="--recency-ratio:0.8874;--recency-progress:91%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/安卓Gradle速查/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -102,8 +94,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">Build</span><span class="tag tag-group-0" data-group="0">OS</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="Android,CLI,Debug,OS">
+<div class="card" data-tags="Android,CLI,Debug,OS" data-recency="valid" style="--recency-ratio:0.8874;--recency-progress:91%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/adb/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -113,8 +108,11 @@
       <div class="card-tags"><span class="tag tag-group-1" data-group="1">Android</span><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-0" data-group="0">Debug</span><span class="tag tag-group-0" data-group="0">OS</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="Automation,CLI,JavaScript,Node.js,Test,开发">
+<div class="card" data-tags="Automation,CLI,JavaScript,Node.js,Test,开发" data-recency="valid" style="--recency-ratio:0.9553;--recency-progress:96%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/agent-browser/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -124,8 +122,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">Automation</span><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-1" data-group="1">JavaScript</span><span class="tag tag-group-1" data-group="1">Node.js</span><span class="tag tag-group-0" data-group="0">Test</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="AI,CLI,Documentation,开发">
+<div class="card" data-tags="AI,CLI,Documentation,开发" data-recency="valid" style="--recency-ratio:0.9932;--recency-progress:99%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/agentskills/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -135,8 +136,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">AI</span><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-0" data-group="0">Documentation</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="Automation,GUI,OS,开发">
+<div class="card" data-tags="Automation,GUI,OS,开发" data-recency="valid" style="--recency-ratio:0.9505;--recency-progress:96%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/ahk2-autohotkey/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -146,8 +150,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">Automation</span><span class="tag tag-group-4" data-group="4">GUI</span><span class="tag tag-group-0" data-group="0">OS</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="Android,Debug,Editor,GUI,OS">
+<div class="card" data-tags="Android,Debug,Editor,GUI,OS" data-recency="valid" style="--recency-ratio:0.8883;--recency-progress:91%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/android-studio/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -157,8 +164,11 @@
       <div class="card-tags"><span class="tag tag-group-1" data-group="1">Android</span><span class="tag tag-group-0" data-group="0">Debug</span><span class="tag tag-group-0" data-group="0">Editor</span><span class="tag tag-group-4" data-group="4">GUI</span><span class="tag tag-group-0" data-group="0">OS</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="CLI,Refactor">
+<div class="card" data-tags="CLI,Refactor" data-recency="valid" style="--recency-ratio:0.9427;--recency-progress:95%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/ast-grep/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -168,8 +178,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-0" data-group="0">Refactor</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="CLI,Refactor">
+<div class="card" data-tags="CLI,Refactor" data-recency="valid" style="--recency-ratio:0.9039;--recency-progress:92%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/ast-grep-pattern/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -179,8 +192,25 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-0" data-group="0">Refactor</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="CLI,Learning">
+<div class="card" data-tags="Automation,CLI,DevOps,Shell" data-recency="valid" style="--recency-ratio:1;--recency-progress:100%;">
+  <div class="card-layout">
+    <div class="card-icon-slot"><img class="icon" src="cheatsheets/bash/icon.png" alt="icon" /></div>
+    <div class="card-content">
+      <h2>bash <a class="link" href="cheatsheets/bash/bash.html" target="_blank" rel="noopener">&gt;&gt;&gt;</a></h2>
+      <p class="desc">Bash &#x901F;&#x67E5;&#x624B;&#x518C;&#xFF0C;&#x6DB5;&#x76D6;&#x57FA;&#x7840;&#x8BED;&#x6CD5;&#x3001;&#x6761;&#x4EF6;&#x5FAA;&#x73AF;&#x3001;&#x51FD;&#x6570;&#x3001;&#x8F93;&#x5165;&#x8F93;&#x51FA;&#x3001;&#x5B57;&#x7B26;&#x4E32;&#x5904;&#x7406;&#x7B49;&#x5E38;&#x7528;&#x547D;&#x4EE4;&#x4E0E;&#x6280;&#x5DE7;&#x3002;</p>
+      <div class="card-meta"><span class="meta-chip">版本 <b>v5.2</b></span><span class="meta-chip">更新日志 <b>2026-03-13</b></span><span class="meta-chip">GitHub <a class="meta-link" href="https://github.com/bminor/bash" target="_blank" rel="noopener">bminor/bash</a></span></div>
+      <div class="card-tags"><span class="tag tag-group-0" data-group="0">Automation</span><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-1" data-group="1">DevOps</span><span class="tag tag-group-0" data-group="0">Shell</span></div>
+    </div>
+  </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
+</div>
+<div class="card" data-tags="CLI,Learning" data-recency="valid" style="--recency-ratio:0.8874;--recency-progress:91%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/bash-vs-fish/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -190,8 +220,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-0" data-group="0">Learning</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="3D,GIS,JavaScript,Library,Visualization,开发">
+<div class="card" data-tags="3D,GIS,JavaScript,Library,Visualization,开发" data-recency="valid" style="--recency-ratio:0.8874;--recency-progress:91%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/cesium/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -201,8 +234,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">3D</span><span class="tag tag-group-0" data-group="0">GIS</span><span class="tag tag-group-1" data-group="1">JavaScript</span><span class="tag tag-group-0" data-group="0">Library</span><span class="tag tag-group-0" data-group="0">Visualization</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="Debug,Library,Node.js,开发">
+<div class="card" data-tags="Debug,Library,Node.js,开发" data-recency="valid" style="--recency-ratio:0.9573;--recency-progress:96%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/cheerio/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -212,8 +248,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">Debug</span><span class="tag tag-group-0" data-group="0">Library</span><span class="tag tag-group-1" data-group="1">Node.js</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="CLI,DevOps,OS,PackageManager">
+<div class="card" data-tags="CLI,DevOps,OS,PackageManager" data-recency="valid" style="--recency-ratio:0.8825;--recency-progress:90%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/chocolate/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -223,8 +262,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-1" data-group="1">DevOps</span><span class="tag tag-group-0" data-group="0">OS</span><span class="tag tag-group-0" data-group="0">PackageManager</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="Debug,GUI,Network,Web">
+<div class="card" data-tags="Debug,GUI,Network,Web" data-recency="valid" style="--recency-ratio:0.9505;--recency-progress:96%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/chrome-devtools/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -234,8 +276,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">Debug</span><span class="tag tag-group-4" data-group="4">GUI</span><span class="tag tag-group-0" data-group="0">Network</span><span class="tag tag-group-0" data-group="0">Web</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="Framework,Web,开发">
+<div class="card" data-tags="Framework,Web,开发" data-recency="valid" style="--recency-ratio:0.8942;--recency-progress:91%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/chrome-extensions/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -245,8 +290,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">Framework</span><span class="tag tag-group-0" data-group="0">Web</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="AI,CLI,开发">
+<div class="card" data-tags="AI,CLI,开发" data-recency="valid" style="--recency-ratio:0.8835;--recency-progress:90%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/claude-code/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -256,8 +304,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">AI</span><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="AI,CLI,Documentation,开发">
+<div class="card" data-tags="AI,CLI,Documentation,开发" data-recency="valid" style="--recency-ratio:0.8913;--recency-progress:91%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/claude-code-spec-workflow/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -267,8 +318,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">AI</span><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-0" data-group="0">Documentation</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="CLI,Learning,OS,开发">
+<div class="card" data-tags="CLI,Learning,OS,开发" data-recency="valid" style="--recency-ratio:0.8883;--recency-progress:91%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/clink/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -278,8 +332,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-0" data-group="0">Learning</span><span class="tag tag-group-0" data-group="0">OS</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="AI,CLI,开发">
+<div class="card" data-tags="AI,CLI,开发" data-recency="valid" style="--recency-ratio:0.8835;--recency-progress:90%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/codex-cli/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -289,8 +346,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">AI</span><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="CLI,Visualization,开发">
+<div class="card" data-tags="CLI,Visualization,开发" data-recency="valid" style="--recency-ratio:0.9175;--recency-progress:93%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/colmap/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -300,8 +360,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-0" data-group="0">Visualization</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="CLI,Library,Node.js,开发">
+<div class="card" data-tags="CLI,Library,Node.js,开发" data-recency="valid" style="--recency-ratio:0.9427;--recency-progress:95%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/commander/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -311,8 +374,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-0" data-group="0">Library</span><span class="tag tag-group-1" data-group="1">Node.js</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="CLI,DevOps,PackageManager,Python">
+<div class="card" data-tags="CLI,DevOps,PackageManager,Python" data-recency="valid" style="--recency-ratio:0.8825;--recency-progress:90%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/conda-forge/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -322,8 +388,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-1" data-group="1">DevOps</span><span class="tag tag-group-0" data-group="0">PackageManager</span><span class="tag tag-group-1" data-group="1">Python</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="CLI,Network,Web,开发">
+<div class="card" data-tags="CLI,Network,Web,开发" data-recency="valid" style="--recency-ratio:0.9932;--recency-progress:99%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/curl/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -333,8 +402,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-0" data-group="0">Network</span><span class="tag tag-group-0" data-group="0">Web</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="DevOps,CLI / Terminal,CLI 工具,运维,命令行">
+<div class="card" data-tags="DevOps,CLI / Terminal,CLI 工具,运维,命令行" data-recency="valid" style="--recency-ratio:0.9039;--recency-progress:92%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/docker/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -344,8 +416,11 @@
       <div class="card-tags"><span class="tag tag-group-1" data-group="1">DevOps</span><span class="tag tag-group-1" data-group="1">CLI / Terminal</span><span class="tag tag-group-2" data-group="2">CLI &#x5DE5;&#x5177;</span><span class="tag tag-group-3" data-group="3">&#x8FD0;&#x7EF4;</span><span class="tag tag-group-4" data-group="4">&#x547D;&#x4EE4;&#x884C;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="AI,CLI,开发">
+<div class="card" data-tags="AI,CLI,开发" data-recency="valid" style="--recency-ratio:0.9252;--recency-progress:94%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/gemini-cli/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -355,8 +430,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">AI</span><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="AI,CLI,开发,效率">
+<div class="card" data-tags="AI,CLI,开发,效率" data-recency="valid" style="--recency-ratio:0.999;--recency-progress:100%;">
   <div class="card-layout">
     <div class="card-icon-slot"></div>
     <div class="card-content">
@@ -366,8 +444,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">AI</span><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span><span class="tag tag-group-0" data-group="0">&#x6548;&#x7387;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="CLI,DevOps,VersionControl,开发">
+<div class="card" data-tags="CLI,DevOps,VersionControl,开发" data-recency="valid" style="--recency-ratio:0.999;--recency-progress:100%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/git/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -377,8 +458,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-1" data-group="1">DevOps</span><span class="tag tag-group-0" data-group="0">VersionControl</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="Web 前端,JavaScript,动画引擎,开发,库 / SDK">
+<div class="card" data-tags="Web 前端,JavaScript,动画引擎,开发,库 / SDK" data-recency="valid" style="--recency-ratio:0.8845;--recency-progress:91%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/gsap/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -388,8 +472,11 @@
       <div class="card-tags"><span class="tag tag-group-1" data-group="1">Web &#x524D;&#x7AEF;</span><span class="tag tag-group-1" data-group="1">JavaScript</span><span class="tag tag-group-2" data-group="2">&#x52A8;&#x753B;&#x5F15;&#x64CE;</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span><span class="tag tag-group-4" data-group="4">&#x5E93; / SDK</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="CLI,Library,Node.js,开发">
+<div class="card" data-tags="CLI,Library,Node.js,开发" data-recency="valid" style="--recency-ratio:0.9485;--recency-progress:96%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/inquirer/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -399,8 +486,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-0" data-group="0">Library</span><span class="tag tag-group-1" data-group="1">Node.js</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="Android,Framework,GUI,Kotlin,OS,开发">
+<div class="card" data-tags="Android,Framework,GUI,Kotlin,OS,开发" data-recency="valid" style="--recency-ratio:0.8883;--recency-progress:91%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/jetpack-compose/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -410,8 +500,11 @@
       <div class="card-tags"><span class="tag tag-group-1" data-group="1">Android</span><span class="tag tag-group-0" data-group="0">Framework</span><span class="tag tag-group-4" data-group="4">GUI</span><span class="tag tag-group-1" data-group="1">Kotlin</span><span class="tag tag-group-0" data-group="0">OS</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="Kotlin,Library,OS,开发">
+<div class="card" data-tags="Kotlin,Library,OS,开发" data-recency="valid" style="--recency-ratio:0.8883;--recency-progress:91%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/kotlin/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -421,8 +514,11 @@
       <div class="card-tags"><span class="tag tag-group-1" data-group="1">Kotlin</span><span class="tag tag-group-0" data-group="0">Library</span><span class="tag tag-group-0" data-group="0">OS</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="AI,Framework,Library,Python,开发">
+<div class="card" data-tags="AI,Framework,Library,Python,开发" data-recency="valid" style="--recency-ratio:0.9922;--recency-progress:99%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/langchain/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -432,8 +528,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">AI</span><span class="tag tag-group-0" data-group="0">Framework</span><span class="tag tag-group-0" data-group="0">Library</span><span class="tag tag-group-1" data-group="1">Python</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="CLI / Terminal,CLI 工具,版本控制,命令行">
+<div class="card" data-tags="CLI / Terminal,CLI 工具,版本控制,命令行" data-recency="valid" style="--recency-ratio:0.9981;--recency-progress:100%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/lazygit/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -443,8 +542,11 @@
       <div class="card-tags"><span class="tag tag-group-1" data-group="1">CLI / Terminal</span><span class="tag tag-group-2" data-group="2">CLI &#x5DE5;&#x5177;</span><span class="tag tag-group-2" data-group="2">&#x7248;&#x672C;&#x63A7;&#x5236;</span><span class="tag tag-group-4" data-group="4">&#x547D;&#x4EE4;&#x884C;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="GIS,JavaScript,Library,Web,开发">
+<div class="card" data-tags="GIS,JavaScript,Library,Web,开发" data-recency="valid" style="--recency-ratio:0;--recency-progress:18%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/leaflet.js/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -454,8 +556,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">GIS</span><span class="tag tag-group-1" data-group="1">JavaScript</span><span class="tag tag-group-0" data-group="0">Library</span><span class="tag tag-group-0" data-group="0">Web</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="Leaflet,地图,JavaScript,ESM,2.0">
+<div class="card" data-tags="Leaflet,地图,JavaScript,ESM,2.0" data-recency="valid" style="--recency-ratio:0.7097;--recency-progress:76%;">
   <div class="card-layout">
     <div class="card-icon-slot"></div>
     <div class="card-content">
@@ -465,8 +570,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">Leaflet</span><span class="tag tag-group-0" data-group="0">&#x5730;&#x56FE;</span><span class="tag tag-group-1" data-group="1">JavaScript</span><span class="tag tag-group-0" data-group="0">ESM</span><span class="tag tag-group-0" data-group="0">2.0</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="CLI,Monorepo,Node.js,开发">
+<div class="card" data-tags="CLI,Monorepo,Node.js,开发" data-recency="valid" style="--recency-ratio:0.8883;--recency-progress:91%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/lerna/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -476,8 +584,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-0" data-group="0">Monorepo</span><span class="tag tag-group-1" data-group="1">Node.js</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="AI,CLI,DevOps,Network">
+<div class="card" data-tags="AI,CLI,DevOps,Network" data-recency="valid" style="--recency-ratio:0.8874;--recency-progress:91%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/LiteLLM/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -487,8 +598,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">AI</span><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-1" data-group="1">DevOps</span><span class="tag tag-group-0" data-group="0">Network</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="CLI,DevOps,OS">
+<div class="card" data-tags="CLI,DevOps,OS" data-recency="valid" style="--recency-ratio:0.8883;--recency-progress:91%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/mklink-@-ln/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -498,8 +612,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-1" data-group="1">DevOps</span><span class="tag tag-group-0" data-group="0">OS</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="CLI,Node.js,PackageManager,开发">
+<div class="card" data-tags="CLI,Node.js,PackageManager,开发" data-recency="valid" style="--recency-ratio:0.8922;--recency-progress:91%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/npm/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -509,8 +626,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-1" data-group="1">Node.js</span><span class="tag tag-group-0" data-group="0">PackageManager</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="Automation,CLI,Node.js,开发">
+<div class="card" data-tags="Automation,CLI,Node.js,开发" data-recency="valid" style="--recency-ratio:0.8883;--recency-progress:91%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/nps/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -520,8 +640,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">Automation</span><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-1" data-group="1">Node.js</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="Automation,CLI,Node.js,开发">
+<div class="card" data-tags="Automation,CLI,Node.js,开发" data-recency="valid" style="--recency-ratio:0.8883;--recency-progress:91%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/ntl/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -531,8 +654,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">Automation</span><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-1" data-group="1">Node.js</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="JavaScript,Knowledge,Plugin,Search">
+<div class="card" data-tags="JavaScript,Knowledge,Plugin,Search" data-recency="valid" style="--recency-ratio:0.9553;--recency-progress:96%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/obsidian-dataview/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -542,8 +668,11 @@
       <div class="card-tags"><span class="tag tag-group-1" data-group="1">JavaScript</span><span class="tag tag-group-0" data-group="0">Knowledge</span><span class="tag tag-group-0" data-group="0">Plugin</span><span class="tag tag-group-0" data-group="0">Search</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="AI,CLI,DevOps,Network,开发">
+<div class="card" data-tags="AI,CLI,DevOps,Network,开发" data-recency="valid" style="--recency-ratio:0.999;--recency-progress:100%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/openclaw/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -553,8 +682,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">AI</span><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-1" data-group="1">DevOps</span><span class="tag tag-group-0" data-group="0">Network</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="AI,AI工具,CLI,Terminal,开发">
+<div class="card" data-tags="AI,AI工具,CLI,Terminal,开发" data-recency="valid" style="--recency-ratio:0.9932;--recency-progress:99%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/opencode/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -564,19 +696,25 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">AI</span><span class="tag tag-group-0" data-group="0">AI&#x5DE5;&#x5177;</span><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-0" data-group="0">Terminal</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="AI,CLI,Documentation,开发">
+<div class="card" data-tags="AI,CLI,Documentation,开发,Workflow" data-recency="valid" style="--recency-ratio:1;--recency-progress:100%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/openspec/icon.png" alt="icon" /></div>
     <div class="card-content">
       <h2>openspec <a class="link" href="cheatsheets/openspec/openspec.html" target="_blank" rel="noopener">&gt;&gt;&gt;</a></h2>
       <p class="desc">OpenSpec&#xFF1A;&#x9762;&#x5411; AI &#x7F16;&#x7801;&#x52A9;&#x624B;&#x7684;&#x89C4;&#x683C;&#x5148;&#x884C;&#x5DE5;&#x4F5C;&#x6D41;&#x4E0E;&#x53D8;&#x66F4;&#x7BA1;&#x7406;&#xFF0C;&#x4E00;&#x81F4;&#x5BF9;&#x9F50;&#x610F;&#x56FE;&#x540E;&#x518D;&#x5B9E;&#x65BD;&#x53D8;&#x66F4;&#x3002;</p>
-      <div class="card-meta"><span class="meta-chip">版本 <b>unknown</b></span><span class="meta-chip">更新日志 <b>2025-11-12</b></span><span class="meta-chip">GitHub <a class="meta-link" href="https://github.com/Fission-AI/OpenSpec" target="_blank" rel="noopener">Fission-AI/OpenSpec</a></span></div>
-      <div class="card-tags"><span class="tag tag-group-0" data-group="0">AI</span><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-0" data-group="0">Documentation</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span></div>
+      <div class="card-meta"><span class="meta-chip">版本 <b>vlatest</b></span><span class="meta-chip">更新日志 <b>2026-03-13</b></span><span class="meta-chip">GitHub <a class="meta-link" href="https://github.com/Fission-AI/OpenSpec" target="_blank" rel="noopener">Fission-AI/OpenSpec</a></span></div>
+      <div class="card-tags"><span class="tag tag-group-0" data-group="0">AI</span><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-0" data-group="0">Documentation</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span><span class="tag tag-group-0" data-group="0">Workflow</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="Debug,DevOps,JavaScript,Library,Logging,Node.js,开发">
+<div class="card" data-tags="Debug,DevOps,JavaScript,Library,Logging,Node.js,开发" data-recency="valid" style="--recency-ratio:0.9573;--recency-progress:96%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/pino/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -586,8 +724,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">Debug</span><span class="tag tag-group-1" data-group="1">DevOps</span><span class="tag tag-group-1" data-group="1">JavaScript</span><span class="tag tag-group-0" data-group="0">Library</span><span class="tag tag-group-0" data-group="0">Logging</span><span class="tag tag-group-1" data-group="1">Node.js</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="Node.js,DevOps,进程管理,运维,命令行,守护进程">
+<div class="card" data-tags="Node.js,DevOps,进程管理,运维,命令行,守护进程" data-recency="valid" style="--recency-ratio:0.9388;--recency-progress:95%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/pm2/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -597,8 +738,11 @@
       <div class="card-tags"><span class="tag tag-group-1" data-group="1">Node.js</span><span class="tag tag-group-1" data-group="1">DevOps</span><span class="tag tag-group-2" data-group="2">&#x8FDB;&#x7A0B;&#x7BA1;&#x7406;</span><span class="tag tag-group-3" data-group="3">&#x8FD0;&#x7EF4;</span><span class="tag tag-group-4" data-group="4">&#x547D;&#x4EE4;&#x884C;</span><span class="tag tag-group-4" data-group="4">&#x5B88;&#x62A4;&#x8FDB;&#x7A0B;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="CLI,Node.js,PackageManager,开发">
+<div class="card" data-tags="CLI,Node.js,PackageManager,开发" data-recency="valid" style="--recency-ratio:0.8922;--recency-progress:91%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/pnpm/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -608,8 +752,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-1" data-group="1">Node.js</span><span class="tag tag-group-0" data-group="0">PackageManager</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="CLI,DevOps">
+<div class="card" data-tags="CLI,DevOps" data-recency="valid" style="--recency-ratio:0.8883;--recency-progress:91%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/podman/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -619,8 +766,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-1" data-group="1">DevOps</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="Game,Library,Python,开发">
+<div class="card" data-tags="Game,Library,Python,开发" data-recency="valid" style="--recency-ratio:0.9097;--recency-progress:93%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/pygame/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -630,8 +780,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">Game</span><span class="tag tag-group-0" data-group="0">Library</span><span class="tag tag-group-1" data-group="1">Python</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="JavaScript,Learning,Library,开发">
+<div class="card" data-tags="JavaScript,Learning,Library,开发" data-recency="valid" style="--recency-ratio:0.9039;--recency-progress:92%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/regex/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -641,8 +794,25 @@
       <div class="card-tags"><span class="tag tag-group-1" data-group="1">JavaScript</span><span class="tag tag-group-0" data-group="0">Learning</span><span class="tag tag-group-0" data-group="0">Library</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="Automation,GUI,Node.js,开发">
+<div class="card" data-tags="Python,爬虫,反爬虫,框架,数据提取" data-recency="valid" style="--recency-ratio:1;--recency-progress:100%;">
+  <div class="card-layout">
+    <div class="card-icon-slot"></div>
+    <div class="card-content">
+      <h2>scrapling <a class="link" href="cheatsheets/scrapling/scrapling.html" target="_blank" rel="noopener">&gt;&gt;&gt;</a></h2>
+      <p class="desc">Scrapling - &#x81EA;&#x9002;&#x5E94;&#x7F51;&#x9875;&#x722C;&#x866B;&#x6846;&#x67B6;&#xFF0C;&#x652F;&#x6301;&#x53CD;&#x722C;&#x7ED5;&#x8FC7;&#x3001;&#x52A8;&#x6001;&#x6E32;&#x67D3;&#x3001;&#x5E76;&#x53D1;&#x722C;&#x53D6;&#x3001;&#x6682;&#x505C;&#x6062;&#x590D;&#x548C;&#x4EE3;&#x7406;&#x8F6E;&#x6362;</p>
+      <div class="card-meta"><span class="meta-chip">版本 <b>v0.4.2</b></span><span class="meta-chip">更新日志 <b>2026-03-13</b></span><span class="meta-chip">GitHub <a class="meta-link" href="https://github.com/D4Vinci/Scrapling" target="_blank" rel="noopener">D4Vinci/Scrapling</a></span></div>
+      <div class="card-tags"><span class="tag tag-group-1" data-group="1">Python</span><span class="tag tag-group-0" data-group="0">&#x722C;&#x866B;</span><span class="tag tag-group-0" data-group="0">&#x53CD;&#x722C;&#x866B;</span><span class="tag tag-group-4" data-group="4">&#x6846;&#x67B6;</span><span class="tag tag-group-0" data-group="0">&#x6570;&#x636E;&#x63D0;&#x53D6;</span></div>
+    </div>
+  </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
+</div>
+<div class="card" data-tags="Automation,GUI,Node.js,开发" data-recency="valid" style="--recency-ratio:0.8883;--recency-progress:91%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/scriptkit/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -652,8 +822,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">Automation</span><span class="tag tag-group-4" data-group="4">GUI</span><span class="tag tag-group-1" data-group="1">Node.js</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="Automation,CLI,DevOps">
+<div class="card" data-tags="Automation,CLI,DevOps" data-recency="valid" style="--recency-ratio:0.8874;--recency-progress:91%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/shell/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -663,8 +836,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">Automation</span><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-1" data-group="1">DevOps</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="CLI,开发">
+<div class="card" data-tags="CLI,开发" data-recency="valid" style="--recency-ratio:0.8971;--recency-progress:92%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/sourcegraph-code-sg/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -674,8 +850,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="AI,CLI,Documentation,开发">
+<div class="card" data-tags="AI,CLI,Documentation,开发" data-recency="valid" style="--recency-ratio:0.8913;--recency-progress:91%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/spec-kit/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -685,8 +864,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">AI</span><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-0" data-group="0">Documentation</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="AI,Framework,Learning,Python,Visualization,开发">
+<div class="card" data-tags="AI,Framework,Learning,Python,Visualization,开发" data-recency="valid" style="--recency-ratio:0.967;--recency-progress:97%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/streamlit/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -696,8 +878,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">AI</span><span class="tag tag-group-0" data-group="0">Framework</span><span class="tag tag-group-0" data-group="0">Learning</span><span class="tag tag-group-1" data-group="1">Python</span><span class="tag tag-group-0" data-group="0">Visualization</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="Web 前端,JavaScript,框架,开发,构建">
+<div class="card" data-tags="Web 前端,JavaScript,框架,开发,构建" data-recency="valid" style="--recency-ratio:0.999;--recency-progress:100%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/tailwindcss/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -707,8 +892,11 @@
       <div class="card-tags"><span class="tag tag-group-1" data-group="1">Web &#x524D;&#x7AEF;</span><span class="tag tag-group-1" data-group="1">JavaScript</span><span class="tag tag-group-4" data-group="4">&#x6846;&#x67B6;</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span><span class="tag tag-group-3" data-group="3">&#x6784;&#x5EFA;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="Web 前端,JavaScript,3D / 图形,图形 / 可视化,开发,库 / SDK">
+<div class="card" data-tags="Web 前端,JavaScript,3D / 图形,图形 / 可视化,开发,库 / SDK" data-recency="valid" style="--recency-ratio:0.8874;--recency-progress:91%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/threejs/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -718,8 +906,11 @@
       <div class="card-tags"><span class="tag tag-group-1" data-group="1">Web &#x524D;&#x7AEF;</span><span class="tag tag-group-1" data-group="1">JavaScript</span><span class="tag tag-group-1" data-group="1">3D / &#x56FE;&#x5F62;</span><span class="tag tag-group-2" data-group="2">&#x56FE;&#x5F62; / &#x53EF;&#x89C6;&#x5316;</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span><span class="tag tag-group-4" data-group="4">&#x5E93; / SDK</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="CLI,DevOps,Terminal">
+<div class="card" data-tags="CLI,DevOps,Terminal" data-recency="valid" style="--recency-ratio:0.9922;--recency-progress:99%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/tmux/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -729,8 +920,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-1" data-group="1">DevOps</span><span class="tag tag-group-0" data-group="0">Terminal</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="Learning,Library,Python,Visualization">
+<div class="card" data-tags="Learning,Library,Python,Visualization" data-recency="valid" style="--recency-ratio:0.9039;--recency-progress:92%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/turtle/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -740,8 +934,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">Learning</span><span class="tag tag-group-0" data-group="0">Library</span><span class="tag tag-group-1" data-group="1">Python</span><span class="tag tag-group-0" data-group="0">Visualization</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="Web 前端,TypeScript,框架,开发,构建">
+<div class="card" data-tags="Web 前端,TypeScript,框架,开发,构建" data-recency="valid" style="--recency-ratio:0.999;--recency-progress:100%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/unocss/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -751,8 +948,11 @@
       <div class="card-tags"><span class="tag tag-group-1" data-group="1">Web &#x524D;&#x7AEF;</span><span class="tag tag-group-1" data-group="1">TypeScript</span><span class="tag tag-group-4" data-group="4">&#x6846;&#x67B6;</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span><span class="tag tag-group-3" data-group="3">&#x6784;&#x5EFA;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="Framework,GUI,Web,开发">
+<div class="card" data-tags="Framework,GUI,Web,开发" data-recency="valid" style="--recency-ratio:0.8874;--recency-progress:91%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/utools-dev/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -762,8 +962,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">Framework</span><span class="tag tag-group-4" data-group="4">GUI</span><span class="tag tag-group-0" data-group="0">Web</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="CLI,PackageManager,Python">
+<div class="card" data-tags="CLI,PackageManager,Python" data-recency="valid" style="--recency-ratio:0.8825;--recency-progress:90%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/uv/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -773,8 +976,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-0" data-group="0">PackageManager</span><span class="tag tag-group-1" data-group="1">Python</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="AI,CLI,Node.js,开发">
+<div class="card" data-tags="AI,CLI,Node.js,开发" data-recency="valid" style="--recency-ratio:0.9932;--recency-progress:99%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/vercel-skill-cli/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -784,8 +990,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">AI</span><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-1" data-group="1">Node.js</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="CLI,Editor,OS">
+<div class="card" data-tags="CLI,Editor,OS" data-recency="valid" style="--recency-ratio:0.8874;--recency-progress:91%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/vim/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -795,8 +1004,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-0" data-group="0">Editor</span><span class="tag tag-group-0" data-group="0">OS</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="API,Extension,JavaScript,Web">
+<div class="card" data-tags="API,Extension,JavaScript,Web" data-recency="valid" style="--recency-ratio:0.9592;--recency-progress:97%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/violentmonkey/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -806,8 +1018,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">API</span><span class="tag tag-group-0" data-group="0">Extension</span><span class="tag tag-group-1" data-group="1">JavaScript</span><span class="tag tag-group-0" data-group="0">Web</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="Build,CLI,JavaScript,Web">
+<div class="card" data-tags="Build,CLI,JavaScript,Web" data-recency="valid" style="--recency-ratio:0.8903;--recency-progress:91%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/vite/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -817,8 +1032,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">Build</span><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-1" data-group="1">JavaScript</span><span class="tag tag-group-0" data-group="0">Web</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="CLI,JavaScript,VersionControl">
+<div class="card" data-tags="CLI,JavaScript,VersionControl" data-recency="valid" style="--recency-ratio:0.8874;--recency-progress:91%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/voltajs/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -828,8 +1046,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-1" data-group="1">JavaScript</span><span class="tag tag-group-0" data-group="0">VersionControl</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="CSS,CSS-in-JS,Framework,JavaScript,Library,Vue,Web">
+<div class="card" data-tags="CSS,CSS-in-JS,Framework,JavaScript,Library,Vue,Web" data-recency="valid" style="--recency-ratio:0.9709;--recency-progress:98%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/vue-styled-components/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -839,8 +1060,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">CSS</span><span class="tag tag-group-0" data-group="0">CSS-in-JS</span><span class="tag tag-group-0" data-group="0">Framework</span><span class="tag tag-group-1" data-group="1">JavaScript</span><span class="tag tag-group-0" data-group="0">Library</span><span class="tag tag-group-0" data-group="0">Vue</span><span class="tag tag-group-0" data-group="0">Web</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="JavaScript,TypeScript,Web 前端,库 / SDK,开发,性能优化">
+<div class="card" data-tags="JavaScript,TypeScript,Web 前端,库 / SDK,开发,性能优化" data-recency="valid" style="--recency-ratio:0.999;--recency-progress:100%;">
   <div class="card-layout">
     <div class="card-icon-slot"></div>
     <div class="card-content">
@@ -850,8 +1074,11 @@
       <div class="card-tags"><span class="tag tag-group-1" data-group="1">JavaScript</span><span class="tag tag-group-1" data-group="1">TypeScript</span><span class="tag tag-group-1" data-group="1">Web &#x524D;&#x7AEF;</span><span class="tag tag-group-4" data-group="4">&#x5E93; / SDK</span><span class="tag tag-group-3" data-group="3">&#x5F00;&#x53D1;</span><span class="tag tag-group-3" data-group="3">&#x6027;&#x80FD;&#x4F18;&#x5316;</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="CLI,GUI">
+<div class="card" data-tags="CLI,GUI" data-recency="valid" style="--recency-ratio:0.9223;--recency-progress:94%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/waveterm/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -861,8 +1088,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-4" data-group="4">GUI</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="Editor,Search">
+<div class="card" data-tags="Editor,Search" data-recency="valid" style="--recency-ratio:0.9456;--recency-progress:96%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/webstorm-structural-search/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -872,8 +1102,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">Editor</span><span class="tag tag-group-0" data-group="0">Search</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="Lua,OS,Rust,Terminal">
+<div class="card" data-tags="Lua,OS,Rust,Terminal" data-recency="valid" style="--recency-ratio:0.9961;--recency-progress:100%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/wezterm/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -883,8 +1116,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">Lua</span><span class="tag tag-group-0" data-group="0">OS</span><span class="tag tag-group-0" data-group="0">Rust</span><span class="tag tag-group-0" data-group="0">Terminal</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="CLI,OS">
+<div class="card" data-tags="CLI,OS" data-recency="valid" style="--recency-ratio:0.8883;--recency-progress:91%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/win-terminal/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -894,8 +1130,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-0" data-group="0">OS</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="CLI,Shell">
+<div class="card" data-tags="CLI,Shell" data-recency="valid" style="--recency-ratio:0.8874;--recency-progress:91%;">
   <div class="card-layout">
     <div class="card-icon-slot"><img class="icon" src="cheatsheets/x-cmd/icon.png" alt="icon" /></div>
     <div class="card-content">
@@ -905,8 +1144,11 @@
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-0" data-group="0">Shell</span></div>
     </div>
   </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
+  </div>
 </div>
-<div class="card" data-tags="CLI,文件管理,Rust,终端">
+<div class="card" data-tags="CLI,文件管理,Rust,终端" data-recency="valid" style="--recency-ratio:1;--recency-progress:100%;">
   <div class="card-layout">
     <div class="card-icon-slot"></div>
     <div class="card-content">
@@ -915,6 +1157,9 @@
       <div class="card-meta"><span class="meta-chip">版本 <b>v26.1.22</b></span><span class="meta-chip">更新日志 <b>2026-03-13</b></span><span class="meta-chip">GitHub <a class="meta-link" href="https://github.com/sxyazi/yazi" target="_blank" rel="noopener">sxyazi/yazi</a></span></div>
       <div class="card-tags"><span class="tag tag-group-0" data-group="0">CLI</span><span class="tag tag-group-0" data-group="0">&#x6587;&#x4EF6;&#x7BA1;&#x7406;</span><span class="tag tag-group-0" data-group="0">Rust</span><span class="tag tag-group-0" data-group="0">&#x7EC8;&#x7AEF;</span></div>
     </div>
+  </div>
+  <div class="card-recency-track" aria-hidden="true">
+    <div class="card-recency-bar"></div>
   </div>
 </div>
       </div>
@@ -969,7 +1214,7 @@
 
     <!-- 导航页核心逻辑 -->
     <script src="assets/nav.js"></script>
-    <script>window.TAG_DATA = [{"name":"CLI","count":43,"group":0},{"name":"开发","count":43,"group":3},{"name":"JavaScript","count":15,"group":1},{"name":"AI","count":14,"group":0},{"name":"Node.js","count":13,"group":1},{"name":"OS","count":12,"group":0},{"name":"Library","count":12,"group":0},{"name":"DevOps","count":12,"group":1},{"name":"Web","count":8,"group":0},{"name":"GUI","count":7,"group":4},{"name":"Automation","count":6,"group":0},{"name":"Framework","count":6,"group":0},{"name":"Python","count":6,"group":1},{"name":"Debug","count":5,"group":0},{"name":"Learning","count":5,"group":0},{"name":"PackageManager","count":5,"group":0},{"name":"Web 前端","count":5,"group":1},{"name":"Documentation","count":4,"group":0},{"name":"Visualization","count":4,"group":0},{"name":"Network","count":4,"group":0},{"name":"Android","count":3,"group":1},{"name":"Editor","count":3,"group":0},{"name":"命令行","count":3,"group":4},{"name":"库 / SDK","count":3,"group":4},{"name":"Terminal","count":3,"group":0},{"name":"Refactor","count":2,"group":0},{"name":"GIS","count":2,"group":0},{"name":"CLI / Terminal","count":2,"group":1},{"name":"CLI 工具","count":2,"group":2},{"name":"运维","count":2,"group":3},{"name":"VersionControl","count":2,"group":0},{"name":"Kotlin","count":2,"group":1},{"name":"Search","count":2,"group":0},{"name":"框架","count":2,"group":4},{"name":"构建","count":2,"group":3},{"name":"TypeScript","count":2,"group":1},{"name":"Build","count":2,"group":0},{"name":"Rust","count":2,"group":0},{"name":"Test","count":1,"group":0},{"name":"3D","count":1,"group":0},{"name":"效率","count":1,"group":0},{"name":"动画引擎","count":1,"group":2},{"name":"版本控制","count":1,"group":2},{"name":"Leaflet","count":1,"group":0},{"name":"地图","count":1,"group":0},{"name":"ESM","count":1,"group":0},{"name":"2.0","count":1,"group":0},{"name":"Monorepo","count":1,"group":0},{"name":"Knowledge","count":1,"group":0},{"name":"Plugin","count":1,"group":0},{"name":"AI工具","count":1,"group":0},{"name":"Logging","count":1,"group":0},{"name":"进程管理","count":1,"group":2},{"name":"守护进程","count":1,"group":4},{"name":"Game","count":1,"group":0},{"name":"3D / 图形","count":1,"group":1},{"name":"图形 / 可视化","count":1,"group":2},{"name":"API","count":1,"group":0},{"name":"Extension","count":1,"group":0},{"name":"CSS","count":1,"group":0},{"name":"CSS-in-JS","count":1,"group":0},{"name":"Vue","count":1,"group":0},{"name":"性能优化","count":1,"group":3},{"name":"Lua","count":1,"group":0},{"name":"Shell","count":1,"group":0},{"name":"文件管理","count":1,"group":0},{"name":"终端","count":1,"group":0}];</script>
+    <script>window.TAG_DATA = [{"name":"CLI","count":44,"group":0},{"name":"开发","count":43,"group":3},{"name":"JavaScript","count":15,"group":1},{"name":"AI","count":14,"group":0},{"name":"Node.js","count":13,"group":1},{"name":"DevOps","count":13,"group":1},{"name":"OS","count":12,"group":0},{"name":"Library","count":12,"group":0},{"name":"Web","count":8,"group":0},{"name":"Automation","count":7,"group":0},{"name":"GUI","count":7,"group":4},{"name":"Python","count":7,"group":1},{"name":"Framework","count":6,"group":0},{"name":"Debug","count":5,"group":0},{"name":"Learning","count":5,"group":0},{"name":"PackageManager","count":5,"group":0},{"name":"Web 前端","count":5,"group":1},{"name":"Documentation","count":4,"group":0},{"name":"Visualization","count":4,"group":0},{"name":"Network","count":4,"group":0},{"name":"Android","count":3,"group":1},{"name":"Editor","count":3,"group":0},{"name":"命令行","count":3,"group":4},{"name":"库 / SDK","count":3,"group":4},{"name":"Terminal","count":3,"group":0},{"name":"框架","count":3,"group":4},{"name":"Refactor","count":2,"group":0},{"name":"Shell","count":2,"group":0},{"name":"GIS","count":2,"group":0},{"name":"CLI / Terminal","count":2,"group":1},{"name":"CLI 工具","count":2,"group":2},{"name":"运维","count":2,"group":3},{"name":"VersionControl","count":2,"group":0},{"name":"Kotlin","count":2,"group":1},{"name":"Search","count":2,"group":0},{"name":"构建","count":2,"group":3},{"name":"TypeScript","count":2,"group":1},{"name":"Build","count":2,"group":0},{"name":"Rust","count":2,"group":0},{"name":"Test","count":1,"group":0},{"name":"3D","count":1,"group":0},{"name":"效率","count":1,"group":0},{"name":"动画引擎","count":1,"group":2},{"name":"版本控制","count":1,"group":2},{"name":"Leaflet","count":1,"group":0},{"name":"地图","count":1,"group":0},{"name":"ESM","count":1,"group":0},{"name":"2.0","count":1,"group":0},{"name":"Monorepo","count":1,"group":0},{"name":"Knowledge","count":1,"group":0},{"name":"Plugin","count":1,"group":0},{"name":"AI工具","count":1,"group":0},{"name":"Workflow","count":1,"group":0},{"name":"Logging","count":1,"group":0},{"name":"进程管理","count":1,"group":2},{"name":"守护进程","count":1,"group":4},{"name":"Game","count":1,"group":0},{"name":"爬虫","count":1,"group":0},{"name":"反爬虫","count":1,"group":0},{"name":"数据提取","count":1,"group":0},{"name":"3D / 图形","count":1,"group":1},{"name":"图形 / 可视化","count":1,"group":2},{"name":"API","count":1,"group":0},{"name":"Extension","count":1,"group":0},{"name":"CSS","count":1,"group":0},{"name":"CSS-in-JS","count":1,"group":0},{"name":"Vue","count":1,"group":0},{"name":"性能优化","count":1,"group":3},{"name":"Lua","count":1,"group":0},{"name":"文件管理","count":1,"group":0},{"name":"终端","count":1,"group":0}];</script>
     <script src="assets/tags.js"></script>
   </body>
   </html>
