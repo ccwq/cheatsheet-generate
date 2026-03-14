@@ -23,12 +23,9 @@ function initColumnWidth() {
 
   function setWidth(val) {
     slider.value = val;
-    if (isNavPage) {
-      columns.style.setProperty('--col-width', val + 'px');
-    } else {
-      columns.style.columnWidth = val + 'px';
-    }
+    columns.style.setProperty('--col-width', val + 'px');
     if (widthVal) widthVal.textContent = val + 'px';
+    window.dispatchEvent(new CustomEvent('column-width-change', { detail: { value: Number(val) } }));
   }
 
   if (isNavPage) {
@@ -46,12 +43,9 @@ function initColumnWidth() {
 
   // Slider input
   slider.addEventListener('input', function() {
-    if (isNavPage) {
-      columns.style.setProperty('--col-width', slider.value + 'px');
-    } else {
-      columns.style.columnWidth = slider.value + 'px';
-    }
+    columns.style.setProperty('--col-width', slider.value + 'px');
     if (widthVal) widthVal.textContent = slider.value + 'px';
+    window.dispatchEvent(new CustomEvent('column-width-change', { detail: { value: Number(slider.value) } }));
   });
 
   // 导航页才保存到 LocalStorage
@@ -71,6 +65,61 @@ function initColumnWidth() {
       }
     });
   });
+}
+
+/**
+ * 内页瀑布流：保持 DOM 顺序为从左到右，同时按卡片高度压缩空白。
+ */
+function initCheatsheetMasonry() {
+  // 导航页由 nav.js 单独管理，避免重复接管同一个容器。
+  if (document.getElementById('searchBox')) return;
+
+  var columns = document.getElementById('columns');
+  if (!columns || !columns.classList.contains('cheat-columns')) return;
+
+  var resizeObserver = null;
+  var rafId = 0;
+
+  function scheduleLayout() {
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(layout);
+  }
+
+  function layout() {
+    rafId = 0;
+    var styles = window.getComputedStyle(columns);
+    var rowHeight = parseFloat(styles.getPropertyValue('grid-auto-rows')) || 8;
+    var rowGap = parseFloat(styles.getPropertyValue('row-gap')) || parseFloat(styles.getPropertyValue('gap')) || 0;
+
+    $$('.card', columns).forEach(function(card) {
+      if (card.style.display === 'none') {
+        card.style.gridRowEnd = '';
+        return;
+      }
+
+      // 先重置，再按真实高度计算跨行数，避免重复缩放时累积误差。
+      card.style.gridRowEnd = 'span 1';
+      var cardHeight = card.getBoundingClientRect().height;
+      var span = Math.max(1, Math.ceil((cardHeight + rowGap) / (rowHeight + rowGap)));
+      card.style.gridRowEnd = 'span ' + span;
+    });
+  }
+
+  if (typeof ResizeObserver !== 'undefined') {
+    resizeObserver = new ResizeObserver(function() {
+      scheduleLayout();
+    });
+    $$('.card', columns).forEach(function(card) {
+      resizeObserver.observe(card);
+    });
+  }
+
+  window.addEventListener('resize', scheduleLayout);
+  window.addEventListener('load', scheduleLayout);
+  window.addEventListener('column-width-change', scheduleLayout);
+  window.addEventListener('theme-changed', scheduleLayout);
+
+  scheduleLayout();
 }
 
 /**
@@ -269,6 +318,7 @@ if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', function() {
     initTheme();
     initColumnWidth();
+    initCheatsheetMasonry();
     initOpenLinkMode();
     initBackToTop();
     initDetailShortcuts();
@@ -276,6 +326,7 @@ if (document.readyState === 'loading') {
 } else {
   initTheme();
   initColumnWidth();
+  initCheatsheetMasonry();
   initOpenLinkMode();
   initBackToTop();
   initDetailShortcuts();

@@ -151,7 +151,7 @@ test('e2e: 使用 tmux markdown 生成 HTML', async () => {
   const outputPath = path.join(tempDir, 'tmux.html')
   await fs.writeFile(outputPath, html, 'utf8')
 
-  assert.ok(html.includes('<span class="title">tmux Getting Started 速查表</span>'))
+  assert.ok(html.includes('<span class="title">tmux 速查表</span>'))
   assert.ok(html.includes('<div class="card">'))
   assert.ok(html.includes('<ul>'))
   assert.ok(html.includes('prism-core.min.js'))
