@@ -1,0 +1,11 @@
+desc: 面向编码代理的文档检索与增量抓取工具，支持版本化 docs/skills、局部获取、annotation、feedback 与自建 registry 工作流。
+tags:
+  - AI / LLM
+  - CLI 工具
+  - AI 辅助工具
+  - 自动化工具
+  - 开发
+  - 命令行
+version: 0.1.2
+github: andrewyng/context-hub
+date: "2026-03-13"
