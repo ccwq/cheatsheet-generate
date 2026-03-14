@@ -1,9 +1,9 @@
-desc: Cheerio 服务器端 jQuery 实现 - 快速、灵活、有效的 HTML/XML 解析和操作库，专为 Node.js 后端开发设计
+desc: Cheerio 在 Node.js 中解析、查询与改写 HTML/XML 的高频用法速查。
 tags:
   - 调试
   - 库 / SDK
   - Node.js
   - 开发
-version: unknown
+version: 1.2.0
 github: cheeriojs/cheerio
-date: "2026-01-28"
+date: "2026-01-23"

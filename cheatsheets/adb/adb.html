@@ -1,478 +1,197 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <title>Android Debug Bridge (ADB) 速查表</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- 引入公共CSS样式 -->
-    <link rel="stylesheet" href="../../assets/variables.css">
-    <link rel="stylesheet" href="../../assets/global.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>adb 速查</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
   <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png">
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 380px; 
+      --gap: 16px;
+    }
 
-    <style>
-      /* ADB特有的样式调整 */
-      .cheat-columns {
-        /* 使用column-count布局 */
-        column-count: 4;
-      }
+    .panel label {
+      color: var(--panel-accent);
+    }
 
-      @media (max-width: 1500px) {
-        .cheat-columns {
-          column-count: 3;
-        }
-      }
+    .panel .title {
+      color: var(--panel-accent);
+    }
 
-      @media (max-width: 1100px) {
-        .cheat-columns {
-          column-count: 2;
-        }
-      }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-link);
+      text-decoration: none;
+      font-weight: 700;
+      white-space: nowrap;
+    }
 
-      @media (max-width: 750px) {
-        .cheat-columns {
-          column-count: 1;
-        }
-      }
+    .home-link:hover {
+      text-decoration: underline;
+    }
 
-      .panel label {
-        color: #ffe49b; /* 保持原有的label颜色 */
-      }
+    .home-link svg {
+      width: 16px;
+      height: 16px;
+      flex: none;
+    }
 
-      .slider-bar {
-        min-width: 120px; /* 保持原有的滑块宽度 */
-      }
+    .card pre,
+    .card pre code[class^="language-"] {
+      font-size: 13px;
+      line-height: 1.2;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
 
-      .slider-val {
-        min-width: 28px; /* 保持原有的值显示宽度 */
-      }
-    </style>
+    .card h2 {
+      font-size: 16px;
+    }
 
-    <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png" />
-    <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png" />
-  </head>
+    .card,
+    .card li,
+    .desc {
+      font-size: 14px;
+      line-height: 1.2;
+    }
+
+    .meta-link {
+      color: var(--text-link);
+    }
+
+    .meta-link:hover {
+      text-decoration: underline;
+    }
+
+    .meta-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+  </style>
+</head>
 <body>
-    <div class="container">
-      <div class="panel">
-        <span style="color:#7bfbb7;font-size:16px;margin-right:auto;">Android Debug Bridge (ADB) 速查表</span>
-<!-- META_INFO_START -->
-<div class="meta-info">
-  <span class="meta-item"><span class="meta-label">版本</span><span class="meta-value">unknown</span></span>
-  <span class="meta-item"><span class="meta-label">更新日志</span><span class="meta-value">2025-11-17</span></span>
-  <span class="meta-item"><span class="meta-label">GitHub</span><span class="meta-value"><a class="meta-link" href="https://github.com/aosp-mirror/platform_system_core" target="_blank" rel="noopener">aosp-mirror/platform_system_core</a></span></span>
-</div>
-<!-- META_INFO_END -->
-
-        <label for="columnWidth"> 🔧 调整每列宽度：</label>
-        <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
-        <span id="widthVal" class="slider-val">340px</span>
+  <div class="container">
+    <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
+      <span class="title">adb 速查</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label">版本</span><span class="meta-value">Platform-Tools 36.0.2</span></span>
+        <span class="meta-item"><span class="meta-label">更新日志</span><span class="meta-value">2026-03-06</span></span>
+        <span class="meta-item"><span class="meta-label">GitHub</span><span class="meta-value">unknown</span></span>
       </div>
-      <div class="cheat-columns" id="columns">
-
-        <div class="card">
-          <h2>🔧 ADB架构与原理 <a href="https://developer.android.com/studio/command-line/adb" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-          <ul>
-            <li><code>Client (客户端)</code>：运行在开发机，发送adb命令</li>
-            <li><code>Daemon (守护进程, adbd)</code>：运行在设备上，执行命令</li>
-            <li><code>Server (服务器)</code>：运行在开发机，管理通信，监听TCP 5037端口</li>
-          </ul>
-          <div class="desc">连接方式：USB连接、TCP/IP无线连接（端口5555-5585）</div>
-        </div>
-
-        <div class="card">
-          <h2>📱 设备连接与管理</h2>
-          <ul>
-            <li><code>adb devices [-l]</code>：列出所有设备及详细信息</li>
-            <li><code>adb connect IP:端口</code>：通过TCP/IP连接设备</li>
-            <li><code>adb disconnect [IP:端口]</code>：断开TCP/IP连接</li>
-            <li><code>adb tcpip 端口</code>：使设备监听指定端口用于无线调试</li>
-            <li><code>adb pair IP:端口</code>：Android 11+无线配对（QR码或配对码）</li>
-            <li><code>adb usb</code>：切换到USB模式</li>
-            <li><code>adb wait-for-device</code>：等待设备连接</li>
-          </ul>
-          <h3>服务控制</h3>
-          <ul>
-            <li><code>adb start-server</code>：启动adb服务</li>
-            <li><code>adb kill-server</code>：停止adb服务</li>
-            <li><code>adb get-state</code>：获取设备状态（device/offline/unauthorized）</li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <h2>📦 应用管理</h2>
-          <h3>安装与卸载</h3>
-          <ul>
-            <li><code>adb install [-r -d -s] apk路径</code>：安装应用（-r重装、-d降级、-s安装到SD卡）</li>
-            <li><code>adb install-multiple apk1 apk2 …</code>：分包安装</li>
-            <li><code>adb uninstall [-k] 包名</code>：卸载应用（-k保留数据和缓存）</li>
-            <li><code>adb shell pm clear 包名</code>：清除应用数据和缓存</li>
-          </ul>
-          <h3>应用查询</h3>
-          <ul>
-            <li><code>adb shell pm list packages [关键字]</code>：列出已安装应用包名</li>
-            <li><code>adb shell pm list packages -f</code>：显示包名和APK路径</li>
-            <li><code>adb shell pm list packages -s</code>：列出系统应用</li>
-            <li><code>adb shell pm list packages -3</code>：列出第三方应用</li>
-            <li><code>adb shell pm path 包名</code>：查看APK安装路径</li>
-            <li><code>adb shell dumpsys package 包名</code>：获取应用详细信息</li>
-          </ul>
-          <h3>权限管理</h3>
-          <ul>
-            <li><code>adb shell pm grant 包名 权限名</code>：授予权限</li>
-            <li><code>adb shell pm revoke 包名 权限名</code>：撤销权限</li>
-            <li><code>adb shell pm list permissions</code>：列出所有权限</li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <h2>🖥️ Shell操作</h2>
-          <h3>Shell交互</h3>
-          <ul>
-            <li><code>adb shell</code>：进入交互式Shell环境</li>
-            <li><code>adb shell "命令"</code>：执行单条Shell命令</li>
-            <li><code>adb [-d|-e|-s 序列号] shell 命令</code>：指定设备执行</li>
-            <li><code>adb shell exit</code>：退出Shell环境</li>
-          </ul>
-          <h3>常用系统命令</h3>
-          <ul>
-            <li><code>adb shell getprop</code>：获取系统属性</li>
-            <li><code>adb shell setprop 属性名 值</code>：设置系统属性</li>
-            <li><code>adb shell input keyevent 键值</code>：模拟按键事件</li>
-            <li><code>adb shell input text "文本"</code>：输入文本</li>
-            <li><code>adb shell input tap X Y</code>：模拟点击</li>
-            <li><code>adb shell input swipe X1 Y1 X2 Y2 [时长]</code>：模拟滑动</li>
-          </ul>
-          <div class="desc">键值参考：3=HOME, 4=BACK, 82=MENU, 84=SEARCH, 85=POWER</div>
-        </div>
-
-        <div class="card">
-          <h2>🔄 端口转发</h2>
-          <h3>正向转发（Host→Device）</h3>
-          <ul>
-            <li><code>adb forward tcp:本地端口 tcp:设备端口</code>：正向端口转发</li>
-            <li><code>adb forward --list</code>：列出所有正向转发</li>
-            <li><code>adb forward --remove tcp:本地端口</code>：移除指定转发</li>
-            <li><code>adb forward --remove-all</code>：移除所有正向转发</li>
-          </ul>
-          <h3>反向转发（Device→Host）</h3>
-          <ul>
-            <li><code>adb reverse tcp:设备端口 tcp:本地端口</code>：反向端口转发</li>
-            <li><code>adb reverse --list</code>：列出所有反向转发</li>
-            <li><code>adb reverse --remove tcp:设备端口</code>：移除指定转发</li>
-            <li><code>adb reverse --remove-all</code>：移除所有反向转发</li>
-          </ul>
-          <div class="desc">反向转发需要Android 5.0+（API 21+），常用于Web开发调试</div>
-        </div>
-
-        <div class="card">
-          <h2>📁 文件传输</h2>
-          <ul>
-            <li><code>adb push 本地路径 设备路径</code>：上传文件/目录到设备</li>
-            <li><code>adb pull 设备路径 [本地路径]</code>：从设备下载文件/目录</li>
-            <li><code>adb sync [目录]</code>：同步文件（仅当时间较新时）</li>
-          </ul>
-          <h3>文件操作示例</h3>
-          <pre>
-# 推送单个文件
-adb push app.apk /sdcard/Download/
-
-# 推送整个目录
-adb push ./data/ /sdcard/data/
-
-# 拉取文件
-adb pull /sdcard/screenshot.png ./screenshot.png
-
-# 拉取整个目录
-adb pull /sdcard/DCIM/ ./photos/
-          </pre>
-          <div class="desc">注意：路径使用正斜杠，Windows路径也需转换为正斜杠</div>
-        </div>
-
-        <div class="card">
-          <h2>📋 日志管理</h2>
-          <h3>Logcat命令</h3>
-          <ul>
-            <li><code>adb logcat</code>：查看所有日志</li>
-            <li><code>adb logcat -v time</code>：显示时间戳</li>
-            <li><code>adb logcat -v brief|process|tag|thread|raw</code>：指定输出格式</li>
-            <li><code>adb logcat -s 标签名</code>：过滤指定标签</li>
-            <li><code>adb logcat 包名:V *:S</code>：查看特定应用日志</li>
-            <li><code>adb logcat -d</code>：转储并退出</li>
-            <li><code>adb logcat -c</code>：清空日志</li>
-            <li><code>adb logcat -f 文件名</code>：输出到文件</li>
-          </ul>
-          <h3>日志级别</h3>
-          <ul>
-            <li><code>V</code>：Verbose（详细）</li>
-            <li><code>D</code>：Debug（调试）</li>
-            <li><code>I</code>：Info（信息）</li>
-            <li><code>W</code>：Warning（警告）</li>
-            <li><code>E</code>：Error（错误）</li>
-            <li><code>F</code>：Fatal（致命错误）</li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <h2>📸 屏幕操作</h2>
-          <ul>
-            <li><code>adb shell screencap [-p] 文件路径</code>：屏幕截图</li>
-            <li><code>adb shell screenrecord [选项] 文件路径</code>：屏幕录制</li>
-          </ul>
-          <h3>截图示例</h3>
-          <pre>
-# 保存到设备
-adb shell screencap /sdcard/screenshot.png
-
-# 直接保存到电脑
-adb shell screencap -p > screenshot.png
-
-# 指定截图格式
-adb shell screencap -p /sdcard/screen.jpg
-          </pre>
-          <h3>录屏选项</h3>
-          <pre>
-# 基本录屏（最长180秒）
-adb shell screenrecord /sdcard/demo.mp4
-
-# 设置分辨率和比特率
-adb shell screenrecord --size 1280x720 --bit-rate 8M /sdcard/demo.mp4
-
-# 设置录制时长（60秒）
-adb shell screenrecord --time-limit 60 /sdcard/demo.mp4
-
-# 旋转屏幕录制
-adb shell screenrecord --rotate /sdcard/demo.mp4
-          </pre>
-          <div class="desc">需要Android 4.4+（API 19+）才支持screenrecord</div>
-        </div>
-
-        <div class="card">
-          <h2>⚡ Activity Manager (am)</h2>
-          <h3>启动应用</h3>
-          <ul>
-            <li><code>adb shell am start -n 包名/.Activity名</code>：启动指定Activity</li>
-            <li><code>adb shell am start -a android.intent.action.VIEW -d URL</code>：打开URL</li>
-            <li><code>adb shell am start -n 包名/.Activity名 -d "数据"</code>：启动并传递数据</li>
-            <li><code>adb shell am force-stop 包名</code>：强制停止应用</li>
-            <li><code>adb shell am kill 包名</code>：杀死应用进程</li>
-          </ul>
-          <h3>应用信息</h3>
-          <ul>
-            <li><code>adb shell am dumpheap 进程ID 文件路径</code>：生成堆转储</li>
-            <li><code>adb shell am profile 进程ID start/stop</code>：开始/停止性能分析</li>
-            <li><code>adb shell am display-size 分辨率</code>：修改显示分辨率</li>
-            <li><code>adb shell am display-density 密度</code>：修改显示密度</li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <h2>📦 Package Manager (pm)</h2>
-          <h3>高级功能</h3>
-          <ul>
-            <li><code>adb shell pm list features</code>：列出系统功能特性</li>
-            <li><code>adb shell pm list libraries</code>：列出系统库</li>
-            <li><code>adb shell pm list users</code>：列出用户</li>
-            <li><code>adb shell pm create-user 用户名</code>：创建新用户</li>
-            <li><code>adb shell pm remove-user 用户ID</code>：删除用户</li>
-            <li><code>adb shell pm get-max-users</code>：获取最大用户数</li>
-          </ul>
-          <h3>安装控制</h3>
-          <ul>
-            <li><code>adb shell pm get-install-location</code>：获取默认安装位置</li>
-            <li><code>adb shell pm set-install-location 0|1|2</code>：设置安装位置（0=自动，1=内部，2=外部）</li>
-            <li><code>adb shell pm trim-caches 期望大小</code>：清理缓存到指定大小</li>
-          </ul>
-          <div class="desc">位置参数：0=让系统决定，1=内部存储，2=外部存储</div>
-        </div>
-
-        <div class="card">
-          <h2>🔍 系统诊断</h2>
-          <h3>Bug报告</h3>
-          <ul>
-            <li><code>adb bugreport</code>：生成完整的bug报告</li>
-            <li><code>adb bugreport 文件路径</code>：保存报告到指定文件</li>
-          </ul>
-          <h3>系统服务信息</h3>
-          <ul>
-            <li><code>adb shell dumpsys [服务名]</code>：查看系统服务状态</li>
-            <li><code>adb shell dumpsys activity</code>：Activity堆栈信息</li>
-            <li><code>adb shell dumpsys window</code>：窗口信息</li>
-            <li><code>adb shell dumpsys meminfo 包名</code>：内存使用信息</li>
-            <li><code>adb shell dumpsys battery</code>：电池状态</li>
-            <li><code>adb shell dumpsys cpuinfo</code>：CPU使用情况</li>
-            <li><code>adb shell dumpsys package 包名</code>：应用包信息</li>
-          </ul>
-          <div class="desc">常用服务：location、wifi、telephony、 connectivity</div>
-        </div>
-
-        <div class="card">
-          <h2>🔐 安全与权限</h2>
-          <h3>设备管理</h3>
-          <ul>
-            <li><code>adb shell dpm set-device-owner 组件名</code>：设置设备所有者</li>
-            <li><code>adb shell dpm remove-active-admin 组件名</code>：移除设备管理员</li>
-            <li><code>adb shell dpm list-admins</code>：列出设备管理员</li>
-            <li><code>adb shell dpm list-owners</code>：列出设备所有者</li>
-          </ul>
-          <h3>设备策略</h3>
-          <ul>
-            <li><code>adb shell dpm set-profile-owner 组件名 用户ID</code>：设置配置文件所有者</li>
-            <li><code>adb shell dpm get-profile-owner 用户ID</code>：获取配置文件所有者</li>
-            <li><code>adb shell cmd statusbar</code>：状态栏相关命令</li>
-            <li><code>adb shell cmd notification</code>：通知相关命令</li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <h2>🌐 网络管理</h2>
-          <h3>网络配置</h3>
-          <ul>
-            <li><code>adb shell svc wifi enable|disable</code>：开启/关闭WiFi</li>
-            <li><code>adb shell svc data enable|disable</code>：开启/关闭移动数据</li>
-            <li><code>adb shell netstat</code>：查看网络连接状态</li>
-            <li><code>adb shell ip addr</code>：查看IP地址信息</li>
-            <li><code>adb shell ip route</code>：查看路由表</li>
-          </ul>
-          <h3>网络诊断</h3>
-          <ul>
-            <li><code>adb shell ping -c 4 地址</code>：网络连通性测试</li>
-            <li><code>adb shell nslookup 域名</code>：DNS查询</li>
-            <li><code>adb shell netcfg</code>：网络配置信息</li>
-            <li><code>adb shell dumpsys connectivity</code>：连接状态详情</li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <h2>🔧 性能监控</h2>
-          <h3>性能分析</h3>
-          <ul>
-            <li><code>adb shell top</code>：实时进程信息</li>
-            <li><code>adb shell ps [-A]</code>：进程列表</li>
-            <li><code>adb shell vmstat</code>：虚拟内存统计</li>
-            <li><code>adb shell iostat</code>：IO统计</li>
-          </ul>
-          <h3>GPU和渲染</h3>
-          <ul>
-            <li><code>adb shell dumpsys gfxinfo 包名</code>：图形性能信息</li>
-            <li><code>adb shell dumpsys surfaceflinger</code>：Surface信息</li>
-            <li><code>adb shell cmd gpu info</code>：GPU详细信息</li>
-            <li><code>adb shell profman --dump-only --profile 包名</code>：性能配置信息</li>
-          </ul>
-          <div class="desc">gfxinfo中的"60fps"和"16ms"是评估应用流畅度的重要指标</div>
-        </div>
-
-        <div class="card">
-          <h2>⚙️ 环境变量与配置</h2>
-          <h3>ADB环境变量</h3>
-          <ul>
-            <li><code>ANDROID_SERIAL</code>：指定默认设备序列号</li>
-            <li><code>ANDROID_ADB_SERVER_HOST</code>：ADB服务器地址（默认127.0.0.1）</li>
-            <li><code>ANDROID_ADB_SERVER_PORT</code>：ADB服务器端口（默认5037）</li>
-            <li><code>ADB_LIBUSB</code>：使用libusb后端，支持attach/detach</li>
-          </ul>
-          <h3>mDNS后端</h3>
-          <ul>
-            <li>需要mDNS守护进程（Bonjour或Openscreen）</li>
-            <li>支持无线自动发现和配对</li>
-            <li>适用于Android 11+的无线调试</li>
-          </ul>
-          <h3>高级配置</h3>
-          <ul>
-            <li><code>adb shell settings put global adb_enabled 0|1</code>：禁用/启用ADB</li>
-            <li><code>adb shell settings put global stay_on_while_plugged_in 7</code>：保持唤醒</li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <h2>📊 测试与调试</h2>
-          <h3>UI测试</h3>
-          <ul>
-            <li><code>adb shell uiautomator dump</code>：导出UI层次结构</li>
-            <li><code>adb shell uiautomator events</code>：获取UI事件</li>
-            <li><code>adb shell monkey -p 包名 事件数</code>： Monkey测试</li>
-          </ul>
-          <h3>Instrumentation测试</h3>
-          <ul>
-            <li><code>adb shell am instrument -w 包名/测试运行器</code>：运行测试</li>
-            <li><code>adb shell am instrument -e class 测试类 包名/测试运行器</code>：运行指定测试类</li>
-          </ul>
-          <h3>调试选项</h3>
-          <ul>
-            <li><code>adb shell cmd testharness enable</code>：启用测试恢复环境（Android 10+）</li>
-            <li><code>adb shell setprop debug.log.tag 标签名 级别</code>：设置特定标签日志级别</li>
-            <li><code>adb shell dumpsys procstats</code>：进程统计信息</li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <h2>📱 设备信息查询</h2>
-          <h3>基本信息</h3>
-          <ul>
-            <li><code>adb shell getprop ro.product.model</code>：设备型号</li>
-            <li><code>adb shell getprop ro.build.version.release</code>：Android版本</li>
-            <li><code>adb shell getprop ro.build.version.sdk</code>：API级别</li>
-            <li><code>adb shell getprop ro.product.manufacturer</code>：制造商</li>
-            <li><code>adb shell getprop ro.serialno</code>：序列号</li>
-            <li><code>adb shell wm size</code>：屏幕分辨率</li>
-            <li><code>adb shell wm density</code>：屏幕密度</li>
-          </ul>
-          <h3>硬件信息</h3>
-          <ul>
-            <li><code>adb shell cat /proc/cpuinfo</code>：CPU信息</li>
-            <li><code>adb shell cat /proc/meminfo</code>：内存信息</li>
-            <li><code>adb shell df -h</code>：存储空间信息</li>
-            <li><code>adb shell dumpsys battery</code>：电池详细信息</li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <h2>🔧 常用技巧与故障排除</h2>
-          <h3>连接问题</h3>
-          <ul>
-            <li><code>adb kill-server && adb start-server</code>：重启ADB服务</li>
-            <li><code>adb devices</code>：检查设备连接状态</li>
-            <li>检查USB调试是否开启</li>
-            <li>更新设备驱动程序</li>
-          </ul>
-          <h3>性能优化</h3>
-          <ul>
-            <li>使用<code>adb install --no-streaming</code>解决大文件安装问题</li>
-            <li><code>adb shell settings put global animator_duration_scale 0</code>：关闭动画效果</li>
-            <li><code>adb shell pm clear 包名</code>：清理应用缓存</li>
-          </ul>
-          <h3>批量操作</h3>
-          <pre>
-# 批量安装APK
-for file in *.apk; do adb install "$file"; done
-
-# 批量卸载应用
-adb shell pm list packages | while read line; do
-    package=$(echo $line | cut -d: -f2)
-    adb uninstall $package
-done
-          </pre>
-        </div>
-
-        <div class="card">
-          <h2>📚 参考资料</h2>
-          <h3>官方文档</h3>
-          <ul>
-            <li><a href="https://developer.android.com/studio/command-line/adb" target="_blank" style="color:#93cdfc;">Android Studio官方ADB文档</a></li>
-            <li><a href="https://source.android.com/devices/adb/daemon" target="_blank" style="color:#93cdfc;">ADB源码和协议文档</a></li>
-          </ul>
-          <h3>社区资源</h3>
-          <ul>
-            <li><a href="https://github.com/openatx/adbutils" target="_blank" style="color:#93cdfc;">Python ADB库adbutils</a></li>
-            <li><a href="https://github.com/mzlogin/awesome-adb" target="_blank" style="color:#93cdfc;">Awesome ADB命令大全</a></li>
-          </ul>
-          <div class="desc">
-            本地文档：<code>&lt;SDK&gt;/platform-tools/adb</code><br>
-            在线文档：developer.android.com/studio/command-line/adb<br>
-            最后更新：2025年11月
-          </div>
-        </div>
-
-      </div>
+      <div class="meta-tags"><tag-chip class="tag tag-group-1 detail-tag" data-name="Android" data-group="1" label="Android" group="1" variant="detail" icon="mdi:android"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="CLI 工具" data-group="2" label="CLI 工具" group="2" variant="detail" icon="mdi:console-network-outline"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="调试工具" data-group="2" label="调试工具" group="2" variant="detail" icon="mdi:bug"></tag-chip><tag-chip class="tag tag-group-3 detail-tag" data-name="调试" data-group="3" label="调试" group="3" variant="detail" icon="mdi:tag-outline"></tag-chip><tag-chip class="tag tag-group-4 detail-tag" data-name="命令行" data-group="4" label="命令行" group="4" variant="detail" icon="mdi:console"></tag-chip></div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
     </div>
-    <script src="../../assets/common.js"></script>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>🧭 连接、多设备与服务器 <a href="https://developer.android.com/studio/command-line/adb" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">日常先解决“连到哪台设备”这个问题；多设备场景优先用 `-s` 或 `ANDROID_SERIAL` 固定目标。</div><ul><li><code>adb devices -l</code>：列出设备和详细信息</li><li><code>adb -s &lt;serial&gt; shell</code>：指定设备执行命令</li><li><code>adb start-server</code>：启动服务端</li><li><code>adb kill-server</code>：停止服务端</li><li><code>adb reconnect</code>：重新连接设备</li><li><code>adb wait-for-device</code>：阻塞直到设备上线</li><li><code>ANDROID_SERIAL=&lt;serial&gt;</code>：固定默认设备</li></ul><pre><code class="language-bash"># 查看序列号、型号、传输类型
+adb devices -l
+
+# 指定设备执行
+adb -s emulator-5554 shell getprop ro.product.model
+
+# 服务异常时重启
+adb kill-server
+adb start-server</code></pre></div><div class="card"><h2>📡 无线调试 <a href="https://developer.android.com/studio/command-line/adb#wireless" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Android 11+ 推荐配对模式；老设备仍可走 `tcpip` 方案，但安全性和稳定性都更差。</div><ul><li><code>adb pair &lt;host&gt;:&lt;pair-port&gt;</code>：使用配对码建立信任</li><li><code>adb connect &lt;host&gt;:&lt;port&gt;</code>：连接已配对设备</li><li><code>adb mdns services</code>：枚举局域网可发现服务</li><li><code>adb disconnect</code>：断开全部网络连接</li><li><code>adb tcpip 5555</code>：旧式无线调试，需先 USB 连接</li></ul><pre><code class="language-bash"># Android 11+：配对码模式
+adb pair 192.168.1.23:37099
+adb connect 192.168.1.23:43817
+
+# 旧式模式：先用 USB 执行
+adb tcpip 5555
+adb connect 192.168.1.23:5555</code></pre><h3>排查点</h3><ul><li>配对端口和连接端口不是同一个</li><li>切 Wi-Fi、切热点后 IP 会变化</li><li>公司网络可能屏蔽 mDNS 或局域网直连</li></ul></div><div class="card"><h2>📦 安装、卸载与包管理 <a href="https://developer.android.com/studio/command-line/adb#copy-tofrom-device" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">安装失败优先看 ABI、签名、版本降级和存储空间，应用排查多从 `pm` 开始。</div><ul><li><code>adb install app.apk</code>：安装 APK</li><li><code>adb install -r app.apk</code>：覆盖安装</li><li><code>adb install -d app.apk</code>：允许降级安装 debug 包</li><li><code>adb install-multiple base.apk split_config.arm64_v8a.apk</code>：安装 split APK</li><li><code>adb uninstall &lt;package&gt;</code>：卸载应用</li><li><code>adb shell pm list packages -3</code>：仅第三方应用</li><li><code>adb shell pm path &lt;package&gt;</code>：查看 APK 路径</li><li><code>adb shell pm clear &lt;package&gt;</code>：清空数据</li><li><code>adb shell pm grant &lt;package&gt; &lt;permission&gt;</code>：授权运行时权限</li></ul><pre><code class="language-bash"># 覆盖安装并保留数据
+adb install -r app-debug.apk
+
+# 查包名和 APK 路径
+adb shell pm list packages example
+adb shell pm path com.example.app
+
+# 清数据后重启应用
+adb shell pm clear com.example.app
+adb shell monkey -p com.example.app -c android.intent.category.LAUNCHER 1</code></pre></div><div class="card"><h2>🐚 Shell、输入与 UI 操作</h2><ul><li><code>adb shell</code>：进入交互 shell</li><li><code>adb shell getprop</code>：读取系统属性</li><li><code>adb shell settings get global airplane_mode_on</code>：读系统设置</li><li><code>adb shell input text &#39;hello&#39;</code>：模拟文本输入</li><li><code>adb shell input keyevent 3</code>：HOME 键</li><li><code>adb shell input tap 540 1800</code>：模拟点击</li><li><code>adb shell input swipe 540 1800 540 300 300</code>：模拟滑动</li><li><code>adb shell screencap -p /sdcard/screen.png</code>：截图到设备</li></ul><pre><code class="language-bash"># 取前台 Activity
+adb shell dumpsys activity activities | grep mResumedActivity
+
+# 常用按键
+adb shell input keyevent 4   # BACK
+adb shell input keyevent 26  # POWER
+adb shell input keyevent 82  # MENU</code></pre></div><div class="card"><h2>🚀 Activity、Service、Broadcast</h2><ul><li><code>adb shell am start -n &lt;pkg&gt;/&lt;activity&gt;</code>：显式启动 Activity</li><li><code>adb shell am start -a android.intent.action.VIEW -d &lt;url&gt;</code>：拉起深链</li><li><code>adb shell am force-stop &lt;package&gt;</code>：强停应用</li><li><code>adb shell am broadcast -a &lt;action&gt;</code>：发广播</li><li><code>adb shell am startservice -n &lt;pkg&gt;/&lt;service&gt;</code>：启动前台外服务</li><li><code>adb shell cmd package resolve-activity --brief &lt;package&gt;</code>：看默认入口</li></ul><pre><code class="language-bash"># 显式拉起启动页
+adb shell am start -n com.example.app/.MainActivity
+
+# 发送自定义广播
+adb shell am broadcast \
+  -a com.example.app.ACTION_SYNC \
+  --es source adb</code></pre></div><div class="card"><h2>📁 文件传输与端口转发 <a href="https://developer.android.com/studio/command-line/adb#copy-tofrom-device" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">文件问题用 `push/pull`，本地调试桥接用 `forward/reverse`，WebView 和本地服务调试很常用。</div><ul><li><code>adb push &lt;local&gt; &lt;remote&gt;</code>：上传文件</li><li><code>adb pull &lt;remote&gt; [local]</code>：下载文件</li><li><code>adb sync</code> <code>out/</code>：同步  CODE  到设备分区</li><li><code>adb forward tcp:8700 jdwp:&lt;pid&gt;</code>：转发到 JDWP</li><li><code>adb forward tcp:8081 tcp:8081</code>：本地到设备</li><li><code>adb reverse tcp:8081 tcp:8081</code>：设备到本地</li><li><code>adb forward --list</code>：查看已建立转发</li></ul><pre><code class="language-bash"># 下载沙盒外文件
+adb pull /sdcard/Download/log.txt .
+
+# React Native / 本地 API 调试
+adb reverse tcp:8081 tcp:8081
+adb reverse tcp:3000 tcp:3000</code></pre></div><div class="card"><h2>🪵 日志、崩溃与 bugreport <a href="https://developer.android.com/studio/debug/logcat" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">日志要先缩小范围；崩溃排查一般从 `logcat`、`tombstones`、`bugreport` 三层逐步深入。</div><ul><li><code>adb logcat</code>：实时日志</li><li><code>adb logcat -c</code>：清空缓冲区</li><li><code>adb logcat -v threadtime</code>：带线程和时间戳</li><li><code>adb logcat -s ActivityManager MyTag</code>：按 tag 过滤</li><li><code>adb shell pidof &lt;package&gt;</code>：查进程 PID</li><li><code>adb bugreport</code>：导出完整问题报告</li><li><code>adb shell ls /data/tombstones</code>：查看 native 崩溃 tombstone</li></ul><pre><code class="language-bash"># 只看单个进程日志
+PID=$(adb shell pidof -s com.example.app)
+adb logcat --pid &quot;$PID&quot; -v color
+
+# 导出问题报告到当前目录
+adb bugreport bugreport.zip</code></pre></div><div class="card"><h2>📺 屏幕录制、抓图与性能 <a href="https://developer.android.com/studio/debug/screenrecord" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">录屏、截图、gfxinfo、meminfo 和 top 是轻量级现场取证组合，先用它们再决定是否上 Profiler。</div><ul><li><code>adb shell screencap -p /sdcard/screen.png</code>：截图</li><li><code>adb shell screenrecord /sdcard/demo.mp4</code>：录屏</li><li><code>adb shell screenrecord --time-limit 180</code>：最长 180 秒</li><li><code>adb shell dumpsys meminfo &lt;package&gt;</code>：内存概览</li><li><code>adb shell dumpsys gfxinfo &lt;package&gt;</code>：渲染统计</li><li><code>adb shell top -o RES,%CPU,ARGS -n 1</code>：资源占用</li><li><code>adb shell dumpsys battery</code>：电池状态</li></ul><pre><code class="language-bash"># 录屏后拉回本地
+adb shell screenrecord --bit-rate 8m --time-limit 60 /sdcard/run.mp4
+adb pull /sdcard/run.mp4 .
+
+# 读取 gfxinfo 帧统计
+adb shell dumpsys gfxinfo com.example.app framestats</code></pre></div><div class="card"><h2>🧪 自动化、测试与辅助命令 <a href="https://developer.android.com/training/testing/ui-automator" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">ADB 自带的 `monkey`、输入事件和 shell 脚本适合轻量自动化，不替代正式 UI 测试框架。</div><ul><li><code>adb shell monkey -p &lt;package&gt; 1</code>：启动应用</li><li><code>adb shell monkey -p &lt;package&gt; -v 500</code>：压测随机事件</li><li><code>adb exec-out uiautomator dump /dev/tty</code>：导出当前 UI 层级</li><li><code>adb exec-out screencap -p &gt; screen.png</code>：直接输出到本地</li><li><code>adb shell run-as &lt;package&gt;</code>：进入应用沙盒用户</li></ul><pre><code class="language-bash"># 本地直接拿 PNG，不落设备磁盘
+adb exec-out screencap -p &gt; screen.png
+
+# 查看当前界面 XML
+adb exec-out uiautomator dump /dev/tty</code></pre></div><div class="card"><h2>🩺 常见排障速记 <a href="https://developer.android.com/studio/command-line/adb#troubleshooting" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">先判断是授权、线缆、驱动、端口占用还是设备状态异常；避免一上来就重装整套 SDK。</div><ul><li><code>unauthorized</code>：重新插拔 USB，确认设备弹窗已授权</li><li><code>offline</code> <code>adb reconnect</code>：先  CODE ，再考虑重启服务</li><li><code>more than one device/emulator</code> <code>-s &lt;serial&gt;</code>：所有命令补  CODE </li><li><code>INSTALL_FAILED_VERSION_DOWNGRADE</code> <code>adb install -d</code>：改用  CODE  或先卸载</li><li><code>INSTALL_FAILED_NO_MATCHING_ABIS</code>：APK ABI 与设备架构不匹配</li><li><code>device not found</code>：检查开发者选项、USB 调试、线缆和驱动</li></ul><pre><code class="language-bash"># 常用重置动作
+adb kill-server
+adb start-server
+adb reconnect
+
+# 环境变量
+echo $ANDROID_SERIAL
+echo $ANDROID_ADB_SERVER_PORT</code></pre></div>
+    </div>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
 </body>
 </html>

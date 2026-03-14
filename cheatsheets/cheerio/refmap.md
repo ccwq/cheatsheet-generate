@@ -1,23 +1,21 @@
-# 参考资料
+# Cheerio 参考资料
 
-## 官方资源
+## 官方入口
 
-- [Cheerio 官方网站](https://cheerio.js.org/) - 官方主页
-- [Cheerio GitHub 仓库](https://github.com/cheeriojs/cheerio) - 源代码和问题追踪
-- [Cheerio API 文档](https://cheerio.js.org/docs/api) - 完整 API 参考
+- 官网: https://cheerio.js.org/
+- 仓库: https://github.com/cheeriojs/cheerio
+- API 总览: https://cheerio.js.org/docs/api
 
-## 相关库
+## 核心主题
 
-- [htmlparser2](https://github.com/fb55/htmlparser2/) - Cheerio 底层解析器
-- [CSSSelect](https://github.com/fb55/CSSselect/) - CSS 选择器引擎
+- 加载文档: https://cheerio.js.org/docs/basics/loading
+- 选择器: https://cheerio.js.org/docs/basics/selecting
+- `extract()` 高级提取: https://cheerio.js.org/docs/advanced/extract
+- `CheerioAPI` 接口: https://cheerio.js.org/docs/api/interfaces/CheerioAPI
+- `Cheerio` 类: https://cheerio.js.org/docs/api/classes/Cheerio
 
-## 对比工具
+## 常用函数直达
 
-- [JSDOM](https://github.com/jsdom/jsdom) - 完整 DOM 实现
-- [jQuery](https://jquery.com/) - 原始 jQuery 库
-
-## 教程和文章
-
-- [Cheerio 快速入门](https://cheerio.js.org/docs/basics/loading)
-- [Cheerio 选择器指南](https://cheerio.js.org/docs/basics/selecting)
-- [Cheerio DOM 操作](https://cheerio.js.org/docs/api/manipulation)
+- `fromURL()`: https://cheerio.js.org/docs/api/functions/fromURL
+- `stringStream()`: https://cheerio.js.org/docs/api/functions/stringStream
+- `decodeStream()`: https://cheerio.js.org/docs/api/functions/decodeStream

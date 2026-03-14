@@ -1,53 +1,37 @@
-# 安卓Gradle速查参考资源
+# 安卓 Gradle 速查参考资源
 
 ## 官方文档
 
-### Android Gradle 核心
-- [Android 构建系统](https://developer.android.com/build)
-- [Gradle 构建概览](https://developer.android.com/studio/build/gradle-build-overview)
-- [Android 构建结构](https://developer.android.com/studio/build/android-build-structure)
+### Android 构建总览
+- [Gradle build overview](https://developer.android.com/build/gradle-build-overview)
+- [Android build overview](https://developer.android.com/build)
+- [Configure your app module](https://developer.android.com/build/configure-app-module)
 
-### 构建配置
-- [Gradle 插件](https://developer.android.com/studio/build/gradle-plugin)
-- [依赖管理](https://developer.android.com/build/dependencies)
-- [构建变体](https://developer.android.com/build/build-variants)
+### Android Gradle Plugin 与版本
+- [AGP 9.1 release notes](https://developer.android.com/build/releases/agp-9-1-0-release-notes)
+- [Android Gradle Plugin release notes](https://developer.android.com/studio/releases/gradle-plugin)
+- [JDKs in Android builds](https://developer.android.com/build/jdks)
 
-### 高级主题
-- [多模块应用](https://developer.android.com/build/multi-module-apps)
-- [Kotlin DSL](https://developer.android.com/build/kotlin-dsl)
-- [构建优化](https://developer.android.com/build/optimize-your-build)
-- [代码压缩](https://developer.android.com/build/shrink-code)
-- [应用签名](https://developer.android.com/build/build-variants#signing)
+### 变体、依赖与多模块
+- [Build variants](https://developer.android.com/build/build-variants)
+- [Add build dependencies](https://developer.android.com/build/dependencies)
+- [Configure your build](https://developer.android.com/build/configure-your-build)
+- [Recommended app modularization](https://developer.android.com/topic/modularization)
 
 ## Gradle 官方文档
 
-### 基础概念
-- [Gradle 用户手册](https://docs.gradle.org/current/userguide/userguide.html)
-- [任务系统](https://docs.gradle.org/current/userguide/tutorial_using_tasks.html)
-- [构建生命周期](https://docs.gradle.org/current/userguide/build_lifecycle.html)
+### Wrapper 与命令行
+- [Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html)
+- [Command-Line Interface](https://docs.gradle.org/current/userguide/command_line_interface.html)
+- [Multi-Project Builds](https://docs.gradle.org/current/userguide/multi_project_builds.html)
 
-### 高级功能
-- [多项目构建](https://docs.gradle.org/current/userguide/multi_project_builds.html)
-- [构建缓存](https://docs.gradle.org/current/userguide/build_cache.html)
-- [并行构建](https://docs.gradle.org/current/userguide/performance.html)
+### 性能与兼容性
+- [Configuration Cache](https://docs.gradle.org/current/userguide/configuration_cache.html)
+- [Build Cache](https://docs.gradle.org/current/userguide/build_cache.html)
+- [Optimizing Gradle Builds](https://docs.gradle.org/current/userguide/performance.html)
+- [Compatibility Matrix](https://docs.gradle.org/current/userguide/compatibility.html)
 
-## 实用资源
-
-### 调试与故障排除
-- [构建故障排除](https://developer.android.com/build/build-troubleshooting)
-- [Gradle 技巧](https://developer.android.com/build/gradle-tips)
-- [构建诊断](https://developer.android.com/build/build-troubleshooting)
-
-### CI/CD 集成
-- [持续集成](https://developer.android.com/build/building-cd-integration)
-- [GitHub Actions 配置](https://github.com/actions/setup-java)
-
-## 工具与插件
-
-### 官方工具
-- [Android Gradle Plugin 发行说明](https://developer.android.com/studio/releases/gradle-plugin)
-- [Gradle 版本兼容性](https://developer.android.com/studio/releases/gradle-plugin)
-
-### 第三方资源
-- [ProGuard 规则](https://github.com/professional-nerd/Android-R8-ProGuard)
-- [构建性能最佳实践](https://developer.android.com/studio/build/optimize-your-build)
+## 排障与发布
+- [Optimize your build speed](https://developer.android.com/build/optimize-your-build)
+- [Build troubleshooting](https://developer.android.com/build/build-troubleshooting)
+- [Sign your app](https://developer.android.com/studio/publish/app-signing)

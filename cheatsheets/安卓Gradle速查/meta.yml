@@ -1,7 +1,10 @@
-desc: Android Gradle 速查表，涵盖环境搭建、项目配置、构建脚本、依赖管理、任务系统、多模块开发、构建变体、性能优化、调试诊断、签名配置等核心内容。
+desc: Android Gradle 速查，覆盖 Wrapper、AGP/Gradle 版本对齐、settings 与模块配置、依赖管理、变体、签名发布、性能优化与排障。
 tags:
+  - Android
+  - 构建工具
   - 构建
-  - 操作系统
-version: unknown
+  - 开发
+  - 命令行
+version: "AGP 9.1 / Gradle 9.1"
 github: unknown
-date: "2025-11-17"
+date: "2026-03-12"

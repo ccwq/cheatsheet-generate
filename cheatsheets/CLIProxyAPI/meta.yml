@@ -1,0 +1,11 @@
+desc: CLIProxyAPI 的 cookbook 速查，聚焦统一 CLI/OAuth 订阅为 OpenAI 兼容入口、多账号轮询、模型别名、管理面与 SDK 内嵌。
+tags:
+  - AI / LLM
+  - AI 辅助工具
+  - CLI / Terminal
+  - Web API
+  - 代理 / 服务
+  - 运维
+version: 6.8.52
+github: router-for-me/CLIProxyAPI
+date: "2026-03-13"

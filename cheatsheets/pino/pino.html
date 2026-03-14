@@ -1,330 +1,266 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <title>Pino 日志库速查表</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../../assets/variables.css">
-    <link rel="stylesheet" href="../../assets/global.css">
-    <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>Pino 速查表</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png">
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 340px; 
+      --gap: 16px;
+    }
 
-    <!-- Prism.js 语法高亮 -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    .panel label {
+      color: var(--panel-accent);
+    }
 
-    <style>
-        :root {
-            --col-width: 400px;
-            --gap: 16px;
-        }
+    .panel .title {
+      color: var(--panel-accent);
+    }
 
-        .panel label {
-            color: var(--panel-accent);
-        }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-link);
+      text-decoration: none;
+      font-weight: 700;
+      white-space: nowrap;
+    }
 
-        .panel .title {
-            color: var(--panel-accent);
-        }
-    </style>
+    .home-link:hover {
+      text-decoration: underline;
+    }
 
-    <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png" />
-    <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png" />
+    .home-link svg {
+      width: 16px;
+      height: 16px;
+      flex: none;
+    }
+
+    .card pre,
+    .card pre code[class^="language-"] {
+      font-size: 13px;
+      line-height: 1.2;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .card h2 {
+      font-size: 16px;
+    }
+
+    .card,
+    .card li,
+    .desc {
+      font-size: 14px;
+      line-height: 1.2;
+    }
+
+    .meta-link {
+      color: var(--text-link);
+    }
+
+    .meta-link:hover {
+      text-decoration: underline;
+    }
+
+    .meta-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="panel">
-            <span class="title">Pino 日志库速查表</span>
-<!-- META_INFO_START -->
-<div class="meta-info">
-  <span class="meta-item"><span class="meta-label">版本</span><span class="meta-value">unknown</span></span>
-  <span class="meta-item"><span class="meta-label">更新日志</span><span class="meta-value">2026-01-28</span></span>
-  <span class="meta-item"><span class="meta-label">GitHub</span><span class="meta-value"><a class="meta-link" href="https://github.com/pinojs/pino" target="_blank" rel="noopener">pinojs/pino</a></span></span>
-</div>
-<!-- META_INFO_END -->
+  <div class="container">
+    <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
+      <span class="title">Pino 速查表</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label">版本</span><span class="meta-value">10.3.1</span></span>
+        <span class="meta-item"><span class="meta-label">更新日志</span><span class="meta-value">2026-02-09</span></span>
+        <span class="meta-item"><span class="meta-label">GitHub</span><span class="meta-value"><a class="meta-link" href="https://github.com/pinojs/pino" target="_blank" rel="noopener">pinojs/pino</a></span></span>
+      </div>
+      <div class="meta-tags"><tag-chip class="tag tag-group-3 detail-tag" data-name="调试" data-group="3" label="调试" group="3" variant="detail" icon="mdi:tag-outline"></tag-chip><tag-chip class="tag tag-group-1 detail-tag" data-name="DevOps" data-group="1" label="DevOps" group="1" variant="detail" icon="mdi:infinity"></tag-chip><tag-chip class="tag tag-group-1 detail-tag" data-name="JavaScript" data-group="1" label="JavaScript" group="1" variant="detail" icon="mdi:language-javascript"></tag-chip><tag-chip class="tag tag-group-4 detail-tag" data-name="库 / SDK" data-group="4" label="库 / SDK" group="4" variant="detail" icon="mdi:library-outline"></tag-chip><tag-chip class="tag tag-group-1 detail-tag" data-name="Node.js" data-group="1" label="Node.js" group="1" variant="detail" icon="mdi:nodejs"></tag-chip><tag-chip class="tag tag-group-3 detail-tag" data-name="开发" data-group="3" label="开发" group="3" variant="detail" icon="mdi:code-tags"></tag-chip></div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>🚀 基础创建与级别 <a href="https://github.com/pinojs/pino/blob/main/docs/api.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">先确定实例创建、日志级别和对象日志写法，再扩展 transport 与上下文。</div><pre><code class="language-javascript">import pino from &#39;pino&#39;
 
-            <label for="columnWidth">🔧 调整每列宽度：</label>
-            <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="360">
-            <span id="widthVal" class="slider-val">360px</span>
-        </div>
-
-        <div class="cheat-columns" id="columns">
-            <div class="card">
-                <h2>🔰 基础创建与日志方法 <a href="https://github.com/pinojs/pino/blob/main/docs/api.md#pinooptions-destination--logger" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-                <h3>创建 logger</h3>
-                <pre><code class="language-javascript">// 创建默认 logger（stdout）
-const pino = require('pino')
-const logger = pino()
-
-// 传入 options + destination
-const fileLogger = pino({ name: 'api' }, pino.destination('./logs/app.log'))</code></pre>
-                <h3>常用日志方法</h3>
-                <pre><code class="language-javascript">// 基础级别：trace/debug/info/warn/error/fatal
-logger.info('hello')
-logger.error({ err }, 'request failed')
-
-// 插值参数
-logger.info('hello %s %d', 'world', 42)</code></pre>
-                <div class="desc">默认输出 NDJSON；fatal 会强制同步 flush。</div>
-            </div>
-
-            <div class="card">
-                <h2>🎚️ 日志级别与自定义级别 <a href="https://github.com/pinojs/pino/blob/main/docs/api.md#logger-level" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-                <h3>核心级别与阈值</h3>
-                <ul>
-                    <li><span class="highlight">trace=10</span> → debug=20 → info=30 → warn=40 → error=50 → fatal=60</li>
-                    <li><span class="highlight">silent=Infinity</span>：禁用全部日志</li>
-                </ul>
-                <h3>动态调整级别</h3>
-                <pre><code class="language-javascript">// 设置最小输出级别
-logger.level = 'debug'
-
-// 判断级别是否启用
-if (logger.isLevelEnabled('trace')) {
-  logger.trace('heavy trace')
-}</code></pre>
-                <h3>自定义级别</h3>
-                <pre><code class="language-javascript">// 自定义级别 + 只使用自定义级别
 const logger = pino({
-  customLevels: { audit: 35, security: 45 },
-  useOnlyCustomLevels: false
-})</code></pre>
-            </div>
+  level: process.env.LOG_LEVEL ?? &#39;info&#39;
+})
 
-            <div class="card">
-                <h2>🧩 结构化字段与格式化 <a href="https://github.com/pinojs/pino/blob/main/docs/api.md#formatters-object" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-                <h3>formatters / serializers</h3>
-                <pre><code class="language-javascript">// 自定义 level / bindings / log 格式
-const logger = pino({
+logger.info(&#39;service started&#39;)
+logger.error({ err: new Error(&#39;boom&#39;) }, &#39;request failed&#39;)</code></pre><pre><code class="language-javascript">logger.level = &#39;debug&#39;
+
+if (logger.isLevelEnabled(&#39;trace&#39;)) {
+  logger.trace({ feature: &#39;search&#39; }, &#39;trace message&#39;)
+}</code></pre><pre><code class="language-javascript">const auditLogger = pino({
+  customLevels: {
+    audit: 35,
+    security: 45
+  }
+})
+
+auditLogger.audit({ actor: &#39;admin&#39; }, &#39;permission changed&#39;)</code></pre></div><div class="card"><h2>🧩 字段格式化与序列化 <a href="https://github.com/pinojs/pino/blob/main/docs/api.md#options" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">用 `formatters`、`serializers`、字段键名配置对接日志平台字段约定。</div><pre><code class="language-javascript">const logger = pino({
+  messageKey: &#39;message&#39;,
+  errorKey: &#39;error&#39;,
+  nestedKey: &#39;payload&#39;,
   formatters: {
-    level (label, number) {
-      return { level: number, levelLabel: label }
+    level(label, number) {
+      return { level: number, severity: label }
     },
-    bindings (bindings) {
-      return { pid: bindings.pid }
-    },
-    log (obj) {
-      return { ...obj, service: 'edge' }
+    bindings(bindings) {
+      return { pid: bindings.pid, host: bindings.hostname }
     }
   },
   serializers: {
     err: pino.stdSerializers.err
   }
-})</code></pre>
-                <h3>字段键名控制</h3>
-                <pre><code class="language-javascript">const logger = pino({
-  messageKey: 'msg',
-  errorKey: 'err',
-  nestedKey: 'payload'
-})</code></pre>
-                <div class="desc">nestedKey 可避免与 level/time 等内置字段冲突。</div>
-            </div>
+})</code></pre></div><div class="card"><h2>🧵 Child Logger 与上下文 <a href="https://github.com/pinojs/pino/blob/main/docs/child-loggers.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">通过 `child()` 绑定请求、模块、租户等上下文，避免每次手写重复字段。</div><pre><code class="language-javascript">const rootLogger = pino({ level: &#39;info&#39; })
+const requestLogger = rootLogger.child({
+  requestId: &#39;req-42&#39;,
+  module: &#39;billing&#39;
+})
 
-            <div class="card">
-                <h2>🧵 子日志与绑定 <a href="https://github.com/pinojs/pino/blob/main/docs/child-loggers.md" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-                <h3>创建 child logger</h3>
-                <pre><code class="language-javascript">// 在每条日志注入固定上下文
-const child = logger.child({ module: 'user' })
-child.info('loaded')</code></pre>
-                <h3>bindings 操作</h3>
-                <pre><code class="language-javascript">// 读取当前绑定
-const bindings = child.bindings()
+requestLogger.info(&#39;request accepted&#39;)
+console.log(requestLogger.bindings())</code></pre><pre><code class="language-javascript">requestLogger.setBindings({
+  userId: &#39;u-1001&#39;
+})
 
-// 追加绑定（不覆盖）
-child.setBindings({ requestId: 'req-1' })</code></pre>
-                <div class="warning">⚠️ 父子重复 key 会在 NDJSON 中出现重复字段，解析时以最后一次为准。</div>
-            </div>
-
-            <div class="card">
-                <h2>🧼 Redaction 数据脱敏 <a href="https://github.com/pinojs/pino/blob/main/docs/redaction.md" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-                <h3>路径语法与遮罩</h3>
-                <pre><code class="language-javascript">const logger = pino({
+requestLogger.warn({ retryable: true }, &#39;upstream timeout&#39;)</code></pre></div><div class="card"><h2>🔒 Redaction 脱敏 <a href="https://github.com/pinojs/pino/blob/main/docs/redaction.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">把口令、令牌、卡号等字段在输出前统一遮罩或直接移除。</div><pre><code class="language-javascript">const logger = pino({
   redact: {
-    paths: ['user.password', 'card["cvv"]', 'items[*].secret'],
-    censor: '[Redacted]'
+    paths: [
+      &#39;req.headers.authorization&#39;,
+      &#39;user.password&#39;,
+      &#39;payment.card.cvv&#39;,
+      &#39;items[*].secret&#39;
+    ],
+    censor: &#39;[REDACTED]&#39;
   }
-})</code></pre>
-                <h3>移除字段</h3>
-                <pre><code class="language-javascript">const logger = pino({
+})</code></pre><pre><code class="language-javascript">const logger = pino({
   redact: {
-    paths: ['token'],
+    paths: [&#39;token&#39;, &#39;profile.ssn&#39;],
     remove: true
   }
-})</code></pre>
-                <div class="desc">支持 * 通配；路径区分大小写；浏览器环境不支持 redaction。</div>
-            </div>
+})</code></pre></div><div class="card"><h2>🚚 Transport 与输出管道 <a href="https://github.com/pinojs/pino/blob/main/docs/transports.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">生产环境优先用 `pino.transport()` 把格式化、分流、落盘放到 worker 线程。</div><pre><code class="language-javascript">const transport = pino.transport({
+  targets: [
+    {
+      level: &#39;info&#39;,
+      target: &#39;pino/file&#39;,
+      options: { destination: &#39;./logs/app.log&#39;, mkdir: true }
+    },
+    {
+      level: &#39;error&#39;,
+      target: &#39;pino/file&#39;,
+      options: { destination: &#39;./logs/error.log&#39;, mkdir: true }
+    }
+  ]
+})
 
-            <div class="card">
-                <h2>🗂️ Destination 与异步写入 <a href="https://github.com/pinojs/pino/blob/main/docs/asynchronous.md" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-                <h3>异步写入与 flush</h3>
-                <pre><code class="language-javascript">const pino = require('pino')
-const dest = pino.destination({
-  dest: './logs/app.log',
+const logger = pino(transport)</code></pre><pre><code class="language-javascript">const transport = pino.transport({
+  pipeline: [
+    { target: &#39;pino-pretty&#39;, options: { colorize: true } }
+  ]
+})
+
+const logger = pino({ level: &#39;debug&#39; }, transport)</code></pre></div><div class="card"><h2>💾 Destination 与 flush <a href="https://github.com/pinojs/pino/blob/main/docs/asynchronous.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">直接写文件时用 `destination()`，需要确保进程退出前适时 `flush()`。</div><pre><code class="language-javascript">const destination = pino.destination({
+  dest: &#39;./logs/runtime.log&#39;,
   minLength: 4096,
   sync: false
 })
-const logger = pino(dest)
 
-// 定期 flush 缓冲
-logger.flush()</code></pre>
-                <div class="warning">⚠️ 异步模式可能丢失最近缓冲日志；Lambda 等环境需谨慎。</div>
-            </div>
-
-            <div class="card">
-                <h2>🚚 Transports 与管道 <a href="https://github.com/pinojs/pino/blob/main/docs/transports.md" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-                <h3>多目标输出</h3>
-                <pre><code class="language-javascript">const transport = pino.transport({
-  targets: [
-    { level: 'info', target: 'pino-pretty' },
-    { level: 'error', target: 'pino/file', options: { destination: './logs/error.log' } }
-  ]
-})
-const logger = pino(transport)</code></pre>
-                <h3>Pipeline</h3>
-                <pre><code class="language-javascript">const transport = pino.transport({
-  pipeline: [
-    { target: 'pino-syslog' },
-    { target: 'pino-socket' }
-  ]
-})</code></pre>
-                <div class="desc">transport 内部使用 worker thread；error 事件应视为致命错误。</div>
-            </div>
-
-            <div class="card">
-                <h2>🧯 Pretty Printing <a href="https://github.com/pinojs/pino/blob/main/docs/pretty.md" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-                <h3>使用 pino-pretty</h3>
-                <pre><code class="language-javascript">const logger = pino({
-  transport: {
-    target: 'pino-pretty',
-    options: { colorize: true }
-  }
-})</code></pre>
-                <div class="desc">生产推荐 NDJSON，开发阶段可启用 prettifier。</div>
-            </div>
-
-            <div class="card">
-                <h2>🌐 Browser API <a href="https://github.com/pinojs/pino/blob/main/docs/browser.md" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-                <h3>常用选项</h3>
-                <pre><code class="language-javascript">const logger = pino({
+const logger = pino(destination)
+logger.info(&#39;queued&#39;)
+logger.flush()</code></pre></div><div class="card"><h2>🌐 Browser 与前端转发 <a href="https://github.com/pinojs/pino/blob/main/docs/browser.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">浏览器模式适合统一前后端日志接口，或将 warn/error 转发到远端采集端。</div><pre><code class="language-javascript">const logger = pino({
   browser: {
     asObject: true,
-    asObjectBindingsOnly: false,
-    reportCaller: true,
-    serialize: ['custom'],
-    write: (obj) => {
-      // 自定义输出
-    }
-  }
-})</code></pre>
-                <h3>transmit</h3>
-                <pre><code class="language-javascript">const logger = pino({
-  browser: {
     transmit: {
-      level: 'warn',
-      send (level, logEvent) {
-        // 发送到采集端
+      level: &#39;warn&#39;,
+      send(level, logEvent) {
+        navigator.sendBeacon(&#39;/log&#39;, JSON.stringify({ level, logEvent }))
       }
     }
   }
-})</code></pre>
-                <div class="desc">浏览器默认映射到 console 方法；可禁用 logging。</div>
-            </div>
+})</code></pre></div><div class="card"><h2>🌍 Web 框架接入 <a href="https://github.com/pinojs/pino/blob/main/docs/web.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">与 Fastify、`pino-http` 配合时，重点是请求日志、上下文继承和敏感字段脱敏。</div><pre><code class="language-javascript">import Fastify from &#39;fastify&#39;
 
-            <div class="card">
-                <h2>🧰 Web 框架接入 <a href="https://github.com/pinojs/pino/blob/main/docs/web.md#web-frameworks" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-                <h3>Fastify（内置）</h3>
-                <pre><code class="language-javascript">const fastify = require('fastify')({ logger: true })
-fastify.get('/', async (req, reply) => {
-  req.log.info('request')
-  return { ok: true }
-})</code></pre>
-                <h3>Express / Node http（pino-http）</h3>
-                <pre><code class="language-javascript">const pinoHttp = require('pino-http')()
-app.use(pinoHttp)
-app.get('/', (req, res) => {
-  req.log.info('hit')
-  res.end('ok')
-})</code></pre>
-                <div class="desc">Hapi/Koa/Restify/Nest/H3/Hono 均有官方或社区中间件支持。</div>
-            </div>
-
-            <div class="card">
-                <h2>🧪 Diagnostics 观测 <a href="https://github.com/pinojs/pino/blob/main/docs/diagnostics.md" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-                <h3>tracing channel 事件</h3>
-                <pre><code class="language-javascript">const dc = require('diagnostics_channel')
-
-const start = dc.channel('tracing:pino_asJson:start')
-const end = dc.channel('tracing:pino_asJson:end')
-
-start.subscribe((message) => {
-  // message.instance / message.arguments
+const app = Fastify({
+  logger: {
+    level: &#39;info&#39;,
+    redact: [&#39;req.headers.authorization&#39;]
+  }
 })
 
-end.subscribe((message) => {
-  // message.result
-})</code></pre>
-                <div class="desc">用于观测序列化与写入链路的内部状态。</div>
-            </div>
+app.get(&#39;/health&#39;, async (request) =&gt; {
+  request.log.info(&#39;health check&#39;)
+  return { ok: true }
+})</code></pre><pre><code class="language-javascript">import express from &#39;express&#39;
+import pinoHttp from &#39;pino-http&#39;
 
-            <div class="card">
-                <h2>🧭 Help / 运维技巧 <a href="https://github.com/pinojs/pino/blob/main/docs/help.md" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-                <h3>日志过滤</h3>
-                <pre><code class="language-bash"># 仅筛选 ERROR 级别
-node app.js | jq 'select(.level == 50)'</code></pre>
-                <h3>日志轮转（SIGHUP reopen）</h3>
-                <pre><code class="language-javascript">const fs = require('node:fs')
-const pino = require('pino')
+const app = express()
+app.use(pinoHttp())
 
-fs.writeFileSync('/var/run/myapp.pid', process.pid)
-const dest = pino.destination('/var/log/myapp.log')
-const logger = pino(dest)
+app.get(&#39;/&#39;, (req, res) =&gt; {
+  req.log.info({ route: &#39;/&#39; }, &#39;handled&#39;)
+  res.end(&#39;ok&#39;)
+})</code></pre></div><div class="card"><h2>🧪 Diagnostics 与排障 <a href="https://github.com/pinojs/pino/blob/main/docs/diagnostics.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">诊断通道可以观测内部序列化阶段，适合调试格式化或性能问题。</div><pre><code class="language-javascript">import diagnosticsChannel from &#39;node:diagnostics_channel&#39;
 
-process.on('SIGHUP', () => dest.reopen())</code></pre>
-                <div class="desc">可配合 logrotate postrotate 触发 reopen。</div>
-            </div>
+const start = diagnosticsChannel.channel(&#39;tracing:pino_asJson:start&#39;)
+const end = diagnosticsChannel.channel(&#39;tracing:pino_asJson:end&#39;)
 
-            <div class="card">
-                <h2>📈 性能与基准 <a href="https://github.com/pinojs/pino/blob/main/docs/benchmarks.md" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-                <ul>
-                    <li><span class="highlight">避免同步格式化时间</span>：自定义 timestamp 会明显影响性能</li>
-                    <li><span class="highlight">批量写入</span>：使用异步 destination 提升吞吐</li>
-                    <li><span class="highlight">谨慎使用通配 redaction</span>：通配路径会增加开销</li>
-                </ul>
-                <div class="desc">基准测试显示 Pino 在字符串与对象日志上具有较低延迟。</div>
-            </div>
+start.subscribe((message) =&gt; {
+  console.log(&#39;serialize start&#39;, message.arguments)
+})
 
-            <div class="card">
-                <h2>🧩 生态与扩展 <a href="https://github.com/pinojs/pino/blob/main/docs/ecosystem.md" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-                <ul>
-                    <li><span class="highlight">pino-http</span>：HTTP 请求日志中间件</li>
-                    <li><span class="highlight">express-pino-logger</span> / koa-pino-logger</li>
-                    <li><span class="highlight">pino-pretty</span>：开发日志美化</li>
-                    <li><span class="highlight">pino-std-serializers</span>：标准序列化器</li>
-                    <li><span class="highlight">pino-elasticsearch</span> / pino-syslog</li>
-                </ul>
-                <div class="desc">Core 与 Community 生态模块覆盖主流框架与日志后端。</div>
-            </div>
-
-            <div class="card">
-                <h2>🕒 LTS 与支持矩阵 <a href="https://github.com/pinojs/pino/blob/main/docs/lts.md#long-term-support" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-                <h3>主要 LTS 线</h3>
-                <ul>
-                    <li><span class="highlight">9.x</span>：2024-04-26 发布，Node.js 18/20/22</li>
-                    <li><span class="highlight">8.x</span>：2022-06-01 发布，LTS 至 2024-10-26</li>
-                </ul>
-                <div class="desc">安全更新可能以 minor 版本发布，需关注 release notes。</div>
-            </div>
-        </div>
+end.subscribe((message) =&gt; {
+  console.log(&#39;serialize end&#39;, message.result)
+})</code></pre></div><div class="card"><h2>⚠️ 生产使用要点</h2><div class="desc">JSON 原始日志保留给机器消费，开发态再接 `pino-pretty` 或专用 transport 做展示。</div><ul><li><code>JSON.stringify()</code></li><li><code>requestId</code> <code>userId</code> <code>service</code></li><li><code>pino-pretty</code></li><li>退出前如果使用异步 destination 或 transport，要确认日志已 flush。</li></ul></div>
     </div>
+  </div>
 
-    <script src="../../assets/common.js"></script>
-    <script>
-    // Prism.js 代码高亮初始化
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
     document.addEventListener('DOMContentLoaded', function () {
-        if (window.Prism) {
-            Prism.highlightAll()
-        }
-    })
-    </script>
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
 </body>
 </html>

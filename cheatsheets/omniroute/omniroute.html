@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>OmniRoute 速查表</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png">
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 360px; 
+      --gap: 16px;
+    }
+
+    .panel label {
+      color: var(--panel-accent);
+    }
+
+    .panel .title {
+      color: var(--panel-accent);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-link);
+      text-decoration: none;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .home-link:hover {
+      text-decoration: underline;
+    }
+
+    .home-link svg {
+      width: 16px;
+      height: 16px;
+      flex: none;
+    }
+
+    .card pre,
+    .card pre code[class^="language-"] {
+      font-size: 13px;
+      line-height: 1.2;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .card h2 {
+      font-size: 16px;
+    }
+
+    .card,
+    .card li,
+    .desc {
+      font-size: 14px;
+      line-height: 1.2;
+    }
+
+    .meta-link {
+      color: var(--text-link);
+    }
+
+    .meta-link:hover {
+      text-decoration: underline;
+    }
+
+    .meta-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
+      <span class="title">OmniRoute 速查表</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label">版本</span><span class="meta-value">2.4.1</span></span>
+        <span class="meta-item"><span class="meta-label">更新日志</span><span class="meta-value">2026-03-13</span></span>
+        <span class="meta-item"><span class="meta-label">GitHub</span><span class="meta-value"><a class="meta-link" href="https://github.com/diegosouzapw/OmniRoute" target="_blank" rel="noopener">diegosouzapw/OmniRoute</a></span></span>
+      </div>
+      <div class="meta-tags"><tag-chip class="tag tag-group-1 detail-tag" data-name="AI / LLM" data-group="1" label="AI / LLM" group="1" variant="detail" icon="mdi:brain"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="AI 辅助工具" data-group="2" label="AI 辅助工具" group="2" variant="detail" icon="mdi:robot-outline"></tag-chip><tag-chip class="tag tag-group-1 detail-tag" data-name="Node.js" data-group="1" label="Node.js" group="1" variant="detail" icon="mdi:nodejs"></tag-chip><tag-chip class="tag tag-group-4 detail-tag" data-name="Web API" data-group="4" label="Web API" group="4" variant="detail" icon="mdi:webhook"></tag-chip><tag-chip class="tag tag-group-4 detail-tag" data-name="代理 / 服务" data-group="4" label="代理 / 服务" group="4" variant="detail" icon="mdi:server-network-outline"></tag-chip><tag-chip class="tag tag-group-3 detail-tag" data-name="开发" data-group="3" label="开发" group="3" variant="detail" icon="mdi:code-tags"></tag-chip></div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>🚦 快速定位 / 入口 <a href="https://github.com/diegosouzapw/OmniRoute/blob/main/docs/i18n/zh-CN/README.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><h3>它是什么</h3><ul><li>面向 AI 编码工具的统一网关，把 Claude Code、Codex、Gemini CLI、Cursor、Cline、OpenClaw 等都接到同一个 OpenAI 兼容入口。</li><li>核心价值不是“再包一层 API”，而是把订阅额度、API Key、廉价模型、免费模型串成自动回退链，尽量做到不断流。</li><li><code>Chat Completions</code></li></ul><h3>两个常用入口</h3><pre><code class="language-text">本地网关: http://localhost:20128/v1
+云端网关: http://cloud.omniroute.online/v1</code></pre><h3>模型名的阅读方式</h3><pre><code class="language-text">cc/claude-opus-4-6          # Claude Code 订阅模型
+cx/gpt-5.2-codex            # Codex 订阅模型
+gc/gemini-3-flash-preview   # Gemini CLI 免费层
+glm/glm-4.7                 # 低成本 API Key 模型
+if/kimi-k2-thinking         # 免费 iFlow 模型</code></pre><h3>最小可用验证</h3><pre><code class="language-bash">curl http://localhost:20128/v1/models \
+  -H &quot;Authorization: Bearer $OMNIROUTE_API_KEY&quot;</code></pre></div><div class="card"><h2>🔀 核心路由链路 <a href="https://github.com/diegosouzapw/OmniRoute/blob/main/README.md#-how-it-works" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><h3>默认思路</h3><pre><code class="language-text">订阅模型 -&gt; API Key 模型 -&gt; 低价模型 -&gt; 免费模型</code></pre><h3>典型四层</h3><pre><code class="language-text">Tier 1: Subscription
+  Claude Code / Codex / Gemini CLI / Copilot
+
+Tier 2: API Key
+  DeepSeek / Groq / xAI / Mistral / NVIDIA NIM / Together AI
+
+Tier 3: Cheap
+  GLM-4.7 / MiniMax M2.1 / Kimi K2
+
+Tier 4: Free
+  iFlow / Qwen / Kiro</code></pre><h3>什么时候最值钱</h3><ul><li>你已经有一个或多个订阅，但经常在高强度编码时撞到 5 小时或周配额。</li><li>你不想每个 IDE / CLI 都单独换 base URL、API 协议和模型名。</li><li>你需要“先榨干订阅，再自动退到便宜层和免费层”。</li></ul></div><div class="card"><h2>🧭 起手工作流 <a href="https://github.com/diegosouzapw/OmniRoute/blob/main/docs/USER_GUIDE.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><h3>建议顺序</h3><pre><code class="language-text">1. 连接至少一个订阅或免费提供商
+2. 新建一个 combo
+3. 从 Dashboard 取 OmniRoute API Key
+4. 把你的 IDE / CLI 指到 http://localhost:20128/v1
+5. 用一个真实请求验证回退链</code></pre><h3>本地单请求冒烟</h3><pre><code class="language-bash">curl http://localhost:20128/v1/chat/completions \
+  -H &quot;Authorization: Bearer $OMNIROUTE_API_KEY&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#39;{
+    &quot;model&quot;: &quot;if/kimi-k2-thinking&quot;,
+    &quot;messages&quot;: [
+      { &quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;用一句话解释 OmniRoute 的用途&quot; }
+    ]
+  }&#39;</code></pre><h3>建 combo 时的心法</h3><ul><li>第一个位置放你最希望优先消耗的资源，通常是已付费订阅。</li><li><code>glm/glm-4.7</code> <code>minimax/MiniMax-M2.1</code></li><li>最后一层放真正的兜底免费模型，不追求最强，只追求不断流。</li></ul></div><div class="card"><h2>🧪 高频 Recipes <a href="https://github.com/diegosouzapw/OmniRoute/blob/main/docs/USER_GUIDE.md#-use-cases" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><h3>方案 1: 零成本编码</h3><pre><code class="language-text">combo: free-forever
+1. gc/gemini-3-flash-preview
+2. if/kimi-k2-thinking
+3. qw/qwen3-coder-plus</code></pre><h3>方案 2: 先吃满 Claude 订阅</h3><pre><code class="language-text">combo: maximize-claude
+1. cc/claude-opus-4-6
+2. glm/glm-4.7
+3. if/kimi-k2-thinking</code></pre><h3>方案 3: 24/7 不停机</h3><pre><code class="language-text">combo: always-on
+1. cc/claude-opus-4-6
+2. cx/gpt-5.2-codex
+3. glm/glm-4.7
+4. minimax/MiniMax-M2.1
+5. if/kimi-k2-thinking</code></pre><h3>低价层怎么选</h3><ul><li><code>glm/glm-4.7</code>：适合放在订阅后的第一层便宜回退。</li><li><code>minimax/MiniMax-M2.1</code>：更偏“最低单价兜底”。</li><li><code>kimi/kimi-latest</code>：成本更可预测，适合月预算固定的团队。</li></ul></div><div class="card"><h2>🔌 CLI / IDE 接入 <a href="https://github.com/diegosouzapw/OmniRoute/blob/main/docs/USER_GUIDE.md#-cli-integration" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><h3>OpenAI 兼容类工具的共同配置</h3><pre><code class="language-text">Base URL: http://localhost:20128/v1
+API Key:  从 OmniRoute Dashboard 获取
+Model:    任意已接入模型或 combo 名</code></pre><h3>Codex CLI</h3><pre><code class="language-bash">export OPENAI_BASE_URL=&quot;http://localhost:20128&quot;
+export OPENAI_API_KEY=&quot;$OMNIROUTE_API_KEY&quot;
+
+codex &quot;review this repository&quot;</code></pre><h3>Cursor / Cline / Continue / RooCode</h3><pre><code class="language-text">Provider: OpenAI Compatible
+Base URL: http://localhost:20128/v1
+API Key:  OmniRoute 的 key
+Model:    cc/claude-opus-4-6 或 free-forever</code></pre><h3>Claude Code</h3><pre><code class="language-text">优先走 Dashboard -&gt; CLI Tools 页面一键配置。
+如果手改配置，目标仍然是把请求指向 OmniRoute 的 OpenAI 兼容入口。</code></pre><h3>OpenClaw 手动接入</h3><pre><code class="language-json">{
+  &quot;models&quot;: {
+    &quot;providers&quot;: {
+      &quot;omniroute&quot;: {
+        &quot;baseUrl&quot;: &quot;http://127.0.0.1:20128/v1&quot;,
+        &quot;apiKey&quot;: &quot;sk_omniroute&quot;,
+        &quot;api&quot;: &quot;openai-completions&quot;
+      }
+    }
+  }
+}</code></pre><h3>OpenClaw 的特殊点</h3><ul><li><code>127.0.0.1</code> <code>localhost</code></li><li>如果只是想“快接入”，先用 CLI Tools 页面生成配置，再回头细调。</li></ul></div><div class="card"><h2>🛠️ 常用接口与管理动作 <a href="https://github.com/diegosouzapw/OmniRoute/blob/main/docs/API_REFERENCE.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><h3>列出模型</h3><pre><code class="language-bash">curl http://localhost:20128/v1/models \
+  -H &quot;Authorization: Bearer $OMNIROUTE_API_KEY&quot;</code></pre><h3>Chat Completions</h3><pre><code class="language-bash">curl http://localhost:20128/v1/chat/completions \
+  -H &quot;Authorization: Bearer $OMNIROUTE_API_KEY&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#39;{
+    &quot;model&quot;: &quot;maximize-claude&quot;,
+    &quot;messages&quot;: [
+      { &quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;生成一个 bash 备份脚本&quot; }
+    ]
+  }&#39;</code></pre><h3>音频转写</h3><pre><code class="language-bash">curl -X POST http://localhost:20128/v1/audio/transcriptions \
+  -H &quot;Authorization: Bearer $OMNIROUTE_API_KEY&quot; \
+  -F &quot;file=@audio.mp3&quot; \
+  -F &quot;model=deepgram/nova-3&quot;</code></pre><h3>导出数据库</h3><pre><code class="language-bash">curl -o backup.sqlite \
+  http://localhost:20128/api/db-backups/export</code></pre><h3>设置预算</h3><pre><code class="language-bash">curl -X POST http://localhost:20128/api/usage/budget \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#39;{
+    &quot;keyId&quot;: &quot;key-123&quot;,
+    &quot;limit&quot;: 50,
+    &quot;period&quot;: &quot;monthly&quot;
+  }&#39;</code></pre></div><div class="card"><h2>⚖️ 组合与调度策略 <a href="https://github.com/diegosouzapw/OmniRoute/blob/main/docs/USER_GUIDE.md#combo-balancing-strategies" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><h3>常见策略</h3><pre><code class="language-text">Priority        总是优先第一个，失败才回退
+Round-Robin     顺序轮转
+Random          随机挑一个
+Weighted        按权重分流
+Least-Used      优先最近使用最少的模型
+Cost-Optimized  优先更便宜的模型</code></pre><h3>经验法则</h3><ul><li><code>Priority</code></li><li><code>Cost-Optimized</code></li><li><code>Round-Robin</code> <code>Least-Used</code></li></ul></div><div class="card"><h2>🚑 易错点 / 故障排查 <a href="https://github.com/diegosouzapw/OmniRoute/blob/main/docs/TROUBLESHOOTING.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><h3>Base URL 常见错法</h3><pre><code class="language-text">对 OpenAI 兼容客户端:
+  正确: http://localhost:20128/v1
+
+对某些只认根地址的客户端:
+  可能需要: http://localhost:20128</code></pre><h3>几个高频坑</h3><ul><li><code>Invalid</code> <code>/models</code></li><li><code>localhost</code> <code>127.0.0.1</code></li><li><code>redirect_uri_mismatch</code></li><li><code>ENABLE_REQUEST_LOGS=true</code></li><li><code>INITIAL_PASSWORD</code> <code>123456</code></li></ul><h3>配额或限流时的标准处理</h3><pre><code class="language-text">1. 先看 Dashboard 的 quota / health / costs
+2. 把 combo 末尾补一个免费层
+3. 再把中间层补一个低价层
+4. 最后再调策略，而不是先怀疑客户端配置</code></pre></div>
+    </div>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>

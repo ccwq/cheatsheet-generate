@@ -1,9 +1,10 @@
-desc: Android Debug Bridge (ADB) 完整速查表。包含设备连接、应用管理、Shell操作、网络调试、性能监控、系统诊断等核心功能。覆盖USB和无线调试、端口转发、文件传输、日志分析、UI自动化、设备信息查询、安全权限管理等高级用法，是Android开发和测试必备工具。
+desc: adb 速查，覆盖多设备连接、无线调试、安装卸载、Shell 操作、组件调起、日志分析、端口转发、录屏抓图与常见排障。
 tags:
   - Android
   - CLI 工具
+  - 调试工具
   - 调试
-  - 操作系统
-version: unknown
-github: aosp-mirror/platform_system_core
-date: "2025-11-17"
+  - 命令行
+version: "Platform-Tools 36.0.2"
+github: unknown
+date: "2026-03-06"

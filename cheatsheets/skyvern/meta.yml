@@ -1,0 +1,10 @@
+desc: 面向浏览器自动化的 AI 工作流平台，覆盖 Cloud API、Playwright 风格 SDK、Workflow Builder 与 MCP 接入。
+tags:
+  - AI / LLM
+  - Python
+  - 自动化工具
+  - Web API
+  - 命令行
+version: v1.0.24
+github: skyvern-ai/skyvern
+date: "2026-03-13"

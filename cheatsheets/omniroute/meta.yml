@@ -1,0 +1,11 @@
+desc: OmniRoute 智能 AI 路由网关速查，聚焦多提供商接入、组合回退、CLI/IDE 集成与常见运维接口。
+tags:
+  - AI / LLM
+  - AI 辅助工具
+  - Node.js
+  - Web API
+  - 代理 / 服务
+  - 开发
+version: 2.4.1
+github: diegosouzapw/OmniRoute
+date: "2026-03-13"
