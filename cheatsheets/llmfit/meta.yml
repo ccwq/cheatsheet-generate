@@ -1,0 +1,10 @@
+desc: 根据本机硬件推荐可运行本地大模型的 TUI/CLI 工具，覆盖模型筛选、硬件规划、REST API 和 Ollama 联动。
+tags:
+  - AI / LLM
+  - Rust
+  - CLI 工具
+  - 性能优化
+  - 开发
+version: 0.7.2
+github: AlexsJones/llmfit
+date: "2026-03-14"

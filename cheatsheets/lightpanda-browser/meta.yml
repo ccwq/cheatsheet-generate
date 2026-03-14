@@ -1,0 +1,10 @@
+desc: 面向无头抓取与 AI Agent 自动化的轻量浏览器，覆盖 fetch 抓取、CDP 服务与 Puppeteer 接入。
+tags:
+  - AI / LLM
+  - Web 前端
+  - CLI 工具
+  - 自动化工具
+  - 测试
+version: nightly
+github: lightpanda-io/browser
+date: "2026-03-14"
