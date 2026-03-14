@@ -1,4 +1,4 @@
 interface:
   display_name: "Cheatsheet Maker"
-  short_description: "创建并维护 cheatsheet 源文件，必要时联动图标技能"
-  default_prompt: "Use $cheatsheet-maker to create or rebuild a cheatsheet, and delegate icon work to $icon-complete-skill when needed."
+  short_description: "创建并维护 cheatsheet，支持按内容切换 cookbook 风格"
+  default_prompt: "Use $cheatsheet-maker to create or rebuild a cheatsheet, and switch to cookbook-style structure when the topic is workflow- or recipe-driven."
