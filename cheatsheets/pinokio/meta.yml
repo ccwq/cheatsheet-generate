@@ -1,0 +1,10 @@
+desc: Pinokio cookbook：围绕本地 AI / Web / CLI 应用的安装、封装、脚本编排、共享记忆与发布流程。
+tags:
+  - AI / LLM
+  - 自动化工具
+  - GUI
+  - 代理 / 服务
+  - 开发
+version: v6.0.10
+github: pinokiocomputer/pinokio
+date: "2026-01-27"
