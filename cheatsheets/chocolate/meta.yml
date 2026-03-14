@@ -1,9 +1,10 @@
-desc: 一款简化学习和记忆的速查工具，提供快速访问常用命令、概念与示例的便捷速览。
+desc: Chocolatey cookbook 式速查，按 Windows 装机、批量升级、锁版、私有源和环境迁移等场景组织命令 workflow。
 tags:
   - CLI 工具
   - DevOps
   - 操作系统
+  - Windows
   - 包管理器
-version: unknown
+version: "2.6.0"
 github: chocolatey/choco
-date: "2025-11-12"
+date: "2025-12-01"

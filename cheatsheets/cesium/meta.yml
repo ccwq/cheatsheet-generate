@@ -1,4 +1,4 @@
-desc: CesiumJS 3D地球WebGL框架开发速查表，涵盖场景创建、实体系统、数据加载、相机控制等核心功能，为地理信息可视化应用开发提供完整API参考。
+desc: CesiumJS cookbook 式速查，按 Viewer 起手、数据上图、相机飞行、交互拾取、时间轨迹和性能治理组织 workflow。
 tags:
   - 3D / 图形
   - GIS / 地图
@@ -6,6 +6,6 @@ tags:
   - 库 / SDK
   - 图形 / 可视化
   - 开发
-version: unknown
+version: "1.137"
 github: CesiumGS/cesium
-date: "2025-11-17"
+date: "2026-03-02"

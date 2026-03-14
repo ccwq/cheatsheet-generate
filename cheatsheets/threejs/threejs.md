@@ -1,36 +1,51 @@
 ---
 title: three.js
 lang: javascript
-version: "0.180.0"
-date: "2025-11-17"
+version: "0.182.0"
+date: "2025-12-10"
 github: mrdoob/three.js
-colWidth: 360px
+colWidth: 380px
 ---
 
 # three.js
 
-## 场景最小骨架
+## 快速定位 / 入口
 ---
 emoji: 🎬
-link: https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene
-desc: `Scene + Camera + Renderer + animation loop` 是所有 three.js 项目的最小闭环。
+link: https://threejs.org/manual/en/creating-a-scene.html
+desc: three.js 最常见的任务不是背 API，而是快速搭起“场景 -> 相机 -> 光照 -> 模型 -> 交互”的工作流。
 ---
-- `new THREE.Scene()` : 创建场景
-- `new THREE.PerspectiveCamera(fov, aspect, near, far)` : 透视相机
-- `new THREE.WebGLRenderer({ antialias: true })` : WebGL 渲染器
-- `renderer.setSize(width, height)` : 设置视口尺寸
-- `renderer.setAnimationLoop(render)` : 渲染循环，兼容 XR/WebGPU
+- 起手骨架：`Scene + Camera + Renderer`
+- 可见物体：`Mesh(geometry, material)`
+- 真实质感：`MeshStandardMaterial + Light`
+- 加模型：`GLTFLoader`
+- 做交互：`Raycaster`
+- 做进阶渲染：`EffectComposer` / `WebGPU`
+
+## 起手式：先把场景跑起来
+---
+emoji: 🚀
+link: https://threejs.org/manual/en/creating-a-scene.html
+desc: 第一阶段只解决“能看到东西”，不要一上来就堆模型、后处理和复杂材质。
+---
+- `new THREE.Scene()`：创建场景
+- `new THREE.PerspectiveCamera()`：最常用相机
+- `new THREE.WebGLRenderer({ antialias: true })`：默认起点
+- `renderer.setAnimationLoop(render)`：统一渲染循环
+- `renderer.setSize(...)`：同步视口大小
 
 ```javascript
-const scene = new THREE.Scene();
-scene.background = new THREE.Color("#0b1220");
+import * as THREE from "three";
 
-const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
+const scene = new THREE.Scene();
+scene.background = new THREE.Color("#0f172a");
+
+const camera = new THREE.PerspectiveCamera(60, innerWidth / innerHeight, 0.1, 100);
 camera.position.set(0, 1.5, 4);
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setSize(innerWidth, innerHeight);
 document.body.appendChild(renderer.domElement);
 
 renderer.setAnimationLoop(() => {
@@ -38,287 +53,149 @@ renderer.setAnimationLoop(() => {
 });
 ```
 
-## 相机与视口
----
-emoji: 📷
-link: https://threejs.org/docs/#api/en/cameras/PerspectiveCamera
-desc: 相机参数和 resize 同步是最容易遗漏的基础动作。
----
-- `PerspectiveCamera` : 带透视效果，最常用
-- `OrthographicCamera` : 正交相机，适合编辑器和 2.5D
-- `camera.position.set(x, y, z)` : 设置位置
-- `camera.lookAt(x, y, z)` : 朝向目标
-- `camera.updateProjectionMatrix()` : 修改参数后刷新投影
-
-```javascript
-function resize() {
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-}
-
-window.addEventListener("resize", resize);
-```
-
-## 几何体与网格
+## Recipe：先放一个能打光的物体
 ---
 emoji: 🧱
-link: https://threejs.org/docs/#api/en/core/BufferGeometry
-desc: Geometry 只负责顶点数据，真正可渲染对象通常是 `Mesh`。
+link: https://threejs.org/docs/#api/en/materials/MeshStandardMaterial
+desc: 调材质之前先把光照补齐，否则你会误以为材质或贴图有问题。
 ---
-- `BoxGeometry` : 立方体
-- `SphereGeometry` : 球体
-- `PlaneGeometry` : 平面
-- `BufferGeometry` : 自定义几何体基类
-- `new THREE.Mesh(geometry, material)` : 将几何体与材质组合为可渲染对象
+- 几何体：`BoxGeometry` / `SphereGeometry`
+- 材质：`MeshStandardMaterial`
+- 主光：`DirectionalLight`
+- 补光：`AmbientLight`
+- 阴影：`castShadow / receiveShadow`
 
 ```javascript
 const geometry = new THREE.BoxGeometry(1, 1, 1);
-const material = new THREE.MeshStandardMaterial({ color: "#38bdf8" });
-const cube = new THREE.Mesh(geometry, material);
-scene.add(cube);
+const material = new THREE.MeshStandardMaterial({ color: "#38bdf8", roughness: 0.4 });
+const mesh = new THREE.Mesh(geometry, material);
+
+const ambient = new THREE.AmbientLight("#ffffff", 0.35);
+const sun = new THREE.DirectionalLight("#ffffff", 2);
+sun.position.set(5, 8, 6);
+
+scene.add(mesh, ambient, sun);
 ```
 
-## 材质与纹理
+## Recipe：处理 resize，避免视图拉伸
 ---
-emoji: 🎨
-link: https://threejs.org/docs/#api/en/materials/MeshStandardMaterial
-desc: `MeshStandardMaterial` 是 PBR 默认主力，纹理通常按 map 系列接入。
+emoji: 📐
+link: https://threejs.org/docs/#api/en/cameras/PerspectiveCamera
+desc: 相机和 renderer 必须一起改，漏掉 `updateProjectionMatrix()` 就会出问题。
 ---
-- `MeshBasicMaterial` : 不受光照影响
-- `MeshStandardMaterial` : 标准 PBR 材质
-- `MeshPhysicalMaterial` : 更完整的物理属性
-- `TextureLoader` : 加载 2D 纹理
-- `map/normalMap/roughnessMap/metalnessMap` : 常用贴图槽位
+- 更新 `camera.aspect`
+- 调 `camera.updateProjectionMatrix()`
+- 调 `renderer.setSize(...)`
+- 高分屏通常限制像素比到 `2`
 
 ```javascript
-const textureLoader = new THREE.TextureLoader();
-const albedo = textureLoader.load("/textures/wood/basecolor.jpg");
-const normal = textureLoader.load("/textures/wood/normal.jpg");
+function resize() {
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+}
 
-const material = new THREE.MeshStandardMaterial({
-  map: albedo,
-  normalMap: normal,
-  roughness: 0.8
-});
+addEventListener("resize", resize);
 ```
 
-## 颜色管理
+## Recipe：加载 glTF / GLB 模型
 ---
-emoji: 🌈
-link: https://threejs.org/manual/en/color-management.html
-desc: 贴图发灰或颜色失真时，优先检查 color space，而不是先怀疑灯光。
----
-- `THREE.ColorManagement.enabled` : 默认启用
-- `texture.colorSpace = THREE.SRGBColorSpace` : 标记颜色贴图
-- `renderer.outputColorSpace = THREE.SRGBColorSpace` : 设置输出色彩空间
-- 法线、粗糙度、金属度等数据贴图通常保持默认色彩空间
-
-```javascript
-const colorMap = textureLoader.load("/textures/basecolor.jpg");
-colorMap.colorSpace = THREE.SRGBColorSpace;
-
-renderer.outputColorSpace = THREE.SRGBColorSpace;
-```
-
-## 灯光与阴影
----
-emoji: 💡
-link: https://threejs.org/docs/#api/en/lights/DirectionalLight
-desc: 阴影链路通常是“灯光 castShadow + mesh cast/receiveShadow + renderer.shadowMap.enabled”。
----
-- `AmbientLight` : 环境光
-- `DirectionalLight` : 方向光，常模拟太阳
-- `PointLight` : 点光源
-- `SpotLight` : 聚光灯
-- `renderer.shadowMap.enabled = true` : 启用阴影
-
-```javascript
-renderer.shadowMap.enabled = true;
-
-const sun = new THREE.DirectionalLight("#ffffff", 2.2);
-sun.position.set(4, 8, 3);
-sun.castShadow = true;
-scene.add(sun);
-
-cube.castShadow = true;
-cube.receiveShadow = true;
-```
-
-## 控制器
----
-emoji: 🕹️
-link: https://threejs.org/docs/#examples/en/controls/OrbitControls
-desc: 大多数 Demo 会先接 `OrbitControls`，它是调试和浏览场景的标配。
----
-- `OrbitControls` : 轨道控制
-- `TransformControls` : 编辑器式平移旋转缩放
-- `FirstPersonControls` : 第一人称漫游
-- `FlyControls` : 飞行模式
-
-```javascript
-import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-
-const controls = new OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true;
-
-renderer.setAnimationLoop(() => {
-  controls.update();
-  renderer.render(scene, camera);
-});
-```
-
-## 资源加载
----
-emoji: 📥
+emoji: 📦
 link: https://threejs.org/docs/#examples/en/loaders/GLTFLoader
-desc: `GLTFLoader` 是主流模型格式入口，压缩资源通常搭配 Draco 或 KTX2。
+desc: three.js 实战里大多数模型流程都围绕 `GLTFLoader` 展开。
 ---
-- `TextureLoader` : 加载贴图
-- `GLTFLoader` : 加载 glTF/GLB
-- `DRACOLoader` : 解码 Draco 压缩网格
-- `KTX2Loader` : 加载压缩纹理
-- `LoadingManager` : 统一监听加载过程
+- `GLTFLoader`：加载 glTF / GLB
+- `scene.add(gltf.scene)`：挂到主场景
+- `AnimationMixer`：播放模型动画
+- `DRACOLoader`：启用 Draco 压缩支持
+- `KTX2Loader`：压缩纹理更省显存
 
 ```javascript
-import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
-import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js";
-
-const draco = new DRACOLoader();
-draco.setDecoderPath("/draco/");
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
 const loader = new GLTFLoader();
-loader.setDRACOLoader(draco);
-
-loader.load("/models/robot.glb", (gltf) => {
-  scene.add(gltf.scene);
-});
+const gltf = await loader.loadAsync("/models/robot.glb");
+gltf.scene.position.y = -1;
+scene.add(gltf.scene);
 ```
 
-## 动画系统
+## Recipe：做鼠标拾取和高亮
 ---
-emoji: 🎞️
-link: https://threejs.org/docs/#api/en/animation/AnimationMixer
-desc: 模型自带动画用 `AnimationMixer`，程序化动画可配合 `Clock` 与手写更新循环。
+emoji: 🖱️
+link: https://threejs.org/docs/#api/en/core/Raycaster
+desc: 交互核心是“屏幕坐标 -> NDC -> 射线 -> 求交对象”。
 ---
-- `Clock` : 计算帧间 delta
-- `AnimationMixer` : 动画状态机
-- `AnimationClip` : 动画片段
-- `mixer.clipAction(clip)` : 创建动作
-- `action.play()` : 播放动作
+- `Vector2`：存 NDC 鼠标坐标
+- `Raycaster`：射线检测
+- `raycaster.setFromCamera(pointer, camera)`：从相机出发
+- `intersectObjects(list, true)`：检测命中
+
+```javascript
+const pointer = new THREE.Vector2();
+const raycaster = new THREE.Raycaster();
+
+function onPointerMove(event) {
+  pointer.x = (event.clientX / innerWidth) * 2 - 1;
+  pointer.y = -(event.clientY / innerHeight) * 2 + 1;
+  raycaster.setFromCamera(pointer, camera);
+  const hits = raycaster.intersectObjects(scene.children, true);
+  console.log(hits[0]?.object?.name);
+}
+```
+
+## Recipe：接动画和后处理，但别拆多套循环
+---
+emoji: ✨
+link: https://threejs.org/docs/#examples/en/postprocessing/EffectComposer
+desc: 动画、控制器、后处理都应该进同一条渲染循环，不要各跑各的。
+---
+- `Clock`：算 `delta`
+- `AnimationMixer`：更新模型动画
+- `EffectComposer`：组织后处理
+- `RenderPass`：基础 pass
+- `UnrealBloomPass`：Bloom
 
 ```javascript
 const clock = new THREE.Clock();
-let mixer;
-
-loader.load("/models/robot.glb", (gltf) => {
-  scene.add(gltf.scene);
-  mixer = new THREE.AnimationMixer(gltf.scene);
-  mixer.clipAction(gltf.animations[0]).play();
-});
 
 renderer.setAnimationLoop(() => {
   const delta = clock.getDelta();
   mixer?.update(delta);
-  renderer.render(scene, camera);
+  composer ? composer.render() : renderer.render(scene, camera);
 });
 ```
 
-## 射线拾取与交互
----
-emoji: 🎯
-link: https://threejs.org/docs/#api/en/core/Raycaster
-desc: 鼠标选中、hover 高亮和点击对象几乎都基于 `Raycaster`。
----
-- `new THREE.Raycaster()` : 创建射线投射器
-- `new THREE.Vector2()` : 记录归一化鼠标坐标
-- `raycaster.setFromCamera(pointer, camera)` : 从屏幕坐标发射射线
-- `raycaster.intersectObjects(scene.children, true)` : 获取命中结果
-
-```javascript
-const raycaster = new THREE.Raycaster();
-const pointer = new THREE.Vector2();
-
-window.addEventListener("pointermove", (event) => {
-  pointer.x = event.clientX / window.innerWidth * 2 - 1;
-  pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
-  raycaster.setFromCamera(pointer, camera);
-  const hits = raycaster.intersectObjects(scene.children, true);
-  console.log(hits[0]?.object);
-});
-```
-
-## 后处理
----
-emoji: ✨
-link: https://threejs.org/docs/#examples/en/postprocessing/EffectComposer
-desc: 后处理让辉光、景深、色调映射等效果从“有画面”进阶到“有氛围”。
----
-- `EffectComposer` : 通道调度器
-- `RenderPass` : 基础渲染通道
-- `UnrealBloomPass` : 泛光
-- `OutputPass` : 输出阶段
-
-```javascript
-import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
-import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
-import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
-
-const composer = new EffectComposer(renderer);
-composer.addPass(new RenderPass(scene, camera));
-composer.addPass(new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 0.7, 0.2, 0.85));
-
-renderer.setAnimationLoop(() => {
-  composer.render();
-});
-```
-
-## WebGPU 与 TSL
+## Recipe：想试 WebGPU / TSL 时怎么渐进迁移
 ---
 emoji: 🧪
-link: https://threejs.org/docs/#api/en/renderers/webgpu/WebGPURenderer
-desc: 官方新版手册建议从 `three/webgpu` 入口使用 WebGPU，传统 `EffectComposer` 流程不应原样照搬。
+link: https://threejs.org/manual/en/webgpu.html
+desc: WebGPU 更适合按实验模块逐步替换，不适合全项目一次切换。
 ---
-- `WebGPURenderer` : WebGPU 渲染器
-- `NodeMaterial` : 节点材质系统
-- `TSL` : three.js Shading Language
-- `renderer.init()` : WebGPU 初始化
-- `import * as THREE from "three/webgpu"` : WebGPU 推荐入口
-- `import "three/tsl"` : TSL 能力入口
-- WebGPU 下后处理需要按新栈组织 : 不直接照抄传统 `EffectComposer`
+- 先保留 WebGL 主路径
+- 新模块单独试 `WebGPURenderer`
+- 有 `navigator.gpu` 再启用
+- 新材质/节点逻辑逐步迁到 TSL
+- 保持 fallback，别让整个应用只剩实验渲染后端
 
 ```javascript
-import * as THREE from "three/webgpu";
+import { WebGPURenderer } from "three/webgpu";
 
-const renderer = new THREE.WebGPURenderer({ antialias: true });
-await renderer.init();
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
-```
-
-## 性能与释放
----
-emoji: 🩺
-link: https://threejs.org/manual/en/introduction/How-to-dispose-of-objects.html
-desc: three.js 最常见问题不是“不会画”，而是“资源不释放、draw call 太高、像素比太满”。
----
-- `geometry.dispose()` : 释放几何体 GPU 资源
-- `material.dispose()` : 释放材质资源
-- `texture.dispose()` : 释放纹理
-- `renderer.setPixelRatio(Math.min(devicePixelRatio, 2))` : 限制像素比
-- `InstancedMesh` : 大量重复对象时减少 draw call
-- `frustumCulled` : 利用视锥裁剪减少无效渲染
-
-```javascript
-function destroyMesh(mesh) {
-  mesh.geometry?.dispose();
-
-  if (Array.isArray(mesh.material)) {
-    mesh.material.forEach((material) => material.dispose());
-  } else {
-    mesh.material?.dispose();
-  }
-
-  scene.remove(mesh);
+if ("gpu" in navigator) {
+  const renderer = new WebGPURenderer({ antialias: true });
+  await renderer.init();
+  renderer.setSize(innerWidth, innerHeight);
+  document.body.appendChild(renderer.domElement);
 }
 ```
+
+## 常见坑 / 决策规则
+---
+emoji: ⚠️
+link: https://threejs.org/manual/en/introduction/How-to-dispose-of-objects.html
+desc: three.js 卡顿和画面异常，通常不是单一 API 用错，而是 workflow 失序。
+---
+- 看不到物体时先查相机、灯光、near/far、材质类型
+- 模型大时先压缩网格和纹理，再谈代码优化
+- 纹理、几何体、材质不用后记得 `dispose()`
+- `setPixelRatio(devicePixelRatio)` 在高分屏成本很高，通常限制到 `2`
+- 不要同时混用多套 render loop

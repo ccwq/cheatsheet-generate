@@ -1,165 +1,167 @@
-# uv Python包管理器使用速查
+---
+title: uv
+lang: bash
+version: "0.9.18"
+date: "2025-12-16"
+github: astral-sh/uv
+colWidth: 360px
+---
 
-## 快速入门
-- `uv init` - 创建新项目
-- `uv init --python 3.11 my-project` - 使用特定Python版本
-- `uv init --app my-app` - 创建应用项目
-- `uv init --lib my-lib` - 创建库项目
-- `uv init --template fastapi my-api` - 从模板创建
-- `uv add <package>` - 添加依赖包
-- `uv run <command>` - 在项目中运行命令
-- `uv sync` - 同步项目依赖
-- `uv venv` - 创建虚拟环境
+# uv
 
-## 依赖管理
-- `uv add requests@^2.28.0` - 添加特定版本依赖
-- `uv add --dev pytest` - 添加开发依赖
-- `uv add --optional test pytest` - 添加可选依赖
-- `uv remove <package>` - 移除依赖
-- `uv tree` - 查看依赖树
-- `uv pip install <package>` - 使用pip接口
+## 快速定位 / 入口
+---
+emoji: 🐍
+link: https://docs.astral.sh/uv/
+desc: uv 把 Python 安装、虚拟环境、依赖锁定、脚本运行和工具分发收进了一套 workflow。
+---
+- 新项目：`uv init`
+- 装依赖：`uv add`
+- 跑命令：`uv run`
+- 管 Python：`uv python`
+- 装工具或临时执行：`uv tool` / `uvx`
+- 旧项目兼容层：`uv pip`
 
-## requirements文件处理
-- `uv pip freeze > requirements.txt` - 生成requirements.txt
-- `uv pip compile requirements.in` - 编译requirements
-- `uv pip sync requirements.txt` - 同步环境
-- `uv pip compile --upgrade requirements.in` - 升级依赖
+## 起手式：从 0 到可运行项目
+---
+emoji: 🚀
+link: https://docs.astral.sh/uv/concepts/projects/init/
+desc: 最常见路径是“初始化项目 -> 加依赖 -> 运行 -> 锁定 -> 同步”。
+---
+- `uv init --app demo`：新建应用项目
+- `uv add httpx rich`：添加运行依赖
+- `uv run python main.py`：在项目环境里执行
+- `uv lock`：生成或更新 `uv.lock`
+- `uv sync --frozen`：按锁文件还原环境
 
-## 虚拟环境
-- `uv venv .venv` - 在当前目录创建环境
-- `uv run python script.py` - 直接运行脚本
-- `uv pip list` - 列出已安装包
-- `uv run --with <package> <script>` - 临时使用包运行
-- `uv run --python 3.11 <script>` - 指定Python版本
+```bash
+uv init --app demo
+cd demo
+uv add httpx rich
+uv run python main.py
+uv lock
+uv sync --frozen
+```
 
-## 项目管理
-- `uv init --lib <name>` - 创建库项目
-- `uv init --app <name>` - 创建应用项目
-- `uv build` - 构建分发包
-- `uv publish` - 发布到PyPI
-- `uv lock` - 更新锁文件
+## Recipe：快速开一个可发布包
+---
+emoji: 📦
+link: https://docs.astral.sh/uv/concepts/projects/dependencies/
+desc: 适合“我要做一个库并且以后准备发布到 PyPI”的场景。
+---
+- `uv init --package demo-lib`：按包结构初始化
+- `uv add pydantic`：加运行依赖
+- `uv add --dev pytest ruff`：加开发依赖
+- `uv build`：构建分发包
+- `uv publish`：发布到 PyPI
 
-## 同步与锁定
-- `uv sync` - 同步项目依赖
-- `uv sync --dev` - 包含开发依赖
-- `uv sync --frozen` - 使用锁文件精确同步
-- `uv lock` - 重新生成锁文件
+```bash
+uv init --package demo-lib
+cd demo-lib
+uv add pydantic
+uv add --dev pytest ruff
+uv run pytest
+uv build
+```
 
-## Python版本管理
-- `uv python install 3.11` - 安装Python版本
-- `uv python list` - 列出可用版本
-- `uv python pin 3.11` - 固定Python版本
-- `uv python find` - 查找Python解释器
+## Recipe：把命令、测试、脚本都收进同一环境
+---
+emoji: ▶️
+link: https://docs.astral.sh/uv/concepts/projects/run/
+desc: 这是 uv 最省事的用法，重点是“不要手动 source `.venv`”。
+---
+- `uv run python script.py`：跑脚本
+- `uv run pytest`：跑测试
+- `uv run ruff check .`：跑代码检查
+- `uv run --with rich script.py`：临时附带额外依赖
+- `uv run --python 3.12 python -V`：指定解释器版本
 
-## 工具与集成
-- `uv tool install black` - 安装工具
-- `uv run black <file>` - 运行工具
-- `uv tool update black` - 更新工具
-- `uv tool list` - 列出已安装工具
-- `uv tool run black@latest <file>` - 运行特定版本工具
-- `uvx black <file>` - 临时运行工具
+```bash
+uv run pytest
+uv run ruff check .
+uv run --with httpx python -c "import httpx; print(httpx.get('https://example.com').status_code)"
+```
 
-## uvx 临时工具执行
-uvx 是 uv 提供的强大命令行工具，用于无需安装即可快速运行 Python 脚本和工具，相当于 Python 界的 "npx"。
+## Recipe：只想临时执行工具，不想污染项目
+---
+emoji: 🛠️
+link: https://docs.astral.sh/uv/concepts/tools/
+desc: `uv tool` 是长期安装，`uvx` 是一次性执行，这两个角色要分清。
+---
+- 长期装：`uv tool install ruff`
+- 升级工具：`uv tool upgrade ruff`
+- 列出现有工具：`uv tool list`
+- 一次性执行：`uvx ruff check .`
+- 指定解释器临时执行：`uvx --python 3.12 mypy src`
 
-### 基础用法
-- `uvx <tool>` - 无需安装临时运行工具
-- `uvx black <file>` - 格式化代码文件
-- `uvx flake8 <file>` - 代码质量检查
-- `uvx mypy <file>` - 静态类型检查
-- `uvx pytest` - 运行测试套件
-- `uvx jupyter` - 启动Jupyter Notebook
-- `uvx http.server` - 启动简单HTTP服务器
+```bash
+uv tool install ruff
+uvx pycowsay "hello"
+uvx --python 3.12 mypy src
+```
 
-### 高级选项
-- `uvx --with-reqs requirements.txt black` - 使用指定requirements文件中的依赖运行
-- `uvx --python 3.11 black` - 指定特定Python版本运行工具
-- `uvx --lockfile uv.lock black` - 使用锁定文件中的依赖版本运行
-- `uvx --no-cache black` - 禁用缓存强制重新下载
-- `uvx --pin <version> black` - 使用特定版本的工具
-- `uvx --system-site-packages black` - 允许访问系统安装的包
+## Recipe：管理 Python 版本，不再手装解释器
+---
+emoji: 🧰
+link: https://docs.astral.sh/uv/guides/install-python/
+desc: 适合“项目要锁 Python 版本”或者“本机要并存多个 Python”的场景。
+---
+- `uv python install 3.12`：安装解释器
+- `uv python list`：查看可用版本
+- `uv python find 3.11`：查找指定版本
+- `uv python pin 3.12`：当前目录固定版本
+- `uv venv --python 3.12`：按指定解释器建环境
 
-### 实用场景
-- `uvx easy-code-reader --project-dir /path/to/project` - 快速分析代码库
-- `uvx pip-audit` - 安全漏洞扫描而无需安装
-- `uvx pre-commit run --all-files` - 运行pre-commit钩子而无需全局安装
-- `uvx pipdeptree -p requests` - 查看特定包的依赖树
-- `uvx pip-chill` - 简洁显示顶层依赖
-- `uvx poetry --version` - 临时使用特定版本的poetry
-- `uvx cookiecutter https://github.com/pydantic/pydantic-settings` - 使用模板创建项目
+```bash
+uv python install 3.11 3.12
+uv python pin 3.12
+uv venv
+uv run python -V
+```
 
-## 预览功能
-- `uv --preview <cmd>` - 启用预览功能
-- `uvx <tool>` - 临时运行工具
-- `uv tool run <tool>` - 运行但不安装工具
-- `uv pip install --editable <path>` - 可编辑安装
+## Recipe：从 requirements.txt 迁到 uv，但别一次全重构
+---
+emoji: 🔁
+link: https://docs.astral.sh/uv/pip/
+desc: 迁移旧项目时，先用 `uv pip` 兼容层稳住，再逐步切 `pyproject.toml`。
+---
+- `uv pip install -r requirements.txt`：先让旧项目跑起来
+- `uv pip compile requirements.in -o requirements.txt`：生成锁定版本
+- `uv pip sync requirements.txt`：同步环境
+- 等项目稳定后，再切 `uv add` / `uv lock` 主路径
 
-## 检查与诊断
-- `uv pip list` - 列出已安装包
-- `uv pip show <package>` - 查看包信息
-- `uv pip check` - 检查依赖冲突
-- `uv tree` - 显示依赖树
-- `uv pip show --outdated` - 显示过期包
-- `uv pip list --format=json` - JSON格式输出
-- `uv pip list --exclude <pattern>` - 排除包
+```bash
+uv venv
+uv pip install -r requirements.txt
+uv pip freeze > requirements.lock.txt
+```
 
-## 依赖解析
-- `uv resolve <package>` - 解析包版本
-- `uv pip compile requirements.in` - 编译依赖文件
-- `uv pip compile --generate-hashes` - 生成哈希校验
-- `uv pip install --no-deps` - 跳过依赖安装
-- `uv pip install --force-reinstall` - 强制重装
+## Recipe：CI / Docker / 团队协作的稳妥姿势
+---
+emoji: 🧩
+link: https://docs.astral.sh/uv/guides/integration/github/
+desc: 团队环境最重要的是“锁文件确定性”和“缓存目录复用”。
+---
+- CI 里优先用 `uv sync --frozen`
+- 缓存 `UV_CACHE_DIR`
+- 固定 Python 版本，避免 runner 漂移
+- Docker 里先复制锁文件再执行 `uv sync`
+- 多包仓库可用 workspace，再配 `uv sync --all-packages`
 
-## 构建后端
-- `uv build` - 构建分发包
-- `uv build --sdist` - 仅构建源码包
-- `uv build --wheel` - 仅构建轮子
-- `uv build --no-sdist` - 不构建源码包
-- `uv build --no-wheel` - 不构建轮子
+```bash
+uv sync --frozen
+uv run pytest
+uv run ruff check .
+```
 
-## 性能优化
-- `uv cache clean` - 清理缓存
-- `uv cache dir` - 显示缓存目录
-- `--no-cache` - 禁用缓存
-- `--cache-dir` - 指定缓存目录
-- `uv pip install --concurrent-downloads 8` - 并发下载
-- `uv pip install --use-feature truststore` - 使用系统证书
-- `uv pip install --only-binary :all:` - 预编译wheels
-- `uv pip install --no-deps` - 跳过依赖检查
-
-## 调试命令
-- `uv -v add requests` - 详细输出
-- `uv -vv sync` - 极详细输出
-- `uv pip check` - 检查环境
-- `uv lock --check` - 验证锁定文件
-- `uv lock --upgrade` - 重建锁定文件
-
-## 故障排除
-- `uv pip check` - 检查依赖冲突
-- `uv sync --verbose` - 显示详细错误信息
-- `uv run --no-deps <cmd>` - 跳过依赖执行
-- `uv cache clean` - 清理损坏缓存
-- `rm -rf .venv && uv venv` - 重建虚拟环境
-- `uv --no-progress <cmd>` - 禁用进度显示
-
-## 常用命令
-- `uv --version` - 显示版本
-- `uv --help` - 显示帮助
-- `uv init <name>` - 初始化项目
-- `uv add <deps>` - 添加依赖
-- `uv run <cmd>` - 运行命令
-- `uv sync` - 同步依赖
-- `uv tree` - 显示依赖树
-- `uv pip <cmd>` - pip兼容命令
-
-## 环境变量
-- `UV_PYTHON` - 指定Python解释器
-- `UV_INDEX_URL` - 默认包索引
-- `UV_EXTRA_INDEX_URL` - 额外索引列表
-- `UV_FIND_LINKS` - 包查找链接
-- `UV_NO_INDEX` - 禁用索引搜索
-- `UV_CACHE_DIR` - 缓存目录路径
-- `UV_NO_CACHE` - 禁用缓存
-- `UV_NO_BUILD` - 跳过构建步骤
-- `UV_REQUIRE_HASHES` - 要求哈希校验
-- `UV_VERBOSE` - 详细输出模式
+## 常见坑 / 决策规则
+---
+emoji: ⚠️
+link: https://docs.astral.sh/uv/reference/cli/
+desc: 真正常见的问题不是命令记不住，而是模式混用。
+---
+- `uv run` 是项目环境内执行，`uvx` 是临时工具执行
+- `uv sync --frozen` 依赖 `uv.lock` 已存在且最新
+- 旧项目迁移时别同时维护 `requirements.txt` 和 `pyproject.toml` 两套真相源
+- 私有源通常还要补认证配置，否则“解析成功、下载失败”很常见
+- 想让团队一致，优先锁 Python 版本，再锁依赖版本
