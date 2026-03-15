@@ -1,33 +1,44 @@
 # pnpm 官方文档与资源映射
 
 ## 核心入口
-- [pnpm 官网与文档首页](https://pnpm.io/)
-- [pnpm CLI 命令索引](https://pnpm.io/cli)
-- [pnpm 设计动机](https://pnpm.io/motivation)
+- [pnpm 官网](https://pnpm.io/)
+- [pnpm CLI 总览](https://pnpm.io/cli)
+- [Why should we use pnpm?](https://pnpm.io/motivation)
+- [GitHub Releases](https://github.com/pnpm/pnpm/releases)
 
-## 常用 CLI 命令
-- [pnpm add 安装依赖](https://pnpm.io/cli/add)
-- [pnpm install 安装项目依赖](https://pnpm.io/cli/install)
-- [pnpm update 更新依赖](https://pnpm.io/cli/update)
-- [pnpm remove 移除依赖](https://pnpm.io/cli/remove)
-- [pnpm run 运行脚本](https://pnpm.io/cli/run)
-- [pnpm exec 执行命令](https://pnpm.io/cli/exec)
-- [pnpm dlx 临时执行包](https://pnpm.io/cli/dlx)
-- [pnpm list 查看依赖树](https://pnpm.io/cli/list)
- - [pnpm why 依赖来源分析](https://pnpm.io/cli/why)
+## 安装与依赖管理
+- [pnpm add](https://pnpm.io/cli/add)
+- [pnpm install](https://pnpm.io/cli/install)
+- [pnpm update](https://pnpm.io/cli/update)
+- [pnpm remove](https://pnpm.io/cli/remove)
+- [pnpm list](https://pnpm.io/cli/list)
+- [pnpm outdated](https://pnpm.io/cli/outdated)
+- [pnpm why](https://pnpm.io/cli/why)
 
-## 工作区与多包仓库
-- [Workspaces 概览](https://pnpm.io/workspaces)
-- [过滤与递归执行](https://pnpm.io/filtering)
-- [pnpm-workspace.yaml 说明](https://pnpm.io/workspaces#example)
+## 脚本执行与临时命令
+- [pnpm run](https://pnpm.io/cli/run)
+- [pnpm exec](https://pnpm.io/cli/exec)
+- [pnpm dlx](https://pnpm.io/cli/dlx)
+- [pnpm create](https://pnpm.io/cli/create)
 
-## Store 与性能
-- [store 设计与路径](https://pnpm.io/npmrc#store-dir)
-- [pnpm store prune 清理未使用依赖](https://pnpm.io/cli/store)
+## Workspaces 与过滤
+- [Workspace](https://pnpm.io/workspaces)
+- [Filtering](https://pnpm.io/filtering)
+- [Recursive commands](https://pnpm.io/cli/recursive)
 
-## 高级管理与迁移
-- [pnpm import 迁移锁文件](https://pnpm.io/cli/import)
-- [pnpm fetch 预拉取依赖](https://pnpm.io/cli/fetch)
-- [pnpm prune 清理依赖](https://pnpm.io/cli/prune)
-- [pnpm rebuild 重新构建原生模块](https://pnpm.io/cli/rebuild)
-- [pnpm env Node 版本管理](https://pnpm.io/cli/env)
+## Store、缓存与部署
+- [pnpm store](https://pnpm.io/cli/store)
+- [pnpm fetch](https://pnpm.io/cli/fetch)
+- [pnpm prune](https://pnpm.io/cli/prune)
+- [pnpm deploy](https://pnpm.io/cli/deploy)
+- [pnpm rebuild](https://pnpm.io/cli/rebuild)
+
+## 配置与迁移
+- [pnpm setup](https://pnpm.io/cli/setup)
+- [pnpm bin](https://pnpm.io/cli/bin)
+- [pnpm root](https://pnpm.io/cli/root)
+- [Settings (.npmrc)](https://pnpm.io/npmrc)
+- [package.json](https://pnpm.io/package_json)
+- [pnpm import](https://pnpm.io/cli/import)
+- [pnpm doctor](https://pnpm.io/cli/doctor)
+- [pnpm env](https://pnpm.io/cli/env)

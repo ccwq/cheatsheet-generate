@@ -1,9 +1,9 @@
-desc: pnpm 高性能 Node.js 包管理与多包工作区速查表
+desc: pnpm 10.x 的依赖安装、脚本执行、workspace 过滤与 store/部署命令速查表
 tags:
   - CLI 工具
   - Node.js
   - 包管理器
-  - 开发
-version: unknown
+  - 开发工具
+version: "10.32.1"
 github: pnpm/pnpm
-date: "2025-11-22"
+date: "2026-03-11"
