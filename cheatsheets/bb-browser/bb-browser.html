@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>bb-browser 速查表</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png">
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 420px; 
+      --gap: 16px;
+    }
+
+    .panel label {
+      color: var(--panel-accent);
+    }
+
+    .panel .title {
+      color: var(--panel-accent);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-link);
+      text-decoration: none;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .home-link:hover {
+      text-decoration: underline;
+    }
+
+    .home-link svg {
+      width: 16px;
+      height: 16px;
+      flex: none;
+    }
+
+    .card pre,
+    .card pre code[class^="language-"] {
+      font-size: 13px;
+      line-height: 1.2;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .card h2 {
+      font-size: 16px;
+    }
+
+    .card,
+    .card li,
+    .desc {
+      font-size: 14px;
+      line-height: 1.2;
+    }
+
+    .meta-link {
+      color: var(--text-link);
+    }
+
+    .meta-link:hover {
+      text-decoration: underline;
+    }
+
+    .meta-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
+      <span class="title">bb-browser 速查表</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label">版本</span><span class="meta-value">0.5.2</span></span>
+        <span class="meta-item"><span class="meta-label">更新日志</span><span class="meta-value">2026-03-15</span></span>
+        <span class="meta-item"><span class="meta-label">GitHub</span><span class="meta-value"><a class="meta-link" href="https://github.com/epiral/bb-browser" target="_blank" rel="noopener">epiral/bb-browser</a></span></span>
+      </div>
+      <div class="meta-tags"><tag-chip class="tag tag-group-1 detail-tag" data-name="AI / LLM" data-group="1" label="AI / LLM" group="1" variant="detail" icon="mdi:brain" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M21.33 12.91c.09 1.55-.62 3.04-1.89 3.95l.77 1.49c.23.45.26.98.06 1.45c-.19.47-.58.84-1.06 1l-.79.25a1.69 1.69 0 0 1-1.86-.55L14.44 18c-.89-.15-1.73-.53-2.44-1.1c-.5.15-1 .23-1.5.23c-.88 0-1.76-.27-2.5-.79c-.53.16-1.07.23-1.62.22c-.79.01-1.57-.15-2.3-.45a4.1 4.1 0 0 1-2.43-3.61c-.08-.72.04-1.45.35-2.11c-.29-.75-.32-1.57-.07-2.33C2.3 7.11 3 6.32 3.87 5.82c.58-1.69 2.21-2.82 4-2.7c1.6-1.5 4.05-1.66 5.83-.37c.42-.11.86-.17 1.3-.17c1.36-.03 2.65.57 3.5 1.64c2.04.53 3.5 2.35 3.58 4.47c.05 1.11-.25 2.2-.86 3.13c.07.36.11.72.11 1.09m-5-1.41c.57.07 1.02.5 1.02 1.07a1 1 0 0 1-1 1h-.63c-.32.9-.88 1.69-1.62 2.29c.25.09.51.14.77.21c5.13-.07 4.53-3.2 4.53-3.25a2.59 2.59 0 0 0-2.69-2.49a1 1 0 0 1-1-1a1 1 0 0 1 1-1c1.23.03 2.41.49 3.33 1.3c.05-.29.08-.59.08-.89c-.06-1.24-.62-2.32-2.87-2.53c-1.25-2.96-4.4-1.32-4.4-.4c-.03.23.21.72.25.75a1 1 0 0 1 1 1c0 .55-.45 1-1 1c-.53-.02-1.03-.22-1.43-.56c-.48.31-1.03.5-1.6.56c-.57.05-1.04-.35-1.07-.9a.97.97 0 0 1 .88-1.1c.16-.02.94-.14.94-.77c0-.66.25-1.29.68-1.79c-.92-.25-1.91.08-2.91 1.29C6.75 5 6 5.25 5.45 7.2C4.5 7.67 4 8 3.78 9c1.08-.22 2.19-.13 3.22.25c.5.19.78.75.59 1.29c-.19.52-.77.78-1.29.59c-.73-.32-1.55-.34-2.3-.06c-.32.27-.32.83-.32 1.27c0 .74.37 1.43 1 1.83c.53.27 1.12.41 1.71.4q-.225-.39-.39-.81a1.038 1.038 0 0 1 1.96-.68c.4 1.14 1.42 1.92 2.62 2.05c1.37-.07 2.59-.88 3.19-2.13c.23-1.38 1.34-1.5 2.56-1.5m2 7.47l-.62-1.3l-.71.16l1 1.25zm-4.65-8.61a1 1 0 0 0-.91-1.03c-.71-.04-1.4.2-1.93.67c-.57.58-.87 1.38-.84 2.19a1 1 0 0 0 1 1c.57 0 1-.45 1-1c0-.27.07-.54.23-.76c.12-.1.27-.15.43-.15c.55.03 1.02-.38 1.02-.92&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-1 detail-tag" data-name="Node.js" data-group="1" label="Node.js" group="1" variant="detail" icon="mdi:nodejs" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M12 1.85c-.27 0-.55.07-.78.2l-7.44 4.3c-.48.28-.78.8-.78 1.36v8.58c0 .56.3 1.08.78 1.36l1.95 1.12c.95.46 1.27.47 1.71.47c1.4 0 2.21-.85 2.21-2.33V8.44c0-.12-.1-.22-.22-.22H8.5c-.13 0-.23.1-.23.22v8.47c0 .66-.68 1.31-1.77.76L4.45 16.5a.26.26 0 0 1-.11-.21V7.71c0-.09.04-.17.11-.21l7.44-4.29c.06-.04.16-.04.22 0l7.44 4.29c.07.04.11.12.11.21v8.58c0 .08-.04.16-.11.21l-7.44 4.29c-.06.04-.16.04-.23 0L10 19.65c-.08-.03-.16-.04-.21-.01c-.53.3-.63.36-1.12.51c-.12.04-.31.11.07.32l2.48 1.47q.36.21.78.21t.78-.21l7.44-4.29c.48-.28.78-.8.78-1.36V7.71c0-.56-.3-1.08-.78-1.36l-7.44-4.3c-.23-.13-.5-.2-.78-.2M14 8c-2.12 0-3.39.89-3.39 2.39c0 1.61 1.26 2.08 3.3 2.28c2.43.24 2.62.6 2.62 1.08c0 .83-.67 1.18-2.23 1.18c-1.98 0-2.4-.49-2.55-1.47a.226.226 0 0 0-.22-.18h-.96c-.12 0-.21.09-.21.22c0 1.24.68 2.74 3.94 2.74c2.35 0 3.7-.93 3.7-2.55c0-1.61-1.08-2.03-3.37-2.34c-2.31-.3-2.54-.46-2.54-1c0-.45.2-1.05 1.91-1.05c1.5 0 2.09.33 2.32 1.36c.02.1.11.17.21.17h.97c.05 0 .11-.02.15-.07c.04-.04.07-.1.05-.16C17.56 8.82 16.38 8 14 8&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="CLI 工具" data-group="2" label="CLI 工具" group="2" variant="detail" icon="mdi:console-network-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M15 20a1 1 0 0 0-1-1h-1v-2h4a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4v2h-1a1 1 0 0 0-1 1H2v2h7a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1h7v-2zm-8-5V5h10v10zm1-8.11l3.56 3.56L8 14h2.53l2.92-2.92c.33-.34.33-.9 0-1.26L10.5 6.89zm8 5.33h-2.67V14H16z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="自动化工具" data-group="2" label="自动化工具" group="2" variant="detail" icon="mdi:robot" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5A2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5a2.5 2.5 0 0 0 2.5 2.5a2.5 2.5 0 0 0 2.5-2.5a2.5 2.5 0 0 0-2.5-2.5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-4 detail-tag" data-name="命令行" data-group="4" label="命令行" group="4" variant="detail" icon="mdi:console" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M20 19V7H4v12zm0-16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-7 14v-2h5v2zm-3.42-4L5.57 9H8.4l3.3 3.3c.39.39.39 1.03 0 1.42L8.42 17H5.59z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-3 detail-tag" data-name="开发" data-group="3" label="开发" group="3" variant="detail" icon="mdi:code-tags" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m14.6 16.6l4.6-4.6l-4.6-4.6L16 6l6 6l-6 6zm-5.2 0L4.8 12l4.6-4.6L8 6l-6 6l6 6z&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>定位与入口 <a href="https://github.com/epiral/bb-browser" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">bb-browser 把“你真实浏览器里的登录态”暴露给 CLI 和 MCP，让 Agent 直接复用人类浏览器，而不是重做一套 API/爬虫链路。</div><ul><li>核心定位：浏览器自动化 + 带登录态的数据访问 + 面向 AI Agent 的 CLI/MCP 接口</li><li>适用场景：跨站检索、内容抓取、已登录站点数据读取、网页交互自动化、让 Agent 自主反向适配新网站</li><li><code>site</code> <code>open/snapshot/click/fetch/...</code>： CODE  走结构化站点适配器， CODE  走通用浏览器控制</li><li><code>--mcp</code>：CLI -&gt; daemon -&gt; Chrome Extension -&gt; 真实 Chrome；也支持  CODE  接入 Claude Code / Cursor</li><li><code>v0.5.2</code> <code>package.json</code> <code>0.6.0</code>：最新 GitHub Release 是  CODE （2026-03-15），主分支  CODE  当前已到  CODE </li></ul></div><div class="card"><h2>最小工作流 <a href="https://github.com/epiral/bb-browser#quick-start" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">先区分你要的是“站点数据接口”还是“浏览器动作控制”，再决定从 `site` 还是通用命令起步。</div><pre><code class="language-bash"># 安装
+npm install -g bb-browser
+
+# 拉取社区 adapter
+bb-browser site update
+
+# 看哪些站点最值得先用
+bb-browser site recommend
+
+# 直接跑一个站点能力
+bb-browser site zhihu/hot
+
+# 进入浏览器控制路径
+bb-browser open https://example.com
+bb-browser snapshot -i</code></pre><h3>选择建议</h3><ul><li><code>site</code>：优先  CODE </li><li>目标是点页面、填表单、抓当前 DOM：优先通用浏览器命令</li><li><code>--openclaw</code>：优先追加  CODE </li><li><code>--mcp</code>：优先  CODE </li></ul></div><div class="card"><h2>site 命令工作流</h2><pre><code class="language-bash"># 查看全部 adapter
+bb-browser site list
+
+# 看某个 adapter 的参数、示例、域名
+bb-browser site info xueqiu/stock
+
+# 典型检索
+bb-browser site twitter/search &quot;AI agent&quot;
+bb-browser site stackoverflow/search &quot;async&quot;
+bb-browser site arxiv/search &quot;transformer&quot;
+
+# 结构化输出 + 过滤
+bb-browser site xueqiu/hot-stock 5 --json
+bb-browser site xueqiu/hot-stock 5 --jq &#39;.items[] | {name, changePercent}&#39;
+
+# 适配 OpenClaw
+bb-browser site reddit/hot --openclaw</code></pre><h3>高价值习惯</h3><ul><li><code>site info &lt;name&gt;</code></li><li><code>--json</code></li><li><code>--jq</code></li><li>遇到“明明登录了却拿不到数据”，优先检查当前浏览器是否真的有该站点登录态</li></ul></div><div class="card"><h2>浏览器交互工作流 <a href="https://github.com/epiral/bb-browser#also-a-full-browser-automation-tool" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">通用命令适合没有现成 adapter 的页面任务，尤其是 snapshot -&gt; ref -&gt; interaction 这一套交互链。</div><pre><code class="language-bash"># 打开页面并读取可交互节点
+bb-browser open https://example.com
+bb-browser snapshot -i
+
+# 用 ref 做交互
+bb-browser click @3
+bb-browser fill @5 &quot;hello&quot;
+bb-browser type @5 &quot; world&quot;
+bb-browser press Enter
+
+# 读取页面信息
+bb-browser get title
+bb-browser get url
+bb-browser screenshot
+
+# 在页面上下文执行 JS / 带登录态 fetch
+bb-browser eval &quot;document.title&quot;
+bb-browser fetch https://www.reddit.com/api/me.json --json</code></pre><h3>常用组合</h3><ul><li><code>open</code> <code>snapshot -i</code> <code>click/fill/type</code>： CODE  -&gt;  CODE  -&gt;  CODE </li><li><code>open</code> <code>eval</code> <code>get</code>： CODE  -&gt;  CODE  或  CODE </li><li><code>open</code> <code>fetch &lt;url&gt; --json</code>： CODE  -&gt;  CODE </li><li><code>--tab &lt;id&gt;</code>：给命令追加  CODE </li></ul></div><div class="card"><h2>逆向与适配器开发 <a href="https://github.com/epiral/bb-browser#10-minutes-to-add-any-website" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">bb-browser 的核心扩展能力是把新网站快速变成 adapter；关键动作是抓包、验证认证方式、再写单文件适配器。</div><pre><code class="language-bash"># 清理并重新抓接口
+bb-browser network clear --tab 1
+bb-browser refresh --tab 1
+bb-browser network requests --filter &quot;api&quot; --with-body --json --tab 1
+
+# 测 direct fetch 是否成立
+bb-browser eval &quot;fetch(&#39;/api/endpoint&#39;,{credentials:&#39;include&#39;}).then(r=&gt;r.json())&quot; --tab 1
+
+# 查看完整开发说明
+bb-browser guide</code></pre><h3>Tier 判断</h3><ul><li>Tier 1：只靠 Cookie，通常最简单，适合 Reddit / GitHub 这类站点</li><li>Tier 2：还要 Bearer 或 CSRF token，需要把页面已有认证头补齐</li><li>Tier 3：需要页面内部模块、Webpack 注入或状态容器调用，复杂度最高</li></ul></div><div class="card"><h2>MCP 与服务形态 <a href="https://github.com/epiral/bb-browser#mcp-claude-code--cursor" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">想让 AI 工具把 bb-browser 当成 MCP server 使用时，最小配置就是 `npx -y bb-browser --mcp`。</div><pre><code class="language-json">{
+  &quot;mcpServers&quot;: {
+    &quot;bb-browser&quot;: {
+      &quot;command&quot;: &quot;npx&quot;,
+      &quot;args&quot;: [&quot;-y&quot;, &quot;bb-browser&quot;, &quot;--mcp&quot;]
+    }
+  }
+}</code></pre><pre><code class="language-bash"># 前台启动 daemon
+bb-browser daemon
+
+# 只监听 IPv4
+bb-browser daemon --host 127.0.0.1
+
+# 允许远程网络访问
+bb-browser daemon --host 0.0.0.0
+
+# 检查与停止
+bb-browser status
+bb-browser stop</code></pre><h3>什么时候用哪种形态</h3><ul><li><code>--mcp</code>： CODE </li><li>本机手工调试：CLI + daemon</li><li><code>site ... --openclaw</code>： CODE </li><li><code>0.0.0.0</code>：daemon 绑定  CODE </li></ul></div><div class="card"><h2>高价值选项 <a href="https://github.com/epiral/bb-browser#also-a-full-browser-automation-tool" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">大多数自动化脚本真正常用的是少量全局开关，而不是把所有命令背下来。</div><pre><code class="language-bash">--json             # 输出 JSON，便于脚本消费
+--jq &#39;&lt;expr&gt;&#39;      # 就地过滤 JSON
+--tab &lt;id&gt;         # 指定标签页
+--openclaw         # 走 OpenClaw 内置浏览器
+--mcp              # 启动 MCP server
+-i / --interactive # snapshot 只保留可交互节点
+-c / --compact     # snapshot 压缩空结构
+-d / --depth &lt;n&gt;   # snapshot 限制深度
+-s / --selector    # snapshot 只看局部 DOM</code></pre></div><div class="card"><h2>常见坑位 <a href="https://github.com/epiral/bb-browser#chrome-extension-standalone-mode" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">真正容易出错的地方通常不是命令本身，而是“运行形态”和“认证上下文”不匹配。</div><ul><li><code>site</code></li><li>不走 OpenClaw 时，独立模式通常需要先装 Chrome Extension</li><li><code>--with-body</code></li><li><code>--json</code></li><li>发布版和主分支版本可能不同；做环境记录时优先记你实际安装或 release 使用的版本</li></ul></div>
+    </div>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>

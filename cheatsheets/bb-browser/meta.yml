@@ -1,0 +1,11 @@
+desc: 面向 AI Agent 的浏览器自动化与跨站数据访问 CLI，复用真实 Chrome 登录态，兼顾 site adapter、MCP 与页面交互控制。
+tags:
+  - AI / LLM
+  - Node.js
+  - CLI 工具
+  - 自动化工具
+  - 命令行
+  - 开发
+version: 0.5.2
+github: epiral/bb-browser
+date: "2026-03-15"
