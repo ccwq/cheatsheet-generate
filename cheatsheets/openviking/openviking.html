@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>OpenViking Cookbook</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png">
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 360px; 
+      --gap: 16px;
+    }
+
+    .panel label {
+      color: var(--panel-accent);
+    }
+
+    .panel .title {
+      color: var(--panel-accent);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-link);
+      text-decoration: none;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .home-link:hover {
+      text-decoration: underline;
+    }
+
+    .home-link svg {
+      width: 16px;
+      height: 16px;
+      flex: none;
+    }
+
+    .card pre,
+    .card pre code[class^="language-"] {
+      font-size: 13px;
+      line-height: 1.2;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .card h2 {
+      font-size: 16px;
+    }
+
+    .card,
+    .card li,
+    .desc {
+      font-size: 14px;
+      line-height: 1.2;
+    }
+
+    .meta-link {
+      color: var(--text-link);
+    }
+
+    .meta-link:hover {
+      text-decoration: underline;
+    }
+
+    .meta-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
+      <span class="title">OpenViking Cookbook</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label">版本</span><span class="meta-value">v0.2.6</span></span>
+        <span class="meta-item"><span class="meta-label">更新日志</span><span class="meta-value">2026-03-11</span></span>
+        <span class="meta-item"><span class="meta-label">GitHub</span><span class="meta-value"><a class="meta-link" href="https://github.com/volcengine/OpenViking" target="_blank" rel="noopener">volcengine/OpenViking</a></span></span>
+      </div>
+      <div class="meta-tags"><tag-chip class="tag tag-group-1 detail-tag" data-name="AI / LLM" data-group="1" label="AI / LLM" group="1" variant="detail" icon="mdi:brain" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M21.33 12.91c.09 1.55-.62 3.04-1.89 3.95l.77 1.49c.23.45.26.98.06 1.45c-.19.47-.58.84-1.06 1l-.79.25a1.69 1.69 0 0 1-1.86-.55L14.44 18c-.89-.15-1.73-.53-2.44-1.1c-.5.15-1 .23-1.5.23c-.88 0-1.76-.27-2.5-.79c-.53.16-1.07.23-1.62.22c-.79.01-1.57-.15-2.3-.45a4.1 4.1 0 0 1-2.43-3.61c-.08-.72.04-1.45.35-2.11c-.29-.75-.32-1.57-.07-2.33C2.3 7.11 3 6.32 3.87 5.82c.58-1.69 2.21-2.82 4-2.7c1.6-1.5 4.05-1.66 5.83-.37c.42-.11.86-.17 1.3-.17c1.36-.03 2.65.57 3.5 1.64c2.04.53 3.5 2.35 3.58 4.47c.05 1.11-.25 2.2-.86 3.13c.07.36.11.72.11 1.09m-5-1.41c.57.07 1.02.5 1.02 1.07a1 1 0 0 1-1 1h-.63c-.32.9-.88 1.69-1.62 2.29c.25.09.51.14.77.21c5.13-.07 4.53-3.2 4.53-3.25a2.59 2.59 0 0 0-2.69-2.49a1 1 0 0 1-1-1a1 1 0 0 1 1-1c1.23.03 2.41.49 3.33 1.3c.05-.29.08-.59.08-.89c-.06-1.24-.62-2.32-2.87-2.53c-1.25-2.96-4.4-1.32-4.4-.4c-.03.23.21.72.25.75a1 1 0 0 1 1 1c0 .55-.45 1-1 1c-.53-.02-1.03-.22-1.43-.56c-.48.31-1.03.5-1.6.56c-.57.05-1.04-.35-1.07-.9a.97.97 0 0 1 .88-1.1c.16-.02.94-.14.94-.77c0-.66.25-1.29.68-1.79c-.92-.25-1.91.08-2.91 1.29C6.75 5 6 5.25 5.45 7.2C4.5 7.67 4 8 3.78 9c1.08-.22 2.19-.13 3.22.25c.5.19.78.75.59 1.29c-.19.52-.77.78-1.29.59c-.73-.32-1.55-.34-2.3-.06c-.32.27-.32.83-.32 1.27c0 .74.37 1.43 1 1.83c.53.27 1.12.41 1.71.4q-.225-.39-.39-.81a1.038 1.038 0 0 1 1.96-.68c.4 1.14 1.42 1.92 2.62 2.05c1.37-.07 2.59-.88 3.19-2.13c.23-1.38 1.34-1.5 2.56-1.5m2 7.47l-.62-1.3l-.71.16l1 1.25zm-4.65-8.61a1 1 0 0 0-.91-1.03c-.71-.04-1.4.2-1.93.67c-.57.58-.87 1.38-.84 2.19a1 1 0 0 0 1 1c.57 0 1-.45 1-1c0-.27.07-.54.23-.76c.12-.1.27-.15.43-.15c.55.03 1.02-.38 1.02-.92&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-1 detail-tag" data-name="Python" data-group="1" label="Python" group="1" variant="detail" icon="mdi:language-python" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M19.14 7.5A2.86 2.86 0 0 1 22 10.36v3.78A2.86 2.86 0 0 1 19.14 17H12c0 .39.32.96.71.96H17v1.68a2.86 2.86 0 0 1-2.86 2.86H9.86A2.86 2.86 0 0 1 7 19.64v-3.75a2.85 2.85 0 0 1 2.86-2.85h5.25a2.85 2.85 0 0 0 2.85-2.86V7.5zm-4.28 11.79c-.4 0-.72.3-.72.89s.32.71.72.71a.71.71 0 0 0 .71-.71c0-.59-.32-.89-.71-.89m-10-1.79A2.86 2.86 0 0 1 2 14.64v-3.78A2.86 2.86 0 0 1 4.86 8H12c0-.39-.32-.96-.71-.96H7V5.36A2.86 2.86 0 0 1 9.86 2.5h4.28A2.86 2.86 0 0 1 17 5.36v3.75a2.85 2.85 0 0 1-2.86 2.85H8.89a2.85 2.85 0 0 0-2.85 2.86v2.68zM9.14 5.71c.4 0 .72-.3.72-.89s-.32-.71-.72-.71c-.39 0-.71.12-.71.71s.32.89.71.89&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="AI 辅助工具" data-group="2" label="AI 辅助工具" group="2" variant="detail" icon="mdi:robot-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M17.5 15.5c0 1.11-.89 2-2 2s-2-.89-2-2s.9-2 2-2s2 .9 2 2m-9-2c-1.1 0-2 .9-2 2s.9 2 2 2s2-.89 2-2s-.89-2-2-2M23 15v3c0 .55-.45 1-1 1h-1v1c0 1.11-.89 2-2 2H5a2 2 0 0 1-2-2v-1H2c-.55 0-1-.45-1-1v-3c0-.55.45-1 1-1h1c0-3.87 3.13-7 7-7h1V5.73c-.6-.34-1-.99-1-1.73c0-1.1.9-2 2-2s2 .9 2 2c0 .74-.4 1.39-1 1.73V7h1c3.87 0 7 3.13 7 7h1c.55 0 1 .45 1 1m-2 1h-2v-2c0-2.76-2.24-5-5-5h-4c-2.76 0-5 2.24-5 5v2H3v1h2v3h14v-3h2z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-3 detail-tag" data-name="开发" data-group="3" label="开发" group="3" variant="detail" icon="mdi:code-tags" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m14.6 16.6l4.6-4.6l-4.6-4.6L16 6l6 6l-6 6zm-5.2 0L4.8 12l4.6-4.6L8 6l-6 6l6 6z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-4 detail-tag" data-name="命令行" data-group="4" label="命令行" group="4" variant="detail" icon="mdi:console" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M20 19V7H4v12zm0-16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-7 14v-2h5v2zm-3.42-4L5.57 9H8.4l3.3 3.3c.39.39.39 1.03 0 1.42L8.42 17H5.59z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-4 detail-tag" data-name="代理 / 服务" data-group="4" label="代理 / 服务" group="4" variant="detail" icon="mdi:server-network-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M13 13v2h1c.6 0 1 .4 1 1h7v2h-7c0 .6-.4 1-1 1h-4c-.6 0-1-.4-1-1H2v-2h7c0-.6.4-1 1-1h1v-2H3.2c-.7 0-1.2-.7-1.2-1.6V6.6C2 5.7 2.5 5 3.2 5h17.6c.7 0 1.2.7 1.2 1.6v4.8c0 .9-.5 1.6-1.2 1.6zm-4-3V8h1v2zM5 8h2v2H5zm15-1H4v4h16z&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>🧠 快速定位 <a href="https://github.com/volcengine/OpenViking" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">OpenViking 不是“再一个 RAG SDK”，而是把资源、记忆、技能统一进 `viking://` 虚拟文件系统的上下文数据库。做 cookbook 时，先想清楚你要走哪条路：嵌入式 Python、独立 HTTP 服务、CLI 自动化、MCP 暴露给 Agent，还是直接接 VikingBot / OpenClaw 插件。</div><h3>这东西适合什么时候上</h3><ul><li>你已经有 Agent，但上下文散落在文件、网页、向量库、记忆插件里，想统一入口。</li><li>你需要的不只是“搜到片段”，而是“先定位目录，再逐层深入”的可观察检索链。</li><li><code>ls</code> <code>tree</code> <code>find</code> <code>grep</code></li></ul><h3>三层内容模型</h3><ul><li><code>L0 / abstract</code>：一句话摘要，先判断值不值得继续读。</li><li><code>L1 / overview</code>：规划层读这个，帮助 Agent 决定下一步。</li><li><code>L2 / read</code>：原文详情，只在必要时下钻，控制 token 成本。</li></ul><h3>先做哪个入口</h3><ul><li><code>ov.OpenViking(path=&quot;./data&quot;)</code>：用  CODE </li><li><code>openviking-server</code>：用  CODE </li><li><code>ov</code> <code>openviking</code>：用  CODE  /  CODE  CLI</li><li><code>examples/mcp-query</code>：跑  CODE </li><li><code>vikingbot</code>：用  CODE </li></ul></div><div class="card"><h2>🗂️ 仓库骨架</h2><div class="desc">这个仓库是多入口组合，不要把所有目录一股脑读完。先按“我要用什么模式”去找对应目录。</div><h3>主模块分工</h3><ul><li><code>openviking/</code>：Python SDK、同步/异步客户端、Server 端核心能力。</li><li><code>crates/ov_cli/</code>：Rust CLI，适合命令行和脚本自动化。</li><li><code>examples/</code>：真正的 cookbook 区，包含 server-client、MCP、memory plugin、多租户、k8s 等样例。</li><li><code>bot/</code>：VikingBot，适合直接做聊天代理与多渠道接入。</li><li><code>docs/</code>：概念和深入说明，想理解分层检索和会话记忆时再进。</li></ul><h3>典型选型</h3><ul><li>单机试验或内嵌业务进程：嵌入式 Python 最省事。</li><li>多 Agent 共用一个上下文底座：HTTP Server 模式更稳。</li><li>想把 OpenViking 当外部工具挂给大模型：MCP 模式最顺手。</li><li>已经在用 OpenClaw / OpenCode：优先看插件示例。</li></ul></div><div class="card"><h2>🚀 起手工作流</h2><div class="desc">这部分只保留最小可执行入口，不展开安装细节。重点是先跑通“导入资源 → 等待处理 → 分层访问 → 检索”这条主链。</div><h3>路线 1：嵌入式 Python 起手</h3><pre><code class="language-python">import openviking as ov
+
+client = ov.OpenViking(path=&quot;./data&quot;)
+client.initialize()
+
+res = client.add_resource(
+    path=&quot;https://raw.githubusercontent.com/volcengine/OpenViking/refs/heads/main/README.md&quot;
+)
+root_uri = res[&quot;root_uri&quot;]
+
+client.wait_processed()
+
+print(client.abstract(root_uri))
+print(client.overview(root_uri))
+print(client.find(&quot;what is openviking&quot;, target_uri=root_uri))
+
+client.close()</code></pre><h3>路线 2：先起服务，再给多个客户端共用</h3><pre><code class="language-bash"># 终端 A：启动服务
+openviking-server
+
+# 终端 B：先看状态，再导资源
+ov status
+ov add-resource https://github.com/volcengine/OpenViking --wait
+ov tree viking://resources/volcengine -L 2
+ov find &quot;what is openviking&quot;</code></pre><h3>路线 3：HTTP Client 接远程服务</h3><pre><code class="language-python">import openviking as ov
+
+client = ov.SyncHTTPClient(
+    url=&quot;http://localhost:1933&quot;,
+    api_key=None,
+    timeout=120.0,
+)
+
+client.initialize()
+client.add_resource(path=&quot;./document.md&quot;)
+client.wait_processed()
+results = client.find(&quot;search query&quot;)
+client.close()</code></pre><h3>配置文件记忆法</h3><ul><li><code>OPENVIKING_CONFIG_FILE</code> <code>~/.openviking/ov.conf</code></li><li><code>OPENVIKING_CLI_CONFIG_FILE</code> <code>~/.openviking/ovcli.conf</code></li><li><code>ov.conf</code></li><li><code>ovcli.conf</code></li></ul></div><div class="card"><h2>🍳 高频 Recipes</h2><div class="desc">cookbook 的重点不在 API 面，而在“什么时候用哪串命令”。下面这些是仓库和 zread 信息里最值得复用的路线。</div><h3>把文档、仓库、网页喂进同一棵树</h3><div class="desc">什么时候用：你要给 Agent 建一个长期可检索的知识底座。</div><pre><code class="language-bash">ov add-resource https://github.com/volcengine/OpenViking --wait
+ov ls viking://resources/
+ov tree viking://resources/volcengine -L 2
+ov grep &quot;OpenViking&quot; --uri viking://resources/volcengine/OpenViking/docs/zh</code></pre><ul><li><code>add-resource</code> <code>tree</code></li><li><code>--wait</code> <code>wait</code></li><li>v0.2.6 之后补强了后台任务和异步提交，长任务不必都阻塞前台。</li></ul><h3>用 L0/L1/L2 控制 token 成本</h3><div class="desc">什么时候用：你要让 Agent 先做规划，再决定是否读全文。</div><pre><code class="language-bash"># 先用 overview 判断目录值不值得深入
+ov find &quot;hierarchical retrieval&quot;
+
+# 再定向读取更细内容
+ov tree viking://resources/volcengine/OpenViking/docs -L 3
+ov grep &quot;directory recursive retrieval&quot; --uri viking://resources/volcengine/OpenViking</code></pre><ul><li><code>find</code> <code>tree</code> <code>grep</code> <code>read</code></li><li><code>abstract</code> <code>overview</code></li></ul><h3>暴露成 MCP，给外部 Agent 当工具</h3><div class="desc">什么时候用：你希望 Claude 或别的支持 MCP 的 Agent 直接调用 OpenViking 的检索能力。</div><pre><code class="language-bash">cd examples/mcp-query
+uv sync
+uv run server.py</code></pre><pre><code class="language-bash">claude mcp add --transport http openviking http://localhost:2033/mcp</code></pre><ul><li><code>query</code> <code>search</code> <code>add_resource</code></li><li><code>query</code> <code>search</code></li></ul><h3>给 OpenClaw 接长期记忆</h3><div class="desc">什么时候用：你已经在跑 OpenClaw，希望把记忆底座换成 OpenViking。</div><pre><code class="language-bash">cd /path/to/OpenViking
+npx ./examples/openclaw-memory-plugin/setup-helper
+openclaw gateway</code></pre><pre><code class="language-bash">openclaw config set plugins.entries.memory-openviking.config.mode &quot;remote&quot;
+openclaw config set plugins.entries.memory-openviking.config.baseUrl &quot;http://your-server:1933&quot;
+openclaw config set plugins.entries.memory-openviking.config.autoRecall true --json
+openclaw config set plugins.entries.memory-openviking.config.autoCapture true --json</code></pre><ul><li>本地模式：插件自动起 OpenViking，适合个人环境。</li><li>远程模式：OpenClaw 只连服务端，适合团队和统一运维。</li><li>README 给出的实验数据说明，这条路线的收益不仅是效果提升，还有明显的 token 成本下降。</li></ul><h3>两分钟起一个能聊天的 VikingBot</h3><div class="desc">什么时候用：你想快速验证“OpenViking + Agent”整条链，而不是自己拼装 bot。</div><pre><code class="language-bash">pip install &quot;openviking[bot]&quot;
+vikingbot gateway
+vikingbot chat</code></pre><ul><li><code>vikingbot gateway</code></li><li><code>ov.conf</code></li><li>适合先验证资源管理、记忆提交和检索工具联动，再决定是否接 Feishu / Slack / Telegram。</li></ul><h3>从单机场景切到共享服务</h3><div class="desc">什么时候用：你最初在本地嵌入式用得不错，现在要给多个进程、多个 Agent、多个租户共用。</div><pre><code class="language-bash">openviking-server --host 0.0.0.0 --port 1933</code></pre><pre><code class="language-json">{
+  &quot;url&quot;: &quot;http://localhost:1933&quot;,
+  &quot;api_key&quot;: null,
+  &quot;output&quot;: &quot;table&quot;
+}</code></pre><ul><li><code>ovcli.conf</code></li><li><code>examples/multi_tenant/</code></li></ul></div><div class="card"><h2>⚠️ 决策与排障</h2><div class="desc">OpenViking 好用的前提，是你别把它当“单次问答检索器”。它更像一个可运营的上下文底座，所以最容易出问题的地方也都集中在配置、异步处理和入口选错。</div><h3>先判定模式，不要混着用</h3><ul><li>只是单机应用内调用：优先嵌入式，不必先起 Server。</li><li>多个客户端共享：起 HTTP Server，不要每个进程各自维护一份数据。</li><li>要给大模型工具化调用：优先 MCP，而不是手搓一层自定义 wrapper。</li></ul><h3>常见坑</h3><ul><li><code>wait_processed()</code> <code>ov wait</code>：你还没  CODE  或  CODE 。</li><li><code>ov</code> <code>ov.conf</code> <code>vlm</code> <code>embedding.dense</code>：多数是  CODE  里  CODE  或  CODE  没配齐。</li><li>Windows 机器读配置异常：v0.2.6 专门修过 UTF-8 BOM 兼容，旧配置文件要留意编码。</li><li><code>v0.2.7</code> <code>v0.2.6</code>：仓库里已有  CODE  tag，但截至 2026-03-15 最新 GitHub Release 仍是  CODE ，生产环境按已发布版本看更稳。</li></ul><h3>资源组织建议</h3><ul><li>导入目录时，只有你真的依赖原层级含义时，才保留原始结构。</li><li><code>find</code></li><li>会话提交和记忆提取是后台能力，不要把所有状态都寄希望于即时返回。</li></ul></div><div class="card"><h2>🔧 命令抓手</h2><div class="desc">如果你已经理解上面的 workflow，真正高频反复出现的就是下面这几组抓手。</div><h3>资源导入与浏览</h3><ul><li><code>ov add-resource &lt;url-or-path&gt; [--wait]</code>：导入网页、文件、目录或仓库入口</li><li><code>ov ls &lt;uri&gt;</code>：看当前目录</li><li><code>ov tree &lt;uri&gt; -L &lt;depth&gt;</code>：快速扫层级</li><li><code>ov grep &quot;&lt;pattern&gt;&quot; --uri &lt;uri&gt;</code>：在指定树里做内容过滤</li><li><code>ov glob &quot;&lt;pattern&gt;&quot; --uri &lt;uri&gt;</code>：按路径模式筛文件</li></ul><h3>分层访问与检索</h3><ul><li><code>abstract(&lt;uri&gt;)</code>：快速判断目录/文件是否值得继续读</li><li><code>overview(&lt;uri&gt;)</code>：拿结构化概览，适合规划阶段</li><li><code>read(&lt;uri&gt;)</code>：只在确定目标后读取全文</li><li><code>find(&quot;&lt;query&gt;&quot;, target_uri=&lt;uri&gt;)</code>：先语义找目录，再继续下钻</li></ul><h3>服务与会话</h3><ul><li><code>openviking-server</code>：起独立服务</li><li><code>ov status</code>：看系统状态</li><li><code>ov session new</code>：新建会话</li><li><code>ov session add-message &lt;id&gt; --role user --content &quot;...&quot;</code>：填消息</li><li><code>ov session commit &lt;id&gt;</code>：归档消息并提取记忆</li></ul></div>
+    </div>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>

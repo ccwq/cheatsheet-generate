@@ -1,0 +1,11 @@
+desc: OpenViking 是面向 AI Agent 的上下文数据库，适合把资源、记忆、技能统一进 `viking://` 虚拟文件系统，再通过嵌入式 SDK、HTTP Server、CLI、MCP、VikingBot 与 OpenClaw 插件等入口构建可观察、可分层、可迭代的上下文工作流。
+tags:
+  - AI / LLM
+  - Python
+  - AI 辅助工具
+  - 开发
+  - 命令行
+  - 代理 / 服务
+version: v0.2.6
+github: volcengine/OpenViking
+date: "2026-03-11"
