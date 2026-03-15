@@ -1,0 +1,12 @@
+desc: Trellis 速查，覆盖 `.trellis` 骨架、初始化、并行 worktree、内置 slash command 与多平台 AI coding 工作流。
+tags:
+  - AI / LLM
+  - CLI / Terminal
+  - CLI 工具
+  - AI 辅助工具
+  - 开发
+  - 规范 / 流程
+version: 0.3.10
+github: mindfold-ai/Trellis
+date: "2026-03-12"
+
