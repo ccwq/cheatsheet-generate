@@ -13,7 +13,7 @@
       document.documentElement.setAttribute('data-theme', resolved);
     })();
   </script>
-  <title>Clink</title>
+  <title>Clink Cookbook</title>
   <link rel="stylesheet" href="../../assets/variables.css">
   <link rel="stylesheet" href="../../assets/global.css">
   <link rel="stylesheet" href="../../assets/cheatsheet.css">
@@ -26,7 +26,7 @@
   <style>
     :root {
       /*默认列宽*/
-      --col-width: 340px; 
+      --col-width: 420px; 
       --gap: 16px;
     }
 
@@ -103,11 +103,11 @@
         </svg>
         <span>首页</span>
       </a>
-      <span class="title">Clink</span>
+      <span class="title">Clink Cookbook</span>
       <!-- META_INFO_START -->
       <div class="meta-info">
         <span class="meta-item"><span class="meta-label">版本</span><span class="meta-value">v1.9.17</span></span>
-        <span class="meta-item"><span class="meta-label">更新日志</span><span class="meta-value">2025-11-18</span></span>
+        <span class="meta-item"><span class="meta-label">更新日志</span><span class="meta-value">2026-02-24</span></span>
         <span class="meta-item"><span class="meta-label">GitHub</span><span class="meta-value"><a class="meta-link" href="https://github.com/chrisant996/clink" target="_blank" rel="noopener">chrisant996/clink</a></span></span>
       </div>
       <div class="meta-tags"><tag-chip class="tag tag-group-2 detail-tag" data-name="CLI 工具" data-group="2" label="CLI 工具" group="2" variant="detail" icon="mdi:console-network-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M15 20a1 1 0 0 0-1-1h-1v-2h4a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4v2h-1a1 1 0 0 0-1 1H2v2h7a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1h7v-2zm-8-5V5h10v10zm1-8.11l3.56 3.56L8 14h2.53l2.92-2.92c.33-.34.33-.9 0-1.26L10.5 6.89zm8 5.33h-2.67V14H16z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-3 detail-tag" data-name="学习 / 入门" data-group="3" label="学习 / 入门" group="3" variant="detail" icon="mdi:school-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9zm6.82 6L12 12.72L5.18 9L12 5.28zM17 16l-5 2.72L7 16v-3.73L12 15l5-2.73z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-1 detail-tag" data-name="操作系统" data-group="1" label="操作系统" group="1" variant="detail" icon="mdi:desktop-classic" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M6 2c-1.11 0-2 .89-2 2v8c0 1.11.89 2 2 2h12c1.11 0 2-.89 2-2V4c0-1.11-.89-2-2-2zm0 2h12v8H6zM4 15c-1.11 0-2 .89-2 2v3c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2v-3c0-1.11-.89-2-2-2zm4 2h12v3H8zm1 .75v1.5h4v-1.5zm6 0v1.5h4v-1.5z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-3 detail-tag" data-name="开发" data-group="3" label="开发" group="3" variant="detail" icon="mdi:code-tags" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m14.6 16.6l4.6-4.6l-4.6-4.6L16 6l6 6l-6 6zm-5.2 0L4.8 12l4.6-4.6L8 6l-6 6l6 6z&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
@@ -119,27 +119,90 @@
       <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
     </div>
     <div class="cheat-columns" id="columns">
-      <div class="card"><h2>🧩 注入与会话管理 <a href="https://chrisant996.github.io/clink/clink.html#using-clink" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">在 cmd.exe 会话中启用、取消或诊断 Clink 注入状态。</div><ul><li><code>clink inject</code>：注入当前 cmd 会话。</li><li><code>clink inject -p &lt;pid&gt;</code>：注入指定 PID 的 cmd 进程。</li><li><code>clink autorun install</code>：安装 cmd 启动自动注入。</li><li><code>clink autorun uninstall</code>：卸载自动注入。</li><li><code>clink info</code>：查看版本、profile 路径和运行状态。</li></ul><pre><code class="language-cmd">REM 注入当前会话
+      <div class="card"><h2>🧭 快速定位 <a href="https://chrisant996.github.io/clink/clink.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Clink 不是另一个 shell，而是把 cmd.exe 强化成带有 Readline 编辑、历史、补全、自动建议和 Lua 扩展能力的工作台。先记入口，再记 recipe。</div><ul><li><code>clink inject</code>：进入当前窗口后立即启用 Clink。</li><li><code>clink autorun install</code>：让后续打开的 cmd.exe 自动注入。</li><li><code>clink info</code>：查看版本、profile 路径、脚本目录和运行状态。</li><li><code>clink set</code>：查看全部设置项，适合先搜索再改。</li><li><code>clink reload</code>：改完 Lua 脚本后原地重载，不必重开会话。</li></ul><pre><code class="language-cmd">REM 进入 cmd.exe 后的最小起手式
 clink inject
+clink info</code></pre></div><div class="card"><h2>🚀 起手工作流 <a href="https://chrisant996.github.io/clink/clink.html#using-clink" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">第一次接管某台 Windows 开发机时，优先按“注入 -&gt; 看路径 -&gt; 开启高频能力 -&gt; 验证按键”这条线走，而不是先改大量配置。</div><ul><li><code>clink inject</code>：先接管当前 cmd 会话。</li><li><code>clink info</code>：再看 profile 路径和脚本目录。</li><li><code>clink set history.shared true</code>：打开跨窗口共享历史。</li><li><code>clink set autosuggest.enable true</code>：打开自动建议。</li><li><code>clink set clink.default_bindings windows</code>：先切到熟悉键位。</li><li><code>Ctrl-R</code>：验证历史搜索已生效。</li><li><code>Tab</code>：验证补全已生效。</li><li><code>Right</code>：验证自动建议已生效。</li></ul><pre><code class="language-cmd">REM 接管新机器时的低风险初始化
+clink inject
+clink set history.shared true
+clink set autosuggest.enable true
+clink set clink.default_bindings windows
+clink info</code></pre></div><div class="card"><h2>🪝 Recipe：让 cmd 变成可长期使用的主力终端 <a href="https://chrisant996.github.io/clink/clink.html#using-clink" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">适用于你打算长期把 cmd.exe 当入口，而不是只临时开一两个会话。关键是自动注入和收尾排查。</div><ul><li><code>clink autorun install</code>：安装自动注入，适合作为长期主力终端的起手式。</li><li><code>clink info</code>：重新打开一个 cmd.exe 后先用它验证是否真的生效。</li><li><code>clink autorun uninstall</code>：不再需要时回退到原生 cmd.exe。</li><li><code>cmd.exe</code>：Clink 只增强它；PowerShell 不会直接得到同样行为。</li></ul><pre><code class="language-cmd">REM 安装自动注入
+clink autorun install
 
-REM 查看诊断信息
-clink info</code></pre></div><div class="card"><h2>🕘 历史记录与增量搜索 <a href="https://chrisant996.github.io/clink/clink.html#saved-command-history" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">使用历史持久化、按前缀搜索与增量检索提升回放效率。</div><h3>常用按键</h3><ul><li><code>Ctrl-R</code>：反向增量搜索历史。</li><li><code>Ctrl-S</code>：正向增量搜索历史。</li><li><code>F7</code>：打开历史弹窗列表。</li><li><code>PgUp</code>：按当前前缀向后检索历史。</li><li><code>PgDn</code>：按当前前缀向前检索历史。</li></ul><h3>常用设置</h3><ul><li><code>clink set history.max_lines 25000</code>：扩大历史条目上限。</li><li><code>clink set history.dupe_mode erase_prev</code>：重复命令保留最新项。</li><li><code>clink set history.shared true</code>：多窗口共享历史。</li></ul></div><div class="card"><h2>🔎 补全机制与触发键 <a href="https://chrisant996.github.io/clink/clink.html#how-completion-works" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">区分单词补全与交互列表补全，并控制补全匹配策略。</div><ul><li><code>Tab</code>：对光标所在单词执行补全。</li><li><code>Ctrl-Space</code>：打开交互式补全列表。</li><li><code>Alt-=</code>：列出当前候选项。</li><li><code>clink set exec.enable false</code>：关闭首词可执行文件补全。</li><li><code>clink set match.substring true</code>：前缀失败后启用子串匹配。</li><li><code>clink set match.ignore_case true</code>：启用大小写不敏感匹配。</li></ul><pre><code class="language-cmd">REM 关闭首词 executable 补全
+REM 排查当前终端是否真的进入了 Clink
+clink info
+
+REM 不再需要时回退
+clink autorun uninstall</code></pre></div><div class="card"><h2>🕘 Recipe：把历史记录变成“跨窗口可回放”的命令库 <a href="https://chrisant996.github.io/clink/clink.html#saved-command-history" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">适用于你经常开多个 cmd 窗口、重复敲构建命令、需要按前缀回放老命令。重点不是保存历史，而是让历史可检索、可共享、不过度重复。</div><ul><li><code>Ctrl-R</code>：反向增量搜索历史</li><li><code>Ctrl-S</code>：正向增量搜索历史</li><li><code>F7</code>：打开历史列表</li><li><code>PgUp</code>：基于当前前缀向后检索历史</li><li><code>PgDn</code>：基于当前前缀向前检索历史</li><li><code>clink set history.shared true</code>：多窗口共享历史</li><li><code>clink set history.dupe_mode erase_prev</code>：重复命令只保留最新一条</li><li><code>clink set history.max_lines 25000</code>：扩大历史容量</li></ul><pre><code class="language-cmd">REM 适合长期开发机的历史配置
+clink set history.shared true
+clink set history.dupe_mode erase_prev
+clink set history.max_lines 25000</code></pre></div><div class="card"><h2>🔎 Recipe：把补全从“能用”调到“顺手” <a href="https://chrisant996.github.io/clink/clink.html#how-completion-works" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">当你已经有 Tab 补全，但候选太多、首词干扰太重或文件补全总在抢焦点时，用这组设置做微调。</div><ul><li><code>Tab</code>：对当前单词执行补全</li><li><code>Ctrl-Space</code>：打开交互式候选列表</li><li><code>Alt-=</code>：先看当前候选，不急着插入</li><li><code>clink set exec.enable false</code>：不想让首词总去匹配可执行文件时关闭</li><li><code>clink set match.substring true</code>：前缀没命中时再用子串匹配</li><li><code>clink set match.ignore_case true</code>：大小写不敏感</li></ul><pre><code class="language-cmd">REM 降低“首词补全过度积极”的干扰
 clink set exec.enable false
-
-REM 开启子串与忽略大小写
 clink set match.substring true
-clink set match.ignore_case true</code></pre></div><div class="card"><h2>💡 自动建议（Autosuggest） <a href="https://chrisant996.github.io/clink/clink.html#gettingstarted_autosuggest" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">基于历史和补全生成整行建议，支持按词逐段采纳。</div><ul><li><code>clink set autosuggest.enable true</code>：开启自动建议。</li><li><code>clink set autosuggest.enable false</code>：关闭自动建议。</li><li><code>clink set autosuggest.strategy &quot;match_prev_cmd history completion&quot;</code>：设置建议来源顺序。</li><li><code>clink set autosuggest.hint false</code>：关闭右侧提示文案。</li></ul><h3>采纳快捷键</h3><ul><li><code>Right</code>：插入整条建议。</li><li><code>Ctrl-Right</code>：插入建议的下一个词段。</li><li><code>Shift-Right</code>：插入建议的下一个完整词。</li><li><code>F2</code>：切换建议列表显示。</li></ul></div><div class="card"><h2>⌨️ 编辑能力与键位切换 <a href="https://chrisant996.github.io/clink/clink.html#gettingstarted_keybindings" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">提供 Readline 风格编辑命令，并支持 Bash/Windows 键位方案。</div><ul><li><code>Alt-H</code>：显示当前键位绑定表。</li><li><code>Alt-?</code>：查询某个按键绑定到的命令。</li><li><code>Ctrl-Z</code>：撤销输入编辑。</li><li><code>Alt-.</code>：插入上一条命令的最后一个参数。</li><li><code>clink set clink.default_bindings windows</code>：切换 Windows 风格键位。</li><li><code>clink set clink.default_bindings bash</code>：切换 Bash 风格键位。</li></ul></div><div class="card"><h2>⚙️ 设置系统（clink set） <a href="https://chrisant996.github.io/clink/clink.html#clinksettings" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">用 clink set 查看、修改和恢复配置项。</div><ul><li><code>clink set</code>：列出全部设置。</li><li><code>clink set &lt;name&gt;</code>：查看单项设置值。</li><li><code>clink set &lt;name&gt; &lt;value&gt;</code>：修改设置。</li><li><code>clink set &lt;name&gt; unset</code>：恢复默认。</li><li><code>clink set --help</code>：查看完整帮助。</li></ul><h3>高频设置</h3><ul><li><code>clink set clink.logo short</code>：使用短启动信息。</li><li><code>clink set clink.logo none</code>：不显示启动信息。</li><li><code>clink set clink.colorize_input false</code>：关闭输入着色。</li><li><code>clink set clink.autostart nul</code>：禁用自动启动命令。</li></ul></div><div class="card"><h2>📁 文件位置与启动脚本 <a href="https://chrisant996.github.io/clink/clink.html#filelocations" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">快速定位 profile、历史与 inputrc，便于迁移和备份。</div><ul><li><code>clink info</code>：输出 profile 目录等关键路径。</li><li><code>clink_start.cmd</code>：注入后首次提示符前自动执行。</li><li><code>%USERPROFILE%\.inputrc</code>：Readline 键位与行为配置文件。</li><li><code>settings</code> <code>.history</code>：升级迁移时的关键文件。</li></ul><pre><code class="language-cmd">REM 编辑 inputrc
-notepad %USERPROFILE%\.inputrc</code></pre></div><div class="card"><h2>🎨 颜色与输入着色 <a href="https://chrisant996.github.io/clink/clink.html#gettingstarted_colors" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">调整命令、参数、标志和建议文本的颜色表现。</div><ul><li><code>clink set clink.colorize_input true</code>：开启输入语义着色。</li><li><code>clink set color.executable &quot;bright green&quot;</code>：可执行命令颜色。</li><li><code>clink set color.arg &quot;yellow&quot;</code>：参数颜色。</li><li><code>clink set color.flag &quot;bright cyan&quot;</code>：选项颜色。</li><li><code>clink set color.unrecognized &quot;red&quot;</code>：未识别命令颜色。</li></ul></div><div class="card"><h2>🧠 Lua 扩展入口 <a href="https://chrisant996.github.io/clink/clink.html#extending-clink-with-lua" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">通过 Lua 脚本定制提示符、补全与输入行为。</div><ul><li><code>profile.lua</code>：profile 目录优先加载入口脚本。</li><li><code>*.lua</code>：按文件名顺序加载其余脚本。</li><li><code>clink set clink.path &quot;&lt;dir1&gt;;&lt;dir2&gt;&quot;</code>：增加脚本搜索路径。</li><li><code>clink reload</code>：不重启会话重载 Lua 脚本。</li></ul><pre><code class="language-lua">-- profile.lua: 最小提示符过滤示例
-local function prompt_filter(prompt)
+clink set match.ignore_case true</code></pre></div><div class="card"><h2>💡 Recipe：让自动建议更像“续写”而不是“打扰” <a href="https://chrisant996.github.io/clink/clink.html#gettingstarted_autosuggest" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">自动建议最适合高频、长命令和重复参数场景；如果建议太吵，就优先调来源顺序和提示样式，而不是马上全关。</div><ul><li><code>clink set autosuggest.enable true</code>：开启自动建议</li><li><code>clink set autosuggest.strategy &quot;match_prev_cmd history completion&quot;</code>：优先复用上一条命令上下文，再看历史和补全</li><li><code>clink set autosuggest.hint false</code>：只保留建议内容，不显示额外提示文案</li><li><code>Right</code>：接受整条建议</li><li><code>Ctrl-Right</code>：接受下一个词段</li><li><code>Shift-Right</code>：接受下一个完整单词</li><li><code>F2</code>：切换建议列表显示</li></ul><pre><code class="language-cmd">REM 保留建议能力，但尽量少打扰
+clink set autosuggest.enable true
+clink set autosuggest.strategy &quot;match_prev_cmd history completion&quot;
+clink set autosuggest.hint false</code></pre></div><div class="card"><h2>⌨️ Recipe：按自己的肌肉记忆切换编辑模式 <a href="https://chrisant996.github.io/clink/clink.html#gettingstarted_keybindings" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Clink 的高价值不只是补全，还有 Readline 风格编辑。先决定你是更接近 Windows 原生键位，还是更接近 Bash/Readline 习惯。</div><ul><li><code>clink set clink.default_bindings windows</code>：更接近 Windows 用户习惯</li><li><code>clink set clink.default_bindings bash</code>：更接近 Bash/Readline</li><li><code>Alt-H</code>：查看当前键位绑定表</li><li><code>Alt-?</code>：查询某个按键绑定到什么命令</li><li><code>Ctrl-Z</code>：撤销当前输入编辑</li><li><code>Alt-.</code>：插入上一条命令的最后一个参数</li></ul><pre><code class="language-cmd">REM 先切到熟悉的键位，再决定是否细调 inputrc
+clink set clink.default_bindings bash</code></pre></div><div class="card"><h2>⚙️ Recipe：先用 clink set 管控行为，再碰 Lua <a href="https://chrisant996.github.io/clink/clink.html#clinksettings" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">多数日常调整不需要写脚本。先通过设置项拿到 80% 的收益，只有在提示符、补全逻辑、事件处理超出设置能力时再上 Lua。</div><ul><li><code>clink set</code>：列出全部设置</li><li><code>clink set &lt;name&gt;</code>：查看单项值</li><li><code>clink set &lt;name&gt; &lt;value&gt;</code>：修改设置</li><li><code>clink set &lt;name&gt; unset</code>：回到默认值</li><li>常见起手项：</li><li><code>clink set clink.logo short</code></li><li><code>clink set clink.logo none</code></li><li><code>clink set clink.colorize_input true</code></li><li><code>clink set clink.autostart nul</code></li></ul><pre><code class="language-cmd">REM 把启动信息降噪，把输入着色打开
+clink set clink.logo short
+clink set clink.colorize_input true</code></pre></div><div class="card"><h2>📁 Recipe：定位 profile、inputrc 和启动脚本 <a href="https://chrisant996.github.io/clink/clink.html#filelocations" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">迁移环境、排查脚本冲突、备份配置时，先找落盘文件。Clink 的很多问题本质上都是“改错了文件”。</div><ul><li><code>clink info</code>：先看 profile 路径和脚本搜索目录</li><li><code>clink_start.cmd</code>：每次注入后、出现首个提示符前执行</li><li><code>%USERPROFILE%\\.inputrc</code>：Readline 风格键位与编辑行为</li><li><code>profile.lua</code>：自定义 Lua 入口，优先级高</li><li>历史与 settings 文件：升级、备份、迁移时都要一起处理</li></ul><pre><code class="language-cmd">REM 先找到配置文件，再决定改 inputrc 还是 Lua
+clink info
+notepad %USERPROFILE%\.inputrc</code></pre></div><div class="card"><h2>🧠 Recipe：做最小 Lua 定制，不要一开始就写成框架 <a href="https://chrisant996.github.io/clink/clink.html#extending-clink-with-lua" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Clink 的 Lua 层适合做提示符过滤、补全增强和少量行为注入。建议先做一个最小 `profile.lua`，确认加载链和重载链都通，再逐步扩。</div><ul><li><code>profile.lua</code>：最稳的入口文件</li><li><code>clink set clink.path &quot;&lt;dir1&gt;;&lt;dir2&gt;&quot;</code>：增加自定义脚本目录</li><li><code>clink reload</code>：修改后立即重载</li><li>自定义 prompt : 这是最常见的 Lua 使用入口</li><li>设置项能力不够时 : 再进入 Lua 层写命令级补全逻辑</li><li>输入或补全过程规则 : 需要插入行为时再进入 Lua 层</li></ul><pre><code class="language-lua">-- profile.lua：新版写法用 clink.promptfilter()
+local pf = clink.promptfilter(10)
+function pf:filter(prompt)
     return &quot;[dev] &quot; .. prompt
+end</code></pre></div><div class="card"><h2>🗂️ Recipe：把自定义 Lua scripts 接进 Clink <a href="https://chrisant996.github.io/clink/clink.html#location-of-lua-scripts" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">自定义脚本最容易踩坑的不是语法，而是“脚本到底放哪才会被加载”。这一张卡把官方支持的加载方式一次列全。</div><ul><li><code>clink.path</code>：第一优先级的脚本目录列表，多个目录用分号分隔</li><li>默认脚本目录 : 当 clink.path 没设置时，Clink 会使用 DLL 目录和 profile 目录</li><li><code>%CLINK_PATH%</code>：可以用环境变量追加脚本目录</li><li><code>clink installscripts &lt;dir&gt;</code>：把目录注册到系统级脚本搜索路径</li><li><code>clink uninstallscripts &lt;dir&gt;</code>：取消注册 installscripts 路径</li><li><code>completions\</code>：v1.3.23+ 可放按需加载的补全脚本，避免启动时全量载入</li><li><code>clink info</code>：当前会话实际扫描到哪些脚本路径，以它为准</li></ul><pre><code class="language-cmd">REM 方式 1：直接设置脚本目录
+clink set clink.path &quot;%USERPROFILE%\\clink;%USERPROFILE%\\dotfiles\\clink&quot;
+
+REM 方式 2：用环境变量追加目录
+set CLINK_PATH=%USERPROFILE%\company-clink
+
+REM 方式 3：注册系统级脚本目录
+clink installscripts &quot;D:\shared\clink-scripts&quot;
+
+REM 最终确认当前会话实际加载路径
+clink info</code></pre></div><div class="card"><h2>🧱 Recipe：组织自定义脚本目录 <a href="https://chrisant996.github.io/clink/clink.html#location-of-lua-scripts" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">目录结构越早定清楚，后面越不容易把 prompt、补全和实验脚本揉成一团。推荐把“启动即加载”和“按需补全”分开。</div><pre><code class="language-text">%USERPROFILE%\clink\
+├─ profile.lua          启动入口
+├─ prompt.lua           提示符过滤器
+├─ hooks.lua            onbeginedit / onendedit 一类事件
+├─ utils.lua            公共函数
+└─ completions\
+   ├─ git-extra.lua     仅在补全需要时加载
+   └─ mytool.lua</code></pre><ul><li><code>profile.lua</code>：作为总入口，负责 require 其他模块</li><li><code>completions\</code>：只放 argmatcher 一类补全脚本</li><li><code>utils.lua</code>：放字符串处理、路径拼接、外部命令封装</li><li>一个脚本只管一类职责 : 方便 reload 和排障</li></ul></div><div class="card"><h2>Recipe：写第一版 Lua script</h2><ul><li><code>Lua 5.2</code>：Clink 当前使用的 Lua 版本</li><li>顶层代码 : 脚本加载时立即执行</li><li>函数注册 : prompt、补全、事件这类逻辑通常先定义函数，再交给 Clink</li><li><code>require</code>：适合拆模块，但入口最好仍由 profile.lua 统一调度</li><li><code>local</code>：默认优先用 local，避免污染全局</li></ul><pre><code class="language-lua">-- profile.lua：最小可运行示例
+local M = {}
+
+local function hello()
+    print(&quot;clink script loaded&quot;)
 end
 
-clink.prompt.register_filter(prompt_filter, 10)</code></pre></div><div class="card"><h2>🧱 参数补全（Argmatcher） <a href="https://chrisant996.github.io/clink/clink.html#argument-completion" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">为命令定义子命令、参数和 flags 的上下文补全。</div><ul><li><code>clink.argmatcher(&quot;mytool&quot;)</code>：创建或获取命令补全器。</li><li><code>:addarg({...})</code>：添加位置参数候选。</li><li><code>:addflags({...})</code>：添加 flags 候选。</li><li><code>:nofiles()</code>：禁止该位置回退到文件补全。</li></ul><pre><code class="language-lua">-- 为 mytool 定义基础补全
+hello()
+
+return M</code></pre></div><div class="card"><h2>📘 Recipe：Lua 语法概要 <a href="https://chrisant996.github.io/clink/clink.html#writing-lua-scripts" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">写 Clink 脚本不需要先把 Lua 学成体系。先会变量、函数、表、字符串拼接和冒号方法调用，就能覆盖大多数定制需求。</div><ul><li><code>local x = 1</code>：定义局部变量</li><li><code>local function f()</code>：定义函数</li><li><code>{}</code>：Lua 的 table，同一套结构同时承担对象和数组角色</li><li><code>..</code>：字符串拼接</li><li><code>obj:method()</code>：冒号调用，会自动传 self</li><li><code>if ... then ... end</code>：条件判断</li><li><code>for _, v in ipairs(t) do</code>：遍历顺序数组</li></ul><pre><code class="language-lua">local colors = {
+    ok = &quot;\x1b[92m&quot;,
+    reset = &quot;\x1b[m&quot;,
+}
+
+local function add_prefix(text)
+    return colors.ok .. &quot;[ok] &quot; .. colors.reset .. text
+end</code></pre></div><div class="card"><h2>🔄 Recipe：重载脚本与调试迭代 <a href="https://chrisant996.github.io/clink/clink.html#customisingtheprompt" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">写 Clink 脚本时，最重要的工作流不是“写很多”，而是“改一点，立刻 reload 验证”。官方支持按键和 API 两种重载方式。</div><ul><li><code>Ctrl-x Ctrl-r</code>：默认触发 clink-reload，重载配置和 Lua scripts</li><li><code>clink reload</code>：命令行里主动重载</li><li><code>clink.reload()</code>：在脚本或命令里主动触发 reload</li><li>新开一个 Clink 会话 : 最保守的全量验证方式</li><li><code>clink info</code>：reload 后再次确认脚本路径和 profile 是否正确</li></ul><pre><code class="language-cmd">REM 外层工作流：改脚本 -&gt; 重载 -&gt; 验证
+notepad D:\clink\profile.lua
+clink reload
+clink info</code></pre><pre><code class="language-lua">-- 某些场景下也可以在脚本里主动要求重载
+clink.reload()</code></pre></div><div class="card"><h2>🧰 Recipe：常用脚本接口先记这些 <a href="https://chrisant996.github.io/clink/clink.html#lua-api-reference" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">先掌握这几类接口就够写出大多数实用脚本。顺序建议是 promptfilter -&gt; 生命周期事件 -&gt; argmatcher -&gt; Lua 标准库。</div><ul><li><code>clink.promptfilter()</code>：注册新版 prompt 过滤器</li><li><code>clink.onbeginedit()</code>：每次进入输入编辑前触发</li><li><code>clink.onendedit()</code>：每次结束输入编辑后触发</li><li><code>clink.argmatcher()</code>：给命令挂自定义补全</li><li><code>clink.reload()</code>：触发重载</li><li><code>os.getcwd()</code>：获取当前目录</li><li><code>os.getenv()</code>：读取环境变量</li><li><code>io.popen()</code>：调外部命令并读输出</li></ul><pre><code class="language-lua">local pf = clink.promptfilter(30)
+function pf:filter(prompt)
+    return os.getcwd() .. &quot; &gt; &quot;
+end
+
+local function before_edit()
+    -- 这里适合做轻量初始化
+end
+
+clink.onbeginedit(before_edit)</code></pre></div><div class="card"><h2>🛣️ Recipe：按场景选加载方式 <a href="https://chrisant996.github.io/clink/clink.html#location-of-lua-scripts" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">同样是“让脚本生效”，不同入口适合的场景不一样。按下面的决策规则选，后面维护成本会低很多。</div><ul><li><code>profile.lua</code>：你自己的主入口，最适合个人长期配置</li><li><code>clink.path</code>：需要精确控制脚本目录优先级时选它</li><li><code>%CLINK_PATH%</code>：适合临时注入或跟随外部环境切换</li><li><code>clink installscripts</code>：适合包管理器、团队共享脚本、系统级注册</li><li><code>completions\</code>：只想按需加载补全，不想拖慢启动时选它</li><li>一个仓库多个脚本目录 : 先统一由 profile.lua 接管，再逐步拆分</li></ul></div><div class="card"><h2>🧱 Recipe：给自家命令补全，优先写 argmatcher <a href="https://chrisant996.github.io/clink/clink.html#argument-completion" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">如果只是想让内部工具、脚本命令、子命令和 flags 变得可补全，不要一上来写复杂解析器；先用 argmatcher 把主路径铺平。</div><ul><li><code>clink.argmatcher(&quot;mytool&quot;)</code>：获取某个命令的补全器</li><li><code>:addarg({...})</code>：添加位置参数候选</li><li><code>:addflags({...})</code>：添加 flag 候选</li><li><code>:nofiles()</code>：禁止当前位置退回文件补全</li><li>公司内部 CLI : 很适合先用 argmatcher 起一版</li><li>多子命令脚本 : 能快速把主路径铺平</li><li>固定枚举参数工具 : 最省成本</li></ul><pre><code class="language-lua">-- 为 mytool 建一个够用的第一版补全
 local m = clink.argmatcher(&quot;mytool&quot;)
 
-m:addflags(&quot;--help&quot;, &quot;--verbose&quot;)
-m:addarg({ &quot;start&quot;, &quot;stop&quot;, &quot;status&quot; })</code></pre></div><div class="card"><h2>🛠️ 调试与诊断 <a href="https://chrisant996.github.io/clink/clink.html#debugging-lua-scripts" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">在脚本报错、补全异常或行为不符预期时快速定位问题。</div><ul><li><code>clink set lua.debug true</code>：启用 Lua 调试器。</li><li><code>clink set lua.break_on_error true</code>：报错时自动中断。</li><li><code>pause()</code>：在 Lua 脚本里主动打断点。</li><li><code>clink set cmd.get_errorlevel false</code>：兼容性问题时可临时关闭隐式 errorlevel 获取。</li></ul><pre><code class="language-lua">-- 调试断点示例
-pause()</code></pre></div><div class="card"><h2>🚧 常见问题 <a href="https://chrisant996.github.io/clink/clink.html#upgradefrom049" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">快速处理键位差异、历史迁移与自动建议干扰。</div><ul><li><code>clink set clink.default_bindings windows</code>：Tab 行为不符合预期时先检查键位方案。</li><li><code>clink info</code>：升级后历史缺失时先核对 profile 路径。</li><li><code>clink set autosuggest.enable false</code>：自动建议干扰输入时可先关闭。</li><li><code>clink set clink.colorize_input true</code>：输入未着色时确认总开关。</li></ul></div>
+m:addflags(&quot;--help&quot;, &quot;--verbose&quot;, &quot;--json&quot;)
+m:addarg({ &quot;start&quot;, &quot;stop&quot;, &quot;status&quot;, &quot;doctor&quot; })</code></pre></div><div class="card"><h2>🛠️ Recipe：脚本和补全出了问题，按这个顺序诊断 <a href="https://chrisant996.github.io/clink/clink.html#debugging-lua-scripts" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Lua 侧问题最怕“脚本有没有加载、补全在哪一层被覆盖、错误是不是被吞了”这三件事分不清。诊断时按固定顺序走，效率最高。</div><ul><li>先用 clink info 确认当前 profile 和脚本目录</li><li>再执行 clink reload 触发一次完整重载</li><li>然后打开 clink set lua.debug true</li><li>报错时再打开 clink set lua.break_on_error true</li><li>在怀疑位置插入 pause() 断点</li><li>遇到兼容问题时，再试 clink set cmd.get_errorlevel false</li></ul><pre><code class="language-lua">-- 临时断点：确认脚本是否执行到这里
+pause()</code></pre></div><div class="card"><h2>🚧 常见决策与坑 <a href="https://chrisant996.github.io/clink/clink.html#upgradefrom049" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Cookbook 模式下最该记的是判断规则，而不是零散参数。下面这些判断点决定你该改设置、改键位，还是改脚本。</div><ul><li>Tab 行为不对时，先检查 clink.default_bindings</li><li>历史没有共享时，先检查 history.shared</li><li>自动建议太烦时，先调 autosuggest.strategy</li><li>不想看提示文案时，再调 autosuggest.hint</li><li>输入没有着色时，先检查 clink.colorize_input</li><li>升级后行为突变时，优先核对 profile.lua</li><li>键位异常或编辑行为异常时，优先核对 .inputrc</li><li>在线文档页头仍可能显示旧版本号，版本字段以 GitHub release v1.9.17 为准</li></ul></div>
     </div>
   </div>
 

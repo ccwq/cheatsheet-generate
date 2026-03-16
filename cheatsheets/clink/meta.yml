@@ -1,4 +1,4 @@
-desc: Clink 为 cmd.exe 提供 Readline 风格编辑、补全、历史和 Lua 扩展能力。
+desc: Clink Cookbook，面向 cmd.exe 的场景化工作流速查，覆盖注入、历史、补全、自动建议、键位和 Lua 扩展。
 tags:
   - CLI 工具
   - 学习 / 入门
@@ -6,4 +6,4 @@ tags:
   - 开发
 version: v1.9.17
 github: chrisant996/clink
-date: "2025-11-18"
+date: "2026-02-24"
