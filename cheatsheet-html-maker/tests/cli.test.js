@@ -97,6 +97,7 @@ test('CLI: 同目录 meta.yml 可兜底填充页面元信息', async () => {
   assert.ok(html.includes('<span class="meta-value">3.2.1</span>'))
   assert.ok(html.includes('<span class="meta-value">2026-03-05</span>'))
   assert.ok(html.includes('href="https://github.com/owner/repo"'))
+  assert.ok(html.includes('href="https://zread.ai/owner/repo"'))
 })
 
 test('asset base: output 在项目内时根据层级计算相对 assets 路径', () => {

@@ -132,6 +132,14 @@ function githubHref(github) {
   return ''
 }
 
+function zreadHref(github) {
+  const value = String(github || '').trim()
+  if (/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(value)) {
+    return `https://zread.ai/${value}`
+  }
+  return ''
+}
+
 export function renderCards(model) {
   return model.cards.map((card) => renderCard(card)).join('')
 }
@@ -143,9 +151,13 @@ export function renderDocument(model, templateHtml) {
   const metaDate = escapeHtml(model.meta?.date || 'unknown')
   const metaGithub = escapeHtml(model.meta?.github || 'unknown')
   const githubUrl = githubHref(model.meta?.github || '')
+  const zreadUrl = zreadHref(model.meta?.github || '')
   const githubHtml = githubUrl
     ? `<a class="meta-link" href="${escapeHtml(githubUrl)}" target="_blank" rel="noopener">${metaGithub}</a>`
     : metaGithub
+  const zreadHtml = zreadUrl
+    ? `<a class="meta-link" href="${escapeHtml(zreadUrl)}" target="_blank" rel="noopener">打开 Zread</a>`
+    : 'unknown'
   const cardsHtml = renderCards(model)
   const metaTags = Array.isArray(model.meta?.tags) ? model.meta.tags : []
   const metaTagsHtml = metaTags.length > 0
@@ -160,6 +172,7 @@ export function renderDocument(model, templateHtml) {
     .replace('<!-- META_VERSION -->', metaVersion)
     .replace('<!-- META_DATE -->', metaDate)
     .replace('<!-- META_GITHUB -->', githubHtml)
+    .replace('<!-- META_ZREAD -->', zreadHtml)
     .replace('<!-- META_TAGS -->', metaTagsHtml)
     .replace('<!-- CHEATSHEET_CONTENT -->', cardsHtml)
     .replace('<!-- CHEATSHEET_CONTENT -->', cardsHtml)

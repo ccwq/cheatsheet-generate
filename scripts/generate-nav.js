@@ -19,6 +19,20 @@ const { createTagIconResolver } = require('./tag-icon-utils.cjs');
 const ROOTS = ['cheatsheets'];
 const TEMPLATE_PATH = path.join(process.cwd(), 'templates', 'nav.template.html');
 const OUTPUT_PATH = path.join(process.cwd(), 'index.html');
+
+function isGithubOwnerRepo(value) {
+  return /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(String(value || '').trim());
+}
+
+function githubHref(value) {
+  const github = String(value || '').trim();
+  return isGithubOwnerRepo(github) ? `https://github.com/${github}` : '';
+}
+
+function zreadHref(value) {
+  const github = String(value || '').trim();
+  return isGithubOwnerRepo(github) ? `https://zread.ai/${github}` : '';
+}
 /**
  * 读取文件是否存在
  */
@@ -187,7 +201,8 @@ function renderItems(items, tagRenderer) {
       : '';
     const dateText = date || '';
     const githubText = github || '';
-    const githubHref = githubText && githubText !== 'unknown' ? `https://github.com/${githubText}` : '';
+    const githubUrl = githubHref(githubText);
+    const zreadUrl = zreadHref(githubText);
     
     // 渲染卡片底部的标签 HTML
     const tagsHtml = it.tags && it.tags.length > 0 
@@ -199,8 +214,11 @@ function renderItems(items, tagRenderer) {
     if (dateText) metaParts.push(`<span class="meta-chip">更新日志 <b>${he.encode(dateText)}</b></span>`);
     if (githubText) {
       const gh = he.encode(githubText);
-      const ghHtml = githubHref ? `<a class="meta-link" href="${githubHref}" target="_blank" rel="noopener">${gh}</a>` : `<span>${gh}</span>`;
+      const ghHtml = githubUrl ? `<a class="meta-link" href="${githubUrl}" target="_blank" rel="noopener">${gh}</a>` : `<span>${gh}</span>`;
       metaParts.push(`<span class="meta-chip">GitHub ${ghHtml}</span>`);
+    }
+    if (zreadUrl) {
+      metaParts.push(`<span class="meta-chip">Zread <a class="meta-link" href="${zreadUrl}" target="_blank" rel="noopener">打开</a></span>`);
     }
     const metaHtml = metaParts.length ? `<div class="card-meta">${metaParts.join('')}</div>` : '';
 
@@ -272,7 +290,16 @@ async function main() {
   console.log(`共收集到 ${items.length} 个 cheatsheet, ${tagData.length} 个标签`);
 }
 
-main().catch(err => {
-  console.error('[generate-nav] 失败:', err);
-  process.exit(1);
-});
+if (require.main === module) {
+  main().catch(err => {
+    console.error('[generate-nav] 失败:', err);
+    process.exit(1);
+  });
+}
+
+module.exports = {
+  attachRecencyMeta,
+  githubHref,
+  renderItems,
+  zreadHref,
+};
