@@ -1,0 +1,11 @@
+desc: 面向 Claude Code、Codex、Cursor、Gemini CLI 等多助手的 UI/UX 设计技能与安装器 cookbook，覆盖 CLI 安装、调用入口、design system 检索与多平台落地流程。
+tags:
+  - AI / LLM
+  - CLI 工具
+  - AI 辅助工具
+  - 自动化工具
+  - 规范 / 流程
+  - 命令行
+version: 2.5.0
+github: nextlevelbuilder/ui-ux-pro-max-skill
+date: "2026-03-10"

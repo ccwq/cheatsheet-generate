@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>UI UX Pro Max Cookbook</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png">
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 500px; 
+      --gap: 16px;
+    }
+
+    .panel label {
+      color: var(--panel-accent);
+    }
+
+    .panel .title {
+      color: var(--panel-accent);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-link);
+      text-decoration: none;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .home-link:hover {
+      text-decoration: underline;
+    }
+
+    .home-link svg {
+      width: 16px;
+      height: 16px;
+      flex: none;
+    }
+
+    .card pre,
+    .card pre code[class^="language-"] {
+      font-size: 13px;
+      line-height: 1.2;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .card h2 {
+      font-size: 16px;
+    }
+
+    .card,
+    .card li,
+    .desc {
+      font-size: 14px;
+      line-height: 1.2;
+    }
+
+    .meta-link {
+      color: var(--text-link);
+    }
+
+    .meta-link:hover {
+      text-decoration: underline;
+    }
+
+    .meta-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
+      <span class="title">UI UX Pro Max Cookbook</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label">版本</span><span class="meta-value">2.5.0</span></span>
+        <span class="meta-item"><span class="meta-label">更新日志</span><span class="meta-value">2026-03-10</span></span>
+        <span class="meta-item"><span class="meta-label">GitHub</span><span class="meta-value"><a class="meta-link" href="https://github.com/nextlevelbuilder/ui-ux-pro-max-skill" target="_blank" rel="noopener">nextlevelbuilder/ui-ux-pro-max-skill</a></span></span>
+      </div>
+      <div class="meta-tags"><tag-chip class="tag tag-group-1 detail-tag" data-name="AI / LLM" data-group="1" label="AI / LLM" group="1" variant="detail" icon="mdi:brain" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M21.33 12.91c.09 1.55-.62 3.04-1.89 3.95l.77 1.49c.23.45.26.98.06 1.45c-.19.47-.58.84-1.06 1l-.79.25a1.69 1.69 0 0 1-1.86-.55L14.44 18c-.89-.15-1.73-.53-2.44-1.1c-.5.15-1 .23-1.5.23c-.88 0-1.76-.27-2.5-.79c-.53.16-1.07.23-1.62.22c-.79.01-1.57-.15-2.3-.45a4.1 4.1 0 0 1-2.43-3.61c-.08-.72.04-1.45.35-2.11c-.29-.75-.32-1.57-.07-2.33C2.3 7.11 3 6.32 3.87 5.82c.58-1.69 2.21-2.82 4-2.7c1.6-1.5 4.05-1.66 5.83-.37c.42-.11.86-.17 1.3-.17c1.36-.03 2.65.57 3.5 1.64c2.04.53 3.5 2.35 3.58 4.47c.05 1.11-.25 2.2-.86 3.13c.07.36.11.72.11 1.09m-5-1.41c.57.07 1.02.5 1.02 1.07a1 1 0 0 1-1 1h-.63c-.32.9-.88 1.69-1.62 2.29c.25.09.51.14.77.21c5.13-.07 4.53-3.2 4.53-3.25a2.59 2.59 0 0 0-2.69-2.49a1 1 0 0 1-1-1a1 1 0 0 1 1-1c1.23.03 2.41.49 3.33 1.3c.05-.29.08-.59.08-.89c-.06-1.24-.62-2.32-2.87-2.53c-1.25-2.96-4.4-1.32-4.4-.4c-.03.23.21.72.25.75a1 1 0 0 1 1 1c0 .55-.45 1-1 1c-.53-.02-1.03-.22-1.43-.56c-.48.31-1.03.5-1.6.56c-.57.05-1.04-.35-1.07-.9a.97.97 0 0 1 .88-1.1c.16-.02.94-.14.94-.77c0-.66.25-1.29.68-1.79c-.92-.25-1.91.08-2.91 1.29C6.75 5 6 5.25 5.45 7.2C4.5 7.67 4 8 3.78 9c1.08-.22 2.19-.13 3.22.25c.5.19.78.75.59 1.29c-.19.52-.77.78-1.29.59c-.73-.32-1.55-.34-2.3-.06c-.32.27-.32.83-.32 1.27c0 .74.37 1.43 1 1.83c.53.27 1.12.41 1.71.4q-.225-.39-.39-.81a1.038 1.038 0 0 1 1.96-.68c.4 1.14 1.42 1.92 2.62 2.05c1.37-.07 2.59-.88 3.19-2.13c.23-1.38 1.34-1.5 2.56-1.5m2 7.47l-.62-1.3l-.71.16l1 1.25zm-4.65-8.61a1 1 0 0 0-.91-1.03c-.71-.04-1.4.2-1.93.67c-.57.58-.87 1.38-.84 2.19a1 1 0 0 0 1 1c.57 0 1-.45 1-1c0-.27.07-.54.23-.76c.12-.1.27-.15.43-.15c.55.03 1.02-.38 1.02-.92&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="CLI 工具" data-group="2" label="CLI 工具" group="2" variant="detail" icon="mdi:console-network-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M15 20a1 1 0 0 0-1-1h-1v-2h4a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4v2h-1a1 1 0 0 0-1 1H2v2h7a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1h7v-2zm-8-5V5h10v10zm1-8.11l3.56 3.56L8 14h2.53l2.92-2.92c.33-.34.33-.9 0-1.26L10.5 6.89zm8 5.33h-2.67V14H16z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="AI 辅助工具" data-group="2" label="AI 辅助工具" group="2" variant="detail" icon="mdi:robot-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M17.5 15.5c0 1.11-.89 2-2 2s-2-.89-2-2s.9-2 2-2s2 .9 2 2m-9-2c-1.1 0-2 .9-2 2s.9 2 2 2s2-.89 2-2s-.89-2-2-2M23 15v3c0 .55-.45 1-1 1h-1v1c0 1.11-.89 2-2 2H5a2 2 0 0 1-2-2v-1H2c-.55 0-1-.45-1-1v-3c0-.55.45-1 1-1h1c0-3.87 3.13-7 7-7h1V5.73c-.6-.34-1-.99-1-1.73c0-1.1.9-2 2-2s2 .9 2 2c0 .74-.4 1.39-1 1.73V7h1c3.87 0 7 3.13 7 7h1c.55 0 1 .45 1 1m-2 1h-2v-2c0-2.76-2.24-5-5-5h-4c-2.76 0-5 2.24-5 5v2H3v1h2v3h14v-3h2z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="自动化工具" data-group="2" label="自动化工具" group="2" variant="detail" icon="mdi:robot" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5A2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5a2.5 2.5 0 0 0 2.5 2.5a2.5 2.5 0 0 0 2.5-2.5a2.5 2.5 0 0 0-2.5-2.5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-3 detail-tag" data-name="规范 / 流程" data-group="3" label="规范 / 流程" group="3" variant="detail" icon="mdi:clipboard-check-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m-7 0a1 1 0 0 1 1 1a1 1 0 0 1-1 1a1 1 0 0 1-1-1a1 1 0 0 1 1-1M7 7h10V5h2v14H5V5h2zm.5 6.5L9 12l2 2l4.5-4.5L17 11l-6 6z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-4 detail-tag" data-name="命令行" data-group="4" label="命令行" group="4" variant="detail" icon="mdi:console" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M20 19V7H4v12zm0-16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-7 14v-2h5v2zm-3.42-4L5.57 9H8.4l3.3 3.3c.39.39.39 1.03 0 1.42L8.42 17H5.59z&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>入口与定位 <a href="https://github.com/nextlevelbuilder/ui-ux-pro-max-skill" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">UI UX Pro Max 不是单一的“提示词包”，而是一套面向多种 AI 编码助手的 UI/UX 设计增强技能。主入口有两个：直接用 `uipro-cli` 给目标助手装好模板与资产，或在 Claude Code 里走 marketplace 安装。</div><ul><li><code>uipro init --ai &lt;assistant&gt;</code>：给指定助手安装技能与模板</li><li><code>/plugin marketplace add ...</code>：Claude Code 的 marketplace 路径</li><li>自动触发模式：Claude Code、Cursor、Windsurf、Codex、Gemini CLI、OpenCode 等</li><li>Slash 命令模式：Kiro、GitHub Copilot、Roo Code</li><li><code>search.py</code>：直接跑  CODE  生成 design system、做 domain / stack 定向检索</li></ul><pre><code class="language-bash"># 最小起手式
+npm install -g uipro-cli
+uipro init --ai codex</code></pre></div><div class="card"><h2>安装通道怎么选 <a href="https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/blob/main/cli/README.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">真正影响效率的不是“记住所有命令”，而是先选对安装通道。大多数场景优先 CLI；只有 Claude Code 且明确要走商店时，才切到 marketplace。</div><h3>Recipe 1：给单个助手装技能</h3><ul><li>何时用：你只在一个助手里长期使用 UI UX Pro Max</li><li><code>全局安装 CLI -&gt; init</code>： CODE </li></ul><pre><code class="language-bash">npm install -g uipro-cli
+uipro init --ai claude
+uipro init --ai cursor
+uipro init --ai codex
+uipro init --ai gemini</code></pre><ul><li>前置条件：本机已有 Node.js，目标项目目录就是你要装技能的位置</li><li><code>uipro init</code>：在错误目录执行  CODE ，会把模板落到不想要的项目里</li></ul><h3>Recipe 2：Claude Code 直接走 Marketplace</h3><ul><li>何时用：你就是 Claude Code 用户，而且希望沿用 marketplace 生命周期</li><li><code>marketplace add -&gt; plugin install</code>： CODE </li></ul><pre><code class="language-bash">/plugin marketplace add nextlevelbuilder/ui-ux-pro-max-skill
+/plugin install ui-ux-pro-max@ui-ux-pro-max-skill</code></pre><ul><li>前置条件：当前环境支持 Claude marketplace</li><li><code>uipro-cli</code>：这条路径只覆盖 Claude Code；要兼容其他助手，还是回到  CODE </li></ul><h3>Recipe 3：一次装到多个助手</h3><ul><li>何时用：你在同一个仓库里经常切换 Claude / Codex / Cursor / Gemini 等助手</li><li><code>init --ai all</code>： CODE </li></ul><pre><code class="language-bash">uipro init --ai all</code></pre><ul><li>前置条件：你接受仓库里同时出现多种助手约定目录</li><li>常见坑：仓库越杂，后续维护越重；团队项目通常只给真实在用的助手落模板</li></ul><h3>Recipe 4：网络不稳定时离线安装</h3><ul><li>何时用：拉 GitHub release 容易超时，或你想强制只用 CLI 自带资产</li><li><code>init --offline</code>： CODE </li></ul><pre><code class="language-bash">uipro init --ai codex --offline
+uipro init --ai continue --offline</code></pre><ul><li><code>uipro-cli</code>： CODE  已安装完成</li><li><code>--offline</code>： CODE  用的是 CLI 包内置资产，不一定是仓库的最新 release</li></ul></div><div class="card"><h2>仓库骨架与模块分工 <a href="https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/blob/main/CLAUDE.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这个项目的重点不是“一个 SKILL.md 文件”，而是把数据、检索脚本、模板和安装器拆成独立层。理解这层分工，改模板、查问题、做二次开发都会快很多。</div><pre><code class="language-text">ui-ux-pro-max-skill/
+├─ src/ui-ux-pro-max/
+│  ├─ data/         产品类型、配色、字体、图表、UX 规则数据库
+│  ├─ scripts/      search.py、core.py、design_system.py
+│  └─ templates/    各助手安装模板
+├─ cli/             uipro-cli 安装器与打包资产
+├─ .claude/         Claude 本地开发/测试入口
+├─ .claude-plugin/  Claude Marketplace 发布配置
+└─ README.md        安装入口、支持平台、使用模式</code></pre><ul><li><code>src/ui-ux-pro-max/</code>：事实源，改内容优先改这里</li><li><code>cli/</code>：负责把模板与资源生成到不同助手目录</li><li><code>data/ + scripts/</code>：负责“搜索推荐”和“design system 推理”</li><li><code>templates/</code>：负责不同助手最终拿到什么文件结构</li></ul></div><div class="card"><h2>起手工作流</h2><div class="desc">大多数真实任务都不需要你先研究全部资源。正确做法是先装好，再按“自动触发 or slash command”选调用入口，最后才进入 design system 生成或 stack 定向检索。</div><pre><code class="language-bash"># 1. 安装 CLI
+npm install -g uipro-cli
+
+# 2. 装到目标助手
+uipro init --ai codex
+
+# 3. 正常提需求，交给技能自动触发
+Build a landing page for my SaaS product</code></pre><ul><li>自动触发助手：Claude Code、Cursor、Windsurf、Antigravity、Codex CLI、Continue、Gemini CLI、OpenCode、Qoder、CodeBuddy、Droid</li><li>Slash 命令助手：Kiro、GitHub Copilot、Roo Code</li><li>Trae：需要先切到 SOLO 模式，再发 UI/UX 任务</li></ul><pre><code class="language-bash"># Slash 命令类助手的最小入口
+/ui-ux-pro-max Build a landing page for my SaaS product</code></pre></div><div class="card"><h2>高频 Recipes</h2><div class="desc">下面这些 recipe 覆盖“不同助手如何装、如何调用、如何进阶到设计系统生成”三条主线。对这个主题来说，场景组合比字段列表更重要。</div><h3>Recipe 1：给 Codex CLI 装可自动触发的 UI/UX 技能</h3><ul><li>何时用：你主要在 Codex CLI 里做页面、组件、Dashboard、落地页</li><li><code>npm install -g -&gt; uipro init --ai codex</code>： CODE </li></ul><pre><code class="language-bash">npm install -g uipro-cli
+uipro init --ai codex</code></pre><ul><li>前置条件：当前项目允许写入对应助手目录</li><li>常见坑：装完之后仍把它当普通代码助手用，没在需求里明确页面类型、品牌气质、栈和约束</li></ul><h3>Recipe 2：给 Continue / Gemini / OpenCode 统一铺模板</h3><ul><li>何时用：团队会轮换不同终端助手，但想复用同一套 UI/UX 技能资产</li><li><code>重复 init</code>： CODE </li></ul><pre><code class="language-bash">uipro init --ai continue
+uipro init --ai gemini
+uipro init --ai opencode</code></pre><ul><li>前置条件：仓库允许存在多套助手目录</li><li>常见坑：忘了记录“哪个助手用自动触发，哪个助手要 slash command”，导致看起来像“安装没成功”</li></ul><h3>Recipe 3：先查版本，再决定要不要升级</h3><ul><li>何时用：你怀疑本地模板老了，或想确认当前 CLI 能装到哪个 release</li><li><code>versions -&gt; update</code>： CODE </li></ul><pre><code class="language-bash">uipro versions
+uipro update</code></pre><ul><li>前置条件：机器能访问 npm / GitHub</li><li><code>init</code>：只更新 CLI，不重新在项目里执行  CODE ，结果仓库里的模板还是旧的</li></ul><h3>Recipe 4：直接调用 design system 生成器</h3><ul><li>何时用：你不是只想“启用技能”，而是要单独产出配色、字体、版式与反模式建议</li><li><code>python3 search.py --design-system</code>： CODE </li></ul><pre><code class="language-bash">python3 .claude/skills/ui-ux-pro-max/scripts/search.py &quot;beauty spa wellness&quot; --design-system -p &quot;Serenity Spa&quot;
+python3 .claude/skills/ui-ux-pro-max/scripts/search.py &quot;fintech banking&quot; --design-system -f markdown</code></pre><ul><li>前置条件：Python 3.x 可用</li><li><code>.claude/skills/</code> <code>.continue/skills/</code>：脚本路径依赖助手目录；如果你装的是 Continue，要把  CODE  换成  CODE </li></ul><h3>Recipe 5：只查某一类设计知识，不跑整套推荐</h3><ul><li>何时用：你只缺样式、字体、图表或某个栈的约束</li><li><code>search.py + --domain / --stack</code>： CODE </li></ul><pre><code class="language-bash">python3 src/ui-ux-pro-max/scripts/search.py &quot;glassmorphism&quot; --domain style
+python3 src/ui-ux-pro-max/scripts/search.py &quot;elegant serif&quot; --domain typography
+python3 src/ui-ux-pro-max/scripts/search.py &quot;dashboard&quot; --domain chart
+python3 src/ui-ux-pro-max/scripts/search.py &quot;responsive layout&quot; --stack html-tailwind
+python3 src/ui-ux-pro-max/scripts/search.py &quot;form validation&quot; --stack react</code></pre><ul><li>前置条件：你知道自己是在查风格、排版、图表还是栈规则</li><li>常见坑：问题太宽，只写“make it better”，检索价值会明显下降</li></ul></div><div class="card"><h2>助手差异与触发方式</h2><div class="desc">安装成功不代表调用方式一样。这个项目把助手分成“自动激活型”和“slash 命令型”两类，判断错了，体验会像技能失灵。</div><ul><li>自动激活型：Claude Code、Cursor、Windsurf、Antigravity、Codex CLI、Continue、Gemini CLI、OpenCode、Qoder、CodeBuddy、Droid</li><li>Slash 命令型：Kiro、GitHub Copilot、Roo Code</li><li>Trae：先切 SOLO，再按自动触发使用</li><li>Claude Code 特例：既能用 CLI 安装，也能走 marketplace</li></ul><pre><code class="language-text">自动激活型：直接描述 UI/UX 任务
+Slash 命令型：先写 /ui-ux-pro-max，再写任务</code></pre></div><div class="card"><h2>Design System 持久化套路</h2><div class="desc">如果项目会反复做多个页面，最值得保留的不是一次生成的代码，而是 `MASTER + page overrides` 这套设计系统文件。它能把后续会话拉回同一视觉基线。</div><pre><code class="language-bash"># 生成全局设计系统
+python3 .claude/skills/ui-ux-pro-max/scripts/search.py &quot;SaaS dashboard&quot; --design-system --persist -p &quot;MyApp&quot;
+
+# 为具体页面生成覆盖规则
+python3 .claude/skills/ui-ux-pro-max/scripts/search.py &quot;SaaS dashboard&quot; --design-system --persist -p &quot;MyApp&quot; --page &quot;dashboard&quot;</code></pre><pre><code class="language-text">design-system/
+├─ MASTER.md
+└─ pages/
+   └─ dashboard.md</code></pre><ul><li><code>MASTER.md</code>：全局设计原则、颜色、字体、组件基线</li><li><code>pages/&lt;name&gt;.md</code>：只写偏离全局基线的局部覆盖</li><li>取用顺序：先读页面 override，再回退到 Master</li></ul></div><div class="card"><h2>风险、成本与决策规则</h2><div class="desc">这类跨助手技能最容易踩的坑，不是命令写错，而是入口判断错、版本认错、目录认错。先把这三个问题控住，后面的安装与调用基本都稳定。</div><ul><li><code>uipro-cli</code></li><li>只有 Claude Code 且明确要走商店时，再用 marketplace</li><li><code>--offline</code></li><li><code>uipro update</code> <code>uipro init</code></li><li><code>search.py</code></li><li>多助手共存时，控制好仓库噪音，只保留真实在用平台</li></ul><pre><code class="language-bash"># 常用维护动作
+uipro versions
+uipro update
+uipro init --ai codex --force
+uipro init --ai codex --offline</code></pre></div>
+    </div>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>
