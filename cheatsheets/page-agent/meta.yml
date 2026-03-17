@@ -1,0 +1,11 @@
+desc: 面向 Page Agent 的 cookbook 风格速查表，覆盖页面内 GUI agent 的接入方式、SaaS Copilot recipe、表单自动化、多页面扩展与风控调优。
+tags:
+  - Web 前端
+  - JavaScript
+  - AI / LLM
+  - 自动化工具
+  - AI 辅助工具
+  - 库 / SDK
+version: 1.5.8
+github: alibaba/page-agent
+date: "2026-03-16"
