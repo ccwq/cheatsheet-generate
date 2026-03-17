@@ -1,6 +1,7 @@
 import { unified } from 'unified'
 import remarkParse from 'remark-parse'
 import remarkFrontmatter from 'remark-frontmatter'
+import remarkGfm from 'remark-gfm'
 import yaml from 'js-yaml'
 
 /**
@@ -20,14 +21,14 @@ import yaml from 'js-yaml'
  * @property {string} link
  * @property {string} desc
  * @property {string} lang
- * @property {Array<EntryModel|InlineCodeModel|CodeBlockModel|SetModel|ListModel|DescModel>} items
+ * @property {Array<EntryModel|InlineCodeModel|CodeBlockModel|SetModel|ListModel|DescModel|TableModel>} items
  */
 
 /**
  * @typedef {object} SetModel
  * @property {'set'} type
  * @property {string} title
- * @property {Array<EntryModel|InlineCodeModel|CodeBlockModel|ListModel|DescModel>} items
+ * @property {Array<EntryModel|InlineCodeModel|CodeBlockModel|ListModel|DescModel|TableModel>} items
  */
 
 /**
@@ -74,6 +75,19 @@ import yaml from 'js-yaml'
  * @property {'codeBlock'} type
  * @property {string} code
  * @property {string} lang
+ */
+
+/**
+ * @typedef {object} TableModel
+ * @property {'table'} type
+ * @property {(string|null)[]} align
+ * @property {TableRowModel[]} rows
+ */
+
+/**
+ * @typedef {object} TableRowModel
+ * @property {boolean} header
+ * @property {string[]} cells
  */
 
 const DEFAULT_LANG = 'bash'
@@ -257,6 +271,10 @@ function normalizeListItemText(text) {
   return String(text || '').replace(/\s+/g, ' ').trim()
 }
 
+function stripCodePlaceholders(text) {
+  return String(text || '').replace(/\x00CODE\x00/g, '').replace(/\s+/g, ' ').trim()
+}
+
 function parseListItem(itemNode, currentLang) {
   const result = {
     variant: 'text',
@@ -287,7 +305,7 @@ function parseListItem(itemNode, currentLang) {
       const fullText = parts.join('')
       // 提取冒号后的描述
       const colonMatch = fullText.match(/[:：]\s*(.+)$/)
-      const description = colonMatch ? normalizeListItemText(colonMatch[1]) : ''
+      const description = colonMatch ? stripCodePlaceholders(colonMatch[1]) : ''
 
       result.variant = 'code-desc'
       result.codes = inlineCodes.map((c) => c.trim())
@@ -345,7 +363,7 @@ function pushEntryFromListItem(itemNode, currentLang, output) {
       }
       const fullText = parts.join('')
       const colonMatch = fullText.match(/[:：]\s*(.+)$/)
-      const description = colonMatch ? colonMatch[1].trim() : ''
+      const description = colonMatch ? stripCodePlaceholders(colonMatch[1]) : ''
 
       output.push({
         type: 'entry',
@@ -379,7 +397,7 @@ export function parseCheatsheetMarkdown(markdown) {
   const documentLang = normalizeLang(frontmatter.lang, DEFAULT_LANG)
   const { body: normalizedBody, metaByCardIndex } = extractCardMetaBlocks(body)
 
-  const processor = unified().use(remarkParse).use(remarkFrontmatter, ['yaml'])
+  const processor = unified().use(remarkParse).use(remarkFrontmatter, ['yaml']).use(remarkGfm)
   const tree = processor.parse(normalizedBody)
   const nodes = Array.isArray(tree.children) ? tree.children : []
 
@@ -483,6 +501,18 @@ export function parseCheatsheetMarkdown(markdown) {
         type: 'codeBlock',
         code: node.value || '',
         lang: normalizeLang(node.lang, currentCard.lang || documentLang),
+      })
+      continue
+    }
+
+    if (node.type === 'table') {
+      output.push({
+        type: 'table',
+        align: Array.isArray(node.align) ? node.align.map((value) => (typeof value === 'string' ? value : null)) : [],
+        rows: (node.children || []).map((rowNode, rowIndex) => ({
+          header: rowIndex === 0,
+          cells: (rowNode.children || []).map((cellNode) => normalizeListItemText(nodeText(cellNode))),
+        })),
       })
       continue
     }

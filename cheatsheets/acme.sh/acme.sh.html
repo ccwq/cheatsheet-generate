@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>acme.sh Cookbook</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png">
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 520px; 
+      --gap: 16px;
+    }
+
+    .panel label {
+      color: var(--panel-accent);
+    }
+
+    .panel .title {
+      color: var(--panel-accent);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-link);
+      text-decoration: none;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .home-link:hover {
+      text-decoration: underline;
+    }
+
+    .home-link svg {
+      width: 16px;
+      height: 16px;
+      flex: none;
+    }
+
+    .card pre,
+    .card pre code[class^="language-"] {
+      font-size: 13px;
+      line-height: 1.2;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .card h2 {
+      font-size: 16px;
+    }
+
+    .card,
+    .card li,
+    .desc {
+      font-size: 14px;
+      line-height: 1.2;
+    }
+
+    .meta-link {
+      color: var(--text-link);
+    }
+
+    .meta-link:hover {
+      text-decoration: underline;
+    }
+
+    .meta-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
+      <span class="title">acme.sh Cookbook</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label">版本</span><span class="meta-value">3.0.9</span></span>
+        <span class="meta-item"><span class="meta-label">更新日志</span><span class="meta-value">2026-03-17</span></span>
+        <span class="meta-item"><span class="meta-label">GitHub</span><span class="meta-value"><a class="meta-link" href="https://github.com/acmesh-official/acme.sh" target="_blank" rel="noopener">acmesh-official/acme.sh</a></span></span>
+        <span class="meta-item"><span class="meta-label">Zread</span><span class="meta-value"><a class="meta-link" href="https://zread.ai/acmesh-official/acme.sh" target="_blank" rel="noopener">打开 Zread</a></span></span>
+      </div>
+      <div class="meta-tags"><tag-chip class="tag tag-group-1 detail-tag" data-name="CLI / Terminal" data-group="1" label="CLI / Terminal" group="1" variant="detail" icon="mdi:console" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M20 19V7H4v12zm0-16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-7 14v-2h5v2zm-3.42-4L5.57 9H8.4l3.3 3.3c.39.39.39 1.03 0 1.42L8.42 17H5.59z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="SSL / TLS" data-group="0" label="SSL / TLS" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="自动化工具" data-group="2" label="自动化工具" group="2" variant="detail" icon="mdi:robot" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5A2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5a2.5 2.5 0 0 0 2.5 2.5a2.5 2.5 0 0 0 2.5-2.5a2.5 2.5 0 0 0-2.5-2.5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="安全" data-group="0" label="安全" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-3 detail-tag" data-name="运维" data-group="3" label="运维" group="3" variant="detail" icon="mdi:server" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M4 1h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1m0 8h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1m0 8h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1M9 5h1V3H9zm0 8h1v-2H9zm0 8h1v-2H9zM5 3v2h2V3zm0 8v2h2v-2zm0 8v2h2v-2z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="网络" data-group="0" label="网络" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>入口与定位 <a href="https://github.com/acmesh-official/acme.sh" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">纯 Shell 编写的 ACME 客户端，用于自动化获取、续期、安装 SSL/TLS 证书。无需 Python，兼容 Bash/dash/sh，支持 ECDSA 证书和通配符。</div><ul><li>解决的问题：自动化管理 Let&#39;s Encrypt、ZeroSSL 等 CA 的证书生命周期</li><li>核心优势：<ul><li>纯 Shell，无依赖</li><li>支持 80+ DNS Provider API 自动验证</li><li>默认 ECC 证书，可选 RSA</li><li>自动续期（默认 60 天）</li><li>不需要 root 权限</li></ul></li></ul></div><div class="card"><h2>安装与初始化</h2><div class="desc">安装只有 3 步：下载、安装、验证。安装后会自动创建 cron job 用于续期。</div><pre><code class="language-bash"># 方式一：一键安装（推荐）
+curl https://get.acme.sh | sh -s email=your@email.com
+
+# 方式二：Wget 安装
+wget -O - https://get.acme.sh | sh -s email=your@email.com
+
+# 方式三：手动安装
+git clone https://github.com/acmesh-official/acme.sh.git
+cd acme.sh
+./acme.sh --install -m your@email.com</code></pre><ul><li><code>~/.acme.sh/</code>：存放所有证书和配置</li><li><code>acme.sh=~/.acme.sh/acme.sh</code></li><li>自动创建每日 cron job 检查续期</li></ul><pre><code class="language-bash"># 手动更新到最新版本
+acme.sh --upgrade
+
+# 开启自动升级
+acme.sh --upgrade --auto-upgrade</code></pre></div><div class="card"><h2>验证方式选择</h2><div class="desc">根据你的环境选择合适的验证方式。DNS 模式最通用，Webroot 适合有现成网站的场景。</div><div class="table-wrap"><table class="cheat-table"><thead><tr><th>模式</th><th>适用场景</th><th>需要端口</th></tr></thead><tbody><tr><td>Webroot</td><td>有现成网站目录</td><td>无</td></tr><tr><td>Standalone</td><td>无网站，仅有服务器</td><td>80 (TCP)</td></tr><tr><td>TLS-ALPN</td><td>无网站，仅有服务器</td><td>443 (TCP)</td></tr><tr><td>DNS</td><td>任何场景，特别是通配符</td><td>无</td></tr><tr><td>Apache / Nginx</td><td>正在运行对应 Web 服务器</td><td>无</td></tr></tbody></table></div></div><div class="card"><h2>Webroot 模式</h2><div class="desc">适用于已有 Web 服务器的场景。acme.sh 会把验证文件写到网站根目录，CA 通过 HTTP 访问验证。</div><pre><code class="language-bash"># 单域名
+acme.sh --issue -d example.com -w /home/wwwroot/example.com
+
+# 多域名（同一证书）
+acme.sh --issue -d example.com -d www.example.com -d cp.example.com -w /home/wwwroot/example.com
+
+# 通配符（需要 DNS API）
+acme.sh --issue -d example.com -d &#39;*.example.com&#39; --dns dns_cf</code></pre></div><div class="card"><h2>Standalone 模式</h2><div class="desc">无需 Web 服务器，acme.sh 内置临时 Web Server 监听 80 端口完成验证。</div><pre><code class="language-bash"># HTTP 验证（需要 80 端口）
+acme.sh --issue --standalone -d example.com -d www.example.com
+
+# TLS-ALPN 验证（需要 443 端口）
+acme.sh --issue --alpn -d example.com -d www.example.com</code></pre></div><div class="card"><h2>DNS 模式（最通用）</h2><div class="desc">通过 DNS TXT 记录验证，支持 80+ DNS Provider。最适合通配符证书和无法开放端口的场景。</div><h3>Cloudflare 示例</h3><pre><code class="language-bash"># 设置 API Token（推荐）
+export CF_Token=&quot;your_cloudflare_token&quot;
+export CF_Account_ID=&quot;your_account_id&quot;
+
+# 颁发证书
+acme.sh --issue --dns dns_cf -d example.com -d &#39;*.example.com&#39;</code></pre><h3>常用 DNS Provider</h3><pre><code class="language-bash"># Cloudflare
+export CF_Token=&quot;xxx&quot;
+--dns dns_cf
+
+# DNSPod
+export DP_Id=&quot;id&quot;
+export DP_Key=&quot;key&quot;
+--dns dns_dp
+
+# AWS Route53
+export AWS_ACCESS_KEY_ID=&quot;xxx&quot;
+export AWS_SECRET_ACCESS_KEY=&quot;xxx&quot;
+--dns dns_aws
+
+# Aliyun
+export Ali_Key=&quot;xxx&quot;
+export Ali_Secret=&quot;xxx&quot;
+--dns dns_ali
+
+# DigitalOcean
+export DO_API_KEY=&quot;xxx&quot;
+--dns dns_dgon</code></pre><h3>DNS 手动模式（无法自动时）</h3><pre><code class="language-bash"># 手动添加 TXT 记录
+acme.sh --issue --dns -d example.com
+
+# 按提示添加 DNS 记录后，手动续期
+acme.sh --renew -d example.com
+
+# ⚠️ 警告：手动模式无法自动续期！</code></pre></div><div class="card"><h2>证书安装到服务器</h2><div class="desc">证书生成后，必须用 --install-cert 复制到目标路径。不要直接使用 ~/.acme.sh/ 下的文件！</div><pre><code class="language-bash"># 安装到 Nginx
+acme.sh --install-cert -d example.com \
+  --key-file /etc/nginx/ssl/example.com.key \
+  --fullchain-file /etc/nginx/ssl/example.com.fullchain.pem \
+  --reloadcmd &quot;systemctl reload nginx&quot;
+
+# 安装到 Apache
+acme.sh --install-cert -d example.com \
+  --cert-file /etc/apache2/ssl/example.com.crt \
+  --key-file /etc/apache2/ssl/example.com.key \
+  --fullchain-file /etc/apache2/ssl/example.com.fullchain.pem \
+  --reloadcmd &quot;systemctl reload apache2&quot;</code></pre><ul><li><code>--reloadcmd</code>：续期后自动重载服务，否则用户看不到新证书！</li></ul></div><div class="card"><h2>证书续期</h2><div class="desc">acme.sh 默认 60 天自动续期。也可以手动强制续期。</div><pre><code class="language-bash"># 手动续期指定域名
+acme.sh --renew -d example.com
+
+# 强制续期（忽略证书有效期）
+acme.sh --renew -d example.com --force
+
+# 手动触发所有证书检查
+acme.sh --cron
+
+# 列出所有证书
+acme.sh --list
+
+# 移除证书（停止续期）
+acme.sh --remove -d example.com</code></pre></div><div class="card"><h2>证书类型选择</h2><div class="desc">默认 ECDSA（更小、更安全）。根据需求选择密钥长度。</div><div class="table-wrap"><table class="cheat-table"><thead><tr><th>参数</th><th>类型</th><th>推荐场景</th></tr></thead><tbody><tr><td>ec-256</td><td>ECDSA P-256</td><td>默认，移动端兼容性好</td></tr><tr><td>ec-384</td><td>ECDSA P-384</td><td>高安全要求</td></tr><tr><td>ec-521</td><td>ECDSA P-521</td><td>最高安全要求</td></tr><tr><td>4096</td><td>RSA 4096-bit</td><td>兼容老旧系统</td></tr></tbody></table></div><pre><code class="language-bash"># ECDSA 证书（默认）
+acme.sh --issue -d example.com --keylength ec-256
+
+# RSA 证书
+acme.sh --issue -d example.com --keylength 4096</code></pre></div><div class="card"><h2>切换 CA</h2><div class="desc">acme.sh 默认使用 ZeroSSL，可切换到 Let&#39;s Encrypt、Google Public CA 等。</div><pre><code class="language-bash"># 切换到 Let&#39;s Encrypt
+acme.sh --set-default-ca --server letsencrypt
+
+# 切换到 ZeroSSL（默认）
+acme.sh --set-default-ca --server zerossl
+
+# 使用 Google Public CA
+acme.sh --set-default-ca --server google
+
+# 查看支持的 CA 列表
+acme.sh --server list</code></pre></div><div class="card"><h2>常见场景 Recipes</h2><div class="desc">直接复制这些模板到你的项目中使用。</div><h3>场景一：Nginx 站点 + 单域名</h3><pre><code class="language-bash"># 1. 获取证书
+acme.sh --issue -d example.com -w /var/www/html
+
+# 2. 安装证书
+acme.sh --install-cert -d example.com \
+  --key-file /etc/nginx/ssl/example.com.key \
+  --fullchain-file /etc/nginx/ssl/example.com.pem \
+  --reloadcmd &quot;nginx -s reload&quot;</code></pre><h3>场景二：Nginx 站点 + 通配符</h3><pre><code class="language-bash"># 1. 配置 Cloudflare
+export CF_Token=&quot;xxx&quot;
+
+# 2. 获取通配符证书
+acme.sh --issue --dns dns_cf -d example.com -d &#39;*.example.com&#39;
+
+# 3. 安装
+acme.sh --install-cert -d example.com \
+  --key-file /etc/nginx/ssl/example.com.key \
+  --fullchain-file /etc/nginx/ssl/example.com.pem \
+  --reloadcmd &quot;nginx -s reload&quot;</code></pre><h3>场景三：Docker 中使用</h3><pre><code class="language-bash"># 在 Docker 中运行
+docker run --rm -it \
+  -v &quot;$(pwd)/acme.sh&quot;:/acme.sh \
+  -e CF_Token=&quot;xxx&quot; \
+  neilpang/acme.sh \
+  --issue --dns dns_cf -d example.com -d &#39;*.example.com&#39;
+
+# 复制证书到宿主机
+docker run --rm -it \
+  -v &quot;$(pwd)/acme.sh&quot;:/acme.sh \
+  -v &quot;$(pwd)/certs&quot;:/certs \
+  neilpang/acme.sh \
+  --install-cert -d example.com \
+  --cert-file /certs/cert.pem \
+  --key-file /certs/key.pem</code></pre><h3>场景四：多域名证书</h3><pre><code class="language-bash"># 3 个域名同一证书
+acme.sh --issue \
+  -d example.com \
+  -d www.example.com \
+  -d mail.example.com \
+  -w /home/wwwroot/example.com</code></pre></div><div class="card"><h2>常见坑</h2><div class="desc">这些问题新手容易遇到，提前避开省时间。</div><h3>1. 端口被占用</h3><pre><code class="language-bash"># Standalone 报 &quot;Port 80 is already used&quot;
+# 方案：先停掉占用 80 端口的服务，或改用 Webroot 模式
+lsof -i :80</code></pre><h3>2. 续期后服务没重载</h3><pre><code class="language-bash"># 原因：--reloadcmd 写错了
+# 检查：手动执行 reloadcmd 确认路径正确
+systemctl reload nginx</code></pre><h3>3. DNS API 权限不足</h3><pre><code class="language-bash"># Cloudflare: Token 需要 Zone &gt; DNS &gt; Edit 权限
+# AWS: 需要 Route53 权限
+# 检查日志：tail -f /var/log/acme.sh/log</code></pre><h3>4. 证书路径找不到</h3><pre><code class="language-bash"># 不要直接用 ~/.acme.sh/example.com/ 下的文件！
+# 必须用 --install-cert 复制到目标位置
+# 原因：内部文件结构可能变化</code></pre><h3>5. 泛域名 + 多域名混合</h3><pre><code class="language-bash"># 正确：一起申请
+acme.sh --issue --dns dns_cf \
+  -d example.com \
+  -d &#39;*.example.com&#39; \
+  -d www.example.com
+
+# ❌ 错误：分开申请会导致验证顺序问题</code></pre></div><div class="card"><h2>Docker 部署 Checklist</h2><div class="desc">在 CI/CD 中使用 acme.sh 时，按这个清单检查。</div><pre><code class="language-bash"># ✅ 检查清单
+# 1. DNS API Token 已设置
+# 2. 证书目录已挂载（-v）
+# 3. reloadcmd 在宿主机执行（不在容器内）
+# 4. 确认 60 天内至少运行过一次 --cron
+
+# 推荐：使用 DNS 自动验证，兼容任何服务器</code></pre></div><div class="card"><h2>进阶：使用已有 CSR</h2><div class="desc">如果已有私钥或 CSR，可以复用。</div><pre><code class="language-bash"># 使用已有 CSR
+acme.sh --issue --csr /path/to/example.com.csr -d example.com
+
+# 指定已有私钥
+acme.sh --issue -d example.com --key-file /path/to/key.pem</code></pre></div><div class="card"><h2>通知配置</h2><div class="desc">配置证书续期或错误的通知渠道。</div><pre><code class="language-bash"># 邮件通知
+acme.sh --notify --notifymail mail@example.com
+
+# Webhook 通知
+# 参考：https://github.com/acmesh-official/acme.sh/wiki/notify</code></pre></div>
+    </div>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>

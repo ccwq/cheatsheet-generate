@@ -136,6 +136,45 @@ desc: 这是一段卡片说明
   assert.ok(html.includes('<ul><li><code>cmd</code>：描述<ul><li>子项A</li><li>子项B</li></ul></li></ul>'))
 })
 
+test('parser/renderer: 支持 GFM 表格且不输出占位符文本', async () => {
+  const markdown = `---
+title: Table Demo
+lang: bash
+---
+
+## 表格卡片
+
+- \`~/.acme.sh/\` : 存放所有证书和配置
+
+| 模式 | 适用场景 | 需要端口 |
+| --- | --- | --- |
+| Webroot | 有现成网站目录 | 无 |
+| DNS | 通配符与无开放端口 | 无 |
+`
+
+  const model = parseCheatsheetMarkdown(markdown)
+  const card = model.cards[0]
+  const list = card.items.find((item) => item.type === 'list')
+  assert.ok(list)
+  assert.equal(list.items[0].description, '存放所有证书和配置')
+
+  const table = card.items.find((item) => item.type === 'table')
+  assert.ok(table)
+  assert.deepEqual(table.align, [null, null, null])
+  assert.equal(table.rows.length, 3)
+  assert.equal(table.rows[0].header, true)
+  assert.deepEqual(table.rows[0].cells, ['模式', '适用场景', '需要端口'])
+  assert.deepEqual(table.rows[1].cells, ['Webroot', '有现成网站目录', '无'])
+
+  const testFile = fileURLToPath(import.meta.url)
+  const template = await fs.readFile(path.join(path.dirname(testFile), '..', 'template.html'), 'utf8')
+  const html = renderDocument(model, template)
+  assert.ok(html.includes('<table class="cheat-table">'))
+  assert.ok(html.includes('<th>模式</th>'))
+  assert.ok(html.includes('<td>Webroot</td>'))
+  assert.ok(!html.includes('\x00CODE\x00'))
+})
+
 test('e2e: 使用 tmux markdown 生成 HTML', async () => {
   const testFile = fileURLToPath(import.meta.url)
   const repoRoot = path.resolve(path.dirname(testFile), '..', '..')

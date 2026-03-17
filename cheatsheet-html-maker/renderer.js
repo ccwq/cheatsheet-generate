@@ -56,6 +56,30 @@ function renderCodeBlock(node) {
   return `<pre><code class="language-${lang}">${code}</code></pre>`
 }
 
+function renderTable(node) {
+  const rows = Array.isArray(node.rows) ? node.rows : []
+  if (rows.length === 0) {
+    return ''
+  }
+
+  const align = Array.isArray(node.align) ? node.align : []
+  const [headerRow, ...bodyRows] = rows
+  const renderCell = (cell, index, tag) => {
+    const cellAlign = align[index]
+    const alignAttr = cellAlign ? ` style="text-align:${escapeHtml(cellAlign)}"` : ''
+    return `<${tag}${alignAttr}>${escapeHtml(cell)}</${tag}>`
+  }
+
+  const thead = headerRow
+    ? `<thead><tr>${(headerRow.cells || []).map((cell, index) => renderCell(cell, index, 'th')).join('')}</tr></thead>`
+    : ''
+  const tbody = bodyRows.length > 0
+    ? `<tbody>${bodyRows.map((row) => `<tr>${(row.cells || []).map((cell, index) => renderCell(cell, index, 'td')).join('')}</tr>`).join('')}</tbody>`
+    : ''
+
+  return `<div class="table-wrap"><table class="cheat-table">${thead}${tbody}</table></div>`
+}
+
 function renderSet(set) {
   return `<h3>${escapeHtml(set.title)}</h3>${renderItems(set.items)}`
 }
@@ -105,6 +129,12 @@ function renderItems(items) {
       if (item.type === 'desc') {
         flushEntries()
         parts.push(renderDesc(item))
+        return
+      }
+
+      if (item.type === 'table') {
+        flushEntries()
+        parts.push(renderTable(item))
       }
     })
 

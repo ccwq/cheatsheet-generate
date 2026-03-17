@@ -1,0 +1,11 @@
+desc: 纯 Shell 编写的 ACME 客户端 cookbook，涵盖安装、证书获取（Webroot/Standalone/DNS）、安装部署、自动续期等高频工作流，支持 80+ DNS Provider。
+tags:
+  - CLI / Terminal
+  - SSL / TLS
+  - 自动化工具
+  - 安全
+  - 运维
+  - 网络
+version: 3.1.0
+github: acmesh-official/acme.sh
+date: "2026-03-17"
