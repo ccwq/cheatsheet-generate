@@ -155,7 +155,7 @@ adb shell am start -n com.example.app/.MainActivity
 # 发送自定义广播
 adb shell am broadcast \
   -a com.example.app.ACTION_SYNC \
-  --es source adb</code></pre></div><div class="card"><h2>📁 文件传输与端口转发 <a href="https://developer.android.com/studio/command-line/adb#copy-tofrom-device" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">文件问题用 `push/pull`，本地调试桥接用 `forward/reverse`，WebView 和本地服务调试很常用。</div><ul><li><code>adb push &lt;local&gt; &lt;remote&gt;</code>：上传文件</li><li><code>adb pull &lt;remote&gt; [local]</code>：下载文件</li><li><code>adb sync</code> <code>out/</code>：同步  CODE  到设备分区</li><li><code>adb forward tcp:8700 jdwp:&lt;pid&gt;</code>：转发到 JDWP</li><li><code>adb forward tcp:8081 tcp:8081</code>：本地到设备</li><li><code>adb reverse tcp:8081 tcp:8081</code>：设备到本地</li><li><code>adb forward --list</code>：查看已建立转发</li></ul><pre><code class="language-bash"># 下载沙盒外文件
+  --es source adb</code></pre></div><div class="card"><h2>📁 文件传输与端口转发 <a href="https://developer.android.com/studio/command-line/adb#copy-tofrom-device" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">文件问题用 `push/pull`，本地调试桥接用 `forward/reverse`，WebView 和本地服务调试很常用。</div><ul><li><code>adb push &lt;local&gt; &lt;remote&gt;</code>：上传文件</li><li><code>adb pull &lt;remote&gt; [local]</code>：下载文件</li><li><code>adb sync</code> <code>out/</code>：同步 到设备分区</li><li><code>adb forward tcp:8700 jdwp:&lt;pid&gt;</code>：转发到 JDWP</li><li><code>adb forward tcp:8081 tcp:8081</code>：本地到设备</li><li><code>adb reverse tcp:8081 tcp:8081</code>：设备到本地</li><li><code>adb forward --list</code>：查看已建立转发</li></ul><pre><code class="language-bash"># 下载沙盒外文件
 adb pull /sdcard/Download/log.txt .
 
 # React Native / 本地 API 调试
@@ -174,7 +174,7 @@ adb shell dumpsys gfxinfo com.example.app framestats</code></pre></div><div clas
 adb exec-out screencap -p &gt; screen.png
 
 # 查看当前界面 XML
-adb exec-out uiautomator dump /dev/tty</code></pre></div><div class="card"><h2>🩺 常见排障速记 <a href="https://developer.android.com/studio/command-line/adb#troubleshooting" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">先判断是授权、线缆、驱动、端口占用还是设备状态异常；避免一上来就重装整套 SDK。</div><ul><li><code>unauthorized</code>：重新插拔 USB，确认设备弹窗已授权</li><li><code>offline</code> <code>adb reconnect</code>：先  CODE ，再考虑重启服务</li><li><code>more than one device/emulator</code> <code>-s &lt;serial&gt;</code>：所有命令补  CODE </li><li><code>INSTALL_FAILED_VERSION_DOWNGRADE</code> <code>adb install -d</code>：改用  CODE  或先卸载</li><li><code>INSTALL_FAILED_NO_MATCHING_ABIS</code>：APK ABI 与设备架构不匹配</li><li><code>device not found</code>：检查开发者选项、USB 调试、线缆和驱动</li></ul><pre><code class="language-bash"># 常用重置动作
+adb exec-out uiautomator dump /dev/tty</code></pre></div><div class="card"><h2>🩺 常见排障速记 <a href="https://developer.android.com/studio/command-line/adb#troubleshooting" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">先判断是授权、线缆、驱动、端口占用还是设备状态异常；避免一上来就重装整套 SDK。</div><ul><li><code>unauthorized</code>：重新插拔 USB，确认设备弹窗已授权</li><li><code>offline</code> <code>adb reconnect</code>：先 ，再考虑重启服务</li><li><code>more than one device/emulator</code> <code>-s &lt;serial&gt;</code>：所有命令补</li><li><code>INSTALL_FAILED_VERSION_DOWNGRADE</code> <code>adb install -d</code>：改用 或先卸载</li><li><code>INSTALL_FAILED_NO_MATCHING_ABIS</code>：APK ABI 与设备架构不匹配</li><li><code>device not found</code>：检查开发者选项、USB 调试、线缆和驱动</li></ul><pre><code class="language-bash"># 常用重置动作
 adb kill-server
 adb start-server
 adb reconnect

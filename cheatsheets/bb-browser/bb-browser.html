@@ -120,7 +120,7 @@
       <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
     </div>
     <div class="cheat-columns" id="columns">
-      <div class="card"><h2>定位与入口 <a href="https://github.com/epiral/bb-browser" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">bb-browser 把“你真实浏览器里的登录态”暴露给 CLI 和 MCP，让 Agent 直接复用人类浏览器，而不是重做一套 API/爬虫链路。</div><ul><li>核心定位：浏览器自动化 + 带登录态的数据访问 + 面向 AI Agent 的 CLI/MCP 接口</li><li>适用场景：跨站检索、内容抓取、已登录站点数据读取、网页交互自动化、让 Agent 自主反向适配新网站</li><li><code>site</code> <code>open/snapshot/click/fetch/...</code>： CODE  走结构化站点适配器， CODE  走通用浏览器控制</li><li><code>--mcp</code>：CLI -&gt; daemon -&gt; Chrome Extension -&gt; 真实 Chrome；也支持  CODE  接入 Claude Code / Cursor</li><li><code>v0.5.2</code> <code>package.json</code> <code>0.6.0</code>：最新 GitHub Release 是  CODE （2026-03-15），主分支  CODE  当前已到  CODE </li></ul></div><div class="card"><h2>最小工作流 <a href="https://github.com/epiral/bb-browser#quick-start" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">先区分你要的是“站点数据接口”还是“浏览器动作控制”，再决定从 `site` 还是通用命令起步。</div><pre><code class="language-bash"># 安装
+      <div class="card"><h2>定位与入口 <a href="https://github.com/epiral/bb-browser" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">bb-browser 把“你真实浏览器里的登录态”暴露给 CLI 和 MCP，让 Agent 直接复用人类浏览器，而不是重做一套 API/爬虫链路。</div><ul><li>核心定位：浏览器自动化 + 带登录态的数据访问 + 面向 AI Agent 的 CLI/MCP 接口</li><li>适用场景：跨站检索、内容抓取、已登录站点数据读取、网页交互自动化、让 Agent 自主反向适配新网站</li><li><code>site</code> <code>open/snapshot/click/fetch/...</code>：走结构化站点适配器， 走通用浏览器控制</li><li><code>--mcp</code>：CLI -&gt; daemon -&gt; Chrome Extension -&gt; 真实 Chrome；也支持 接入 Claude Code / Cursor</li><li><code>v0.5.2</code> <code>package.json</code> <code>0.6.0</code>：最新 GitHub Release 是 （2026-03-15），主分支 当前已到</li></ul></div><div class="card"><h2>最小工作流 <a href="https://github.com/epiral/bb-browser#quick-start" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">先区分你要的是“站点数据接口”还是“浏览器动作控制”，再决定从 `site` 还是通用命令起步。</div><pre><code class="language-bash"># 安装
 npm install -g bb-browser
 
 # 拉取社区 adapter
@@ -134,7 +134,7 @@ bb-browser site zhihu/hot
 
 # 进入浏览器控制路径
 bb-browser open https://example.com
-bb-browser snapshot -i</code></pre><h3>选择建议</h3><ul><li><code>site</code>：优先  CODE </li><li>目标是点页面、填表单、抓当前 DOM：优先通用浏览器命令</li><li><code>--openclaw</code>：优先追加  CODE </li><li><code>--mcp</code>：优先  CODE </li></ul></div><div class="card"><h2>site 命令工作流</h2><pre><code class="language-bash"># 查看全部 adapter
+bb-browser snapshot -i</code></pre><h3>选择建议</h3><ul><li><code>site</code>：优先</li><li>目标是点页面、填表单、抓当前 DOM：优先通用浏览器命令</li><li><code>--openclaw</code>：优先追加</li><li><code>--mcp</code>：优先</li></ul></div><div class="card"><h2>site 命令工作流</h2><pre><code class="language-bash"># 查看全部 adapter
 bb-browser site list
 
 # 看某个 adapter 的参数、示例、域名
@@ -167,7 +167,7 @@ bb-browser screenshot
 
 # 在页面上下文执行 JS / 带登录态 fetch
 bb-browser eval &quot;document.title&quot;
-bb-browser fetch https://www.reddit.com/api/me.json --json</code></pre><h3>常用组合</h3><ul><li><code>open</code> <code>snapshot -i</code> <code>click/fill/type</code>： CODE  -&gt;  CODE  -&gt;  CODE </li><li><code>open</code> <code>eval</code> <code>get</code>： CODE  -&gt;  CODE  或  CODE </li><li><code>open</code> <code>fetch &lt;url&gt; --json</code>： CODE  -&gt;  CODE </li><li><code>--tab &lt;id&gt;</code>：给命令追加  CODE </li></ul></div><div class="card"><h2>逆向与适配器开发 <a href="https://github.com/epiral/bb-browser#10-minutes-to-add-any-website" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">bb-browser 的核心扩展能力是把新网站快速变成 adapter；关键动作是抓包、验证认证方式、再写单文件适配器。</div><pre><code class="language-bash"># 清理并重新抓接口
+bb-browser fetch https://www.reddit.com/api/me.json --json</code></pre><h3>常用组合</h3><ul><li><code>open</code> <code>snapshot -i</code> <code>click/fill/type</code>：-&gt; -&gt;</li><li><code>open</code> <code>eval</code> <code>get</code>：-&gt; 或</li><li><code>open</code> <code>fetch &lt;url&gt; --json</code>：-&gt;</li><li><code>--tab &lt;id&gt;</code>：给命令追加</li></ul></div><div class="card"><h2>逆向与适配器开发 <a href="https://github.com/epiral/bb-browser#10-minutes-to-add-any-website" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">bb-browser 的核心扩展能力是把新网站快速变成 adapter；关键动作是抓包、验证认证方式、再写单文件适配器。</div><pre><code class="language-bash"># 清理并重新抓接口
 bb-browser network clear --tab 1
 bb-browser refresh --tab 1
 bb-browser network requests --filter &quot;api&quot; --with-body --json --tab 1
@@ -194,7 +194,7 @@ bb-browser daemon --host 0.0.0.0
 
 # 检查与停止
 bb-browser status
-bb-browser stop</code></pre><h3>什么时候用哪种形态</h3><ul><li><code>--mcp</code>： CODE </li><li>本机手工调试：CLI + daemon</li><li><code>site ... --openclaw</code>： CODE </li><li><code>0.0.0.0</code>：daemon 绑定  CODE </li></ul></div><div class="card"><h2>高价值选项 <a href="https://github.com/epiral/bb-browser#also-a-full-browser-automation-tool" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">大多数自动化脚本真正常用的是少量全局开关，而不是把所有命令背下来。</div><pre><code class="language-bash">--json             # 输出 JSON，便于脚本消费
+bb-browser stop</code></pre><h3>什么时候用哪种形态</h3><ul><li><code>--mcp</code></li><li>本机手工调试：CLI + daemon</li><li><code>site ... --openclaw</code></li><li><code>0.0.0.0</code>：daemon 绑定</li></ul></div><div class="card"><h2>高价值选项 <a href="https://github.com/epiral/bb-browser#also-a-full-browser-automation-tool" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">大多数自动化脚本真正常用的是少量全局开关，而不是把所有命令背下来。</div><pre><code class="language-bash">--json             # 输出 JSON，便于脚本消费
 --jq &#39;&lt;expr&gt;&#39;      # 就地过滤 JSON
 --tab &lt;id&gt;         # 指定标签页
 --openclaw         # 走 OpenClaw 内置浏览器

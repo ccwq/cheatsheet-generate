@@ -137,7 +137,7 @@ gsap.to(&quot;.card&quot;, {
 import ScrollTrigger from &quot;gsap/ScrollTrigger&quot;;
 import Flip from &quot;gsap/Flip&quot;;
 
-gsap.registerPlugin(ScrollTrigger, Flip);</code></pre></div><div class="card"><h2>🎛️ Tween 常用参数 <a href="https://gsap.com/docs/v3/GSAP/Tween/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">duration、delay、repeat、stagger、callbacks 是高频参数组合。</div><ul><li><code>duration</code>：动画时长，单位秒</li><li><code>delay</code>：延迟开始</li><li><code>ease</code>：缓动函数</li><li><code>repeat</code> <code>-1</code>：重复次数， CODE  为无限</li><li><code>yoyo</code>：往返播放</li><li><code>stagger</code>：批量目标错峰执行</li><li><code>onStart/onUpdate/onComplete</code>：生命周期回调</li></ul><pre><code class="language-javascript">// 批量列表项依次出现
+gsap.registerPlugin(ScrollTrigger, Flip);</code></pre></div><div class="card"><h2>🎛️ Tween 常用参数 <a href="https://gsap.com/docs/v3/GSAP/Tween/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">duration、delay、repeat、stagger、callbacks 是高频参数组合。</div><ul><li><code>duration</code>：动画时长，单位秒</li><li><code>delay</code>：延迟开始</li><li><code>ease</code>：缓动函数</li><li><code>repeat</code> <code>-1</code>：重复次数， 为无限</li><li><code>yoyo</code>：往返播放</li><li><code>stagger</code>：批量目标错峰执行</li><li><code>onStart/onUpdate/onComplete</code>：生命周期回调</li></ul><pre><code class="language-javascript">// 批量列表项依次出现
 gsap.to(&quot;.item&quot;, {
   opacity: 1,
   y: 0,

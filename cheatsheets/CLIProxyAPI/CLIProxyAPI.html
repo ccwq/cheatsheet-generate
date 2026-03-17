@@ -151,7 +151,7 @@ curl http://127.0.0.1:8317/v1/models \
 模型整形
   oauth-model-alias
   oauth-excluded-models
-  payload.default / override / filter</code></pre><h3>什么时候用哪条路</h3><ul><li>已有 CLI/OAuth 登录态，想给本地工具复用：优先走 OAuth 与认证目录。</li><li><code>openai-compatibility</code>：优先配  CODE 。</li><li><code>routing.strategy</code> <code>max-retry-credentials</code>：优先看  CODE 、多条 key entry、 CODE 。</li><li><code>models.alias</code> <code>oauth-model-alias</code>：优先用  CODE  或  CODE 。</li><li><code>sdk/cliproxy</code>：直接用  CODE 。</li></ul></div><div class="card"><h2>🪜 起手工作流 <a href="https://help.router-for.me/cn/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">新机器上从“先跑起来”到“接入客户端”的推荐顺序。</div><h3>推荐顺序</h3><pre><code class="language-text">1. 复制 config.example.yaml 为 config.yaml
+  payload.default / override / filter</code></pre><h3>什么时候用哪条路</h3><ul><li>已有 CLI/OAuth 登录态，想给本地工具复用：优先走 OAuth 与认证目录。</li><li><code>openai-compatibility</code>：优先配 。</li><li><code>routing.strategy</code> <code>max-retry-credentials</code>：优先看 、多条 key entry、。</li><li><code>models.alias</code> <code>oauth-model-alias</code>：优先用 或 。</li><li><code>sdk/cliproxy</code>：直接用 。</li></ul></div><div class="card"><h2>🪜 起手工作流 <a href="https://help.router-for.me/cn/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">新机器上从“先跑起来”到“接入客户端”的推荐顺序。</div><h3>推荐顺序</h3><pre><code class="language-text">1. 复制 config.example.yaml 为 config.yaml
 2. 设置监听地址、端口、api-keys
 3. 配一个最小上游
    - OAuth 登录态
@@ -293,7 +293,7 @@ defer cancel()
 
 if err := svc.Run(ctx); err != nil &amp;&amp; !errors.Is(err, context.Canceled) {
 	panic(err)
-}</code></pre><h3>什么时候值得走 SDK</h3><ul><li>你要把代理能力嵌进自己的桌面端、服务端或管理平台。</li><li>你需要自定义 middleware、路由、请求日志或认证加载方式。</li><li>你不想把 CLIProxyAPI 当成独立进程管理。</li></ul></div><div class="card"><h2>⚠️ 易错点 / 决策规则 <a href="https://raw.githubusercontent.com/router-for-me/CLIProxyAPI/main/config.example.yaml" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这些坑都比“语法写错”更常见，优先先排它们。</div><h3>高频坑</h3><ul><li><code>Base URL</code> <code>/v1</code>：有的客户端要填根地址，有的要填带  CODE  的地址。</li><li><code>host: &quot;&quot;</code> <code>127.0.0.1</code></li><li><code>allow-remote: true</code></li><li><code>excluded-models</code> <code>oauth-excluded-models</code> <code>prefix</code> <code>alias</code></li><li><code>max-retry-credentials</code></li></ul><h3>经验法则</h3><pre><code class="language-text">先做最小可用配置
+}</code></pre><h3>什么时候值得走 SDK</h3><ul><li>你要把代理能力嵌进自己的桌面端、服务端或管理平台。</li><li>你需要自定义 middleware、路由、请求日志或认证加载方式。</li><li>你不想把 CLIProxyAPI 当成独立进程管理。</li></ul></div><div class="card"><h2>⚠️ 易错点 / 决策规则 <a href="https://raw.githubusercontent.com/router-for-me/CLIProxyAPI/main/config.example.yaml" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这些坑都比“语法写错”更常见，优先先排它们。</div><h3>高频坑</h3><ul><li><code>Base URL</code> <code>/v1</code>：有的客户端要填根地址，有的要填带 的地址。</li><li><code>host: &quot;&quot;</code> <code>127.0.0.1</code></li><li><code>allow-remote: true</code></li><li><code>excluded-models</code> <code>oauth-excluded-models</code> <code>prefix</code> <code>alias</code></li><li><code>max-retry-credentials</code></li></ul><h3>经验法则</h3><pre><code class="language-text">先做最小可用配置
   -&gt; 再接一个真实客户端
   -&gt; 再补多账号和别名
   -&gt; 最后才做远程管理与高并发优化</code></pre></div>
