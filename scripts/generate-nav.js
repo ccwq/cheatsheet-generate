@@ -215,10 +215,10 @@ function renderItems(items, tagRenderer) {
     if (githubText) {
       const gh = he.encode(githubText);
       const ghHtml = githubUrl ? `<a class="meta-link" href="${githubUrl}" target="_blank" rel="noopener">${gh}</a>` : `<span>${gh}</span>`;
-      metaParts.push(`<span class="meta-chip">GitHub ${ghHtml}</span>`);
+      metaParts.push(`<span class="meta-chip">${ghHtml}</span>`);
     }
     if (zreadUrl) {
-      metaParts.push(`<span class="meta-chip">Zread <a class="meta-link" href="${zreadUrl}" target="_blank" rel="noopener">打开</a></span>`);
+      metaParts.push(`<span class="meta-chip"> <a class="meta-link" href="${zreadUrl}" target="_blank" rel="noopener">Zread</a></span>`);
     }
     const metaHtml = metaParts.length ? `<div class="card-meta">${metaParts.join('')}</div>` : '';
 
