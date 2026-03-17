@@ -3,7 +3,7 @@
 ## MD 支持格式与 HTML 映射
 
 > 依据源码提取：`cheatsheet-html-maker/parser.js` 与 `cheatsheet-html-maker/renderer.js`。
-> 当前实现是本项目的 Markdown 子集，不是通用 Markdown 全兼容解析器。
+> 当前实现是本项目的 Markdown 子集，但已支持部分 GFM 能力（例如表格），不是通用 Markdown 全兼容解析器。
 
 ### 规则 1：文档 Frontmatter（`--- ... ---`）
 
@@ -25,11 +25,13 @@ colWidth: 300px
 - 支持字段：`title`、`lang`、`version`、`date`、`github`、`colWidth`。
 - 缺省值：`title=Cheatsheet`、`lang=bash`、`version/date/github=unknown`、`colWidth=340px`。
 - `lang` 会做归一化校验，不合法则回退为 `bash`。
+- `tags` 仅接受数组，渲染时会输出为详情页标签 chips。
 
 #### HTML 映射
 
-- 通过模板替换注入：`APP_TITLE`、`PAGE_TITLE`、`META_VERSION`、`META_DATE`、`META_GITHUB`、`COL_WIDTH`。
+- 通过模板替换注入：`APP_TITLE`、`PAGE_TITLE`、`META_VERSION`、`META_DATE`、`META_GITHUB`、`META_ZREAD`、`META_TAGS`、`COL_WIDTH`。
 - `github` 若匹配 `owner/repo`，会额外映射成可点击链接：`https://github.com/owner/repo`。
+- `github` 若匹配 `owner/repo`，还会额外生成 Zread 链接：`https://zread.ai/owner/repo`。
 - `colWidth` 用于设置卡片列宽的 CSS 变量，默认值为 `340px`。
 
 ### 规则 2：一级标题 `# 标题`
@@ -142,8 +144,9 @@ desc: 这是一段卡片说明
 
 #### 解析行为
 
-- 当列表项首节点为 `inlineCode`，且后续文本匹配 `: 描述` 时，识别为 `variant=code-desc`。
-- 记录字段：`code`、`description`、`lang`（取当前 card 语言）。
+- 当列表项第一段里包含一个或多个 `inlineCode`，且后续文本匹配 `: 描述` 时，识别为 `variant=code-desc`。
+- 记录字段：`codes`、`description`、`lang`（取当前 card 语言）。
+- 描述文本会自动剔除内部解析占位符，不会把 `inlineCode` 的临时标记输出到最终 HTML。
 
 #### HTML 映射
 
@@ -167,7 +170,31 @@ desc: 这是一段卡片说明
 
 - 映射为嵌套结构：`<li>父项<ul><li>子项...</li></ul></li>`。
 
-### 规则 9：独占行行内代码
+### 规则 9：GFM 表格
+
+#### 输入格式
+
+```md
+| 模式 | 适用场景 | 需要端口 |
+| --- | --- | --- |
+| Webroot | 有现成网站目录 | 无 |
+| DNS | 通配符与无开放端口 | 无 |
+```
+
+#### 解析行为
+
+- 使用 `remark-gfm` 解析表格。
+- 表格会被识别为 `table` 模型，包含列对齐信息 `align` 与行数据 `rows`。
+- 第一行视为表头，后续行为表体。
+
+#### HTML 映射
+
+- 映射为：
+  - `<div class="table-wrap">`
+  - `<table class="cheat-table">`
+  - `<thead> / <tbody> / <tr> / <th> / <td>`
+
+### 规则 10：独占行行内代码
 
 #### 输入格式
 
@@ -183,7 +210,7 @@ desc: 这是一段卡片说明
 
 - 映射为 `<pre><code class="language-<lang>">echo hello</code></pre>`。
 
-### 规则 10：围栏代码块
+### 规则 11：围栏代码块
 
 #### 输入格式
 
@@ -204,7 +231,7 @@ console.log('x')
 
 - 映射为 `<pre><code class="language-js">console.log('x')</code></pre>`。
 
-### 规则 11：普通段落（说明文本）
+### 规则 12：普通段落（说明文本）
 
 #### 输入格式
 
@@ -220,7 +247,7 @@ console.log('x')
 
 - 映射为 `<div class="desc">这是一段说明文字。</div>`。
 
-### 规则 12：普通段落但判定为类代码块
+### 规则 13：普通段落但判定为类代码块
 
 #### 输入格式
 
@@ -253,6 +280,7 @@ src
 ### 兼容性边界（按当前实现）
 
 - 本工具定位为 cheatsheet 专用语法子集，不保证通用 Markdown 全量语义。
+- 当前支持 GFM 表格，但不等于完整支持所有 GFM 扩展语法。
 - card 元数据仅在 `##` 标题后紧邻 `--- ... ---` 时才会被识别。
 - 非法 YAML 或非法语言会静默降级，不中断渲染。
 - 当前渲染列表使用 `<ul><li>` 结构，不输出 `.entry` 类名。

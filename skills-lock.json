@@ -2,19 +2,19 @@
   "version": 1,
   "skills": {
     "cheatsheet-maker": {
-      "source": "D:\\project\\cheatsheet-generate\\cheatsheet-html-maker\\cheatsheet-maker-skill",
+      "source": "E:\\project\\self.project\\cheatsheet-generate\\cheatsheet-html-maker\\cheatsheet-maker-skill",
       "sourceType": "local",
-      "computedHash": "4a7c238ed875de9fb390532cab0e4d99292e452378b254c75f6ce8593a682448"
+      "computedHash": "41e4261463510c7dbc6a56397677a906fc7a615f839f9d57842b6ef84e0d4c86"
     },
     "icon-complete-skill": {
-      "source": "D:\\project\\cheatsheet-generate\\cheatsheet-html-maker\\icon-complete-skill",
+      "source": "E:\\project\\self.project\\cheatsheet-generate\\cheatsheet-html-maker\\icon-complete-skill",
       "sourceType": "local",
-      "computedHash": "8f0b5e3cfba452d9dfb64b42872504ed6107625152face2ec3f2450eefce3873"
+      "computedHash": "2204be087f8d70bec108416b52c5f64f4f35ba235c93783b7aee791e44bc0016"
     },
     "tag-ci": {
-      "source": "D:\\project\\cheatsheet-generate\\cheatsheet-html-maker\\tag-ci-skills",
+      "source": "E:\\project\\self.project\\cheatsheet-generate\\cheatsheet-html-maker\\tag-ci-skills",
       "sourceType": "local",
-      "computedHash": "9bf89485d5ee5919e6d33054b289400cf9930ebea184bb0637bf9141a98c081b"
+      "computedHash": "3afd01a5ef2fbd50bf5cfe9a189381c58c44b0f3094200f27aecc8a70849a444"
     }
   }
 }
