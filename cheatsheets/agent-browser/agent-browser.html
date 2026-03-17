@@ -1,708 +1,296 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <title>Agent Browser 速查表</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../../assets/variables.css">
-    <link rel="stylesheet" href="../../assets/global.css">
-    <link rel="stylesheet" href="../../assets/cheatsheet.css">
-    <!-- Prism.js 语法高亮 -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
-    <style>
-        :root {
-            --col-width: 400px;
-            --gap: 16px;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>Agent Browser 速查表</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png">
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 340px; 
+      --gap: 16px;
+    }
 
-        .panel label {
-            color: var(--panel-accent);
-        }
+    .panel label {
+      color: var(--panel-accent);
+    }
 
-        .panel .title {
-            color: var(--panel-accent);
-        }
-    </style>
+    .panel .title {
+      color: var(--panel-accent);
+    }
 
-    <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png" />
-    <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png" />
-  </head>
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-link);
+      text-decoration: none;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .home-link:hover {
+      text-decoration: underline;
+    }
+
+    .home-link svg {
+      width: 16px;
+      height: 16px;
+      flex: none;
+    }
+
+    .card pre,
+    .card pre code[class^="language-"] {
+      font-size: 13px;
+      line-height: 1.2;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .card h2 {
+      font-size: 16px;
+    }
+
+    .card,
+    .card li,
+    .desc {
+      font-size: 14px;
+      line-height: 1.2;
+    }
+
+    .meta-link {
+      color: var(--text-link);
+    }
+
+    .meta-link:hover {
+      text-decoration: underline;
+    }
+
+    .meta-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+  </style>
+</head>
 <body>
-    <div class="container">
-        <div class="panel">
-            <span style="color:#7bfbb7;font-size:16px;margin-right:auto;">Agent Browser 速查表</span>
-<!-- META_INFO_START -->
-<div class="meta-info">
-  <span class="meta-item"><span class="meta-label">版本</span><span class="meta-value">unknown</span></span>
-  <span class="meta-item"><span class="meta-label">更新日志</span><span class="meta-value">2026-01-26</span></span>
-  <span class="meta-item"><span class="meta-label">GitHub</span><span class="meta-value"><a class="meta-link" href="https://github.com/skyvern-ai/skyvern" target="_blank" rel="noopener">skyvern-ai/skyvern</a></span></span>
-</div>
-<!-- META_INFO_END -->
-
-            <label for="columnWidth">🔧 调整每列宽度：</label>
-            <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
-            <span id="widthVal" class="slider-val">340px</span>
-        </div>
-        <div class="cheat-columns" id="columns">
-            <!-- 快速开始 -->
-            <div class="card">
-                <h2>🚀 快速开始 <a href="https://github.com/vercel-labs/agent-browser" title="GitHub 仓库" target="_blank" style="color:#93cdfc; margin-left: 10px;">>>></a></h2>
-                <ul>
-                    <li>
-                        <code>open &lt;url&gt;</code>：打开页面
-                    </li>
-                    <li>
-                        <code>snapshot -i</code>：获取交互元素（带 refs）
-                    </li>
-                    <li>
-                        <code>click @e1</code>：通过 ref 点击元素
-                    </li>
-                    <li>
-                        <code>fill @e2 "text"</code>：填写输入框
-                    </li>
-                    <li>
-                        <code>close</code>：关闭浏览器
-                    </li>
-                </ul>
-                <div class="desc">基础工作流：导航 → 快照 → 交互 → 关闭</div>
-            </div>
-
-            <!-- 核心工作流 -->
-            <div class="card">
-                <h2>🔄 核心工作流</h2>
-                <h3>步骤</h3>
-                <div class="desc">1. 导航: open &lt;url&gt;</div>
-                <div class="desc">2. 快照: snapshot -i (返回带 @ref 的元素)</div>
-                <div class="desc">3. 使用快照中的 refs 交互</div>
-                <div class="desc">4. 导航或 DOM 变化后重新快照</div>
-            </div>
-
-            <!-- 导航命令 -->
-            <div class="card">
-                <h2>🧭 导航命令 <a href="https://playwright.dev/docs/navigations" title="Playwright 文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-                <ul>
-                    <li>
-                        <code>open &lt;url&gt;</code>：导航到 URL（别名：goto, navigate）
-                    </li>
-                    <li>
-                        <code>back</code>：后退
-                    </li>
-                    <li>
-                        <code>forward</code>：前进
-                    </li>
-                    <li>
-                        <code>reload</code>：刷新页面
-                    </li>
-                    <li>
-                        <code>close</code>：关闭浏览器（别名：quit, exit）
-                    </li>
-                    <li>
-                        <code>connect &lt;port&gt;</code>：通过 CDP 端口连接
-                    </li>
-                </ul>
-                <div class="desc">支持协议：https://, http://, file://, about:, data://（未指定则自动添加 https://）</div>
-            </div>
-
-            <!-- 快照分析 -->
-            <div class="card">
-                <h2>📸 快照分析</h2>
-                <ul>
-                    <li>
-                        <code>snapshot</code>：完整可访问树
-                    </li>
-                    <li>
-                        <code>snapshot -i</code>：仅交互元素（推荐）
-                    </li>
-                    <li>
-                        <code>snapshot -c</code>：紧凑输出
-                    </li>
-                    <li>
-                        <code>snapshot -d 3</code>：限制深度到 3
-                    </li>
-                    <li>
-                        <code>snapshot -s "#selector"</code>：限定 CSS 选择器范围
-                    </li>
-                </ul>
-                <div class="desc">快照返回带 @ref 的元素供后续交互使用</div>
-            </div>
-
-            <!-- 交互操作：点击 -->
-            <div class="card">
-                <h2>👆 点击与聚焦</h2>
-                <ul>
-                    <li>
-                        <code>click @e1</code>：单击元素
-                    </li>
-                    <li>
-                        <code>dblclick @e1</code>：双击元素
-                    </li>
-                    <li>
-                        <code>focus @e1</code>：聚焦元素
-                    </li>
-                    <li>
-                        <code>hover @e1</code>：悬停元素
-                    </li>
-                </ul>
-                <div class="desc">所有操作需使用快照返回的 @ref 标识符</div>
-            </div>
-
-            <!-- 交互操作：输入 -->
-            <div class="card">
-                <h2>⌨️ 文本输入</h2>
-                <ul>
-                    <li>
-                        <code>fill @e2 "text"</code>：清空后输入
-                    </li>
-                    <li>
-                        <code>type @e2 "text"</code>：输入不先清空
-                    </li>
-                    <li>
-                        <code>press Enter</code>：按键（别名：key）
-                    </li>
-                    <li>
-                        <code>press Control+a</code>：组合键
-                    </li>
-                    <li>
-                        <code>keydown Shift</code>：按下按键
-                    </li>
-                    <li>
-                        <code>keyup Shift</code>：释放按键
-                    </li>
-                </ul>
-            </div>
-
-            <!-- 表单操作 -->
-            <div class="card">
-                <h2>📝 表单操作</h2>
-                <ul>
-                    <li>
-                        <code>check @e1</code>：选中复选框
-                    </li>
-                    <li>
-                        <code>uncheck @e1</code>：取消选中
-                    </li>
-                    <li>
-                        <code>select @e1 "value"</code>：下拉选择
-                    </li>
-                    <li>
-                        <code>select @e1 "a" "b"</code>：多选
-                    </li>
-                    <li>
-                        <code>upload @e1 file.pdf</code>：上传文件
-                    </li>
-                </ul>
-            </div>
-
-            <!-- 滚动 -->
-            <div class="card">
-                <h2>📜 滚动控制</h2>
-                <ul>
-                    <li>
-                        <code>scroll down 500</code>：向下滚动（默认：300px）
-                    </li>
-                    <li>
-                        <code>scroll up 500</code>：向上滚动
-                    </li>
-                    <li>
-                        <code>scrollintoview @e1</code>：滚动元素到视图（别名：scrollinto）
-                    </li>
-                    <li>
-                        <code>drag @e1 @e2</code>：拖拽操作
-                    </li>
-                </ul>
-            </div>
-
-            <!-- 获取信息 -->
-            <div class="card">
-                <h2>🔍 获取信息</h2>
-                <ul>
-                    <li>
-                        <code>get text @e1</code>：元素文本
-                    </li>
-                    <li>
-                        <code>get html @e1</code>：元素 HTML
-                    </li>
-                    <li>
-                        <code>get value @e1</code>：输入值
-                    </li>
-                    <li>
-                        <code>get attr @e1 href</code>：属性值
-                    </li>
-                    <li>
-                        <code>get title</code>：页面标题
-                    </li>
-                    <li>
-                        <code>get url</code>：当前 URL
-                    </li>
-                    <li>
-                        <code>get count ".item"</code>：匹配元素数量
-                    </li>
-                    <li>
-                        <code>get box @e1</code>：边界框
-                    </li>
-                    <li>
-                        <code>get styles @e1</code>：计算样式
-                    </li>
-                </ul>
-            </div>
-
-            <!-- 检查状态 -->
-            <div class="card">
-                <h2>✅ 检查状态</h2>
-                <ul>
-                    <li>
-                        <code>is visible @e1</code>：是否可见
-                    </li>
-                    <li>
-                        <code>is enabled @e1</code>：是否可用
-                    </li>
-                    <li>
-                        <code>is checked @e1</code>：是否已选中
-                    </li>
-                </ul>
-                <div class="desc">返回真值或假值用于条件判断</div>
-            </div>
-
-            <!-- 截图与 PDF -->
-            <div class="card">
-                <h2>📷 截图与 PDF</h2>
-                <ul>
-                    <li>
-                        <code>screenshot</code>：截图到 stdout
-                    </li>
-                    <li>
-                        <code>screenshot path.png</code>：保存到文件
-                    </li>
-                    <li>
-                        <code>screenshot --full</code>：全页截图
-                    </li>
-                    <li>
-                        <code>pdf output.pdf</code>：保存为 PDF
-                    </li>
-                </ul>
-            </div>
-
-            <!-- 视频录制 -->
-            <div class="card">
-                <h2>🎬 视频录制</h2>
-                <ul>
-                    <li>
-                        <code>record start ./demo.webm</code>：开始录制
-                    </li>
-                    <li>
-                        <code>record stop</code>：停止并保存视频
-                    </li>
-                    <li>
-                        <code>record restart ./take2.webm</code>：停止当前 + 开始新录制
-                    </li>
-                </ul>
-                <div class="desc">录制创建新上下文但保留 cookies/storage。未提供 URL 时自动回到当前页</div>
-            </div>
-
-            <!-- 等待 -->
-            <div class="card">
-                <h2>⏳ 等待</h2>
-                <ul>
-                    <li>
-                        <code>wait @e1</code>：等待元素出现
-                    </li>
-                    <li>
-                        <code>wait 2000</code>：等待毫秒数
-                    </li>
-                    <li>
-                        <code>wait --text "Success"</code>：等待文本（或 -t）
-                    </li>
-                    <li>
-                        <code>wait --url "**/dashboard"</code>：等待 URL 模式（或 -u）
-                    </li>
-                    <li>
-                        <code>wait --load networkidle</code>：等待网络空闲（或 -l）
-                    </li>
-                    <li>
-                        <code>wait --fn "window.ready"</code>：等待 JS 条件（或 -f）
-                    </li>
-                </ul>
-            </div>
-
-            <!-- 鼠标控制 -->
-            <div class="card">
-                <h2>🖱️ 鼠标控制</h2>
-                <ul>
-                    <li>
-                        <code>mouse move 100 200</code>：移动鼠标
-                    </li>
-                    <li>
-                        <code>mouse down left</code>：按下按钮
-                    </li>
-                    <li>
-                        <code>mouse up left</code>：释放按钮
-                    </li>
-                    <li>
-                        <code>mouse wheel 100</code>：滚轮滚动
-                    </li>
-                </ul>
-            </div>
-
-            <!-- 语义定位器 -->
-            <div class="card">
-                <h2>🎯 语义定位器</h2>
-                <ul>
-                    <li>
-                        <code>find role button click --name "Submit"</code>：按角色定位
-                    </li>
-                    <li>
-                        <code>find text "Sign In" click</code>：按文本定位
-                    </li>
-                    <li>
-                        <code>find text "Sign In" click --exact</code>：精确匹配
-                    </li>
-                    <li>
-                        <code>find label "Email" fill "user@test.com"</code>：按标签定位
-                    </li>
-                    <li>
-                        <code>find placeholder "Search" type "query"</code>：按占位符定位
-                    </li>
-                    <li>
-                        <code>find alt "Logo" click</code>：按 alt 文本定位
-                    </li>
-                    <li>
-                        <code>find testid "submit-btn" click</code>：按测试 ID 定位
-                    </li>
-                    <li>
-                        <code>find first ".item" click</code>：首个匹配
-                    </li>
-                    <li>
-                        <code>find last ".item" click</code>：最后一个匹配
-                    </li>
-                    <li>
-                        <code>find nth 2 "a" hover</code>：第 n 个匹配
-                    </li>
-                </ul>
-                <div class="desc">除 @refs 外的替代定位方案，更语义化</div>
-            </div>
-
-            <!-- 浏览器设置 -->
-            <div class="card">
-                <h2>⚙️ 浏览器设置</h2>
-                <ul>
-                    <li>
-                        <code>set viewport 1920 1080</code>：设置视口大小
-                    </li>
-                    <li>
-                        <code>set device "iPhone 14"</code>：模拟设备
-                    </li>
-                    <li>
-                        <code>set user-agent "custom"</code>：自定义 User-Agent
-                    </li>
-                    <li>
-                        <code>set geolocation 37.7 -122.4</code>：设置地理位置
-                    </li>
-                    <li>
-                        <code>set timezone "America/LA"</code>：设置时区
-                    </li>
-                    <li>
-                        <code>set locale "ja-JP"</code>：设置语言环境
-                    </li>
-                    <li>
-                        <code>set permissions geolocation</code>：权限设置
-                    </li>
-                    <li>
-                        <code>set extra-http-headers</code>：额外 HTTP 头
-                    </li>
-                </ul>
-            </div>
-
-            <!-- 网络模拟 -->
-            <div class="card">
-                <h2>🌐 网络模拟</h2>
-                <h3>离线与速度</h3>
-                <ul>
-                    <li>
-                        <code>network offline</code>：离线模式
-                    </li>
-                    <li>
-                        <code>network online</code>：在线模式
-                    </li>
-                    <li>
-                        <code>network slow "good3g"</code>：模拟慢速网络
-                    </li>
-                    <li>
-                        <code>network fast</code>：快速网络
-                    </li>
-                </ul>
-                <div class="desc">支持：offline, good3g, slow3g, fast</div>
-            </div>
-
-            <!-- 请求拦截 -->
-            <div class="card">
-                <h2>🔌 请求拦截</h2>
-                <ul>
-                    <li>
-                        <code>network route "**/api/*" --status 200 --body '{"mock":true}'</code>：Mock 响应
-                    </li>
-                    <li>
-                        <code>network route "**/api/*" --file mock.json</code>：从文件加载
-                    </li>
-                    <li>
-                        <code>network route "**/api/*" --abort</code>：中止请求
-                    </li>
-                    <li>
-                        <code>network unroute "**/api/*"</code>：移除路由
-                    </li>
-                    <li>
-                        <code>network requests</code>：查看请求
-                    </li>
-                    <li>
-                        <code>network requests --filter api</code>：过滤请求
-                    </li>
-                </ul>
-            </div>
-
-            <!-- 标签页与窗口 -->
-            <div class="card">
-                <h2>📑 标签页与窗口</h2>
-                <ul>
-                    <li>
-                        <code>tab</code>：列出标签
-                    </li>
-                    <li>
-                        <code>tab new [url]</code>：新标签
-                    </li>
-                    <li>
-                        <code>tab 2</code>：按索引切换
-                    </li>
-                    <li>
-                        <code>tab close</code>：关闭当前
-                    </li>
-                    <li>
-                        <code>tab close 2</code>：按索引关闭
-                    </li>
-                    <li>
-                        <code>window new</code>：新窗口
-                    </li>
-                </ul>
-            </div>
-
-            <!-- 框架 -->
-            <div class="card">
-                <h2>🏗️ 框架操作</h2>
-                <ul>
-                    <li>
-                        <code)frame "#iframe"</code>：切换到 iframe
-                    </li>
-                    <li>
-                        <code>frame main</code>：回到主框架
-                    </li>
-                </ul>
-            </div>
-
-            <!-- 对话框 -->
-            <div class="card">
-                <h2>💬 对话框</h2>
-                <ul>
-                    <li>
-                        <code>dialog accept [text]</code>：接受对话框
-                    </li>
-                    <li>
-                        <code>dialog dismiss</code>：拒绝对话框
-                    </li>
-                </ul>
-                <div class="desc">处理 alert、confirm、prompt 等原生对话框</div>
-            </div>
-
-            <!-- JavaScript -->
-            <div class="card">
-                <h2>📜 JavaScript</h2>
-                <ul>
-                    <li>
-                        <code>eval "document.title"</code>：执行 JavaScript
-                    </li>
-                </ul>
-                <div class="desc">在页面上下文中执行任意 JS 代码</div>
-            </div>
-
-            <!-- 全局选项 -->
-            <div class="card">
-                <h2>🛠️ 全局选项</h2>
-                <ul>
-                    <li>
-                        <code>--session &lt;name&gt;</code>：隔离浏览器会话
-                    </li>
-                    <li>
-                        <code>--json</code>：JSON 输出
-                    </li>
-                    <li>
-                        <code>--headed</code>：显示浏览器窗口
-                    </li>
-                    <li>
-                        <code>--full</code>：全页截图（-f）
-                    </li>
-                    <li>
-                        <code>--cdp &lt;port&gt;</code>：CDP 端口连接
-                    </li>
-                    <li>
-                        <code>-p &lt;provider&gt;</code>：云浏览器提供商
-                    </li>
-                    <li>
-                        <code>--proxy &lt;url&gt;</code>：代理服务器
-                    </li>
-                    <li>
-                        <code>--headers &lt;json&gt;</code>：HTTP 头
-                    </li>
-                    <li>
-                        <code>--executable-path &lt;p&gt;</code>：浏览器路径
-                    </li>
-                    <li>
-                        <code>--extension &lt;path&gt;</code>：加载扩展（可重复）
-                    </li>
-                    <li>
-                        <code>--help</code>：帮助（-h）
-                    </li>
-                    <li>
-                        <code>--version</code>：版本（-V）
-                    </li>
-                    <li>
-                        <code>&lt;command&gt; --help</code>：命令帮助
-                    </li>
-                </ul>
-            </div>
-
-            <!-- 代理支持 -->
-            <div class="card">
-                <h2>🌍 代理支持</h2>
-                <pre><code class="language-bash">agent-browser --proxy http://proxy.com:8080 open example.com
-agent-browser --proxy http://user:pass@proxy.com:8080 open example.com
-agent-browser --proxy socks5://proxy.com:1080 open example.com</code></pre>
-                <div class="desc">支持 HTTP、HTTPS、SOCKS5 代理协议</div>
-            </div>
-
-            <!-- 环境变量 -->
-            <div class="card">
-                <h2>🔧 环境变量</h2>
-                <ul>
-                    <li>
-                        <code>AGENT_BROWSER_SESSION</code>：默认会话名
-                    </li>
-                    <li>
-                        <code>AGENT_BROWSER_EXECUTABLE_PATH</code>：自定义浏览器路径
-                    </li>
-                    <li>
-                        <code>AGENT_BROWSER_EXTENSIONS</code>：扩展路径（逗号分隔）
-                    </li>
-                    <li>
-                        <code>AGENT_BROWSER_PROVIDER</code>：云浏览器提供商
-                    </li>
-                    <li>
-                        <code>AGENT_BROWSER_STREAM_PORT</code>：WebSocket 流端口
-                    </li>
-                    <li>
-                        <code>AGENT_BROWSER_HOME</code>：自定义安装位置
-                    </li>
-                </ul>
-            </div>
-
-            <!-- 示例：表单提交 -->
-            <div class="card">
-                <h2>📝 示例：表单提交</h2>
-                <pre><code class="language-bash">agent-browser open https://example.com/form
-agent-browser snapshot -i
-agent-browser fill @e1 "user@example.com"
-agent-browser fill @e2 "password123"
-agent-browser click @e3
-agent-browser wait --load networkidle
-agent-browser snapshot -i</code></pre>
-                <div class="desc">使用快照中的 @ref 填写表单并提交</div>
-            </div>
-
-            <!-- 示例：认证状态保存 -->
-            <div class="card">
-                <h2>🔐 示例：认证状态保存</h2>
-                <h3>登录一次</h3>
-                <pre><code class="language-bash">agent-browser open https://app.example.com/login
-agent-browser snapshot -i
-agent-browser fill @e1 "username"
-agent-browser fill @e2 "password"
-agent-browser click @e3
-agent-browser wait --url "**/dashboard"
-agent-browser state save auth.json</code></pre>
-                <h3>后续会话</h3>
-                <pre><code class="language-bash">agent-browser state load auth.json
-agent-browser open https://app.example.com/dashboard</code></pre>
-            </div>
-
-            <!-- 会话 -->
-            <div class="card">
-                <h2>🔄 会话（并行浏览器）</h2>
-                <pre><code class="language-bash">agent-browser --session test1 open site-a.com
-agent-browser --session test2 open site-b.com
-agent-browser session list</code></pre>
-                <div class="desc">支持多个并行浏览器会话，每个会话独立</div>
-            </div>
-
-            <!-- JSON 输出 -->
-            <div class="card">
-                <h2>📊 JSON 输出</h2>
-                <pre><code class="language-bash">agent-browser snapshot -i --json
-agent-browser get text @e1 --json</code></pre>
-                <div class="desc">机器可读输出，便于脚本解析和自动化</div>
-            </div>
-
-            <!-- 调试 -->
-            <div class="card">
-                <h2>🐛 调试</h2>
-                <ul>
-                    <li>
-                        <code>--headed</code>：显示浏览器窗口
-                    </li>
-                    <li>
-                        <code>--cdp 9222</code>：CDP 端口连接
-                    </li>
-                    <li>
-                        <code>connect 9222</code>：连接命令
-                    </li>
-                    <li>
-                        <code>console</code>：查看控制台消息
-                    </li>
-                    <li>
-                        <code>console --clear</code>：清空控制台
-                    </li>
-                    <li>
-                        <code>errors</code>：查看页面错误
-                    </li>
-                    <li>
-                        <code>errors --clear</code>：清空错误
-                    </li>
-                    <li>
-                        <code>highlight @e1</code>：高亮元素
-                    </li>
-                    <li>
-                        <code>trace start</code>：开始录制 trace
-                    </li>
-                    <li>
-                        <code>trace stop trace.zip</code>：保存 trace
-                    </li>
-                    <li>
-                        <code>record start ./debug.webm</code>：录制视频
-                    </li>
-                    <li>
-                        <code>record stop</code>：保存录制
-                    </li>
-                </ul>
-            </div>
-        </div>
+  <div class="container">
+    <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
+      <span class="title">Agent Browser 速查表</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label">版本</span><span class="meta-value">0.20.14</span></span>
+        <span class="meta-item"><span class="meta-label">更新日志</span><span class="meta-value">2026-03-17</span></span>
+        <span class="meta-item"><span class="meta-label">GitHub</span><span class="meta-value"><a class="meta-link" href="https://github.com/vercel-labs/agent-browser" target="_blank" rel="noopener">vercel-labs/agent-browser</a></span></span>
+        <span class="meta-item"><span class="meta-label">Zread</span><span class="meta-value"><a class="meta-link" href="https://zread.ai/vercel-labs/agent-browser" target="_blank" rel="noopener">打开 Zread</a></span></span>
+      </div>
+      <div class="meta-tags"><tag-chip class="tag tag-group-2 detail-tag" data-name="自动化工具" data-group="2" label="自动化工具" group="2" variant="detail" icon="mdi:robot" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5A2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5a2.5 2.5 0 0 0 2.5 2.5a2.5 2.5 0 0 0 2.5-2.5a2.5 2.5 0 0 0-2.5-2.5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="CLI 工具" data-group="2" label="CLI 工具" group="2" variant="detail" icon="mdi:console-network-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M15 20a1 1 0 0 0-1-1h-1v-2h4a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4v2h-1a1 1 0 0 0-1 1H2v2h7a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1h7v-2zm-8-5V5h10v10zm1-8.11l3.56 3.56L8 14h2.53l2.92-2.92c.33-.34.33-.9 0-1.26L10.5 6.89zm8 5.33h-2.67V14H16z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-1 detail-tag" data-name="JavaScript" data-group="1" label="JavaScript" group="1" variant="detail" icon="mdi:language-javascript" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M3 3h18v18H3zm4.73 15.04c.4.85 1.19 1.55 2.54 1.55c1.5 0 2.53-.8 2.53-2.55v-5.78h-1.7V17c0 .86-.35 1.08-.9 1.08c-.58 0-.82-.4-1.09-.87zm5.98-.18c.5.98 1.51 1.73 3.09 1.73c1.6 0 2.8-.83 2.8-2.36c0-1.41-.81-2.04-2.25-2.66l-.42-.18c-.73-.31-1.04-.52-1.04-1.02c0-.41.31-.73.81-.73c.48 0 .8.21 1.09.73l1.31-.87c-.55-.96-1.33-1.33-2.4-1.33c-1.51 0-2.48.96-2.48 2.23c0 1.38.81 2.03 2.03 2.55l.42.18c.78.34 1.24.55 1.24 1.13c0 .48-.45.83-1.15.83c-.83 0-1.31-.43-1.67-1.03z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-1 detail-tag" data-name="Node.js" data-group="1" label="Node.js" group="1" variant="detail" icon="mdi:nodejs" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M12 1.85c-.27 0-.55.07-.78.2l-7.44 4.3c-.48.28-.78.8-.78 1.36v8.58c0 .56.3 1.08.78 1.36l1.95 1.12c.95.46 1.27.47 1.71.47c1.4 0 2.21-.85 2.21-2.33V8.44c0-.12-.1-.22-.22-.22H8.5c-.13 0-.23.1-.23.22v8.47c0 .66-.68 1.31-1.77.76L4.45 16.5a.26.26 0 0 1-.11-.21V7.71c0-.09.04-.17.11-.21l7.44-4.29c.06-.04.16-.04.22 0l7.44 4.29c.07.04.11.12.11.21v8.58c0 .08-.04.16-.11.21l-7.44 4.29c-.06.04-.16.04-.23 0L10 19.65c-.08-.03-.16-.04-.21-.01c-.53.3-.63.36-1.12.51c-.12.04-.31.11.07.32l2.48 1.47q.36.21.78.21t.78-.21l7.44-4.29c.48-.28.78-.8.78-1.36V7.71c0-.56-.3-1.08-.78-1.36l-7.44-4.3c-.23-.13-.5-.2-.78-.2M14 8c-2.12 0-3.39.89-3.39 2.39c0 1.61 1.26 2.08 3.3 2.28c2.43.24 2.62.6 2.62 1.08c0 .83-.67 1.18-2.23 1.18c-1.98 0-2.4-.49-2.55-1.47a.226.226 0 0 0-.22-.18h-.96c-.12 0-.21.09-.21.22c0 1.24.68 2.74 3.94 2.74c2.35 0 3.7-.93 3.7-2.55c0-1.61-1.08-2.03-3.37-2.34c-2.31-.3-2.54-.46-2.54-1c0-.45.2-1.05 1.91-1.05c1.5 0 2.09.33 2.32 1.36c.02.1.11.17.21.17h.97c.05 0 .11-.02.15-.07c.04-.04.07-.1.05-.16C17.56 8.82 16.38 8 14 8&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-3 detail-tag" data-name="测试" data-group="3" label="测试" group="3" variant="detail" icon="mdi:test-tube" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M7 2v2h1v14a4 4 0 0 0 4 4a4 4 0 0 0 4-4V4h1V2zm4 14c-.6 0-1-.4-1-1s.4-1 1-1s1 .4 1 1s-.4 1-1 1m2-4c-.6 0-1-.4-1-1s.4-1 1-1s1 .4 1 1s-.4 1-1 1m1-5h-4V4h4z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-4 detail-tag" data-name="命令行" data-group="4" label="命令行" group="4" variant="detail" icon="mdi:console" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M20 19V7H4v12zm0-16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-7 14v-2h5v2zm-3.42-4L5.57 9H8.4l3.3 3.3c.39.39.39 1.03 0 1.42L8.42 17H5.59z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-3 detail-tag" data-name="开发" data-group="3" label="开发" group="3" variant="detail" icon="mdi:code-tags" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m14.6 16.6l4.6-4.6l-4.6-4.6L16 6l6 6l-6 6zm-5.2 0L4.8 12l4.6-4.6L8 6l-6 6l6 6z&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
     </div>
-    <script src="../../assets/common.js"></script>
-    <script>
-    // Prism.js 代码高亮初始化
-    document.addEventListener('DOMContentLoaded', function() {
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>🧭 快速定位 <a href="https://github.com/vercel-labs/agent-browser" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">面向 AI agent 的浏览器自动化 CLI。核心思路是先打开页面，再通过 snapshot 拿到 `@e1` 这类引用，后续点击、填写、提取信息都围绕这些 ref 展开。</div><ul><li>适合场景：网页测试、表单自动化、数据抓取、截图、录屏、CDP 连接现有浏览器</li><li><code>open -&gt; snapshot -i -&gt; click/fill/get -&gt; wait -&gt; screenshot/pdf</code></li><li><code>0.20.14</code></li><li><code>vercel-labs/agent-browser</code></li></ul><pre><code class="language-bash">agent-browser open https://example.com
+agent-browser snapshot -i
+agent-browser click @e1
+agent-browser fill @e2 &quot;user@example.com&quot;
+agent-browser wait --load networkidle
+agent-browser screenshot result.png</code></pre></div><div class="card"><h2>🚀 起手工作流 <a href="https://www.npmjs.com/package/agent-browser" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">可以把它类比成“浏览器版命令行状态机”。先把页面状态拿到手，再继续发命令，不要跳过 snapshot 直接盲点。</div><h3>安装与帮助</h3><pre><code class="language-bash">npx agent-browser --help
+npx agent-browser install
+agent-browser --version
+agent-browser &lt;command&gt; --help</code></pre><h3>标准操作顺序</h3><pre><code class="language-bash"># 1. 打开页面
+agent-browser open example.com
+
+# 2. 获取可交互元素
+agent-browser snapshot -i
+
+# 3. 根据 ref 操作
+agent-browser fill @e2 &quot;hello&quot;
+agent-browser click @e3
+
+# 4. 等待页面稳定
+agent-browser wait --load networkidle
+
+# 5. 再次抓取新状态
+agent-browser snapshot -i</code></pre><h3>连接已打开的浏览器</h3><pre><code class="language-bash"># Chrome / Edge 开启远程调试端口后连接
+agent-browser --cdp 9222 snapshot
+
+# 或者先建立连接，再继续操作
+agent-browser connect 9222
+agent-browser snapshot -i</code></pre></div><div class="card"><h2>页面打开与快照</h2><h3>导航</h3><pre><code class="language-bash">agent-browser open &lt;url&gt;
+agent-browser back
+agent-browser forward
+agent-browser reload
+agent-browser close</code></pre><h3>快照选项</h3><pre><code class="language-bash">agent-browser snapshot
+agent-browser snapshot -i
+agent-browser snapshot -i -C
+agent-browser snapshot -c
+agent-browser snapshot -d 3
+agent-browser snapshot -s &quot;#main&quot;</code></pre><ul><li><code>-i</code>：只保留交互元素，日常最常用</li><li><code>-C</code> <code>cursor:pointer</code> <code>onclick</code> <code>tabindex</code>：额外纳入 、、 这类“看起来像可点”的元素</li><li><code>-c</code>：压缩空结构，适合减少输出噪音</li><li><code>-s</code>：只分析某个局部区域，适合大页面</li></ul></div><div class="card"><h2>🖱️ 交互命令 <a href="https://github.com/vercel-labs/agent-browser" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">ref 交互比 CSS 选择器更稳，尤其适合给 agent 用。只有在 snapshot 不方便时，再退回 `find` 或普通 selector。</div><h3>常见点击与输入</h3><pre><code class="language-bash">agent-browser click @e1
+agent-browser dblclick @e1
+agent-browser hover @e1
+agent-browser focus @e1
+
+agent-browser fill @e2 &quot;text&quot;
+agent-browser type @e2 &quot;text&quot;
+agent-browser press Enter
+agent-browser press Control+a</code></pre><h3>表单与拖拽</h3><pre><code class="language-bash">agent-browser check @e1
+agent-browser uncheck @e1
+agent-browser select @e1 &quot;value&quot;
+agent-browser select @e1 &quot;a&quot; &quot;b&quot;
+agent-browser upload @e1 ./file.pdf
+agent-browser drag @e1 @e2
+agent-browser download @e3 ./report.pdf</code></pre><h3>滚动与鼠标</h3><pre><code class="language-bash">agent-browser scroll down 500
+agent-browser scroll right 240
+agent-browser scrollintoview @e1
+
+agent-browser mouse move 100 200
+agent-browser mouse down left
+agent-browser mouse up left
+agent-browser mouse wheel 600</code></pre><h3>语义定位</h3><pre><code class="language-bash">agent-browser find role button click --name &quot;Submit&quot;
+agent-browser find text &quot;Sign In&quot; click
+agent-browser find label &quot;Email&quot; fill &quot;user@test.com&quot;
+agent-browser find placeholder &quot;Search&quot; type &quot;agent-browser&quot;
+agent-browser find testid &quot;submit-btn&quot; click
+agent-browser find nth 2 &quot;a&quot; hover</code></pre></div><div class="card"><h2>抓取与状态检查</h2><h3>读取页面信息</h3><pre><code class="language-bash">agent-browser get text @e1
+agent-browser get html @e1
+agent-browser get value @e1
+agent-browser get attr @e1 href
+agent-browser get title
+agent-browser get url
+agent-browser get count &quot;.item&quot;
+agent-browser get box @e1
+agent-browser get styles @e1</code></pre><h3>状态判断</h3><pre><code class="language-bash">agent-browser is visible @e1
+agent-browser is enabled @e1
+agent-browser is checked @e1</code></pre><h3>等待页面稳定</h3><pre><code class="language-bash">agent-browser wait @e1
+agent-browser wait 1500
+agent-browser wait --text &quot;Success&quot;
+agent-browser wait --url &quot;**/dashboard&quot;
+agent-browser wait --load networkidle
+agent-browser wait --fn &quot;window.appReady === true&quot;</code></pre></div><div class="card"><h2>🗂️ 会话、存储与网络 <a href="https://github.com/vercel-labs/agent-browser" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">会话相关功能决定了“状态能不能复用”。需要保留登录态时，优先考虑 `--profile` 或 `--state`，而不是每次重登。</div><h3>会话与标签页</h3><pre><code class="language-bash">agent-browser --session qa open site-a.com
+agent-browser --session qa snapshot -i
+agent-browser session
+agent-browser session list
+
+agent-browser tab
+agent-browser tab new https://example.com
+agent-browser tab 2
+agent-browser tab close</code></pre><h3>Cookies 与 Storage</h3><pre><code class="language-bash">agent-browser cookies
+agent-browser cookies set token abc123 --url https://example.com
+agent-browser cookies clear
+
+agent-browser storage local
+agent-browser storage local auth
+agent-browser storage local set theme dark
+agent-browser storage local clear</code></pre><h3>浏览器设置</h3><pre><code class="language-bash">agent-browser set viewport 1440 900
+agent-browser set device &quot;iPhone 12&quot;
+agent-browser set geo 37.7749 -122.4194
+agent-browser set offline on
+agent-browser set headers &#39;{&quot;X-Test&quot;:&quot;1&quot;}&#39;
+agent-browser set credentials admin secret123
+agent-browser set media dark
+agent-browser set media light reduced-motion</code></pre><h3>网络拦截</h3><pre><code class="language-bash">agent-browser network route &quot;**/api/*&quot; --abort
+agent-browser network route &quot;**/data.json&quot; --body &#39;{&quot;mock&quot;:true}&#39;
+agent-browser network requests
+agent-browser network requests --filter &quot;api&quot;
+agent-browser network requests --clear
+agent-browser network unroute</code></pre></div><div class="card"><h2>🛠️ 调试、截图与录制 <a href="https://github.com/vercel-labs/agent-browser" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这部分适合排查“为什么 agent 没点对”“为什么页面状态不对”。思路和前端排查问题很像，先看页面表现，再看控制台和 trace。</div><h3>截图与 PDF</h3><pre><code class="language-bash">agent-browser screenshot
+agent-browser screenshot page.png
+agent-browser screenshot --full
+agent-browser pdf page.pdf</code></pre><h3>调试命令</h3><pre><code class="language-bash">agent-browser console
+agent-browser console --clear
+agent-browser errors
+agent-browser errors --clear
+agent-browser highlight @e1
+agent-browser eval &quot;document.title&quot;</code></pre><h3>Trace 与录屏</h3><pre><code class="language-bash">agent-browser trace start
+agent-browser trace stop trace.zip
+
+agent-browser record start ./demo.webm
+agent-browser click @e1
+agent-browser record stop</code></pre></div><div class="card"><h2>⚙️ 全局选项与环境变量 <a href="https://www.npmjs.com/package/agent-browser" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">全局选项主要控制浏览器来源、状态复用和输出格式。脚本场景里最常见的是 `--json`、`--session`、`--profile`、`--cdp`。</div><h3>常用全局选项</h3><pre><code class="language-bash">agent-browser --json snapshot -i
+agent-browser --headed open example.com
+agent-browser --session test open example.com
+agent-browser --profile ~/.browser-profile open example.com
+agent-browser --state ./auth.json open example.com
+agent-browser --proxy http://127.0.0.1:7890 open example.com
+agent-browser --proxy-bypass &quot;localhost,*.internal.com&quot; open example.com
+agent-browser --ignore-https-errors open https://localhost:8443
+agent-browser --allow-file-access open file:///tmp/demo.html
+agent-browser --user-agent &quot;Custom UA&quot; open example.com
+agent-browser --args &quot;--no-sandbox,--disable-blink-features=AutomationControlled&quot; open example.com</code></pre><h3>Provider 相关</h3><pre><code class="language-bash">agent-browser -p browserbase open example.com
+agent-browser -p browseruse open example.com
+agent-browser -p kernel open example.com
+
+# iOS 模拟器场景
+agent-browser -p ios open example.com
+agent-browser -p ios --device &quot;iPhone 15 Pro&quot; open example.com</code></pre><h3>环境变量</h3><pre><code class="language-bash">AGENT_BROWSER_SESSION=qa
+AGENT_BROWSER_PROFILE=./.browser-profile
+AGENT_BROWSER_STATE=./auth.json
+AGENT_BROWSER_EXECUTABLE_PATH=/path/to/chrome
+AGENT_BROWSER_PROVIDER=browserbase
+AGENT_BROWSER_STREAM_PORT=9223
+AGENT_BROWSER_IOS_DEVICE=&quot;iPhone 15 Pro&quot;
+AGENT_BROWSER_IOS_UDID=&lt;simulator-udid&gt;</code></pre></div><div class="card"><h2>🧪 高频 Recipes <a href="https://github.com/vercel-labs/agent-browser" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">下面这些组合更接近真实使用。不要把命令拆开死记，记“套路”更高效，就像前端里你记的是调试链路，不是单个 API 名字。</div><h3>登录后复用状态</h3><pre><code class="language-bash"># 首次登录
+agent-browser open https://app.example.com/login
+agent-browser snapshot -i
+agent-browser fill @e1 &quot;username&quot;
+agent-browser fill @e2 &quot;password&quot;
+agent-browser click @e3
+agent-browser wait --url &quot;**/dashboard&quot;
+
+# 后续执行直接复用 profile
+agent-browser --profile ./.agent-browser-profile open https://app.example.com/dashboard</code></pre><h3>连接本地 Chrome 做人工接管</h3><pre><code class="language-bash"># 先用远程调试端口启动 Chrome / Edge
+chrome.exe --remote-debugging-port=9222
+
+# 再由 agent-browser 接管
+agent-browser --cdp 9222 snapshot -i
+agent-browser click @e1
+agent-browser screenshot attached.png</code></pre><h3>抓取列表页文本</h3><pre><code class="language-bash">agent-browser open https://example.com/list
+agent-browser wait --load networkidle
+agent-browser snapshot -i -c
+agent-browser get count &quot;.item&quot;
+agent-browser get text @e4</code></pre></div>
+    </div>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
       if (window.Prism) {
         Prism.highlightAll();
-        Prism.plugins.lineNumbers = false;
-        console.log('代码高亮已启用');
       }
     });
-    </script>
+  </script>
 </body>
 </html>

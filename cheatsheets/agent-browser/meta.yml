@@ -1,4 +1,4 @@
-desc: 基于 Playwright 的浏览器自动化 CLI 工具，支持网页交互、表单填写、截图和视频录制。
+desc: 面向 AI agent 的浏览器自动化 CLI，支持网页交互、快照引用、截图、录屏、会话复用与 CDP 连接。
 tags:
   - 自动化工具
   - CLI 工具
@@ -7,6 +7,6 @@ tags:
   - 测试
   - 命令行
   - 开发
-version: unknown
-github: skyvern-ai/skyvern
-date: "2026-01-26"
+version: "0.20.14"
+github: vercel-labs/agent-browser
+date: "2026-03-17"

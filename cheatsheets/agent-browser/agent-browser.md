@@ -1,315 +1,380 @@
+---
+title: Agent Browser 速查表
+lang: bash
+version: "0.20.14"
+date: 2026-03-17
+github: vercel-labs/agent-browser
+colWidth: 340px
+---
+
 # Agent Browser 速查表
 
-## 快速开始
+## 快速定位
+---
+lang: bash
+emoji: 🧭
+link: https://github.com/vercel-labs/agent-browser
+desc: 面向 AI agent 的浏览器自动化 CLI。核心思路是先打开页面，再通过 snapshot 拿到 `@e1` 这类引用，后续点击、填写、提取信息都围绕这些 ref 展开。
+---
+
+- 适合场景：网页测试、表单自动化、数据抓取、截图、录屏、CDP 连接现有浏览器
+- 核心链路：`open -> snapshot -i -> click/fill/get -> wait -> screenshot/pdf`
+- 最新核对版本：`0.20.14`
+- 官方仓库：`vercel-labs/agent-browser`
 
 ```bash
-agent-browser open <url>        # 打开页面
-agent-browser snapshot -i       # 获取交互元素（带 refs）
-agent-browser click @e1         # 通过 ref 点击元素
-agent-browser fill @e2 "text"   # 填写输入框
-agent-browser close             # 关闭浏览器
+agent-browser open https://example.com
+agent-browser snapshot -i
+agent-browser click @e1
+agent-browser fill @e2 "user@example.com"
+agent-browser wait --load networkidle
+agent-browser screenshot result.png
 ```
 
-## 核心工作流
+## 起手工作流
+---
+lang: bash
+emoji: 🚀
+link: https://www.npmjs.com/package/agent-browser
+desc: 可以把它类比成“浏览器版命令行状态机”。先把页面状态拿到手，再继续发命令，不要跳过 snapshot 直接盲点。
+---
 
-1. 导航: `agent-browser open <url>`
-2. 快照: `agent-browser snapshot -i` (返回带 @ref 的元素)
-3. 使用快照中的 refs 交互
-4. 导航或 DOM 变化后重新快照
-
-## 导航命令
-
+### 安装与帮助
 ```bash
-agent-browser open <url>      # 导航到 URL (别名: goto, navigate)
-                              # 支持: https://, http://, file://, about:, data://
-                              # 未指定协议时自动添加 https://
-agent-browser back            # 后退
-agent-browser forward         # 前进
-agent-browser reload          # 刷新页面
-agent-browser close           # 关闭浏览器 (别名: quit, exit)
-agent-browser connect 9222    # 通过 CDP 端口连接浏览器
+npx agent-browser --help
+npx agent-browser install
+agent-browser --version
+agent-browser <command> --help
 ```
 
-## 快照分析
-
+### 标准操作顺序
 ```bash
-agent-browser snapshot            # 完整可访问树
-agent-browser snapshot -i         # 仅交互元素（推荐）
-agent-browser snapshot -c         # 紧凑输出
-agent-browser snapshot -d 3       # 限制深度到 3
-agent-browser snapshot -s "#main" # 限定到 CSS 选择器范围
+# 1. 打开页面
+agent-browser open example.com
+
+# 2. 获取可交互元素
+agent-browser snapshot -i
+
+# 3. 根据 ref 操作
+agent-browser fill @e2 "hello"
+agent-browser click @e3
+
+# 4. 等待页面稳定
+agent-browser wait --load networkidle
+
+# 5. 再次抓取新状态
+agent-browser snapshot -i
 ```
 
-## 交互操作（使用快照中的 @refs）
-
+### 连接已打开的浏览器
 ```bash
-# 点击
-agent-browser click @e1           # 单击
-agent-browser dblclick @e1        # 双击
-agent-browser focus @e1           # 聚焦元素
-agent-browser hover @e1           # 悬停
+# Chrome / Edge 开启远程调试端口后连接
+agent-browser --cdp 9222 snapshot
 
-# 填写
-agent-browser fill @e2 "text"     # 清空后输入
-agent-browser type @e2 "text"     # 输入不先清空
-agent-browser press Enter         # 按键 (别名: key)
-agent-browser press Control+a     # 组合键
-agent-browser keydown Shift       # 按下按键
-agent-browser keyup Shift         # 释放按键
-
-# 表单
-agent-browser check @e1           # 选中复选框
-agent-browser uncheck @e1         # 取消选中
-agent-browser select @e1 "value"  # 下拉选项选择
-agent-browser select @e1 "a" "b"  # 多选
-agent-browser upload @e1 file.pdf # 上传文件
-
-# 滚动
-agent-browser scroll down 500     # 滚动页面 (默认: down 300px)
-agent-browser scrollintoview @e1  # 滚动元素到视图 (别名: scrollinto)
-agent-browser drag @e1 @e2        # 拖拽
+# 或者先建立连接，再继续操作
+agent-browser connect 9222
+agent-browser snapshot -i
 ```
 
-## 获取信息
+## 页面打开与快照
+---
+lang: bash
+emoji: 📸
+link: https://github.com/vercel-labs/agent-browser
+desc: `snapshot` 是这个工具最关键的一步。页面跳转、DOM 大改、弹窗出现以后，通常都要重新做一次快照。
+---
 
+### 导航
 ```bash
-agent-browser get text @e1        # 元素文本
-agent-browser get html @e1        # 元素 HTML
-agent-browser get value @e1       # 输入值
-agent-browser get attr @e1 href   # 属性值
-agent-browser get title           # 页面标题
-agent-browser get url             # 当前 URL
-agent-browser get count ".item"   # 匹配元素数量
-agent-browser get box @e1         # 边界框
-agent-browser get styles @e1      # 计算样式（字体、颜色、背景等）
+agent-browser open <url>
+agent-browser back
+agent-browser forward
+agent-browser reload
+agent-browser close
 ```
 
-## 检查状态
-
+### 快照选项
 ```bash
-agent-browser is visible @e1      # 是否可见
-agent-browser is enabled @e1      # 是否可用
-agent-browser is checked @e1      # 是否已选中
+agent-browser snapshot
+agent-browser snapshot -i
+agent-browser snapshot -i -C
+agent-browser snapshot -c
+agent-browser snapshot -d 3
+agent-browser snapshot -s "#main"
 ```
 
-## 截图与 PDF
+- `-i`：只保留交互元素，日常最常用
+- `-C`：额外纳入 `cursor:pointer`、`onclick`、`tabindex` 这类“看起来像可点”的元素
+- `-c`：压缩空结构，适合减少输出噪音
+- `-s`：只分析某个局部区域，适合大页面
 
+## 交互命令
+---
+lang: bash
+emoji: 🖱️
+link: https://github.com/vercel-labs/agent-browser
+desc: ref 交互比 CSS 选择器更稳，尤其适合给 agent 用。只有在 snapshot 不方便时，再退回 `find` 或普通 selector。
+---
+
+### 常见点击与输入
 ```bash
-agent-browser screenshot          # 截图到 stdout
-agent-browser screenshot path.png # 保存到文件
-agent-browser screenshot --full   # 全页截图
-agent-browser pdf output.pdf      # 保存为 PDF
+agent-browser click @e1
+agent-browser dblclick @e1
+agent-browser hover @e1
+agent-browser focus @e1
+
+agent-browser fill @e2 "text"
+agent-browser type @e2 "text"
+agent-browser press Enter
+agent-browser press Control+a
 ```
 
-## 视频录制
-
+### 表单与拖拽
 ```bash
-agent-browser record start ./demo.webm    # 开始录制（使用当前 URL + 状态）
-agent-browser click @e1                   # 执行操作
-agent-browser record stop                 # 停止并保存视频
-agent-browser record restart ./take2.webm # 停止当前 + 开始新录制
+agent-browser check @e1
+agent-browser uncheck @e1
+agent-browser select @e1 "value"
+agent-browser select @e1 "a" "b"
+agent-browser upload @e1 ./file.pdf
+agent-browser drag @e1 @e2
+agent-browser download @e3 ./report.pdf
 ```
 
-录制会创建新上下文但保留会话的 cookies/storage。若未提供 URL，自动回到当前页面。为录制流畅演示，先探索后录制。
-
-## 等待
-
+### 滚动与鼠标
 ```bash
-agent-browser wait @e1                     # 等待元素
-agent-browser wait 2000                    # 等待毫秒数
-agent-browser wait --text "Success"        # 等待文本 (or -t)
-agent-browser wait --url "**/dashboard"    # 等待 URL 模式 (or -u)
-agent-browser wait --load networkidle      # 等待网络空闲 (or -l)
-agent-browser wait --fn "window.ready"     # 等待 JS 条件 (or -f)
+agent-browser scroll down 500
+agent-browser scroll right 240
+agent-browser scrollintoview @e1
+
+agent-browser mouse move 100 200
+agent-browser mouse down left
+agent-browser mouse up left
+agent-browser mouse wheel 600
 ```
 
-## 鼠标控制
-
-```bash
-agent-browser mouse move 100 200      # 移动鼠标
-agent-browser mouse down left         # 按下按钮
-agent-browser mouse up left           # 释放按钮
-agent-browser mouse wheel 100         # 滚轮
-```
-
-## 语义定位器（除 refs 外的替代方案）
-
+### 语义定位
 ```bash
 agent-browser find role button click --name "Submit"
 agent-browser find text "Sign In" click
-agent-browser find text "Sign In" click --exact      # 仅精确匹配
 agent-browser find label "Email" fill "user@test.com"
-agent-browser find placeholder "Search" type "query"
-agent-browser find alt "Logo" click
-agent-browser find title "Close" click
+agent-browser find placeholder "Search" type "agent-browser"
 agent-browser find testid "submit-btn" click
-agent-browser find first ".item" click
-agent-browser find last ".item" click
 agent-browser find nth 2 "a" hover
 ```
 
-## 浏览器设置
+## 抓取与状态检查
+---
+lang: bash
+emoji: 🔎
+link: https://github.com/vercel-labs/agent-browser
+desc: `get` 像在 DOM 上做只读查询，`is` 像布尔断言。写自动化脚本时，常见模式是先 `wait`，再 `get` 或 `is`。
+---
 
+### 读取页面信息
 ```bash
-agent-browser set viewport 1920 1080          # 设置视口大小
-agent-browser set device "iPhone 14"          # 模拟设备
-agent-browser set user-agent "custom"         # 自定义 User-Agent
-agent-browser set geolocation 37.7 -122.4     # 设置地理位置
-agent-browser set timezone "America/LA"       # 设置时区
-agent-browser set locale "ja-JP"              # 设置语言环境
-agent-browser set permissions geolocation     # 权限设置
-agent-browser set extra-http-headers          # 额外 HTTP 头
+agent-browser get text @e1
+agent-browser get html @e1
+agent-browser get value @e1
+agent-browser get attr @e1 href
+agent-browser get title
+agent-browser get url
+agent-browser get count ".item"
+agent-browser get box @e1
+agent-browser get styles @e1
 ```
 
-## 网络模拟与拦截
-
+### 状态判断
 ```bash
-# 离线模式
-agent-browser network offline
-agent-browser network online
-
-# 速度模拟
-agent-browser network slow "offline"
-agent-browser network slow "good3g"
-agent-browser network slow "wifi"
-agent-browser network fast
-
-# 请求拦截
-agent-browser network route "**/api/*" --status 200 --body '{"mock":true}'
-agent-browser network route "**/api/*" --file mock.json
-agent-browser network route "**/api/*" --abort
-agent-browser network unroute "**/api/*"
-agent-browser network requests
-agent-browser network requests --filter api
+agent-browser is visible @e1
+agent-browser is enabled @e1
+agent-browser is checked @e1
 ```
 
-## 标签页与窗口
-
+### 等待页面稳定
 ```bash
-agent-browser tab                 # 列出标签
-agent-browser tab new [url]       # 新标签
-agent-browser tab 2               # 按索引切换
-agent-browser tab close           # 关闭当前
-agent-browser tab close 2         # 按索引关闭
-agent-browser window new          # 新窗口
-```
-
-## 框架
-
-```bash
-agent-browser frame "#iframe"     # 切换到 iframe
-agent-browser frame main          # 回到主框架
-```
-
-## 对话框
-
-```bash
-agent-browser dialog accept [text]  # 接受对话框
-agent-browser dialog dismiss        # 拒绝对话框
-```
-
-## JavaScript
-
-```bash
-agent-browser eval "document.title"   # 执行 JS
-```
-
-## 全局选项
-
-```bash
-agent-browser --session <name> ...    # 隔离浏览器会话
-agent-browser --json ...              # JSON 输出
-agent-browser --headed ...            # 显示浏览器窗口（非无头模式）
-agent-browser --full ...              # 全页截图 (-f)
-agent-browser --cdp <port> ...        # 通过 CDP 端口连接
-agent-browser -p <provider> ...       # 云浏览器提供商 (--provider)
-agent-browser --proxy <url> ...       # 使用代理服务器
-agent-browser --headers <json> ...    # 针对 URL 源的 HTTP 头
-agent-browser --executable-path <p>   # 自定义浏览器路径
-agent-browser --extension <path> ...  # 加载扩展（可重复）
-agent-browser --help                  # 显示帮助 (-h)
-agent-browser --version               # 显示版本 (-V)
-agent-browser <command> --help        # 命令详细帮助
-```
-
-## 代理支持
-
-```bash
-agent-browser --proxy http://proxy.com:8080 open example.com
-agent-browser --proxy http://user:pass@proxy.com:8080 open example.com
-agent-browser --proxy socks5://proxy.com:1080 open example.com
-```
-
-## 环境变量
-
-```bash
-AGENT_BROWSER_SESSION="mysession"            # 默认会话名
-AGENT_BROWSER_EXECUTABLE_PATH="/path/chrome" # 自定义浏览器路径
-AGENT_BROWSER_EXTENSIONS="/ext1,/ext2"       # 扩展路径，逗号分隔
-AGENT_BROWSER_PROVIDER="browserbase"         # 云浏览器提供商
-AGENT_BROWSER_STREAM_PORT="9223"             # WebSocket 流端口
-AGENT_BROWSER_HOME="/path/to/agent-browser"  # 自定义安装位置（daemon.js）
-```
-
-## 示例：表单提交
-
-```bash
-agent-browser open https://example.com/form
-agent-browser snapshot -i
-# 输出显示: textbox "Email" [ref=e1], textbox "Password" [ref=e2], button "Submit" [ref=e3]
-
-agent-browser fill @e1 "user@example.com"
-agent-browser fill @e2 "password123"
-agent-browser click @e3
+agent-browser wait @e1
+agent-browser wait 1500
+agent-browser wait --text "Success"
+agent-browser wait --url "**/dashboard"
 agent-browser wait --load networkidle
-agent-browser snapshot -i  # 检查结果
+agent-browser wait --fn "window.appReady === true"
 ```
 
-## 示例：认证状态保存
+## 会话、存储与网络
+---
+lang: bash
+emoji: 🗂️
+link: https://github.com/vercel-labs/agent-browser
+desc: 会话相关功能决定了“状态能不能复用”。需要保留登录态时，优先考虑 `--profile` 或 `--state`，而不是每次重登。
+---
 
+### 会话与标签页
 ```bash
-# 一次登录
+agent-browser --session qa open site-a.com
+agent-browser --session qa snapshot -i
+agent-browser session
+agent-browser session list
+
+agent-browser tab
+agent-browser tab new https://example.com
+agent-browser tab 2
+agent-browser tab close
+```
+
+### Cookies 与 Storage
+```bash
+agent-browser cookies
+agent-browser cookies set token abc123 --url https://example.com
+agent-browser cookies clear
+
+agent-browser storage local
+agent-browser storage local auth
+agent-browser storage local set theme dark
+agent-browser storage local clear
+```
+
+### 浏览器设置
+```bash
+agent-browser set viewport 1440 900
+agent-browser set device "iPhone 12"
+agent-browser set geo 37.7749 -122.4194
+agent-browser set offline on
+agent-browser set headers '{"X-Test":"1"}'
+agent-browser set credentials admin secret123
+agent-browser set media dark
+agent-browser set media light reduced-motion
+```
+
+### 网络拦截
+```bash
+agent-browser network route "**/api/*" --abort
+agent-browser network route "**/data.json" --body '{"mock":true}'
+agent-browser network requests
+agent-browser network requests --filter "api"
+agent-browser network requests --clear
+agent-browser network unroute
+```
+
+## 调试、截图与录制
+---
+lang: bash
+emoji: 🛠️
+link: https://github.com/vercel-labs/agent-browser
+desc: 这部分适合排查“为什么 agent 没点对”“为什么页面状态不对”。思路和前端排查问题很像，先看页面表现，再看控制台和 trace。
+---
+
+### 截图与 PDF
+```bash
+agent-browser screenshot
+agent-browser screenshot page.png
+agent-browser screenshot --full
+agent-browser pdf page.pdf
+```
+
+### 调试命令
+```bash
+agent-browser console
+agent-browser console --clear
+agent-browser errors
+agent-browser errors --clear
+agent-browser highlight @e1
+agent-browser eval "document.title"
+```
+
+### Trace 与录屏
+```bash
+agent-browser trace start
+agent-browser trace stop trace.zip
+
+agent-browser record start ./demo.webm
+agent-browser click @e1
+agent-browser record stop
+```
+
+## 全局选项与环境变量
+---
+lang: bash
+emoji: ⚙️
+link: https://www.npmjs.com/package/agent-browser
+desc: 全局选项主要控制浏览器来源、状态复用和输出格式。脚本场景里最常见的是 `--json`、`--session`、`--profile`、`--cdp`。
+---
+
+### 常用全局选项
+```bash
+agent-browser --json snapshot -i
+agent-browser --headed open example.com
+agent-browser --session test open example.com
+agent-browser --profile ~/.browser-profile open example.com
+agent-browser --state ./auth.json open example.com
+agent-browser --proxy http://127.0.0.1:7890 open example.com
+agent-browser --proxy-bypass "localhost,*.internal.com" open example.com
+agent-browser --ignore-https-errors open https://localhost:8443
+agent-browser --allow-file-access open file:///tmp/demo.html
+agent-browser --user-agent "Custom UA" open example.com
+agent-browser --args "--no-sandbox,--disable-blink-features=AutomationControlled" open example.com
+```
+
+### Provider 相关
+```bash
+agent-browser -p browserbase open example.com
+agent-browser -p browseruse open example.com
+agent-browser -p kernel open example.com
+
+# iOS 模拟器场景
+agent-browser -p ios open example.com
+agent-browser -p ios --device "iPhone 15 Pro" open example.com
+```
+
+### 环境变量
+```bash
+AGENT_BROWSER_SESSION=qa
+AGENT_BROWSER_PROFILE=./.browser-profile
+AGENT_BROWSER_STATE=./auth.json
+AGENT_BROWSER_EXECUTABLE_PATH=/path/to/chrome
+AGENT_BROWSER_PROVIDER=browserbase
+AGENT_BROWSER_STREAM_PORT=9223
+AGENT_BROWSER_IOS_DEVICE="iPhone 15 Pro"
+AGENT_BROWSER_IOS_UDID=<simulator-udid>
+```
+
+## 高频 Recipes
+---
+lang: bash
+emoji: 🧪
+link: https://github.com/vercel-labs/agent-browser
+desc: 下面这些组合更接近真实使用。不要把命令拆开死记，记“套路”更高效，就像前端里你记的是调试链路，不是单个 API 名字。
+---
+
+### 登录后复用状态
+```bash
+# 首次登录
 agent-browser open https://app.example.com/login
 agent-browser snapshot -i
 agent-browser fill @e1 "username"
 agent-browser fill @e2 "password"
 agent-browser click @e3
 agent-browser wait --url "**/dashboard"
-agent-browser state save auth.json
 
-# 后续会话：加载保存的状态
-agent-browser state load auth.json
-agent-browser open https://app.example.com/dashboard
+# 后续执行直接复用 profile
+agent-browser --profile ./.agent-browser-profile open https://app.example.com/dashboard
 ```
 
-## 会话（并行浏览器）
-
+### 连接本地 Chrome 做人工接管
 ```bash
-agent-browser --session test1 open site-a.com
-agent-browser --session test2 open site-b.com
-agent-browser session list
+# 先用远程调试端口启动 Chrome / Edge
+chrome.exe --remote-debugging-port=9222
+
+# 再由 agent-browser 接管
+agent-browser --cdp 9222 snapshot -i
+agent-browser click @e1
+agent-browser screenshot attached.png
 ```
 
-## JSON 输出（供解析）
-
+### 抓取列表页文本
 ```bash
-agent-browser snapshot -i --json
-agent-browser get text @e1 --json
-```
-
-## 调试
-
-```bash
-agent-browser --headed open example.com   # 显示浏览器窗口
-agent-browser --cdp 9222 snapshot         # 通过 CDP 端口连接
-agent-browser connect 9222                # 替代方案: connect 命令
-agent-browser console                     # 查看控制台消息
-agent-browser console --clear             # 清空控制台
-agent-browser errors                      # 查看页面错误
-agent-browser errors --clear              # 清空错误
-agent-browser highlight @e1               # 高亮元素
-agent-browser trace start                 # 开始录制 trace
-agent-browser trace stop trace.zip        # 停止并保存 trace
-agent-browser record start ./debug.webm   # 从当前页录制视频
-agent-browser record stop                 # 保存录制
+agent-browser open https://example.com/list
+agent-browser wait --load networkidle
+agent-browser snapshot -i -c
+agent-browser get count ".item"
+agent-browser get text @e4
 ```
