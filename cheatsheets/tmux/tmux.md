@@ -2,10 +2,118 @@
 title: tmux 速查表
 lang: bash
 version: "3.6a"
-date: 2026-03-05
+date: 2026-03-18
 github: tmux/tmux
 colWidth: 500px
 ---
+
+## 快速定位
+---
+lang: bash
+emoji: 🧭
+link: https://github.com/tmux/tmux/wiki/Getting-Started
+desc: tmux 就像给终端加了一层“可断线重连的工作区管理器”。如果你最常遇到的是鼠标复制失效、分屏后复制乱掉或剪贴板不同步，先看下面这组 cookbook。
+---
+
+- 典型入口：`tmux new -A -s work`
+- 最常见困惑：开了 `set -g mouse on` 之后，终端原本的系统级鼠标选中会被 tmux 接管
+- 先记结论：
+  - 想临时沿用终端自己的复制，按住修饰键拖拽
+  - 想保留 tmux 鼠标能力，就进入复制模式再复制
+  - 分屏复制容易乱时，先 `C-b z` 放大当前 pane
+
+## Cookbook：鼠标复制失效先怎么判断
+---
+lang: bash
+emoji: 🖱️
+link: https://github.com/tmux/tmux/wiki/Using-the-mouse
+desc: 当你在 tmux 里突然不能像平时那样拖选复制，十有八九不是终端坏了，而是 tmux 把鼠标事件接管了。
+---
+
+- 根因判断：如果配置里有 `set -g mouse on`，鼠标拖动通常不再是“系统级选中”，而会变成 tmux 内部的选择或复制动作
+- 默认行为变化：
+  - 终端模拟器原本负责的拖拽选中，被 tmux 拦下来处理
+  - 选中的内容默认进 tmux buffer，而不是系统剪贴板
+- 快速排查：
+
+```bash
+# 看当前是否开启鼠标模式
+tmux show -g mouse
+
+# 看当前是否尝试写系统剪贴板
+tmux show -s set-clipboard
+```
+
+## Recipe：临时绕过 tmux，直接走系统复制
+---
+lang: bash
+emoji: ⚡
+link: https://github.com/tmux/tmux/wiki/Clipboard
+desc: 这条路线最快，适合你只是临时想拖一段日志、报错或命令输出到系统剪贴板，不想改配置。
+---
+
+- `macOS/iTerm2/Terminal：按住 Option 再拖拽`
+- `Windows/PowerShell/CMD/MobaXterm：按住 Shift 再拖拽`
+- `Linux/GNOME Terminal/xterm：按住 Shift 再拖拽`
+- 使用场景：你只是偶尔复制一段文本，不想影响现有鼠标切 pane、改尺寸、点窗口标签这些操作
+- 风险点：不同终端可能对修饰键有自己的快捷键占用，但“按住修饰键绕过 tmux”这条思路基本一致
+
+## Recipe：关闭鼠标模式，回到传统复制
+---
+lang: bash
+emoji: 📴
+link: https://github.com/tmux/tmux/wiki/Using-the-mouse
+desc: 如果你更依赖终端自己的拖拽复制，而不是 tmux 的鼠标切 pane / 调整布局，可以直接把 mouse mode 关掉。
+---
+
+```bash
+# 当前会话里临时关闭
+tmux set -g mouse off
+
+# 改完配置后重载
+tmux source-file ~/.tmux.conf
+```
+
+```bash
+# ~/.tmux.conf
+set -g mouse off
+```
+
+- 适合场景：你的主要诉求是“像普通终端那样拖选复制”
+- 代价：pane 点击切换、鼠标拖动改大小、滚轮滚历史这些 tmux 鼠标能力会一起弱化或失效
+
+## Recipe：保留鼠标能力，但改用 tmux 复制模式
+---
+lang: bash
+emoji: 📋
+link: https://github.com/tmux/tmux/wiki/Getting-Started#copy-and-paste
+desc: 如果你想保留 mouse mode，就不要再把复制理解成“终端在选字”，而要理解成“tmux 自己在做复制”。
+---
+
+- 起手动作：`C-b [` 进入复制模式
+- 选择流程：
+  - `方向键 / PgUp / PgDn / 鼠标滚轮` 找到目标区域
+  - `Space` 开始选择
+  - `Enter` 结束选择并复制
+- 默认去向：复制结果先进 tmux buffer，不会天然同步到系统剪贴板
+- 要同步到系统剪贴板时，通常要再配：
+  - `set -s set-clipboard on`
+  - 或终端支持 `OSC52`
+  - 或外部工具如 `xclip` / `xsel`
+  - 或插件如 `tmux-yank`
+
+## Recipe：分屏复制乱掉时先放大当前 pane
+---
+lang: bash
+emoji: 🔍
+link: https://github.com/tmux/tmux/wiki/Getting-Started#splitting-the-window
+desc: 多 pane 场景里，复制常见问题不是“不能选”，而是跨 pane 看着容易乱。最稳的办法是先把当前 pane 单独放大。
+---
+
+- `C-b z`：最大化当前 pane
+- 在放大后的 pane 里完成复制
+- 再按一次 `C-b z`：恢复原布局
+- 适合场景：日志很多、分屏密集、拖选时容易跨 pane 或视觉干扰很强
 
 ## 🧭 架构与层级
 ---
@@ -191,6 +299,12 @@ desc: 文本选择、复制和粘贴操作
 - `Enter`：复制选中内容并退出
 - `Esc`：清除选择
 
+### 和系统剪贴板的边界
+- `tmux buffer`：tmux 自己的复制缓冲区
+- `system clipboard`：操作系统级剪贴板
+- 默认情况下，这两者不是同一个东西
+- 如果你在 tmux 里复制后，外部应用里粘贴不到，优先检查 `set-clipboard`、终端 OSC52 支持或 `xclip/xsel/pbcopy`
+
 ### 缓冲区管理
 - `C-b =`：打开缓冲区列表（可视化选择）
 - `tmux list-buffers`：列出所有缓冲区
@@ -236,8 +350,8 @@ desc: 命令提示符与脚本执行
 ---
 lang: bash
 emoji: 🖱️
-link: https://github.com/tmux/tmux/wiki/Getting-Started#using-the-mouse
-desc: 启用鼠标进行面板切换和文本选择
+link: https://github.com/tmux/tmux/wiki/Using-the-mouse
+desc: 启用鼠标进行 pane 切换、尺寸调整与 tmux 内部文本选择
 ---
 
 ### 启用鼠标
@@ -253,8 +367,13 @@ set -g mouse on
 - 左键点击面板：切换活动面板
 - 左键点击窗口名：切换窗口
 - 左键拖拽边框：调整面板大小
-- 左键拖拽选择文本：复制到缓冲区
+- 左键拖拽选择文本：通常进入 tmux 内部选择/复制逻辑，而不是终端原生系统选中
 - 右键点击面板：打开菜单（含常用命令）
+
+### 什么时候别开
+- 你主要依赖终端原生拖拽复制时
+- 你所在终端对修饰键绕过支持不好时
+- 你更在意“复制到系统剪贴板立即可用”，而不是 tmux 内部交互
 
 ## ⚙️ 配置文件
 ---
@@ -478,6 +597,11 @@ set -s set-clipboard on
 
 # 复制模式下进入 Vi 键位
 set -g mode-keys vi
+```
+
+```bash
+# Linux 下也可显式接外部剪贴板工具
+bind-key -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel "xclip -selection clipboard -in"
 ```
 
 ### 诊断思路

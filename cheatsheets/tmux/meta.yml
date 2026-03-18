@@ -1,8 +1,8 @@
-desc: tmux 进阶速查表：深入讲解会话/窗口/面板管理、复制模式、鼠标支持、配置优化与高级技巧，适合进阶用户。
+desc: tmux cookbook 风格速查表：先解决鼠标复制失效、剪贴板不同步与分屏复制混乱，再覆盖会话/窗口/面板、配置与自动化等高频操作。
 tags:
   - CLI 工具
   - DevOps
   - CLI / Terminal
 version: 3.6a
 github: tmux/tmux
-date: "2026-03-05"
+date: "2026-03-18"
