@@ -1,7 +1,7 @@
-desc: Podman 常用操作：运行/日志/检查/构建/Pod 与退出码约定。
+desc: Podman Cookbook：前半段按 cookbook 讲容器/GPU/vLLM 工作流，后半段补 run、build、pod、generate 与清理技巧
 tags:
   - CLI 工具
   - DevOps
 version: unknown
 github: containers/podman
-date: "2025-11-18"
+date: "2026-03-18"

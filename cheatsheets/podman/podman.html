@@ -3,106 +3,303 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>podman</title>
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>Podman Cookbook</title>
   <link rel="stylesheet" href="../../assets/variables.css">
   <link rel="stylesheet" href="../../assets/global.css">
   <link rel="stylesheet" href="../../assets/cheatsheet.css">
-  <style>:root{--colWidth:340px;--gap:16px}
-    .hlink{color:#93cdfc;text-decoration:none;margin-left:6px}
-    .hlink:hover{text-decoration:underline}
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png">
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 420px; 
+      --gap: 16px;
+    }
+
+    .panel label {
+      color: var(--panel-accent);
+    }
+
+    .panel .title {
+      color: var(--panel-accent);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-link);
+      text-decoration: none;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .home-link:hover {
+      text-decoration: underline;
+    }
+
+    .home-link svg {
+      width: 16px;
+      height: 16px;
+      flex: none;
+    }
+
+    .card pre,
+    .card pre code[class^="language-"] {
+      font-size: 13px;
+      line-height: 1.2;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .card h2 {
+      font-size: 16px;
+    }
+
+    .card,
+    .card li,
+    .desc {
+      font-size: 14px;
+      line-height: 1.2;
+    }
+
+    .meta-link {
+      color: var(--text-link);
+    }
+
+    .meta-link:hover {
+      text-decoration: underline;
+    }
+
+    .meta-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
   </style>
-  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png" />
-  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png" />
 </head>
 <body>
   <div class="container">
     <div class="panel">
-      <span class="title">Podman 容器管理</span>
-<!-- META_INFO_START -->
-<div class="meta-info">
-  <span class="meta-item"><span class="meta-label">版本</span><span class="meta-value">unknown</span></span>
-  <span class="meta-item"><span class="meta-label">更新日志</span><span class="meta-value">2025-11-18</span></span>
-  <span class="meta-item"><span class="meta-label">GitHub</span><span class="meta-value"><a class="meta-link" href="https://github.com/containers/podman" target="_blank" rel="noopener">containers/podman</a></span></span>
-</div>
-<!-- META_INFO_END -->
-
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
+      <span class="title">Podman Cookbook</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">unknown</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-03-18</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/containers/podman" target="_blank" rel="noopener">containers/podman</a></span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/containers/podman" target="_blank" rel="noopener">打开 Zread</a></span></span>
+      </div>
+      <div class="meta-tags"><tag-chip class="tag tag-group-2 detail-tag" data-name="CLI 工具" data-group="2" label="CLI 工具" group="2" variant="detail" icon="mdi:console-network-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M15 20a1 1 0 0 0-1-1h-1v-2h4a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4v2h-1a1 1 0 0 0-1 1H2v2h7a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1h7v-2zm-8-5V5h10v10zm1-8.11l3.56 3.56L8 14h2.53l2.92-2.92c.33-.34.33-.9 0-1.26L10.5 6.89zm8 5.33h-2.67V14H16z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-1 detail-tag" data-name="DevOps" data-group="1" label="DevOps" group="1" variant="detail" icon="mdi:infinity" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M18.6 6.62C21.58 6.62 24 9 24 12c0 2.96-2.42 5.37-5.4 5.37c-1.45 0-2.8-.56-3.82-1.57L12 13.34l-2.83 2.51c-.97.97-2.33 1.53-3.77 1.53C2.42 17.38 0 14.96 0 12s2.42-5.38 5.4-5.38c1.44 0 2.8.56 3.82 1.58L12 10.66l2.83-2.51c.97-.97 2.33-1.53 3.77-1.53M7.8 14.39L10.5 12L7.84 9.65c-.68-.68-1.53-1.03-2.44-1.03C3.53 8.62 2 10.13 2 12s1.53 3.38 3.4 3.38c.91 0 1.76-.35 2.4-.99m8.4-4.78L13.5 12l2.66 2.35c.68.68 1.54 1.03 2.44 1.03c1.87 0 3.4-1.51 3.4-3.38s-1.53-3.38-3.4-3.38c-.91 0-1.76.35-2.4.99&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <!-- META_INFO_END -->
       <label for="columnWidth">🔧 调整每列宽度：</label>
       <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
       <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
     </div>
-
     <div class="cheat-columns" id="columns">
+      <div class="card"><h2>入口与定位 <a href="https://docs.podman.io/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">可以把 Podman 理解成“更偏 Linux 原生、支持 rootless 的容器工具箱”。日常入口还是 `run/build/exec/logs` 这条线，但它把 pod、systemd、Kubernetes YAML 和 CDI 设备接入放得更前。</div><ul><li>适合场景: 本机开发容器、CI 构建、无 daemon 的单机运行、rootless 多用户环境、把 GPU/volume/network 组合成可复用工作流</li><li><code>run -&gt; inspect -&gt; logs -&gt; exec -&gt; stop/rm</code>：先确认运行时和设备可见，再跑通</li><li><code>CDI</code> <code>nvidia-container-toolkit</code>：如果你在 WSL2 里直接跑 Podman，先验证宿主 Windows 驱动已经把 CUDA 暴露进 WSL，再考虑容器里的 /</li></ul><pre><code class="language-bash"># 先看 Podman 打到哪里、当前是不是 rootless
+podman version
+podman info
+podman system connection list
 
-      <div class="card">
-        <h2>运行与管理 <a class="hlink" href="https://docs.podman.io/en/latest/markdown/podman-run.1.html" target="_blank">run</a> <a class="hlink" href="https://docs.podman.io/en/latest/markdown/podman-exec.1.html" target="_blank">exec</a></h2>
-        <ul>
-          <li>交互运行：<pre class="code">podman run -it --name app alpine:latest sh</pre></li>
-          <li>后台运行：<pre class="code">podman run -d --name web --restart=always -p 80:80 nginx:alpine</pre></li>
-          <li>查看容器：<code>podman ps</code> / <code>podman ps -a</code></li>
-          <li>进入/执行：<code>podman exec -it web sh -c "nginx -t"</code></li>
-        </ul>
-      </div>
+# 快速确认容器、镜像、pod、卷
+podman ps -a
+podman images
+podman pod ps
+podman volume ls</code></pre></div><div class="card"><h2>起手式：先把环境和 GPU 看通 <a href="https://docs.nvidia.com/cuda/wsl-user-guide/index.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">在 WSL 里跑带 GPU 的容器，第一步不是直接 `podman run`，而是先确认 WSL 里能看到 NVIDIA 设备，再确认容器运行时能通过 CDI 暴露 GPU。</div><pre><code class="language-bash"># 1. 在 WSL 发行版里先确认驱动透传正常
+nvidia-smi
 
-      <div class="card">
-        <h2>日志与检查 <a class="hlink" href="https://docs.podman.io/en/latest/markdown/podman-logs.1.html" target="_blank">logs</a> <a class="hlink" href="https://docs.podman.io/en/latest/markdown/podman-inspect.1.html" target="_blank">inspect</a></h2>
-        <ul>
-          <li>日志：<code>podman logs -f web</code>；监控：<code>podman stats web</code></li>
-          <li>检查：<code>podman inspect web</code>（JSON）；配合 <code>jq</code> 提取字段</li>
-          <li>停止/删除：<code>podman stop -t 30 web</code>、<code>podman rm -v web</code></li>
-          <li>清理：<code>podman container prune -f</code>、镜像清理：<code>podman image prune</code></li>
-        </ul>
-      </div>
+# 2. 确认 Podman 基本环境
+podman info
 
-      <div class="card">
-        <h2>镜像与构建 <a class="hlink" href="https://docs.podman.io/en/latest/markdown/podman-build.1.html" target="_blank">build</a> <a class="hlink" href="https://docs.podman.io/en/latest/markdown/podman-manifest.1.html" target="_blank">manifest</a></h2>
-        <ul>
-          <li>拉取/列出/删除：<code>podman pull|images|rmi</code></li>
-          <li>构建镜像：<code>podman build -t myimg:dev -f Containerfile .</code></li>
-          <li>多架构：<code>podman manifest</code> 创建/推送多架构清单</li>
-          <li>导入导出：<code>podman save</code> / <code>podman load</code> 镜像迁移</li>
-        </ul>
-      </div>
+# 3. 检查 CDI 设备声明是否存在
+podman info --format &quot;{{.Host.CDI.Devices}}&quot;
+podman info --format &quot;{{.Host.OCIRuntime.Name}}&quot;
 
-      <div class="card">
-        <h2>Pod/网络/卷 <a class="hlink" href="https://docs.podman.io/en/latest/markdown/podman-pod.1.html" target="_blank">pod</a> <a class="hlink" href="https://docs.podman.io/en/latest/markdown/podman-network.1.html" target="_blank">network</a> <a class="hlink" href="https://docs.podman.io/en/latest/markdown/podman-volume.1.html" target="_blank">volume</a></h2>
-        <ul>
-          <li>Pod：<code>podman pod create --name app</code>；<code>podman run --pod app</code></li>
-          <li>网络：<code>podman network create net1</code>；<code>--network net1</code></li>
-          <li>卷：<code>podman volume create data</code>；<code>-v data:/data:Z</code>（SELinux）</li>
-          <li>端口：<code>-p 8080:80</code>；指定协议/范围与 hostIP</li>
-        </ul>
-      </div>
+# 4. 用最小 CUDA 镜像验证容器内能看到 GPU
+podman run --rm \
+  --device nvidia.com/gpu=all \
+  docker.io/nvidia/cuda:12.4.1-base-ubuntu22.04 \
+  nvidia-smi</code></pre><ul><li><code>nvidia-smi</code>：先修 Windows 侧 NVIDIA 驱动和 WSL GPU 支持，不要先怀疑 Podman</li><li><code>--device nvidia.com/gpu=all</code>：这是 CDI 写法，适合 Podman 新版 GPU 暴露</li><li><code>podman info --format &quot;{{.Host.CDI.Devices}}&quot;</code> <code>nvidia-ctk cdi generate</code>：通常说明 CDI spec 没生成，优先检查</li></ul></div><div class="card"><h2>Recipe：在 WSL 中启用 NVIDIA 给 Podman 用 <a href="https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/cdi-support.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这条链路解决的是“WSL 里 Podman 容器怎么拿到 GPU”。重点不是装一堆包，而是保证 `nvidia-container-toolkit` 已装好，并把 CDI 描述文件生成到 Podman 能识别的位置。</div><pre><code class="language-bash"># 安装后，先生成或刷新 CDI 描述
+sudo nvidia-ctk cdi generate --output=/etc/cdi/nvidia.yaml
 
-      <div class="card">
-        <h2>退出码约定 <a class="hlink" href="https://github.com/containers/podman/blob/main/docs/source/markdown/podman.1.md" target="_blank">man</a></h2>
-        <ul>
-          <li>125：Podman 本身出错（参数错误等）</li>
-          <li>126：容器可执行权限问题</li>
-          <li>127：容器内命令未找到</li>
-          <li>其他：返回容器内命令的退出码</li>
-        </ul>
-      </div>
+# 看看有哪些可用设备名
+grep &quot;name:&quot; /etc/cdi/nvidia.yaml
 
-      <div class="card">
-        <h2>生成与编排 <a class="hlink" href="https://docs.podman.io/en/latest/markdown/podman-generate-systemd.1.html" target="_blank">systemd</a> <a class="hlink" href="https://docs.podman.io/en/latest/markdown/podman-generate-kube.1.html" target="_blank">kube</a> <a class="hlink" href="https://docs.podman.io/en/latest/markdown/podman-play-kube.1.html" target="_blank">play kube</a></h2>
-        <ul>
-          <li>systemd：<code>podman generate systemd --new --files web</code></li>
-          <li>Kube：<code>podman generate kube web &gt; web.yaml</code>；<code>podman play kube web.yaml</code></li>
-          <li>Compose：可使用社区 <code>podman-compose</code>（Compose 规范实现）</li>
-        </ul>
-      </div>
+# Podman 侧验证 CDI 设备已被识别
+podman info --format &quot;{{.Host.CDI.Devices}}&quot;
 
-      <div class="card">
-        <h2>Rootless 与平台 <a class="hlink" href="https://github.com/containers/podman/blob/main/rootless.md" target="_blank">rootless</a> <a class="hlink" href="https://docs.podman.io/en/latest/markdown/podman-machine.1.html" target="_blank">machine</a></h2>
-        <ul>
-          <li>Rootless：需配置 <code>/etc/subuid</code>/<code>/etc/subgid</code>；端口 <code>&gt;1024</code></li>
-          <li>macOS/Windows：<code>podman machine</code> 管理虚拟机环境</li>
-          <li>安全：SELinux 标签 <code>:z/:Z</code>；用户命名空间隔离</li>
-        </ul>
-      </div>
+# 指定全部 GPU
+podman run --rm \
+  --device nvidia.com/gpu=all \
+  docker.io/nvidia/cuda:12.4.1-base-ubuntu22.04 \
+  nvidia-smi
 
+# 或者只给某一块 GPU
+podman run --rm \
+  --device nvidia.com/gpu=0 \
+  docker.io/nvidia/cuda:12.4.1-base-ubuntu22.04 \
+  nvidia-smi</code></pre><ul><li><code>nvidia-ctk cdi generate</code>：建议重新生成一次</li><li>rootless 场景遇到权限或设备不可见: 先用 rootful 跑通，再回头收窄权限</li><li>在 WSL 里做推理服务: 通常更关心“容器内能否跑通 CUDA”而不是图形栈</li></ul></div><div class="card"><h2>Recipe：用 Podman 跑一个最小容器 <a href="https://docs.podman.io/en/latest/markdown/podman-run.1.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">当你只是想确认端口、卷、环境变量和生命周期是否都正常，先从一个可观测的最小容器起步，不要一上来就跑复杂服务。</div><pre><code class="language-bash"># 后台启动并暴露端口
+podman run -d \
+  --name web \
+  -p 8080:80 \
+  docker.io/library/nginx:1.29
+
+# 看状态和端口
+podman ps
+podman port web
+
+# 追日志和进入容器
+podman logs -f --tail 100 web
+podman exec -it web sh
+
+# 收尾
+podman stop web
+podman rm web</code></pre><ul><li><code>--rm</code>：临时调试容器更顺手，退出即删</li><li><code>-p 8080:80</code>：Podman 默认不会替你猜端口映射</li><li><code>podman exec -it</code>：优先用于排路径、环境变量、启动命令，不要拿来替代正常镜像构建</li></ul></div><div class="card"><h2>Recipe：挂目录做本地开发 <a href="https://docs.podman.io/en/latest/markdown/podman-run.1.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">开发态最常见的是把本地代码挂进容器。Podman 下要额外留意 SELinux 标签和工作目录，否则“挂进去了但程序读不到”会很像玄学。</div><pre><code class="language-bash"># 在 Linux / WSL 文件系统里做开发挂载
+podman run --rm -it \
+  --name py-dev \
+  -v &quot;$PWD&quot;:/workspace:Z \
+  -w /workspace \
+  docker.io/library/python:3.12-slim \
+  bash
+
+# 需要环境变量时直接补
+podman run --rm -it \
+  -v &quot;$PWD&quot;:/workspace:Z \
+  -w /workspace \
+  -e HF_HOME=/workspace/.cache/huggingface \
+  docker.io/library/python:3.12-slim \
+  python -V</code></pre><ul><li><code>:Z</code>：单容器独占挂载，SELinux 环境下常用</li><li><code>:z</code>：多容器共享挂载时更常见</li><li><code>/mnt/c/...</code>：I/O 和权限体验通常更稳定</li></ul></div><div class="card"><h2>Recipe：以 vLLM 为例部署 OpenAI 兼容推理服务 <a href="https://docs.vllm.ai/en/latest/serving/openai_compatible_server.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这是这份 cheatsheet 的核心示例。目标是在 WSL 里用 Podman 调起带 GPU 的 vLLM 服务，并对外暴露 OpenAI 兼容接口，方便本地 SDK、curl 或上层网关直连。</div><pre><code class="language-bash"># 先准备模型缓存目录，避免每次重拉
+mkdir -p &quot;$HOME/.cache/huggingface&quot;
+
+# 示例：以 Qwen 系列模型为例启动 OpenAI 兼容服务
+podman run -d \
+  --name vllm-qwen \
+  --device nvidia.com/gpu=all \
+  --shm-size=16g \
+  -p 8000:8000 \
+  -e HUGGING_FACE_HUB_TOKEN=$HUGGING_FACE_HUB_TOKEN \
+  -v &quot;$HOME/.cache/huggingface&quot;:/root/.cache/huggingface:Z \
+  docker.io/vllm/vllm-openai:latest \
+  --model Qwen/Qwen2.5-7B-Instruct \
+  --host 0.0.0.0 \
+  --port 8000 \
+  --dtype auto \
+  --max-model-len 8192</code></pre><pre><code class="language-bash"># 看启动过程，第一次通常会先下载模型
+podman logs -f --tail 200 vllm-qwen
+
+# 容器内确认服务参数
+podman inspect vllm-qwen
+
+# 进容器排查 huggingface 缓存、CUDA、启动参数
+podman exec -it vllm-qwen bash</code></pre><pre><code class="language-bash"># OpenAI 兼容接口测试
+curl http://127.0.0.1:8000/v1/models
+
+curl http://127.0.0.1:8000/v1/chat/completions \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#39;{
+    &quot;model&quot;: &quot;Qwen/Qwen2.5-7B-Instruct&quot;,
+    &quot;messages&quot;: [
+      {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;你是一个简洁的中文助手。&quot;},
+      {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;用一句话说明 Podman 和 Docker 的差异。&quot;}
+    ],
+    &quot;temperature&quot;: 0.2
+  }&#39;</code></pre><ul><li>第一次启动慢: 常见原因是拉镜像、下模型、预热显存，不一定是卡死</li><li><code>--shm-size=16g</code>：大模型推理常见保底项，太小容易出共享内存相关问题</li><li><code>-p 127.0.0.1:8000:8000</code>：会更收敛</li><li><code>--tensor-parallel-size</code>：先用定长 prompt 做一次吞吐和显存压测，再决定 、量化或更小模型</li></ul></div><div class="card"><h2>Recipe：把 vLLM 服务放进 pod <a href="https://docs.podman.io/en/latest/markdown/podman-pod.1.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">当你准备在同一台机器上再挂一个网关、日志侧车或 exporter，Pod 比一堆散落容器更容易维护网络和生命周期。</div><pre><code class="language-bash"># 先建 pod，共享网络命名空间
+podman pod create --name llm-stack -p 8000:8000
+
+# 把 vLLM 放进去
+podman run -d \
+  --pod llm-stack \
+  --name vllm-qwen \
+  --device nvidia.com/gpu=all \
+  --shm-size=16g \
+  -v &quot;$HOME/.cache/huggingface&quot;:/root/.cache/huggingface:Z \
+  docker.io/vllm/vllm-openai:latest \
+  --model Qwen/Qwen2.5-7B-Instruct \
+  --host 0.0.0.0 \
+  --port 8000
+
+# 看 pod 和容器
+podman pod ps
+podman ps --pod</code></pre><ul><li><code>podman pod create</code>：适合“多个容器像一个应用一起跑”</li><li><code>podman run --pod llm-stack ...</code>：直接再</li><li>GPU 仍然是给具体容器，不是给 pod 本身</li></ul></div><div class="card"><h2>Recipe：构建你自己的推理镜像 <a href="https://docs.podman.io/en/latest/markdown/podman-build.1.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">当你要把模型下载逻辑、依赖版本、启动脚本固定下来，就该从“临时 run”切到“可复现镜像”。</div><pre><code class="language-dockerfile">FROM docker.io/vllm/vllm-openai:latest
+
+# 放你自己的启动脚本或额外依赖
+WORKDIR /app
+COPY serve.sh /app/serve.sh
+RUN chmod +x /app/serve.sh
+
+ENTRYPOINT [&quot;/app/serve.sh&quot;]</code></pre><pre><code class="language-bash"># 构建
+podman build -t local/vllm-qwen:dev .
+
+# 运行
+podman run --rm \
+  --device nvidia.com/gpu=all \
+  -p 8000:8000 \
+  local/vllm-qwen:dev</code></pre><ul><li><code>podman build</code> <code>Containerfile</code> <code>Dockerfile</code></li><li><code>podman login</code>：先</li><li><code>manifest</code> <code>build</code>：转到 工作流，而不是在单条 上硬拼</li></ul></div><div class="card"><h2>排查链路：服务起不来时先看哪里 <a href="https://docs.podman.io/en/latest/markdown/podman-inspect.1.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">排错不要一上来盲改参数。先判断是镜像问题、设备问题、端口问题、模型下载问题，还是应用自身退出。</div><pre><code class="language-bash"># 1. 先看容器是不是在重启或已退出
+podman ps -a
+
+# 2. 看最近日志
+podman logs --tail 200 vllm-qwen
+
+# 3. 看退出码、挂载、环境变量、设备
+podman inspect vllm-qwen
+
+# 4. 看端口是否映射
+podman port vllm-qwen
+
+# 5. 看资源占用
+podman stats</code></pre><ul><li><code>125</code>：通常是 Podman 命令本身参数或运行环境有问题</li><li><code>126</code>：命令找到了但不能执行</li><li><code>127</code>：容器入口命令不存在</li><li>其他退出码: 多半是容器内应用自己退出，回到应用日志看</li></ul></div><div class="card"><h2>常见坑 <a href="https://docs.podman.io/en/latest/markdown/podman.1.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">下面这些问题在 Podman 场景里出现频率很高，尤其是 rootless、WSL、挂载目录和 GPU 叠在一起时。</div><ul><li><code>nvidia-smi</code>：先在 WSL 主机里跑 ，再在容器里跑；不要跳过主机侧验证</li><li><code>sudo nvidia-ctk cdi generate --output=/etc/cdi/nvidia.yaml</code>：重新执行</li><li><code>:Z</code> <code>:z</code>：优先把代码和缓存放在 WSL Linux 文件系统内，再用 /</li><li><code>ss -ltnp | grep 8000</code>：先 ，再决定换端口还是清理旧进程</li><li><code>HUGGING_FACE_HUB_TOKEN</code>：先看 、代理、DNS，再看镜像内 CA/证书</li><li>rootless 下网络或设备行为不一致: 先切 rootful 复现，确认不是权限层拦住</li></ul></div><div class="card"><h2>API / 命令技巧：运行与生命周期 <a href="https://docs.podman.io/en/latest/markdown/podman-run.1.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">前面是 cookbook，下面这部分保留成“需要时马上翻”的命令面速查，重点放高频参数和默认行为差异。</div><ul><li><code>启动后台容器: podman run -d --name app -p 8000:8000 image</code></li><li><code>一次性调试: podman run --rm -it image sh</code></li><li><code>注入环境文件: podman run --env-file .env image</code></li><li><code>绑定目录: podman run -v &quot;$PWD&quot;:/app:Z image</code></li><li><code>进入容器: podman exec -it app bash</code></li><li><code>追日志: podman logs -f --tail 200 app</code></li><li><code>重启容器: podman restart app</code></li><li><code>停止并删除: podman stop app &amp;&amp; podman rm app</code></li><li><code>看退出状态: podman inspect -f &quot;{{.State.ExitCode}}&quot; app</code></li></ul></div><div class="card"><h2>API / 命令技巧：镜像与构建 <a href="https://docs.podman.io/en/latest/markdown/podman-build.1.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这里记的是镜像流转最常用的动作。真正高频的是 `pull/tag/push/build/image inspect/save/load` 这几个。</div><ul><li><code>拉镜像: podman pull docker.io/library/nginx:1.29</code></li><li><code>列镜像: podman images</code></li><li><code>重打标签: podman tag app:dev registry.example.com/team/app:2026.03</code></li><li><code>推镜像: podman push registry.example.com/team/app:2026.03</code></li><li><code>本地构建: podman build -t app:dev .</code></li><li><code>指定文件构建: podman build -f Containerfile.cuda -t app:cuda .</code></li><li><code>查镜像详情: podman image inspect app:dev</code></li><li><code>导出导入: podman save -o app.tar app:dev &amp;&amp; podman load -i app.tar</code></li></ul></div><div class="card"><h2>API / 命令技巧：Pod / 网络 / 卷 <a href="https://docs.podman.io/en/latest/markdown/podman-pod.1.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Podman 的 pod 能力值得单独记住。它不是 Kubernetes，但很适合本机把一组相关容器捆成一个运行单元。</div><ul><li><code>创建 pod: podman pod create --name app-pod -p 8080:80</code></li><li><code>查看 pod: podman pod ps</code></li><li><code>删除 pod: podman pod rm -f app-pod</code></li><li><code>创建网络: podman network create app-net</code></li><li><code>查看网络: podman network ls</code></li><li><code>创建卷: podman volume create model-cache</code></li><li><code>查看卷: podman volume inspect model-cache</code></li><li><code>清理未用卷: podman volume prune</code></li></ul></div><div class="card"><h2>API / 命令技巧：生成 systemd / kube <a href="https://docs.podman.io/en/latest/markdown/podman-generate-systemd.1.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">当你要把一次成功的本地运行变成“可重启、可托管、可迁移”的定义时，`generate` 系列命令很省时间。</div><pre><code class="language-bash"># 生成 systemd 单元
+podman generate systemd --name vllm-qwen --files --new
+
+# 生成 Kubernetes YAML
+podman generate kube llm-stack &gt; llm-stack.yaml
+
+# 用 YAML 回放
+podman play kube llm-stack.yaml</code></pre><ul><li><code>generate systemd</code>：适合单机托管</li><li><code>generate kube</code>：适合把本地成功配置固化成清单</li><li><code>play kube</code>：更像“Podman 理解的一份 Kube YAML”，不是完整 Kubernetes 控制面</li></ul></div><div class="card"><h2>API / 命令技巧：清理与空间回收 <a href="https://docs.podman.io/en/latest/markdown/podman-system-prune.1.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">调模型、切镜像、反复试容器时，磁盘很快被吃满。清理动作最好带过滤条件，不要无脑全删。</div><pre><code class="language-bash"># 看整体占用
+podman system df
+
+# 清理已停止容器
+podman container prune -f
+
+# 清理悬空镜像
+podman image prune -f
+
+# 全量清理未使用资源
+podman system prune -a -f</code></pre><ul><li>做模型服务时，最占空间的通常不是容器层，而是模型缓存和基础镜像</li><li><code>system prune -a</code>：会删掉未被容器引用的镜像，别在还没打标签前乱用</li></ul></div>
     </div>
   </div>
+
+  <script src="../../assets/tag-chip.js"></script>
   <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
 </body>
 </html>

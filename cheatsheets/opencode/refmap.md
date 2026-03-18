@@ -1,38 +1,22 @@
-# OpenCode 参考资源映射
+# OpenCode 参考资料映射
 
-## 官方资源
+## 官方入口
+- [OpenCode 官网](https://opencode.ai/) - 产品主页、下载入口与文档导航
+- [中文文档首页](https://opencode.ai/docs/zh-cn) - 中文版总入口
+- [TUI 文档](https://opencode.ai/docs/zh-cn/tui/) - TUI、命令面板、快捷键与交互说明
 
-### 主页与文档
-- [OpenCode 官网](https://opencode.ai/) - 官方网站，提供产品介绍和下载
-- [中文文档](https://opencode.ai/docs/zh-cn) - 完整的中文使用文档
-- [OpenCode Zen](https://opencode.ai/auth) - 推荐的 LLM 提供商服务
+## CLI 与命令
+- [CLI 文档](https://opencode.ai/docs/cli) - CLI 启动方式、参数与子命令
+- [MCP 文档](https://opencode.ai/docs/mcp) - MCP 服务管理与扩展
+- [Agents 文档](https://opencode.ai/docs/agents) - agents、分工和协作方式
 
-### 代码仓库
-- [GitHub 仓库](https://github.com/anomalyco/opencode) - 开源代码仓库
-- [Releases 页面](https://github.com/anomalyco/opencode/releases) - 下载二进制文件
-- [Container Registry](https://github.com/anomalyco/opencode/pkgs/container/opencode) - Docker 镜像
+## 仓库与发布
+- [GitHub 仓库](https://github.com/anomalyco/opencode) - 官方源码仓库
+- [GitHub Releases](https://github.com/anomalyco/opencode/releases) - 发布版本与平台二进制
+- [npm: opencode-ai](https://www.npmjs.com/package/opencode-ai) - npm 包版本信息
 
-## 安装相关
-
-### 包管理器
-- [npm 包](https://www.npmjs.com/package/opencode-ai) - npm registry 上的 opencode-ai
-- [Homebrew Tap](https://github.com/anomalyco/homebrew-tap) - 官方 Homebrew tap
-- [AUR 包](https://aur.archlinux.org/packages/opencode-bin) - Arch Linux AUR
-- [Chocolatey](https://community.chocolatey.org/packages/opencode) - Windows Chocolatey 包
-- [Scoop](https://scoop.sh/) - Windows Scoop 包管理器
-
-### 终端模拟器
-- [WezTerm](https://wezfurlong.org/wezterm/) - 跨平台 GPU 加速终端
-- [Alacritty](https://alacritty.org/) - 跨平台 OpenGL 终端
-- [Ghostty](https://mitchellh.com/ghostty) - Linux 和 macOS 终端
-- [Kitty](https://sw.kovidgoyal.net/kitty/) - Linux 和 macOS GPU 终端
-
-## 社区与支持
-
-### 社交平台
-- [Twitter/X](https://x.com/opencodeai) - 官方 Twitter 账号
-- [Discord](https://discord.gg/opencode) - 社区 Discord 服务器
-
-### 相关项目
-- [OpenCode 扩展](https://github.com/anomalyco/opencode-vscode) - VS Code 扩展
-- [OpenCode 桌面版](https://github.com/anomalyco/opencode-desktop) - 桌面应用程序
+## 本次重写主要依据
+- `cookbook` 区：官网文档对 TUI、agents、会话和项目初始化的说明
+- `快捷键` 区：TUI 文档中的命令面板与 `Ctrl+X` 组合键
+- `参数 / 命令` 区：`opencode --help` 与 CLI 文档
+- `技巧` 区：官方交互模式与会话管理能力的整理归纳

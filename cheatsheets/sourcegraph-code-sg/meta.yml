@@ -1,7 +1,8 @@
-desc: Sourcegraph Code Search 查询语法与关键过滤器速查
+desc: Sourcegraph 代码搜索 cookbook，覆盖查询流程、常用过滤器、布尔组合、结果提取与高频语法技巧
 tags:
-  - CLI 工具
   - 开发
-version: unknown
-github: sourcegraph/src-cli
-date: "2025-11-27"
+  - CLI 工具
+  - Web API
+version: "6.10"
+github: sourcegraph/sourcegraph
+date: "2026-03-18"

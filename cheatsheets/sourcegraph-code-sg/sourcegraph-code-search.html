@@ -1,167 +1,207 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <title>Sourcegraph Code Search 查询速查表</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../../assets/variables.css">
-    <link rel="stylesheet" href="../../assets/global.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>Sourcegraph Code Search Cookbook</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
   <link rel="stylesheet" href="../../assets/cheatsheet.css">
-    <style>
-        :root {
-            --col-width: 500px;
-            --gap: 16px;
-        }
-        .card h2 a {
-            font-size: 0.8em;
-            margin-left: 8px;
-            color: #87d7ff;
-        }
-        .hero-note {
-            font-size: 0.9em;
-            color: #9bd4ff;
-            margin-top: 0.35rem;
-        }
-        .desc {
-            margin-top: 10px;
-            color: #b7c3e2;
-            font-size: 0.9em;
-            line-height: 1.4;
-        }
-    </style>
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png">
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 540px; 
+      --gap: 16px;
+    }
 
-    <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png" />
-    <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png" />
-  </head>
+    .panel label {
+      color: var(--panel-accent);
+    }
+
+    .panel .title {
+      color: var(--panel-accent);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-link);
+      text-decoration: none;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .home-link:hover {
+      text-decoration: underline;
+    }
+
+    .home-link svg {
+      width: 16px;
+      height: 16px;
+      flex: none;
+    }
+
+    .card pre,
+    .card pre code[class^="language-"] {
+      font-size: 13px;
+      line-height: 1.2;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .card h2 {
+      font-size: 16px;
+    }
+
+    .card,
+    .card li,
+    .desc {
+      font-size: 14px;
+      line-height: 1.2;
+    }
+
+    .meta-link {
+      color: var(--text-link);
+    }
+
+    .meta-link:hover {
+      text-decoration: underline;
+    }
+
+    .meta-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+  </style>
+</head>
 <body>
-    <div class="container">
-        <div class="panel">
-            <span style="color:#7bfbb7;font-size:16px;margin-right:auto;">Sourcegraph Code Search 查询速查表</span>
-<!-- META_INFO_START -->
-<div class="meta-info">
-  <span class="meta-item"><span class="meta-label">版本</span><span class="meta-value">unknown</span></span>
-  <span class="meta-item"><span class="meta-label">更新日志</span><span class="meta-value">2025-11-27</span></span>
-  <span class="meta-item"><span class="meta-label">GitHub</span><span class="meta-value"><a class="meta-link" href="https://github.com/sourcegraph/src-cli" target="_blank" rel="noopener">sourcegraph/src-cli</a></span></span>
-</div>
-<!-- META_INFO_END -->
-
-            <label for="columnWidth">🔧 调整每列宽度：</label>
-            <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="360">
-            <span id="widthVal" class="slider-val">360px</span>
-        </div>
-        <div class="cheat-columns" id="columns">
-            <div class="card">
-                <h2>🔍 搜索模式 <a href="https://sourcegraph.com/docs/code-search/queries#search-patterns" target="_blank">文档</a></h2>
-                <ul>
-                    <li>默认 `patternType:keyword`，空格拆词可任意顺序匹配；`Aa` 控件切换大小写敏感（`case:yes`）。</li>
-                    <li>`"foo bar"` 精确短语；`/.../` 触发 RE2 正则；`(.*)` 控件或 `patternType:regexp` 也能指定正则。</li>
-                    <li>`patternType:structural` 允许结构化匹配，需传 `structural:{pattern}` 语法，适配 AST 级别搜索。</li>
-                    <li>应对保留词，可用 `content:"repo:sourcegraph"` 让文本按字面匹配，再叠加过滤器减少冲突。</li>
-                </ul>
-                <pre><code class="language-bash"># 包含 foo 与 bar
-foo bar
-
-# 精确短语与转义
-"foo \"bar\""
-
-# 正则示例
-/foo\s+bar/i
-
-# 搜索 literal 包含 repo:sourcegraph
-repo:sourcegraph content:"repo:sourcegraph"
-
-# 指定模式类型（可加 context）
-context:global fmt.Errorf patternType:regexp
-context:@me panic patternType:structural</code></pre>
-                <div class="desc">关键词、正则与结构化三角配合，可按需在 cheatsheet 里选用最合适的模式。</div>
-            </div>
-
-            <div class="card">
-                <h2>🌐 Search Context <a href="https://sourcegraph.com/docs/code-search/queries#search-context" target="_blank">文档</a></h2>
-                <ul>
-                    <li>`context:global` 覆盖全局仓库，`context:@<user>`/`context:@<team>` 用于私有或团队上下文。</li>
-                    <li>Context 决定可见仓库集，可与 `repo:`/`file:` 组合，不填写时默认当前选中的 context。</li>
-                    <li>界面右上角 `Contexts` 下拉可切换；URL 示例：<code>https://sourcegraph.com/search?q=context:global+repo:sourcegraph/sourcegraph</code></li>
-                </ul>
-                <div class="desc">明确 Context 后，才能在多团队或多权限环境中挑对数据源。</div>
-            </div>
-
-            <div class="card">
-                <h2>🗂 通用过滤器 <a href="https://sourcegraph.com/docs/code-search/queries#filters-all-searches" target="_blank">文档</a></h2>
-                <ul>
-                    <li><strong>repo:/-repo:</strong> 路径正则，`rev:`/`context:` 限定修订与上下文；`repo:foo|bar` 表示或，多个 repo 等价交集。</li>
-                    <li><strong>file:/-file:</strong> 控制路径，默认非锚定，全匹配用 `^README.md$`，也可用 `file:has.filename` 等谓词。</li>
-                    <li><strong>language:/-language:</strong> 指定语言；<strong>select:</strong> 控制响应类型（`select:repo`、`select:file`、`select:commit.diff.added`）；<strong>type:</strong> 指向 `file`/`path`/`repo`/`symbol.kind`/`commit`/`diff` 等。</li>
-                    <li><strong>patternType:</strong> 显式 `keyword`/`regexp`/`structural`；<strong>case:yes</strong> 强制大小写敏感；`count:`/`timeout:` 控制规模；`fork:`/`archived:`/`visibility:` 过滤状态。</li>
-                    <li><strong>repo:has.*</strong> 与 <strong>file:has.*</strong>：
-                        <ul>
-                            <li>`repo:has.meta(key:value)`/`repo:has.meta(key)`/`repo:has.meta(key:)`，如 `repo:has.meta(owning-team:security)`。</li>
-                            <li>`repo:has.path(regexp)`/`repohasfile`：只在含匹配路径的仓库搜。</li>
-                            <li>`repo:has.topic(topic)`、`repo:has.commit.after(duration)` 指定 topic 与活跃度。</li>
-                        </ul>
-                    </li>
-                    <li>`repo:` 可接 glob（`@*refs/heads/*`）与排除（`@*refs/heads/*:*!refs/heads/release*`）语法。</li>
-                </ul>
-                <pre><code class="language-bash">repo:gorilla/mux testroute
-file:\.js$ httptest
-language:typescript encoding
-select:repo fmt.Errorf
-repo:sourcegraph rev:v3.14.0 mux
-repo:sourcegraph count:1000 timeout:15s func</code></pre>
-                <div class="desc">先用过滤器缩小范围，再用搜索模式匹配内容，避免无效结果浪费配额。</div>
-            </div>
-
-            <div class="card">
-                <h2>⚖ 布尔与分组 <a href="https://sourcegraph.com/docs/code-search/queries#boolean-operators" target="_blank">文档</a></h2>
-                <ul>
-                    <li>`AND`/`OR`/`NOT` 可大写或小写，AND 绑定更紧，优先级高于 OR。</li>
-                    <li>`NOT` 可写成 `-`，如 `-file:test`；若逻辑复杂，用括号强制作用范围。</li>
-                </ul>
-                <pre><code class="language-bash">foo AND bar OR baz             # 等价 (foo AND bar) OR baz
-panic NOT ever                 # 等价 panic AND NOT ever
-file:main.c (char c or (int i and int j))</code></pre>
-                <div class="desc">布尔与括号结合，用来精确控制多个过滤器或关键词的匹配范围。</div>
-            </div>
-
-            <div class="card">
-                <h2>🏷 仓库与修订 <a href="https://sourcegraph.com/docs/code-search/queries#repository-search" target="_blank">文档</a></h2>
-                <ul>
-                    <li>`repo:` 单用会列出路径，`|` 表示并集，`-repo:` 排除不想要的仓库。</li>
-                    <li>`repo:<path>@<revision>` 可指定分支/tag/commit；`rev:` 只能与 `repo:` 联用且不可重复，`@*refs/heads/*`/`@*refs/tags/*` 可替代多个 revision，Sourcegraph 会自动补全 `/*`。</li>
-                    <li>`@*refs/heads/*:*!refs/heads/release*` 等 `@...:*!...` 语法可排除 refs，`^` 表示集合差，例如 `repo:foo@main:^3.15`。</li>
-                    <li>`rev:at.time("3 days ago")` 等时间限定式需 Sourcegraph 5.4+；结合 `type:commit`/`type:diff` 查看历史。</li>
-                </ul>
-                <pre><code class="language-bash">repo:foo repo:bar
-repo:foo|bar
-repo:myteam/abc@main:^fixme type:commit
-repo:docker@*refs/tags/*</code></pre>
-                <div class="desc">优先用 `repo:`+`rev:` 定位代码库与修订，再叠加其它过滤器减少噪声。</div>
-            </div>
-
-            <div class="card">
-                <h2>🧾 提交与差异 <a href="https://sourcegraph.com/docs/code-search/queries#filters-diff-and-commit-searches-only" target="_blank">文档</a></h2>
-                <ul>
-                    <li>`type:diff`/`type:commit` 切换变更视图，自带 `repo:+` 组合可查看分支或 tag 里的差异/提交。</li>
-                    <li>`author:`/`-author:`、`committer:` 匹配提交者，支持正则；`before:`/`after:` 控制提交时间。</li>
-                    <li>`message:`/`-message:` 用于匹配提交信息，和 `type:diff` 配合可快速定位某段改动。</li>
-                </ul>
-                <pre><code class="language-bash">type:diff func author:nick
-type:commit test message:"refactor"
-before:"last thursday" after:"6 weeks ago"</code></pre>
-                <div class="desc">差异/提交过滤适合代码审查与回溯，配合 `repo:` 和 `author:` 才能迅速定位责任人。</div>
-            </div>
-
-            <div class="card">
-                <h2>💡 使用建议 <a href="https://sourcegraph.com/docs/code-search/queries" target="_blank">文档</a></h2>
-                <ul>
-                    <li>先缩小 `repo`、`file`、`language`，再层叠 `content`、`patternType` 与 `select` 筛选最相关结果。</li>
-                    <li>想看完整结果用 `count:all` + `timeout:`，想看仓库列表用 `select:repo`，想看新增/删除代码用 `select:commit.diff.added`。</li>
-                    <li>若要排除旧提交集搭配 `^`，要排除 release/tag/branch 也可借助 `*@* :*!refs/...`。</li>
-                </ul>
-                <div class="desc">遵循 “先定位再过滤” 的查找顺序，能让 Sourcegraph 查询既快又精确。</div>
-            </div>
-        </div>
+  <div class="container">
+    <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
+      <span class="title">Sourcegraph Code Search Cookbook</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">6.10</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-03-18</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/sourcegraph/sourcegraph" target="_blank" rel="noopener">sourcegraph/sourcegraph</a></span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/sourcegraph/sourcegraph" target="_blank" rel="noopener">打开 Zread</a></span></span>
+      </div>
+      <div class="meta-tags"><tag-chip class="tag tag-group-3 detail-tag" data-name="开发" data-group="3" label="开发" group="3" variant="detail" icon="mdi:code-tags" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m14.6 16.6l4.6-4.6l-4.6-4.6L16 6l6 6l-6 6zm-5.2 0L4.8 12l4.6-4.6L8 6l-6 6l6 6z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="CLI 工具" data-group="2" label="CLI 工具" group="2" variant="detail" icon="mdi:console-network-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M15 20a1 1 0 0 0-1-1h-1v-2h4a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4v2h-1a1 1 0 0 0-1 1H2v2h7a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1h7v-2zm-8-5V5h10v10zm1-8.11l3.56 3.56L8 14h2.53l2.92-2.92c.33-.34.33-.9 0-1.26L10.5 6.89zm8 5.33h-2.67V14H16z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-4 detail-tag" data-name="Web API" data-group="4" label="Web API" group="4" variant="detail" icon="mdi:webhook" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M10.46 19C9 21.07 6.15 21.59 4.09 20.15c-2.05-1.44-2.53-4.31-1.09-6.4a4.59 4.59 0 0 1 3.58-1.98l.05 1.43c-.91.07-1.79.54-2.36 1.36c-1 1.44-.69 3.38.68 4.35c1.38.96 3.31.59 4.31-.84c.31-.45.49-.94.56-1.44v-1.01l5.58-.04l.07-.11c.53-.92 1.68-1.24 2.58-.72a1.9 1.9 0 0 1 .68 2.6c-.53.91-1.69 1.23-2.59.71c-.41-.23-.7-.6-.83-1.02l-4.07.02a5 5 0 0 1-.78 1.94m7.28-7.14c2.53.31 4.33 2.58 4.02 5.07c-.31 2.5-2.61 4.27-5.14 3.96a4.63 4.63 0 0 1-3.43-2.21l1.24-.72a3.22 3.22 0 0 0 2.32 1.45c1.75.21 3.3-.98 3.51-2.65s-1.03-3.2-2.76-3.41c-.54-.06-1.06.01-1.53.18l-.85.44l-2.58-4.77h-.22a1.906 1.906 0 0 1-1.85-1.95c.03-1.04.93-1.85 1.98-1.81c1.05.06 1.88.91 1.85 1.95c-.02.44-.19.84-.46 1.15l1.9 3.51c.62-.2 1.3-.27 2-.19M8.25 9.14c-1-2.35.06-5.04 2.37-6.02c2.32-.98 5 .13 6 2.48c.59 1.37.47 2.87-.2 4.07l-1.24-.72c.42-.81.49-1.8.09-2.73c-.68-1.6-2.49-2.37-4.04-1.72c-1.56.66-2.26 2.5-1.58 4.1c.28.66.75 1.17 1.32 1.51l.39.21l-3.07 4.99c.03.05.07.11.1.19c.49.91.15 2.06-.77 2.55c-.91.49-2.06.13-2.56-.81c-.49-.93-.15-2.08.77-2.57c.39-.21.82-.26 1.23-.17l2.31-3.77c-.47-.43-.87-.97-1.12-1.59&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
     </div>
-    <script src="../../assets/common.js"></script>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>入口与定位 <a href="https://sourcegraph.com/docs/code-search/queries" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">可以把 Sourcegraph 搜索理解成“带过滤器、结果类型和代码结构意识的全局代码检索台”。实战里通常不是一上来写复杂正则，而是先缩小仓库范围，再选搜索模式，最后提取你真正要看的结果。</div><ul><li><code>repo:</code> <code>patternType:</code> <code>select:</code> <code>type:</code>：管范围， 管匹配方式， / 管返回结果形态。</li><li><code>repo:</code> <code>file:</code> <code>language:</code>：先用 、、 把噪音压下去，再决定是关键词、正则还是结构化搜索。</li><li>搜索模式选择：<ul><li><code>patternType:keyword</code>：默认模式，适合高频文本检索。</li><li><code>patternType:regexp</code>：需要 RE2 正则时用。</li><li><code>patternType:structural</code>：想按代码结构找调用、参数、包裹关系时用。</li></ul></li><li>结果类型选择：<ul><li><code>type:content</code>：看正文命中。</li><li><code>type:path</code> <code>type:repo</code>：只看文件或仓库。</li><li><code>type:symbol</code>：找定义、方法、类、接口。</li><li><code>type:commit</code> <code>type:diff</code>：查历史和改动。</li></ul></li></ul><pre><code class="language-bash"># 最小可用搜索：先限定仓库，再搜关键词
+repo:sourcegraph/sourcegraph zoekt
+
+# 先限定语言和路径，再搜函数名
+repo:sourcegraph/sourcegraph language:go file:^cmd/ fmt.Errorf
+
+# 明确告诉 Sourcegraph 你要用正则
+repo:sourcegraph/sourcegraph patternType:regexp /New.*Client/</code></pre></div><div class="card"><h2>起手工作流</h2><div class="desc">当你只知道一个模糊线索时，按“先收范围、再提精度、最后抽结果”的顺序走，搜索会稳定很多。</div><ul><li><code>先收范围：repo:myorg/monorepo file:^packages/ language:typescript</code></li><li><code>再定模式：patternType:keyword | regexp | structural</code></li><li><code>最后抽结果：select:repo | select:file | type:symbol</code></li></ul><pre><code class="language-bash"># 场景：只知道某个配置键名，先全局粗找
+repo:myorg/ language:yaml timeout:20s payment_provider
+
+# 场景：已经知道可能在后端，继续收窄
+repo:myorg/backend language:go file:^internal/ payment_provider
+
+# 场景：最后只想知道涉及哪些文件
+repo:myorg/backend language:go file:^internal/ payment_provider select:file</code></pre></div><div class="card"><h2>范围控制技巧</h2><div class="desc">搜索质量通常首先取决于范围控制，而不是正则写得多花。先把仓库、分支、路径、语言收准，后面的匹配才有意义。</div><ul><li><code>仓库过滤：repo:sourcegraph/sourcegraph</code> <code>repo:</code></li><li><code>排除仓库：-repo:^github.com/myorg/legacy</code></li><li><code>路径过滤：file:^src/ | -file:(^dist/|^vendor/)</code> <code>file:</code></li><li><code>语言过滤：language:go | language:typescript</code></li><li><code>修订范围：repo:foo@main | repo:foo@*refs/tags/*</code> <code>repo:</code></li><li><code>上下文过滤：context:global | context:@me | context:@team/search</code></li></ul><pre><code class="language-bash"># 搜某团队全部 Go 服务，但排除生成代码和 vendor
+context:@platform/backend language:go -file:(^vendor/|^gen/) grpc.Dial
+
+# 搜指定标签范围
+repo:sourcegraph/sourcegraph@*refs/tags/* type:diff executor
+
+# 只在带 package.json 的仓库中搜索
+repo:has.file(^package\.json$) react-router</code></pre></div><div class="card"><h2>模式与语法技巧</h2><div class="desc">真正常用的不是“记住所有语法”，而是知道什么时候切换 keyword、regexp、structural，以及如何避免过滤器和正文互相冲突。</div><ul><li><code>关键词模式：foo bar</code> <code>patternType:keyword</code></li><li><code>精确短语：&quot;foo bar&quot;</code></li><li><code>正则模式：/.../</code> <code>patternType:regexp</code></li><li><code>大小写敏感：case:yes</code></li><li><code>按字面搜索保留词：content:&quot;repo:sourcegraph&quot;</code> <code>repo:</code> <code>file:</code> <code>content:</code></li><li><code>结构化搜索：patternType:structural</code></li></ul><pre><code class="language-bash"># 关键词：同时包含两个词
+auth token
+
+# 精确短语
+&quot;invalid token&quot;
+
+# 正则：查所有 get/set 风格方法
+patternType:regexp /(?:get|set)[A-Z]\w+/
+
+# literal 搜索，避免 repo: 被当成过滤器
+content:&quot;repo:sourcegraph&quot;
+
+# 结构化：找 Go 中包着 fmt.Errorf 的 return
+repo:myorg/backend language:go patternType:structural &#39;return fmt.Errorf(:[args])&#39;</code></pre></div><div class="card"><h2>布尔组合与排除</h2><div class="desc">当一个线索不够时，用布尔组合表达“必须出现”“二选一”“明确排除”，比堆复杂正则更易读也更易维护。</div><ul><li><code>AND</code> <code>OR</code></li><li><code>OR</code></li><li><code>NOT</code> <code>-</code></li><li><code>(...)</code></li></ul><pre><code class="language-bash"># 要么 http.NewRequest 要么 NewRequestWithContext
+repo:myorg/ language:go (http.NewRequest OR NewRequestWithContext)
+
+# 查真实调用点，排除测试和 mock
+repo:myorg/ language:go payment NOT file:_test\.go$ NOT mock
+
+# 查配置分支
+repo:myorg/frontend file:^src/ (SENTRY_DSN OR DATADOG_CLIENT_TOKEN) -file:\.snap$</code></pre></div><div class="card"><h2>结果提取与导航</h2><div class="desc">很多时候你不是想“看命中内容”，而是想快速拿到仓库名单、文件名单、符号清单或差异片段。这时 `select:` 和 `type:` 比继续收缩正文更高效。</div><ul><li><code>select:repo</code></li><li><code>select:file</code></li><li><code>type:path</code></li><li><code>type:symbol</code></li><li><code>type:commit</code> <code>type:diff</code></li><li><code>select:commit.diff.added</code></li></ul><pre><code class="language-bash"># 哪些仓库还在用旧 SDK
+context:global &quot;legacy-sdk&quot; select:repo
+
+# 哪些文件声明了这个环境变量
+repo:myorg/ file:\.(ts|tsx|js)$ NEXT_PUBLIC_API_BASE select:file
+
+# 找某个符号定义
+repo:myorg/backend type:symbol Handler
+
+# 只看新增的 panic
+repo:myorg/ type:diff select:commit.diff.added panic</code></pre></div><div class="card"><h2>常见 Recipes</h2><div class="desc">下面这些是 Sourcegraph 最常见的实战套路。记住场景到查询的映射，比死背全部语法更有用。</div><ul><li>找某个能力在哪些服务里实现</li></ul><pre><code class="language-bash">context:@platform/backend language:go (RegisterRoutes OR grpc.NewServer) select:repo</code></pre><ul><li>找某个配置从前端一路传到后端</li></ul><pre><code class="language-bash"># 前端入口
+repo:myorg/web file:^src/ language:typescript &quot;checkoutTimeout&quot;
+
+# 后端消费
+repo:myorg/api language:go &quot;checkoutTimeout&quot;</code></pre><ul><li>找最近谁引入了危险调用</li></ul><pre><code class="language-bash">repo:myorg/ type:diff after:&quot;30 days ago&quot; (exec.Command OR os/exec) select:commit.diff.added</code></pre><ul><li>只看某类文件是否存在，而不看正文</li></ul><pre><code class="language-bash">repo:has.file(^Dockerfile$) select:repo
+repo:has.path(^\.github/workflows/) select:repo</code></pre><ul><li>找某个 API 的全部调用点，但排除定义</li></ul><pre><code class="language-bash">repo:myorg/sdk language:typescript createClient -file:(index\.ts$|types\.ts$)</code></pre><ul><li>查重构是否还遗留旧命名</li></ul><pre><code class="language-bash">repo:myorg/ (&quot;OldBillingService&quot; OR oldBillingService) -file:(CHANGELOG|README)</code></pre></div><div class="card"><h2>提交与历史排查</h2><div class="desc">当你怀疑问题是“最近改出来的”，直接切到 `type:commit` 或 `type:diff`，通常比在当前代码里猜更快。</div><ul><li><code>author:</code> <code>committer:</code></li><li><code>before:</code> <code>after:</code></li><li><code>message:</code></li><li><code>repo:foo@main:^release</code></li></ul><pre><code class="language-bash"># 最近两周谁改过认证逻辑
+repo:myorg/ type:commit after:&quot;14 days ago&quot; auth author:alice
+
+# 查带 rollback 的历史提交
+repo:myorg/ type:commit message:rollback
+
+# 查主分支相对 release 分支的差异里是否出现这个关键词
+repo:myorg/service@main:^release type:diff payment</code></pre></div><div class="card"><h2>高频语法速记</h2><div class="desc">这一段不是完整手册，只保留最值得背下来的语法骨架，方便你在页面里快速扫一眼再开搜。</div><ul><li><code>repo:REGEXP</code>：按仓库过滤</li><li><code>file:REGEXP</code>：按路径过滤</li><li><code>language:NAME</code>：按语言过滤</li><li><code>content:&quot;literal&quot;</code>：按字面内容过滤</li><li><code>patternType:keyword|regexp|structural</code>：切换匹配模式</li><li><code>type:content|path|repo|symbol|commit|diff</code>：切换结果类型</li><li><code>select:repo|file|commit.diff.added</code>：提取结果形态</li><li><code>case:yes</code>：大小写敏感</li><li><code>count:1000</code> <code>timeout:20s</code>：放宽结果数和超时</li><li><code>context:global</code>：切换搜索上下文</li><li><code>repo:has.file(...)</code> <code>repo:has.path(...)</code>：按仓库内文件特征过滤</li></ul></div><div class="card"><h2>常见坑与排障</h2><div class="desc">Sourcegraph 查不准时，通常不是“功能不行”，而是查询的层级混了。优先检查过滤器冲突、结果类型和搜索模式。</div><ul><li><code>repo:foo</code> <code>content:&quot;repo:foo&quot;</code></li><li><code>type:symbol</code></li><li>该用 select:file 时还在看几百条正文 你如果只是想知道影响面，直接抽文件列表。</li><li><code>repo:</code> <code>file:</code> <code>language:</code></li><li>结构化搜索没命中就怀疑语法错 先确认语言识别、代码形态和占位模式是否真的匹配目标代码。</li></ul><pre><code class="language-bash"># 误写：repo:sourcegraph    # 这是过滤器
+# 正写：content:&quot;repo:sourcegraph&quot;
+
+# 想看有哪些文件命中，不要继续刷正文
+repo:myorg/ language:go context.Context select:file
+
+# 超大仓库先收范围再正则
+repo:myorg/ file:^internal/ patternType:regexp /New[A-Z]\w+Client/</code></pre></div><div class="card"><h2>核心场景小抄</h2><div class="desc">不想每次都从头拼查询时，直接套下面这些模板，再按你的仓库名、路径和语言替换即可。</div><ul><li><code>repo:&lt;repo&gt; file:^&lt;dir&gt;/ language:&lt;lang&gt; &lt;keyword&gt;</code></li><li><code>repo:&lt;repo&gt; language:&lt;lang&gt; &lt;symbol&gt; -file:_test\.go$</code></li><li><code>repo:&lt;repo&gt; type:symbol &lt;symbol&gt;</code></li><li><code>repo:&lt;repo&gt; &lt;keyword&gt; select:file</code></li><li><code>context:&lt;ctx&gt; &lt;keyword&gt; select:repo</code></li><li><code>repo:&lt;repo&gt; type:diff after:&quot;30 days ago&quot; &lt;keyword&gt;</code></li><li><code>repo:&lt;repo&gt; type:diff select:commit.diff.added &lt;keyword&gt;</code></li></ul></div>
+    </div>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
 </body>
 </html>

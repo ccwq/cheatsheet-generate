@@ -1,0 +1,10 @@
+desc: AutoHotkey v2.0 是面向 Windows 的自动化脚本语言，适合做热键、文本扩展、窗口管理、GUI 工具和 Win32 自动化；本条目按 cookbook、快捷键、API、脚本四段重写。
+tags:
+  - 自动化工具
+  - 脚本工具
+  - Windows
+  - 热键
+  - GUI
+version: "2.0.21"
+github: AutoHotkey/AutoHotkey
+date: "2026-02-09"
