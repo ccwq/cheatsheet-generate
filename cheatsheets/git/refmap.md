@@ -1,56 +1,51 @@
-# Git官方文档参考
+# Git 官方参考映射
 
-## 核心文档
-- [Git官方文档首页](https://git-scm.com/docs)
-- [Git所有命令列表](https://git-scm.com/docs/git#_git_commands)
-- [Git速查表官方版](https://git-scm.com/cheat-sheet)
+## 版本与总入口
+- 官方文档入口: https://git-scm.com/docs
+- `git` 总文档（当前参考版本 2.53.0）: https://git-scm.com/docs/git/2.53.0.html
+- 官方速查表 PDF: https://git-scm.com/cheat-sheet.pdf
+- Git 源码镜像仓库: https://github.com/git/git
 
-## 主要功能模块文档
-- [配置管理](https://git-scm.com/docs/git-config)
-- [仓库初始化](https://git-scm.com/docs/git-init)
-- [克隆操作](https://git-scm.com/docs/git-clone)
-- [文件操作](https://git-scm.com/docs/git-add)
-- [提交管理](https://git-scm.com/docs/git-commit)
-- [分支管理](https://git-scm.com/docs/git-branch)
-- [合并操作](https://git-scm.com/docs/git-merge)
-- [变基操作](https://git-scm.com/docs/git-rebase)
-- [远程操作](https://git-scm.com/docs/git-remote)
-- [拉取操作](https://git-scm.com/docs/git-fetch)
-- [推送操作](https://git-scm.com/docs/git-push)
-- [标签管理](https://git-scm.com/docs/git-tag)
-- [历史查看](https://git-scm.com/docs/git-log)
-- [差异比较](https://git-scm.com/docs/git-diff)
-- [暂存管理](https://git-scm.com/docs/git-stash)
-- [重置操作](https://git-scm.com/docs/git-reset)
-- [子模块管理](https://git-scm.com/docs/git-submodule)
+## cookbook 区对应来源
+- 快速定位 / 总体概念: https://git-scm.com/docs/git/2.53.0.html
+- 起手工作流: https://git-scm.com/docs/gittutorial
+- 日常最小命令集: https://git-scm.com/docs/giteveryday
+- 推荐工作流: https://git-scm.com/docs/gitworkflows
+- 插队修 Bug / stash: https://git-scm.com/docs/git-stash
+- 整理提交 / rebase: https://git-scm.com/docs/git-rebase
+- 同步远端 / fetch: https://git-scm.com/docs/git-fetch
+- 同步远端 / pull: https://git-scm.com/docs/git-pull
+- 撤销与恢复 / restore: https://git-scm.com/docs/git-restore
+- 撤销与恢复 / reset: https://git-scm.com/docs/git-reset
+- 发布 / tag: https://git-scm.com/docs/git-tag
+- 补丁搬运 / cherry-pick: https://git-scm.com/docs/git-cherry-pick
 
-## 高级功能文档
-- [交互式变基](https://git-scm.com/docs/git-rebase#_interactive_rebase)
-- [二分查找](https://git-scm.com/docs/git-bisect)
-- [文件追踪](https://git-scm.com/docs/git-blame)
-- [内容搜索](https://git-scm.com/docs/git-grep)
-- [工作树管理](https://git-scm.com/docs/git-worktree)
-- [补丁操作](https://git-scm.com/docs/git-apply)
+## cheatsheet 区对应来源
+- 配置管理: https://git-scm.com/docs/git-config
+- 初始化仓库: https://git-scm.com/docs/git-init
+- 克隆仓库: https://git-scm.com/docs/git-clone
+- 远端管理: https://git-scm.com/docs/git-remote
+- 状态查看: https://git-scm.com/docs/git-status
+- 差异比较: https://git-scm.com/docs/git-diff
+- 暂存文件: https://git-scm.com/docs/git-add
+- 创建提交: https://git-scm.com/docs/git-commit
+- 历史查看: https://git-scm.com/docs/git-log
+- 查看单次提交: https://git-scm.com/docs/git-show
+- 分支管理: https://git-scm.com/docs/git-branch
+- 切换分支: https://git-scm.com/docs/git-switch
+- 合并分支: https://git-scm.com/docs/git-merge
+- 变基: https://git-scm.com/docs/git-rebase
+- 工作树: https://git-scm.com/docs/git-worktree
+- 临时寄存: https://git-scm.com/docs/git-stash
+- 追踪责任行: https://git-scm.com/docs/git-blame
+- 搜索内容: https://git-scm.com/docs/git-grep
+- 二分定位: https://git-scm.com/docs/git-bisect
+- 子模块: https://git-scm.com/docs/git-submodule
+- 忽略规则: https://git-scm.com/docs/gitignore
+- 清理未跟踪文件: https://git-scm.com/docs/git-clean
 
-## 教程和指南
-- [Git基础教程](https://git-scm.com/docs/gittutorial)
-- [日常Git操作](https://git-scm.com/docs/giteveryday)
-- [Git工作流程](https://git-scm.com/docs/gitworkflows)
-- [常见问题](https://git-scm.com/docs/gitfaq)
-- [Git术语](https://git-scm.com/docs/gitglossary)
-
-## 配置文件
-- [.gitignore配置](https://git-scm.com/docs/gitignore)
-- [Git属性配置](https://git-scm.com/docs/gitattributes)
-- [Git钩子](https://git-scm.com/docs/githooks)
-- [Git模块配置](https://git-scm.com/docs/gitmodules)
-
-## 工具和扩展
-- [Git-GUI工具](https://git-scm.com/downloads/guis)
-- [命令行工具](https://git-scm.com/downloads)
-- [插件和集成](https://git-scm.com/book/en/v2/Appendix-C%3A-Git-Commands)
-
-## 最新特性
-- [Git发行说明](https://git-scm.com/docs/RelNotes)
-- [新功能介绍](https://git-scm.com/docs/new-features)
-- [性能优化](https://git-scm.com/docs/git-gc)
+## FAQ 与补充阅读
+- 常见问题: https://git-scm.com/docs/gitfaq
+- 术语表: https://git-scm.com/docs/gitglossary
+- Git 用户手册: https://git-scm.com/docs/user-manual
+- 发布说明索引: https://git-scm.com/docs/RelNotes
