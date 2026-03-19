@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>jQuery</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png">
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 380px; 
+      --gap: 16px;
+    }
+
+    .panel label {
+      color: var(--panel-accent);
+    }
+
+    .panel .title {
+      color: var(--panel-accent);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-link);
+      text-decoration: none;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .home-link:hover {
+      text-decoration: underline;
+    }
+
+    .home-link svg {
+      width: 16px;
+      height: 16px;
+      flex: none;
+    }
+
+    .card pre,
+    .card pre code[class^="language-"] {
+      font-size: 13px;
+      line-height: 1.2;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .card h2 {
+      font-size: 16px;
+    }
+
+    .card,
+    .card li,
+    .desc {
+      font-size: 14px;
+      line-height: 1.2;
+    }
+
+    .meta-link {
+      color: var(--text-link);
+    }
+
+    .meta-link:hover {
+      text-decoration: underline;
+    }
+
+    .meta-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
+      <span class="title">jQuery</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">4.0.0</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-01-17</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/jquery/jquery" target="_blank" rel="noopener">jquery/jquery</a></span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/jquery/jquery" target="_blank" rel="noopener">打开 Zread</a></span></span>
+      </div>
+      <div class="meta-tags"><tag-chip class="tag tag-group-0 detail-tag" data-name="前端开发" data-group="0" label="前端开发" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-1 detail-tag" data-name="JavaScript" data-group="1" label="JavaScript" group="1" variant="detail" icon="mdi:language-javascript" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M3 3h18v18H3zm4.73 15.04c.4.85 1.19 1.55 2.54 1.55c1.5 0 2.53-.8 2.53-2.55v-5.78h-1.7V17c0 .86-.35 1.08-.9 1.08c-.58 0-.82-.4-1.09-.87zm5.98-.18c.5.98 1.51 1.73 3.09 1.73c1.6 0 2.8-.83 2.8-2.36c0-1.41-.81-2.04-2.25-2.66l-.42-.18c-.73-.31-1.04-.52-1.04-1.02c0-.41.31-.73.81-.73c.48 0 .8.21 1.09.73l1.31-.87c-.55-.96-1.33-1.33-2.4-1.33c-1.51 0-2.48.96-2.48 2.23c0 1.38.81 2.03 2.03 2.55l.42.18c.78.34 1.24.55 1.24 1.13c0 .48-.45.83-1.15.83c-.83 0-1.31-.43-1.67-1.03z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="库/框架" data-group="0" label="库/框架" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="DOM 操作" data-group="0" label="DOM 操作" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>🎯 选择器基础 <a href="https://api.jquery.com/category/selectors/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">jQuery 选择器是整个库的核心，掌握基本选择器、层级选择器、过滤选择器是高效操作 DOM 的前提。</div><h3>基本选择器</h3><ul><li><code>$(&quot;*&quot;)</code>：选择所有元素</li><li><code>$(&quot;tag&quot;)</code> <code>$(&quot;div&quot;)</code>：标签选择器，如</li><li><code>$(&quot;.class&quot;)</code>：类选择器</li><li><code>$(&quot;#id&quot;)</code>：ID 选择器</li><li><code>$(&quot;selector1, selector2&quot;)</code>：多选择器</li></ul><pre><code class="language-javascript">// 选择所有段落
+$(&quot;p&quot;).css(&quot;color&quot;, &quot;red&quot;);
+
+// 选择多个元素
+$(&quot;h1, h2, h3&quot;).addClass(&quot;header&quot;);
+
+// 组合选择器
+$(&quot;div.container p.active&quot;)</code></pre><h3>层级选择器</h3><ul><li><code>$(&quot;parent child&quot;)</code>：后代选择器</li><li><code>$(&quot;parent &gt; child&quot;)</code>：子选择器</li><li><code>$(&quot;prev + next&quot;)</code>：相邻兄弟选择器</li><li><code>$(&quot;prev ~ siblings&quot;)</code>：后续兄弟选择器</li></ul><pre><code class="language-javascript">// 后代选择器：所有后代
+$(&quot;div p&quot;);
+
+// 子选择器：直接子元素
+$(&quot;ul &gt; li&quot;);
+
+// 相邻兄弟
+$(&quot;h1 + p&quot;);
+
+// 后续所有兄弟
+$(&quot;h1 ~ p&quot;);</code></pre><h3>过滤选择器</h3><ul><li><code>:first</code> <code>:last</code>：第一个 / 最后一个</li><li><code>:even</code> <code>:odd</code>：偶数 / 奇数（从 0 开始）</li><li><code>:eq(n)</code>：索引为 n 的元素</li><li><code>:gt(n)</code> <code>:lt(n)</code>：大于 / 小于索引 n</li><li><code>:not(selector)</code>：排除匹配元素</li><li><code>:contains(text)</code>：包含指定文本</li><li><code>:has(selector)</code>：包含匹配元素的元素</li><li><code>:empty</code> <code>:parent</code>：无子元素 / 有子元素</li></ul><pre><code class="language-javascript">// 第一个段落
+$(&quot;p:first&quot;);
+
+// 偶数索引的列表项
+$(&quot;li:even&quot;);
+
+// 索引为 2
+$(&quot;li:eq(2)&quot;);
+
+// 不包含 active 类的
+$(&quot;div:not(.active)&quot;);
+
+// 包含 &quot;hello&quot; 的段落
+$(&quot;p:contains(&#39;hello&#39;)&quot;);</code></pre><h3>属性选择器</h3><ul><li><code>$(&quot;[attr]&quot;)</code>：有指定属性</li><li><code>$(&quot;[attr=&#39;value&#39;]&quot;)</code>：属性等于值</li><li>`$(&quot;[attr!=&#39;value&#39;]&quot;) : 属性不等于值</li><li><code>$(&quot;[attr^=&#39;value&#39;]&quot;)</code>：属性以值开头</li><li><code>$(&quot;[attr$=&#39;value&#39;]&quot;)</code>：属性以值结尾</li><li><code>$(&quot;[attr*=&#39;value&#39;]&quot;)</code>：属性包含值</li></ul><pre><code class="language-javascript">// 有 title 属性的链接
+$(&quot;a[title]&quot;);
+
+// href 以 https 开头
+$(&quot;a[href^=&#39;https&#39;]&quot;);
+
+// src 以 .png 结尾的图片
+$(&quot;img[src$=&#39;.png&#39;]&quot;);
+
+// class 包含 btn
+$(&quot;[class*=&#39;btn&#39;]&quot;);</code></pre></div><div class="card"><h2>🎨 DOM 操作 <a href="https://api.jquery.com/category/manipulation/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">DOM 操作是 jQuery 最常用的功能，包括创建、插入、删除、复制元素，以及属性、样式、内容的读写。</div><h3>创建与插入</h3><ul><li><code>$(&quot;&lt;div&gt;&quot;)</code>：创建元素</li><li><code>.append(content)</code>：内部末尾插入</li><li><code>.prepend(content)</code>：内部开头插入</li><li><code>.after(content)</code>：外部后面插入</li><li><code>.before(content)</code>：外部前面插入</li><li><code>.appendTo(target)</code>：插入到目标内部末尾</li><li><code>.prependTo(target)</code>：插入到目标内部开头</li><li><code>.insertAfter(target)</code>：插入到目标后面</li><li><code>.insertBefore(target)</code>：插入到目标前面</li></ul><pre><code class="language-javascript">// 创建元素
+const $div = $(&quot;&lt;div class=&#39;box&#39;&gt;新元素&lt;/div&gt;&quot;);
+
+// 内部插入
+$(&quot;#container&quot;).append($div);
+$(&quot;#container&quot;).prepend(&quot;&lt;p&gt;开头&lt;/p&gt;&quot;);
+
+// 外部插入
+$(&quot;#target&quot;).after(&quot;&lt;div&gt;后面&lt;/div&gt;&quot;);
+$(&quot;#target&quot;).before(&quot;&lt;div&gt;前面&lt;/div&gt;&quot;);
+
+// 移动元素
+$(&quot;#moveMe&quot;).appendTo(&quot;#container&quot;);</code></pre><h3>删除与清空</h3><ul><li><code>.remove()</code>：删除元素（保留事件绑定）</li><li><code>.empty()</code>：清空子元素</li><li><code>.detach()</code>：删除元素（保留数据和事件）</li><li><code>.unwrap()</code>：移除父元素</li></ul><pre><code class="language-javascript">// 删除元素
+$(&quot;#element&quot;).remove();
+
+// 条件删除
+$(&quot;p&quot;).remove(&quot;.test&quot;);
+
+// 清空内容
+$(&quot;#container&quot;).empty();
+
+// 移除并保留数据
+const $elem = $(&quot;#widget&quot;).detach();
+// ... 后续可以重新插入
+$(&quot;#newParent&quot;).append($elem);</code></pre><h3>克隆</h3><ul><li><code>.clone()</code>：浅克隆（不含事件）</li><li><code>.clone(true)</code>：深克隆（包含事件和数据）</li></ul><pre><code class="language-javascript">// 克隆元素
+const $clone = $(&quot;#template&quot;).clone();
+
+// 深克隆（包含事件）
+const $deepClone = $(&quot;#widget&quot;).clone(true);
+
+// 插入克隆
+$(&quot;#container&quot;).append($clone);</code></pre><h3>属性操作</h3><ul><li><code>.attr(name)</code>：获取属性</li><li><code>.attr(name, value)</code>：设置属性</li><li><code>.attr({name: value})</code>：批量设置</li><li><code>.removeAttr(name)</code>：移除属性</li><li><code>.prop(name)</code>：获取属性（布尔属性）</li><li><code>.prop(name, value)</code>：设置属性</li><li><code>.val()</code>：获取表单值</li><li><code>.val(value)</code>：设置表单值</li></ul><pre><code class="language-javascript">// 获取属性
+const href = $(&quot;a&quot;).attr(&quot;href&quot;);
+const checked = $(&quot;#checkbox&quot;).prop(&quot;checked&quot;);
+
+// 设置属性
+$(&quot;img&quot;).attr(&quot;src&quot;, &quot;image.png&quot;);
+$(&quot;a&quot;).attr({
+  href: &quot;https://example.com&quot;,
+  target: &quot;_blank&quot;
+});
+
+// 移除属性
+$(&quot;div&quot;).removeAttr(&quot;title&quot;);
+
+// 表单值
+const text = $(&quot;input[name=&#39;username&#39;]&quot;).val();
+$(&quot;input[name=&#39;username&#39;]&quot;).val(&quot;新值&quot;);</code></pre><h3>类名操作</h3><ul><li><code>.addClass(name)</code>：添加类名</li><li><code>.removeClass(name)</code>：移除类名</li><li><code>.toggleClass(name)</code>：切换类名</li><li><code>.hasClass(name)</code>：是否有类名</li></ul><pre><code class="language-javascript">// 添加类名
+$(&quot;div&quot;).addClass(&quot;active&quot;);
+$(&quot;div&quot;).addClass(&quot;box highlight&quot;);
+
+// 移除类名
+$(&quot;div&quot;).removeClass(&quot;active&quot;);
+
+// 切换类名
+$(&quot;button&quot;).toggleClass(&quot;selected&quot;);
+
+// 条件切换
+$(&quot;div&quot;).toggleClass(&quot;active&quot;, isActive);
+
+// 检查类名
+if ($(&quot;#box&quot;).hasClass(&quot;active&quot;)) {
+  console.log(&quot;已激活&quot;);
+}</code></pre><h3>内容操作</h3><ul><li><code>.html()</code>：获取 HTML 内容</li><li><code>.html(content)</code>：设置 HTML 内容</li><li><code>.text()</code>：获取文本内容</li><li><code>.text(content)</code>：设置文本内容</li></ul><pre><code class="language-javascript">// 获取内容
+const html = $(&quot;#container&quot;).html();
+const text = $(&quot;#container&quot;).text();
+
+// 设置内容
+$(&quot;#container&quot;).html(&quot;&lt;p&gt;新的 &lt;strong&gt;HTML&lt;/strong&gt;&lt;/p&gt;&quot;);
+$(&quot;#container&quot;).text(&quot;纯文本内容&quot;);
+
+// 安全设置（防 XSS）
+$(&quot;#output&quot;).text(userInput);</code></pre></div><div class="card"><h2>📡 事件处理 <a href="https://api.jquery.com/category/events/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">jQuery 提供了统一的事件 API，简化了跨浏览器的事件绑定、解绑和触发，支持事件委托和自定义事件。</div><h3>绑定事件</h3><ul><li><code>.on(event, handler)</code>：绑定事件</li><li><code>.on(event, selector, handler)</code>：事件委托</li><li><code>.on(event, data, handler)</code>：绑定事件并传递数据</li><li><code>.one(event, handler)</code>：绑定一次性事件</li></ul><pre><code class="language-javascript">// 基本绑定
+$(&quot;#button&quot;).on(&quot;click&quot;, function(e) {
+  console.log(&quot;点击了&quot;);
+});
+
+// 多个事件
+$(&quot;#input&quot;).on(&quot;focus blur&quot;, function() {
+  $(this).toggleClass(&quot;focused&quot;);
+});
+
+// 事件委托
+$(&quot;#list&quot;).on(&quot;click&quot;, &quot;li&quot;, function() {
+  console.log($(this).text());
+});
+
+// 传递数据
+$(&quot;#button&quot;).on(&quot;click&quot;, { name: &quot;jQuery&quot; }, function(e) {
+  console.log(e.data.name);
+});
+
+// 一次性事件
+$(&quot;#alert&quot;).one(&quot;click&quot;, function() {
+  alert(&quot;只触发一次&quot;);
+});</code></pre><h3>解绑事件</h3><ul><li><code>.off(event)</code>：解绑事件</li><li><code>.off(event, handler)</code>：解绑特定处理函数</li><li><code>.off()</code>：解绑所有事件</li></ul><pre><code class="language-javascript">// 解绑特定事件
+$(&quot;#button&quot;).off(&quot;click&quot;);
+
+// 解绑特定处理函数
+const handler = function() { console.log(&quot;click&quot;); };
+$(&quot;#button&quot;).on(&quot;click&quot;, handler);
+$(&quot;#button&quot;).off(&quot;click&quot;, handler);
+
+// 解绑所有事件
+$(&quot;#element&quot;).off();</code></pre><h3>触发事件</h3><ul><li><code>.trigger(event)</code>：触发事件</li><li><code>.triggerHandler(event)</code>：触发事件（不执行默认行为）</li></ul><pre><code class="language-javascript">// 触发事件
+$(&quot;#button&quot;).trigger(&quot;click&quot;);
+
+// 触发事件并传参
+$(&quot;#input&quot;).trigger(&quot;customEvent&quot;, [&quot;参数1&quot;, &quot;参数2&quot;]);
+
+// 只触发处理函数，不执行默认行为
+$(&quot;#form&quot;).triggerHandler(&quot;submit&quot;);</code></pre><h3>快捷方法</h3><ul><li><code>.click(handler)</code>：点击事件</li><li><code>.dblclick(handler)</code>：双击事件</li><li><code>.hover(enter, leave)</code>：悬停事件</li><li><code>.focus(handler)</code>：获得焦点</li><li><code>.blur(handler)</code>：失去焦点</li><li><code>.change(handler)</code>：值改变</li><li><code>.submit(handler)</code>：表单提交</li><li><code>.keydown(handler)</code>：键盘按下</li><li><code>.keyup(handler)</code>：键盘抬起</li><li><code>.mousedown(handler)</code>：鼠标按下</li><li><code>.mouseup(handler)</code>：鼠标抬起</li><li><code>.mousemove(handler)</code>：鼠标移动</li><li><code>.mouseenter(handler)</code>：鼠标进入（不冒泡）</li><li><code>.mouseleave(handler)</code>：鼠标离开（不冒泡）</li><li><code>.mouseover(handler)</code>：鼠标悬停（冒泡）</li><li><code>.mouseout(handler)</code>：鼠标离开（冒泡）</li></ul><pre><code class="language-javascript">// 点击事件
+$(&quot;#button&quot;).click(function() {
+  alert(&quot;点击了&quot;);
+});
+
+// 悬停事件
+$(&quot;#box&quot;).hover(
+  function() {
+    $(this).addClass(&quot;hover&quot;);
+  },
+  function() {
+    $(this).removeClass(&quot;hover&quot;);
+  }
+);
+
+// 表单提交
+$(&quot;#form&quot;).submit(function(e) {
+  e.preventDefault();
+  console.log(&quot;提交表单&quot;);
+});
+
+// 键盘事件
+$(&quot;#input&quot;).keydown(function(e) {
+  if (e.which === 13) {
+    console.log(&quot;回车键&quot;);
+  }
+});</code></pre><h3>事件对象</h3><ul><li><code>e.preventDefault()</code>：阻止默认行为</li><li><code>e.stopPropagation()</code>：阻止冒泡</li><li><code>e.stopImmediatePropagation()</code>：阻止后续处理</li><li><code>e.target</code>：触发事件的元素</li><li><code>e.currentTarget</code>：当前处理元素</li><li><code>e.delegateTarget</code>：委托元素</li><li><code>e.which</code>：键码 / 鼠标键</li><li><code>e.pageX</code> <code>e.pageY</code>：鼠标页面坐标</li><li><code>e.type</code>：事件类型</li></ul><pre><code class="language-javascript">$(&quot;#link&quot;).click(function(e) {
+  // 阻止默认行为
+  e.preventDefault();
+  
+  // 阻止冒泡
+  e.stopPropagation();
+  
+  // 获取信息
+  console.log(&quot;事件类型:&quot;, e.type);
+  console.log(&quot;触发元素:&quot;, e.target);
+  console.log(&quot;当前元素:&quot;, e.currentTarget);
+  console.log(&quot;鼠标位置:&quot;, e.pageX, e.pageY);
+});</code></pre></div><div class="card"><h2>✨ 动画效果 <a href="https://api.jquery.com/category/effects/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">jQuery 内置了常用的动画效果，也支持自定义动画，通过链式调用可以创建复杂的动画序列。</div><h3>显示与隐藏</h3><ul><li><code>.show()</code>：显示元素</li><li><code>.hide()</code>：隐藏元素</li><li><code>.toggle()</code>：切换显示/隐藏</li><li><code>.show(duration)</code>：带动画显示</li><li><code>.hide(duration)</code>：带动画隐藏</li><li><code>.toggle(duration)</code>：带动画切换</li></ul><pre><code class="language-javascript">// 立即显示/隐藏
+$(&quot;#box&quot;).show();
+$(&quot;#box&quot;).hide();
+$(&quot;#box&quot;).toggle();
+
+// 带动画
+$(&quot;#box&quot;).show(1000);  // 1秒
+$(&quot;#box&quot;).hide(&quot;slow&quot;);  // slow/normal/fast
+$(&quot;#box&quot;).toggle(400, function() {
+  console.log(&quot;动画完成&quot;);
+});</code></pre><h3>淡入淡出</h3><ul><li><code>.fadeIn()</code>：淡入</li><li><code>.fadeOut()</code>：淡出</li><li><code>.fadeToggle()</code>：切换淡入/淡出</li><li><code>.fadeTo(duration, opacity)</code>：淡到指定透明度</li></ul><pre><code class="language-javascript">// 淡入
+$(&quot;#box&quot;).fadeIn();
+$(&quot;#box&quot;).fadeIn(1000);
+
+// 淡出
+$(&quot;#box&quot;).fadeOut(&quot;slow&quot;);
+
+// 切换
+$(&quot;#box&quot;).fadeToggle(400);
+
+// 淡到 0.5 透明度
+$(&quot;#box&quot;).fadeTo(1000, 0.5);</code></pre><h3>滑动</h3><ul><li><code>.slideDown()</code>：向下滑动显示</li><li><code>.slideUp()</code>：向上滑动隐藏</li><li><code>.slideToggle()</code>：切换滑动</li></ul><pre><code class="language-javascript">// 向下滑动显示
+$(&quot;#menu&quot;).slideDown();
+
+// 向上滑动隐藏
+$(&quot;#menu&quot;).slideUp(&quot;fast&quot;);
+
+// 切换
+$(&quot;#menu&quot;).slideToggle(300, function() {
+  console.log(&quot;滑动完成&quot;);
+});</code></pre><h3>自定义动画</h3><ul><li><code>.animate(properties)</code>：自定义动画</li><li><code>.animate(properties, duration)</code>：指定时长</li><li><code>.animate(properties, options)</code>：详细配置</li></ul><pre><code class="language-javascript">// 基本动画
+$(&quot;#box&quot;).animate({
+  left: &quot;250px&quot;,
+  opacity: 0.5,
+  height: &quot;150px&quot;
+}, 1000);
+
+// 使用相对值
+$(&quot;#box&quot;).animate({
+  left: &quot;+=50px&quot;,
+  opacity: &quot;-=0.2&quot;
+});
+
+// 完整配置
+$(&quot;#box&quot;).animate({
+  width: &quot;300px&quot;
+}, {
+  duration: 1000,
+  easing: &quot;swing&quot;,  // swing/linear
+  complete: function() {
+    console.log(&quot;完成&quot;);
+  },
+  step: function(now) {
+    console.log(&quot;当前值:&quot;, now);
+  }
+});</code></pre><h3>动画控制</h3><ul><li><code>.stop()</code>：停止当前动画</li><li><code>.stop(true)</code>：清除队列</li><li><code>.stop(true, true)</code>：清除队列并跳到结尾</li><li><code>.finish()</code>：完成所有队列动画</li><li><code>.delay(duration)</code>：延迟执行</li></ul><pre><code class="language-javascript">// 停止动画
+$(&quot;#box&quot;).stop();
+
+// 停止并清除队列
+$(&quot;#box&quot;).stop(true);
+
+// 停止、清除队列、跳到结尾
+$(&quot;#box&quot;).stop(true, true);
+
+// 完成所有动画
+$(&quot;#box&quot;).finish();
+
+// 延迟
+$(&quot;#box&quot;)
+  .fadeOut(500)
+  .delay(1000)
+  .fadeIn(500);</code></pre></div><div class="card"><h2>🌐 AJAX 请求 <a href="https://api.jquery.com/category/ajax/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">jQuery 的 AJAX 方法简化了异步请求，支持 Promise 风格的链式调用，提供了丰富的配置选项和全局事件。</div><h3>核心方法</h3><ul><li><code>$.ajax(options)</code>：底层 AJAX 方法</li><li><code>$.get(url, data, success)</code>：GET 请求</li><li><code>$.post(url, data, success)</code>：POST 请求</li><li><code>$.getJSON(url, data, success)</code>：获取 JSON</li><li><code>$.getScript(url, success)</code>：加载脚本</li><li><code>$(selector).load(url, data, complete)</code>：加载 HTML</li></ul><pre><code class="language-javascript">// $.ajax 完整配置
+$.ajax({
+  url: &quot;/api/data&quot;,
+  method: &quot;POST&quot;,
+  data: { name: &quot;jQuery&quot;, version: &quot;4.0&quot; },
+  dataType: &quot;json&quot;,
+  timeout: 5000,
+  beforeSend: function(xhr) {
+    console.log(&quot;发送前&quot;);
+  },
+  success: function(data, status, xhr) {
+    console.log(&quot;成功:&quot;, data);
+  },
+  error: function(xhr, status, error) {
+    console.error(&quot;错误:&quot;, error);
+  },
+  complete: function(xhr, status) {
+    console.log(&quot;完成&quot;);
+  }
+});
+
+// Promise 风格
+$.ajax({ url: &quot;/api/data&quot; })
+  .done(function(data) {
+    console.log(&quot;成功:&quot;, data);
+  })
+  .fail(function(xhr, status, error) {
+    console.error(&quot;失败:&quot;, error);
+  })
+  .always(function() {
+    console.log(&quot;总是执行&quot;);
+  });</code></pre><h3>快捷方法</h3><pre><code class="language-javascript">// GET 请求
+$.get(&quot;/api/data&quot;, function(data) {
+  console.log(data);
+});
+
+// POST 请求
+$.post(&quot;/api/data&quot;, { name: &quot;test&quot; }, function(data) {
+  console.log(data);
+});
+
+// 获取 JSON
+$.getJSON(&quot;/api/data.json&quot;, function(data) {
+  console.log(data);
+});
+
+// 加载 HTML
+$(&quot;#container&quot;).load(&quot;/page.html #content&quot;);</code></pre><h3>配置选项</h3><ul><li><code>url</code>：请求地址</li><li><code>method</code> <code>type</code>：请求方法（GET/POST/PUT/DELETE）</li><li><code>data</code>：发送的数据（对象或字符串）</li><li><code>dataType</code>：预期响应类型（json/xml/html/script/jsonp/text）</li><li><code>contentType</code>：发送数据的类型</li><li><code>headers</code>：自定义请求头</li><li><code>timeout</code>：超时时间（毫秒）</li><li><code>async</code>：是否异步（默认 true）</li><li><code>cache</code>：是否缓存（默认 true）</li><li><code>processData</code>：是否处理数据（默认 true）</li><li><code>traditional</code>：是否传统序列化（默认 false）</li></ul><pre><code class="language-javascript">$.ajax({
+  url: &quot;/api/data&quot;,
+  method: &quot;POST&quot;,
+  data: JSON.stringify({ id: 1 }),
+  contentType: &quot;application/json&quot;,
+  dataType: &quot;json&quot;,
+  headers: {
+    &quot;Authorization&quot;: &quot;Bearer token123&quot;
+  },
+  timeout: 10000,
+  cache: false
+});</code></pre><h3>全局事件</h3><ul><li><code>$(document).ajaxStart(handler)</code>：请求开始</li><li><code>$(document).ajaxStop(handler)</code>：请求结束</li><li><code>$(document).ajaxSuccess(handler)</code>：请求成功</li><li><code>$(document).ajaxError(handler)</code>：请求失败</li><li><code>$(document).ajaxComplete(handler)</code>：请求完成</li><li><code>$(document).ajaxSend(handler)</code>：请求发送前</li></ul><pre><code class="language-javascript">// 全局加载提示
+$(document).ajaxStart(function() {
+  $(&quot;#loading&quot;).show();
+});
+
+$(document).ajaxStop(function() {
+  $(&quot;#loading&quot;).hide();
+});
+
+// 全局错误处理
+$(document).ajaxError(function(e, xhr, settings, error) {
+  console.error(&quot;请求失败:&quot;, settings.url, error);
+});</code></pre><h3>序列化</h3><ul><li><code>.serialize()</code>：序列化为查询字符串</li><li><code>.serializeArray()</code>：序列化为数组</li><li><code>$.param(object)</code>：对象序列化</li></ul><pre><code class="language-javascript">// 序列化表单
+const data = $(&quot;form&quot;).serialize();
+// name=John&amp;age=30
+
+// 序列化为数组
+const arr = $(&quot;form&quot;).serializeArray();
+// [{ name: &quot;name&quot;, value: &quot;John&quot; }, { name: &quot;age&quot;, value: &quot;30&quot; }]
+
+// 对象序列化
+const str = $.param({ a: 1, b: 2 });
+// a=1&amp;b=2</code></pre></div><div class="card"><h2>🛠️ 工具函数 <a href="https://api.jquery.com/category/utilities/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">jQuery 提供了丰富的工具函数，用于类型检测、对象操作、数组处理和字符串处理，简化了常见的编程任务。</div><h3>类型检测</h3><ul><li><code>$.type(value)</code>：获取类型（jQuery 4 已移除，用原生 typeof）</li><li><code>$.isArray(obj)</code>：是否数组（jQuery 4 已移除，用 Array.isArray）</li><li><code>$.isFunction(obj)</code>：是否函数</li><li><code>$.isNumeric(value)</code>：是否数字</li><li><code>$.isEmptyObject(obj)</code>：是否空对象</li><li><code>$.isPlainObject(obj)</code>：是否纯对象</li><li><code>$.isWindow(obj)</code>：是否 window</li><li><code>$.contains(container, contained)</code>：是否包含</li></ul><pre><code class="language-javascript">// jQuery 4 推荐：使用原生方法
+Array.isArray([1, 2, 3]);  // true
+typeof function() {} === &quot;function&quot;;  // true
+typeof 123 === &quot;number&quot;;  // true
+
+// jQuery 仍支持的方法
+$.isEmptyObject({});  // true
+$.isPlainObject({ a: 1 });  // true
+$.contains(document, document.body);  // true</code></pre><h3>对象操作</h3><ul><li><code>$.extend(target, source)</code>：合并对象</li><li><code>$.extend(true, target, source)</code>：深拷贝合并</li><li><code>$.each(object, callback)</code>：遍历对象</li></ul><pre><code class="language-javascript">// 浅拷贝合并
+const obj = $.extend({}, { a: 1 }, { b: 2 });
+// { a: 1, b: 2 }
+
+// 深拷贝合并
+const deep = $.extend(true, {}, {
+  a: { b: 1 }
+}, {
+  a: { c: 2 }
+});
+// { a: { b: 1, c: 2 } }
+
+// 遍历对象
+$.each({ a: 1, b: 2 }, function(key, value) {
+  console.log(key + &quot;: &quot; + value);
+});</code></pre><h3>数组处理</h3><ul><li><code>$.each(array, callback)</code>：遍历数组</li><li><code>$.map(array, callback)</code>：映射数组</li><li><code>$.grep(array, callback)</code>：过滤数组</li><li><code>$.inArray(value, array)</code>：查找索引</li><li><code>$.merge(array1, array2)</code>：合并数组</li><li><code>$.unique(array)</code>：去重（仅 DOM 元素）</li><li><code>$.makeArray(obj)</code>：转数组</li></ul><pre><code class="language-javascript">// 遍历数组
+$.each([1, 2, 3], function(index, value) {
+  console.log(index + &quot;: &quot; + value);
+});
+
+// 映射数组
+const doubled = $.map([1, 2, 3], function(val, i) {
+  return val * 2;
+});
+// [2, 4, 6]
+
+// 过滤数组
+const filtered = $.grep([1, 2, 3, 4, 5], function(val, i) {
+  return val &gt; 2;
+});
+// [3, 4, 5]
+
+// 查找索引
+const index = $.inArray(3, [1, 2, 3, 4]);
+// 2
+
+// 合并数组
+const merged = $.merge([1, 2], [3, 4]);
+// [1, 2, 3, 4]
+
+// 转数组
+const arr = $.makeArray(document.getElementsByTagName(&quot;div&quot;));</code></pre><h3>字符串处理</h3><ul><li><code>$.trim(str)</code>：去除首尾空白（jQuery 4 已移除，用原生 trim）</li><li><code>$.parseJSON(json)</code>：解析 JSON（jQuery 4 已移除，用 JSON.parse）</li><li><code>$.parseHTML(html)</code>：解析 HTML</li><li><code>$.parseXML(xml)</code>：解析 XML</li></ul><pre><code class="language-javascript">// jQuery 4 推荐：使用原生方法
+&quot;  hello  &quot;.trim();  // &quot;hello&quot;
+JSON.parse(&#39;{&quot;a&quot;:1}&#39;);  // { a: 1 }
+
+// jQuery 方法
+const $elems = $.parseHTML(&quot;&lt;div&gt;HTML&lt;/div&gt;&quot;);
+const xmlDoc = $.parseXML(&quot;&lt;root&gt;&lt;item/&gt;&lt;/root&gt;&quot;);</code></pre><h3>其他工具</h3><ul><li><code>$.proxy(fn, context)</code>：绑定上下文</li><li><code>$.noop</code>：空函数</li><li><code>$.now()</code>：当前时间戳（jQuery 4 已移除，用 Date.now）</li><li><code>$.holdReady(hold)</code>：暂停 ready 事件</li></ul><pre><code class="language-javascript">// 绑定上下文
+const obj = { name: &quot;jQuery&quot; };
+const fn = $.proxy(function() {
+  console.log(this.name);
+}, obj);
+
+// 空函数（作为默认回调）
+function callback(fn) {
+  (fn || $.noop)();
+}
+
+// jQuery 4 推荐：使用原生方法
+Date.now();  // 当前时间戳</code></pre></div><div class="card"><h2>🔗 链式调用与遍历 <a href="https://api.jquery.com/category/traversing/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">jQuery 的链式调用和强大的遍历方法让 DOM 操作更简洁，可以快速定位和过滤元素集合。</div><h3>链式调用</h3><pre><code class="language-javascript">// 链式调用示例
+$(&quot;#box&quot;)
+  .addClass(&quot;active&quot;)
+  .css(&quot;color&quot;, &quot;red&quot;)
+  .fadeIn(500)
+  .delay(1000)
+  .fadeOut(500);</code></pre><h3>过滤方法</h3><ul><li><code>.eq(index)</code>：选择指定索引</li><li><code>.first()</code>：第一个元素</li><li><code>.last()</code>：最后一个元素</li><li><code>.filter(selector)</code>：过滤匹配元素</li><li><code>.not(selector)</code>：排除匹配元素</li><li><code>.slice(start, end)</code>：切片</li><li><code>.has(selector)</code>：包含匹配元素</li><li><code>.is(selector)</code>：是否匹配</li></ul><pre><code class="language-javascript">// 选择索引为 2
+$(&quot;li&quot;).eq(2);
+
+// 第一个和最后一个
+$(&quot;li&quot;).first();
+$(&quot;li&quot;).last();
+
+// 过滤
+$(&quot;li&quot;).filter(&quot;.active&quot;);
+$(&quot;li&quot;).not(&quot;.disabled&quot;);
+
+// 切片（索引 1 到 3）
+$(&quot;li&quot;).slice(1, 4);
+
+// 包含子元素
+$(&quot;div&quot;).has(&quot;p&quot;);
+
+// 是否匹配
+if ($(&quot;div&quot;).is(&quot;.active&quot;)) {
+  console.log(&quot;已激活&quot;);
+}</code></pre><h3>查找方法</h3><ul><li><code>.find(selector)</code>：查找后代</li><li><code>.children(selector)</code>：查找子元素</li><li><code>.parent(selector)</code>：查找父元素</li><li><code>.parents(selector)</code>：查找所有祖先</li><li><code>.parentsUntil(selector)</code>：查找祖先直到</li><li><code>.closest(selector)</code>：查找最近的匹配祖先</li><li><code>.next(selector)</code>：下一个兄弟</li><li><code>.nextAll(selector)</code>：后续所有兄弟</li><li><code>.nextUntil(selector)</code>：后续兄弟直到</li><li><code>.prev(selector)</code>：上一个兄弟</li><li><code>.prevAll(selector)</code>：之前所有兄弟</li><li><code>.prevUntil(selector)</code>：之前兄弟直到</li><li><code>.siblings(selector)</code>：所有兄弟</li></ul><pre><code class="language-javascript">// 查找后代
+$(&quot;#container&quot;).find(&quot;p&quot;);
+
+// 子元素
+$(&quot;#list&quot;).children(&quot;.item&quot;);
+
+// 父元素
+$(&quot;#item&quot;).parent();
+$(&quot;#item&quot;).parents(&quot;.container&quot;);
+
+// 最近的匹配祖先
+$(&quot;#item&quot;).closest(&quot;.wrapper&quot;);
+
+// 兄弟元素
+$(&quot;#item&quot;).next();
+$(&quot;#item&quot;).nextAll();
+$(&quot;#item&quot;).prev();
+$(&quot;#item&quot;).siblings();</code></pre><h3>遍历方法</h3><ul><li><code>.each(callback)</code>：遍历元素</li><li><code>.map(callback)</code>：映射元素</li><li><code>.get()</code>：转为 DOM 数组</li><li><code>.get(index)</code>：获取指定 DOM 元素</li><li><code>.index()</code>：获取索引</li></ul><pre><code class="language-javascript">// 遍历元素
+$(&quot;li&quot;).each(function(index, elem) {
+  console.log(index + &quot;: &quot; + $(this).text());
+});
+
+// 映射元素
+const texts = $(&quot;li&quot;).map(function() {
+  return $(this).text();
+}).get();
+
+// 转为 DOM 数组
+const domArray = $(&quot;div&quot;).get();
+
+// 获取指定 DOM 元素
+const firstDiv = $(&quot;div&quot;).get(0);
+
+// 获取索引
+const index = $(&quot;#item&quot;).index();</code></pre><h3>其他方法</h3><ul><li><code>.add(selector)</code>：添加元素到集合</li><li><code>.addBack()</code>：添加之前的集合</li><li><code>.contents()</code>：获取所有子节点（包括文本节点）</li><li><code>.end()</code>：结束当前链，返回上一个集合</li></ul><pre><code class="language-javascript">// 添加元素到集合
+$(&quot;div&quot;).add(&quot;p&quot;).css(&quot;color&quot;, &quot;red&quot;);
+
+// 添加之前的集合
+$(&quot;div&quot;).find(&quot;p&quot;).addBack().addClass(&quot;container&quot;);
+
+// 结束链
+$(&quot;div&quot;)
+  .find(&quot;p&quot;)
+    .addClass(&quot;para&quot;)
+    .end()
+  .addClass(&quot;container&quot;);</code></pre></div>
+    </div>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>
