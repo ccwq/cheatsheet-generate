@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>AutoHotkey v2.0</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png">
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 360px; 
+      --gap: 16px;
+    }
+
+    .panel label {
+      color: var(--panel-accent);
+    }
+
+    .panel .title {
+      color: var(--panel-accent);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-link);
+      text-decoration: none;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .home-link:hover {
+      text-decoration: underline;
+    }
+
+    .home-link svg {
+      width: 16px;
+      height: 16px;
+      flex: none;
+    }
+
+    .card pre,
+    .card pre code[class^="language-"] {
+      font-size: 13px;
+      line-height: 1.2;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .card h2 {
+      font-size: 16px;
+    }
+
+    .card,
+    .card li,
+    .desc {
+      font-size: 14px;
+      line-height: 1.2;
+    }
+
+    .meta-link {
+      color: var(--text-link);
+    }
+
+    .meta-link:hover {
+      text-decoration: underline;
+    }
+
+    .meta-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
+      <span class="title">AutoHotkey v2.0</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2.0.21</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-02-09</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/AutoHotkey/AutoHotkey" target="_blank" rel="noopener">AutoHotkey/AutoHotkey</a></span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/AutoHotkey/AutoHotkey" target="_blank" rel="noopener">打开 Zread</a></span></span>
+      </div>
+      <div class="meta-tags"><tag-chip class="tag tag-group-2 detail-tag" data-name="自动化工具" data-group="2" label="自动化工具" group="2" variant="detail" icon="mdi:robot" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5A2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5a2.5 2.5 0 0 0 2.5 2.5a2.5 2.5 0 0 0 2.5-2.5a2.5 2.5 0 0 0-2.5-2.5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="脚本工具" data-group="2" label="脚本工具" group="2" variant="detail" icon="mdi:script-text-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M15 20a1 1 0 0 0 1-1V4H8a1 1 0 0 0-1 1v11H5V5a3 3 0 0 1 3-3h11a3 3 0 0 1 3 3v1h-2V5a1 1 0 0 0-1-1a1 1 0 0 0-1 1v14a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3v-1h11a2 2 0 0 0 2 2M9 6h5v2H9zm0 4h5v2H9zm0 4h5v2H9z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-1 detail-tag" data-name="Windows" data-group="1" label="Windows" group="1" variant="detail" icon="mdi:microsoft-windows" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M3 12V6.75l6-1.32v6.48zm17-9v8.75l-10 .15V5.21zM3 13l6 .09v6.81l-6-1.15zm17 .25V22l-10-1.91V13.1z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="热键" data-group="0" label="热键" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-4 detail-tag" data-name="GUI" data-group="4" label="GUI" group="4" variant="detail" icon="mdi:monitor-dashboard" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M21 16V4H3v12zm0-14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-7v2h2v2H8v-2h2v-2H3a2 2 0 0 1-2-2V4c0-1.11.89-2 2-2zM5 6h9v5H5zm10 0h4v2h-4zm4 3v5h-4V9zM5 12h4v2H5zm5 0h4v2h-4z&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>料理 Cookbook <a href="https://www.autohotkey.com/docs/v2/index.htm" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">先记住常见工作流，再回头查热键符号和 API。AHK 真正常用的不是“单个函数”，而是“热键 + 条件 + 系统操作”的组合。</div><h3>这份 cheatsheet 怎么读</h3><ul><li><code>Cookbook</code>：按场景拿现成套路</li><li><code>快捷键</code>：查热键符号、按键名、上下文写法</li><li><code>API</code>：补常用函数和对象</li><li><code>脚本</code>：整理成可维护的 v2 脚本骨架</li></ul><h3>Recipe 1: 把 CapsLock 改成控制层</h3><pre><code class="language-autohotkey">#Requires AutoHotkey v2.0
+#SingleInstance Force
+
+; 单击 CapsLock 发 Escape，按住时当作导航层
+CapsLock::
+{
+    KeyWait &quot;CapsLock&quot;, &quot;T0.2&quot;
+    if ErrorLevel
+        return
+    Send &quot;{Esc}&quot;
+}
+
+CapsLock &amp; h::Send &quot;{Left}&quot;
+CapsLock &amp; j::Send &quot;{Down}&quot;
+CapsLock &amp; k::Send &quot;{Up}&quot;
+CapsLock &amp; l::Send &quot;{Right}&quot;
+CapsLock &amp; u::Send &quot;^{Left}&quot;
+CapsLock &amp; o::Send &quot;^{Right}&quot;
+CapsLock &amp; i::Send &quot;{Home}&quot;
+CapsLock &amp; p::Send &quot;{End}&quot;</code></pre><ul><li>适合场景：把方向键和 Home/End 收到主键区</li><li><code>主键 &amp; 副键</code>：组合键写成</li><li><code>CapsLock</code>：原始切换行为要自己决定是否保留</li></ul><h3>Recipe 2: 用热字串做文本扩展</h3><pre><code class="language-autohotkey">#Requires AutoHotkey v2.0
+
+::adr::上海市浦东新区张江高科技园区
+::sig::
+(
+此致
+敬礼
+
+张三
+)
+
+:*:brb::be right back
+:?:ahk2::AutoHotkey v2</code></pre><ul><li><code>::text::replacement</code>：标准热字串</li><li><code>:*:</code>：无需结束符，打完立即替换</li><li><code>:?:</code>：允许在单词中间触发</li><li>适合场景：签名、地址、模板话术、代码片段前缀</li></ul><h3>Recipe 3: 一键启动或切换常用应用</h3><pre><code class="language-autohotkey">#Requires AutoHotkey v2.0
+
+#n::
+{
+    if WinExist(&quot;ahk_exe notepad.exe&quot;)
+        WinActivate
+    else
+        Run &quot;notepad.exe&quot;
+}
+
+#e::Run &quot;explorer.exe&quot;
+#b::Run &quot;https://www.bing.com&quot;</code></pre><ul><li><code>WinExist()</code> <code>WinActivate()</code></li><li><code>ahk_exe</code> <code>ahk_class</code></li><li><code>Run</code></li></ul><h3>Recipe 4: 给指定应用做专属快捷键</h3><pre><code class="language-autohotkey">#Requires AutoHotkey v2.0
+
+#HotIf WinActive(&quot;ahk_exe Code.exe&quot;)
+!r::Send &quot;^`&quot;
+!1::Send &quot;^1&quot;
+!2::Send &quot;^2&quot;
+#HotIf
+
+#HotIf WinActive(&quot;ahk_exe chrome.exe&quot;)
+!h::Send &quot;^l&quot;
+!j::Send &quot;^+{Tab}&quot;
+!k::Send &quot;^{Tab}&quot;
+#HotIf</code></pre><ul><li><code>#HotIf</code></li><li>适合场景：VS Code、浏览器、聊天工具、游戏、设计软件</li><li><code>#HotIf</code>：作用域结束后记得补一个空的</li></ul><h3>Recipe 5: 做一个“复制后处理”的剪贴板流</h3><pre><code class="language-autohotkey">#Requires AutoHotkey v2.0
+
+^+c::
+{
+    A_Clipboard := &quot;&quot;
+    Send &quot;^c&quot;
+    ClipWait 1
+
+    text := Trim(A_Clipboard)
+    if !text
+        return
+
+    ; 把多余空白压成一行
+    text := RegExReplace(text, &quot;\s+&quot;, &quot; &quot;)
+    A_Clipboard := text
+    ToolTip &quot;已清洗剪贴板&quot;
+    SetTimer () =&gt; ToolTip(), -800
+}</code></pre><ul><li><code>清空剪贴板 -&gt; Send &quot;^c&quot; -&gt; ClipWait -&gt; 处理文本</code></li><li>适合场景：复制网页、PDF、日志、命令输出后二次清洗</li><li><code>ClipWait</code>：不先清空剪贴板时， 可能误判为“已复制成功”</li></ul><h3>Recipe 6: 做一个轻量 GUI 启动器</h3><pre><code class="language-autohotkey">#Requires AutoHotkey v2.0
+
+apps := Map(
+    &quot;记事本&quot;, &quot;notepad.exe&quot;,
+    &quot;计算器&quot;, &quot;calc.exe&quot;,
+    &quot;资源管理器&quot;, &quot;explorer.exe&quot;
+)
+
+#Space::
+{
+    gui := Gui(&quot;+AlwaysOnTop&quot;, &quot;启动器&quot;)
+    gui.SetFont(&quot;s10&quot;, &quot;Microsoft YaHei UI&quot;)
+    gui.Add(&quot;Text&quot;,, &quot;输入应用名&quot;)
+    input := gui.Add(&quot;Edit&quot;, &quot;w260&quot;)
+    btn := gui.Add(&quot;Button&quot;, &quot;Default w80&quot;, &quot;运行&quot;)
+
+    btn.OnEvent(&quot;Click&quot;, (*) =&gt; RunSelected())
+    input.OnEvent(&quot;Enter&quot;, (*) =&gt; RunSelected())
+    gui.OnEvent(&quot;Escape&quot;, (*) =&gt; gui.Destroy())
+    gui.Show()
+
+    RunSelected() {
+        name := Trim(input.Value)
+        if apps.Has(name)
+            Run apps[name]
+        gui.Destroy()
+    }
+}</code></pre><ul><li>AHK v2 的 GUI 已经是对象风格，不再是老式命令流</li><li>适合场景：个人启动器、表单采集、批处理入口</li><li>常见坑：事件回调里引用外部变量时，先保证变量作用域清晰</li></ul></div><div class="card"><h2>键 快捷键 <a href="https://www.autohotkey.com/docs/v2/Hotkeys.htm" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这一部分只解决“热键怎么写”。如果你已经知道目标动作是什么，但总忘记符号、前缀和按键名，就看这里。</div><h3>修饰符符号</h3><pre><code class="language-autohotkey">#  ; Win
+!  ; Alt
+^  ; Ctrl
++  ; Shift
+&amp;  ; 自定义组合键
+&lt;  ; 左侧修饰键
+&gt;  ; 右侧修饰键
+*  ; 通配，忽略额外修饰键
+~  ; 穿透，不屏蔽原按键行为
+$  ; 强制使用键盘钩子
+Up ; 按键弹起时触发</code></pre><h3>最常见写法</h3><pre><code class="language-autohotkey">^!s::MsgBox &quot;Ctrl+Alt+S&quot;
+#q::Run &quot;notepad.exe&quot;
++Esc::ExitApp
+~CapsLock::ToolTip &quot;CapsLock 被按下&quot;
+*F1::Send &quot;{Volume_Mute}&quot;
+^j Up::MsgBox &quot;Ctrl+J 已抬起&quot;</code></pre><h3>#HotIf 上下文热键</h3><pre><code class="language-autohotkey">#HotIf WinActive(&quot;ahk_exe notepad.exe&quot;)
+^d::Send &quot;{End}{Enter}&quot; ; 只在记事本里生效
+#HotIf
+
+#HotIf GetKeyState(&quot;CapsLock&quot;, &quot;P&quot;)
+h::Send &quot;{Left}&quot;
+l::Send &quot;{Right}&quot;
+#HotIf</code></pre><ul><li><code>WinActive()</code> <code>WinExist()</code> <code>GetKeyState()</code></li><li><code>#HotIf</code></li></ul><h3>热字串速记</h3><pre><code class="language-autohotkey">::btw::by the way
+:*:shrug::¯\_(ツ)_/¯
+:?:uuid::550e8400-e29b-41d4-a716-446655440000
+:C:addr::上海市浦东新区</code></pre><ul><li><code>:*:</code>：立即触发</li><li><code>:?:</code>：允许词中替换</li><li><code>:C:</code>：大小写敏感</li></ul><h3>常用按键名</h3><pre><code class="language-autohotkey">Space  Tab  Enter  Escape  Backspace  Delete
+Home   End  PgUp   PgDn    Up         Down
+Left   Right Insert AppsKey PrintScreen Pause
+
+CapsLock ScrollLock NumLock
+LShift RShift LCtrl RCtrl LAlt RAlt
+
+F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12
+
+Numpad0 Numpad1 Numpad2 Numpad3 Numpad4
+Numpad5 Numpad6 Numpad7 Numpad8 Numpad9
+NumpadDot NumpadAdd NumpadSub NumpadMult
+NumpadDiv NumpadEnter
+
+LButton RButton MButton XButton1 XButton2
+WheelUp WheelDown WheelLeft WheelRight
+
+Volume_Mute Volume_Down Volume_Up
+Media_Play_Pause Media_Next Media_Prev Media_Stop
+Browser_Back Browser_Forward Browser_Refresh Browser_Home</code></pre><h3>重映射最短写法</h3><pre><code class="language-autohotkey">CapsLock::Ctrl
+RAlt::AppsKey
+XButton1::Browser_Back
+XButton2::Browser_Forward</code></pre><ul><li>这种写法适合“一个键等价替换成另一个键”</li><li>复杂逻辑改用函数体块，更容易维护</li></ul><h3>发送按键的常见模式</h3><pre><code class="language-autohotkey">Send &quot;^c&quot;
+Send &quot;!{Tab}&quot;
+Send &quot;+{End}&quot;
+Send &quot;{Text}literal text only&quot;
+Send &quot;{Blind}{Ctrl down}a{Ctrl up}&quot;</code></pre><ul><li><code>Send &quot;{Text}...&quot;</code></li><li><code>Send</code></li></ul></div><div class="card"><h2>函 API <a href="https://www.autohotkey.com/docs/v2/lib/index.htm" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">v2 的核心风格是表达式化和对象化。下面按“输入、窗口、文件、GUI、系统”分组，只留高频 API。</div><h3>核心运行时</h3><pre><code class="language-autohotkey">MsgBox &quot;hello&quot;
+Sleep 500
+SetTimer MyTask, 1000
+SetTimer MyTask, 0
+
+MyTask() {
+    ToolTip FormatTime(, &quot;HH:mm:ss&quot;)
+}</code></pre><ul><li><code>MsgBox</code>：快速提示、确认、报错</li><li><code>Sleep</code>：简单延时</li><li><code>SetTimer</code>：周期任务、一次性 UI 提示、后台轮询</li></ul><h3>输入与自动化</h3><pre><code class="language-autohotkey">Send &quot;^c&quot;
+Click 100, 200
+MouseMove 500, 300, 10
+CoordMode &quot;Mouse&quot;, &quot;Screen&quot;
+CoordMode &quot;Pixel&quot;, &quot;Screen&quot;
+
+ih := InputHook(&quot;V&quot;)
+ih.Start()
+ih.Wait()
+MsgBox ih.Input</code></pre><ul><li><code>Send</code>：键盘输入</li><li><code>Click</code> <code>MouseMove</code>：鼠标自动化</li><li><code>CoordMode</code>：决定坐标相对屏幕、窗口还是客户区</li><li><code>InputHook</code>：拦截用户输入，做录制、监听、命令模式</li></ul><h3>窗口与进程</h3><pre><code class="language-autohotkey">if WinExist(&quot;ahk_exe notepad.exe&quot;)
+    WinActivate
+
+WinMove 0, 0, 1200, 800, &quot;A&quot;
+WinMaximize &quot;A&quot;
+WinMinimize &quot;A&quot;
+WinClose &quot;A&quot;
+
+Run &quot;notepad.exe&quot;
+RunWait &quot;notepad.exe&quot;
+pid := ProcessExist(&quot;notepad.exe&quot;)
+if pid
+    ProcessClose pid</code></pre><ul><li><code>标题 / ahk_exe / ahk_class / ahk_id</code></li><li><code>RunWait</code></li><li><code>ProcessExist()</code> <code>ProcessClose()</code></li></ul><h3>剪贴板、字符串与正则</h3><pre><code class="language-autohotkey">A_Clipboard := &quot;hello&quot;
+ClipWait 1
+
+text := &quot;  AutoHotkey   v2  &quot;
+text := Trim(text)
+text := StrReplace(text, &quot; &quot;, &quot;-&quot;)
+text := RegExReplace(text, &quot;-+&quot;, &quot;-&quot;)
+parts := StrSplit(text, &quot;-&quot;)</code></pre><ul><li><code>A_Clipboard</code>：最常用的内建变量之一</li><li><code>Trim</code> <code>StrReplace</code> <code>StrSplit</code>：字符串处理三件套</li><li><code>RegExReplace</code>：清洗文本、提取片段时很高频</li></ul><h3>文件与路径</h3><pre><code class="language-autohotkey">text := FileRead(&quot;notes.txt&quot;, &quot;UTF-8&quot;)
+FileAppend &quot;line 1`n&quot;, &quot;notes.txt&quot;, &quot;UTF-8&quot;
+FileDelete &quot;old.log&quot;
+DirCreate &quot;output&quot;
+
+for file in DirGetFiles(A_ScriptDir, &quot;*.ahk&quot;)
+    OutputDebug file</code></pre><ul><li><code>FileRead</code> <code>FileAppend</code></li><li><code>FileOpen()</code></li><li><code>A_ScriptDir</code> <code>A_Temp</code> <code>A_Desktop</code></li></ul><h3>数组、映射、对象</h3><pre><code class="language-autohotkey">arr := [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;]
+arr.Push(&quot;four&quot;)
+
+conf := Map(&quot;theme&quot;, &quot;dark&quot;, &quot;fontSize&quot;, 14)
+conf[&quot;lang&quot;] := &quot;zh-CN&quot;
+
+user := {name: &quot;Alice&quot;, role: &quot;admin&quot;}
+
+for index, value in arr
+    OutputDebug index &quot;: &quot; value</code></pre><ul><li><code>Array</code>：顺序集合</li><li><code>Map</code>：键值表</li><li><code>{}</code>：对象字面量，适合少量结构化数据</li></ul><h3>GUI</h3><pre><code class="language-autohotkey">gui := Gui(&quot;+Resize&quot;, &quot;Demo&quot;)
+gui.Add(&quot;Text&quot;,, &quot;用户名&quot;)
+nameEdit := gui.Add(&quot;Edit&quot;, &quot;w220&quot;)
+saveBtn := gui.Add(&quot;Button&quot;, &quot;Default&quot;, &quot;保存&quot;)
+
+saveBtn.OnEvent(&quot;Click&quot;, SaveUser)
+gui.OnEvent(&quot;Escape&quot;, (*) =&gt; gui.Destroy())
+gui.Show()
+
+SaveUser(*) {
+    MsgBox &quot;已保存: &quot; nameEdit.Value
+}</code></pre><ul><li><code>Gui()</code></li><li><code>Add()</code></li><li><code>OnEvent()</code></li><li>v2 里 GUI 已经明显偏现代对象式写法</li></ul><h3>系统与底层</h3><pre><code class="language-autohotkey">screenWidth := DllCall(&quot;GetSystemMetrics&quot;, &quot;Int&quot;, 0, &quot;Int&quot;)
+buffer := Buffer(16, 0)
+DllCall(&quot;GetCursorPos&quot;, &quot;Ptr&quot;, buffer)
+x := NumGet(buffer, 0, &quot;Int&quot;)
+y := NumGet(buffer, 4, &quot;Int&quot;)</code></pre><ul><li><code>DllCall</code>：调用 Win32 API</li><li><code>Buffer</code> <code>NumGet</code> <code>NumPut</code>：和结构体、内存块打交道</li><li>适合场景：AHK 内置 API 不够时补位</li></ul><h3>错误处理</h3><pre><code class="language-autohotkey">try {
+    text := FileRead(&quot;missing.txt&quot;, &quot;UTF-8&quot;)
+} catch Error as err {
+    MsgBox &quot;读取失败:`n&quot; err.Message
+}</code></pre><ul><li><code>try / catch</code></li><li>遇到文件、正则、窗口匹配失败时都值得显式兜底</li></ul></div><div class="card"><h2>脚 脚本 <a href="https://www.autohotkey.com/docs/v2/Language.htm" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这一部分负责把零散热键和 API 收拢成能长期维护的脚本。重点不是语法全量覆盖，而是可读性、组织方式和 v2 迁移习惯。</div><h3>推荐脚本头</h3><pre><code class="language-autohotkey">#Requires AutoHotkey v2.0
+#SingleInstance Force
+#Warn
+
+; 统一坐标系，避免鼠标和窗口行为飘忽
+CoordMode &quot;Mouse&quot;, &quot;Screen&quot;
+CoordMode &quot;ToolTip&quot;, &quot;Screen&quot;
+
+Persistent</code></pre><ul><li><code>#Requires</code>：明确 v2</li><li><code>#SingleInstance Force</code>：避免重复启动多个实例</li><li><code>#Warn</code>：尽早暴露变量名、作用域等问题</li></ul><h3>函数优先，不要把逻辑都堆在热键里</h3><pre><code class="language-autohotkey">#Requires AutoHotkey v2.0
+
+^!n::CreateDailyNote()
+
+CreateDailyNote() {
+    dir := A_Desktop &quot;\DailyNotes&quot;
+    DirCreate dir
+
+    file := dir &quot;\&quot; FormatTime(, &quot;yyyy-MM-dd&quot;) &quot;.md&quot;
+    if !FileExist(file)
+        FileAppend &quot;# &quot; FormatTime(, &quot;yyyy-MM-dd&quot;) &quot;`n&quot;, file, &quot;UTF-8&quot;
+
+    Run file
+}</code></pre><ul><li>热键只负责入口</li><li>真正逻辑放函数里，便于复用、调试、测试</li></ul><h3>一个更像“项目”的组织方式</h3><pre><code class="language-autohotkey">#Requires AutoHotkey v2.0
+#SingleInstance Force
+
+#Include &quot;lib\window.ahk&quot;
+#Include &quot;lib\text.ahk&quot;
+
+global App := Map(
+    &quot;editor&quot;, &quot;Code.exe&quot;,
+    &quot;browser&quot;, &quot;chrome.exe&quot;
+)
+
+!1::FocusEditor()
+!2::CleanClipboard()</code></pre><ul><li>主文件放入口、热键、全局配置</li><li><code>lib/*.ahk</code></li><li><code>global</code></li></ul><h3>v2 语法要点</h3><pre><code class="language-autohotkey">name := &quot;AHK&quot;
+count := 3
+
+if count &gt; 1 {
+    MsgBox name &quot; x &quot; count
+}
+
+sum(a, b) {
+    return a + b
+}
+
+double := (x) =&gt; x * 2</code></pre><ul><li><code>:=</code></li><li>表达式化更彻底，字符串要显式加引号</li><li>支持箭头函数，适合短回调</li></ul><h3>v1 升 v2 最常见坑</h3><pre><code class="language-autohotkey">; v1 风格，v2 不推荐
+; MsgBox, Hello
+; StringTrimLeft, out, in, 1
+
+; v2 风格
+MsgBox &quot;Hello&quot;
+out := SubStr(input, 2)</code></pre><ul><li>旧命令式写法大多已经函数化</li><li><code>%var%</code></li><li><code>Object</code></li></ul><h3>完整脚本示例：窗口整理器</h3><pre><code class="language-autohotkey">#Requires AutoHotkey v2.0
+#SingleInstance Force
+
+apps := [
+    &quot;ahk_exe Code.exe&quot;,
+    &quot;ahk_exe chrome.exe&quot;,
+    &quot;ahk_exe WindowsTerminal.exe&quot;
+]
+
+^!m::TileWindows(apps)
+
+TileWindows(targets) {
+    screenW := A_ScreenWidth
+    screenH := A_ScreenHeight
+    width := Floor(screenW / targets.Length)
+    x := 0
+
+    for target in targets {
+        if !WinExist(target)
+            continue
+
+        WinRestore target
+        WinMove x, 0, width, screenH, target
+        x += width
+    }
+}</code></pre><ul><li><code>数组 + 函数 + 窗口 API</code></li><li>用它扩展到“双屏布局”“会议模式”“写作模式”会很顺手</li></ul><h3>调试习惯</h3><pre><code class="language-autohotkey">OutputDebug &quot;step 1&quot;
+ListVars
+KeyHistory</code></pre><ul><li><code>OutputDebug</code>：配合调试器或日志查看器</li><li><code>ListVars</code>：检查当前变量状态</li><li><code>KeyHistory</code>：查按键识别和键值问题</li></ul></div>
+    </div>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>

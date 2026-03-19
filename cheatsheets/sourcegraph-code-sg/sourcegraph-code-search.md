@@ -1,95 +1,322 @@
-# Sourcegraph Code Search 查询速查
+---
+title: Sourcegraph Code Search Cookbook
+lang: bash
+version: 6.10
+date: 2026-03-18
+github: sourcegraph/sourcegraph
+colWidth: 540px
+---
 
-## 搜索模式
-- Sourcegraph 默认用 `patternType:keyword`（关键词搜索），空格隔开的词可以任意顺序匹配。按下页面右上角的 `Aa` 按钮即可切换大小写敏感（`case:yes`）。
-- `"(foo bar)"` 精确短语；`/foo.*bar/` 是 RE2 正则表达式；也可以通过 `(.*)` 按钮或 `patternType:regexp` 明确切到正则模式，`patternType:structural` 则开启结构化查询（需传递 `structural` 模式的抽象语法树语法）。
-- `/.../` 的作用是让 Sourcegraph 将斜线内当成正则，免去 `\` 逃逸空格；想让保留字原样出现，可用 `content:"repo:sourcegraph"`。
-- `structural` 适用于需要对 AST 结构进行模式匹配，例如 `patternType:structural ` + `structural:{pattern}`。相比之下，`patternType:regexp` 走 RE2；`patternType:keyword` 走分词，适合日常关键词。
-- 推荐组合：
+# Sourcegraph Code Search Cookbook
+
+## 入口与定位
+---
+lang: bash
+link: https://sourcegraph.com/docs/code-search/queries
+desc: 可以把 Sourcegraph 搜索理解成“带过滤器、结果类型和代码结构意识的全局代码检索台”。实战里通常不是一上来写复杂正则，而是先缩小仓库范围，再选搜索模式，最后提取你真正要看的结果。
+---
+
+- **先记住三件事**：`repo:` 管范围，`patternType:` 管匹配方式，`select:` / `type:` 管返回结果形态。
+- **最常见的起手式**：先用 `repo:`、`file:`、`language:` 把噪音压下去，再决定是关键词、正则还是结构化搜索。
+- **搜索模式选择**：
+  - `patternType:keyword`：默认模式，适合高频文本检索。
+  - `patternType:regexp`：需要 RE2 正则时用。
+  - `patternType:structural`：想按代码结构找调用、参数、包裹关系时用。
+- **结果类型选择**：
+  - `type:content`：看正文命中。
+  - `type:path` / `type:repo`：只看文件或仓库。
+  - `type:symbol`：找定义、方法、类、接口。
+  - `type:commit` / `type:diff`：查历史和改动。
 
 ```bash
-# 匹配同时包含 foo 和 bar
-foo bar
+# 最小可用搜索：先限定仓库，再搜关键词
+repo:sourcegraph/sourcegraph zoekt
+
+# 先限定语言和路径，再搜函数名
+repo:sourcegraph/sourcegraph language:go file:^cmd/ fmt.Errorf
+
+# 明确告诉 Sourcegraph 你要用正则
+repo:sourcegraph/sourcegraph patternType:regexp /New.*Client/
+```
+
+## 起手工作流
+---
+lang: bash
+desc: 当你只知道一个模糊线索时，按“先收范围、再提精度、最后抽结果”的顺序走，搜索会稳定很多。
+---
+
+- `先收范围：repo:myorg/monorepo file:^packages/ language:typescript`
+  先把仓库、目录和语言卡住，避免后面所有技巧都淹没在噪音里。
+- `再定模式：patternType:keyword | regexp | structural`
+  关键词适合粗找，正则适合文本模式，结构化适合代码形态。
+- `最后抽结果：select:repo | select:file | type:symbol`
+  当你不是要看正文，而是要看“哪些仓库/文件/符号受影响”时，用结果提取会更快。
+
+```bash
+# 场景：只知道某个配置键名，先全局粗找
+repo:myorg/ language:yaml timeout:20s payment_provider
+
+# 场景：已经知道可能在后端，继续收窄
+repo:myorg/backend language:go file:^internal/ payment_provider
+
+# 场景：最后只想知道涉及哪些文件
+repo:myorg/backend language:go file:^internal/ payment_provider select:file
+```
+
+## 范围控制技巧
+---
+lang: bash
+desc: 搜索质量通常首先取决于范围控制，而不是正则写得多花。先把仓库、分支、路径、语言收准，后面的匹配才有意义。
+---
+
+- `仓库过滤：repo:sourcegraph/sourcegraph`
+  支持正则，也支持多个 `repo:` 叠加。
+- `排除仓库：-repo:^github.com/myorg/legacy`
+  老仓库、镜像仓库、样例仓库要尽早排除。
+- `路径过滤：file:^src/ | -file:(^dist/|^vendor/)`
+  `file:` 匹配路径，不是文件内容。
+- `语言过滤：language:go | language:typescript`
+  多语言 monorepo 里非常有用。
+- `修订范围：repo:foo@main | repo:foo@*refs/tags/*`
+  想看某个分支、标签或 refs 集合时直接写在 `repo:` 后面。
+- `上下文过滤：context:global | context:@me | context:@team/search`
+  Search Context 适合把一组仓库预先打包。
+
+```bash
+# 搜某团队全部 Go 服务，但排除生成代码和 vendor
+context:@platform/backend language:go -file:(^vendor/|^gen/) grpc.Dial
+
+# 搜指定标签范围
+repo:sourcegraph/sourcegraph@*refs/tags/* type:diff executor
+
+# 只在带 package.json 的仓库中搜索
+repo:has.file(^package\.json$) react-router
+```
+
+## 模式与语法技巧
+---
+lang: bash
+desc: 真正常用的不是“记住所有语法”，而是知道什么时候切换 keyword、regexp、structural，以及如何避免过滤器和正文互相冲突。
+---
+
+- `关键词模式：foo bar`
+  默认是 `patternType:keyword`，空格分词通常表示都要出现。
+- `精确短语："foo bar"`
+  需要保留顺序和空格时用引号。
+- `正则模式：/.../`
+  斜杠包裹会按 RE2 正则解析，也可显式写 `patternType:regexp`。
+- `大小写敏感：case:yes`
+  默认通常不区分大小写，需要精确匹配时加上。
+- `按字面搜索保留词：content:"repo:sourcegraph"`
+  当正文里就有 `repo:`、`file:` 这类词，必须用 `content:` 防止被当过滤器。
+- `结构化搜索：patternType:structural`
+  想找“某函数包住某调用”“某 API 的参数排列”时更稳。
+
+```bash
+# 关键词：同时包含两个词
+auth token
 
 # 精确短语
-"foo \"bar\""
+"invalid token"
 
-# 交叉正则
-/foo\s+bar/i
+# 正则：查所有 get/set 风格方法
+patternType:regexp /(?:get|set)[A-Z]\w+/
 
-# 直接搜索包含 repo:sourcegraph 的字面文本
-repo:sourcegraph content:"repo:sourcegraph"
+# literal 搜索，避免 repo: 被当成过滤器
+content:"repo:sourcegraph"
 
-# 可选 patternType
-context:global fmt.Errorf patternType:regexp
-context:@me panic patternType:structural
+# 结构化：找 Go 中包着 fmt.Errorf 的 return
+repo:myorg/backend language:go patternType:structural 'return fmt.Errorf(:[args])'
 ```
 
-## Search Context（搜索上下文）
-- 默认在当前 Sourcegraph 上下文运行，若要跨项目或跨团队使用 GCX，可加上 `context:global`；`context:@<用户名>` 和 `context:@<team>` 搜索私有或团队上下文。
-- Search Context 用于画定可见仓库集，并可与 repo/file 过滤器组合。不指定时 Sourcegraph 会使用当前选定的上下文，上方导航 `Contexts` 下拉可选。
-- URL 示例：`https://sourcegraph.com/search?q=context:global+repo:sourcegraph/sourcegraph+timeout:15s`。
+## 布尔组合与排除
+---
+lang: bash
+desc: 当一个线索不够时，用布尔组合表达“必须出现”“二选一”“明确排除”，比堆复杂正则更易读也更易维护。
+---
 
-## 通用过滤器（All searches）
-- `repo:` 通过正则锁定仓库，也可与 `rev:`/`context:` 搭配；`-repo:` 排除。
-- `file:`/`-file:` 控制路径，默认非锚定，全匹配可用 `^README.md$`，也可以 `file:has.filename` 之类的谓词。
-- `language:`/`-language:` 过滤语言；`fork:`、`archived:`、`visibility:` 控制仓库状态；`select:`（如 `select:repo`、`select:file`、`select:commit.diff.added`）返还不同 result type。
-- `type:` 影响搜索 type：`type:file`/`type:path`（文件路径）、`type:repo`（仓库名）、`type:symbol[.kind]`（符号）、`type:commit`/`type:diff`（提交/差异）、`type:content`（正文），也能与 `select:` 一起用来缩小响应。
-- `patternType:` 显式指定 `keyword`/`regexp`/`structural`，`case:yes` 强制大小写敏感；`timeout:`（默认 10s）与 `count:` 控制结果大小。
-- `repo:has.*` 与 `file:has.*`：
-  - `repo:has.meta(key:value)`、`repo:has.meta(key)`、`repo:has.meta(key:)`：按仓库 metadata 过滤，例如 `repo:has.meta(owning-team:security)`。
-  - `repo:has.path(regexp)`：只在包含匹配路径的仓库中搜索，例 `repo:has.path(\.py) file:Dockerfile pip`。
-  - `repo:has.topic(topic)` 依据 GitHub/GitLab topic。
-  - `repo:has.commit.after(<duration>)`：过滤最近有提交的仓库。
-  - `repo:has.file(path-regexp)` / `repohasfile`：测试是否包含某路径。
+- `AND`
+  默认可理解为交集，高优先级高于 `OR`。
+- `OR`
+  适合表达多种实现、多种命名。
+- `NOT` 或前缀 `-`
+  用来排除误命中目录、测试桩、文档样例。
+- `(...)`
+  复杂组合时必须加括号，不要赌默认优先级。
 
 ```bash
-repo:gorilla/mux testroute
-file:\.js$ httptest
-language:typescript encoding
-select:repo fmt.Errorf
-repo:sourcegraph rev:v3.14.0 mux
-repo:sourcegraph count:1000 timeout:15s func
+# 要么 http.NewRequest 要么 NewRequestWithContext
+repo:myorg/ language:go (http.NewRequest OR NewRequestWithContext)
+
+# 查真实调用点，排除测试和 mock
+repo:myorg/ language:go payment NOT file:_test\.go$ NOT mock
+
+# 查配置分支
+repo:myorg/frontend file:^src/ (SENTRY_DSN OR DATADOG_CLIENT_TOKEN) -file:\.snap$
 ```
 
-## 布尔与分组
-- 使用 `AND`/`OR`/`NOT` 或小写 `and`/`or`，AND 优先级高于 OR。
-- `NOT` 等价 `-`（可搭配 `file:`、`content:` 等过滤）。
-- 括号控制作用域：`a and (b or c) and d`，若想让 `file:` 覆盖整个子表达式，显式包起 `file:main.c (char c or (int i and int j))`。
+## 结果提取与导航
+---
+lang: bash
+desc: 很多时候你不是想“看命中内容”，而是想快速拿到仓库名单、文件名单、符号清单或差异片段。这时 `select:` 和 `type:` 比继续收缩正文更高效。
+---
+
+- `select:repo`
+  先看哪些仓库命中，适合跨组织排查。
+- `select:file`
+  直接拿文件清单，适合批量修复前估算影响面。
+- `type:path`
+  找文件路径而不是正文内容。
+- `type:symbol`
+  找函数、方法、类、接口、变量等符号。
+- `type:commit` / `type:diff`
+  搜提交和变更，不搜当前文件内容。
+- `select:commit.diff.added`
+  只提取新增 diff 片段，适合查某类新引入问题。
 
 ```bash
-foo AND bar OR baz    # 等价 (foo AND bar) OR baz
-panic NOT ever        # 等价 panic AND NOT ever
-file:main.c (char c or (int i and int j))
+# 哪些仓库还在用旧 SDK
+context:global "legacy-sdk" select:repo
+
+# 哪些文件声明了这个环境变量
+repo:myorg/ file:\.(ts|tsx|js)$ NEXT_PUBLIC_API_BASE select:file
+
+# 找某个符号定义
+repo:myorg/backend type:symbol Handler
+
+# 只看新增的 panic
+repo:myorg/ type:diff select:commit.diff.added panic
 ```
 
-## 仓库与修订
-- `repo:` 也是查询入口，单独的 `repo:` 会列出满足路径的仓库；`|` 表示并集、`-repo:` 排除实际匹配。
-- `repo:<path>@<revision>` 可以指定分支/tag/commit，`rev:<revision>` 只能与 `repo:` 联用且不可重复；若想同时看多个 revision，请使用 glob `@*refs/heads/*` 或 `@*refs/tags/*`。Sourcegraph 会自动补全缺失的 `/*`。
-- `@*refs/heads/*:*!refs/heads/release*` 等 `@...:*!...` 语法支持排除特定 refs；`^` 则代表集合差，如 `repo:foo@main:^3.15` 表示主分支去掉 3.15 可达提交。
-- `rev:at.time("3 days ago")` 等时间限定式仅在 Sourcegraph 5.4+ 可用，可配合 `type:commit`/`type:diff` 观察特定历史范围。
+## 常见 Recipes
+---
+lang: bash
+desc: 下面这些是 Sourcegraph 最常见的实战套路。记住场景到查询的映射，比死背全部语法更有用。
+---
+
+- **找某个能力在哪些服务里实现**
 
 ```bash
-repo:foo repo:bar          # 同时包含 foo 和 bar 的仓库
-repo:foo|bar                # foo 或 bar
-repo:myteam/abc@main:^fixme type:commit
-repo:docker@*refs/tags/*
+context:@platform/backend language:go (RegisterRoutes OR grpc.NewServer) select:repo
 ```
 
-## 提交与差异过滤
-- `type:diff`/`type:commit` 用于查看变更或具体提交；`repo:vscode@*refs/heads/:^refs/heads/master type:diff task` 反映未合并的差异。
-- `author:`/`-author:`（匹配 `Full Name <email>`，可用 `author:example.com>$` 或 `author:@SourcegraphUserName`）、`committer:` 类似。
-- `before:`/`after:` 控制提交日期，`message:`/`-message:` 针对提交信息。
+- **找某个配置从前端一路传到后端**
 
 ```bash
-type:diff func author:nick
-type:commit test message:"refactor"
-before:"last thursday" after:"6 weeks ago"
+# 前端入口
+repo:myorg/web file:^src/ language:typescript "checkoutTimeout"
+
+# 后端消费
+repo:myorg/api language:go "checkoutTimeout"
 ```
 
-## 使用建议
-1. 想要跳过代码语法解析，优先 `content:"..."` + `patternType:keyword`（或 `patternType:regexp`）。
-2. `select:repo`、`select:commit.diff.added` 可快速提取路径或新增片段，结合 `case:yes` 提升精度。
-3. 大量结果可用 `count:1000`/`count:all`，必要时调整 `timeout:` 获取全量。
-4. `repo:has.meta/has.path/has.topic/has.commit.after` 与 `file:has.*` 适合精细筛选组织、贡献者、文件特性。
-5. 组合 `repo:` + `file:` + 布尔 + 日期/作者过滤，精确定位跨仓库的变更痕迹。
+- **找最近谁引入了危险调用**
+
+```bash
+repo:myorg/ type:diff after:"30 days ago" (exec.Command OR os/exec) select:commit.diff.added
+```
+
+- **只看某类文件是否存在，而不看正文**
+
+```bash
+repo:has.file(^Dockerfile$) select:repo
+repo:has.path(^\.github/workflows/) select:repo
+```
+
+- **找某个 API 的全部调用点，但排除定义**
+
+```bash
+repo:myorg/sdk language:typescript createClient -file:(index\.ts$|types\.ts$)
+```
+
+- **查重构是否还遗留旧命名**
+
+```bash
+repo:myorg/ ("OldBillingService" OR oldBillingService) -file:(CHANGELOG|README)
+```
+
+## 提交与历史排查
+---
+lang: bash
+desc: 当你怀疑问题是“最近改出来的”，直接切到 `type:commit` 或 `type:diff`，通常比在当前代码里猜更快。
+---
+
+- `author:` / `committer:`
+  想按人筛提交时用。
+- `before:` / `after:`
+  想框定时间窗口时用。
+- `message:`
+  按提交信息找大重构、回滚、迁移。
+- `repo:foo@main:^release`
+  看两个修订集合的差异范围。
+
+```bash
+# 最近两周谁改过认证逻辑
+repo:myorg/ type:commit after:"14 days ago" auth author:alice
+
+# 查带 rollback 的历史提交
+repo:myorg/ type:commit message:rollback
+
+# 查主分支相对 release 分支的差异里是否出现这个关键词
+repo:myorg/service@main:^release type:diff payment
+```
+
+## 高频语法速记
+---
+lang: bash
+desc: 这一段不是完整手册，只保留最值得背下来的语法骨架，方便你在页面里快速扫一眼再开搜。
+---
+
+- `repo:REGEXP`：按仓库过滤
+- `file:REGEXP`：按路径过滤
+- `language:NAME`：按语言过滤
+- `content:"literal"`：按字面内容过滤
+- `patternType:keyword|regexp|structural`：切换匹配模式
+- `type:content|path|repo|symbol|commit|diff`：切换结果类型
+- `select:repo|file|commit.diff.added`：提取结果形态
+- `case:yes`：大小写敏感
+- `count:1000` / `timeout:20s`：放宽结果数和超时
+- `context:global`：切换搜索上下文
+- `repo:has.file(...)` / `repo:has.path(...)`：按仓库内文件特征过滤
+
+## 常见坑与排障
+---
+lang: bash
+desc: Sourcegraph 查不准时，通常不是“功能不行”，而是查询的层级混了。优先检查过滤器冲突、结果类型和搜索模式。
+---
+
+- **把过滤器词当正文搜了**
+  例如你真的想搜 `repo:foo` 这串文本，要写 `content:"repo:foo"`。
+- **该用 `type:symbol` 时还在硬搜正文**
+  找定义、方法、类名时，先试 `type:symbol`。
+- **该用 `select:file` 时还在看几百条正文**
+  你如果只是想知道影响面，直接抽文件列表。
+- **在超大仓库里直接上复杂正则**
+  先用 `repo:`、`file:`、`language:` 缩小范围，再开正则。
+- **结构化搜索没命中就怀疑语法错**
+  先确认语言识别、代码形态和占位模式是否真的匹配目标代码。
+
+```bash
+# 误写：repo:sourcegraph    # 这是过滤器
+# 正写：content:"repo:sourcegraph"
+
+# 想看有哪些文件命中，不要继续刷正文
+repo:myorg/ language:go context.Context select:file
+
+# 超大仓库先收范围再正则
+repo:myorg/ file:^internal/ patternType:regexp /New[A-Z]\w+Client/
+```
+
+## 核心场景小抄
+---
+lang: bash
+desc: 不想每次都从头拼查询时，直接套下面这些模板，再按你的仓库名、路径和语言替换即可。
+---
+
+- 查实现入口：`repo:<repo> file:^<dir>/ language:<lang> <keyword>`
+- 查调用点：`repo:<repo> language:<lang> <symbol> -file:_test\.go$`
+- 查定义：`repo:<repo> type:symbol <symbol>`
+- 查影响文件：`repo:<repo> <keyword> select:file`
+- 查影响仓库：`context:<ctx> <keyword> select:repo`
+- 查最近变更：`repo:<repo> type:diff after:"30 days ago" <keyword>`
+- 查新增风险：`repo:<repo> type:diff select:commit.diff.added <keyword>`

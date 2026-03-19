@@ -1,8 +1,10 @@
-desc: 命令行界面的 Codex 驱动工具，快速生成、修改和管理代码片段与文档。
+desc: Codex CLI 的 cookbook 风格速查表，覆盖交互工作流、slash commands、沙箱与审批参数、核心子命令及实战技巧。
 tags:
   - AI / LLM
+  - AI 辅助工具
   - CLI 工具
+  - CLI / Terminal
   - 开发
-version: unknown
-github: tom-doerr/codex-cli
-date: "2025-11-13"
+version: 0.115.0
+github: openai/codex
+date: "2026-03-16"

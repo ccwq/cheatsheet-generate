@@ -1,11 +1,12 @@
-desc: CesiumJS cookbook 式速查，按 Viewer 起手、数据上图、相机飞行、交互拾取、时间轨迹和性能治理组织 workflow。
+desc: CesiumJS 速查，前半重写为面向实际业务的 cookbook 工作流，后半补齐按 API 分组的完整参考，覆盖 Viewer、Entity、DataSource、Terrain、Imagery、3D Tiles、Primitive、交互与时间系统。
 tags:
   - 3D / 图形
   - GIS / 地图
   - JavaScript
-  - 库 / SDK
+  - 应用 / SDK
   - 图形 / 可视化
   - 开发
 version: "1.137"
 github: CesiumGS/cesium
-date: "2026-03-02"
+date: "2026-01-05"
+

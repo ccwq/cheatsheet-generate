@@ -1,615 +1,283 @@
 ---
 title: OpenCode 速查
 lang: bash
-version: "latest"
-date: 2026-03-06
+version: "1.2.27"
+date: 2026-03-16
 github: anomalyco/opencode
-colWidth: 330px
+colWidth: 340px
 ---
 
 # OpenCode 速查表
 
-## 🚀 快速安装
+## 快速定位
 ---
 lang: bash
 emoji: 🚀
 link: https://opencode.ai/docs/zh-cn
 ---
 
-### 推荐方式（安装脚本）
+### 它适合做什么
 ```bash
-# 一键安装
-curl -fsSL https://opencode.ai/install | bash
+# OpenCode = 终端里的 AI 编码代理
+# 适合：读代码、改代码、规划任务、跑命令、管理会话
 
-# 验证安装
-opencode --version
+# 交互式入口
+opencode
+
+# 单次执行入口
+opencode run "修复登录表单的校验逻辑"
 ```
 
-### 包管理器安装
+### 这份 cheatsheet 怎么读
 ```bash
-# npm / Bun / pnpm / Yarn
-npm install -g opencode-ai
-
-# Homebrew (macOS/Linux)
-brew install anomalyco/tap/opencode
-
-# Arch Linux
-sudo pacman -S opencode
-paru -S opencode-bin  # AUR 最新版
-
-# Windows - Chocolatey
-choco install opencode
-
-# Windows - Scoop
-scoop bucket add extras
-scoop install extras/opencode
-
-# Mise
-mise use -g github:anomalyco/opencode
-
-# Docker
-docker run -it --rm ghcr.io/anomalyco/opencode
+# 先看 cookbook：按场景起手
+# 再看快捷键：高频操作更快
+# 最后查参数 / 命令 / 技巧：补细节
 ```
 
-### 桌面应用下载
-```bash
-# macOS (Apple Silicon)
-opencode-desktop-darwin-aarch64.dmg
-
-# macOS (Intel)
-opencode-desktop-darwin-x64.dmg
-
-# Windows
-opencode-desktop-windows-x64.exe
-
-# Linux
-.deb / .rpm / AppImage
-```
-
-## ⚙️ 初始化配置
+## Cookbook
 ---
 lang: bash
-emoji: ⚙️
+emoji: 🍳
 link: https://opencode.ai/docs/zh-cn
 ---
 
-### 项目初始化
+### Recipe 1: 进仓库后先建立项目上下文
 ```bash
-# 进入项目目录
-cd /path/to/project
-
-# 启动 OpenCode
+cd /path/to/repo
 opencode
 
-# 初始化项目（创建 AGENTS.md）
+# 在 TUI 里初始化项目说明
 /init
+
+# 然后补一句明确任务
+请先阅读仓库结构，说明构建入口、测试方式和关键目录
 ```
 
-### API 密钥配置
+### Recipe 2: 先规划再动手，适合中等以上改动
 ```bash
-# 方式1: 命令行登录
-opencode auth login
+# 进入 TUI 后先切到计划模式
+<TAB>
 
-# 方式2: TUI 中运行
-/connect
+# 把需求写成结果导向，而不是只报错
+我要给用户设置页增加邮箱修改能力，先输出实施计划和风险点
 
-# 选择 opencode -> 前往 opencode.ai/auth
-# 登录并添加账单信息
-# 复制 API 密钥并粘贴
+# 确认计划后切回构建模式再执行
+<TAB>
+开始修改
 ```
 
-### 查看可用模型
+### Recipe 3: 带文件上下文提问，减少来回解释
 ```bash
-# 在 TUI 中查看免费模型
-/models
+# 用 @ 文件路径把上下文直接喂给模型
+@src/routes/settings.ts 解释这段路由逻辑
 
-# 标注 Free 的为免费模型
-# - GLM-4.7
-# - MiniMax M2.1
+# 让它按已有实现做镜像改造
+参考 @src/routes/notes.ts 的鉴权方式
+给 @src/routes/settings.ts 补同样的逻辑
 ```
 
-## 📝 基础使用
----
-lang: bash
-emoji: 📝
-link: https://opencode.ai/docs/zh-cn
----
-
-### 启动与退出
+### Recipe 4: 单次命令模式，适合脚本或快速验证
 ```bash
-# 启动 OpenCode（进入 TUI）
-opencode
+# 不进 TUI，直接执行一条任务
+opencode run "生成当前仓库的 README 草稿"
 
-# 指定项目目录启动
-opencode -c /path/to/project
-
-# 调试模式启动
-opencode -d
-
-# 退出 TUI
-/exit
-/quit
-/q
-Ctrl+X Q
+# 或者用 prompt 参数起一个一次性会话
+opencode --prompt "检查这个仓库里未使用的环境变量"
 ```
 
-### 代码讲解
+### Recipe 5: 改坏了就回滚，再细化提示词
 ```bash
-# 询问代码库问题
-How is authentication handled in @packages/functions/src/api/index.ts
-
-# 使用 @ 引用文件
-@src/components/Button.tsx 是做什么的
-```
-
-### 添加功能
-```bash
-# 建议先制定计划，再实施
-# 切换到计划模式（按 Tab）
-# 描述需求后，再切回构建模式（按 Tab）
-
-# 直接添加功能示例
-添加用户注册 API，支持邮箱验证
-```
-
-### 直接修改
-```bash
-# 简单修改可直接实施
-We need to add authentication to the /settings route.
-Take a look at how this is handled in the /notes route
-in @packages/functions/src/notes.ts and implement the
-same logic in @packages/functions/src/settings.ts
-```
-
-## 🔄 撤销与重做
----
-lang: bash
-emoji: 🔄
-link: https://opencode.ai/docs/zh-cn
----
-
-### 撤销修改
-```bash
-# 撤销上一步操作
+# 在 TUI 里撤销最后一次变更
 /undo
 
-# 快捷键
-Ctrl+X U
-```
+# 然后用更明确的约束重做
+重做一次，但不要修改 API 返回结构，只调整表单校验
 
-### 重做修改
-```bash
-# 重做被撤销的操作
+# 需要时再前进
 /redo
-
-# 快捷键
-Ctrl+X R
 ```
 
-### 工作流示例
+### Recipe 6: 多会话并行处理不同问题
 ```bash
-# 1. 请求修改
-Can you refactor the function in @packages/functions/src/api/index.ts?
+# 新开会话处理另一个任务
+/new
 
-# 2. 不满意结果 -> 撤销
-/undo
+# 在不同会话之间切换
+/sessions
 
-# 3. 调整提示词重新尝试
-Can you refactor the function in @packages/functions/src/api/index.ts with better error handling?
+# 适合把“重构”和“排查 bug”拆开，避免上下文污染
 ```
 
-### 注意事项
-- `/undo` 和 `/redo` 需要项目是 Git 仓库才能回滚文件变更
-- 撤销会还原文件修改并重新显示之前的消息
-
-## 📋 计划模式
----
-lang: bash
-emoji: 📋
-link: https://opencode.ai/docs/zh-cn
----
-
-### 模式说明
-```bash
-# Build 模式（默认）
-# - 全权限，可直接编辑文件、执行命令
-
-# Plan 模式（只读规划）
-# - 默认拒绝编辑，需要确认
-# - 用于安全规划和审查
-```
-
-### 切换模式
-```bash
-# 切换到计划模式（右下角显示模式指示器）
-<TAB>
-
-# 描述功能需求
-When a user deletes a note, we'd like to flag it as deleted
-in the database. Then create a screen that shows all the
-recently deleted notes. From this screen, the user can
-undelete a note or permanently delete it.
-```
-
-### 迭代计划
-```bash
-# 提供反馈或补充细节
-We'd like to design this new screen using a design I've used before.
-[Image #1] Take a look at this image and use it as a reference.
-
-# 拖放图片到终端窗口即可扫描
-```
-
-### 构建功能
-```bash
-# 对计划满意后，切回构建模式
-<TAB>
-
-# 开始实施
-Sounds good! Go ahead and make the changes.
-```
-
-## 🛠️ 内置工具
----
-lang: bash
-emoji: 🛠️
-link: https://opencode.ai/docs
----
-
-### 工具列表
-```bash
-# bash - 执行 shell 命令
-git status
-npm test
-
-# write/edit/patch - 文件操作
-# 创建/修改/打补丁文件
-
-# read - 读取文件内容（支持行范围）
-
-# grep/glob/list - 搜索和列出文件
-# 尊重 .gitignore
-
-# webfetch - 抓取网页内容（查文档）
-
-# lsp（实验性）- 代码跳转、悬停提示等
-
-# question - 向你提问确认
-
-# todo - 维护任务清单
-```
-
-### 权限控制
-```bash
-# 在 opencode.json 中控制权限
-# allow - 允许
-# deny - 拒绝
-# ask - 手动确认
-```
-
-## ⌨️ Slash 命令
+## 快捷键
 ---
 lang: bash
 emoji: ⌨️
-link: https://opencode.ai/docs/tui
+link: https://opencode.ai/docs/zh-cn/tui/
 ---
 
-### 核心配置
+### 高频快捷键
 ```bash
-/connect      # 添加或配置 LLM 提供商
-/init         # 创建或更新 AGENTS.md（Ctrl+X I）
-/models       # 列出可用模型并切换（Ctrl+X M）
+Ctrl+X I  # /init，创建或更新 AGENTS.md
+Ctrl+X M  # /models，查看或切换模型
+Ctrl+X N  # /new，开始新会话
+Ctrl+X L  # /sessions，切换历史会话
+Ctrl+X S  # /share，分享当前会话
+Ctrl+X C  # /compact，压缩当前上下文
+Ctrl+X D  # /details，切换执行细节视图
+Ctrl+X E  # /editor，外部编辑器写长消息
+Ctrl+X T  # /theme，切换主题
+Ctrl+X H  # /help，打开命令面板 / 帮助
+Ctrl+X U  # /undo，撤销最后一步
+Ctrl+X R  # /redo，重做已撤销操作
+Ctrl+X X  # /export，导出会话
+Ctrl+X Q  # /quit，退出 OpenCode
 ```
 
-### 会话管理
+### 高频 slash commands
 ```bash
-/new          # 开始新会话（/clear, Ctrl+X N）
-/sessions     # 列出并切换会话（/resume, /continue, Ctrl+X L）
-/share        # 分享当前会话（Ctrl+X S）
-/unshare      # 取消分享当前会话
-/compact      # 压缩/总结当前会话（/summarize, Ctrl+X C）
-```
-
-### 编辑与撤销
-```bash
-/undo         # 撤销最后操作（Ctrl+X U）
-/redo         # 重做已撤销的操作（Ctrl+X R）
-```
-
-### 视图与辅助
-```bash
-/details      # 切换工具执行详情显示（Ctrl+X D）
-/thinking     # 切换思考/推理过程可见性
-/theme        # 列出并切换主题（Ctrl+X T）
-/help         # 显示帮助对话框（Ctrl+X H）
-/editor       # 使用外部编辑器撰写消息（Ctrl+X E）
-/export       # 导出当前对话为 Markdown（Ctrl+X X）
-```
-
-### 退出
-```bash
-/exit         # 退出 OpenCode
+/init
+/models
+/new
+/sessions
+/share
+/compact
+/details
+/theme
+/help
+/undo
+/redo
+/export
 /quit
-/q
-Ctrl+X Q
 ```
 
-## 🖥️ CLI 参数
+## 参数
 ---
 lang: bash
-emoji: 🖥️
-link: https://opencode.ai/docs
+emoji: 🧩
+link: https://opencode.ai/docs/cli
 ---
 
 ### 全局参数
 ```bash
-# 显示帮助
-opencode --help
-opencode -h
-
-# 调试模式
-opencode --debug
-opencode -d
-
-# 指定工作目录
-opencode --cwd /path/to/project
-opencode -c /path/to/project
-
-# 非交互模式（直接运行提示）
-opencode --prompt "修复这个 bug"
-opencode -p "解释代码"
-
-# 输出格式（非交互模式）
-opencode -p "解释代码" --output-format json
-opencode -p "解释代码" -f json
-
-# 安静模式（隐藏加载动画）
-opencode -p "生成 README" --quiet
-opencode -p "生成 README" -q
+-h, --help              # 查看帮助
+-v, --version           # 查看版本
+--print-logs            # 把日志打印到 stderr
+--log-level LEVEL       # DEBUG / INFO / WARN / ERROR
+--port N                # 服务监听端口
+--hostname HOST         # 服务监听地址
+--mdns                  # 开启 mDNS 服务发现
+--mdns-domain NAME      # 自定义 mDNS 域名
+--cors DOMAIN           # 追加允许的 CORS 域名
+-m, --model MODEL       # 指定模型，格式 provider/model
+-c, --continue          # 继续最近一次会话
+-s, --session ID        # 继续指定会话
+--fork                  # 继续会话时 fork 一个分支会话
+--prompt TEXT           # 直接带初始提示词
+--agent NAME            # 指定 agent
 ```
 
-### 使用示例
+### 常见参数组合
 ```bash
-# 启动交互式 TUI
-opencode
+# 直接在指定项目中启动
+opencode ~/work/my-app
 
-# 带调试启动
-opencode -d
+# 带模型启动
+opencode -m openai/gpt-5
 
-# 指定项目目录启动
-opencode -c ~/my-app
+# 接着上次会话继续
+opencode --continue
 
-# 非交互单次提示（适合脚本/CI）
-opencode -p "添加一个登录接口" -f json
+# 在指定会话上继续
+opencode --session abc123
 
-# 快速查询
-opencode -p "修复 login 函数中的 bug" -q
+# fork 一份新分支继续试验
+opencode --session abc123 --fork
 ```
 
-## 🔗 分享对话
+## 命令
 ---
 lang: bash
-emoji: 🔗
+emoji: 🛠️
 link: https://opencode.ai/docs/zh-cn
 ---
 
-### 生成分享链接
+### 主命令与子命令
 ```bash
-# 分享当前对话
+opencode [project]         # 启动 TUI
+opencode run [message..]   # 运行一次任务
+opencode auth              # 管理认证
+opencode agent             # 管理 agents
+opencode session           # 管理会话
+opencode models            # 列出模型
+opencode mcp               # 管理 MCP 服务
+opencode acp               # 启动 ACP 服务
+opencode serve             # 启动无头服务
+opencode web               # 启动 Web 界面
+opencode attach <url>      # 连接到运行中的服务
+opencode export [session]  # 导出会话 JSON
+opencode import <file>     # 导入会话 JSON / URL
+opencode pr <number>       # 拉取 GitHub PR 后进入 OpenCode
+opencode github            # GitHub agent 相关操作
+opencode stats             # 查看 token / cost 统计
+opencode debug             # 调试工具
+opencode db                # 数据库工具
+opencode upgrade [target]  # 升级到最新或指定版本
+opencode uninstall         # 卸载 OpenCode
+opencode completion        # 生成 shell 补全脚本
+```
+
+### TUI 内高频命令
+```bash
+/init
+/models
+/new
+/sessions
 /share
-
-# 快捷键
-Ctrl+X S
-
-# 取消分享
-/unshare
-```
-
-### 功能说明
-- 生成当前对话的链接
-- 自动复制到剪贴板
-- 可与团队成员分享
-
-## 🎨 个性化配置
----
-lang: bash
-emoji: 🎨
-link: https://opencode.ai/docs/zh-cn
----
-
-### 可配置项
-```bash
-# 选择主题
+/compact
+/details
 /theme
-Ctrl+X T
-
-# 自定义快捷键
-# 在设置中配置
-
-# 配置代码格式化工具
-
-# 创建自定义命令
+/undo
+/redo
+/export
+/quit
 ```
 
-### 自定义 Slash 命令
-```bash
-# 创建位置
-~/.config/opencode/commands/
-# 或项目目录下
-
-# 文件格式: .md
-# 示例: prime-context.md
-
-# 自定义命令会覆盖内置命令
-```
-
-### 配置文件
-```bash
-# AGENTS.md - 项目级配置
-# 位于项目根目录，帮助 OpenCode 理解项目结构和编码规范
-
-# ~/.opencode.json - 用户级配置
-# 高级配置如模型选择等
-```
-
-## 💡 使用技巧
+## 技巧
 ---
 lang: bash
 emoji: 💡
-link: https://opencode.ai/docs/zh-cn
+link: https://opencode.ai/docs/zh-cn/tui/
 ---
 
-### 文件引用
+### 提示词写法
 ```bash
-# 使用 @ 符号引用文件
-@packages/functions/src/api/index.ts
-
-# 支持相对路径
-@./src/components/Button.tsx
+# 好提示词 = 目标 + 约束 + 参考实现
+把 @src/api/user.ts 里的更新逻辑抽成 service
+保持原有 HTTP 返回结构
+参考 @src/api/note.ts 的错误处理方式
 ```
 
-### 图片输入
+### 会话管理技巧
 ```bash
-# 拖放图片到终端窗口
-# OpenCode 会扫描图片并添加到提示词
+# 长会话变重时先 compact
+/compact
 
-# 示例
-[Image #1] Take a look at this image and use it as a reference.
+# 要对外同步进度时分享当前会话
+/share
+
+# 需要留档时导出
+/export
 ```
 
-### 沟通建议
+### 风险控制
 ```bash
-# 提供足够的细节
-# 把 OpenCode 当作团队中的初级开发者
-# 明确表达需求和预期结果
+# 大改动先切计划模式
+<TAB>
 
-# 好的示例
-创建一个 Express.js 服务，支持 /hello 路由
-返回 JSON { message: 'Hello World' }，并添加 README
-```
+# 不满意先 /undo，再补充更细的限制
+/undo
 
-### 多会话管理
-```bash
-# 同时开启多个 Agent 处理不同任务
-/sessions     # 列出所有会话
-/resume       # 恢复之前的会话
-```
-
-## 🖥️ 终端要求
----
-lang: bash
-emoji: 🖥️
-link: https://opencode.ai/docs/zh-cn
----
-
-### 推荐终端
-- **WezTerm** - 跨平台 GPU 加速终端
-- **Alacritty** - 跨平台 OpenGL 终端
-- **Ghostty** - Linux 和 macOS 终端
-- **Kitty** - Linux 和 macOS GPU 终端
-
-### 前提条件
-- 现代终端模拟器
-- LLM 提供商的 API 密钥（或使用免费模型）
-
-## 🔌 MCP 与扩展
----
-lang: bash
-emoji: 🔌
-link: https://opencode.ai/docs
----
-
-### MCP 服务器
-```bash
-# Model Context Protocol 支持扩展
-# 可连接数据库等外部工具
-
-# 自定义工具和 MCP 服务器支持扩展
-```
-
-### IDE 集成
-```bash
-# VS Code 扩展
-# 搜索 "OpenCode extension"
-
-# 客户端/服务器架构远程控制
-```
-
-### oh-my-opencode 扩展
-```bash
-# 多智能体协作团队
-# GitHub: https://github.com/code-yeongyu/oh-my-opencode
-
-# 安装提示词
-按照以下说明安装和配置 oh-my-opencode:
-https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/refs/heads/master/docs/guide/installation.md
-
-# 触发关键词
-ultrawork 或 ulw
-
-# 示例
-ultrawork: 请帮我实现一个 React 组件，支持暗黑模式
-```
-
-## 🌐 支持模型
----
-lang: bash
-emoji: 🌐
-link: https://opencode.ai/docs
----
-
-### 免费模型
-```bash
-# 内置免费模型（无需 API Key）
-GLM-4.7
-MiniMax M2.1
-```
-
-### 商业模型
-```bash
-# 支持 75+ 家模型提供商
-OpenAI GPT 系列
-Anthropic Claude 系列
-Google Gemini 系列
-
-# 本地模型
-Llama 3
-```
-
-### Zen 模型集合
-```bash
-# 由 OpenCode 官方推荐
-# 经过测试的高质量模型
-# 省去管理多个外部账户的麻烦
-```
-
-## 🚀 快速示例
----
-lang: bash
-emoji: 🚀
-link: https://opencode.ai/docs
----
-
-### 创建 Node.js API
-```bash
-# 1. 新建目录
-mkdir my-api && cd my-api
-
-# 2. 初始化
-npm init -y
-
-# 3. 启动 OpenCode
-opencode
-
-# 4. 输入 /init
-
-# 5. 提问
-创建一个 Express.js 服务，支持 /hello 路由
-返回 JSON { message: 'Hello World' }，并添加 README
-```
-
-### 交互模式（脚本化）
-```bash
-# 非交互模式运行提示
-opencode -p "修复 login 函数中的 bug"
+# 不同任务分不同 session，避免上下文串味
+/sessions
 ```
