@@ -1,0 +1,11 @@
+desc: Crawlee - Node.js 网页爬虫与浏览器自动化库，支持 HTTP 爬取和 Playwright/Puppeteer 浏览器爬取，内置反爬规避、代理轮换、Session 管理、数据存储
+tags:
+  - JavaScript
+  - TypeScript
+  - 自动化工具
+  - 爬虫
+  - 数据提取
+  - 反爬虫
+version: 3.10.0
+github: apify/crawlee
+date: "2026-03-19"
