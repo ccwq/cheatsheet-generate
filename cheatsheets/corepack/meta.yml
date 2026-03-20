@@ -1,0 +1,10 @@
+desc: Corepack 的包管理器版本钉住、离线缓存与项目接入综合速查表
+tags:
+  - CLI 工具
+  - Node.js
+  - 包管理器
+  - 开发
+  - 命令行
+version: "0.34.6"
+github: nodejs/corepack
+date: "2026-01-23"
