@@ -2,36 +2,30 @@
 
 ## 官方入口
 - 总览: https://docs.langchain.com/oss/python/langchain/overview
-- 安装: https://docs.langchain.com/oss/python/langchain/install
-- 快速开始: https://docs.langchain.com/oss/python/langchain/quickstart
+- 快速开始: https://docs.langchain.com/oss/python/langchain/overview
+- Agents: https://docs.langchain.com/oss/python/langchain/agents
 - Changelog: https://docs.langchain.com/oss/python/releases/changelog
 - 版本策略: https://docs.langchain.com/oss/python/versioning
 
-## 核心模块（与卡片对应）
-- Agents: https://docs.langchain.com/oss/python/langchain/agents
+## 混合模式正文对应
+- 快速定位 / 一眼入口: https://docs.langchain.com/oss/python/langchain/overview
+- 最小工作流: https://docs.langchain.com/oss/python/langchain/agents
+- 工具调用: https://docs.langchain.com/oss/python/langchain/tools
+- 结构化输出: https://docs.langchain.com/oss/python/langchain/structured-output
+- RAG / Retrieval: https://docs.langchain.com/oss/python/langchain/retrieval
+- 上下文工程: https://docs.langchain.com/oss/python/langchain/context-engineering
+- 中间件总览: https://docs.langchain.com/oss/python/langchain/middleware/overview
+- 自定义中间件: https://docs.langchain.com/oss/python/langchain/middleware/custom
+- Guardrails: https://docs.langchain.com/oss/python/langchain/guardrails
+- Observability: https://docs.langchain.com/oss/python/langchain/observability
+
+## 关键能力补充
 - Models: https://docs.langchain.com/oss/python/langchain/models
 - Messages: https://docs.langchain.com/oss/python/langchain/messages
-- Tools: https://docs.langchain.com/oss/python/langchain/tools
-- Structured output: https://docs.langchain.com/oss/python/langchain/structured-output
 - Short-term memory: https://docs.langchain.com/oss/python/langchain/short-term-memory
-- Retrieval: https://docs.langchain.com/oss/python/langchain/retrieval
 - Long-term memory: https://docs.langchain.com/oss/python/langchain/long-term-memory
 - Streaming: https://docs.langchain.com/oss/python/langchain/streaming
-
-## 中间件与进阶
-- Middleware overview: https://docs.langchain.com/oss/python/langchain/middleware/overview
-- Prebuilt middleware: https://docs.langchain.com/oss/python/langchain/middleware/built-in
-- Custom middleware: https://docs.langchain.com/oss/python/langchain/middleware/custom
-- Guardrails: https://docs.langchain.com/oss/python/langchain/guardrails
 - Human-in-the-loop: https://docs.langchain.com/oss/python/langchain/human-in-the-loop
-- Runtime: https://docs.langchain.com/oss/python/langchain/runtime
-- MCP: https://docs.langchain.com/oss/python/langchain/mcp
-
-## 观测、测试与部署
-- Observability: https://docs.langchain.com/oss/python/langchain/observability
-- Test: https://docs.langchain.com/oss/python/langchain/test
-- Deploy: https://docs.langchain.com/oss/python/langchain/deploy
-- LangSmith 平台: https://smith.langchain.com/
 
 ## 上游仓库与包信息
 - GitHub (Python): https://github.com/langchain-ai/langchain

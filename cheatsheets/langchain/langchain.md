@@ -1,31 +1,55 @@
 ---
 title: LangChain 速查
 lang: python
-version: "langchain==1.2.10"
-date: 2026-03-05
+version: "langchain==1.2.13"
+date: 2026-03-19
 github: langchain-ai/langchain
+colWidth: 500px
 ---
 
 # LangChain 速查
 
-## 🚀 快速开始：创建最小 Agent
+## 🧭 快速定位 / 一眼入口
 ---
-lang: bash
+lang: markdown
+emoji: 🧭
+link: https://docs.langchain.com/oss/python/langchain/overview
+desc: 混合模式先给入口，再把高频动作压成可扫读的速查卡。LangChain 1.x 的高层入口仍然是 `create_agent`，底层运行时建立在 LangGraph 之上。
+---
+- `create_agent(...)` : 最高频入口，适合先跑通 Agent 再加能力
+- `tools=[...]` : 给 Agent 外部动作，适合查天气、检索、调业务接口
+- `response_format=Schema` : 直接拿结构化结果，适合抽取、分类、路由
+- `middleware=[...]` : 动态模型、动态工具、安全护栏、审计都从这里插
+- `stream()` / LangSmith tracing : 前者优化交互，后者定位链路问题
+
+| 我现在要做什么 | 先看哪里 | 最短动作 |
+| --- | --- | --- |
+| 跑通最小 Agent | 最小工作流 | `create_agent` + `invoke` |
+| 让 Agent 会调用函数 | 工具调用 recipe | `@tool` + `tools=[...]` |
+| 避免解析自然语言 | 结构化输出 recipe | `response_format=Schema` |
+| 把外部知识喂给 Agent | RAG / 检索 recipe | 检索后注入上下文 |
+| 按成本或权限动态切换 | 中间件与上下文 | `wrap_model_call` / `wrap_tool_call` |
+| 排查为什么答错 | 流式与观测 | `stream()` + LangSmith |
+
+## 🚀 最小工作流
+---
+lang: python
 emoji: 🚀
-link: https://docs.langchain.com/oss/python/langchain/quickstart
-desc: 先跑通最小可用 Agent，再逐步叠加工具、记忆和检索。
+link: https://docs.langchain.com/oss/python/langchain/agents
+desc: 先把“能跑”做出来，再叠加工具、结构化输出和检索。像写 JS 时先把最小组件 render 出来，LangChain 也是先让 Agent 跑通主循环。
 ---
 - `pip install -U langchain "langchain[openai]"` : 安装核心包与 OpenAI 集成
-- `from langchain.agents import create_agent` : 创建高层 Agent 入口
-- `agent.invoke({"messages": [...]})` : 同步执行单轮请求
+- `from langchain.agents import create_agent` : 创建生产可用 Agent
+- `agent.invoke({"messages": [...]})` : 同步执行单轮对话
+- Agent 基于 LangGraph 运行时 : 默认带消息状态、工具循环、可流式输出
 
 ```bash
-# 安装 LangChain 与 OpenAI Provider
+# 安装核心包与 OpenAI 集成
 pip install -U langchain "langchain[openai]"
 ```
 
 ```python
-# 最小 Agent 示例
+# 最小 Agent：先不要急着上工具，先跑通主链路
 from langchain.agents import create_agent
 
 agent = create_agent(
@@ -37,55 +61,34 @@ agent = create_agent(
 result = agent.invoke(
     {
         "messages": [
-            {"role": "user", "content": "用一句话介绍 LangChain"}
+            {"role": "user", "content": "用一句话解释 LangChain"}
         ]
     }
 )
 
-print(result)
+print(result["messages"][-1].content)
 ```
 
-## 🧩 模型与消息
----
-lang: python
-emoji: 🧩
-link: https://docs.langchain.com/oss/python/langchain/models
-desc: 用统一模型接口对接不同提供商，并使用消息对象管理上下文。
----
-- `from langchain.chat_models import init_chat_model` : 标准化初始化聊天模型
-- `from langchain_core.messages import HumanMessage, SystemMessage` : 显式消息类型
-- `model.invoke(messages)` : 传入消息列表并获得回复
+### Quick Ref
+- 输入主形态 : `{"messages": [{"role": "...", "content": "..."}]}`
+- 没有工具时 : Agent 会退化成单模型节点
+- 升级顺序建议 : 最小 Agent -> 工具 -> 结构化输出 -> 检索 / 中间件 -> 观测
 
-```python
-# 统一模型初始化
-from langchain.chat_models import init_chat_model
-from langchain_core.messages import HumanMessage, SystemMessage
-
-model = init_chat_model("openai:gpt-4o-mini")
-
-resp = model.invoke(
-    [
-        SystemMessage(content="你是 Python 助手"),
-        HumanMessage(content="解释什么是 RAG")
-    ]
-)
-
-print(resp.content)
-```
-
-## 🛠️ 工具调用（Tools）
+## 🛠️ 高频场景 Recipe：工具 + 结构化输出
 ---
 lang: python
 emoji: 🛠️
-link: https://docs.langchain.com/oss/python/langchain/tools
-desc: 把 Python 函数声明成可调用工具，让 Agent 具备外部能力。
+link: https://docs.langchain.com/oss/python/langchain/structured-output
+desc: 这是 1.x 最常见的组合拳。先让 Agent 会“做事”，再让结果可被代码稳定消费。
 ---
-- `@tool` : 将函数暴露为工具
-- `create_agent(..., tools=[...])` : 在 Agent 中注册工具
-- 工具函数参数建议加类型注解 : 提升模型选择工具的准确率
+- `@tool` : 把 Python 函数暴露成工具
+- `tools=[get_weather]` : 把工具挂到 Agent
+- `response_format=MySchema` : 让结果直接落到结构化对象
+- 直接传 schema 类型 : 若模型支持原生结构化输出，会自动优先走 `ProviderStrategy`
 
 ```python
-# 定义并挂载工具
+# 工具 + 结构化输出，一次把“会做事”和“结果可解析”打通
+from pydantic import BaseModel, Field
 from langchain.agents import create_agent
 from langchain.tools import tool
 
@@ -94,169 +97,204 @@ def get_weather(city: str) -> str:
     """查询天气（示例）"""
     return f"{city}：晴，25C"
 
+class Answer(BaseModel):
+    city: str = Field(description="城市")
+    summary: str = Field(description="天气摘要")
+
 agent = create_agent(
     model="openai:gpt-4o-mini",
     tools=[get_weather],
-    system_prompt="你可以在需要时调用工具"
+    response_format=Answer,
+    system_prompt="必要时先调用工具，再返回结构化结果"
 )
 
-print(agent.invoke({"messages": [{"role": "user", "content": "北京天气如何？"}]}))
-```
-
-## 📦 结构化输出
----
-lang: python
-emoji: 📦
-link: https://docs.langchain.com/oss/python/langchain/structured-output
-desc: 通过 schema 约束输出，降低后处理成本与解析失败率。
----
-- `response_format=MySchema` : 让 Agent 直接输出结构化对象
-- 使用 `pydantic` schema : 便于校验与类型提示
-- 适用于提取、分类、路由等任务 : 减少正则解析
-
-```python
-# 使用 Pydantic 获取结构化输出
-from pydantic import BaseModel, Field
-from langchain.agents import create_agent
-
-class Contact(BaseModel):
-    name: str = Field(description="姓名")
-    email: str = Field(description="邮箱")
-
-agent = create_agent(
-    model="openai:gpt-4o-mini",
-    tools=[],
-    response_format=Contact
-)
-
-resp = agent.invoke(
+result = agent.invoke(
     {
         "messages": [
-            {"role": "user", "content": "从文本提取：张三，邮箱 zhangsan@example.com"}
+            {"role": "user", "content": "帮我查询北京天气，并按结构化格式返回"}
         ]
     }
 )
 
-print(resp)
+print(result["structured_response"])
 ```
 
-## 🧱 中间件（Middleware）
----
-lang: python
-emoji: 🧱
-link: https://docs.langchain.com/oss/python/langchain/middleware/overview
-desc: 在请求生命周期插入鉴权、审计、重试、限流等横切逻辑。
----
-- 中间件用于请求前后拦截 : 统一治理调用策略
-- 预置中间件可快速上线 : 自定义中间件用于业务规则
-- 适合与多模型路由组合 : 管理成本更低
+| 场景 | 推荐做法 | 原因 |
+| --- | --- | --- |
+| 只是查单个外部动作 | 一个 `@tool` 就够 | 保持提示短、错误面小 |
+| 工具很多 | 用中间件动态筛工具 | 工具太多会稀释模型选择准确率 |
+| 结果要入库 / 走接口 | `response_format=Schema` | 少写正则，失败更早暴露 |
+| 模型不支持原生结构化 | 仍可直接传 schema | LangChain 会回退到工具策略 |
 
-### 常见场景
-- 请求日志与耗时统计
-- 动态附加系统提示词
-- 按租户注入 API Key 或配额策略
+### Quick Ref
+- 工具函数签名要清晰 : 类型注解越明确，模型越容易正确选工具
+- 工具描述别写空 : docstring 就像前端组件 prop 的说明文档
+- 结构化输出常见用途 : 抽取、分类、路由、审核结果
 
-## 🧠 短期记忆（会话内）
----
-lang: python
-emoji: 🧠
-link: https://docs.langchain.com/oss/python/langchain/short-term-memory
-desc: 在会话线程中保存上下文，避免每轮手工拼接历史消息。
----
-- 短期记忆聚焦“当前会话” : 适合客服与助手类对话
-- 建议搭配线程 ID : 明确区分不同用户会话
-- 对长对话可做摘要压缩 : 降低 token 成本
-
-## 🔎 检索增强（Retrieval / RAG）
+## 🔎 高频场景 Recipe：RAG / 检索增强
 ---
 lang: python
 emoji: 🔎
 link: https://docs.langchain.com/oss/python/langchain/retrieval
-desc: 通过检索器把外部知识注入上下文，减少幻觉并提升可追溯性。
+desc: RAG 不是“把所有文档全塞进去”，而是先检索出足够小、足够准的上下文，再交给模型生成答案。
 ---
-- 文档入库流程 : 切分 -> 向量化 -> 写入向量库
-- 查询流程 : 重写查询 -> 检索 -> 重排 -> 生成
-- 可与工具调用结合 : 先检索再调用业务接口
+- 基本链路 : 切分 -> 向量化 -> 检索 -> 重排 -> 生成
+- 先保证召回质量，再谈提示词打磨 : 检索差时，Prompt 再花也救不回来
+- LangChain 负责把检索和 Agent 主循环拼起来 : 不是替你省略索引设计
 
 ```python
-# 最简 RAG 流程（示意）
+# 最小 RAG 思路：先拿到上下文，再交给模型回答
 from langchain.chat_models import init_chat_model
 
 model = init_chat_model("openai:gpt-4o-mini")
 
-context = "LangChain 的 Agent 构建在 LangGraph 之上，支持持久化与流式输出。"
+context = """
+LangChain agents are built on top of LangGraph.
+This gives agents durable execution, streaming, persistence, and human-in-the-loop support.
+""".strip()
+
 question = "LangChain Agent 的底层能力来自哪里？"
 
 answer = model.invoke(
-    f"请基于上下文回答。\n上下文：{context}\n问题：{question}"
+    f"仅基于上下文回答。\n上下文：{context}\n问题：{question}"
 )
 
 print(answer.content)
 ```
 
-## 🗃️ 长期记忆（跨会话）
+| 你遇到的问题 | 优先检查 | 原因 |
+| --- | --- | --- |
+| 答得像没看文档 | 检索 chunk 是否命中 | 很多问题不是模型差，是上下文没召回 |
+| 答案太发散 | 上下文是否过长 | 像前端状态塞太多 props，重点会被冲掉 |
+| 查询词偏口语 | 先做 query rewrite | 把用户问法改成文档友好的检索词 |
+| 知识有权限差异 | 检索前做权限过滤 | 不要把权限控制交给提示词“自觉” |
+
+### Quick Ref
+- 适合 RAG 的内容 : FAQ、产品文档、知识库、规范
+- 不适合只靠 RAG 的内容 : 必须执行动作的任务，仍要配工具
+- 排障顺序 : 数据切分 -> 检索结果 -> 重排 -> 最终提示词
+
+## 🧠 高频场景 Recipe：上下文、记忆与中间件
 ---
 lang: python
-emoji: 🗃️
-link: https://docs.langchain.com/oss/python/langchain/long-term-memory
-desc: 把稳定用户信息与业务事实沉淀到长期存储，支持跨会话个性化。
+emoji: 🧠
+link: https://docs.langchain.com/oss/python/langchain/context-engineering
+desc: 1.x 里很实用的一条线是把“该给模型什么上下文”显式化。State 像组件内部 state，Store 像持久层，Runtime Context 像每次请求带进来的环境参数。
 ---
-- 适合存偏好、画像、历史决策 : 避免每次重复收集
-- 写入时建议加来源与时间戳 : 便于冲突处理
-- 读取时按场景过滤 : 不要无差别注入所有历史
+- `state` : 当前会话内的消息与临时状态，适合短期记忆
+- `store` : 跨会话持久信息，适合偏好、权限、历史事实
+- `context_schema` / Runtime Context : 每次调用传入环境信息，如租户、预算、地区
+- 中间件优先于把逻辑写死在 prompt : 更像在请求管线里做控制，而不是堆大字符串
 
-## 🌊 流式输出（Streaming）
+```python
+# 用中间件按会话长度动态切模型
+from typing import Callable
+from langchain.agents import create_agent
+from langchain.agents.middleware import wrap_model_call, ModelRequest, ModelResponse
+from langchain.chat_models import init_chat_model
+
+simple_model = init_chat_model("openai:gpt-4o-mini")
+complex_model = init_chat_model("openai:gpt-4.1")
+
+@wrap_model_call
+def choose_model(
+    request: ModelRequest,
+    handler: Callable[[ModelRequest], ModelResponse]
+) -> ModelResponse:
+    model = complex_model if len(request.messages) > 10 else simple_model
+    return handler(request.override(model=model))
+
+agent = create_agent(
+    model=simple_model,
+    tools=[],
+    middleware=[choose_model]
+)
+```
+
+| 需求 | 放哪一层 | 为什么 |
+| --- | --- | --- |
+| 当前会话历史 | `state` | 生命周期短，天然跟调用走 |
+| 用户偏好 / feature flag | `store` | 需要跨会话保留 |
+| 成本档位 / 地区 / 环境 | Runtime Context | 每次请求可能不同 |
+| 动态模型 / 动态工具 / 审计 | middleware | 改的是执行路径，不只是文案 |
+
+### Quick Ref
+- 官方更推荐用 middleware 扩展状态 : 比直接塞 `state_schema` 更聚焦
+- 动态工具选择 : 工具多时优先做，能同时降成本和降误调用
+- 常见组合 : `wrap_model_call` 选模型 + `wrap_tool_call` 记日志 / 包错误
+
+## 🛡️ 高频场景 Recipe：护栏、人工介入、流式与观测
 ---
 lang: python
-emoji: 🌊
-link: https://docs.langchain.com/oss/python/langchain/streaming
-desc: 以 token 或事件流方式返回结果，优化首字节延迟与交互体验。
+emoji: 🛡️
+link: https://docs.langchain.com/oss/python/langchain/guardrails
+desc: 真正上线时，重点通常不是“能不能回答”，而是“能不能安全、可追、可中断”。这张卡把生产常见收尾动作放一起。
 ---
-- `agent.stream(...)` : 在前端逐步渲染回复
-- 事件流适合显示工具执行轨迹 : 提升可解释性
-- 与 LangSmith 结合可追踪每个阶段耗时
-
-## 🧪 观测与调试（LangSmith）
----
-lang: bash
-emoji: 🧪
-link: https://docs.langchain.com/oss/python/langchain/observability
-desc: 打开 tracing 后可追踪每次调用链路，定位提示词和工具问题。
----
-- `LANGSMITH_TRACING=true` : 打开链路追踪
-- `LANGSMITH_API_KEY` : 配置平台密钥
-- `LANGSMITH_PROJECT` : 按项目隔离实验数据
+- `HumanInTheLoopMiddleware` : 高风险动作前暂停，等待人工确认
+- Guardrails / 过滤中间件 : 输入前拦、输出后审、工具前校验都能做
+- `stream()` : 用事件流把模型输出和工具轨迹逐步推给前端
+- LangSmith tracing : 排查 prompt、模型、工具链路的第一现场
 
 ```bash
-# 启用 LangSmith 追踪
+# 打开 LangSmith tracing
 export LANGSMITH_TRACING=true
 export LANGSMITH_API_KEY="<your_api_key>"
 export LANGSMITH_PROJECT="langchain-cheatsheet"
 ```
 
-## 🛡️ 人类介入与安全护栏
----
-lang: python
-emoji: 🛡️
-link: https://docs.langchain.com/oss/python/langchain/human-in-the-loop
-desc: 对高风险操作增加人工确认，并用 Guardrails 约束输入输出。
----
-- Human-in-the-loop : 在执行关键动作前人工审批
-- Guardrails : 对越权请求、敏感词、格式错误做拦截
-- 生产建议 : 审批 + 审计 + 回滚三件套
+| 生产问题 | 最低配解法 | 说明 |
+| --- | --- | --- |
+| 不能直接放行高风险操作 | Human-in-the-loop | 让“执行”与“建议”分离 |
+| 结果含敏感内容 | 前后置 guardrails | 不要只靠系统提示词口头约束 |
+| 用户觉得很慢 | `stream()` | 先把首字节和中间过程露出来 |
+| 不知道哪里错 | LangSmith tracing | 看调用链比猜 Prompt 更有效 |
 
-### 常见坑位
-- 直接让 Agent 执行写操作且无审批
-- 仅靠系统提示词，不做结构化校验
-- 不记录工具调用参数，事后无法审计
+### Quick Ref
+- 高风险动作三件套 : 审批、审计、回滚
+- 工具调用日志至少留 : 工具名、参数、结果摘要、耗时
+- 流式适合 : 聊天 UI、长任务、工具轨迹可视化
 
-## ⚠️ 迁移与版本提示（v1 系）
+## 📚 模块速查
+---
+lang: markdown
+emoji: 📚
+link: https://reference.langchain.com/python/langchain/langchain/
+desc: 这一卡不讲长流程，只负责“要找哪个模块”。把正文前面的 recipe 压成检索索引。
+---
+- `langchain.agents.create_agent` : 高层 Agent 入口
+- `langchain.chat_models.init_chat_model` : 标准化初始化聊天模型
+- `langchain.tools.tool` : 把函数暴露为工具
+- `response_format=Schema` : 结构化输出
+- `langchain.agents.middleware.*` : 动态模型、动态工具、日志、护栏
+- `stream()` : 流式输出
+
+| 模块 / 能力 | 何时看它 |
+| --- | --- |
+| Agents | 你需要一个带工具循环的主入口 |
+| Models / Messages | 你想直接调模型，或想精确控消息 |
+| Tools | 你要接外部函数、API、数据库、检索器 |
+| Structured Output | 你要结果稳定进代码，而不是人工读 |
+| Retrieval | 你要接外部知识，不想纯靠模型记忆 |
+| Middleware | 你要控制执行路径、策略和治理 |
+| Guardrails | 你要把安全检查放进调用链 |
+| Observability | 你要定位错误和成本热点 |
+
+## ⚠️ 决策点与升级提示
 ---
 lang: markdown
 emoji: ⚠️
 link: https://docs.langchain.com/oss/python/releases/changelog
-desc: LangChain 迭代快，升级时先看变更日志与版本策略再改代码。
+desc: LangChain 迭代很快，升级时先看版本与文档，再改代码。像升级前端框架一样，先确认 breaking changes，再动业务层。
 ---
-- 优先查官方 Changelog 与 Versioning 文档
-- 区分 `langchain` 与 provider 包 : 避免依赖错位
-- 升级后先跑关键链路回归 : Agent、RAG、工具调用
+- 当前核对版本 : `langchain==1.2.13`
+- PyPI 发布时间 : `2026-03-19`
+- 先核对官方 changelog，再动代码 : 尤其是 Agent、middleware、structured output
+- provider 包与核心包版本要一起看 : 避免 `langchain` 升了，集成包没跟上
+
+| 决策点 | 建议 |
+| --- | --- |
+| 只是想快速做 Agent | 从 `create_agent` 开始，不要一上来就下沉 |
+| 需要复杂编排 / 持久流程 | 再看 LangGraph |
+| 工具一多就乱 | 先做动态工具筛选 |
+| 想让结果稳定落库 | 优先结构化输出 |
+| 线上要稳 | tracing、guardrails、人工介入一起补 |

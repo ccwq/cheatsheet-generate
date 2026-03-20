@@ -1,10 +1,10 @@
-desc: 面向 Claude Code、OpenCode、Codex 等 Agent 的 CLI 生成方法论与插件集合，用于把现有软件包装为 Agent 原生 CLI。
+desc: CLI-Anything 的混合模式速查，覆盖最新 build/refine/test/validate/list 工作流、多 Agent 接入方式、CLI-Hub 与生成后 CLI 的交付要点。
 tags:
   - AI / LLM
   - Python
   - CLI 工具
   - 自动化工具
   - 开发
-version: unknown
+version: main@edf9755 (2026-03-19)
 github: HKUDS/CLI-Anything
-date: "2026-03-14"
+date: "2026-03-19"

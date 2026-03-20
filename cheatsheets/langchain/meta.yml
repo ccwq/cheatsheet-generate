@@ -1,10 +1,10 @@
-desc: LangChain 速查，覆盖 Agent、工具调用、检索增强、记忆与观测调试的高频开发用法。
+desc: LangChain 速查，按混合模式整理最小 Agent 工作流、工具调用、结构化输出、RAG、中间件与生产治理要点。
 tags:
   - AI / LLM
   - Python
   - 开发
   - 框架
   - 库 / SDK
-version: langchain==1.2.10
+version: langchain==1.2.13
 github: langchain-ai/langchain
-date: "2026-03-05"
+date: "2026-03-19"
