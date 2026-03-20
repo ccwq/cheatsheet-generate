@@ -74,6 +74,26 @@ body::after {
   margin: 6px 0 4px 0;
 }
 
+.home-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-link);
+  text-decoration: none;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.home-link:hover {
+  text-decoration: underline;
+}
+
+.home-link svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+
 .card ul, .card ol { padding-left: 20px; margin: 3px 0 8px 0; }
 .card li { margin-bottom: 3px; word-break: break-all; }
 
@@ -142,6 +162,43 @@ pre {
 
 pre[class^="language-"] { background: var(--code-pre-bg) !important; }
 
+.card pre,
+.card pre[class*="language-"],
+.card pre code[class*="language-"] {
+  font-size: 13px;
+  line-height: 1.2;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  letter-spacing: normal;
+  text-shadow: none;
+  font-variant-ligatures: none;
+}
+
+/* 根因修复：
+ * 全局 code 有 0 2px padding，会导致 pre 内 code 只有首行多出 2px 左边距，
+ * 后续换行行不会继承这段 inline padding，于是出现“首行神秘缩进”。
+ */
+.card pre > code,
+.card pre > code[class*="language-"] {
+  display: block;
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+  text-shadow: none !important;
+}
+
+.card pre code[class*="language-"] .token {
+  text-shadow: none !important;
+}
+
+.card pre code .token.comment,
+.card pre code .token.prolog,
+.card pre code .token.doctype,
+.card pre code .token.cdata {
+  font-style: normal;
+}
+
 /* Description */
 .desc {
   color: var(--text-secondary);
@@ -204,6 +261,13 @@ pre[class^="language-"] { background: var(--code-pre-bg) !important; }
 .meta-value { color: var(--meta-text); font-weight: 600; }
 .meta-link { color: var(--text-link); text-decoration: none; }
 .meta-link:hover { text-decoration: underline; }
+
+.meta-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
 
 /* Responsive */
 @media (max-width: 660px) {
