@@ -4,7 +4,7 @@ lang: python
 version: "0.12.3"
 date: "2026-03-20"
 github: browser-use/browser-use
-colWidth: 420px
+colWidth: 450px
 ---
 
 # Browser Use
