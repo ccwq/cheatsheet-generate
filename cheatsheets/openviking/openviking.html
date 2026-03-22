@@ -13,7 +13,7 @@
       document.documentElement.setAttribute('data-theme', resolved);
     })();
   </script>
-  <title>OpenViking Cookbook</title>
+  <title>OpenViking 速查 + Cookbook</title>
   <link rel="stylesheet" href="../../assets/variables.css">
   <link rel="stylesheet" href="../../assets/global.css">
   <link rel="stylesheet" href="../../assets/cheatsheet.css">
@@ -26,7 +26,7 @@
   <style>
     :root {
       /*默认列宽*/
-      --col-width: 360px; 
+      --col-width: 516px; 
       --gap: 16px;
     }
   </style>
@@ -40,11 +40,11 @@
         </svg>
         <span>首页</span>
       </a>
-      <span class="title">OpenViking Cookbook</span>
+      <span class="title">OpenViking 速查 + Cookbook</span>
       <!-- META_INFO_START -->
       <div class="meta-info">
-        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">v0.2.6</span></span>
-        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-03-11</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">v0.2.9</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-03-19</span></span>
         <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/volcengine/OpenViking" target="_blank" rel="noopener">volcengine/OpenViking</a></span></span>
         <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/volcengine/OpenViking" target="_blank" rel="noopener">打开 Zread</a></span></span>
       </div>
@@ -57,7 +57,7 @@
       <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
     </div>
     <div class="cheat-columns" id="columns">
-      <div class="card"><h2>🧠 快速定位 <a href="https://github.com/volcengine/OpenViking" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">OpenViking 不是“再一个 RAG SDK”，而是把资源、记忆、技能统一进 `viking://` 虚拟文件系统的上下文数据库。做 cookbook 时，先想清楚你要走哪条路：嵌入式 Python、独立 HTTP 服务、CLI 自动化、MCP 暴露给 Agent，还是直接接 VikingBot / OpenClaw 插件。</div><h3>这东西适合什么时候上</h3><ul><li>你已经有 Agent，但上下文散落在文件、网页、向量库、记忆插件里，想统一入口。</li><li>你需要的不只是“搜到片段”，而是“先定位目录，再逐层深入”的可观察检索链。</li><li><code>ls</code> <code>tree</code> <code>find</code> <code>grep</code></li></ul><h3>三层内容模型</h3><ul><li><code>L0 / abstract</code>：一句话摘要，先判断值不值得继续读。</li><li><code>L1 / overview</code>：规划层读这个，帮助 Agent 决定下一步。</li><li><code>L2 / read</code>：原文详情，只在必要时下钻，控制 token 成本。</li></ul><h3>先做哪个入口</h3><ul><li><code>ov.OpenViking(path=&quot;./data&quot;)</code>：用</li><li><code>openviking-server</code>：用</li><li><code>ov</code> <code>openviking</code>：用 / CLI</li><li><code>examples/mcp-query</code>：跑</li><li><code>vikingbot</code>：用</li></ul></div><div class="card"><h2>🗂️ 仓库骨架</h2><div class="desc">这个仓库是多入口组合，不要把所有目录一股脑读完。先按“我要用什么模式”去找对应目录。</div><h3>主模块分工</h3><ul><li><code>openviking/</code>：Python SDK、同步/异步客户端、Server 端核心能力。</li><li><code>crates/ov_cli/</code>：Rust CLI，适合命令行和脚本自动化。</li><li><code>examples/</code>：真正的 cookbook 区，包含 server-client、MCP、memory plugin、多租户、k8s 等样例。</li><li><code>bot/</code>：VikingBot，适合直接做聊天代理与多渠道接入。</li><li><code>docs/</code>：概念和深入说明，想理解分层检索和会话记忆时再进。</li></ul><h3>典型选型</h3><ul><li>单机试验或内嵌业务进程：嵌入式 Python 最省事。</li><li>多 Agent 共用一个上下文底座：HTTP Server 模式更稳。</li><li>想把 OpenViking 当外部工具挂给大模型：MCP 模式最顺手。</li><li>已经在用 OpenClaw / OpenCode：优先看插件示例。</li></ul></div><div class="card"><h2>🚀 起手工作流</h2><div class="desc">这部分只保留最小可执行入口，不展开安装细节。重点是先跑通“导入资源 → 等待处理 → 分层访问 → 检索”这条主链。</div><h3>路线 1：嵌入式 Python 起手</h3><pre><code class="language-python">import openviking as ov
+      <div class="card"><h2>🧠 快速定位 <a href="https://github.com/volcengine/OpenViking" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">OpenViking 不是“再一个 RAG SDK”，而是把资源、记忆、技能统一进 `viking://` 虚拟文件系统的上下文数据库。混合风格的读法是：先按场景选入口跑通最短路径，再用 Quick Ref 把高频命令压成可复制的速查块。</div><h3>这东西适合什么时候上</h3><ul><li>你已经有 Agent，但上下文散落在文件、网页、向量库、记忆插件里，想统一入口。</li><li>你需要的不只是“搜到片段”，而是“先定位目录，再逐层深入”的可观察检索链。</li><li><code>ls</code> <code>tree</code> <code>find</code> <code>grep</code></li></ul><h3>三层内容模型</h3><ul><li><code>L0 / abstract</code>：一句话摘要，先判断值不值得继续读。</li><li><code>L1 / overview</code>：规划层读这个，帮助 Agent 决定下一步。</li><li><code>L2 / read</code>：原文详情，只在必要时下钻，控制 token 成本。</li></ul><h3>先做哪个入口</h3><ul><li><code>ov.OpenViking(path=&quot;./data&quot;)</code>：用</li><li><code>openviking-server</code>：用</li><li><code>ov</code> <code>openviking</code>：用 / CLI</li><li><code>examples/mcp-query</code>：跑 （MCP）</li><li><code>vikingbot</code>：用</li></ul></div><div class="card"><h2>🗂️ 仓库骨架</h2><div class="desc">这个仓库是多入口组合，不要把所有目录一股脑读完。先按“我要用什么模式”去找对应目录。</div><h3>主模块分工</h3><ul><li><code>openviking/</code>：Python SDK、同步/异步客户端、Server 端核心能力。</li><li><code>crates/ov_cli/</code>：Rust CLI，适合命令行和脚本自动化。</li><li><code>examples/</code>：真正的 cookbook 区，包含 server-client、MCP、memory plugin、多租户、k8s 等样例。</li><li><code>bot/</code>：VikingBot，适合直接做聊天代理与多渠道接入。</li><li><code>docs/</code>：概念和深入说明，想理解分层检索和会话记忆时再进。</li></ul><h3>典型选型</h3><ul><li>单机试验或内嵌业务进程：嵌入式 Python 最省事。</li><li>多 Agent 共用一个上下文底座：HTTP Server 模式更稳。</li><li>想把 OpenViking 当外部工具挂给大模型：MCP 模式最顺手。</li><li>已经在用 OpenClaw / OpenCode：优先看插件示例。</li></ul></div><div class="card"><h2>🚀 最小工作流</h2><div class="desc">只保留最小可执行入口，不展开安装细节。先跑通“导入资源 → 等待处理 → 分层访问 → 检索”主链，再决定要不要上 Server / MCP / Bot。</div><h3>最短路径：嵌入式 Python</h3><pre><code class="language-python">import openviking as ov
 
 client = ov.OpenViking(path=&quot;./data&quot;)
 client.initialize()
@@ -73,14 +73,14 @@ print(client.abstract(root_uri))
 print(client.overview(root_uri))
 print(client.find(&quot;what is openviking&quot;, target_uri=root_uri))
 
-client.close()</code></pre><h3>路线 2：先起服务，再给多个客户端共用</h3><pre><code class="language-bash"># 终端 A：启动服务
+client.close()</code></pre><h3>最短路径：起 HTTP Server + CLI</h3><pre><code class="language-bash"># 终端 A：启动服务
 openviking-server
 
 # 终端 B：先看状态，再导资源
 ov status
 ov add-resource https://github.com/volcengine/OpenViking --wait
 ov tree viking://resources/volcengine -L 2
-ov find &quot;what is openviking&quot;</code></pre><h3>路线 3：HTTP Client 接远程服务</h3><pre><code class="language-python">import openviking as ov
+ov find &quot;what is openviking&quot;</code></pre><h3>最短路径：HTTP Client 接远程服务</h3><pre><code class="language-python">import openviking as ov
 
 client = ov.SyncHTTPClient(
     url=&quot;http://localhost:1933&quot;,
@@ -95,25 +95,45 @@ results = client.find(&quot;search query&quot;)
 client.close()</code></pre><h3>配置文件记忆法</h3><ul><li><code>OPENVIKING_CONFIG_FILE</code> <code>~/.openviking/ov.conf</code></li><li><code>OPENVIKING_CLI_CONFIG_FILE</code> <code>~/.openviking/ovcli.conf</code></li><li><code>ov.conf</code></li><li><code>ovcli.conf</code></li></ul></div><div class="card"><h2>🍳 高频 Recipes</h2><div class="desc">cookbook 的重点不在 API 面，而在“什么时候用哪串命令”。下面这些是仓库和 zread 信息里最值得复用的路线。</div><h3>把文档、仓库、网页喂进同一棵树</h3><div class="desc">什么时候用：你要给 Agent 建一个长期可检索的知识底座。</div><pre><code class="language-bash">ov add-resource https://github.com/volcengine/OpenViking --wait
 ov ls viking://resources/
 ov tree viking://resources/volcengine -L 2
-ov grep &quot;OpenViking&quot; --uri viking://resources/volcengine/OpenViking/docs/zh</code></pre><ul><li><code>add-resource</code> <code>tree</code></li><li><code>--wait</code> <code>wait</code></li><li>v0.2.6 之后补强了后台任务和异步提交，长任务不必都阻塞前台。</li></ul><h3>用 L0/L1/L2 控制 token 成本</h3><div class="desc">什么时候用：你要让 Agent 先做规划，再决定是否读全文。</div><pre><code class="language-bash"># 先用 overview 判断目录值不值得深入
+ov grep &quot;OpenViking&quot; --uri viking://resources/volcengine/OpenViking/docs/zh</code></pre><ul><li><code>add-resource</code> <code>tree</code></li><li><code>--wait</code> <code>wait</code></li><li>长任务尽量别都前台阻塞：先导入，等处理，最后再集中检索。</li></ul><h3>用 L0/L1/L2 控制 token 成本</h3><div class="desc">什么时候用：你要让 Agent 先做规划，再决定是否读全文。</div><pre><code class="language-bash"># 先 find 锁定目录（语义定位）
 ov find &quot;hierarchical retrieval&quot;
 
 # 再定向读取更细内容
 ov tree viking://resources/volcengine/OpenViking/docs -L 3
 ov grep &quot;directory recursive retrieval&quot; --uri viking://resources/volcengine/OpenViking</code></pre><ul><li><code>find</code> <code>tree</code> <code>grep</code> <code>read</code></li><li><code>abstract</code> <code>overview</code></li></ul><h3>暴露成 MCP，给外部 Agent 当工具</h3><div class="desc">什么时候用：你希望 Claude 或别的支持 MCP 的 Agent 直接调用 OpenViking 的检索能力。</div><pre><code class="language-bash">cd examples/mcp-query
 uv sync
-uv run server.py</code></pre><pre><code class="language-bash">claude mcp add --transport http openviking http://localhost:2033/mcp</code></pre><ul><li><code>query</code> <code>search</code> <code>add_resource</code></li><li><code>query</code> <code>search</code></li></ul><h3>给 OpenClaw 接长期记忆</h3><div class="desc">什么时候用：你已经在跑 OpenClaw，希望把记忆底座换成 OpenViking。</div><pre><code class="language-bash">cd /path/to/OpenViking
+uv run server.py</code></pre><pre><code class="language-bash">claude mcp add --transport http openviking http://localhost:2033/mcp</code></pre><ul><li><code>query</code> <code>search</code> <code>add_resource</code></li><li><code>query</code> <code>search</code></li><li><code>OV_CONFIG</code> <code>OV_DATA</code> <code>OV_PORT</code>：（配置文件路径）、（数据目录）、（端口）。</li></ul><div class="desc">examples/mcp-query/.mcp.json 形态（示意）：</div><pre><code class="language-json">{
+  &quot;mcpServers&quot;: {
+    &quot;openviking&quot;: {
+      &quot;command&quot;: &quot;python&quot;,
+      &quot;args&quot;: [&quot;server.py&quot;],
+      &quot;env&quot;: {
+        &quot;OV_CONFIG&quot;: &quot;./mcp.conf&quot;,
+        &quot;OV_DATA&quot;: &quot;./data&quot;,
+        &quot;OV_PORT&quot;: &quot;2033&quot;
+      }
+    }
+  }
+}</code></pre><h3>给 OpenClaw 接长期记忆</h3><div class="desc">什么时候用：你已经在跑 OpenClaw，希望把记忆底座换成 OpenViking。</div><pre><code class="language-bash">cd /path/to/OpenViking
 npx ./examples/openclaw-memory-plugin/setup-helper
 openclaw gateway</code></pre><pre><code class="language-bash">openclaw config set plugins.entries.memory-openviking.config.mode &quot;remote&quot;
 openclaw config set plugins.entries.memory-openviking.config.baseUrl &quot;http://your-server:1933&quot;
 openclaw config set plugins.entries.memory-openviking.config.autoRecall true --json
 openclaw config set plugins.entries.memory-openviking.config.autoCapture true --json</code></pre><ul><li>本地模式：插件自动起 OpenViking，适合个人环境。</li><li>远程模式：OpenClaw 只连服务端，适合团队和统一运维。</li><li>README 给出的实验数据说明，这条路线的收益不仅是效果提升，还有明显的 token 成本下降。</li></ul><h3>两分钟起一个能聊天的 VikingBot</h3><div class="desc">什么时候用：你想快速验证“OpenViking + Agent”整条链，而不是自己拼装 bot。</div><pre><code class="language-bash">pip install &quot;openviking[bot]&quot;
 vikingbot gateway
-vikingbot chat</code></pre><ul><li><code>vikingbot gateway</code></li><li><code>ov.conf</code></li><li>适合先验证资源管理、记忆提交和检索工具联动，再决定是否接 Feishu / Slack / Telegram。</li></ul><h3>从单机场景切到共享服务</h3><div class="desc">什么时候用：你最初在本地嵌入式用得不错，现在要给多个进程、多个 Agent、多个租户共用。</div><pre><code class="language-bash">openviking-server --host 0.0.0.0 --port 1933</code></pre><pre><code class="language-json">{
+vikingbot chat</code></pre><ul><li><code>vikingbot gateway</code></li><li><code>ov.conf</code></li><li>VikingBot 自带“共享上下文 / 私有上下文”双模式：想做多 Agent 协作时优先共享，想做个人助手或隔离数据时用私有。</li><li>适合先验证资源管理、记忆提交和检索工具联动，再决定是否接 Feishu / Slack / Telegram。</li></ul><h3>从单机场景切到共享服务</h3><div class="desc">什么时候用：你最初在本地嵌入式用得不错，现在要给多个进程、多个 Agent、多个租户共用。</div><pre><code class="language-bash">openviking-server --host 0.0.0.0 --port 1933</code></pre><pre><code class="language-json">{
   &quot;url&quot;: &quot;http://localhost:1933&quot;,
   &quot;api_key&quot;: null,
   &quot;output&quot;: &quot;table&quot;
-}</code></pre><ul><li><code>ovcli.conf</code></li><li><code>examples/multi_tenant/</code></li></ul></div><div class="card"><h2>⚠️ 决策与排障</h2><div class="desc">OpenViking 好用的前提，是你别把它当“单次问答检索器”。它更像一个可运营的上下文底座，所以最容易出问题的地方也都集中在配置、异步处理和入口选错。</div><h3>先判定模式，不要混着用</h3><ul><li>只是单机应用内调用：优先嵌入式，不必先起 Server。</li><li>多个客户端共享：起 HTTP Server，不要每个进程各自维护一份数据。</li><li>要给大模型工具化调用：优先 MCP，而不是手搓一层自定义 wrapper。</li></ul><h3>常见坑</h3><ul><li><code>wait_processed()</code> <code>ov wait</code>：你还没 或 。</li><li><code>ov</code> <code>ov.conf</code> <code>vlm</code> <code>embedding.dense</code>：多数是 里 或 没配齐。</li><li>Windows 机器读配置异常：v0.2.6 专门修过 UTF-8 BOM 兼容，旧配置文件要留意编码。</li><li><code>v0.2.7</code> <code>v0.2.6</code>：仓库里已有 tag，但截至 2026-03-15 最新 GitHub Release 仍是 ，生产环境按已发布版本看更稳。</li></ul><h3>资源组织建议</h3><ul><li>导入目录时，只有你真的依赖原层级含义时，才保留原始结构。</li><li><code>find</code></li><li>会话提交和记忆提取是后台能力，不要把所有状态都寄希望于即时返回。</li></ul></div><div class="card"><h2>🔧 命令抓手</h2><div class="desc">如果你已经理解上面的 workflow，真正高频反复出现的就是下面这几组抓手。</div><h3>资源导入与浏览</h3><ul><li><code>ov add-resource &lt;url-or-path&gt; [--wait]</code>：导入网页、文件、目录或仓库入口</li><li><code>ov ls &lt;uri&gt;</code>：看当前目录</li><li><code>ov tree &lt;uri&gt; -L &lt;depth&gt;</code>：快速扫层级</li><li><code>ov grep &quot;&lt;pattern&gt;&quot; --uri &lt;uri&gt;</code>：在指定树里做内容过滤</li><li><code>ov glob &quot;&lt;pattern&gt;&quot; --uri &lt;uri&gt;</code>：按路径模式筛文件</li></ul><h3>分层访问与检索</h3><ul><li><code>abstract(&lt;uri&gt;)</code>：快速判断目录/文件是否值得继续读</li><li><code>overview(&lt;uri&gt;)</code>：拿结构化概览，适合规划阶段</li><li><code>read(&lt;uri&gt;)</code>：只在确定目标后读取全文</li><li><code>find(&quot;&lt;query&gt;&quot;, target_uri=&lt;uri&gt;)</code>：先语义找目录，再继续下钻</li></ul><h3>服务与会话</h3><ul><li><code>openviking-server</code>：起独立服务</li><li><code>ov status</code>：看系统状态</li><li><code>ov session new</code>：新建会话</li><li><code>ov session add-message &lt;id&gt; --role user --content &quot;...&quot;</code>：填消息</li><li><code>ov session commit &lt;id&gt;</code>：归档消息并提取记忆</li></ul></div>
+}</code></pre><ul><li><code>ovcli.conf</code></li><li><code>examples/multi_tenant/</code></li></ul></div><div class="card"><h2>⚠️ 决策与排障</h2><div class="desc">OpenViking 好用的前提，是你别把它当“单次问答检索器”。它更像一个可运营的上下文底座，所以最容易出问题的地方也都集中在配置、异步处理和入口选错。</div><h3>先判定模式，不要混着用</h3><ul><li>只是单机应用内调用：优先嵌入式，不必先起 Server。</li><li>多个客户端共享：起 HTTP Server，不要每个进程各自维护一份数据。</li><li>要给大模型工具化调用：优先 MCP，而不是手搓一层自定义 wrapper。</li></ul><h3>常见坑</h3><ul><li><code>wait_processed()</code> <code>ov wait</code>：你还没 或 。</li><li><code>ov</code> <code>ov.conf</code> <code>vlm</code> <code>embedding.dense</code>：多数是 里 或 没配齐。</li><li>Windows 机器读配置异常：v0.2.6 专门修过 UTF-8 BOM 兼容，旧配置文件要留意编码。</li><li><code>v0.2.9</code> <code>2026-03-19</code>：以 GitHub Release 为准（本 cheatsheet 对齐 / ）。</li></ul><h3>资源组织建议</h3><ul><li>导入目录时，只有你真的依赖原层级含义时，才保留原始结构。</li><li><code>find</code></li><li>会话提交和记忆提取是后台能力，不要把所有状态都寄希望于即时返回。</li></ul></div><div class="card"><h2>🧾 Quick Ref</h2><div class="desc">这部分只保留“能抄走就用”的速查块。遇到新场景，先回上面的 recipes 找路线，再回这里拿命令细节。</div><h3>三步命令链（最常用）</h3><pre><code class="language-bash"># 1) 导入（必要时等处理）
+ov add-resource &lt;url-or-path&gt; [--wait]
+
+# 2) 定位目录（语义）
+ov find &quot;&lt;query&gt;&quot;
+
+# 3) 下钻（结构 + 过滤）
+ov tree &lt;uri&gt; -L 3
+ov grep &quot;&lt;pattern&gt;&quot; --uri &lt;uri&gt;</code></pre><h3>常用 URI 速记</h3><ul><li><code>viking://resources/</code>：资源根</li><li><code>viking://user/</code>：用户相关（偏好、记忆等）</li><li><code>viking://agent/</code>：Agent 相关（技能、指令、任务记忆等）</li></ul><h3>环境变量与配置文件</h3><ul><li><code>OPENVIKING_CONFIG_FILE</code> <code>~/.openviking/ov.conf</code>：Server / SDK 配置文件路径（默认 ）</li><li><code>OPENVIKING_CLI_CONFIG_FILE</code> <code>~/.openviking/ovcli.conf</code>：CLI 配置文件路径（默认 ）</li><li><code>OV_CONFIG</code> <code>OV_DATA</code> <code>OV_PORT</code> <code>examples/mcp-query</code>：常用于 的 MCP Server 启动</li></ul></div><div class="card"><h2>🔧 命令抓手</h2><div class="desc">如果你已经理解上面的 workflow，真正高频反复出现的就是下面这几组抓手。</div><h3>资源导入与浏览</h3><ul><li><code>ov add-resource &lt;url-or-path&gt; [--wait]</code>：导入网页、文件、目录或仓库入口</li><li><code>ov ls &lt;uri&gt;</code>：看当前目录</li><li><code>ov tree &lt;uri&gt; -L &lt;depth&gt;</code>：快速扫层级</li><li><code>ov grep &quot;&lt;pattern&gt;&quot; --uri &lt;uri&gt;</code>：在指定树里做内容过滤</li><li><code>ov glob &quot;&lt;pattern&gt;&quot; --uri &lt;uri&gt;</code>：按路径模式筛文件</li></ul><h3>分层访问与检索</h3><ul><li><code>abstract(&lt;uri&gt;)</code>：快速判断目录/文件是否值得继续读</li><li><code>overview(&lt;uri&gt;)</code>：拿结构化概览，适合规划阶段</li><li><code>read(&lt;uri&gt;)</code>：只在确定目标后读取全文</li><li><code>find(&quot;&lt;query&gt;&quot;, target_uri=&lt;uri&gt;)</code>：先语义找目录，再继续下钻</li></ul><h3>服务与会话</h3><ul><li><code>openviking-server</code>：起独立服务</li><li><code>ov status</code>：看系统状态</li><li><code>ov session new</code>：新建会话</li><li><code>ov session add-message &lt;id&gt; --role user --content &quot;...&quot;</code>：填消息</li><li><code>ov session commit &lt;id&gt;</code>：归档消息并提取记忆</li></ul></div>
     </div>
   </div>
 
