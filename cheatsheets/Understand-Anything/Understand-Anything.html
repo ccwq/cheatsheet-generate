@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>Understand Anything Cookbook</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png">
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 510px; 
+      --gap: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
+      <span class="title">Understand Anything Cookbook</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">1.1.1</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-03-23</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/Lum1104/Understand-Anything" target="_blank" rel="noopener">Lum1104/Understand-Anything</a></span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/Lum1104/Understand-Anything" target="_blank" rel="noopener">打开 Zread</a></span></span>
+      </div>
+      <div class="meta-tags"><tag-chip class="tag tag-group-1 detail-tag" data-name="AI / LLM" data-group="1" label="AI / LLM" group="1" variant="detail" icon="mdi:brain" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M21.33 12.91c.09 1.55-.62 3.04-1.89 3.95l.77 1.49c.23.45.26.98.06 1.45c-.19.47-.58.84-1.06 1l-.79.25a1.69 1.69 0 0 1-1.86-.55L14.44 18c-.89-.15-1.73-.53-2.44-1.1c-.5.15-1 .23-1.5.23c-.88 0-1.76-.27-2.5-.79c-.53.16-1.07.23-1.62.22c-.79.01-1.57-.15-2.3-.45a4.1 4.1 0 0 1-2.43-3.61c-.08-.72.04-1.45.35-2.11c-.29-.75-.32-1.57-.07-2.33C2.3 7.11 3 6.32 3.87 5.82c.58-1.69 2.21-2.82 4-2.7c1.6-1.5 4.05-1.66 5.83-.37c.42-.11.86-.17 1.3-.17c1.36-.03 2.65.57 3.5 1.64c2.04.53 3.5 2.35 3.58 4.47c.05 1.11-.25 2.2-.86 3.13c.07.36.11.72.11 1.09m-5-1.41c.57.07 1.02.5 1.02 1.07a1 1 0 0 1-1 1h-.63c-.32.9-.88 1.69-1.62 2.29c.25.09.51.14.77.21c5.13-.07 4.53-3.2 4.53-3.25a2.59 2.59 0 0 0-2.69-2.49a1 1 0 0 1-1-1a1 1 0 0 1 1-1c1.23.03 2.41.49 3.33 1.3c.05-.29.08-.59.08-.89c-.06-1.24-.62-2.32-2.87-2.53c-1.25-2.96-4.4-1.32-4.4-.4c-.03.23.21.72.25.75a1 1 0 0 1 1 1c0 .55-.45 1-1 1c-.53-.02-1.03-.22-1.43-.56c-.48.31-1.03.5-1.6.56c-.57.05-1.04-.35-1.07-.9a.97.97 0 0 1 .88-1.1c.16-.02.94-.14.94-.77c0-.66.25-1.29.68-1.79c-.92-.25-1.91.08-2.91 1.29C6.75 5 6 5.25 5.45 7.2C4.5 7.67 4 8 3.78 9c1.08-.22 2.19-.13 3.22.25c.5.19.78.75.59 1.29c-.19.52-.77.78-1.29.59c-.73-.32-1.55-.34-2.3-.06c-.32.27-.32.83-.32 1.27c0 .74.37 1.43 1 1.83c.53.27 1.12.41 1.71.4q-.225-.39-.39-.81a1.038 1.038 0 0 1 1.96-.68c.4 1.14 1.42 1.92 2.62 2.05c1.37-.07 2.59-.88 3.19-2.13c.23-1.38 1.34-1.5 2.56-1.5m2 7.47l-.62-1.3l-.71.16l1 1.25zm-4.65-8.61a1 1 0 0 0-.91-1.03c-.71-.04-1.4.2-1.93.67c-.57.58-.87 1.38-.84 2.19a1 1 0 0 0 1 1c.57 0 1-.45 1-1c0-.27.07-.54.23-.76c.12-.1.27-.15.43-.15c.55.03 1.02-.38 1.02-.92&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="AI 辅助工具" data-group="2" label="AI 辅助工具" group="2" variant="detail" icon="mdi:robot-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M17.5 15.5c0 1.11-.89 2-2 2s-2-.89-2-2s.9-2 2-2s2 .9 2 2m-9-2c-1.1 0-2 .9-2 2s.9 2 2 2s2-.89 2-2s-.89-2-2-2M23 15v3c0 .55-.45 1-1 1h-1v1c0 1.11-.89 2-2 2H5a2 2 0 0 1-2-2v-1H2c-.55 0-1-.45-1-1v-3c0-.55.45-1 1-1h1c0-3.87 3.13-7 7-7h1V5.73c-.6-.34-1-.99-1-1.73c0-1.1.9-2 2-2s2 .9 2 2c0 .74-.4 1.39-1 1.73V7h1c3.87 0 7 3.13 7 7h1c.55 0 1 .45 1 1m-2 1h-2v-2c0-2.76-2.24-5-5-5h-4c-2.76 0-5 2.24-5 5v2H3v1h2v3h14v-3h2z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-1 detail-tag" data-name="TypeScript" data-group="1" label="TypeScript" group="1" variant="detail" icon="mdi:language-typescript" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M3 3h18v18H3zm10.71 14.86c.5.98 1.51 1.73 3.09 1.73c1.6 0 2.8-.83 2.8-2.36c0-1.41-.81-2.04-2.25-2.66l-.42-.18c-.73-.31-1.04-.52-1.04-1.02c0-.41.31-.73.81-.73c.48 0 .8.21 1.09.73l1.31-.87c-.55-.96-1.33-1.33-2.4-1.33c-1.51 0-2.48.96-2.48 2.23c0 1.38.81 2.03 2.03 2.55l.42.18c.78.34 1.24.55 1.24 1.13c0 .48-.45.83-1.15.83c-.83 0-1.31-.43-1.67-1.03zM13 11.25H8v1.5h1.5V20h1.75v-7.25H13z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-4 detail-tag" data-name="插件" data-group="4" label="插件" group="4" variant="detail" icon="mdi:puzzle" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M20.5 11H19V7a2 2 0 0 0-2-2h-4V3.5A2.5 2.5 0 0 0 10.5 1A2.5 2.5 0 0 0 8 3.5V5H4a2 2 0 0 0-2 2v3.8h1.5c1.5 0 2.7 1.2 2.7 2.7S5 16.2 3.5 16.2H2V20a2 2 0 0 0 2 2h3.8v-1.5c0-1.5 1.2-2.7 2.7-2.7s2.7 1.2 2.7 2.7V22H17a2 2 0 0 0 2-2v-4h1.5a2.5 2.5 0 0 0 2.5-2.5a2.5 2.5 0 0 0-2.5-2.5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-3 detail-tag" data-name="开发" data-group="3" label="开发" group="3" variant="detail" icon="mdi:code-tags" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m14.6 16.6l4.6-4.6l-4.6-4.6L16 6l6 6l-6 6zm-5.2 0L4.8 12l4.6-4.6L8 6l-6 6l6 6z&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>🧠 快速定位 <a href="https://github.com/Lum1104/Understand-Anything" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">可以把 Understand Anything 理解成“给代码库挂一层可探索知识图谱的分析插件”。它先用多代理流水线扫项目，再把文件、函数、类、依赖关系整理成图，并配一个可视化 dashboard 继续追问和排查。</div><ul><li>适合场景：新人入场、架构梳理、模块追踪、变更影响分析、给 AI 编码工具补上下文</li><li><code>安装插件 -&gt; /understand -&gt; /understand-dashboard -&gt; /understand-chat</code></li><li><code>.understand-anything/knowledge-graph.json</code></li><li><code>1.1.1</code></li><li><code>TypeScript + pnpm workspace + React 18 + Vite + TailwindCSS v4 + React Flow</code></li></ul><pre><code class="language-bash"># Claude Code 安装
+/plugin marketplace add Lum1104/Understand-Anything
+/plugin install understand-anything
+
+# 跑一次完整分析
+/understand
+
+# 打开图谱面板继续探索
+/understand-dashboard
+/understand-chat How does authentication work?</code></pre></div><div class="card"><h2>🗂️ 仓库骨架 / 模块分工 <a href="https://raw.githubusercontent.com/Lum1104/Understand-Anything/main/CLAUDE.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这个仓库不是单包工具，而是“插件壳 + 分析引擎 + dashboard + skills + agents”的组合。理解目录分工后，你会更容易知道该改哪一层。</div><pre><code class="language-text">understand-anything-plugin/
+  agents/      专职分析代理
+  skills/      /understand、/understand-chat 等技能定义
+  src/         skill 相关 TypeScript 逻辑
+  packages/
+    core/      图谱分析引擎、schema、search、tree-sitter、tour
+    dashboard/ React 图谱面板
+
+.claude-plugin/   Claude Code 插件清单
+.codex/           Codex 安装说明
+.opencode/        OpenCode 插件接入与安装说明</code></pre><ul><li><code>project-scanner</code>：发现文件、语言、框架</li><li><code>file-analyzer</code>：抽函数、类、导入关系并产出节点/边</li><li><code>architecture-analyzer</code>：识别分层</li><li><code>tour-builder</code>：生成 guided tours</li><li><code>graph-reviewer</code>：检查图谱完整性和引用关系</li></ul></div><div class="card"><h2>🚀 起手工作流 <a href="https://raw.githubusercontent.com/Lum1104/Understand-Anything/main/README.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">把它当成“先建索引，再带着索引去问”的两阶段工具。第一段是生成知识图谱，第二段才是可视化浏览和问题追踪。</div><h3>1. 安装插件</h3><pre><code class="language-bash">/plugin marketplace add Lum1104/Understand-Anything
+/plugin install understand-anything</code></pre><h3>2. 分析代码库</h3><pre><code class="language-bash">/understand</code></pre><h3>3. 打开 dashboard</h3><pre><code class="language-bash">/understand-dashboard</code></pre><h3>4. 带着问题继续深挖</h3><pre><code class="language-bash">/understand-chat How does the payment flow work?
+/understand-explain src/auth/login.ts
+/understand-diff
+/understand-onboard</code></pre><ul><li><code>/understand</code>：主入口，跑多代理分析，并在完成后自动衔接 dashboard</li><li><code>/understand-dashboard</code>：看全局图谱，适合先找层次、节点和关系</li><li><code>/understand-chat</code>：问“某条业务链路怎么走”</li><li><code>/understand-explain</code>：盯某个文件或函数做定点解释</li><li><code>/understand-diff</code>：看当前改动会波及哪些区域</li><li><code>/understand-onboard</code>：给新人生成带路式 onboarding</li></ul></div><div class="card"><h2>🧪 高频 Recipes <a href="https://github.com/Lum1104/Understand-Anything#-quick-start" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">下面这些组合更贴近真实工作，不要把命令拆成单点去背。像前端联调一样，记住“问题类型 -&gt; 对应套路”会更快。</div><h3>刚接手一个陌生仓库</h3><pre><code class="language-bash">/understand
+/understand-dashboard
+/understand-onboard</code></pre><ul><li>先生成图谱，再用 dashboard 看大结构，最后让 onboarding 帮你按依赖顺序带路</li></ul><h3>想追一条业务链路</h3><pre><code class="language-bash">/understand-chat How does authentication work?
+/understand-explain src/auth/login.ts</code></pre><ul><li>先问全局问题，再把结果收缩到关键文件或函数</li></ul><h3>提交前做影响面预判</h3><pre><code class="language-bash">/understand-diff</code></pre><ul><li>适合 code review 前或大改之后，先看 ripple effects 再决定是否拆提交</li></ul><h3>只想快速确认图谱文件是否生成</h3><pre><code class="language-bash">ls .understand-anything
+cat .understand-anything/knowledge-graph.json</code></pre><ul><li><code>.understand-anything/</code></li></ul></div><div class="card"><h2>🔌 多平台接入 <a href="https://github.com/Lum1104/Understand-Anything#-multi-platform-installation" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这个项目不是只给 Claude Code 用。它更像“同一套 skills/agents，换不同宿主接入”。理解安装方式差异，比死记每个平台步骤更重要。</div><h3>Claude Code</h3><pre><code class="language-bash">/plugin marketplace add Lum1104/Understand-Anything
+/plugin install understand-anything</code></pre><h3>Codex</h3><pre><code class="language-powershell">git clone https://github.com/Lum1104/Understand-Anything.git ~/.codex/understand-anything
+New-Item -ItemType Directory -Force -Path &quot;$env:USERPROFILE\.agents\skills&quot;
+cmd /c mklink /J &quot;$env:USERPROFILE\.agents\skills\understand-anything&quot; &quot;$env:USERPROFILE\.codex\understand-anything\understand-anything-plugin\skills&quot;</code></pre><h3>OpenCode</h3><pre><code class="language-json">{
+  &quot;plugin&quot;: [
+    &quot;understand-anything@git+https://github.com/Lum1104/Understand-Anything.git&quot;
+  ]
+}</code></pre><h3>OpenCode 固定版本</h3><pre><code class="language-json">{
+  &quot;plugin&quot;: [
+    &quot;understand-anything@git+https://github.com/Lum1104/Understand-Anything.git#v1.1.1&quot;
+  ]
+}</code></pre><ul><li><code>.cursor-plugin/plugin.json</code>：仓库被 clone 后通过 自动发现</li><li><code>INSTALL.md</code>：按各自 走 AI-driven install</li></ul></div><div class="card"><h2>📊 Dashboard 与结果文件 <a href="https://github.com/Lum1104/Understand-Anything#-features" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">dashboard 是这个项目真正把“静态分析结果”变成“可操作上下文”的地方。可以把它类比成 React DevTools + 架构图 + LLM 解释层的叠加体。</div><ul><li>图谱节点：文件、函数、类、依赖关系</li><li>视觉分层：按 API、Service、Data、UI、Utility 这类架构层分组与着色</li><li>搜索方式：模糊搜索 + 语义搜索</li><li>解释能力：节点旁带 plain-English summary</li><li>Persona UI：会按读者身份调整展示粒度</li></ul><pre><code class="language-bash"># 本地开发 dashboard
+pnpm dev:dashboard
+
+# 构建 dashboard
+pnpm --filter @understand-anything/dashboard build</code></pre></div><div class="card"><h2>🛠️ 开发与扩展 <a href="https://raw.githubusercontent.com/Lum1104/Understand-Anything/main/CLAUDE.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">如果你不是“用插件”，而是“改插件”，那主线就变成先装依赖、再 build、再单测、最后验证 dashboard。这个节奏和前端 monorepo 开发很像。</div><pre><code class="language-bash">pnpm install
+pnpm --filter @understand-anything/core build
+pnpm --filter @understand-anything/core test
+pnpm --filter @understand-anything/skill build
+pnpm --filter @understand-anything/skill test
+pnpm --filter @understand-anything/dashboard build
+pnpm lint</code></pre><ul><li><code>&gt;= 22</code></li><li><code>pnpm &gt;= 10</code></li><li><code>ESM</code></li><li><code>Vitest</code></li><li><code>understand-anything-plugin/package.json</code> <code>.claude-plugin/marketplace.json</code>：和</li></ul></div><div class="card"><h2>⚠️ 风险点 / 排障速记 <a href="https://raw.githubusercontent.com/Lum1104/Understand-Anything/main/.opencode/INSTALL.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">真正容易卡住的点，通常不是“命令不会敲”，而是“技能没被宿主发现”或“图谱没有写到目标项目”。这部分就是收尾检查单。</div><ul><li>OpenCode 看不到 skills：<ul><li><code>opencode.json</code></li><li><code>~/.cache/opencode/node_modules/understand-anything</code></li><li><code>understand</code> <code>understand-chat</code></li></ul></li><li>Codex 没发现技能：<ul><li><code>~/.agents/skills/understand-anything</code> <code>understand-anything-plugin/skills</code></li></ul></li><li>图谱没生成：<ul><li><code>/understand</code></li><li><code>.understand-anything/knowledge-graph.json</code></li></ul></li><li>版本升级别漏：<ul><li><code>understand-anything-plugin/package.json</code></li><li><code>.claude-plugin/marketplace.json</code></li></ul></li></ul><pre><code class="language-bash"># Codex 验证 skills 链接
+ls -la ~/.agents/skills/understand-anything
+
+# OpenCode 验证插件是否安装
+ls ~/.cache/opencode/node_modules/understand-anything</code></pre></div>
+    </div>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>

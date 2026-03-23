@@ -1,0 +1,10 @@
+desc: Understand Anything 的 cookbook 风格速查表，覆盖多平台代理安装、知识图谱生成、dashboard 探索、/understand 系列工作流与开发排障要点。
+tags:
+  - AI / LLM
+  - AI 辅助工具
+  - TypeScript
+  - 插件
+  - 开发
+version: "1.1.1"
+github: Lum1104/Understand-Anything
+date: "2026-03-23"
