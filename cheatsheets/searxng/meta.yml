@@ -1,0 +1,11 @@
+desc: SearXNG 隐私元搜索引擎速查，覆盖搜索语法、Search API、首选项、分类与引擎选择等高频用法。
+tags:
+  - Web API
+  - 网络工具
+  - CLI / Terminal
+  - 开发
+  - 代理 / 服务
+version: "2026.3.20+6c7e9c197"
+github: searxng/searxng
+date: "2026-03-20"
+

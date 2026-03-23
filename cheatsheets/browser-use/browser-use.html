@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>Browser Use</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png">
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 450px; 
+      --gap: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
+      <span class="title">Browser Use</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">0.12.3</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-03-20</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/browser-use/browser-use" target="_blank" rel="noopener">browser-use/browser-use</a></span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/browser-use/browser-use" target="_blank" rel="noopener">打开 Zread</a></span></span>
+      </div>
+      <div class="meta-tags"><tag-chip class="tag tag-group-1 detail-tag" data-name="Python" data-group="1" label="Python" group="1" variant="detail" icon="mdi:language-python" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M19.14 7.5A2.86 2.86 0 0 1 22 10.36v3.78A2.86 2.86 0 0 1 19.14 17H12c0 .39.32.96.71.96H17v1.68a2.86 2.86 0 0 1-2.86 2.86H9.86A2.86 2.86 0 0 1 7 19.64v-3.75a2.85 2.85 0 0 1 2.86-2.85h5.25a2.85 2.85 0 0 0 2.85-2.86V7.5zm-4.28 11.79c-.4 0-.72.3-.72.89s.32.71.72.71a.71.71 0 0 0 .71-.71c0-.59-.32-.89-.71-.89m-10-1.79A2.86 2.86 0 0 1 2 14.64v-3.78A2.86 2.86 0 0 1 4.86 8H12c0-.39-.32-.96-.71-.96H7V5.36A2.86 2.86 0 0 1 9.86 2.5h4.28A2.86 2.86 0 0 1 17 5.36v3.75a2.85 2.85 0 0 1-2.86 2.85H8.89a2.85 2.85 0 0 0-2.85 2.86v2.68zM9.14 5.71c.4 0 .72-.3.72-.89s-.32-.71-.72-.71c-.39 0-.71.12-.71.71s.32.89.71.89&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-1 detail-tag" data-name="AI / LLM" data-group="1" label="AI / LLM" group="1" variant="detail" icon="mdi:brain" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M21.33 12.91c.09 1.55-.62 3.04-1.89 3.95l.77 1.49c.23.45.26.98.06 1.45c-.19.47-.58.84-1.06 1l-.79.25a1.69 1.69 0 0 1-1.86-.55L14.44 18c-.89-.15-1.73-.53-2.44-1.1c-.5.15-1 .23-1.5.23c-.88 0-1.76-.27-2.5-.79c-.53.16-1.07.23-1.62.22c-.79.01-1.57-.15-2.3-.45a4.1 4.1 0 0 1-2.43-3.61c-.08-.72.04-1.45.35-2.11c-.29-.75-.32-1.57-.07-2.33C2.3 7.11 3 6.32 3.87 5.82c.58-1.69 2.21-2.82 4-2.7c1.6-1.5 4.05-1.66 5.83-.37c.42-.11.86-.17 1.3-.17c1.36-.03 2.65.57 3.5 1.64c2.04.53 3.5 2.35 3.58 4.47c.05 1.11-.25 2.2-.86 3.13c.07.36.11.72.11 1.09m-5-1.41c.57.07 1.02.5 1.02 1.07a1 1 0 0 1-1 1h-.63c-.32.9-.88 1.69-1.62 2.29c.25.09.51.14.77.21c5.13-.07 4.53-3.2 4.53-3.25a2.59 2.59 0 0 0-2.69-2.49a1 1 0 0 1-1-1a1 1 0 0 1 1-1c1.23.03 2.41.49 3.33 1.3c.05-.29.08-.59.08-.89c-.06-1.24-.62-2.32-2.87-2.53c-1.25-2.96-4.4-1.32-4.4-.4c-.03.23.21.72.25.75a1 1 0 0 1 1 1c0 .55-.45 1-1 1c-.53-.02-1.03-.22-1.43-.56c-.48.31-1.03.5-1.6.56c-.57.05-1.04-.35-1.07-.9a.97.97 0 0 1 .88-1.1c.16-.02.94-.14.94-.77c0-.66.25-1.29.68-1.79c-.92-.25-1.91.08-2.91 1.29C6.75 5 6 5.25 5.45 7.2C4.5 7.67 4 8 3.78 9c1.08-.22 2.19-.13 3.22.25c.5.19.78.75.59 1.29c-.19.52-.77.78-1.29.59c-.73-.32-1.55-.34-2.3-.06c-.32.27-.32.83-.32 1.27c0 .74.37 1.43 1 1.83c.53.27 1.12.41 1.71.4q-.225-.39-.39-.81a1.038 1.038 0 0 1 1.96-.68c.4 1.14 1.42 1.92 2.62 2.05c1.37-.07 2.59-.88 3.19-2.13c.23-1.38 1.34-1.5 2.56-1.5m2 7.47l-.62-1.3l-.71.16l1 1.25zm-4.65-8.61a1 1 0 0 0-.91-1.03c-.71-.04-1.4.2-1.93.67c-.57.58-.87 1.38-.84 2.19a1 1 0 0 0 1 1c.57 0 1-.45 1-1c0-.27.07-.54.23-.76c.12-.1.27-.15.43-.15c.55.03 1.02-.38 1.02-.92&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="自动化工具" data-group="2" label="自动化工具" group="2" variant="detail" icon="mdi:robot" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5A2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5a2.5 2.5 0 0 0 2.5 2.5a2.5 2.5 0 0 0 2.5-2.5a2.5 2.5 0 0 0-2.5-2.5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-1 detail-tag" data-name="CLI / Terminal" data-group="1" label="CLI / Terminal" group="1" variant="detail" icon="mdi:console" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M20 19V7H4v12zm0-16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-7 14v-2h5v2zm-3.42-4L5.57 9H8.4l3.3 3.3c.39.39.39 1.03 0 1.42L8.42 17H5.59z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-4 detail-tag" data-name="库 / SDK" data-group="4" label="库 / SDK" group="4" variant="detail" icon="mdi:library-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M12 14.27L10.64 13A11.24 11.24 0 0 0 5 10.18v6.95c2.61.34 5 1.34 7 2.82c2-1.48 4.39-2.48 7-2.82v-6.95c-2.16.39-4.09 1.39-5.64 2.82M19 8.15c.65-.1 1.32-.15 2-.15v11c-3.5 0-6.64 1.35-9 3.54C9.64 20.35 6.5 19 3 19V8c.68 0 1.35.05 2 .15c2.69.41 5.1 1.63 7 3.39c1.9-1.76 4.31-2.98 7-3.39M12 6c.27 0 .5-.1.71-.29c.19-.21.29-.44.29-.71s-.1-.5-.29-.71C12.5 4.11 12.27 4 12 4s-.5.11-.71.29c-.18.21-.29.45-.29.71s.11.5.29.71c.21.19.45.29.71.29m2.12 1.12a2.997 2.997 0 1 1-4.24-4.24a2.997 2.997 0 1 1 4.24 4.24&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-4 detail-tag" data-name="Web API" data-group="4" label="Web API" group="4" variant="detail" icon="mdi:webhook" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M10.46 19C9 21.07 6.15 21.59 4.09 20.15c-2.05-1.44-2.53-4.31-1.09-6.4a4.59 4.59 0 0 1 3.58-1.98l.05 1.43c-.91.07-1.79.54-2.36 1.36c-1 1.44-.69 3.38.68 4.35c1.38.96 3.31.59 4.31-.84c.31-.45.49-.94.56-1.44v-1.01l5.58-.04l.07-.11c.53-.92 1.68-1.24 2.58-.72a1.9 1.9 0 0 1 .68 2.6c-.53.91-1.69 1.23-2.59.71c-.41-.23-.7-.6-.83-1.02l-4.07.02a5 5 0 0 1-.78 1.94m7.28-7.14c2.53.31 4.33 2.58 4.02 5.07c-.31 2.5-2.61 4.27-5.14 3.96a4.63 4.63 0 0 1-3.43-2.21l1.24-.72a3.22 3.22 0 0 0 2.32 1.45c1.75.21 3.3-.98 3.51-2.65s-1.03-3.2-2.76-3.41c-.54-.06-1.06.01-1.53.18l-.85.44l-2.58-4.77h-.22a1.906 1.906 0 0 1-1.85-1.95c.03-1.04.93-1.85 1.98-1.81c1.05.06 1.88.91 1.85 1.95c-.02.44-.19.84-.46 1.15l1.9 3.51c.62-.2 1.3-.27 2-.19M8.25 9.14c-1-2.35.06-5.04 2.37-6.02c2.32-.98 5 .13 6 2.48c.59 1.37.47 2.87-.2 4.07l-1.24-.72c.42-.81.49-1.8.09-2.73c-.68-1.6-2.49-2.37-4.04-1.72c-1.56.66-2.26 2.5-1.58 4.1c.28.66.75 1.17 1.32 1.51l.39.21l-3.07 4.99c.03.05.07.11.1.19c.49.91.15 2.06-.77 2.55c-.91.49-2.06.13-2.56-.81c-.49-.93-.15-2.08.77-2.57c.39-.21.82-.26 1.23-.17l2.31-3.77c-.47-.43-.87-.97-1.12-1.59&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>🤖 入口与定位 <a href="https://docs.browser-use.com/open-source/introduction" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Browser Use 是一套“让 LLM 像人一样操作浏览器”的工具链：Agent 负责规划与决策，BrowserSession 负责本地/Cloud/CDP 会话，Tools/Skills 提供可调用动作；同时提供高性能 CLI（daemon 常驻）。</div><ul><li>适合：表单填充、带登录态的网页操作、网页测试/回归、信息检索与确定性提取（JS）、截图/下载等自动化流程</li><li><code>Agent</code> <code>Browser</code> <code>BrowserSession</code> <code>Tools</code>：、（ 别名）、</li></ul></div><div class="card"><h2>📦 安装与初始化（你要求必须包含） <a href="https://github.com/browser-use/browser-use/blob/main/browser_use/skill_cli/README.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这里给出最短可用路径：一键安装与手动安装，以及常用的初始化/诊断命令。</div><h3>方式 A：一键安装（推荐）</h3><pre><code class="language-bash"># macOS / Linux
+curl -fsSL https://browser-use.com/cli/install.sh | bash</code></pre><div class="desc">Windows（PowerShell，通过 Git Bash 执行脚本）：</div><pre><code class="language-powershell">&amp; &quot;C:\Program Files\Git\bin\bash.exe&quot; -c &#39;curl -fsSL https://browser-use.com/cli/install.sh | bash&#39;</code></pre><h3>方式 B：手动安装（更可控）</h3><pre><code class="language-bash"># 需要 Python &gt;= 3.11
+uv pip install browser-use
+
+# 安装 Chromium（Linux 下会安装系统依赖）
+browser-use install
+
+# 诊断与交互式设置（可选）
+browser-use doctor
+browser-use setup</code></pre><h3>方式 C：直接使用</h3><pre><code class="language-bash">uvx browser-use</code></pre><h3>生成模板（快速起项目）</h3><pre><code class="language-bash">browser-use init
+browser-use init --list
+browser-use init --template basic --output my_script.py --force</code></pre></div><div class="card"><h2>🧠 最小工作流（Python SDK） <a href="https://github.com/browser-use/browser-use" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">典型链路：创建浏览器会话 -&gt; 定义任务 -&gt; 选择 LLM -&gt; 运行 agent -&gt; 保存历史（可复跑）。</div><pre><code class="language-python">import asyncio
+from browser_use import Agent, Browser, ChatBrowserUse
+
+
+async def main():
+    browser = Browser(
+        # use_cloud=True,  # 可选：使用 Browser Use Cloud 的“隐身浏览器”
+    )
+
+    agent = Agent(
+        task=&quot;打开 browser-use 仓库，告诉我 star 数（用页面信息回答）&quot;,
+        llm=ChatBrowserUse(),
+        browser=browser,
+    )
+
+    history = await agent.run()
+    print(history.final_result())
+
+
+if __name__ == &quot;__main__&quot;:
+    asyncio.run(main())</code></pre></div><div class="card"><h2>🧰 最小工作流（CLI） <a href="https://github.com/browser-use/browser-use/blob/main/browser_use/skill_cli/README.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">CLI 通过后台 daemon 让浏览器“常驻”，单条命令延迟很低。基本套路：open -&gt; state -&gt; click/input -&gt; wait -&gt; screenshot -&gt; close。</div><pre><code class="language-bash">browser-use --headed open https://example.com
+browser-use state
+browser-use input 0 &quot;hello&quot;
+browser-use keys &quot;Enter&quot;
+browser-use wait selector &quot;.success&quot; --timeout 30000
+browser-use screenshot out.png --full
+browser-use close</code></pre></div><div class="card"><h2>🧩 核心对象速查（SDK API） <a href="https://github.com/browser-use/browser-use/tree/main/browser_use" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Agent 负责“规划与决策”，BrowserSession 负责“浏览器连接与状态捕获”，Tools 负责“可调用动作集合（点击/输入/提取/上传等）”。</div><h3>Agent</h3><ul><li><code>Agent(task=..., llm=..., browser=..., tools=...)</code></li><li><code>await agent.run(max_steps=...)</code></li><li><code>agent.run_sync()</code> <code>asyncio.run</code></li><li><code>agent.save_history(&quot;AgentHistory.json&quot;)</code></li><li><code>await agent.load_and_rerun(history_file=..., variables=...)</code></li></ul><h3>Browser / BrowserSession（别名）</h3><ul><li><code>Browser(...)</code> <code>BrowserSession(...)</code></li><li>常见场景：<ul><li>本地启动 Chromium</li><li>连接现有 Chrome（CDP）</li><li><code>use_cloud=True</code></li></ul></li></ul><h3>Tools（动作集合）</h3><pre><code class="language-python">from browser_use import Tools
+
+tools = Tools()
+
+# 注册自定义 action：把业务能力变成工具
+@tools.action(description=&quot;我的自定义工具：返回一个固定值&quot;)
+async def my_action(browser_session):
+    return &quot;ok&quot;</code></pre></div><div class="card"><h2>⚙️ BrowserSession / BrowserProfile 常用配置（API 速查） <a href="https://github.com/browser-use/browser-use/blob/main/browser_use/browser/profile.py" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">只列“最常用、最影响稳定性/权限边界”的配置项；完整字段请直接看 BrowserProfile 源码。</div><div class="table-wrap"><table class="cheat-table"><thead><tr><th>配置</th><th>作用</th><th>备注</th></tr></thead><tbody><tr><td>headless</td><td>无头/有头</td><td>调试建议 headless=False</td></tr><tr><td>use_cloud</td><td>使用 Cloud 浏览器</td><td>Cloud 下 close 会停止云端浏览器</td></tr><tr><td>cdp_url</td><td>连接既有浏览器</td><td>用于接管现有 Chrome</td></tr><tr><td>allowed_domains / prohibited_domains</td><td>域名白/黑名单</td><td>白名单优先</td></tr><tr><td>block_ip_addresses</td><td>禁止访问 IP URL</td><td>会同时禁 localhost/私网，慎用</td></tr><tr><td>proxy</td><td>代理设置</td><td>ProxySettings(server=...)</td></tr><tr><td>enable_default_extensions</td><td>自动化优化扩展</td><td>BROWSER_USE_DISABLE_EXTENSIONS=1 关闭</td></tr><tr><td>cookie_whitelist_domains</td><td>Cookie 扩展白名单</td><td>防止特定站点被自动点 cookie 弹窗</td></tr><tr><td>cross_origin_iframes</td><td>跨域 iframe 支持</td><td>复杂站点建议打开</td></tr><tr><td>auto_download_pdfs</td><td>自动下载 PDF</td><td>信息提取类任务好用</td></tr></tbody></table></div></div><div class="card"><h2>🧪 Cookbook：常见任务套路（workflow + 速查卡） <a href="https://github.com/browser-use/browser-use/blob/main/browser_use/skill_cli/README.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">混合风格要点：先给可执行 workflow，再在关键点嵌入命令/API 速查卡。</div><h3>C1：先用 CLI 把交互跑通，再搬回 Python 固化</h3><pre><code class="language-bash">browser-use --headed open https://example.com
+browser-use state
+browser-use click 5
+browser-use input 3 &quot;hello&quot;
+browser-use wait selector &quot;.success&quot; --timeout 30000
+browser-use screenshot out.png --full
+browser-use close</code></pre><h3>C2：带登录态站点，优先 --profile（最稳）</h3><pre><code class="language-bash">browser-use --profile &quot;Default&quot; open https://github.com
+browser-use state</code></pre><h3>C3：需要并行/隔离多个任务，用 --session</h3><pre><code class="language-bash">browser-use --session work open https://example.com
+browser-use --session work state
+
+browser-use --session personal open https://news.ycombinator.com
+browser-use --session personal state
+
+browser-use sessions
+browser-use close --all</code></pre><h3>C4：抓取列表数据，优先 eval 做“确定性提取”</h3><pre><code class="language-bash">browser-use open https://news.ycombinator.com
+browser-use eval &quot;Array.from(document.querySelectorAll(&#39;.titleline a&#39;)).slice(0,5).map(a=&gt;a.textContent)&quot;</code></pre><h3>C5：长流程（滚动 + 等待 + 断点），用 python 子命令脚本化</h3><pre><code class="language-bash">browser-use open https://example.com
+browser-use python &quot;for _ in range(5): browser.scroll(&#39;down&#39;, 800); browser.wait(0.5)&quot;
+browser-use screenshot scrolled.png --full</code></pre></div><div class="card"><h2>🧾 CLI 命令 API（详细速查） <a href="https://github.com/browser-use/browser-use/blob/main/browser_use/skill_cli/README.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">按子命令分组列出 CLI 的“API 面”：flags、命令、关键参数和互斥关系。</div><h3>全局 flags（互斥：--connect、--cdp-url、--profile）</h3><pre><code class="language-bash">browser-use --headed ...
+browser-use --profile &quot;Default&quot; ...
+browser-use --connect ...
+browser-use --cdp-url http://localhost:9222 ...
+browser-use --session work ...
+browser-use --json ...
+browser-use --mcp</code></pre><h3>Setup / 诊断 / 模板</h3><pre><code class="language-bash">browser-use doctor
+browser-use setup
+browser-use install
+browser-use init --list
+browser-use init --template basic --output my_script.py --force</code></pre><h3>浏览器控制与会话</h3><pre><code class="language-bash">browser-use open &lt;url&gt;
+browser-use back
+browser-use scroll up|down --amount 500
+browser-use switch &lt;tab&gt;
+browser-use close-tab [tab]
+
+browser-use sessions
+browser-use close
+browser-use close --all</code></pre><h3>状态 / 截图</h3><pre><code class="language-bash">browser-use state
+browser-use screenshot [path.png] --full</code></pre><h3>交互（依赖 state 的 index）</h3><pre><code class="language-bash">browser-use click &lt;index&gt;           # 或 click &lt;x&gt; &lt;y&gt;
+browser-use type &quot;text&quot;
+browser-use input &lt;index&gt; &quot;text&quot;   # click + type
+browser-use keys &quot;Enter&quot;
+browser-use select &lt;index&gt; &quot;value&quot;
+browser-use upload &lt;index&gt; &lt;path&gt;
+browser-use hover &lt;index&gt;
+browser-use dblclick &lt;index&gt;
+browser-use rightclick &lt;index&gt;</code></pre><h3>等待（wait）</h3><pre><code class="language-bash">browser-use wait selector &quot;css&quot; --timeout 30000 --state visible
+browser-use wait selector &quot;.loading&quot; --state hidden
+browser-use wait text &quot;Success&quot; --timeout 30000</code></pre><h3>获取信息（get）</h3><pre><code class="language-bash">browser-use get title
+browser-use get html
+browser-use get html --selector &quot;h1&quot;
+browser-use get text &lt;index&gt;
+browser-use get value &lt;index&gt;
+browser-use get attributes &lt;index&gt;
+browser-use get bbox &lt;index&gt;</code></pre><h3>JavaScript 提取（eval）</h3><pre><code class="language-bash">browser-use eval &quot;document.title&quot;
+browser-use eval &quot;Array.from(document.querySelectorAll(&#39;a&#39;)).slice(0,5).map(a=&gt;a.href)&quot;</code></pre><h3>Cookies</h3><pre><code class="language-bash">browser-use cookies get [--url &lt;url&gt;]
+browser-use cookies set &lt;name&gt; &lt;value&gt; --domain .example.com --secure --http-only --same-site Strict
+browser-use cookies clear [--url &lt;url&gt;]
+browser-use cookies export cookies.json
+browser-use cookies import cookies.json</code></pre><h3>Python 子命令（持久化命名空间 + browser 对象）</h3><pre><code class="language-bash">browser-use python &quot;x = 42&quot;
+browser-use python &quot;print(x); print(browser.url); print(browser.title)&quot;
+browser-use python --vars
+browser-use python --reset
+browser-use python --file script.py</code></pre><h3>Cloud API（REST passthrough + cloud connect）</h3><pre><code class="language-bash">browser-use cloud login &lt;api-key&gt;          # 或环境变量 BROWSER_USE_API_KEY
+browser-use cloud logout
+browser-use cloud connect --timeout 120 --proxy-country US
+
+browser-use cloud v2 GET /browsers
+browser-use cloud v2 POST /tasks &#39;{&quot;task&quot;:&quot;...&quot;,&quot;url&quot;:&quot;https://google.com&quot;}&#39;
+browser-use cloud v2 poll &lt;task-id&gt;
+browser-use cloud v2 --help
+browser-use cloud v3 --help</code></pre><h3>Tunnel（Cloudflare tunnel）</h3><pre><code class="language-bash">browser-use tunnel 3000
+browser-use tunnel list
+browser-use tunnel stop 3000
+browser-use tunnel stop --all</code></pre><h3>Profile（profile-use 透传）</h3><pre><code class="language-bash">browser-use profile
+browser-use profile list
+browser-use profile sync --all
+browser-use profile update</code></pre></div><div class="card"><h2>🛡️ 安全与范围控制（domains / IP / proxy） <a href="https://github.com/browser-use/browser-use/blob/main/browser_use/browser/profile.py" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">真环境里建议显式设置访问边界（域名白名单、禁 IP、代理等），避免越权与误操作。</div><pre><code class="language-python">from browser_use import Browser
+
+browser = Browser(
+    allowed_domains=[&quot;https://github.com&quot;, &quot;*.githubusercontent.com&quot;],
+    prohibited_domains=[&quot;*.doubleclick.net&quot;],
+    block_ip_addresses=True,  # 会禁 localhost/私网，慎用
+)</code></pre><pre><code class="language-python">from browser_use import Browser
+from browser_use.browser.profile import ProxySettings
+
+browser = Browser(
+    proxy=ProxySettings(
+        server=&quot;http://proxy.example.com:8080&quot;,
+        bypass=&quot;localhost,127.0.0.1,*.internal&quot;,
+        username=&quot;user&quot;,
+        password=&quot;pass&quot;,
+    )
+)</code></pre></div><div class="card"><h2>🧷 常用 Agent 参数（行为控制） <a href="https://github.com/browser-use/browser-use/blob/main/browser_use/agent/service.py" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这些参数会直接影响“跑得稳不稳、是不是可复现、失败后怎么恢复”。优先把超时、失败次数、规划开关配置清楚。</div><div class="table-wrap"><table class="cheat-table"><thead><tr><th>参数</th><th>作用</th><th>备注</th></tr></thead><tbody><tr><td>max_failures</td><td>允许失败次数</td><td>默认 5</td></tr><tr><td>step_timeout</td><td>单步超时（秒）</td><td>默认 180</td></tr><tr><td>use_vision</td><td>是否启用视觉</td><td>True/False/auto</td></tr><tr><td>enable_planning</td><td>是否启用规划字段</td><td>Cloud/特定模型可能会禁用</td></tr><tr><td>max_actions_per_step</td><td>每步最大动作数</td><td>动作太多更容易跑偏</td></tr><tr><td>sensitive_data</td><td>脱敏/敏感字段</td><td>建议统一放这里</td></tr><tr><td>available_file_paths</td><td>允许上传/读取的文件白名单</td><td>上传文件必配</td></tr><tr><td>initial_actions</td><td>预置动作（如先导航）</td><td>适合强制起手式</td></tr><tr><td>directly_open_url</td><td>自动从 task 提取 URL 并先打开</td><td>默认开启</td></tr></tbody></table></div></div><div class="card"><h2>🗂️ CLI 文件布局与环境变量 <a href="https://github.com/browser-use/browser-use/blob/main/browser_use/skill_cli/README.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">排障常用：确认 session 的 pid/socket 是否残留，以及 Cloud API key 与 home 目录是否正确。</div><div class="desc">常用环境变量：</div><ul><li><code>BROWSER_USE_HOME</code> <code>~/.browser-use/</code>：CLI 数据目录（默认 ）</li><li><code>BROWSER_USE_SESSION</code>：默认 session 名</li><li><code>BROWSER_USE_API_KEY</code> <code>cloud login</code>：Cloud API key（等价于 ）</li><li><code>BROWSER_USE_DISABLE_EXTENSIONS=1</code>：禁用自动化扩展</li></ul><div class="desc">目录（概念示意）：</div><pre><code class="language-text">~/.browser-use/
+  config.json         # API key 等
+  bin/profile-use     # profile-use 可执行文件（自动下载）
+  &lt;session&gt;.pid       # daemon pid（临时）
+  &lt;session&gt;.sock      # daemon socket（Windows 上为 tcp 端口映射）</code></pre></div><div class="card"><h2>🧯 常见坑与排障 <a href="https://github.com/browser-use/browser-use/blob/main/browser_use/skill_cli/README.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">最常见问题不是“代码写错”，而是“环境/会话/网站行为变化”。先用 CLI 快速复现，再回到 Python 里固化。</div><ul><li><code>--session</code> <code>--profile/--cdp-url/--connect</code> <code>browser-use close</code>：同一个 内不要混用不同的 ，必要时先</li><li><code>state</code> <code>scroll</code> <code>state</code> <code>--headed</code>：先 再 ，再 ；必要时 观察真实行为</li><li><code>cross_origin_iframes=True</code>：复杂站点建议</li><li><code>deterministic_rendering=True</code>：容易破站、也更容易被反爬识别</li></ul></div>
+    </div>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>
