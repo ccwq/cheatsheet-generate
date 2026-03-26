@@ -1,0 +1,11 @@
+desc: x-crawl - Node.js AI 辅助爬虫库，覆盖动态页面、静态 HTML、JSON API、文件下载与 AI 元素分析、选择器生成、问答和自定义能力
+tags:
+  - Node.js
+  - JavaScript
+  - TypeScript
+  - 自动化工具
+  - 爬虫
+  - AI 辅助工具
+version: 10.1.0
+github: coder-hxl/x-crawl
+date: "2025-04-06"

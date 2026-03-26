@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>x-crawl AI 辅助爬虫库</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png">
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 433px; 
+      --gap: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
+      <span class="title">x-crawl AI 辅助爬虫库</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">10.1.0</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2025-04-06</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/coder-hxl/x-crawl" target="_blank" rel="noopener">coder-hxl/x-crawl</a></span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/coder-hxl/x-crawl" target="_blank" rel="noopener">打开 Zread</a></span></span>
+      </div>
+      <div class="meta-tags"><tag-chip class="tag tag-group-1 detail-tag" data-name="Node.js" data-group="1" label="Node.js" group="1" variant="detail" icon="mdi:nodejs" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M12 1.85c-.27 0-.55.07-.78.2l-7.44 4.3c-.48.28-.78.8-.78 1.36v8.58c0 .56.3 1.08.78 1.36l1.95 1.12c.95.46 1.27.47 1.71.47c1.4 0 2.21-.85 2.21-2.33V8.44c0-.12-.1-.22-.22-.22H8.5c-.13 0-.23.1-.23.22v8.47c0 .66-.68 1.31-1.77.76L4.45 16.5a.26.26 0 0 1-.11-.21V7.71c0-.09.04-.17.11-.21l7.44-4.29c.06-.04.16-.04.22 0l7.44 4.29c.07.04.11.12.11.21v8.58c0 .08-.04.16-.11.21l-7.44 4.29c-.06.04-.16.04-.23 0L10 19.65c-.08-.03-.16-.04-.21-.01c-.53.3-.63.36-1.12.51c-.12.04-.31.11.07.32l2.48 1.47q.36.21.78.21t.78-.21l7.44-4.29c.48-.28.78-.8.78-1.36V7.71c0-.56-.3-1.08-.78-1.36l-7.44-4.3c-.23-.13-.5-.2-.78-.2M14 8c-2.12 0-3.39.89-3.39 2.39c0 1.61 1.26 2.08 3.3 2.28c2.43.24 2.62.6 2.62 1.08c0 .83-.67 1.18-2.23 1.18c-1.98 0-2.4-.49-2.55-1.47a.226.226 0 0 0-.22-.18h-.96c-.12 0-.21.09-.21.22c0 1.24.68 2.74 3.94 2.74c2.35 0 3.7-.93 3.7-2.55c0-1.61-1.08-2.03-3.37-2.34c-2.31-.3-2.54-.46-2.54-1c0-.45.2-1.05 1.91-1.05c1.5 0 2.09.33 2.32 1.36c.02.1.11.17.21.17h.97c.05 0 .11-.02.15-.07c.04-.04.07-.1.05-.16C17.56 8.82 16.38 8 14 8&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-1 detail-tag" data-name="JavaScript" data-group="1" label="JavaScript" group="1" variant="detail" icon="mdi:language-javascript" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M3 3h18v18H3zm4.73 15.04c.4.85 1.19 1.55 2.54 1.55c1.5 0 2.53-.8 2.53-2.55v-5.78h-1.7V17c0 .86-.35 1.08-.9 1.08c-.58 0-.82-.4-1.09-.87zm5.98-.18c.5.98 1.51 1.73 3.09 1.73c1.6 0 2.8-.83 2.8-2.36c0-1.41-.81-2.04-2.25-2.66l-.42-.18c-.73-.31-1.04-.52-1.04-1.02c0-.41.31-.73.81-.73c.48 0 .8.21 1.09.73l1.31-.87c-.55-.96-1.33-1.33-2.4-1.33c-1.51 0-2.48.96-2.48 2.23c0 1.38.81 2.03 2.03 2.55l.42.18c.78.34 1.24.55 1.24 1.13c0 .48-.45.83-1.15.83c-.83 0-1.31-.43-1.67-1.03z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-1 detail-tag" data-name="TypeScript" data-group="1" label="TypeScript" group="1" variant="detail" icon="mdi:language-typescript" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M3 3h18v18H3zm10.71 14.86c.5.98 1.51 1.73 3.09 1.73c1.6 0 2.8-.83 2.8-2.36c0-1.41-.81-2.04-2.25-2.66l-.42-.18c-.73-.31-1.04-.52-1.04-1.02c0-.41.31-.73.81-.73c.48 0 .8.21 1.09.73l1.31-.87c-.55-.96-1.33-1.33-2.4-1.33c-1.51 0-2.48.96-2.48 2.23c0 1.38.81 2.03 2.03 2.55l.42.18c.78.34 1.24.55 1.24 1.13c0 .48-.45.83-1.15.83c-.83 0-1.31-.43-1.67-1.03zM13 11.25H8v1.5h1.5V20h1.75v-7.25H13z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="自动化工具" data-group="2" label="自动化工具" group="2" variant="detail" icon="mdi:robot" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5A2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5a2.5 2.5 0 0 0 2.5 2.5a2.5 2.5 0 0 0 2.5-2.5a2.5 2.5 0 0 0-2.5-2.5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="爬虫" data-group="0" label="爬虫" group="0" variant="detail" icon="mdi:spider-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M20 22h-2v-4.54l-1.56-1.34c-.12.71-.4 1.38-.82 1.94c-.2.28-.44.53-.71.76c-.81.68-1.84 1.07-2.91 1.07s-2.1-.39-2.91-1.07c-.27-.23-.51-.48-.71-.76a4.5 4.5 0 0 1-.82-1.94L6 17.46V22H4v-5.46l3.87-3.32l-2.37.67l-2.79 2.82l-1.42-1.42l3.17-3.13l3-.85L5.6 11L1.4 7.8l1.2-1.6l3.8 2.85l2.69.45l-3.2-3.19L7 1.76l2 .48l-.89 3.45l1.13 1.14c.12-.27.26-.51.45-.73c.15-.18.31-.35.51-.49c.05-.04.1-.07.15-.11c.08-.05.15-.1.24-.14c.44-.23.91-.36 1.41-.36s.97.13 1.4.36c.1.04.17.09.25.14l.12.09c.2.14.38.31.53.49c.2.22.34.48.46.75l1.1-1.14L15 2.24l2-.48l1.11 4.55l-3.2 3.19l2.68-.45L21.4 6.2l1.2 1.6l-4.19 3.2l-1.91.26l3 .85l3.21 3.18l-1.42 1.42l-2.79-2.82l-2.37-.67L20 16.54zm-5.53-6.21L15 12.5l-3-.5l-3 .5l.53 3.29c.1.59.4 1.12.85 1.5c.45.39 1.03.6 1.62.6s1.17-.21 1.62-.6c.45-.38.75-.91.85-1.5M12 9.58l1.23-1.23l-.31-.74a1 1 0 0 0-.37-.44A.97.97 0 0 0 12 7c-.2 0-.39.06-.55.17s-.29.26-.37.44l-.31.74z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="AI 辅助工具" data-group="2" label="AI 辅助工具" group="2" variant="detail" icon="mdi:robot-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M17.5 15.5c0 1.11-.89 2-2 2s-2-.89-2-2s.9-2 2-2s2 .9 2 2m-9-2c-1.1 0-2 .9-2 2s.9 2 2 2s2-.89 2-2s-.89-2-2-2M23 15v3c0 .55-.45 1-1 1h-1v1c0 1.11-.89 2-2 2H5a2 2 0 0 1-2-2v-1H2c-.55 0-1-.45-1-1v-3c0-.55.45-1 1-1h1c0-3.87 3.13-7 7-7h1V5.73c-.6-.34-1-.99-1-1.73c0-1.1.9-2 2-2s2 .9 2 2c0 .74-.4 1.39-1 1.73V7h1c3.87 0 7 3.13 7 7h1c.55 0 1 .45 1 1m-2 1h-2v-2c0-2.76-2.24-5-5-5h-4c-2.76 0-5 2.24-5 5v2H3v1h2v3h14v-3h2z&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>⚡ 入口与定位 <a href="https://coder-hxl.github.io/x-crawl/cn/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">x-crawl 是 Node.js AI 辅助爬虫库。它既能单独使用 crawler API 抓动态页、静态 HTML、JSON API 和文件资源，也能接入 Ollama / OpenAI 做元素分析、选择器生成和问答。</div><div class="desc">x-crawl 的核心思路很直接：先用爬虫 API 完成抓取，再在需要时叠加 AI 做结构理解和提取。</div><ul><li><code>Crawler</code></li><li><code>AI</code></li><li><code>string</code></li></ul><pre><code class="language-javascript">import { createCrawl, createCrawlOpenAI } from &#39;x-crawl&#39;;
+
+const crawlApp = createCrawl({
+  maxRetry: 3,
+  intervalTime: { min: 1000, max: 2000 }
+});
+
+const aiApp = createCrawlOpenAI({
+  clientOptions: { apiKey: process.env.OPENAI_API_KEY },
+  defaultModel: { chatModel: &#39;gpt-4-turbo-preview&#39; }
+});</code></pre></div><div class="card"><h2>🚀 最短路径 <a href="https://coder-hxl.github.io/x-crawl/cn/guide/quick-start" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">最短用法是先创建 crawler 应用，再按目标类型选择 crawlPage / crawlHTML / crawlData / crawlFile；页面结构不稳定时再补 AI 应用。</div><div class="desc">先记住这条路径就够了：</div><pre><code class="language-javascript">import { createCrawl } from &#39;x-crawl&#39;;
+
+const crawlApp = createCrawl();
+
+await crawlApp.crawlPage(&#39;https://www.example.com&#39;);
+await crawlApp.crawlHTML(&#39;https://www.example.com/page.html&#39;);
+await crawlApp.crawlData(&#39;https://api.example.com/list&#39;);
+await crawlApp.crawlFile(&#39;https://cdn.example.com/file.pdf&#39;);</code></pre></div><div class="card"><h2>🧭 四类爬取速查 <a href="https://coder-hxl.github.io/x-crawl/cn/api/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">x-crawl 的四个抓取入口覆盖动态页面、静态 HTML、接口数据和文件下载，入参形状一致，便于在同一项目里切换。</div><div class="table-wrap"><table class="cheat-table"><thead><tr><th>场景</th><th>首选 API</th><th>关键结果</th><th>典型特征</th></tr></thead><tbody><tr><td>动态页面 / 交互页</td><td>crawlPage</td><td>page / browser</td><td>支持浏览器操作、键盘输入、事件操作</td></tr><tr><td>静态 HTML</td><td>crawlHTML</td><td>HTML 结果</td><td>不依赖浏览器交互，适合纯结构提取</td></tr><tr><td>JSON API</td><td>crawlData</td><td>结构化数据</td><td>适合 GET/接口类数据抓取</td></tr><tr><td>文件资源</td><td>crawlFile</td><td>文件结果</td><td>适合图片、PDF 等资源下载</td></tr></tbody></table></div><div class="desc">四个 API 都支持这几种调用形状：</div><ul><li><code>string</code></li><li>详细目标配置</li><li><code>(string | 详细目标配置)[]</code></li><li><code>advanced config</code></li></ul></div><div class="card"><h2>🖱️ 动态页面 / crawlPage <a href="https://coder-hxl.github.io/x-crawl/cn/api/crawl-page" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">crawlPage 用于动态页面，常见于需要浏览器实例、页面操作、登录态、截图和滚动加载的场景。</div><div class="desc">crawlPage 适合这些情况：</div><ul><li>页面要等 JS 渲染后才有数据</li><li>需要点击、输入、滚动、截图、拿浏览器实例</li><li>需要在抓取过程中处理登录、弹窗、分页和懒加载</li></ul><pre><code class="language-javascript">import { createCrawl } from &#39;x-crawl&#39;;
+
+const crawlApp = createCrawl({
+  mode: &#39;async&#39;,
+  maxRetry: 3,
+  intervalTime: { min: 1000, max: 2000 }
+});
+
+const res = await crawlApp.crawlPage({
+  url: &#39;https://www.example.com&#39;,
+  maxRetry: 2,
+  cookies: &#39;session=xxx&#39;,
+  proxy: {
+    urls: [&#39;http://127.0.0.1:7897&#39;]
+  }
+});
+
+const { page, browser } = res.data;
+// 这里可以继续做页面操作
+await page.waitForSelector(&#39;.item&#39;);
+await browser.close();</code></pre><div class="desc">要点：</div><ul><li>单目标返回单个结果，数组或 advanced 配置返回数组</li><li><code>browser.close()</code></li><li><code>proxy</code> <code>cookies</code> <code>maxRetry</code></li></ul></div><div class="card"><h2>🧾 静态 HTML / crawlHTML <a href="https://coder-hxl.github.io/x-crawl/cn/guide/crawl-html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">crawlHTML 面向静态 HTML 或直接可解析的页面内容，通常不需要浏览器交互，适合批量结构化提取。</div><div class="desc">crawlHTML 适合：</div><ul><li>纯静态页面</li><li>已经拿到 HTML 字符串，想统一走同一套抓取流程</li><li>需要在每个目标完成时提前处理结果</li></ul><pre><code class="language-javascript">import { createCrawl } from &#39;x-crawl&#39;;
+
+const crawlApp = createCrawl({
+  intervalTime: { min: 1000, max: 3000 }
+});
+
+const res = await crawlApp.crawlHTML([
+  &#39;https://www.example.com/html-1&#39;,
+  &#39;https://www.example.com/html-2&#39;
+]);
+
+console.log(res);</code></pre><div class="desc">这里最值得记住的是 onCrawlItemComplete：</div><ul><li>每个目标完成时都会回调</li><li>适合边抓边存、边抓边清理、边抓边入库</li><li>批量任务不必等全部完成后再处理</li></ul></div><div class="card"><h2>📡 JSON API / crawlData <a href="https://coder-hxl.github.io/x-crawl/cn/api/crawl-data" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">crawlData 面向接口数据，适合 JSON、列表接口和可直接结构化消费的结果。</div><div class="desc">crawlData 适合：</div><ul><li>直接抓接口</li><li>返回 JSON 数据</li><li>想要强类型结果时配合泛型使用</li></ul><pre><code class="language-typescript">import { createCrawl } from &#39;x-crawl&#39;;
+
+interface ApiItem {
+  id: string;
+  title: string;
+}
+
+const crawlApp = createCrawl();
+
+const res = await crawlApp.crawlData&lt;ApiItem[]&gt;(
+  &#39;https://api.example.com/items&#39;
+);
+
+console.log(res.data);</code></pre><div class="desc">进阶写法常用这些字段：</div><ul><li><code>targets</code></li><li><code>intervalTime</code></li><li><code>cookies</code></li><li><code>maxRetry</code></li></ul></div><div class="card"><h2>📁 文件资源 / crawlFile <a href="https://coder-hxl.github.io/x-crawl/cn/api/crawl-file" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">crawlFile 用于图片、PDF 等文件资源下载，支持单个目标、数组目标和进阶批量配置。</div><div class="desc">crawlFile 适合：</div><ul><li>图片下载</li><li>PDF 下载</li><li>资源型 URL 批量落盘</li></ul><pre><code class="language-javascript">import { createCrawl } from &#39;x-crawl&#39;;
+
+const crawlApp = createCrawl({
+  timeout: 10000
+});
+
+await crawlApp.crawlFile({
+  targets: [
+    &#39;https://www.example.com/file-1&#39;,
+    &#39;https://www.example.com/file-2&#39;
+  ],
+  storeDirs: &#39;./upload&#39;,
+  intervalTime: { min: 1000, max: 3000 },
+  maxRetry: 1
+});</code></pre><div class="desc">文件下载时最常用的两个目录字段是：</div><ul><li><code>storeDir</code></li><li><code>storeDirs</code></li></ul></div><div class="card"><h2>🤖 AI 辅助 <a href="https://coder-hxl.github.io/x-crawl/cn/guide/create-ai-application" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">AI 层用于理解 HTML、生成选择器、回答爬虫问题和封装自定义智能能力，页面结构不稳定时尤其有用。</div><div class="desc">AI 层主要有两条路：</div><ul><li><code>createCrawlOpenAI()</code>：接 OpenAI</li><li><code>createCrawlOllama()</code>：接本地 Ollama</li></ul><h3>1. 解析元素</h3><div class="desc">parseElements(HTML, prompt) 适合把一段 HTML 交给 AI，让它直接抽取图片、标题、链接、属性值等。</div><h3>2. 生成选择器</h3><div class="desc">getElementSelectors(HTML, prompt) 适合在页面结构容易变时，让 AI 反向生成更稳的选择器。</div><h3>3. 回答问题</h3><div class="desc">help(question) 适合问爬虫策略、反爬思路、页面处理办法。</div><h3>4. 自定义能力</h3><div class="desc">custom() 适合把你自己的提示词、规则和领域逻辑封装成可复用能力。</div><pre><code class="language-javascript">import { createCrawlOpenAI } from &#39;x-crawl&#39;;
+
+const aiApp = createCrawlOpenAI({
+  clientOptions: { apiKey: process.env.OPENAI_API_KEY },
+  defaultModel: { chatModel: &#39;gpt-4-turbo-preview&#39; }
+});
+
+const elements = await aiApp.parseElements(html, &#39;获取图片链接并去重&#39;);
+const selectors = await aiApp.getElementSelectors(html, &#39;获取所有商品卡片&#39;);
+const answer = await aiApp.help(&#39;x-crawl 是什么&#39;);</code></pre><div class="desc">注意：</div><ul><li>HTML 越大，Token 消耗越高</li><li>页面结构稳定时优先用普通抓取</li><li>页面结构变化频繁时再把 AI 放进流程</li></ul></div><div class="card"><h2>⚙️ 核心配置 <a href="https://coder-hxl.github.io/x-crawl/cn/type/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">createCrawl 的全局配置控制抓取模式、间隔、日志和随机指纹；目标级配置再细化代理、重试、Cookie、指纹和下载目录。</div><div class="desc">createCrawl 的高价值配置：</div><div class="table-wrap"><table class="cheat-table"><thead><tr><th>字段</th><th>作用</th><th>备注</th></tr></thead><tbody><tr><td>mode</td><td>切换 async / sync</td><td>按任务特征选择</td></tr><tr><td>enableRandomFingerprint</td><td>启用随机设备指纹</td><td>默认关闭</td></tr><tr><td>baseUrl</td><td>基础地址</td><td>适合相对路径拼接</td></tr><tr><td>intervalTime</td><td>间隔控制</td><td>适合固定或随机节奏</td></tr><tr><td>log</td><td>日志输出</td><td>可直接关掉或细分 start/process/result</td></tr><tr><td>crawlPage.puppeteerLaunchOptions</td><td>传给 Puppeteer</td><td>只影响浏览器型抓取</td></tr></tbody></table></div><div class="desc">目标级常用配置：</div><ul><li><code>maxRetry</code></li><li><code>proxy.urls</code></li><li><code>proxy.switchByErrorCount</code></li><li><code>proxy.switchByHttpStatus</code></li><li><code>cookies</code></li><li><code>fingerprint</code></li><li><code>storeDir</code> <code>storeDirs</code></li></ul><pre><code class="language-javascript">import { createCrawl } from &#39;x-crawl&#39;;
+
+const crawlApp = createCrawl({
+  mode: &#39;async&#39;,
+  enableRandomFingerprint: true,
+  baseUrl: &#39;https://example.com&#39;,
+  intervalTime: { min: 1000, max: 3000 },
+  log: { start: true, process: true, result: true }
+});</code></pre></div><div class="card"><h2>🧪 结果与收尾 <a href="https://coder-hxl.github.io/x-crawl/cn/guide/results" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">结果处理的关键是先分清单项返回和批量返回，再按 crawlPage / crawlHTML / crawlData / crawlFile 的结果形状做收尾动作。</div><div class="desc">记住这几条就够了：</div><ul><li>单目标输入通常返回单个结果</li><li>数组或 advanced 配置通常返回结果数组</li><li><code>crawlPage</code> <code>page</code> <code>browser</code></li><li><code>onCrawlItemComplete</code></li><li>页面型抓取完成后记得关闭浏览器</li></ul><pre><code class="language-typescript">import { createCrawl } from &#39;x-crawl&#39;;
+
+const crawlApp = createCrawl();
+
+const res = await crawlApp.crawlData&lt;{ title: string }&gt;(
+  &#39;https://api.example.com/post&#39;
+);
+
+console.log(res.data.title);</code></pre><div class="desc">TypeScript 支持是 x-crawl 的强项，适合把结果类型一路传到底，减少后处理时的手动断言。</div></div>
+    </div>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>
