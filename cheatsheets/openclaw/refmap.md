@@ -41,6 +41,7 @@
 ## 工具与自动化
 - [Tools Overview](https://docs.openclaw.ai/tools/index) - 工具总入口。
 - [Browser Tool](https://docs.openclaw.ai/tools/browser) - 浏览器自动化。
+- [Web Tools](https://docs.openclaw.ai/tools/web) - `web_search` / `web_fetch`。
 - [ACP Agents](https://docs.openclaw.ai/tools/acp-agents) - ACP 代理与溯源。
 - [Cron Jobs](https://docs.openclaw.ai/automation/cron-jobs) - 定时任务。
 - [Hooks](https://docs.openclaw.ai/automation/hooks) - 事件钩子。

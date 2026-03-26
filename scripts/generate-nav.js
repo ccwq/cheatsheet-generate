@@ -192,12 +192,18 @@ function renderItems(items, tagRenderer) {
     const desc = he.encode(it.desc || '');
     const icon = it.icon ? `<img class="icon" src="${it.icon}" alt="icon" />` : '';
     const tagsAttr = it.tags.join(','); // 用于 data-tags 属性
-    const version = (it.version || '').trim();
-    const date = (it.date || '').trim();
-    const github = (it.github || '').trim();
+    const version = String(it.version || '').trim();
+    const date = String(it.date || '').trim();
+    const github = String(it.github || '').trim();
 
     const verText = version
-      ? (version.toLowerCase() === 'unknown' ? 'unknown' : (version.startsWith('v') ? version : `v${version}`))
+      ? (
+        version.toLowerCase() === 'unknown'
+          || version.toLowerCase() === 'latest'
+          || version.includes('@')
+          ? version
+          : (version.startsWith('v') ? version : `v${version}`)
+      )
       : '';
     const dateText = date || '';
     const githubText = github || '';

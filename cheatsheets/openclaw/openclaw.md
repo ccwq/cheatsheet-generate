@@ -6,17 +6,15 @@ date: 2026-03-25
 github: openclaw/openclaw
 colWidth: 420px
 ---
-
 # OpenClaw 速查 + Cookbook
 
 ## 快速定位
---- 
+---
 lang: bash
 emoji: 🧭
 link: https://docs.openclaw.ai/
 desc: OpenClaw 是一个把网关、频道、消息、会话、工具和自动化串起来的 AI 代理运行层。先按场景选入口，再用下方速查块抄命令，适合既要“快速找到入口”，又要“知道下一步怎么接”的读法。
 ---
-
 ### 它最适合做什么
 
 - 把 Telegram、Discord、WhatsApp 等频道接到同一套代理层。
@@ -48,13 +46,12 @@ openclaw status
 ```
 
 ## 起手工作流
---- 
+---
 lang: bash
 emoji: 🚀
 link: https://docs.openclaw.ai/start/getting-started
 desc: 先把“网关活着、频道接上、模型可用、会话能看见”这四件事跑通，再谈自动化和扩展。
 ---
-
 ### 1. 先起网关
 
 ```bash
@@ -88,13 +85,12 @@ openclaw doctor
 - 会话能看到，不代表清理任务和历史保留策略已经按预期配置。
 
 ## 频道接入
---- 
+---
 lang: bash
 emoji: 📱
 link: https://docs.openclaw.ai/cli/channels
 desc: 把即时通讯平台接进 OpenClaw，常见顺序是登录或添加账号、做配对、再验证连通性。
 ---
-
 ### 常见接入流程
 
 ```bash
@@ -149,13 +145,12 @@ openclaw devices approve req_123456
 ```
 
 ## 消息工作流
---- 
+---
 lang: bash
 emoji: 💬
 link: https://docs.openclaw.ai/cli/message
 desc: 统一处理发送、投票、反应和线程类消息动作，适合做机器人回复和运维通知。
 ---
-
 ### 最常用动作
 
 ```bash
@@ -179,13 +174,12 @@ openclaw message react --channel telegram --message-id 123 --emoji "✅"
 - 需要把处理结果标记成可追踪状态时，用 reaction 比重新发一条消息更轻。
 
 ## 会话与上下文
---- 
+---
 lang: bash
 emoji: 🧵
 link: https://docs.openclaw.ai/cli/sessions
 desc: 会话是 OpenClaw 的运维中心之一，适合看活跃会话、清理历史、追踪当前 agent 状态。
 ---
-
 ### 常用命令
 
 ```bash
@@ -209,13 +203,12 @@ openclaw sessions cleanup --enforce
 - 想做容量控制、历史归档或会话回收。
 
 ## 模型与代理
---- 
+---
 lang: bash
 emoji: 🧠
 link: https://docs.openclaw.ai/models
 desc: OpenClaw 的模型层决定“谁来答、失败后找谁、不同频道流量进哪个 agent”。先看状态，再调 primary、fallback、alias 和 binding。
 ---
-
 ### 模型速查
 
 ```bash
@@ -277,13 +270,12 @@ openclaw agents delete work
 - 想把不同 sender、channel 或 account 路由到不同 agent。
 
 ## 工具总线
---- 
+---
 lang: bash
 emoji: 🧰
 link: https://docs.openclaw.ai/tools/index
 desc: OpenClaw 的工具层把浏览器、远程节点、Web 工具、ACP 和插件放在同一条链上，适合把动作统一到代理后端。
 ---
-
 ### 浏览器自动化
 
 ```bash
@@ -336,13 +328,12 @@ openclaw plugins install <plugin-name>
 ```
 
 ## 自动化工作流
---- 
+---
 lang: bash
 emoji: ⏰
 link: https://docs.openclaw.ai/automation/cron-jobs
 desc: 定时任务、系统事件、心跳和通知，适合做值守、巡检、自动触发和收尾动作。
 ---
-
 ### 定时任务
 
 ```bash
@@ -376,13 +367,12 @@ openclaw system heartbeat enable
 - 做值守时，把 `cron runs` 和 `logs --follow` 放在一起看。
 
 ## 安全与运维
---- 
+---
 lang: bash
 emoji: 🛡️
 link: https://docs.openclaw.ai/gateway/security
 desc: 先把权限边界、鉴权和备份收紧，再上生产环境。OpenClaw 更像运行层，不是单条命令的玩具。
 ---
-
 ### 安全要点
 
 - 生产环境优先使用 `loopback` 或受控网络暴露。
@@ -423,13 +413,12 @@ openclaw backup verify backup-latest.tar.gz
 ```
 
 ## 决策与排障
---- 
+---
 lang: bash
 emoji: ⚠️
 link: https://docs.openclaw.ai/gateway/troubleshooting
 desc: 最容易出问题的地方通常不是“命令不会敲”，而是频道、会话、模型、权限和配置链路断在中间。
 ---
-
 ### 先怎么判断
 
 - 网关不起来，先看 `status --deep` 和 `doctor`。
@@ -457,13 +446,12 @@ openclaw gateway call sessions.list --params '{}'
 ```
 
 ## Quick Ref
---- 
+---
 lang: bash
 emoji: 🧾
 link: https://docs.openclaw.ai/cli/index
 desc: 这部分只保留最常用、最适合直接复制的命令。
 ---
-
 ### 启动与状态
 
 ```bash
@@ -509,3 +497,5 @@ openclaw backup verify backup-latest.tar.gz
 openclaw security audit --deep
 openclaw logs --follow
 ```
+
+
