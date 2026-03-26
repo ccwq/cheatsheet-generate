@@ -1,0 +1,13 @@
+desc: DeerFlow 是一个开源 super agent harness，适合按“先配置、再启动、再扩展”的思路使用；它把 sub-agents、sandbox、skills、memory、MCP、IM 渠道和 Python Client 组织成可落地的 agent 工作流。
+tags:
+  - AI / LLM
+  - Python
+  - CLI / Terminal
+  - CLI 工具
+  - 自动化工具
+  - 框架
+  - 代理 / 服务
+version: main@792c49e6 (2026-03-26)
+github: bytedance/deer-flow
+date: "2026-03-26"
+

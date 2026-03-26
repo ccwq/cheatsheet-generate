@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>DeerFlow 速查 + Cookbook</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png">
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 520px; 
+      --gap: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
+      <span class="title">DeerFlow 速查 + Cookbook</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">main@792c49e6 (2026-03-26)</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-03-26</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/bytedance/deer-flow" target="_blank" rel="noopener">bytedance/deer-flow</a></span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/bytedance/deer-flow" target="_blank" rel="noopener">打开 Zread</a></span></span>
+      </div>
+      <div class="meta-tags"><tag-chip class="tag tag-group-1 detail-tag" data-name="AI / LLM" data-group="1" label="AI / LLM" group="1" variant="detail" icon="mdi:brain" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M21.33 12.91c.09 1.55-.62 3.04-1.89 3.95l.77 1.49c.23.45.26.98.06 1.45c-.19.47-.58.84-1.06 1l-.79.25a1.69 1.69 0 0 1-1.86-.55L14.44 18c-.89-.15-1.73-.53-2.44-1.1c-.5.15-1 .23-1.5.23c-.88 0-1.76-.27-2.5-.79c-.53.16-1.07.23-1.62.22c-.79.01-1.57-.15-2.3-.45a4.1 4.1 0 0 1-2.43-3.61c-.08-.72.04-1.45.35-2.11c-.29-.75-.32-1.57-.07-2.33C2.3 7.11 3 6.32 3.87 5.82c.58-1.69 2.21-2.82 4-2.7c1.6-1.5 4.05-1.66 5.83-.37c.42-.11.86-.17 1.3-.17c1.36-.03 2.65.57 3.5 1.64c2.04.53 3.5 2.35 3.58 4.47c.05 1.11-.25 2.2-.86 3.13c.07.36.11.72.11 1.09m-5-1.41c.57.07 1.02.5 1.02 1.07a1 1 0 0 1-1 1h-.63c-.32.9-.88 1.69-1.62 2.29c.25.09.51.14.77.21c5.13-.07 4.53-3.2 4.53-3.25a2.59 2.59 0 0 0-2.69-2.49a1 1 0 0 1-1-1a1 1 0 0 1 1-1c1.23.03 2.41.49 3.33 1.3c.05-.29.08-.59.08-.89c-.06-1.24-.62-2.32-2.87-2.53c-1.25-2.96-4.4-1.32-4.4-.4c-.03.23.21.72.25.75a1 1 0 0 1 1 1c0 .55-.45 1-1 1c-.53-.02-1.03-.22-1.43-.56c-.48.31-1.03.5-1.6.56c-.57.05-1.04-.35-1.07-.9a.97.97 0 0 1 .88-1.1c.16-.02.94-.14.94-.77c0-.66.25-1.29.68-1.79c-.92-.25-1.91.08-2.91 1.29C6.75 5 6 5.25 5.45 7.2C4.5 7.67 4 8 3.78 9c1.08-.22 2.19-.13 3.22.25c.5.19.78.75.59 1.29c-.19.52-.77.78-1.29.59c-.73-.32-1.55-.34-2.3-.06c-.32.27-.32.83-.32 1.27c0 .74.37 1.43 1 1.83c.53.27 1.12.41 1.71.4q-.225-.39-.39-.81a1.038 1.038 0 0 1 1.96-.68c.4 1.14 1.42 1.92 2.62 2.05c1.37-.07 2.59-.88 3.19-2.13c.23-1.38 1.34-1.5 2.56-1.5m2 7.47l-.62-1.3l-.71.16l1 1.25zm-4.65-8.61a1 1 0 0 0-.91-1.03c-.71-.04-1.4.2-1.93.67c-.57.58-.87 1.38-.84 2.19a1 1 0 0 0 1 1c.57 0 1-.45 1-1c0-.27.07-.54.23-.76c.12-.1.27-.15.43-.15c.55.03 1.02-.38 1.02-.92&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-1 detail-tag" data-name="Python" data-group="1" label="Python" group="1" variant="detail" icon="mdi:language-python" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M19.14 7.5A2.86 2.86 0 0 1 22 10.36v3.78A2.86 2.86 0 0 1 19.14 17H12c0 .39.32.96.71.96H17v1.68a2.86 2.86 0 0 1-2.86 2.86H9.86A2.86 2.86 0 0 1 7 19.64v-3.75a2.85 2.85 0 0 1 2.86-2.85h5.25a2.85 2.85 0 0 0 2.85-2.86V7.5zm-4.28 11.79c-.4 0-.72.3-.72.89s.32.71.72.71a.71.71 0 0 0 .71-.71c0-.59-.32-.89-.71-.89m-10-1.79A2.86 2.86 0 0 1 2 14.64v-3.78A2.86 2.86 0 0 1 4.86 8H12c0-.39-.32-.96-.71-.96H7V5.36A2.86 2.86 0 0 1 9.86 2.5h4.28A2.86 2.86 0 0 1 17 5.36v3.75a2.85 2.85 0 0 1-2.86 2.85H8.89a2.85 2.85 0 0 0-2.85 2.86v2.68zM9.14 5.71c.4 0 .72-.3.72-.89s-.32-.71-.72-.71c-.39 0-.71.12-.71.71s.32.89.71.89&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-1 detail-tag" data-name="CLI / Terminal" data-group="1" label="CLI / Terminal" group="1" variant="detail" icon="mdi:console" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M20 19V7H4v12zm0-16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-7 14v-2h5v2zm-3.42-4L5.57 9H8.4l3.3 3.3c.39.39.39 1.03 0 1.42L8.42 17H5.59z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="CLI 工具" data-group="2" label="CLI 工具" group="2" variant="detail" icon="mdi:console-network-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M15 20a1 1 0 0 0-1-1h-1v-2h4a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4v2h-1a1 1 0 0 0-1 1H2v2h7a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1h7v-2zm-8-5V5h10v10zm1-8.11l3.56 3.56L8 14h2.53l2.92-2.92c.33-.34.33-.9 0-1.26L10.5 6.89zm8 5.33h-2.67V14H16z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="自动化工具" data-group="2" label="自动化工具" group="2" variant="detail" icon="mdi:robot" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5A2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5a2.5 2.5 0 0 0 2.5 2.5a2.5 2.5 0 0 0 2.5-2.5a2.5 2.5 0 0 0-2.5-2.5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-4 detail-tag" data-name="框架" data-group="4" label="框架" group="4" variant="detail" icon="mdi:toy-brick-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M19 6V5a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v1h-2V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v1H3v14h18V6m-2 12H5V8h14Z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-4 detail-tag" data-name="代理 / 服务" data-group="4" label="代理 / 服务" group="4" variant="detail" icon="mdi:server-network-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M13 13v2h1c.6 0 1 .4 1 1h7v2h-7c0 .6-.4 1-1 1h-4c-.6 0-1-.4-1-1H2v-2h7c0-.6.4-1 1-1h1v-2H3.2c-.7 0-1.2-.7-1.2-1.6V6.6C2 5.7 2.5 5 3.2 5h17.6c.7 0 1.2.7 1.2 1.6v4.8c0 .9-.5 1.6-1.2 1.6zm-4-3V8h1v2zM5 8h2v2H5zm15-1H4v4h16z&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>🦌 快速定位 <a href="https://github.com/bytedance/deer-flow" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">DeerFlow 是一个开源 super agent harness，把 sub-agents、memory、sandbox、skills、MCP 和 IM 渠道组织到一起，适合做研究、内容生产、多步自动化和可扩展 agent 应用。</div><ul><li>先记住一句话：它不是单纯的聊天框，而是一个能拆任务、跑 sandbox、挂 skills、接 IM 的 agent 运行时。</li><li>适合的场景：<ul><li>深度研究、资料综述、报告生成</li><li>需要多步执行的自动化任务</li><li>想把 agent 接到 Telegram / Slack / 飞书</li><li>需要外部程序通过 HTTP / Python Client 调用</li></ul></li><li>最短上手路径：<ul><li><code>make config</code></li><li><code>config.yaml</code> <code>.env</code> <code>extensions_config.json</code></li><li><code>make docker-start</code> <code>make up</code> <code>make dev</code></li></ul></li></ul></div><div class="card"><h2>🗂️ 仓库骨架</h2><div class="desc">这个仓库不是单一服务，而是前端、Gateway、LangGraph、sandbox、skills、IM bridge 一起工作。先认入口，再看细节。</div><ul><li><code>backend/</code>：核心后端、Gateway、LangGraph、配置与文档。</li><li><code>skills/</code>：内置 skills 和外部 skills 的主要入口。</li><li><code>frontend/</code>：交互界面。</li><li><code>extensions_config.json</code>：MCP server 和 skills 的扩展状态。</li><li><code>config.yaml</code>：主配置，必须放在项目根目录。</li></ul><h3>先看哪几个文档</h3><ul><li><code>README_zh.md</code>：最快理解功能边界和启动方式。</li><li><code>backend/docs/CONFIGURATION.md</code>：配置字段和 sandbox / skills / models 细节。</li><li><code>backend/docs/MCP_SERVER.md</code>：MCP server 接入方式。</li><li><code>backend/README.md</code>：架构、服务划分、开发命令。</li><li><code>CONTRIBUTING.md</code>：Docker / 本地开发流程。</li></ul></div><div class="card"><h2>🚀 最小工作流</h2><div class="desc">先跑通最小链路，再谈扩展。DeerFlow 的关键不是“能不能启动”，而是“任务能不能拆开并稳定执行”。</div><h3>路线 A：Docker 开发</h3><pre><code class="language-bash"># 1. 生成本地配置
+make config
+
+# 2. 启动前先拉 sandbox 镜像
+make docker-init
+
+# 3. 启动开发态服务
+make docker-start</code></pre><ul><li><code>make docker-start</code> <code>config.yaml</code></li><li><code>provisioner</code></li></ul><h3>路线 B：本地开发</h3><pre><code class="language-bash"># 1. 检查依赖
+make check
+
+# 2. 安装依赖
+make install
+
+# 3. 启动本地服务
+make dev</code></pre><ul><li><code>config.yaml</code></li><li><code>DEER_FLOW_CONFIG_PATH</code></li></ul><h3>路线 C：生产式启动</h3><pre><code class="language-bash">make up
+make down</code></pre><ul><li><code>make up</code>：构建镜像并启动全部生产服务。</li><li><code>make down</code>：停止并移除容器。</li></ul></div><div class="card"><h2>⚙️ 配置速记</h2><div class="desc">只保留真正会反复改的几类配置：模型、sandbox、skills、扩展和渠道。其余细节按需查文档。</div><h3>主配置位置</h3><ul><li><code>config.yaml</code>：项目根目录</li><li><code>extensions_config.json</code>：项目根目录</li><li><code>.env</code>：环境变量</li></ul><h3>config_version 记住这点</h3><ul><li><code>config.example.yaml</code> <code>config_version</code></li><li><code>config.yaml</code></li><li><code>make config-upgrade</code></li></ul><h3>模型配置</h3><pre><code class="language-yaml">models:
+  - name: gpt-5.4
+    use: langchain_openai:ChatOpenAI
+    model: gpt-5.4
+    api_key: $OPENAI_API_KEY
+    temperature: 0.7
+
+  - name: openrouter-gemini-2.5-flash
+    use: langchain_openai:ChatOpenAI
+    model: google/gemini-2.5-flash-preview
+    api_key: $OPENAI_API_KEY
+    base_url: https://openrouter.ai/api/v1</code></pre><ul><li><code>langchain_openai:ChatOpenAI + base_url</code></li><li><code>api_key</code></li></ul><h3>常见环境变量</h3><pre><code class="language-bash">OPENAI_API_KEY=your-openai-api-key
+INFOQUEST_API_KEY=your-infoquest-api-key
+TELEGRAM_BOT_TOKEN=123456789:ABCdefGHIjklMNOpqrSTUvwxYZ
+SLACK_BOT_TOKEN=xoxb-...
+SLACK_APP_TOKEN=xapp-...
+FEISHU_APP_ID=cli_xxxx
+FEISHU_APP_SECRET=your_app_secret</code></pre><h3>sandbox 配置</h3><pre><code class="language-yaml">sandbox:
+  use: deerflow.sandbox.local:LocalSandboxProvider
+
+# 或 Docker sandbox
+sandbox:
+  use: deerflow.community.aio_sandbox:AioSandboxProvider</code></pre><ul><li><code>LocalSandboxProvider</code>：直接在宿主机执行。</li><li><code>AioSandboxProvider</code>：Docker 隔离执行。</li><li>Docker + Kubernetes 模式会再加一层 provisioner。</li></ul><h3>skills 配置</h3><pre><code class="language-yaml">skills:
+  # 默认通常指向 ../skills
+  path: ../skills</code></pre><ul><li>skills 用于封装研究、报告、网页、图像、视频等复合工作流。</li><li>加载是按需的，不会一口气把所有 skills 都塞进上下文。</li></ul><h3>渠道配置</h3><pre><code class="language-yaml">channels:
+  langgraph_url: http://localhost:2024
+  gateway_url: http://localhost:8001
+
+  telegram:
+    enabled: true
+    bot_token: $TELEGRAM_BOT_TOKEN
+
+  slack:
+    enabled: true
+    bot_token: $SLACK_BOT_TOKEN
+    app_token: $SLACK_APP_TOKEN
+
+  feishu:
+    enabled: true
+    app_id: $FEISHU_APP_ID
+    app_secret: $FEISHU_APP_SECRET</code></pre></div><div class="card"><h2>🧭 核心工作流</h2><div class="desc">DeerFlow 的真正用法不是“问一句答一句”，而是让 lead agent 按任务复杂度切换规划、并行、记忆和执行环境。</div><h3>1. 研究 / 报告 / 内容生产</h3><h3>2. 多步自动化</h3><h3>3. 接 IM 当任务入口</h3><h3>4. 当作外部服务调用</h3></div><div class="card"><h2>💬 IM 渠道速查</h2><div class="desc">IM 不是附带功能，而是 DeerFlow 的正式入口之一。适合把 agent 变成群聊里的任务执行者。</div><h3>渠道对照</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>渠道</th><th>传输方式</th><th>适合场景</th></tr></thead><tbody><tr><td>Telegram</td><td>Bot API / long-polling</td><td>个人或小团队快速接入</td></tr><tr><td>Slack</td><td>Socket Mode</td><td>团队工作区</td></tr><tr><td>Feishu / Lark</td><td>WebSocket</td><td>国内协作场景</td></tr></tbody></table></div><h3>聊天命令</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>命令</th><th>作用</th></tr></thead><tbody><tr><td>/new</td><td>开启新对话</td></tr><tr><td>/status</td><td>查看当前 thread 信息</td></tr><tr><td>/models</td><td>列出可用模型</td></tr><tr><td>/memory</td><td>查看 memory</td></tr><tr><td>/help</td><td>查看帮助</td></tr></tbody></table></div><ul><li>没有命令前缀的消息会直接按普通聊天处理。</li><li><code>/new</code></li></ul><h3>配置提醒</h3><ul><li><code>.env</code>：先在 BotFather 拿 token，再写入 。</li><li><code>xapp-...</code> <code>xoxb-...</code>：要开 Socket Mode，并准备 与 。</li><li>Feishu：要开 Bot 能力，并确保事件订阅与长连接开启。</li></ul></div><div class="card"><h2>🧠 模式与能力</h2><div class="desc">模式选择影响成本和速度。先用最小模式验证，再按任务复杂度往上切。</div><h3>运行模式</h3><ul><li><code>flash</code>：最快，适合简单问答和探路。</li><li><code>standard</code>：均衡。</li><li><code>pro</code>：更偏规划。</li><li><code>ultra</code>：更适合 sub-agents 场景。</li></ul><h3>核心能力</h3><ul><li>Skills：Markdown 化的工作流模块。</li><li>Tools：网页搜索、网页抓取、文件操作、bash 执行。</li><li>Sandbox：隔离执行环境。</li><li>Memory：跨 session 的长期偏好和事实积累。</li><li>Context engineering：主动压缩、摘要、分配上下文。</li></ul><h3>技术边界</h3><ul><li>DeerFlow 2.0 是重写版，不和 v1 共用代码。</li><li><code>main-1.x</code></li><li>支持 OpenAI 兼容 API，但长上下文、推理、多模态和稳定 tool use 的模型更适合。</li></ul></div><div class="card"><h2>🔌 外部调用</h2><div class="desc">需要把 DeerFlow 挂到别的程序或自动化系统时，优先走 Gateway、LangGraph API 或内嵌 Python Client。</div><h3>Python Client</h3><pre><code class="language-python">from deerflow.client import DeerFlowClient
+
+client = DeerFlowClient()
+
+response = client.chat(&quot;Analyze this paper for me&quot;, thread_id=&quot;my-thread&quot;)
+
+for event in client.stream(&quot;hello&quot;):
+    if event.type == &quot;messages-tuple&quot; and event.data.get(&quot;type&quot;) == &quot;ai&quot;:
+        print(event.data[&quot;content&quot;])
+
+models = client.list_models()
+skills = client.list_skills()
+client.update_skill(&quot;web-search&quot;, enabled=True)
+client.upload_files(&quot;thread-1&quot;, [&quot;./report.pdf&quot;])</code></pre><h3>常见端点</h3><pre><code class="language-bash">curl -s &quot;$DEERFLOW_GATEWAY_URL/health&quot;
+curl -s &quot;$DEERFLOW_GATEWAY_URL/api/models&quot;
+curl -s &quot;$DEERFLOW_GATEWAY_URL/api/skills&quot;
+curl -s &quot;$DEERFLOW_GATEWAY_URL/api/agents&quot;
+curl -s &quot;$DEERFLOW_GATEWAY_URL/api/memory&quot;</code></pre><h3>线程与流式响应</h3><pre><code class="language-bash">curl -s -X POST &quot;$DEERFLOW_LANGGRAPH_URL/threads&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#39;{&quot;messages&quot;:[{&quot;role&quot;:&quot;user&quot;,&quot;content&quot;:&quot;hello&quot;}]}&#39;
+
+curl -s -N -X POST &quot;$DEERFLOW_LANGGRAPH_URL/threads/&lt;thread_id&gt;/runs/stream&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#39;{&quot;messages&quot;:[{&quot;role&quot;:&quot;user&quot;,&quot;content&quot;:&quot;hello again&quot;}]}&#39;</code></pre></div><div class="card"><h2>⚠️ 常见坑</h2><div class="desc">这些问题最容易把“能启动”变成“不能用”。先看这里，能少掉很多无效排查。</div><ul><li><code>config.yaml</code></li><li><code>config.yaml</code> <code>make config-upgrade</code></li><li>Docker sandbox 起不来，先检查 Docker 是否可用，再看端口和权限。</li><li><code>skills/</code> <code>SKILL.md</code></li><li>IM 没反应，先确认渠道配置和 token，再看是否启用了对应 channel。</li><li>只需要一次性试跑时，不要强行上 ultra。</li></ul></div><div class="card"><h2>🧾 Quick Ref</h2><div class="desc">把最常用的命令和端点压成一页，平时先扫这里，不够再回到上面的工作流。</div><h3>生成与启动</h3><pre><code class="language-bash">make config
+make config-upgrade
+make check
+make install
+make docker-init
+make docker-start
+make dev
+make up
+make down</code></pre><h3>读配置时优先看</h3><ul><li><code>config.yaml</code></li><li><code>.env</code></li><li><code>extensions_config.json</code></li><li><code>backend/docs/CONFIGURATION.md</code></li><li><code>backend/docs/MCP_SERVER.md</code></li></ul><h3>API 抓手</h3><ul><li><code>GET /health</code></li><li><code>POST /threads</code></li><li><code>POST /threads/&lt;thread_id&gt;/runs/stream</code></li><li><code>GET /api/models</code></li><li><code>GET /api/skills</code></li><li><code>PUT /api/skills/&lt;skill_name&gt;</code></li><li><code>GET /api/agents</code></li><li><code>GET /api/memory</code></li><li><code>POST /api/threads/&lt;thread_id&gt;/uploads</code></li><li><code>GET /api/threads/&lt;thread_id&gt;/uploads/list</code></li><li><code>GET /threads/&lt;thread_id&gt;/history</code></li><li><code>POST /threads/search</code></li></ul></div>
+    </div>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>
