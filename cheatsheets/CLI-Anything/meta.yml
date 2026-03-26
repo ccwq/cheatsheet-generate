@@ -1,10 +1,10 @@
-desc: CLI-Anything 的混合模式速查，覆盖最新 build/refine/test/validate/list 工作流、多 Agent 接入方式、CLI-Hub 与生成后 CLI 的交付要点。
+desc: CLI-Anything 的混合风格速查，覆盖 build/refine/test/validate/list 工作流、多平台接入、生成后的 CLI 交付、HARNESS 质量门槛与 CLI-Hub。
 tags:
   - AI / LLM
   - Python
   - CLI 工具
   - 自动化工具
   - 开发
-version: main@edf9755 (2026-03-19)
+version: main@ddba3db (2026-03-25)
 github: HKUDS/CLI-Anything
-date: "2026-03-19"
+date: "2026-03-25"
