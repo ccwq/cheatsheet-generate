@@ -1,4 +1,4 @@
-desc: Git 混合型速查表。上半部先给 cookbook 场景打法，下半部再给完整 cheatsheet 命令分组，覆盖配置、分支、提交、同步、回滚、排障、发布与仓库卫生。
+desc: Git 混合型速查表。上半部先给 cookbook 场景打法，下半部再给完整 cheatsheet 命令分组，覆盖配置、分支、提交、同步、子模块、回滚、排障、发布与仓库卫生。
 tags:
   - CLI 工具
   - DevOps
@@ -6,4 +6,4 @@ tags:
   - 开发
 version: 2.53.0
 github: git/git
-date: "2026-02-02"
+date: "2026-03-23"

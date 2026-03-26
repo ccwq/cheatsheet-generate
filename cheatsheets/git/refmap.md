@@ -15,6 +15,7 @@
 - 整理提交 / rebase: https://git-scm.com/docs/git-rebase
 - 同步远端 / fetch: https://git-scm.com/docs/git-fetch
 - 同步远端 / pull: https://git-scm.com/docs/git-pull
+- 子模块 / submodule: https://git-scm.com/docs/git-submodule
 - 撤销与恢复 / restore: https://git-scm.com/docs/git-restore
 - 撤销与恢复 / reset: https://git-scm.com/docs/git-reset
 - 发布 / tag: https://git-scm.com/docs/git-tag
