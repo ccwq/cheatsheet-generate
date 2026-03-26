@@ -1,0 +1,12 @@
+desc: Cronie 的混合风格速查，先按 crond、crontab、anacron、cronnext 的工作流分流，再压缩成命令、表达式、环境变量和常见坑速查。
+tags:
+  - CLI / Terminal
+  - CLI 工具
+  - 自动化工具
+  - 脚本工具
+  - 守护进程
+  - 运维
+version: 1.7.2
+github: cronie-crond/cronie
+date: 2024-04-08
+

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>Cronie 速查 + Cookbook</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png">
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 500px; 
+      --gap: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
+      <span class="title">Cronie 速查 + Cookbook</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">1.7.2</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">unknown</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/cronie-crond/cronie" target="_blank" rel="noopener">cronie-crond/cronie</a></span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/cronie-crond/cronie" target="_blank" rel="noopener">打开 Zread</a></span></span>
+      </div>
+      <div class="meta-tags"><tag-chip class="tag tag-group-1 detail-tag" data-name="CLI / Terminal" data-group="1" label="CLI / Terminal" group="1" variant="detail" icon="mdi:console" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M20 19V7H4v12zm0-16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-7 14v-2h5v2zm-3.42-4L5.57 9H8.4l3.3 3.3c.39.39.39 1.03 0 1.42L8.42 17H5.59z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="CLI 工具" data-group="2" label="CLI 工具" group="2" variant="detail" icon="mdi:console-network-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M15 20a1 1 0 0 0-1-1h-1v-2h4a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4v2h-1a1 1 0 0 0-1 1H2v2h7a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1h7v-2zm-8-5V5h10v10zm1-8.11l3.56 3.56L8 14h2.53l2.92-2.92c.33-.34.33-.9 0-1.26L10.5 6.89zm8 5.33h-2.67V14H16z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="自动化工具" data-group="2" label="自动化工具" group="2" variant="detail" icon="mdi:robot" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5A2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5a2.5 2.5 0 0 0 2.5 2.5a2.5 2.5 0 0 0 2.5-2.5a2.5 2.5 0 0 0-2.5-2.5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="脚本工具" data-group="2" label="脚本工具" group="2" variant="detail" icon="mdi:script-text-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M15 20a1 1 0 0 0 1-1V4H8a1 1 0 0 0-1 1v11H5V5a3 3 0 0 1 3-3h11a3 3 0 0 1 3 3v1h-2V5a1 1 0 0 0-1-1a1 1 0 0 0-1 1v14a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3v-1h11a2 2 0 0 0 2 2M9 6h5v2H9zm0 4h5v2H9zm0 4h5v2H9z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-4 detail-tag" data-name="守护进程" data-group="4" label="守护进程" group="4" variant="detail" icon="mdi:server-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M2 4.6v4.8c0 .9.5 1.6 1.2 1.6h17.7c.6 0 1.2-.7 1.2-1.6V4.6C22 3.7 21.5 3 20.8 3H3.2C2.5 3 2 3.7 2 4.6M10 8V6H9v2zM5 8h2V6H5zm15 1H4V5h16zM2 14.6v4.8c0 .9.5 1.6 1.2 1.6h17.7c.6 0 1.2-.7 1.2-1.6v-4.8c0-.9-.5-1.6-1.2-1.6H3.2c-.7 0-1.2.7-1.2 1.6m8 3.4v-2H9v2zm-5 0h2v-2H5zm15 1H4v-4h16z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-3 detail-tag" data-name="运维" data-group="3" label="运维" group="3" variant="detail" icon="mdi:server" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M4 1h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1m0 8h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1m0 8h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1M9 5h1V3H9zm0 8h1v-2H9zm0 8h1v-2H9zM5 3v2h2V3zm0 8v2h2v-2zm0 8v2h2v-2z&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>⏱️ 快速定位 <a href="https://github.com/cronie-crond/cronie" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Cronie 是 Linux 上的 cron/anacron 工具集。`crond` 负责按分钟调度，`crontab` 负责用户表和系统表，`anacron` 负责“机器不常在线也别漏跑”，`cronnext` 负责查下一次执行时间。先按场景选入口，再回到速查卡抄参数。</div><ul><li>适合定时任务、日志轮转、备份、清理、同步、巡检这类“按时间触发”的系统任务。</li><li><code>/etc/cron.d/</code> <code>/etc/anacrontab</code></li><li><code>anacron</code> <code>crond</code></li></ul></div><div class="card"><h2>🧭 入口分工 <a href="https://github.com/cronie-crond/cronie/blob/master/README" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">先分清四个入口，再决定你要查的是守护进程、表文件、补跑机制，还是下一次执行时间。</div><ul><li><code>crond</code>：守护进程，负责扫描并执行任务。</li><li><code>crontab</code>：维护用户 crontab，支持查看、编辑、删除、校验。</li><li><code>anacron</code>：按“天”级别补跑任务，适合非连续开机设备。</li><li><code>cronnext</code>：计算下一次会执行的 job，适合排障和预估窗口。</li><li><code>crontab -T</code>：只做语法检查，不安装。</li><li><code>crond -c</code> <code>crontab -n</code>：集群共享 spool 时的 host 选择相关能力。</li></ul></div><div class="card"><h2>🚀 最小工作流 <a href="https://github.com/cronie-crond/cronie/blob/master/man/crontab.1" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">先把“启动守护进程 -&gt; 写表 -&gt; 校验 -&gt; 观察下一次执行”这条链跑通，再决定要不要引入系统表、cron.d 或 anacron。</div><pre><code class="language-bash"># 1) 确认守护进程在跑
+systemctl start crond
+systemctl status crond
+
+# 2) 先读再改当前用户表
+crontab -l
+crontab -e
+
+# 3) 先校验，再安装
+crontab -T ./my.crontab
+
+# 4) 预估下一次执行时间
+cronnext -l</code></pre><pre><code class="language-bash"># /etc/cron.d/ 示例
+# 5 个时间字段 + 用户名 + 命令
+SHELL=/bin/bash
+MAILTO=root
+0 2 * * * root /usr/local/bin/backup.sh</code></pre></div><div class="card"><h2>🍳 高频 Recipes <a href="https://github.com/cronie-crond/cronie/blob/master/man/crontab.5" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这里按“今天真会遇到的事情”组织：用户任务、系统任务、离线补跑、下一次执行时间、集群共享。</div><h3>1. 给某个用户加一个每天任务</h3><pre><code class="language-bash">crontab -e</code></pre><pre><code class="language-bash">MAILTO=ops@example.com
+0 3 * * * /usr/local/bin/daily-report.sh</code></pre><ul><li><code>MAILTO=&quot;&quot;</code></li><li><code>MAILFROM</code> <code>crond</code></li></ul><h3>2. 写系统级任务，不碰用户表</h3><pre><code class="language-bash"># /etc/cron.d/cleanup
+SHELL=/bin/bash
+PATH=/usr/sbin:/usr/bin:/bin
+0 */6 * * * root /usr/local/bin/cleanup.sh</code></pre><ul><li><code>/etc/cron.d/</code></li><li>这类任务更适合做系统级运维脚本。</li></ul><h3>3. 机器不常在线时，用 anacron 补跑</h3><pre><code class="language-bash">anacron -s</code></pre><pre><code class="language-bash"># /etc/anacrontab
+SHELL=/bin/sh
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+1   5   cron.daily   run-parts /etc/cron.daily
+7   10  cron.weekly  run-parts /etc/cron.weekly
+@monthly 15 cron.monthly run-parts /etc/cron.monthly</code></pre><ul><li><code>anacron</code></li><li>适合每天/每周/每月这类 housekeeping 任务。</li></ul><h3>4. 想知道下一次到底什么时候跑</h3><pre><code class="language-bash">cronnext -l
+cronnext -j backup -l
+cronnext -s -c</code></pre><ul><li><code>-j</code></li><li><code>-l</code></li><li><code>-c</code></li></ul><h3>5. 集群共享 /var/spool/cron</h3><pre><code class="language-bash">crond -c
+crontab -n node-a
+crontab -c</code></pre><ul><li><code>-c</code></li><li><code>crontab -n</code></li><li><code>/etc/crontab</code> <code>/etc/cron.d/</code></li></ul></div><div class="card"><h2>🧾 速查卡 <a href="https://github.com/cronie-crond/cronie/blob/master/README" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">只保留最常抄的命令、参数和语法规则。遇到复杂场景，先回上面的 recipes。</div><h3>crontab 常用命令</h3><ul><li><code>crontab -l</code>：查看当前表。</li><li><code>crontab -e</code>：编辑当前表。</li><li><code>crontab -r</code>：删除当前表。</li><li><code>crontab -i -r</code>：删除前确认。</li><li><code>crontab -T file</code>：测试语法，不安装。</li><li><code>crontab -u user</code>：操作指定用户的表。</li><li><code>crontab -s</code>：编辑前加上当前 SELinux 上下文。</li><li><code>crontab -n [hostname]</code>：为 cluster 选择运行 host。</li><li><code>crontab -c</code>：查询当前 cluster 选择的 host。</li></ul><h3>crond 常用参数</h3><ul><li><code>crond -n</code>：前台运行。</li><li><code>crond -f</code> <code>-n</code>：同 。</li><li><code>crond -s</code>：把 job 输出发到 syslog。</li><li><code>crond -m &lt;mail command&gt;</code>：指定邮件发送命令。</li><li><code>crond -i</code>：禁用 inotify。</li><li><code>crond -p</code>：允许接受任意用户写的 crontab。</li><li><code>crond -P</code> <code>PATH</code>：不重置 ，沿用环境变量。</li><li><code>crond -c</code>：启用 cluster support。</li><li><code>crond -V</code>：显示版本。</li></ul><h3>cron 表达式</h3><ul><li><code>minute hour day-of-month month day-of-week command</code></li><li><code>*</code>：全部取值。</li><li><code>1-5</code>：范围。</li><li><code>1,2,5</code>：列表。</li><li><code>*/2</code>：步进。</li><li><code>jan-mar</code> <code>mon,wed,fri</code>：月份或星期名。</li><li><code>~</code>：在范围内随机取值，启动时就确定。</li><li><code>@reboot</code> <code>@hourly</code> <code>@daily</code> <code>@weekly</code> <code>@monthly</code> <code>@yearly</code>：快捷写法。</li></ul><h3>常见环境变量</h3><ul><li><code>SHELL</code> <code>/bin/sh</code>：默认 shell，默认 。</li><li><code>HOME</code> <code>LOGNAME</code> <code>LOGNAME</code>：从账号信息继承， 不能改。</li><li><code>MAILTO</code>：结果邮件发送目标。</li><li><code>MAILFROM</code> <code>crond</code>：邮件发件人，可从 进程环境继承。</li><li><code>CRON_TZ</code>：当前表使用的时区。</li><li><code>RANDOM_DELAY</code>：随机延迟上限，daemon 启动时固定随机系数。</li><li><code>MLS_LEVEL</code>：SELinux 多级上下文。</li><li><code>XDG_SESSION_CLASS</code>：PAM/systemd session class。</li></ul></div><div class="card"><h2>⚠️ 决策与坑 <a href="https://github.com/cronie-crond/cronie/blob/master/man/cron.8" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">最容易出问题的不是命令本身，而是“你以为 cron 会自动理解你的意图”。下面这些点值得优先记住。</div><ul><li><code>day of month</code> <code>day of week</code></li><li>DST 跳过的不存在时间不会触发，重复出现的时间可能跑两次。</li><li><code>MAILTO=&quot;&quot;</code></li><li><code>MAILFROM</code></li><li><code>-</code></li><li>crontab 文件末尾缺少换行会被视为损坏，建议始终保留换行。</li><li><code>crontab -T</code></li></ul></div>
+    </div>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>
