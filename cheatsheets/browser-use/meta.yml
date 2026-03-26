@@ -1,4 +1,4 @@
-desc: Browser Use - 用 Python 把 LLM 变成“会用浏览器”的 agent，支持本地/Cloud/CDP 会话，内置 Agent、BrowserSession、Tools/Skills 与高性能 CLI（daemon 常驻）。
+desc: Browser Use - 用 Python 把 LLM 变成“会用浏览器”的 agent，支持本地/Cloud/CDP/真实 Chrome 会话，内置 Agent、BrowserSession、Tools/Skills、sandbox 与高性能 CLI（daemon 常驻）。
 tags:
   - Python
   - AI / LLM
@@ -6,7 +6,6 @@ tags:
   - CLI / Terminal
   - 库 / SDK
   - Web API
-version: "0.12.3"
+version: "0.12.5"
 github: browser-use/browser-use
-date: "2026-03-20"
-
+date: "2026-03-25"

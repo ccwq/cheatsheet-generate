@@ -43,8 +43,8 @@
       <span class="title">Browser Use</span>
       <!-- META_INFO_START -->
       <div class="meta-info">
-        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">0.12.3</span></span>
-        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-03-20</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">0.12.5</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-03-25</span></span>
         <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/browser-use/browser-use" target="_blank" rel="noopener">browser-use/browser-use</a></span></span>
         <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/browser-use/browser-use" target="_blank" rel="noopener">打开 Zread</a></span></span>
       </div>
@@ -57,24 +57,20 @@
       <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
     </div>
     <div class="cheat-columns" id="columns">
-      <div class="card"><h2>🤖 入口与定位 <a href="https://docs.browser-use.com/open-source/introduction" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Browser Use 是一套“让 LLM 像人一样操作浏览器”的工具链：Agent 负责规划与决策，BrowserSession 负责本地/Cloud/CDP 会话，Tools/Skills 提供可调用动作；同时提供高性能 CLI（daemon 常驻）。</div><ul><li>适合：表单填充、带登录态的网页操作、网页测试/回归、信息检索与确定性提取（JS）、截图/下载等自动化流程</li><li><code>Agent</code> <code>Browser</code> <code>BrowserSession</code> <code>Tools</code>：、（ 别名）、</li></ul></div><div class="card"><h2>📦 安装与初始化（你要求必须包含） <a href="https://github.com/browser-use/browser-use/blob/main/browser_use/skill_cli/README.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这里给出最短可用路径：一键安装与手动安装，以及常用的初始化/诊断命令。</div><h3>方式 A：一键安装（推荐）</h3><pre><code class="language-bash"># macOS / Linux
-curl -fsSL https://browser-use.com/cli/install.sh | bash</code></pre><div class="desc">Windows（PowerShell，通过 Git Bash 执行脚本）：</div><pre><code class="language-powershell">&amp; &quot;C:\Program Files\Git\bin\bash.exe&quot; -c &#39;curl -fsSL https://browser-use.com/cli/install.sh | bash&#39;</code></pre><h3>方式 B：手动安装（更可控）</h3><pre><code class="language-bash"># 需要 Python &gt;= 3.11
-uv pip install browser-use
-
-# 安装 Chromium（Linux 下会安装系统依赖）
-browser-use install
-
-# 诊断与交互式设置（可选）
-browser-use doctor
-browser-use setup</code></pre><h3>方式 C：直接使用</h3><pre><code class="language-bash">uvx browser-use</code></pre><h3>生成模板（快速起项目）</h3><pre><code class="language-bash">browser-use init
-browser-use init --list
-browser-use init --template basic --output my_script.py --force</code></pre></div><div class="card"><h2>🧠 最小工作流（Python SDK） <a href="https://github.com/browser-use/browser-use" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">典型链路：创建浏览器会话 -&gt; 定义任务 -&gt; 选择 LLM -&gt; 运行 agent -&gt; 保存历史（可复跑）。</div><pre><code class="language-python">import asyncio
+      <div class="card"><h2>🤖 一眼入口 <a href="https://docs.browser-use.com/open-source/introduction" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Browser Use 是一套把 LLM 连接到真实浏览器的工具链。最常见的落点是：Python SDK 里写 agent，CLI 里快速试流程，Cloud / CDP / profile 场景里接入真实会话。</div><ul><li><code>Python SDK</code> <code>CLI</code> <code>Cloud/CDP/Profile</code>：写自动化逻辑， 做交互验证， 接真实浏览器</li><li>核心对象分工：<ul><li><code>Agent</code></li><li><code>Browser</code> <code>BrowserSession</code></li><li><code>Tools</code></li></ul></li><li><code>0.12.5</code></li></ul></div><div class="card"><h2>🧭 最短路径 <a href="https://github.com/browser-use/browser-use" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">先把最小闭环跑通，再决定是否切到 Cloud、CDP、profile 或自定义 tools。</div><pre><code class="language-bash">browser-use --headed open https://example.com
+browser-use state
+browser-use click 3
+browser-use input 3 &quot;hello&quot;
+browser-use wait selector &quot;.success&quot; --timeout 30000
+browser-use screenshot out.png --full
+browser-use close</code></pre></div><div class="card"><h2>🧠 Python 起手式 <a href="https://github.com/browser-use/browser-use/blob/main/README.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">标准做法是创建 `Browser`，再创建 `Agent`。如果你要接 Cloud 或现有 Chrome，可以在这里切换会话来源。</div><pre><code class="language-python">import asyncio
 from browser_use import Agent, Browser, ChatBrowserUse
 
 
 async def main():
     browser = Browser(
-        # use_cloud=True,  # 可选：使用 Browser Use Cloud 的“隐身浏览器”
+        # use_cloud=True,  # 云端浏览器
+        # headless=False,  # 本地调试更直观
     )
 
     agent = Agent(
@@ -88,115 +84,142 @@ async def main():
 
 
 if __name__ == &quot;__main__&quot;:
-    asyncio.run(main())</code></pre></div><div class="card"><h2>🧰 最小工作流（CLI） <a href="https://github.com/browser-use/browser-use/blob/main/browser_use/skill_cli/README.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">CLI 通过后台 daemon 让浏览器“常驻”，单条命令延迟很低。基本套路：open -&gt; state -&gt; click/input -&gt; wait -&gt; screenshot -&gt; close。</div><pre><code class="language-bash">browser-use --headed open https://example.com
-browser-use state
-browser-use input 0 &quot;hello&quot;
-browser-use keys &quot;Enter&quot;
-browser-use wait selector &quot;.success&quot; --timeout 30000
-browser-use screenshot out.png --full
-browser-use close</code></pre></div><div class="card"><h2>🧩 核心对象速查（SDK API） <a href="https://github.com/browser-use/browser-use/tree/main/browser_use" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Agent 负责“规划与决策”，BrowserSession 负责“浏览器连接与状态捕获”，Tools 负责“可调用动作集合（点击/输入/提取/上传等）”。</div><h3>Agent</h3><ul><li><code>Agent(task=..., llm=..., browser=..., tools=...)</code></li><li><code>await agent.run(max_steps=...)</code></li><li><code>agent.run_sync()</code> <code>asyncio.run</code></li><li><code>agent.save_history(&quot;AgentHistory.json&quot;)</code></li><li><code>await agent.load_and_rerun(history_file=..., variables=...)</code></li></ul><h3>Browser / BrowserSession（别名）</h3><ul><li><code>Browser(...)</code> <code>BrowserSession(...)</code></li><li>常见场景：<ul><li>本地启动 Chromium</li><li>连接现有 Chrome（CDP）</li><li><code>use_cloud=True</code></li></ul></li></ul><h3>Tools（动作集合）</h3><pre><code class="language-python">from browser_use import Tools
-
-tools = Tools()
-
-# 注册自定义 action：把业务能力变成工具
-@tools.action(description=&quot;我的自定义工具：返回一个固定值&quot;)
-async def my_action(browser_session):
-    return &quot;ok&quot;</code></pre></div><div class="card"><h2>⚙️ BrowserSession / BrowserProfile 常用配置（API 速查） <a href="https://github.com/browser-use/browser-use/blob/main/browser_use/browser/profile.py" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">只列“最常用、最影响稳定性/权限边界”的配置项；完整字段请直接看 BrowserProfile 源码。</div><div class="table-wrap"><table class="cheat-table"><thead><tr><th>配置</th><th>作用</th><th>备注</th></tr></thead><tbody><tr><td>headless</td><td>无头/有头</td><td>调试建议 headless=False</td></tr><tr><td>use_cloud</td><td>使用 Cloud 浏览器</td><td>Cloud 下 close 会停止云端浏览器</td></tr><tr><td>cdp_url</td><td>连接既有浏览器</td><td>用于接管现有 Chrome</td></tr><tr><td>allowed_domains / prohibited_domains</td><td>域名白/黑名单</td><td>白名单优先</td></tr><tr><td>block_ip_addresses</td><td>禁止访问 IP URL</td><td>会同时禁 localhost/私网，慎用</td></tr><tr><td>proxy</td><td>代理设置</td><td>ProxySettings(server=...)</td></tr><tr><td>enable_default_extensions</td><td>自动化优化扩展</td><td>BROWSER_USE_DISABLE_EXTENSIONS=1 关闭</td></tr><tr><td>cookie_whitelist_domains</td><td>Cookie 扩展白名单</td><td>防止特定站点被自动点 cookie 弹窗</td></tr><tr><td>cross_origin_iframes</td><td>跨域 iframe 支持</td><td>复杂站点建议打开</td></tr><tr><td>auto_download_pdfs</td><td>自动下载 PDF</td><td>信息提取类任务好用</td></tr></tbody></table></div></div><div class="card"><h2>🧪 Cookbook：常见任务套路（workflow + 速查卡） <a href="https://github.com/browser-use/browser-use/blob/main/browser_use/skill_cli/README.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">混合风格要点：先给可执行 workflow，再在关键点嵌入命令/API 速查卡。</div><h3>C1：先用 CLI 把交互跑通，再搬回 Python 固化</h3><pre><code class="language-bash">browser-use --headed open https://example.com
+    asyncio.run(main())</code></pre></div><div class="card"><h2>🧰 CLI 起手式 <a href="https://github.com/browser-use/browser-use/blob/main/browser_use/skill_cli/README.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">CLI 适合快速试站点、看页面状态、定位交互失败原因。常用套路是 open -&gt; state -&gt; click/input -&gt; wait -&gt; screenshot -&gt; close。</div><pre><code class="language-bash">browser-use open https://example.com
 browser-use state
 browser-use click 5
 browser-use input 3 &quot;hello&quot;
 browser-use wait selector &quot;.success&quot; --timeout 30000
 browser-use screenshot out.png --full
-browser-use close</code></pre><h3>C2：带登录态站点，优先 --profile（最稳）</h3><pre><code class="language-bash">browser-use --profile &quot;Default&quot; open https://github.com
-browser-use state</code></pre><h3>C3：需要并行/隔离多个任务，用 --session</h3><pre><code class="language-bash">browser-use --session work open https://example.com
+browser-use close</code></pre></div><div class="card"><h2>🎯 什么时候选哪条路 <a href="https://docs.browser-use.com/open-source/customize/agent/basics" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">先选执行环境，再选 API 风格。这个决策比一开始纠结参数更重要。</div><ul><li><code>Python SDK</code>：要写长期任务、复用逻辑、接自定义工具时用</li><li><code>CLI</code>：要验证页面行为、调试选择器、看 state / screenshot 时用</li><li><code>Cloud</code>：要远程浏览器、共享环境、代理控制或在线会话时用</li><li><code>CDP</code>：要接管现有 Chrome/Chromium 时用</li><li><code>profile</code>：要复用登录态或隔离工作/个人环境时用</li></ul></div><div class="card"><h2>🧩 核心对象速查 <a href="https://github.com/browser-use/browser-use/tree/main/browser_use" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这几类对象基本覆盖了大多数用法。</div><h3>Agent</h3><ul><li><code>Agent(task=..., llm=..., browser=..., tools=...)</code></li><li><code>await agent.run(max_steps=...)</code></li><li><code>agent.run_sync()</code></li><li><code>agent.save_history(&quot;AgentHistory.json&quot;)</code></li><li><code>await agent.load_and_rerun(history_file=..., variables=...)</code></li></ul><h3>Browser / BrowserSession</h3><ul><li><code>Browser(...)</code> <code>BrowserSession(...)</code></li><li>常见来源：本地启动</li><li><code>use_cloud=True</code></li><li><code>cdp_url=...</code></li><li><code>profile_id=...</code></li><li><code>Browser.from_system_chrome()</code></li><li><code>headless=False</code></li></ul><h3>Tools</h3><pre><code class="language-python">from browser_use import Tools
+
+tools = Tools()
+
+
+@tools.action(description=&quot;返回一个固定值&quot;)
+async def my_action(browser_session):
+    return &quot;ok&quot;</code></pre></div><div class="card"><h2>⚙️ BrowserProfile 速查 <a href="https://github.com/browser-use/browser-use/blob/main/browser_use/browser/profile.py" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">只保留最影响稳定性和边界的字段。完整字段仍以源码为准。</div><div class="table-wrap"><table class="cheat-table"><thead><tr><th>配置</th><th>作用</th><th>备注</th></tr></thead><tbody><tr><td>headless</td><td>无头/有头</td><td>调试建议 False</td></tr><tr><td>use_cloud</td><td>使用 Cloud 浏览器</td><td>适合远程会话</td></tr><tr><td>cloud_profile_id</td><td>复用云端 profile</td><td>适合登录态任务</td></tr><tr><td>cloud_proxy_country_code</td><td>云端代理国家</td><td>可用于地域/反爬场景</td></tr><tr><td>cloud_timeout</td><td>云端会话时长</td><td>单位分钟</td></tr><tr><td>storage_state</td><td>本地存储态文件</td><td>适合 CI / headless</td></tr><tr><td>cdp_url</td><td>接管现有浏览器</td><td>连接本地 Chrome/Chromium</td></tr><tr><td>allowed_domains / prohibited_domains</td><td>域名白/黑名单</td><td>白名单优先</td></tr><tr><td>block_ip_addresses</td><td>禁止访问 IP URL</td><td>会影响 localhost/私网</td></tr><tr><td>proxy</td><td>代理设置</td><td>用 ProxySettings</td></tr><tr><td>enable_default_extensions</td><td>自动化扩展</td><td>BROWSER_USE_DISABLE_EXTENSIONS=1 可关</td></tr><tr><td>cookie_whitelist_domains</td><td>Cookie 扩展白名单</td><td>减少弹窗干扰</td></tr><tr><td>cross_origin_iframes</td><td>跨域 iframe 支持</td><td>复杂站点常用</td></tr><tr><td>auto_download_pdfs</td><td>自动下载 PDF</td><td>文档抓取更省事</td></tr></tbody></table></div></div><div class="card"><h2>🔐 真实浏览器 / 认证态 <a href="https://docs.browser-use.com/customize/browser/authentication" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">新版官方更强调“先用已登录 Chrome 跑通，再决定要不要导出存储态”。这通常比手填账号密码稳定。</div><h3>直接接管本机 Chrome</h3><pre><code class="language-python">from browser_use import Agent, Browser, ChatBrowserUse
+
+
+browser = Browser.from_system_chrome()
+agent = Agent(
+    task=&quot;查看我的 GitHub 通知并总结未读消息&quot;,
+    browser=browser,
+    llm=ChatBrowserUse(),
+)</code></pre><h3>导出存储态，再在 headless/CI 中复用</h3><pre><code class="language-python">import asyncio
+from browser_use import Browser
+
+
+async def main():
+    browser = Browser.from_system_chrome()
+    await browser.start()
+    await browser.export_storage_state(&quot;auth.json&quot;)
+    await browser.stop()
+
+
+asyncio.run(main())</code></pre><pre><code class="language-python">from browser_use import Agent, Browser, ChatBrowserUse
+
+
+browser = Browser(storage_state=&quot;auth.json&quot;)
+agent = Agent(
+    task=&quot;查看我的通知&quot;,
+    browser=browser,
+    llm=ChatBrowserUse(),
+)</code></pre><h3>选 Chrome profile</h3><pre><code class="language-python">from browser_use import Browser
+
+
+profiles = Browser.list_chrome_profiles()
+for p in profiles:
+    print(p[&quot;directory&quot;], p[&quot;name&quot;])
+
+browser = Browser.from_system_chrome(profile_directory=&quot;Profile 5&quot;)</code></pre></div><div class="card"><h2>🧪 Cookbook：常见工作流 <a href="https://github.com/browser-use/browser-use/blob/main/browser_use/skill_cli/README.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">混合风格的重点不是“堆清单”，而是给你可以直接照抄的场景套路。</div><h3>登录态站点</h3><div class="desc">先用 profile 保住登录态，再把稳定流程搬回 SDK。</div><pre><code class="language-bash">browser-use --profile &quot;Default&quot; open https://github.com
+browser-use state</code></pre><h3>现有 Chrome 接管</h3><div class="desc">先连 CDP，再做页面操作，适合你已经手动登录好的浏览器。</div><pre><code class="language-bash">browser-use --cdp-url http://localhost:9222 open https://example.com
+browser-use state
+browser-use click 4</code></pre><h3>多任务隔离</h3><div class="desc">一个 session 对应一个上下文。工作流并行时，不要混用同一个 session。</div><pre><code class="language-bash">browser-use --session work open https://example.com
 browser-use --session work state
 
 browser-use --session personal open https://news.ycombinator.com
 browser-use --session personal state
 
 browser-use sessions
-browser-use close --all</code></pre><h3>C4：抓取列表数据，优先 eval 做“确定性提取”</h3><pre><code class="language-bash">browser-use open https://news.ycombinator.com
-browser-use eval &quot;Array.from(document.querySelectorAll(&#39;.titleline a&#39;)).slice(0,5).map(a=&gt;a.textContent)&quot;</code></pre><h3>C5：长流程（滚动 + 等待 + 断点），用 python 子命令脚本化</h3><pre><code class="language-bash">browser-use open https://example.com
+browser-use close --all</code></pre><h3>确定性提取</h3><div class="desc">抓列表、标题、链接时，优先用 eval 或 get html，少依赖逐步点击。</div><pre><code class="language-bash">browser-use open https://news.ycombinator.com
+browser-use eval &quot;Array.from(document.querySelectorAll(&#39;.titleline a&#39;)).slice(0,5).map(a=&gt;a.textContent)&quot;</code></pre><h3>长流程脚本化</h3><div class="desc">滚动、等待、重复动作多时，用 python 子命令收口。</div><pre><code class="language-bash">browser-use open https://example.com
 browser-use python &quot;for _ in range(5): browser.scroll(&#39;down&#39;, 800); browser.wait(0.5)&quot;
-browser-use screenshot scrolled.png --full</code></pre></div><div class="card"><h2>🧾 CLI 命令 API（详细速查） <a href="https://github.com/browser-use/browser-use/blob/main/browser_use/skill_cli/README.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">按子命令分组列出 CLI 的“API 面”：flags、命令、关键参数和互斥关系。</div><h3>全局 flags（互斥：--connect、--cdp-url、--profile）</h3><pre><code class="language-bash">browser-use --headed ...
+browser-use screenshot scrolled.png --full</code></pre><h3>Cloud 快速起手</h3><div class="desc">Cloud 场景下，优先走 @sandbox(...)，再通过 cloud_profile_id 复用登录态。</div><pre><code class="language-python">import asyncio
+from browser_use import Browser, sandbox, ChatBrowserUse
+from browser_use.agent.service import Agent
+
+
+@sandbox(cloud_profile_id=&quot;your-profile-id&quot;)
+async def main(browser: Browser):
+    agent = Agent(
+        task=&quot;打开一个网站并提取信息&quot;,
+        browser=browser,
+        llm=ChatBrowserUse(),
+    )
+    await agent.run()
+
+
+asyncio.run(main())</code></pre></div><div class="card"><h2>🧾 CLI 速查 <a href="https://github.com/browser-use/browser-use/blob/main/browser_use/skill_cli/README.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">常用子命令按功能分组。你不需要把它们全记住，先记住 `open/state/click/input/wait/screenshot/close`。</div><h3>全局入口</h3><pre><code class="language-bash">browser-use --headed ...
 browser-use --profile &quot;Default&quot; ...
 browser-use --connect ...
 browser-use --cdp-url http://localhost:9222 ...
 browser-use --session work ...
 browser-use --json ...
-browser-use --mcp</code></pre><h3>Setup / 诊断 / 模板</h3><pre><code class="language-bash">browser-use doctor
+browser-use --mcp</code></pre><h3>诊断 / 初始化</h3><pre><code class="language-bash">browser-use doctor
 browser-use setup
 browser-use install
 browser-use init --list
-browser-use init --template basic --output my_script.py --force</code></pre><h3>浏览器控制与会话</h3><pre><code class="language-bash">browser-use open &lt;url&gt;
+browser-use init --template basic --output my_script.py --force</code></pre><h3>浏览器控制</h3><pre><code class="language-bash">browser-use open &lt;url&gt;
 browser-use back
 browser-use scroll up|down --amount 500
 browser-use switch &lt;tab&gt;
 browser-use close-tab [tab]
-
 browser-use sessions
 browser-use close
 browser-use close --all</code></pre><h3>状态 / 截图</h3><pre><code class="language-bash">browser-use state
-browser-use screenshot [path.png] --full</code></pre><h3>交互（依赖 state 的 index）</h3><pre><code class="language-bash">browser-use click &lt;index&gt;           # 或 click &lt;x&gt; &lt;y&gt;
+browser-use screenshot [path.png] --full</code></pre><h3>交互</h3><pre><code class="language-bash">browser-use click &lt;index&gt;
 browser-use type &quot;text&quot;
-browser-use input &lt;index&gt; &quot;text&quot;   # click + type
+browser-use input &lt;index&gt; &quot;text&quot;
 browser-use keys &quot;Enter&quot;
 browser-use select &lt;index&gt; &quot;value&quot;
 browser-use upload &lt;index&gt; &lt;path&gt;
 browser-use hover &lt;index&gt;
 browser-use dblclick &lt;index&gt;
-browser-use rightclick &lt;index&gt;</code></pre><h3>等待（wait）</h3><pre><code class="language-bash">browser-use wait selector &quot;css&quot; --timeout 30000 --state visible
+browser-use rightclick &lt;index&gt;</code></pre><h3>等待 / 提取</h3><pre><code class="language-bash">browser-use wait selector &quot;css&quot; --timeout 30000 --state visible
 browser-use wait selector &quot;.loading&quot; --state hidden
-browser-use wait text &quot;Success&quot; --timeout 30000</code></pre><h3>获取信息（get）</h3><pre><code class="language-bash">browser-use get title
+browser-use wait text &quot;Success&quot; --timeout 30000
+browser-use get title
 browser-use get html
 browser-use get html --selector &quot;h1&quot;
 browser-use get text &lt;index&gt;
 browser-use get value &lt;index&gt;
 browser-use get attributes &lt;index&gt;
-browser-use get bbox &lt;index&gt;</code></pre><h3>JavaScript 提取（eval）</h3><pre><code class="language-bash">browser-use eval &quot;document.title&quot;
-browser-use eval &quot;Array.from(document.querySelectorAll(&#39;a&#39;)).slice(0,5).map(a=&gt;a.href)&quot;</code></pre><h3>Cookies</h3><pre><code class="language-bash">browser-use cookies get [--url &lt;url&gt;]
+browser-use get bbox &lt;index&gt;
+browser-use eval &quot;document.title&quot;</code></pre><h3>Cookies / Python</h3><pre><code class="language-bash">browser-use cookies get [--url &lt;url&gt;]
 browser-use cookies set &lt;name&gt; &lt;value&gt; --domain .example.com --secure --http-only --same-site Strict
 browser-use cookies clear [--url &lt;url&gt;]
 browser-use cookies export cookies.json
-browser-use cookies import cookies.json</code></pre><h3>Python 子命令（持久化命名空间 + browser 对象）</h3><pre><code class="language-bash">browser-use python &quot;x = 42&quot;
+browser-use cookies import cookies.json
+browser-use python &quot;x = 42&quot;
 browser-use python &quot;print(x); print(browser.url); print(browser.title)&quot;
 browser-use python --vars
 browser-use python --reset
-browser-use python --file script.py</code></pre><h3>Cloud API（REST passthrough + cloud connect）</h3><pre><code class="language-bash">browser-use cloud login &lt;api-key&gt;          # 或环境变量 BROWSER_USE_API_KEY
+browser-use python --file script.py</code></pre><h3>Cloud / Tunnel / Profile</h3><pre><code class="language-bash">browser-use cloud login &lt;api-key&gt;
 browser-use cloud logout
 browser-use cloud connect --timeout 120 --proxy-country US
-
 browser-use cloud v2 GET /browsers
 browser-use cloud v2 POST /tasks &#39;{&quot;task&quot;:&quot;...&quot;,&quot;url&quot;:&quot;https://google.com&quot;}&#39;
 browser-use cloud v2 poll &lt;task-id&gt;
 browser-use cloud v2 --help
-browser-use cloud v3 --help</code></pre><h3>Tunnel（Cloudflare tunnel）</h3><pre><code class="language-bash">browser-use tunnel 3000
+browser-use cloud v3 --help
+browser-use tunnel 3000
 browser-use tunnel list
 browser-use tunnel stop 3000
-browser-use tunnel stop --all</code></pre><h3>Profile（profile-use 透传）</h3><pre><code class="language-bash">browser-use profile
+browser-use tunnel stop --all
+browser-use profile
 browser-use profile list
 browser-use profile sync --all
-browser-use profile update</code></pre></div><div class="card"><h2>🛡️ 安全与范围控制（domains / IP / proxy） <a href="https://github.com/browser-use/browser-use/blob/main/browser_use/browser/profile.py" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">真环境里建议显式设置访问边界（域名白名单、禁 IP、代理等），避免越权与误操作。</div><pre><code class="language-python">from browser_use import Browser
-
-browser = Browser(
-    allowed_domains=[&quot;https://github.com&quot;, &quot;*.githubusercontent.com&quot;],
-    prohibited_domains=[&quot;*.doubleclick.net&quot;],
-    block_ip_addresses=True,  # 会禁 localhost/私网，慎用
-)</code></pre><pre><code class="language-python">from browser_use import Browser
-from browser_use.browser.profile import ProxySettings
-
-browser = Browser(
-    proxy=ProxySettings(
-        server=&quot;http://proxy.example.com:8080&quot;,
-        bypass=&quot;localhost,127.0.0.1,*.internal&quot;,
-        username=&quot;user&quot;,
-        password=&quot;pass&quot;,
-    )
-)</code></pre></div><div class="card"><h2>🧷 常用 Agent 参数（行为控制） <a href="https://github.com/browser-use/browser-use/blob/main/browser_use/agent/service.py" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这些参数会直接影响“跑得稳不稳、是不是可复现、失败后怎么恢复”。优先把超时、失败次数、规划开关配置清楚。</div><div class="table-wrap"><table class="cheat-table"><thead><tr><th>参数</th><th>作用</th><th>备注</th></tr></thead><tbody><tr><td>max_failures</td><td>允许失败次数</td><td>默认 5</td></tr><tr><td>step_timeout</td><td>单步超时（秒）</td><td>默认 180</td></tr><tr><td>use_vision</td><td>是否启用视觉</td><td>True/False/auto</td></tr><tr><td>enable_planning</td><td>是否启用规划字段</td><td>Cloud/特定模型可能会禁用</td></tr><tr><td>max_actions_per_step</td><td>每步最大动作数</td><td>动作太多更容易跑偏</td></tr><tr><td>sensitive_data</td><td>脱敏/敏感字段</td><td>建议统一放这里</td></tr><tr><td>available_file_paths</td><td>允许上传/读取的文件白名单</td><td>上传文件必配</td></tr><tr><td>initial_actions</td><td>预置动作（如先导航）</td><td>适合强制起手式</td></tr><tr><td>directly_open_url</td><td>自动从 task 提取 URL 并先打开</td><td>默认开启</td></tr></tbody></table></div></div><div class="card"><h2>🗂️ CLI 文件布局与环境变量 <a href="https://github.com/browser-use/browser-use/blob/main/browser_use/skill_cli/README.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">排障常用：确认 session 的 pid/socket 是否残留，以及 Cloud API key 与 home 目录是否正确。</div><div class="desc">常用环境变量：</div><ul><li><code>BROWSER_USE_HOME</code> <code>~/.browser-use/</code>：CLI 数据目录（默认 ）</li><li><code>BROWSER_USE_SESSION</code>：默认 session 名</li><li><code>BROWSER_USE_API_KEY</code> <code>cloud login</code>：Cloud API key（等价于 ）</li><li><code>BROWSER_USE_DISABLE_EXTENSIONS=1</code>：禁用自动化扩展</li></ul><div class="desc">目录（概念示意）：</div><pre><code class="language-text">~/.browser-use/
-  config.json         # API key 等
-  bin/profile-use     # profile-use 可执行文件（自动下载）
-  &lt;session&gt;.pid       # daemon pid（临时）
-  &lt;session&gt;.sock      # daemon socket（Windows 上为 tcp 端口映射）</code></pre></div><div class="card"><h2>🧯 常见坑与排障 <a href="https://github.com/browser-use/browser-use/blob/main/browser_use/skill_cli/README.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">最常见问题不是“代码写错”，而是“环境/会话/网站行为变化”。先用 CLI 快速复现，再回到 Python 里固化。</div><ul><li><code>--session</code> <code>--profile/--cdp-url/--connect</code> <code>browser-use close</code>：同一个 内不要混用不同的 ，必要时先</li><li><code>state</code> <code>scroll</code> <code>state</code> <code>--headed</code>：先 再 ，再 ；必要时 观察真实行为</li><li><code>cross_origin_iframes=True</code>：复杂站点建议</li><li><code>deterministic_rendering=True</code>：容易破站、也更容易被反爬识别</li></ul></div>
+browser-use profile update</code></pre></div><div class="card"><h2>☁️ Cloud 记忆点 <a href="https://docs.cloud.browser-use.com" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Cloud 适合远程浏览器和可复用会话。你只要记住三件事：登录、连接、管理 profile。</div><ul><li><code>browser-use cloud login &lt;api-key&gt;</code></li><li><code>browser-use cloud connect ...</code></li><li><code>browser-use --profile ...</code></li><li><code>cloud_profile_id</code></li><li>也可以先同步本机 cookies，再跑云端</li><li><code>cloud_proxy_country_code</code></li><li><code>cloud_timeout</code></li><li><code>0.12.5</code>：官方当前 release / PyPI 都是</li></ul></div><div class="card"><h2>🧷 常用 Agent 参数 <a href="https://github.com/browser-use/browser-use/blob/main/browser_use/agent/service.py" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这些参数最影响稳定性、失败恢复和成本控制。</div><div class="table-wrap"><table class="cheat-table"><thead><tr><th>参数</th><th>作用</th><th>备注</th></tr></thead><tbody><tr><td>max_failures</td><td>允许失败次数</td><td>默认 5</td></tr><tr><td>step_timeout</td><td>单步超时（秒）</td><td>默认 180</td></tr><tr><td>use_vision</td><td>是否启用视觉</td><td>True/False/auto</td></tr><tr><td>enable_planning</td><td>是否启用规划</td><td>某些模型/云场景会关</td></tr><tr><td>max_actions_per_step</td><td>每步最大动作数</td><td>太多会跑偏</td></tr><tr><td>sensitive_data</td><td>敏感字段</td><td>建议统一放这里</td></tr><tr><td>available_file_paths</td><td>文件白名单</td><td>上传必配</td></tr><tr><td>initial_actions</td><td>预置动作</td><td>适合强制起手式</td></tr><tr><td>directly_open_url</td><td>自动从任务中打开 URL</td><td>默认开启</td></tr></tbody></table></div></div><div class="card"><h2>🧯 常见坑 <a href="https://github.com/browser-use/browser-use/blob/main/browser_use/skill_cli/README.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">多数问题不是 agent 不行，而是会话、权限、页面结构变了。</div><ul><li><code>--session</code> <code>--profile</code> <code>--cdp-url</code> <code>--connect</code></li><li><code>state</code> <code>scroll</code> <code>state</code></li><li><code>--headed</code></li><li><code>cross_origin_iframes=True</code></li><li><code>deterministic_rendering=True</code></li></ul></div>
     </div>
   </div>
 
