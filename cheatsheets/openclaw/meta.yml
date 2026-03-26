@@ -1,10 +1,10 @@
-desc: OpenClaw 网关与多频道 AI 代理系统的高频命令与运维速查。
+desc: OpenClaw 网关、多频道、会话、工具与自动化的速查与场景化工作流。
 tags:
   - AI / LLM
   - CLI 工具
   - DevOps
   - 网络工具
   - 开发
-version: 2026.3.11
+version: v2026.3.24
 github: openclaw/openclaw
-date: "2026-03-12"
+date: "2026-03-25"
