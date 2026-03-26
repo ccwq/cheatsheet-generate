@@ -46,6 +46,7 @@ desc: 这个仓库不是单包工具，而是“插件壳 + 分析引擎 + dashb
 
 ```text
 understand-anything-plugin/
+
   agents/      专职分析代理
   skills/      /understand、/understand-chat 等技能定义
   src/         skill 相关 TypeScript 逻辑
