@@ -13,36 +13,31 @@ colWidth: 420px
 lang: bash
 emoji: 🧭
 link: https://docs.openclaw.ai/
-desc: OpenClaw 是一个把网关、频道、消息、会话、工具和自动化串起来的 AI 代理运行层。先按场景选入口，再用下方速查块抄命令，适合既要“快速找到入口”，又要“知道下一步怎么接”的读法。
+desc: OpenClaw 是把网关、频道、消息、模型、会话、浏览器、节点和自动化串起来的运行层。先跑通网关，再按场景接入频道、模型和自动化。
 ---
 ### 它最适合做什么
 
-- 把 Telegram、Discord、WhatsApp 等频道接到同一套代理层。
-- 统一管理消息收发、会话、配对、工具、定时任务和远程节点。
-- 管理模型、provider、fallback 和 agent 路由绑定。
-- 让浏览器自动化、消息动作、系统事件、ACP 会话溯源放进同一条运维链。
-
-### 先从哪开始
-
-- 新环境先跑 `openclaw onboard`，再起 `openclaw gateway`。
-- 需要看状态先开 `openclaw dashboard` 或 `openclaw status`。
-- 想把外部聊天流接进来，先看 `channels` 和 `pairing`。
-- 需要自动回复、定时触发、浏览器操作，再往 `message`、`cron`、`browser`、`nodes` 走。
+- 把聊天频道接到同一套代理层。
+- 统一管理模型路由、会话、消息动作和运维状态。
+- 把浏览器自动化、远程节点、定时任务和插件扩展接进同一条链。
 
 ### 最短路径
 
 ```bash
-# 初始化向导
+# 首次使用先走向导
 openclaw onboard
 
-# 启动网关
-openclaw gateway
+# 补全或重做配置
+openclaw configure
 
-# 开控制台
+# 启动控制台
 openclaw dashboard
 
+# 启动网关
+openclaw gateway --port 18789
+
 # 看整体状态
-openclaw status
+openclaw status --deep
 ```
 
 ## 起手工作流
@@ -50,84 +45,163 @@ openclaw status
 lang: bash
 emoji: 🚀
 link: https://docs.openclaw.ai/start/getting-started
-desc: 先把“网关活着、频道接上、模型可用、会话能看见”这四件事跑通，再谈自动化和扩展。
+desc: 先把“配置、网关、频道、模型、会话”这几件事跑通，再谈扩展和自动化。
 ---
-### 1. 先起网关
+### 1. 先确认入口
 
 ```bash
-# 前台运行，适合排障
+# 交互式上手
+openclaw onboard
+
+# 重新整理配置
+openclaw configure
+
+# 查看配置文件路径
+openclaw config file
+```
+
+### 2. 启动网关和控制台
+
+```bash
+# 前台启动，适合排障
 openclaw gateway run
 
 # 常规启动
-openclaw gateway
+openclaw gateway --port 18789
 
-# 需要观察状态时另开一个终端
-openclaw status
+# 开控制台看链路状态
+openclaw dashboard
 ```
 
-### 2. 再看控制台
+### 3. 验证最小闭环
+
+- 网关能起，不代表频道已接通。
+- 频道能列出，不代表配对和权限已经就绪。
+- 模型能列出，不代表当前路由就是你想要的默认模型。
+
+## 网关与状态
+---
+lang: bash
+emoji: 🛰️
+link: https://docs.openclaw.ai/cli/gateway
+desc: 网关是 OpenClaw 的核心运行面。先看健康、再看状态、最后做安装或重启动作。
+---
+### 常用操作
 
 ```bash
-# 控制面板 / Web UI
-openclaw dashboard
+# 网关状态
+openclaw gateway status
 
-# 深度状态检查
-openclaw status --deep
+# 健康检查
+openclaw gateway health
 
-# 诊断并给出修复建议
-openclaw doctor
+# 自动发现可用网关
+openclaw gateway discover
+
+# 安装网关服务
+openclaw gateway install
+
+# 启停和重启
+openclaw gateway start
+openclaw gateway stop
+openclaw gateway restart
 ```
 
-### 3. 最后确认配置没有断链
+### 排障顺序
 
-- 网关能启动，不代表频道能发消息。
-- 模型能列出，不代表当前 agent 已绑定正确 provider。
-- 会话能看到，不代表清理任务和历史保留策略已经按预期配置。
+```bash
+openclaw status
+openclaw status --all
+openclaw status --deep
+openclaw health --json
+openclaw logs --follow
+openclaw doctor --repair
+```
+
+## 配置速查
+---
+lang: bash
+emoji: 🛠️
+link: https://docs.openclaw.ai/gateway/configuration
+desc: OpenClaw 主要靠配置驱动。交互式向导适合首次整理，CLI 适合脚本化和批量修改。
+---
+### 常用命令
+
+```bash
+# 打开交互式配置向导
+openclaw configure
+
+# 无子命令时也会进入配置入口
+openclaw config
+
+# 读取配置路径
+openclaw config file
+
+# 读取 / 写入 / 删除配置项
+openclaw config get gateway.port
+openclaw config set gateway.port 18789
+openclaw config unset tools.web.search.apiKey
+
+# 校验配置
+openclaw config validate
+openclaw config validate --json
+```
+
+### 常见操作
+
+- 改了 gateway、channel 或 model 配置后，重启网关再验证。
+- `openclaw configure --section web` 适合补 web search 相关配置。
+- 需要查官方文档时，直接用 `openclaw docs <keyword>`。
+- 需要脚本化时，优先用 `config get|set|unset|validate`。
 
 ## 频道接入
 ---
 lang: bash
 emoji: 📱
-link: https://docs.openclaw.ai/cli/channels
-desc: 把即时通讯平台接进 OpenClaw，常见顺序是登录或添加账号、做配对、再验证连通性。
+link: https://docs.openclaw.ai/channels/index
+desc: 频道是把外部消息流接入 OpenClaw 的入口。先登录或接入，再做配对和状态确认。
 ---
-### 常见接入流程
+### 常见流程
 
 ```bash
 # 查看频道命令树
 openclaw channels --help
 
-# 登录或添加频道账号
-openclaw channels login --channel telegram
+# 登录或接入频道
+openclaw channels login --channel whatsapp
 
-# 查看已配置频道
+# 以向导方式添加一个频道
+openclaw channels add --channel telegram --account alerts --name "Alerts Bot" --token $TELEGRAM_BOT_TOKEN
+
+# 看已配置频道
 openclaw channels list
 
-# 连通性探测
+# 探测频道连通性
 openclaw channels status --probe
+
+# 查看能力和权限
+openclaw channels capabilities
+openclaw channels capabilities --channel discord --target channel:123
 ```
 
 ### 配对与审批
 
 ```bash
-# 查看待审批配对请求
+# 查看配对请求
 openclaw pairing list telegram
 
 # 批准配对
 openclaw pairing approve telegram ABCD1234
 
-# 查看已配对设备
-openclaw devices list
-
-# 批准设备接入
-openclaw devices approve req_123456
+# 拒绝配对
+openclaw pairing reject telegram ABCD1234
 ```
 
-### 频道策略常见点
+### 频道策略
 
 - `allowFrom` 用来限制能发消息的人或号码。
-- `requireMention` 适合群聊里只响应明确点名的场景。
-- `dmPolicy` 影响私聊是否需要先配对或走白名单。
+- `requireMention` 适合群聊里只响应点名。
+- `dmPolicy` 决定私聊是直接接受还是先配对。
 
 ```json
 {
@@ -149,15 +223,15 @@ openclaw devices approve req_123456
 lang: bash
 emoji: 💬
 link: https://docs.openclaw.ai/cli/message
-desc: 统一处理发送、投票、反应和线程类消息动作，适合做机器人回复和运维通知。
+desc: 消息命令负责发送、投票和反应。适合自动回复、人工确认和运维通知。
 ---
 ### 最常用动作
 
 ```bash
-# 发送文本消息
+# 发送消息
 openclaw message send --channel telegram --target @mychat --message "巡检完成"
 
-# 创建投票
+# 发起投票
 openclaw message poll --channel discord --target channel:123 \
   --poll-question "午饭选什么?" \
   --poll-option 米饭 \
@@ -167,181 +241,198 @@ openclaw message poll --channel discord --target channel:123 \
 openclaw message react --channel telegram --message-id 123 --emoji "✅"
 ```
 
-### 适合什么场景
+### 什么时候先看这里
 
-- 机器人收到事件后，直接回一条确认或结果通知。
-- 让 agent 发起投票或做简单的人机确认。
-- 需要把处理结果标记成可追踪状态时，用 reaction 比重新发一条消息更轻。
+- 机器人收到事件后，需要回一条确认。
+- 需要人机协作确认下一步动作。
+- 想把结果标成轻量状态，而不是再发一条长消息。
 
-## 会话与上下文
----
-lang: bash
-emoji: 🧵
-link: https://docs.openclaw.ai/cli/sessions
-desc: 会话是 OpenClaw 的运维中心之一，适合看活跃会话、清理历史、追踪当前 agent 状态。
----
-### 常用命令
-
-```bash
-# 看当前活跃会话
-openclaw sessions --active 120
-
-# 看所有 agent 的会话，适合脚本消费
-openclaw sessions --all-agents --json
-
-# 预演清理
-openclaw sessions cleanup --dry-run
-
-# 真正执行清理
-openclaw sessions cleanup --enforce
-```
-
-### 什么时候先看 sessions
-
-- 机器人没回消息，但网关和频道都在线。
-- 某个 agent 似乎“记不住”上下文。
-- 想做容量控制、历史归档或会话回收。
-
-## 模型与代理
+## 模型与会话
 ---
 lang: bash
 emoji: 🧠
 link: https://docs.openclaw.ai/models
-desc: OpenClaw 的模型层决定“谁来答、失败后找谁、不同频道流量进哪个 agent”。先看状态，再调 primary、fallback、alias 和 binding。
+desc: 模型层决定谁来答、失败后找谁，以及不同频道的流量落到哪个路由。会话层负责看上下文和清理历史。
 ---
 ### 模型速查
 
 ```bash
-# 看当前解析后的模型状态
+# 看解析后的模型状态
 openclaw models status
+
+# 检查授权和可用性
+openclaw models status --check
 
 # 列出已配置模型
 openclaw models list
 
-# 设置默认主模型
+# 设置默认模型
 openclaw models set openai/gpt-5.2
 
 # 设置图像模型
 openclaw models set-image openai/gpt-5.2
+
+# 扫描可用模型
+openclaw models scan
 
 # 管理回退链
 openclaw models fallbacks list
 openclaw models fallbacks add openai/gpt-5.2-mini
 openclaw models fallbacks remove openai/gpt-5.2-mini
 openclaw models fallbacks clear
-
-# 扫描可用模型目录
-openclaw models scan
-
-# 管理认证
-openclaw models auth setup-token --provider anthropic
-openclaw models auth paste-token --provider anthropic
 ```
 
-### 代理路由
+### 会话速查
 
 ```bash
-# 查看 agent 列表
-openclaw agents list
+# 看活跃会话
+openclaw sessions --active 120
 
-# 新增隔离 agent
-openclaw agents add work --workspace ~/.openclaw/workspace-work
+# 看所有会话
+openclaw sessions --json
 
-# 查看绑定
-openclaw agents bindings
+# 预演清理
+openclaw sessions cleanup --dry-run
 
-# 绑定频道流量到指定 agent
-openclaw agents bind --agent work --bind telegram:ops
-
-# 解绑
-openclaw agents unbind --agent work --bind telegram:ops
-
-# 调整身份
-openclaw agents set-identity --workspace ~/.openclaw/workspace --from-identity
-
-# 删除 agent
-openclaw agents delete work
+# 执行清理
+openclaw sessions cleanup --enforce
 ```
 
 ### 什么时候优先看这里
 
-- 同一频道进来的消息要按工作区隔离。
-- 某个模型失败后需要自动切换备用模型。
-- 想把不同 sender、channel 或 account 路由到不同 agent。
+- 某个频道进来的消息要按工作区隔离。
+- 模型需要自动回退。
+- 会话太多，需要做清理或归档。
 
-## 工具总线
+## 浏览器与网页
 ---
 lang: bash
-emoji: 🧰
-link: https://docs.openclaw.ai/tools/index
-desc: OpenClaw 的工具层把浏览器、远程节点、Web 工具、ACP 和插件放在同一条链上，适合把动作统一到代理后端。
+emoji: 🌐
+link: https://docs.openclaw.ai/tools/browser
+desc: 浏览器工具适合自动化登录、抓取、截图和页面操作；Web 工具适合搜索和抓取网页内容。
 ---
-### 浏览器自动化
+### 浏览器工具
 
 ```bash
 # 启动受管浏览器
 openclaw browser start
+
+# 查看状态
+openclaw browser status
+
+# 打开页面
+openclaw browser open https://example.com
 
 # 取 AI 可用快照
 openclaw browser snapshot --format ai
 
 # 全页截图
 openclaw browser screenshot --full-page
-
-# 查看状态
-openclaw browser status
 ```
 
-### 远程节点
+### Web 工具
+
+```javascript
+await web_search("OpenClaw gateway docs");
+await web_fetch("https://docs.openclaw.ai/");
+```
+
+### 适合什么场景
+
+- 页面登录、表单提交、截图留档。
+- 从文档站抓取最新说明。
+- 给 agent 补上下文，减少手工复制粘贴。
+
+## 节点与扩展
+---
+lang: bash
+emoji: 🧩
+link: https://docs.openclaw.ai/nodes
+desc: 节点用于远程执行、相机、屏幕和其他环境能力。插件用于扩展 OpenClaw 的内置能力。
+---
+### 节点常用命令
 
 ```bash
-# 查看在线节点
-openclaw nodes status --connected
+# 看节点列表
+openclaw nodes list
 
-# 查看节点能力
+# 看待审批节点
+openclaw nodes pending
+
+# 批准节点
+openclaw nodes approve <requestId>
+
+# 看在线节点
+openclaw nodes status
+
+# 看节点能力
 openclaw nodes describe --node office-mac
 
 # 在节点执行命令
-openclaw nodes run --node office-mac "ls -la"
+openclaw nodes run --node office-mac "echo Hello"
 
-# 节点相机抓拍
+# 低层 RPC 调用
+openclaw nodes invoke --node office-mac --command canvas.eval --params '{"javaScript":"document.title"}'
+
+# 节点画布 / 相机
+openclaw nodes canvas present --node office-mac
+openclaw nodes canvas navigate --node office-mac --url "/"
+openclaw nodes canvas eval --node office-mac --js "document.title"
+openclaw nodes canvas snapshot --node office-mac
 openclaw nodes camera snap --node office-mac
 ```
 
-### Web 工具 / ACP / 插件
+### 启动节点主机
 
 ```bash
-# Web 搜索
-web_search "OpenClaw gateway control UI"
+# 头less 节点主机
+openclaw node run --host <gateway-host> --port 18789
 
-# 网页抓取
-web_fetch https://docs.openclaw.ai/
-
-# ACP 会话溯源
-openclaw acp --provenance meta
-
-# 插件列表
-openclaw plugins list
-
-# 安装插件
-openclaw plugins install <plugin-name>
+# 节点主机也可以带显示名
+openclaw node run --host <gateway-host> --port 18789 --display-name "Build Node"
 ```
 
-## 自动化工作流
+### 插件常用命令
+
+```bash
+# 查看插件
+openclaw plugins list
+
+# 安装官方插件
+openclaw plugins install @openclaw/voice-call
+
+# 启用 / 禁用插件
+openclaw plugins enable voice-call
+openclaw plugins disable voice-call
+
+# 更新插件
+openclaw plugins update <id>
+
+# 插件自检
+openclaw plugins doctor
+```
+
+### 审批链
+
+- 先看待审批请求，再放行节点或设备。
+- 生产环境优先收紧 allowlist。
+- 给高风险动作加审批比事后补救更稳。
+
+## 自动化与更新
 ---
 lang: bash
 emoji: ⏰
 link: https://docs.openclaw.ai/automation/cron-jobs
-desc: 定时任务、系统事件、心跳和通知，适合做值守、巡检、自动触发和收尾动作。
+desc: 定时任务、钩子、更新和诊断是 OpenClaw 的收尾动作。适合值守、巡检和自动修复。
 ---
 ### 定时任务
 
 ```bash
-# 创建每 5 分钟一次的任务
+# 新建定时任务
 openclaw cron add --name ping --every "*/5 * * * *" --system-event "巡检心跳"
 
-# 列出所有任务
-openclaw cron list
+# 编辑任务
+openclaw cron edit ping
 
 # 立即执行
 openclaw cron run ping
@@ -350,99 +441,46 @@ openclaw cron run ping
 openclaw cron runs --id ping
 ```
 
-### 系统事件与心跳
-
-```bash
-# 注入系统事件
-openclaw system event --text "手动触发检查"
-
-# 开启心跳
-openclaw system heartbeat enable
-```
-
-### 适合的套路
-
-- 日常巡检先触发 `system event`，再让 agent 处理。
-- 长周期任务用 `cron`，一次性确认用 `message`。
-- 做值守时，把 `cron runs` 和 `logs --follow` 放在一起看。
-
-## 安全与运维
----
-lang: bash
-emoji: 🛡️
-link: https://docs.openclaw.ai/gateway/security
-desc: 先把权限边界、鉴权和备份收紧，再上生产环境。OpenClaw 更像运行层，不是单条命令的玩具。
----
-### 安全要点
-
-- 生产环境优先使用 `loopback` 或受控网络暴露。
-- 开启 token 或 password 鉴权。
-- DM 策略优先用 `pairing` 或 `allowlist`。
-- 敏感密钥优先引用 `SecretRef`，不要硬编码在明文配置里。
-
-```json
-{
-  "gateway": {
-    "auth": {
-      "mode": "token",
-      "token": "secret://gateway-token"
-    }
-  },
-  "channels": {
-    "telegram": {
-      "dmPolicy": "pairing"
-    }
-  }
-}
-```
-
-### 运维常用
+### 运维动作
 
 ```bash
 # 一键诊断
-openclaw doctor --fix
+openclaw doctor
 
-# 安全审计
-openclaw security audit --deep
+# 查看日志
+openclaw logs --follow
 
-# 备份
-openclaw backup create
+# 更新到最新版本
+openclaw update
 
-# 验证备份
-openclaw backup verify backup-latest.tar.gz
+# 查看更新状态
+openclaw update status
 ```
 
-## 决策与排障
+## 配置与排障
 ---
 lang: bash
 emoji: ⚠️
 link: https://docs.openclaw.ai/gateway/troubleshooting
-desc: 最容易出问题的地方通常不是“命令不会敲”，而是频道、会话、模型、权限和配置链路断在中间。
+desc: 出问题时先看状态、健康、日志，再回到频道、模型和会话链路。大多数故障都在这三层之间。
 ---
-### 先怎么判断
+### 常见判断
 
-- 网关不起来，先看 `status --deep` 和 `doctor`。
-- 频道能列出但收不到消息，优先看 `channels status --probe` 和配对状态。
-- 消息发不出去，检查目标、账号权限和频道策略。
-- 会话看得见但行为不对，先查 `sessions` 再查 `models`。
+- 网关起不来，先看 `gateway health` 和 `doctor`。
+- 频道能列出但不收消息，先看 `channels status --probe` 和配对。
+- 消息发不出去，先看目标、权限和频道策略。
+- 会话异常，先看 `sessions` 再看 `models`。
 
 ### 排障速查
 
 ```bash
-# 深度状态扫描
-openclaw status --deep
-
-# 频道探测
+openclaw status --all --deep
+openclaw status --usage
+openclaw gateway health
 openclaw channels status --probe
-
-# 模型可用性探测
-openclaw models status --probe
-
-# 实时日志
+openclaw nodes status
 openclaw logs --follow
-
-# 查看服务调用
-openclaw gateway call sessions.list --params '{}'
+openclaw doctor --repair
 ```
 
 ## Quick Ref
@@ -450,51 +488,61 @@ openclaw gateway call sessions.list --params '{}'
 lang: bash
 emoji: 🧾
 link: https://docs.openclaw.ai/cli/index
-desc: 这部分只保留最常用、最适合直接复制的命令。
+desc: 只保留最常复制的命令，适合临时查表。
 ---
 ### 启动与状态
 
 ```bash
 openclaw onboard
-openclaw gateway
-openclaw gateway run
+openclaw configure
+openclaw config file
 openclaw dashboard
-openclaw status
+openclaw gateway --port 18789
+openclaw gateway run
 openclaw status --deep
+openclaw health --json
 openclaw doctor
 ```
 
 ### 频道与消息
 
 ```bash
-openclaw channels login --channel telegram
+openclaw channels login --channel whatsapp
+openclaw channels add --channel telegram --account alerts --name "Alerts Bot" --token $TELEGRAM_BOT_TOKEN
 openclaw channels list
 openclaw channels status --probe
+openclaw channels capabilities
 openclaw pairing list telegram
 openclaw pairing approve telegram ABCD1234
+openclaw pairing reject telegram ABCD1234
 openclaw message send --channel telegram --target @mychat --message "巡检完成"
 openclaw message react --channel telegram --message-id 123 --emoji "✅"
 ```
 
-### 会话与自动化
+### 模型与会话
 
 ```bash
+openclaw models status
+openclaw models status --check
+openclaw models list
+openclaw models set openai/gpt-5.2
+openclaw models scan
 openclaw sessions --active 120
-openclaw sessions --all-agents --json
+openclaw sessions --json
 openclaw sessions cleanup --dry-run
-openclaw cron add --name ping --every "*/5 * * * *" --system-event "巡检心跳"
-openclaw cron list
-openclaw cron run ping
-openclaw browser snapshot --format ai
-openclaw nodes status --connected
 ```
 
-### 备份与安全
+### 自动化与扩展
 
 ```bash
-openclaw backup create
-openclaw backup verify backup-latest.tar.gz
-openclaw security audit --deep
+openclaw cron add --name ping --every "*/5 * * * *" --system-event "巡检心跳"
+openclaw cron run ping
+openclaw browser start
+openclaw browser open https://example.com
+openclaw browser snapshot --format ai
+openclaw nodes status
+openclaw plugins list
+openclaw update
+openclaw update status
 openclaw logs --follow
 ```
-
