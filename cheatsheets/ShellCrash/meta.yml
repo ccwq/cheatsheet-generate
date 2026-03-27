@@ -1,0 +1,11 @@
+desc: ShellCrash 在 Linux、OpenWrt、路由器与 Docker 环境下管理 mihomo / sing-box 的完整速查与场景工作流。
+tags:
+  - CLI / Terminal
+  - CLI 工具
+  - 网络工具
+  - 自动化工具
+  - 运维
+  - 代理 / 服务
+version: 1.9.4
+github: juewuy/ShellCrash
+date: "2026-02-15"
