@@ -1,10 +1,10 @@
-desc: Codex CLI 的 cookbook 风格速查表，覆盖交互工作流、slash commands、沙箱与审批参数、核心子命令及实战技巧。
+desc: Codex CLI 的风格 3 混合型速查表，先给最小工作流和高频 recipes，再补命令、slash commands、审批/沙箱决策与排障速记。
 tags:
   - AI / LLM
   - AI 辅助工具
   - CLI 工具
   - CLI / Terminal
   - 开发
-version: 0.115.0
+version: 0.117.0
 github: openai/codex
-date: "2026-03-16"
+date: "2026-03-26"

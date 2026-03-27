@@ -1,255 +1,344 @@
 ---
 title: Codex CLI 速查
 lang: bash
-version: "0.115.0"
-date: 2026-03-16
+version: "0.117.0"
+date: 2026-03-26
 github: openai/codex
 colWidth: 340px
 ---
 
 # Codex CLI 速查表
 
-## 快速定位
+## 快速定位 / 一眼入口
 ---
 lang: bash
 emoji: 🚀
 link: https://developers.openai.com/codex/cli
 ---
 
-### 它适合做什么
+### 这是什么，先从哪开始
 ```bash
 # Codex CLI = 终端里的编码代理
-# 适合：交互式改代码、非交互执行、代码审查、MCP 集成
+# 适合：读仓库、改代码、做 review、跑非交互任务、接 MCP
 
-# 交互式入口
+# 最短起手式：先在仓库根目录开交互会话
+cd /path/to/repo
 codex
 
-# 非交互入口
-codex exec "修复 tests/auth.spec.ts 里的 flaky case"
+# 首轮提示要同时说明目标、限制、验收口径
+先读项目结构
+修复登录跳转循环
+不要改公开 API
+最后跑相关测试
 ```
 
-### 这份 cheatsheet 怎么读
+### 先选哪条工作流
 ```bash
-# 先看 cookbook：选工作流
-# 再看快捷键：查交互入口
-# 最后看参数 / 命令 / 技巧：查精确用法
+# 要边聊边推进：交互模式
+codex
+
+# 要一次性执行并拿结果：非交互模式
+codex exec "为 src/config.ts 增加环境变量校验"
+
+# 要先看风险和改动建议：review 模式
+codex review
+
+# 要接着上次上下文继续干：resume
+codex resume --last
 ```
 
-## Cookbook
+## 最小工作流
+---
+lang: bash
+emoji: 🧭
+link: https://developers.openai.com/codex/cli/features
+---
+
+### 从陌生仓库到稳定产出
+```bash
+# 1) 第一次进仓库，先保守探路
+codex --sandbox read-only --ask-for-approval on-request
+
+# 2) 确认范围后，切到可写工作区
+codex --sandbox workspace-write --ask-for-approval on-request
+
+# 3) 需要自动跑完一轮时，再用非交互执行
+codex exec "补齐 docs 生成脚本的错误处理并跑测试"
+
+# 4) 结果满意，再把最近一次 patch 应用到工作树
+codex apply
+```
+
+### 速查：常见目标对应入口
+```bash
+读代码 / 问问题        -> codex
+一次性改代码           -> codex exec "任务"
+先做代码审查           -> codex review
+继续最近会话           -> codex resume --last
+从最近会话分叉方案      -> codex fork --last
+看云端任务并拉回结果     -> codex cloud
+```
+
+## 高频场景 Recipes
 ---
 lang: bash
 emoji: 🍳
 link: https://developers.openai.com/codex/cli
 ---
 
-### Recipe 1: 在当前仓库里直接开交互会话
+### Recipe 1：先摸清仓库，再动手改
 ```bash
-cd /path/to/repo
-codex
-
-# 首句就把目标和限制讲清楚
-先阅读仓库结构，再给出修复登录重定向 bug 的计划
-不要修改公共 API
-```
-
-### Recipe 2: 先保守审查，再放开执行
-```bash
-# 先只读 + 按需审批，适合陌生仓库
+# 先限制能力，避免在陌生仓库里直接落盘
 codex --sandbox read-only --ask-for-approval on-request
 
-# 熟悉后再切工作区可写
-codex --sandbox workspace-write --ask-for-approval on-request
+# 首轮提示给“阅读顺序 + 输出格式”
+先看 package.json、src、tests 三块
+总结构建、测试和入口文件
+然后给出修复方案，不要直接改代码
 ```
 
-### Recipe 3: 非交互执行，适合脚本或 CI
+### Recipe 2：单次自动执行，适合脚本或 CI
 ```bash
-# 直接跑一次任务
-codex exec "为 src/config.ts 增加环境变量校验"
+# 跑一次就退出
+codex exec "为 scripts/release.js 增加重试逻辑"
 
-# 机器可读输出
-codex exec --json "概括这个仓库的构建步骤"
+# 要给机器消费时输出 JSON
+codex exec --json "总结这个仓库的构建步骤"
+
+# 如果只需要最后一条答复，适合脚本取值
+codex exec --output-last-message "列出这个项目的环境变量"
 ```
 
-### Recipe 4: 先做 review，再决定是否让它改
+### Recipe 3：先 review，再决定是否让它改
 ```bash
-# 非交互代码审查
+# 非交互审查当前工作树
 codex review
 
-# 或进入交互后触发 review 流程
+# 交互期也可以随时切 review 视角
 /review
+
+# review 之后常见动作
+/diff
+/status
 ```
 
-### Recipe 5: 带图和上下文一起开工
+### Recipe 4：保留主线，分叉试两种实现
 ```bash
-# 把设计图附给初始提示词
-codex -i mockup.png "按图实现设置页，保留现有路由结构"
-
-# 多图也可以一起传
-codex -i before.png -i after.png "对齐这两张设计差异"
-```
-
-### Recipe 6: 会话中途分叉，保留主线
-```bash
-# 继续最近会话
+# 回到最近一次上下文
 codex resume --last
 
-# fork 最近会话，试另一条实现路线
+# 从最近会话分叉，适合试激进方案
 codex fork --last
 
-# 适合保留“稳定方案”和“激进重构方案”两条线
+# 一个保守修补，一个做结构重构
+# 最后比较 diff 再决定留哪条线
 ```
 
-## 快捷键
----
-lang: bash
-emoji: ⌨️
-link: https://developers.openai.com/codex/cli/slash-commands/
----
-
-### 交互快捷入口
+### Recipe 5：带图、带目录、带联网资料一起开工
 ```bash
-# Codex CLI 官方当前公开文档重点是 slash commands
-# 下列命令可视为交互期的“快捷入口”
+# 附设计图或报错截图给首轮提示
+codex -i mockup.png "按图实现设置页，保留现有路由结构"
 
-/model        # 切换模型
-/approvals    # 调整审批策略
-/review       # 发起代码审查
-/plan         # 先做计划
-/logout       # 清除本地登录状态
-/quit         # 退出 CLI
-/exit         # 退出 CLI
-```
+# 额外开放一个共享目录
+codex --add-dir ../shared-lib
 
-### 进入不同工作状态的最快方式
-```bash
-codex                             # 交互式工作
-codex exec "任务"                 # 非交互执行
-codex review                      # 非交互代码审查
-codex resume --last               # 继续最近会话
-codex fork --last                 # 从最近会话分叉
-```
-
-## 参数
----
-lang: bash
-emoji: 🧩
-link: https://developers.openai.com/codex/cli/reference
----
-
-### 全局参数
-```bash
--c, --config key=value            # 覆盖 config.toml 中的配置
---enable FEATURE                  # 启用功能开关，可重复
---disable FEATURE                 # 关闭功能开关，可重复
--i, --image FILE                  # 给初始提示附图，可重复
--m, --model MODEL                 # 指定模型
---oss                             # 切到本地开源模型 provider
---local-provider PROVIDER         # lmstudio / ollama
--p, --profile NAME                # 选择 config.toml 中的 profile
--s, --sandbox MODE                # read-only / workspace-write / danger-full-access
--a, --ask-for-approval POLICY     # untrusted / on-failure / on-request / never
---full-auto                       # 等价于 on-request + workspace-write
---dangerously-bypass-approvals-and-sandbox
-                                  # 跳过审批与沙箱，风险最高
--C, --cd DIR                      # 指定工作目录
---search                          # 启用实时 web search
---add-dir DIR                     # 追加可写目录
---no-alt-screen                   # 禁用 alternate screen
--h, --help                        # 查看帮助
--V, --version                     # 查看版本
-```
-
-### 常见参数组合
-```bash
-# 保守模式：只读 + 按需审批
-codex --sandbox read-only --ask-for-approval on-request
-
-# 常规改代码模式
-codex --sandbox workspace-write --ask-for-approval on-request
-
-# 快速自动执行
-codex --full-auto
-
-# 指定目录和模型
-codex -C ~/work/app --model gpt-5-codex
-
-# 开启联网搜索
+# 需要最新资料时再开 web search
 codex --search
 ```
 
-## 命令
+### Recipe 6：把 Codex 接进外部工具链
+```bash
+# 管理 MCP 服务
+codex mcp
+
+# 把 Codex 作为 MCP server 跑起来
+codex mcp-server
+
+# 查看云端任务，必要时把结果应用到本地
+codex cloud
+```
+
+## Quick Ref / 命令速查
 ---
 lang: bash
 emoji: 🛠️
 link: https://developers.openai.com/codex/cli/reference
 ---
 
-### 核心子命令
+### 核心入口
 ```bash
-codex exec        # 非交互执行任务
-codex review      # 非交互代码审查
-codex login       # 登录管理
-codex logout      # 删除本地认证
-codex resume      # 恢复历史会话
-codex fork        # 从历史会话分叉
-codex apply       # 把最近一次 diff 应用到工作树
-codex mcp         # 管理外部 MCP 服务
+codex           # 交互式工作
+codex exec      # 非交互执行任务
+codex review    # 非交互代码审查
+codex resume    # 恢复历史会话
+codex fork      # 从历史会话分叉
+codex apply     # 把最近一次 patch 应用到工作树
+```
+
+### 扩展入口
+```bash
+codex login       # 登录
+codex logout      # 清理本地认证
+codex mcp         # 管理 MCP 服务
 codex mcp-server  # 以 MCP server 方式启动 Codex
-codex sandbox     # 在 Codex 提供的沙箱里运行命令
-codex completion  # 生成 shell 补全脚本
-codex cloud       # 浏览 Codex Cloud 任务并应用
-codex debug       # 调试工具
+codex sandbox     # 在 Codex 沙箱里运行命令
+codex completion  # 生成 shell 补全
+codex cloud       # 浏览 Codex Cloud 任务
 codex features    # 查看 feature flags
+codex debug       # 输出调试信息
 codex app-server  # 实验性 app server 工具
 ```
 
-### 自动化高频写法
+### 高频全局参数
 ```bash
-codex exec "重构 src/lib/cache.ts"
-codex exec --json "总结这个仓库的测试入口"
-codex review
-codex resume --last
-codex fork --last
-codex apply
+-m, --model MODEL                 # 指定模型
+-p, --profile NAME                # 选择 config.toml 里的 profile
+-c, --config key=value            # 临时覆盖配置
+-s, --sandbox MODE                # read-only / workspace-write / danger-full-access
+-a, --ask-for-approval POLICY     # untrusted / on-failure / on-request / never
+--full-auto                       # 常用自动化组合
+--search                          # 启用联网搜索
+-i, --image FILE                  # 给首轮提示附图，可重复
+-C, --cd DIR                      # 指定工作目录
+--add-dir DIR                     # 额外开放可写目录
+--enable FEATURE                  # 打开 feature flag
+--disable FEATURE                 # 关闭 feature flag
+--oss                             # 切到本地开源模型 provider
+--local-provider PROVIDER         # lmstudio / ollama
+--no-alt-screen                   # 禁用 alternate screen
+-h, --help                        # 查看帮助
+-V, --version                     # 查看版本
 ```
 
-## 技巧
+### 最常抄的命令组合
+```bash
+# 常规改代码
+codex --sandbox workspace-write --ask-for-approval on-request
+
+# 保守阅读
+codex --sandbox read-only --ask-for-approval on-request
+
+# 快速自动执行
+codex --full-auto
+
+# 指定目录 + 指定模型
+codex -C ~/work/app --model gpt-5-codex
+
+# 临时改配置
+codex -c model=\"gpt-5-codex\" -c 'features.search=true'
+```
+
+## Slash Commands / 交互速记
 ---
 lang: bash
-emoji: 💡
+emoji: ⌨️
+link: https://developers.openai.com/codex/cli/slash-commands/
+---
+
+### 会话里最常用的 slash commands
+```bash
+/model         # 切模型
+/status        # 看当前上下文、token、模式等状态
+/diff          # 看当前建议改动
+/review        # 进入审查视角
+/plan          # 先出计划再执行
+/approvals     # 调整审批策略
+/compact       # 压缩上下文，适合长会话
+/logout        # 清除本地登录状态
+/quit          # 退出 CLI
+/exit          # 退出 CLI
+```
+
+### 什么时候用这些命令
+```bash
+任务刚开始不清楚范围      -> /plan
+想确认改了什么            -> /diff
+想确认当前模式和上下文     -> /status
+会话太长、上下文太重       -> /compact
+准备切模型或切策略         -> /model /approvals
+```
+
+## 决策点 / 常见坑
+---
+lang: bash
+emoji: ⚖️
 link: https://developers.openai.com/codex/cli/features
 ---
 
-### 先定执行边界，再谈效果
+### 沙箱和审批怎么选
 ```bash
-# 陌生仓库：先只读
+# 陌生仓库 / 高风险目录
 codex --sandbox read-only --ask-for-approval on-request
 
-# 熟悉后：工作区可写
+# 常规开发默认档
 codex --sandbox workspace-write --ask-for-approval on-request
 
-# 极端自动化：仅在外部环境已隔离时使用
+# 失败才申请更高权限
+codex --sandbox workspace-write --ask-for-approval on-failure
+
+# 只有外部环境已经隔离好时才考虑
 codex --dangerously-bypass-approvals-and-sandbox
 ```
 
-### 配置分层思路
+### 配置分层别混用
 ```bash
-# profile 负责一类场景
+# profile 管“长期场景”
 codex --profile work
 
-# 临时覆盖单个配置
+# -c 管“当前这一轮临时覆盖”
 codex -c model=\"gpt-5-codex\"
 codex -c 'features.search=true'
+
+# 经验规则：
+# profile 像前端项目里的环境文件
+# -c 像你在命令行里临时塞一个 override
 ```
 
-### 多目录 / 联网 / 多模态
+### 会话管理要点
 ```bash
-# 主目录外再开放一个可写目录
-codex --add-dir ../shared-lib
+# 最近会话继续做
+codex resume --last
 
-# 联网搜索只在需要最新资料时打开
-codex --search
+# 保留主线，再开一条实验分支
+codex fork --last
 
-# 设计图、报错截图直接附给首轮提示
-codex -i error.png "分析这张报错截图并给修复方案"
+# 长会话先 compact，再继续追问
+/compact
+```
+
+## 排障 / 收尾动作
+---
+lang: bash
+emoji: 🩺
+link: https://developers.openai.com/codex/local-config#cli
+---
+
+### 出问题先查这几项
+```bash
+# 看版本
+codex --version
+
+# 看当前可用 feature flags
+codex features
+
+# 看调试信息
+codex debug
+
+# shell 补全失效时重新生成
+codex completion powershell
+codex completion bash
+codex completion zsh
+```
+
+### 收尾动作速记
+```bash
+# 把最近一次 patch 应回工作树
+codex apply
+
+# 退出当前会话
+/quit
+
+# 需要清理认证再重新登录
+codex logout
+codex login
 ```
