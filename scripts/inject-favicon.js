@@ -2,8 +2,8 @@
 /**
  * 为所有 HTML 页面注入 favicon（不依赖第三方库）
  * - 目录：cheatsheets/、cheatsheets-import/、仓库根 index.html
- * - href 计算：基于文件相对路径，输出为 POSIX 风格（/）
- * - 若已存在 <link rel="icon"> 则跳过
+ * - href 计算：优先使用同目录 icon.png，找不到时回退到品牌图标
+ * - 若已存在 favicon 标签则替换其 href，不再跳过
  */
 const fs = require('fs');
 const path = require('path');
@@ -41,23 +41,67 @@ function collectHtmlFiles(dir) {
   return list;
 }
 
+function getAttr(tag, name) {
+  const match = tag.match(new RegExp(`\\b${name}\\s*=\\s*(["'])(.*?)\\1`, 'i'));
+  return match ? match[2] : '';
+}
+
+function rewriteFaviconTags(html, assetRel) {
+  let foundIcon = false;
+  let foundApple = false;
+
+  const out = html.replace(/<link\b[^>]*>/gi, (tag) => {
+    const rel = getAttr(tag, 'rel').toLowerCase();
+    if (rel === 'icon' || rel === 'shortcut icon') {
+      foundIcon = true;
+      return tag.replace(/\bhref\s*=\s*(["'])(.*?)\1/i, (_m, quote) => `href=${quote}${assetRel}${quote}`);
+    }
+    if (rel === 'apple-touch-icon') {
+      foundApple = true;
+      return tag.replace(/\bhref\s*=\s*(["'])(.*?)\1/i, (_m, quote) => `href=${quote}${assetRel}${quote}`);
+    }
+    return tag;
+  });
+
+  return { html: out, foundIcon, foundApple };
+}
+
 function injectFavicon(htmlPath, assetRel) {
   const raw = readText(htmlPath);
   if (!raw) return false;
-  if (/\<link[^>]+rel=["']icon["']/i.test(raw)) return false; // 已有，跳过
 
+  const rewritten = rewriteFaviconTags(raw, assetRel);
+  let out = rewritten.html;
   const linkTag = `\n    <link rel="icon" type="image/png" href="${assetRel}" />`;
   const appleTag = `\n    <link rel="apple-touch-icon" href="${assetRel}" />`;
+  const missingTags = [];
+  if (!rewritten.foundIcon) missingTags.push(linkTag);
+  if (!rewritten.foundApple) missingTags.push(appleTag);
 
-  let out;
-  if (raw.includes('</head>')) {
-    out = raw.replace('</head>', `${linkTag}${appleTag}\n  </head>`);
-  } else {
-    // 兜底：若无 head，直接前置
-    out = `${linkTag}${appleTag}\n${raw}`;
+  if (missingTags.length > 0) {
+    if (out.includes('</head>')) {
+      out = out.replace('</head>', `${missingTags.join('')}\n  </head>`);
+    } else {
+      // 兜底：若无 head，直接前置
+      out = `${missingTags.join('')}\n${out}`;
+    }
   }
+
+  if (out === raw) {
+    return false;
+  }
+
   writeText(htmlPath, out);
   return true;
+}
+
+function resolveFaviconHref(htmlPath, brandPng) {
+  const htmlDir = path.dirname(htmlPath);
+  const localIcon = path.join(htmlDir, 'icon.png');
+  if (fs.existsSync(localIcon)) {
+    return toPosix(path.relative(htmlDir, localIcon) || 'icon.png');
+  }
+  return toPosix(path.relative(htmlDir, brandPng));
 }
 
 function main() {
@@ -77,7 +121,7 @@ function main() {
 
   let changed = 0;
   for (const file of htmlFiles) {
-    const rel = toPosix(path.relative(path.dirname(file), brandPng));
+    const rel = resolveFaviconHref(file, brandPng);
     if (injectFavicon(file, rel)) {
       changed++;
       console.log(`[inject-favicon] 注入: ${toPosix(path.relative(cwd, file))} -> ${rel}`);
@@ -86,5 +130,12 @@ function main() {
   console.log(`[inject-favicon] 完成，修改文件数：${changed}`);
 }
 
-main();
+module.exports = {
+  injectFavicon,
+  resolveFaviconHref,
+  rewriteFaviconTags,
+};
 
+if (require.main === module) {
+  main();
+}

@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import fs from 'node:fs/promises'
+import { existsSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { Command } from 'commander'
@@ -42,6 +43,20 @@ export function resolveAssetBaseForOutput(outputPath) {
 
 function applyAssetBase(templateHtml, assetBase) {
   return templateHtml.replaceAll(defaultAssetBase, assetBase)
+}
+
+function resolveFaviconHref(inputPath, outputPath) {
+  const outputDir = path.dirname(path.resolve(outputPath))
+  const inputDir = path.dirname(path.resolve(inputPath))
+  const localIcon = path.join(inputDir, 'icon.png')
+
+  if (existsSync(localIcon)) {
+    const relative = path.relative(outputDir, localIcon)
+    return toPosixPath(relative || 'icon.png')
+  }
+
+  const assetBase = resolveAssetBaseForOutput(outputPath)
+  return toPosixPath(path.join(assetBase, 'brand', 'cheatsheet.png'))
 }
 
 function hasRequiredFrontmatter(markdown) {
@@ -191,7 +206,9 @@ async function generateFromFile(options) {
   const templatePath = resolveTemplatePath()
   const template = await fs.readFile(templatePath, 'utf8')
   const assetBase = resolveAssetBaseForOutput(outputPath)
+  const faviconHref = resolveFaviconHref(inputPath, outputPath)
   const html = renderDocument(model, applyAssetBase(template, assetBase))
+    .replaceAll('<!-- FAVICON_HREF -->', faviconHref)
 
   await fs.writeFile(outputPath, html, 'utf8')
 

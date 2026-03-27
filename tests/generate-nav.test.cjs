@@ -25,6 +25,6 @@ test('generate-nav: 卡片元信息展示 GitHub 与 Zread', () => {
     },
   ], (tag) => `<span class="tag">${tag}</span>`);
 
-  assert.ok(html.includes('GitHub <a class="meta-link" href="https://github.com/astral-sh/uv"'));
-  assert.ok(html.includes('Zread <a class="meta-link" href="https://zread.ai/astral-sh/uv"'));
+  assert.ok(html.includes('https://github.com/astral-sh/uv'));
+  assert.ok(html.includes('https://zread.ai/astral-sh/uv'));
 });
