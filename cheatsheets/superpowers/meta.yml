@@ -1,0 +1,10 @@
+desc: Superpowers 是一套面向 AI 编码代理的技能仓库，把 brainstorming、计划、并行分解、测试、调试、审查和收尾串成可复用的开发流程。
+tags:
+  - AI / LLM
+  - AI 辅助工具
+  - CLI 工具
+  - 规范 / 流程
+  - 开发
+version: v5.0.6
+github: obra/superpowers
+date: "2026-03-24"

@@ -1,0 +1,21 @@
+{
+  "GitHub 仓库": "https://github.com/obra/superpowers",
+  "README": "https://raw.githubusercontent.com/obra/superpowers/main/README.md",
+  "Release Notes": "https://raw.githubusercontent.com/obra/superpowers/main/RELEASE-NOTES.md",
+  "Claude Code 安装": "https://raw.githubusercontent.com/obra/superpowers/main/.claude/INSTALL.md",
+  "Codex 安装": "https://raw.githubusercontent.com/obra/superpowers/main/.codex/INSTALL.md",
+  "OpenCode 安装": "https://raw.githubusercontent.com/obra/superpowers/main/.opencode/INSTALL.md",
+  "Codex 文档": "https://raw.githubusercontent.com/obra/superpowers/main/docs/README.codex.md",
+  "OpenCode 文档": "https://raw.githubusercontent.com/obra/superpowers/main/docs/README.opencode.md",
+  "Superpowers 总入口": "https://raw.githubusercontent.com/obra/superpowers/main/skills/using-superpowers/SKILL.md",
+  "脑暴": "https://raw.githubusercontent.com/obra/superpowers/main/skills/brainstorming/SKILL.md",
+  "写计划": "https://raw.githubusercontent.com/obra/superpowers/main/skills/writing-plans/SKILL.md",
+  "并行与 worktree": "https://raw.githubusercontent.com/obra/superpowers/main/skills/using-git-worktrees/SKILL.md",
+  "子代理开发": "https://raw.githubusercontent.com/obra/superpowers/main/skills/subagent-driven-development/SKILL.md",
+  "执行计划": "https://raw.githubusercontent.com/obra/superpowers/main/skills/executing-plans/SKILL.md",
+  "测试驱动开发": "https://raw.githubusercontent.com/obra/superpowers/main/skills/test-driven-development/SKILL.md",
+  "系统化调试": "https://raw.githubusercontent.com/obra/superpowers/main/skills/systematic-debugging/SKILL.md",
+  "完成前验证": "https://raw.githubusercontent.com/obra/superpowers/main/skills/verification-before-completion/SKILL.md",
+  "代码审查请求": "https://raw.githubusercontent.com/obra/superpowers/main/skills/requesting-code-review/SKILL.md",
+  "分支收尾": "https://raw.githubusercontent.com/obra/superpowers/main/skills/finishing-a-development-branch/SKILL.md"
+}
