@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>Zellij 速查表</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png">
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 360px; 
+      --gap: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
+      <span class="title">Zellij 速查表</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">0.44.0</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-03-23</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/zellij-org/zellij" target="_blank" rel="noopener">zellij-org/zellij</a></span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/zellij-org/zellij" target="_blank" rel="noopener">打开 Zread</a></span></span>
+      </div>
+      <div class="meta-tags"><tag-chip class="tag tag-group-1 detail-tag" data-name="CLI / Terminal" data-group="1" label="CLI / Terminal" group="1" variant="detail" icon="mdi:console" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M20 19V7H4v12zm0-16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-7 14v-2h5v2zm-3.42-4L5.57 9H8.4l3.3 3.3c.39.39.39 1.03 0 1.42L8.42 17H5.59z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="CLI 工具" data-group="2" label="CLI 工具" group="2" variant="detail" icon="mdi:console-network-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M15 20a1 1 0 0 0-1-1h-1v-2h4a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4v2h-1a1 1 0 0 0-1 1H2v2h7a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1h7v-2zm-8-5V5h10v10zm1-8.11l3.56 3.56L8 14h2.53l2.92-2.92c.33-.34.33-.9 0-1.26L10.5 6.89zm8 5.33h-2.67V14H16z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-3 detail-tag" data-name="开发" data-group="3" label="开发" group="3" variant="detail" icon="mdi:code-tags" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m14.6 16.6l4.6-4.6l-4.6-4.6L16 6l6 6l-6 6zm-5.2 0L4.8 12l4.6-4.6L8 6l-6 6l6 6z&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>一眼入口</h2><ul><li><code>zellij</code></li><li>入口模式：<ul><li><code>Ctrl+g</code></li><li><code>Ctrl+p</code></li><li><code>Ctrl+t</code></li><li><code>Ctrl+n</code></li><li><code>Ctrl+s</code></li><li><code>Ctrl+o</code></li><li><code>Ctrl+h</code></li><li><code>Ctrl+b</code></li></ul></li><li>全局高频键：<ul><li><code>Ctrl+q</code></li><li><code>Alt+n</code></li><li><code>Alt+f</code></li><li><code>Alt+=</code> <code>Alt+-</code></li><li><code>Alt+h/j/k/l</code></li></ul></li></ul><pre><code class="language-text">Normal
+├─ Ctrl+p -&gt; Pane
+├─ Ctrl+t -&gt; Tab
+├─ Ctrl+n -&gt; Resize
+├─ Ctrl+s -&gt; Scroll/Search
+├─ Ctrl+o -&gt; Session
+├─ Ctrl+h -&gt; Move
+└─ Ctrl+b -&gt; Tmux</code></pre></div><div class="card"><h2>最短上手</h2><pre><code class="language-bash">zellij
+
+# Ctrl+p -&gt; n 新建 pane
+# Ctrl+t -&gt; n 新建 tab
+# Ctrl+o -&gt; d detach 会话</code></pre><ul><li><code>Ctrl+g</code></li><li><code>Ctrl+q</code></li><li><code>Ctrl+b</code></li></ul></div><div class="card"><h2>Pane</h2><pre><code class="language-bash">Ctrl+p
+
+n  # 新建 pane
+d  # 向下拆分
+r  # 向右拆分
+s  # stacked pane
+x  # 关闭当前 pane
+f  # 当前 pane 全屏
+z  # 切换 pane frames
+w  # 切换 floating panes
+e  # 在 embed / floating 间切换
+c  # 重命名 pane
+i  # pin / unpin 当前 pane</code></pre><pre><code class="language-bash">Alt+n         # 新建 pane
+Alt+f         # 切换 floating panes
+Alt+h/j/k/l   # 在 pane 或 tab 间移动
+Alt+= / Alt+- # 调整当前 pane 大小
+Alt+p         # 切换 pane group
+Alt+Shift+p   # 切换 group marking</code></pre></div><div class="card"><h2>Tab 与 Session</h2><pre><code class="language-bash">Ctrl+t
+
+n       # new tab
+x       # close tab
+r       # rename tab
+h/j/k/l # 切换 tab
+1..9    # 直接跳转
+Tab     # 切换 tab
+s       # sync active tab
+b       # break pane
+[       # break left
+]       # break right</code></pre><pre><code class="language-bash">Ctrl+o
+
+d  # detach
+w  # session-manager
+c  # configuration
+p  # plugin-manager
+a  # about
+s  # share
+l  # layout-manager</code></pre><pre><code class="language-bash">Ctrl+b
+&quot;     # split down
+%     # split right
+c     # 新建 tab
+n     # 下一个 tab
+p     # 上一个 tab
+x     # 关闭当前 pane
+Space # 切换预设 layout</code></pre></div><div class="card"><h2>滚动与搜索</h2><pre><code class="language-bash">Ctrl+s
+
+e             # 编辑 scrollback
+s             # 进入搜索输入
+Ctrl+c        # 回到底部
+j / Down      # 向下滚动
+k / Up        # 向上滚动
+Ctrl+f / PgDn # 下一页
+Ctrl+b / PgUp # 上一页
+d             # 半页向下
+u             # 半页向上</code></pre><pre><code class="language-bash">Ctrl+s
+s       # 开始搜索
+n       # 向下找
+p       # 向上找
+c       # 切换大小写敏感
+w       # 切换整词匹配
+o       # 切换整词 / wrap 选项
+Esc     # 退出到 Normal</code></pre></div><div class="card"><h2>场景套路</h2><h3>临时查看输出</h3><pre><code class="language-bash">Ctrl+s
+Ctrl+g</code></pre><ul><li>先滚动，再搜索，再回到底部</li></ul><h3>一个项目一个 tab</h3><pre><code class="language-bash">Ctrl+t -&gt; n
+Ctrl+p -&gt; n
+Ctrl+p -&gt; r</code></pre><ul><li>tab 放项目，pane 放角色</li></ul><h3>临时只看一个 pane</h3><pre><code class="language-bash">Ctrl+p
+f
+Ctrl+p
+f</code></pre><ul><li>适合调试、读报错、演示</li></ul><h3>保留 tmux 手感</h3><pre><code class="language-bash">Ctrl+b
+&quot;     # split down
+%     # split right
+Space # cycle layouts
+z     # full screen</code></pre></div><div class="card"><h2>结构与配置</h2><pre><code class="language-text">Session  = 一整组可恢复的工作状态
+Tab      = 一个工作面板 / 任务分组
+Pane     = 终端窗口里的最小运行单元
+Floating = 临时浮窗
+Layout   = pane 的预设组织方式
+Plugin   = tab bar / status bar / session manager 等扩展</code></pre><pre><code class="language-kdl">default_mode &quot;normal&quot;
+default_layout &quot;compact&quot;
+pane_frames true
+mouse_mode true
+session_serialization false
+stacked_resize true</code></pre><ul><li><code>default_layout</code>：调整启动后的初始布局</li><li><code>pane_frames</code>：增强 pane 边界感</li><li><code>session_serialization</code>：重启后恢复 session</li><li><code>mouse_mode</code>：启用鼠标交互，但可能影响复制</li></ul></div><div class="card"><h2>快速记忆</h2><pre><code class="language-bash">Ctrl+g   # 锁定 / 解锁
+Ctrl+p   # pane
+Ctrl+t   # tab
+Ctrl+n   # resize
+Ctrl+s   # scroll/search
+Ctrl+o   # session
+Ctrl+h   # move
+Ctrl+q   # quit</code></pre></div>
+    </div>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+desc: Skopeo 镜像管理速查与场景 cookbook，覆盖 inspect、copy、sync、登录认证、签名验证和常见排障。
+tags: ["DevOps", "CLI / Terminal", "CLI 宸ュ叿", "运维", "命令行"]
+version: "1.22.0"
+github: containers/skopeo
+date: "2026-02-11"
