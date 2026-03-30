@@ -8,6 +8,7 @@
 - [Clipboard](https://github.com/tmux/tmux/wiki/Clipboard)
 - [Formats](https://github.com/tmux/tmux/wiki/Formats)
 - [Using the mouse](https://github.com/tmux/tmux/wiki/Using-the-mouse)
+- [Tmux Plugin Manager (TPM)](https://github.com/tmux-plugins/tpm)
 
 ## cookbook 重点对应
 - 鼠标模式接管复制事件：
@@ -27,6 +28,7 @@
 - [Modifier Keys 说明](https://github.com/tmux/tmux/wiki/Modifier-Keys)
 - [Recipes 示例集](https://github.com/tmux/tmux/wiki/Recipes)
 - [Control Mode](https://github.com/tmux/tmux/wiki/Control-Mode)
+- [Tmux Plugin Manager (TPM)](https://github.com/tmux-plugins/tpm)
 
 ## 社区资源
 - [tmux 仓库](https://github.com/tmux/tmux)

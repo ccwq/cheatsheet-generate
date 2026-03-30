@@ -746,3 +746,40 @@ desc: 最常用快捷键一览表
 - `C-b ?`：键绑定帮助
 - `C-b :`：命令提示符
 - `C-b t`：显示时钟
+
+## 🔧 高级技巧 2
+---
+lang: bash
+emoji: 🔧
+link: https://github.com/tmux-plugins/tpm
+desc: 把插件管理和会话持久化收束到文末，便于直接复制配置和按键。
+---
+
+### 插件管理和持久化配置
+```bash
+# 安装 TPM
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+```
+复制内容到配置文件 ```~/.tmux.conf```
+```bash
+set -g @plugin 'tmux-plugins/tpm'
+set -g @plugin 'tmux-plugins/tmux-sensible'
+set -g @plugin 'tmux-plugins/tmux-resurrect'
+set -g @plugin 'tmux-plugins/tmux-continuum'
+set -g @continuum-restore 'on'
+run '~/.tmux/plugins/tpm/tpm'
+```
+
+重载配置
+```bash
+tmux source-file ~/.tmux.conf
+```
+- `Prefix + I`：安装新列出的插件并刷新环境
+- `Prefix + U`：更新所有插件
+- `Prefix + Alt + u`：卸载不在列表中的插件
+- `TMUX environment reloaded`：通常表示 TPM 安装流程已完成
+- 
+插件说明
+- `tmux-resurrect`：负责保存和恢复 tmux 会话、窗口与布局
+- `tmux-continuum`：负责自动保存，并在 tmux 启动时自动恢复
+- 需要稳定复用工作区时，这两个插件通常一起用
