@@ -9,6 +9,25 @@ colWidth: 420px
 
 # Oh My Bash 速查
 
+## 定位与价值
+---
+emoji: 🧠
+link: https://github.com/ohmybash/oh-my-bash#oh-my-bash
+desc: 先把它当成 Bash 的配置层来看：它负责把主题、插件、别名、补全和自定义目录统一接管，适合在 Git Bash 里做增强。
+---
+
+- `oh-my-bash` : Bash 配置框架，不是 Bash 本体
+- `主题 / 插件 / 别名 / 补全 / 自定义` : 收拢到一套可迁移的入口里
+- `~/.bashrc` / `~/.bash_profile` : 安装后会接管 Bash 的加载链，Windows 的 Git Bash 还要关注这两个入口
+- `dotfiles 管理` : 适合想要更清晰的提示符、更少的重复输入、以及更统一配置的人
+- `激活成功` : 最直观的变化就是主题、别名和补全开始生效
+
+```bash
+# 先找入口，再谈功能
+echo "$OSH"
+echo "$OSH_THEME"
+```
+
 ## 快速定位
 ---
 emoji: 🧭
@@ -84,6 +103,37 @@ fi
 # Windows 路径和 Unix 路径互转
 cygpath -u 'C:\Users\me\Downloads'
 cygpath -w '/c/Users/me/.oh-my-bash'
+```
+
+## 安装后验证 / 激活检查
+---
+emoji: ✅
+link: https://github.com/ohmybash/oh-my-bash#basic-installation
+desc: 安装后不要先看目录，先看加载链。只要主题变量、更新命令和启动文件链都能读出来，基本就算激活成功。
+---
+
+- `test -d ~/.oh-my-bash` : 目录存在，说明文件已落地
+- `echo "$OSH"` : 应该输出安装目录
+- `echo "$OSH_THEME"` : 当前主题变量已读入
+- `type upgrade_oh_my_bash` : 更新命令可用，说明框架脚本已加载
+- `type uninstall_oh_my_bash` : 卸载命令可用，说明脚本已注入当前 shell
+- `declare -p plugins aliases completions 2>/dev/null` : 检查常用数组是否已读入
+- `grep -nE 'source ~/.bashrc|\\. ~/.bashrc' ~/.bash_profile ~/.bashrc 2>/dev/null` : Git Bash 的启动链检查
+- `exec bash` : 重启当前 shell 再看一次最终效果
+
+```bash
+# 基本验证
+test -d ~/.oh-my-bash && echo "installed"
+echo "$OSH"
+echo "$OSH_THEME"
+type upgrade_oh_my_bash
+type uninstall_oh_my_bash
+
+# Git Bash 启动链
+grep -nE 'source ~/.bashrc|\. ~/.bashrc' ~/.bash_profile ~/.bashrc 2>/dev/null
+
+# 重新加载后再确认
+source ~/.bashrc
 ```
 
 ## 最小工作流

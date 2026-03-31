@@ -57,7 +57,9 @@
       <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
     </div>
     <div class="cheat-columns" id="columns">
-      <div class="card"><h2>🧭 快速定位 <a href="https://github.com/ohmybash/oh-my-bash" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Oh My Bash 是 Bash 配置框架，核心就是主题、插件、别名、补全和更新。先记住它主要靠 `~/.bashrc` 驱动。</div><ul><li><code>OSH</code> <code>~/.oh-my-bash</code>：Oh My Bash 安装目录，默认是</li><li><code>OSH_THEME</code> <code>font</code>：当前主题名，默认模板是</li><li><code>plugins</code>：需要加载的插件数组</li><li><code>aliases</code>：需要加载的别名包数组</li><li><code>completions</code>：需要加载的补全数组</li><li><code>source &quot;$OSH&quot;/oh-my-bash.sh</code>：真正启动 Oh My Bash 的入口</li><li><code>upgrade_oh_my_bash</code>：手动更新</li><li><code>uninstall_oh_my_bash</code>：卸载并回退配置</li></ul><pre><code class="language-bash">echo &quot;$OSH&quot;
+      <div class="card"><h2>🧠 定位与价值 <a href="https://github.com/ohmybash/oh-my-bash#oh-my-bash" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">先把它当成 Bash 的配置层来看：它负责把主题、插件、别名、补全和自定义目录统一接管，适合在 Git Bash 里做增强。</div><ul><li><code>oh-my-bash</code>：Bash 配置框架，不是 Bash 本体</li><li><code>主题 / 插件 / 别名 / 补全 / 自定义</code>：收拢到一套可迁移的入口里</li><li><code>~/.bashrc</code> <code>~/.bash_profile</code>：安装后会接管 Bash 的加载链，Windows 的 Git Bash 还要关注这两个入口</li><li><code>dotfiles 管理</code>：适合想要更清晰的提示符、更少的重复输入、以及更统一配置的人</li><li><code>激活成功</code>：最直观的变化就是主题、别名和补全开始生效</li></ul><pre><code class="language-bash"># 先找入口，再谈功能
+echo &quot;$OSH&quot;
+echo &quot;$OSH_THEME&quot;</code></pre></div><div class="card"><h2>🧭 快速定位 <a href="https://github.com/ohmybash/oh-my-bash" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Oh My Bash 是 Bash 配置框架，核心就是主题、插件、别名、补全和更新。先记住它主要靠 `~/.bashrc` 驱动。</div><ul><li><code>OSH</code> <code>~/.oh-my-bash</code>：Oh My Bash 安装目录，默认是</li><li><code>OSH_THEME</code> <code>font</code>：当前主题名，默认模板是</li><li><code>plugins</code>：需要加载的插件数组</li><li><code>aliases</code>：需要加载的别名包数组</li><li><code>completions</code>：需要加载的补全数组</li><li><code>source &quot;$OSH&quot;/oh-my-bash.sh</code>：真正启动 Oh My Bash 的入口</li><li><code>upgrade_oh_my_bash</code>：手动更新</li><li><code>uninstall_oh_my_bash</code>：卸载并回退配置</li></ul><pre><code class="language-bash">echo &quot;$OSH&quot;
 echo &quot;$OSH_THEME&quot;
 type upgrade_oh_my_bash
 type uninstall_oh_my_bash</code></pre></div><div class="card"><h2>📦 安装 <a href="https://github.com/ohmybash/oh-my-bash#basic-installation" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">安装只需一行命令，脚本会自动备份原有 `.bashrc` 并写入新配置。安装前确认已有 `bash`、`git`、`curl` 或 `wget`。</div><ul><li><code>bash -c &quot;$(curl -fsSL ...)&quot;</code>：通过 curl 安装（推荐）</li><li><code>bash -c &quot;$(wget -qO- ...)&quot;</code>：无 curl 时用 wget 替代</li><li><code>~/.bashrc.omb-backup-*</code>：安装时自动备份的原始配置</li><li><code>OSH_THEME</code> <code>~/.bashrc</code>：安装后在 里改这一行就可以换主题</li><li><code>git clone</code> <code>source</code>：先 仓库，再手动追加 入口</li></ul><pre><code class="language-bash"># curl 安装
@@ -75,7 +77,18 @@ if [[ -f ~/.bashrc ]]; then
   source ~/.bashrc
 fi</code></pre><pre><code class="language-bash"># Windows 路径和 Unix 路径互转
 cygpath -u &#39;C:\Users\me\Downloads&#39;
-cygpath -w &#39;/c/Users/me/.oh-my-bash&#39;</code></pre></div><div class="card"><h2>🚀 最小工作流 <a href="https://github.com/ohmybash/oh-my-bash#using-oh-my-bash" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">第一次接手一台机器时，不要先改很多模块，先确认加载链、主题和一个插件能不能正常工作。</div><pre><code class="language-bash">source ~/.bashrc
+cygpath -w &#39;/c/Users/me/.oh-my-bash&#39;</code></pre></div><div class="card"><h2>✅ 安装后验证 / 激活检查 <a href="https://github.com/ohmybash/oh-my-bash#basic-installation" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">安装后不要先看目录，先看加载链。只要主题变量、更新命令和启动文件链都能读出来，基本就算激活成功。</div><ul><li><code>test -d ~/.oh-my-bash</code>：目录存在，说明文件已落地</li><li><code>echo &quot;$OSH&quot;</code>：应该输出安装目录</li><li><code>echo &quot;$OSH_THEME&quot;</code>：当前主题变量已读入</li><li><code>type upgrade_oh_my_bash</code>：更新命令可用，说明框架脚本已加载</li><li><code>type uninstall_oh_my_bash</code>：卸载命令可用，说明脚本已注入当前 shell</li><li><code>declare -p plugins aliases completions 2&gt;/dev/null</code>：检查常用数组是否已读入</li><li><code>grep -nE &#39;source ~/.bashrc|\\. ~/.bashrc&#39; ~/.bash_profile ~/.bashrc 2&gt;/dev/null</code>：Git Bash 的启动链检查</li><li><code>exec bash</code>：重启当前 shell 再看一次最终效果</li></ul><pre><code class="language-bash"># 基本验证
+test -d ~/.oh-my-bash &amp;&amp; echo &quot;installed&quot;
+echo &quot;$OSH&quot;
+echo &quot;$OSH_THEME&quot;
+type upgrade_oh_my_bash
+type uninstall_oh_my_bash
+
+# Git Bash 启动链
+grep -nE &#39;source ~/.bashrc|\. ~/.bashrc&#39; ~/.bash_profile ~/.bashrc 2&gt;/dev/null
+
+# 重新加载后再确认
+source ~/.bashrc</code></pre></div><div class="card"><h2>🚀 最小工作流 <a href="https://github.com/ohmybash/oh-my-bash#using-oh-my-bash" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">第一次接手一台机器时，不要先改很多模块，先确认加载链、主题和一个插件能不能正常工作。</div><pre><code class="language-bash">source ~/.bashrc
 alias
 declare -p OSH_THEME plugins aliases completions 2&gt;/dev/null</code></pre></div><div class="card"><h2>🎨 主题切换 <a href="https://github.com/ohmybash/oh-my-bash#themes" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">主题是最容易立刻看到效果的部分。Windows 下优先选稳定主题，追求花哨前先确认字体支持。</div><ul><li><code>OSH_THEME=&quot;font&quot;</code>：默认主题，最稳</li><li><code>OSH_THEME=&quot;random&quot;</code>：每次随机一个主题</li><li><code>OMB_THEME_RANDOM_CANDIDATES=(...)</code>：只从指定列表里随机</li><li><code>OMB_THEME_RANDOM_IGNORED=(...)</code>：排除不想要的主题</li><li><code>OMB_THEME_RANDOM_SELECTED</code>：当前随机到的主题名</li><li><code>agnoster</code>：常见漂亮主题，但通常需要 Powerline / Nerd Font</li><li><code>ls &quot;$OSH/themes&quot;</code></li><li><code>OSH_THEME=xxx source ~/.bashrc</code>：直接 ，不用重开终端</li></ul><pre><code class="language-bash"># 主题切换：稳妥起步
 OSH_THEME=&quot;font&quot;
