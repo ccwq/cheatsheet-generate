@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>Neovim 速查 + Cookbook</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png">
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 420px; 
+      --gap: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
+      <span class="title">Neovim 速查 + Cookbook</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">0.12.0</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-03-29</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/neovim/neovim" target="_blank" rel="noopener">neovim/neovim</a></span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/neovim/neovim" target="_blank" rel="noopener">打开 Zread</a></span></span>
+      </div>
+      <div class="meta-tags"><tag-chip class="tag tag-group-2 detail-tag" data-name="IDE / 编辑器" data-group="2" label="IDE / 编辑器" group="2" variant="detail" icon="mdi:application-brackets-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M9.5 8.5L11 10l-3 3l3 3l-1.5 1.5L5 13zm5 9L13 16l3-3l-3-3l1.5-1.5L19 13zM21 2H3a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2m0 18H3V6h18z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-1 detail-tag" data-name="CLI / Terminal" data-group="1" label="CLI / Terminal" group="1" variant="detail" icon="mdi:console" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M20 19V7H4v12zm0-16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-7 14v-2h5v2zm-3.42-4L5.57 9H8.4l3.3 3.3c.39.39.39 1.03 0 1.42L8.42 17H5.59z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-3 detail-tag" data-name="开发" data-group="3" label="开发" group="3" variant="detail" icon="mdi:code-tags" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m14.6 16.6l4.6-4.6l-4.6-4.6L16 6l6 6l-6 6zm-5.2 0L4.8 12l4.6-4.6L8 6l-6 6l6 6z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-3 detail-tag" data-name="学习 / 入门" data-group="3" label="学习 / 入门" group="3" variant="detail" icon="mdi:school-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9zm6.82 6L12 12.72L5.18 9L12 5.28zM17 16l-5 2.72L7 16v-3.73L12 15l5-2.73z&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>🔎 快速定位 <a href="https://neovim.io/doc/user/quickref.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Neovim 是基于模式的终端编辑器。先记住“打开文件 -&gt; 进普通模式 -&gt; 移动 -&gt; 修改 -&gt; 保存退出”这个循环，再扩展到窗口、搜索、宏和终端。</div><ul><li><code>nvim file.txt</code> <code>Esc</code> <code>w/b/gg/G</code> <code>i/a/o</code> <code>:wq</code></li><li>三个核心模式是普通、插入、可视</li><li><code>:terminal</code> <code>Ctrl-\ Ctrl-n</code> <code>Ctrl-\ Ctrl-o</code> <code>:checkhealth</code> <code>:lua</code></li><li><code>:help {topic}</code> <code>:help index</code> <code>K</code></li></ul><pre><code class="language-bash"># 最小工作流
+nvim app.js
+Esc
+/TODO
+ciwDONE
+Esc
+:wq</code></pre></div><div class="card"><h2>⚡ Cookbook: 起手式 <a href="https://neovim.io/doc/user/usr_02.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">先把“进入、移动、修改、保存”跑顺。大多数编辑动作都能在这条回路里完成。</div><ul><li><code>nvim file.txt</code>：打开文件</li><li><code>nvim +12 file.txt</code>：打开后跳到第 12 行</li><li><code>nvim +/keyword file.txt</code>：打开后直接搜索关键字</li><li><code>Esc</code>：回到普通模式</li><li><code>i</code> <code>a</code> <code>I</code> <code>A</code>：在光标前、后、行首、行尾进入插入模式</li><li><code>o</code> <code>O</code>：在下方、上方新开一行并进入插入模式</li><li><code>:w</code> <code>:wq</code> <code>:q</code> <code>:q!</code>：保存、保存退出、退出、强制退出</li></ul><pre><code class="language-bash"># 先开文件，再改，再存
+nvim src/main.ts
+/name
+ciwuserName
+Esc
+:w</code></pre></div><div class="card"><h2>🧭 Cookbook: 高频套路 <a href="https://neovim.io/doc/user/motion.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这几类场景最常见：改一个词、改一段、搜后批量替换、多文件对照、打开终端再返回。</div><ul><li><code>/old</code> <code>ciwnew</code> <code>Esc</code>：改一个词</li><li><code>C</code>：改到行尾</li><li><code>yy</code>：复制当前行</li><li><code>p</code> <code>P</code>：粘贴当前行</li><li><code>V</code> <code>&gt;</code> <code>&lt;</code>：选中后整体缩进</li><li><code>/pattern</code> <code>n</code> <code>.</code>：搜索后继续修改</li><li><code>:vsp other.ts</code> <code>Ctrl-w l</code> <code>Ctrl-w h</code>：多文件对照</li><li><code>:terminal</code>：进入终端</li><li><code>Ctrl-\ Ctrl-n</code>：从终端回普通模式</li><li><code>Ctrl-\ Ctrl-o</code>：在终端里临时执行一次普通模式命令</li></ul><pre><code class="language-bash"># 批量改同一类词
+/old_name
+ciwnew_name
+Esc
+n
+.</code></pre><pre><code class="language-bash"># 左右对照两个文件
+:vsp config.example.yml
+Ctrl-w l
+/timeout
+Ctrl-w h
+/timeout</code></pre></div><div class="card"><h2>🔍 Cookbook: 搜索、替换、宏 <a href="https://neovim.io/doc/user/repeat.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">先缩小范围，再批量修改。规则固定用替换，步骤复杂用宏。</div><ul><li><code>/pattern</code> <code>?pattern</code>：向下、向上搜索</li><li><code>n</code> <code>N</code>：下一个、上一个匹配</li><li><code>*</code> <code>#</code>：搜索当前词的下一个、上一个匹配</li><li><code>:%s/old/new/g</code>：全文件替换</li><li><code>:%s/old/new/gc</code>：全文件逐个确认替换</li><li><code>:g/pattern/cmd</code>：对匹配行执行命令</li><li><code>:v/pattern/cmd</code>：对不匹配行执行命令</li><li><code>qa ... q</code> <code>a</code>：录制寄存器 的宏</li><li><code>@a</code> <code>a</code>：执行寄存器 的宏</li><li><code>@@</code>：重复上一次宏</li><li><code>.</code>：重复上一次修改</li></ul><pre><code class="language-bash"># 先确认，再替换
+/TODO
+n
+:%s/TODO/DONE/gc</code></pre></div><div class="card"><h2>🧪 常见坑 <a href="https://neovim.io/doc/user/faq.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">出问题先看模式、帮助、健康检查和最近消息。多数异常都能快速定位。</div><ul><li><code>i</code>：多半还在普通模式，按它进插入模式</li><li><code>:set clipboard?</code>：先查剪贴板状态，再看终端 OSC52 和系统剪贴板能力</li><li><code>nvim --clean</code>：先试最小配置</li><li><code>nvim -u NONE</code>：先排除用户配置</li><li><code>:checkhealth</code>：看诊断入口</li><li><code>:messages</code>：看最近提示</li><li><code>Ctrl-g</code>：看当前文件和光标位置</li><li><code>:help {topic}</code> <code>:help index</code>：查帮助</li></ul></div><div class="card"><h2>⌨️ 快捷键：模式切换 <a href="https://neovim.io/doc/user/intro.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">先把普通、插入、可视和终端模式的边界记牢。模式切错时，很多“按键没反应”其实只是命令被当成了输入。</div><ul><li><code>Esc</code>：回到普通模式</li><li><code>i</code> <code>a</code>：在光标前、后进入插入模式</li><li><code>I</code> <code>A</code>：在行首、行尾进入插入模式</li><li><code>o</code> <code>O</code>：在下方、上方新开一行并进入插入模式</li><li><code>s</code> <code>S</code>：删除字符、删除整行后进入插入模式</li><li><code>R</code>：进入覆盖模式</li><li><code>v</code> <code>V</code> <code>Ctrl-v</code>：字符、行、块可视模式</li><li><code>gv</code>：重新选中上一次可视选择</li><li><code>Ctrl-\ Ctrl-n</code>：从终端模式回到普通模式</li><li><code>Ctrl-\ Ctrl-o</code>：在终端模式下执行一次普通模式命令</li></ul></div><div class="card"><h2>🧭 快捷键：基础移动 <a href="https://neovim.io/doc/user/motion.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">移动决定了后面的编辑范围。把字、词、行、屏、文件这五层记住，后面会顺很多。</div><ul><li><code>h</code> <code>j</code> <code>k</code> <code>l</code>：左、下、上、右</li><li><code>w</code> <code>W</code>：到下一个单词、WORD 开头</li><li><code>b</code> <code>B</code>：到上一个单词、WORD 开头</li><li><code>e</code> <code>E</code>：到单词、WORD 结尾</li><li><code>ge</code> <code>gE</code>：到上一个单词、WORD 结尾</li><li><code>0</code> <code>^</code> <code>$</code> <code>g_</code>：行首、非空行首、行尾、非空行尾</li><li><code>gg</code> <code>G</code>：文件头、文件尾</li><li><code>H</code> <code>M</code> <code>L</code>：屏幕顶部、中部、底部</li><li><code>f{char}</code> <code>F{char}</code>：向前、向后跳到字符</li><li><code>t{char}</code> <code>T{char}</code>：向前、向后跳到字符前一位</li><li><code>;</code> <code>,</code> <code>fFtT</code>：重复上一次</li><li><code>%</code>：跳到括号配对</li><li><code>(</code> <code>)</code>：跳到前一个、后一个句子</li><li><code>{</code> <code>}</code>：跳到前一个、后一个段落</li><li><code>Ctrl-d</code> <code>Ctrl-u</code>：向下、向上翻半屏</li><li><code>Ctrl-f</code> <code>Ctrl-b</code>：向下、向上翻整屏</li><li><code>Ctrl-e</code> <code>Ctrl-y</code>：向下、向上滚一行</li><li><code>zz</code> <code>zt</code> <code>zb</code>：当前行居中、置顶、置底</li></ul></div><div class="card"><h2>✏️ 快捷键：编辑与删除 <a href="https://neovim.io/doc/user/change.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这张卡覆盖最常见的文本修改动作，优先记删除、修改、撤销、重复和缩进。</div><ul><li><code>x</code> <code>X</code>：删除光标处、前一个字符</li><li><code>dd</code>：删除整行</li><li><code>D</code>：删除到行尾</li><li><code>dw</code> <code>db</code>：删除到下一个、上一个单词边界</li><li><code>diw</code> <code>daw</code>：删除当前单词、当前单词含空格</li><li><code>cw</code> <code>cW</code>：修改当前单词、WORD</li><li><code>ciw</code> <code>caw</code>：修改当前单词、当前单词含空格</li><li><code>cc</code>：修改整行</li><li><code>C</code>：修改到行尾</li><li><code>r{char}</code>：替换单个字符</li><li><code>R</code>：覆盖模式</li><li><code>J</code> <code>gJ</code>：连接行，保留或不保留空格</li><li><code>u</code>：撤销</li><li><code>Ctrl-r</code>：重做</li><li><code>.</code>：重复上一次修改</li><li><code>~</code>：切换字符大小写</li><li><code>gu</code> <code>gU</code>：转小写、转大写</li><li><code>g~</code>：反转大小写</li><li><code>&gt;&gt;</code> <code>&lt;&lt;</code>：当前行右移、左移</li><li><code>==</code>：自动缩进当前行</li><li><code>=ap</code>：自动缩进当前段落</li></ul></div><div class="card"><h2>📋 快捷键：复制与寄存器 <a href="https://neovim.io/doc/user/change.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">复制粘贴不只是 `y` 和 `p`。寄存器、黑洞寄存器和系统剪贴板一起记，效率会高很多。</div><ul><li><code>y</code> <code>yy</code>：复制选中内容、复制当前行</li><li><code>Y</code>：复制当前行到行尾</li><li><code>p</code> <code>P</code>：在后方、前方粘贴</li><li><code>gp</code> <code>gP</code>：粘贴后把光标放到粘贴内容后、前</li><li><code>&quot;{reg}</code>：选择寄存器</li><li><code>&quot;+y</code> <code>&quot;+p</code>：复制到、粘贴自系统剪贴板</li><li><code>&quot;*y</code> <code>&quot;*p</code>：复制到、粘贴自主剪贴板</li><li><code>&quot;_d</code>：丢弃到黑洞寄存器</li><li><code>:reg</code>：查看寄存器</li></ul></div><div class="card"><h2>🧱 快捷键：可视模式 <a href="https://neovim.io/doc/user/visual.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">当修改范围不是单点，而是一块区域时，就切到可视模式。</div><ul><li><code>v</code> <code>V</code> <code>Ctrl-v</code>：字符、行、块选择</li><li><code>o</code>：在可视选择的另一端跳转</li><li><code>O</code>：在块选择中切换另一角</li><li><code>d</code> <code>y</code> <code>c</code>：删除、复制、修改选中内容</li><li><code>&gt;</code> <code>&lt;</code>：右移、左移选中内容</li><li><code>=</code>：自动缩进选中内容</li><li><code>r{char}</code>：用单个字符替换选区</li><li><code>~</code>：切换选区大小写</li><li><code>gv</code>：重新选中上一次可视选择</li></ul></div><div class="card"><h2>🔍 快捷键：搜索与替换 <a href="https://neovim.io/doc/user/pattern.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">先搜索，再替换；先确认范围，再批量改。规则固定就用替换，变化多就用宏。</div><ul><li><code>/pattern</code> <code>?pattern</code>：向下、向上搜索</li><li><code>n</code> <code>N</code>：下一个、上一个匹配</li><li><code>*</code> <code>#</code>：搜索当前词的下一个、上一个匹配</li><li><code>g*</code> <code>g#</code>：搜索当前词的部分匹配</li><li><code>:noh</code>：取消搜索高亮</li><li><code>:s/old/new/</code>：替换当前行</li><li><code>:%s/old/new/g</code>：替换整个文件</li><li><code>:%s/old/new/gc</code>：替换整个文件并逐个确认</li><li><code>:g/pattern/d</code>：删除匹配行</li><li><code>:v/pattern/d</code>：删除不匹配行</li><li><code>&amp;</code>：重复上一次替换</li><li><code>g&amp;</code>：对整文件重复上一次替换</li><li><code>qa ... q</code> <code>a</code>：录制寄存器 的宏</li><li><code>@a</code> <code>a</code>：执行寄存器 的宏</li><li><code>@@</code>：重复上一次宏</li></ul></div><div class="card"><h2>🎯 快捷键：标记与跳转 <a href="https://neovim.io/doc/user/motion.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">标记和跳转适合在大文件、跨文件和多次修改之间来回切换。</div><ul><li><code>m{a-zA-Z}</code>：设置标记</li><li><code>`{mark}`</code>：精确跳到标记位置</li><li><code>&#39;a</code> <code>`{mark}`</code>：跳到标记所在行，精确位置用</li><li><code>&#39;&#39;</code>：返回上一个跳转位置</li><li><code>Ctrl-o</code>：回到上一个跳转位置</li><li><code>Ctrl-i</code>：前进到下一个跳转位置</li><li><code>g;</code> <code>g,</code>：跳到上一个、下一个修改位置</li><li><code>:marks</code>：查看标记</li><li><code>:jumps</code>：查看跳转历史</li><li><code>:changes</code>：查看修改历史</li><li><code>gf</code>：打开光标下的文件名</li><li><code>gF</code>：打开光标下的文件名并跳到行号</li><li><code>Ctrl-]</code>：跳转到标签定义</li><li><code>Ctrl-t</code>：返回标签栈上一层</li><li><code>K</code>：打开光标下单词的帮助</li></ul></div><div class="card"><h2>🧩 快捷键：文本对象 <a href="https://neovim.io/doc/user/usr_04.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">文本对象是 Neovim 最值得记的一层能力，适合把操作直接作用在“词、句、段、括号块”上。</div><ul><li><code>iw</code> <code>aw</code>：当前单词、当前单词含空格</li><li><code>iW</code> <code>aW</code>：当前 WORD、当前 WORD 含空格</li><li><code>is</code> <code>as</code>：当前句子、当前句子含空格</li><li><code>ip</code> <code>ap</code>：当前段落、当前段落含空格</li><li><code>i&quot;</code> <code>a&quot;</code>：双引号内、包含双引号</li><li><code>i&#39;</code> <code>a&#39;</code>：单引号内、包含单引号</li><li><code>i(</code> <code>a(</code>：圆括号内、包含圆括号</li><li><code>i[</code> <code>a[</code>：方括号内、包含方括号</li><li><code>i{</code> <code>a{</code>：花括号内、包含花括号</li><li><code>i&lt;</code> <code>a&lt;</code>：尖括号内、包含尖括号</li><li><code>ciw</code> <code>diw</code> <code>yiw</code>：修改、删除、复制当前单词</li><li><code>cit</code> <code>cat</code>：修改、删除 HTML/XML 标签内内容</li></ul></div><div class="card"><h2>🪟 快捷键：窗口、分屏、标签、缓冲区 <a href="https://neovim.io/doc/user/windows.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">多文件工作时，真正省时间的是窗口、标签和缓冲区之间的切换。</div><ul><li><code>:sp</code> <code>:vsp</code>：水平、垂直分屏</li><li><code>Ctrl-w s</code> <code>Ctrl-w v</code>：水平、垂直分屏</li><li><code>Ctrl-w w</code>：切到下一个窗口</li><li><code>Ctrl-w h</code> <code>j</code> <code>k</code> <code>l</code>：切到左、下、上、右窗口</li><li><code>Ctrl-w t</code> <code>Ctrl-w b</code>：切到最上、最下窗口</li><li><code>Ctrl-w c</code>：关闭当前窗口</li><li><code>Ctrl-w o</code>：只保留当前窗口</li><li><code>Ctrl-w x</code>：交换当前窗口与下一个窗口</li><li><code>Ctrl-w =</code>：平衡所有窗口大小</li><li><code>Ctrl-w +</code> <code>Ctrl-w -</code>：增加、减少窗口高度</li><li><code>Ctrl-w &gt;</code> <code>Ctrl-w &lt;</code>：增加、减少窗口宽度</li><li><code>Ctrl-w H</code> <code>J</code> <code>K</code> <code>L</code>：把当前窗口移到最左、最下、最上、最右</li><li><code>Ctrl-w r</code>：与下一个窗口交换位置</li><li><code>Ctrl-w T</code>：把当前窗口移到新标签页</li><li><code>:tabnew</code> <code>:tabedit</code>：新建标签页、在标签页中打开文件</li><li><code>gt</code> <code>gT</code>：下一个、上一个标签页</li><li><code>:tabnext</code> <code>:tabprev</code>：切到下一个、上一个标签页</li><li><code>:tabclose</code>：关闭当前标签页</li><li><code>:tabonly</code>：只保留当前标签页</li><li><code>:ls</code> <code>:buffers</code>：查看缓冲区</li><li><code>:b {nr|name}</code>：切换缓冲区</li><li><code>:bn</code> <code>:bp</code>：下一个、上一个缓冲区</li><li><code>:bd</code>：关闭当前缓冲区</li></ul></div><div class="card"><h2>🧮 快捷键：宏与批量 <a href="https://neovim.io/doc/user/repeat.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">规则固定时优先替换，步骤复杂或每行略有差异时就录宏。</div><ul><li><code>qa ... q</code> <code>a</code>：录制寄存器 的宏</li><li><code>q</code>：结束录制</li><li><code>@a</code> <code>a</code>：执行寄存器 的宏</li><li><code>@@</code>：重复上一次宏</li><li><code>:normal {cmd}</code>：对选中范围执行普通模式命令</li><li><code>:global /pattern/ {cmd}</code>：对匹配行批量执行命令</li></ul></div><div class="card"><h2>🛠️ 快捷键：命令行、终端、Neovim 特有 <a href="https://neovim.io/doc/user/cmdline.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这一组是 Neovim 相比传统 Vim 更常用的入口，尤其是终端、健康检查和 Lua 配置。</div><ul><li><code>:</code>：进入 Ex 命令行</li><li><code>q:</code> <code>q/</code>：打开命令、搜索历史窗口</li><li><code>Ctrl-b</code> <code>Ctrl-e</code>：命令行首尾</li><li><code>Ctrl-u</code> <code>Ctrl-w</code>：清除到开头、删掉前一个词</li><li><code>Ctrl-r {reg}</code>：在命令行插入寄存器内容</li><li><code>Tab</code> <code>Ctrl-d</code>：补全、列出补全</li><li><code>:terminal</code>：打开内置终端</li><li><code>:checkhealth</code>：运行健康检查</li><li><code>:messages</code>：查看最近消息</li><li><code>:scriptnames</code>：查看已加载脚本</li><li><code>:source %</code>：重新加载当前脚本</li><li><code>:luafile %</code>：重新执行当前 Lua 文件</li><li><code>nvim --clean</code>：用最小配置启动</li><li><code>nvim -u NONE</code>：不加载用户配置启动</li></ul></div>
+    </div>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>
