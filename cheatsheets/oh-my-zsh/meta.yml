@@ -1,0 +1,10 @@
+desc: Oh My Zsh / OMZ 使用速查表，涵盖各平台安装、Windows 与 Git Bash 说明、主题插件配置、更新卸载和常见排障。
+tags:
+  - CLI / Terminal
+  - 命令行
+  - 插件
+  - Windows
+  - 脚本工具
+version: unknown
+github: ohmyzsh/ohmyzsh
+date: "2026-03-31"
