@@ -1,0 +1,10 @@
+desc: ssh 命令速查与场景化用法，覆盖登录、密钥、跳板机、端口转发、配置文件、排错与常见坑。
+tags:
+  - CLI / Terminal
+  - CLI 工具
+  - 网络工具
+  - Shell
+  - 运维
+version: OpenSSH_for_Windows_9.5p2
+github: openssh/openssh-portable
+date: "2026-03-30"

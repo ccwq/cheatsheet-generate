@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>ssh 命令速查表</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png">
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 360px; 
+      --gap: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
+      <span class="title">ssh 命令速查表</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">OpenSSH_for_Windows_9.5p2</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-03-30</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/openssh/openssh-portable" target="_blank" rel="noopener">openssh/openssh-portable</a></span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/openssh/openssh-portable" target="_blank" rel="noopener">打开 Zread</a></span></span>
+      </div>
+      <div class="meta-tags"><tag-chip class="tag tag-group-1 detail-tag" data-name="CLI / Terminal" data-group="1" label="CLI / Terminal" group="1" variant="detail" icon="mdi:console" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M20 19V7H4v12zm0-16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-7 14v-2h5v2zm-3.42-4L5.57 9H8.4l3.3 3.3c.39.39.39 1.03 0 1.42L8.42 17H5.59z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="CLI 工具" data-group="2" label="CLI 工具" group="2" variant="detail" icon="mdi:console-network-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M15 20a1 1 0 0 0-1-1h-1v-2h4a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4v2h-1a1 1 0 0 0-1 1H2v2h7a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1h7v-2zm-8-5V5h10v10zm1-8.11l3.56 3.56L8 14h2.53l2.92-2.92c.33-.34.33-.9 0-1.26L10.5 6.89zm8 5.33h-2.67V14H16z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="网络工具" data-group="2" label="网络工具" group="2" variant="detail" icon="mdi:lan-connect" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M4 1c-1.11 0-2 .89-2 2v4c0 1.11.89 2 2 2H1v2h12V9h-3c1.11 0 2-.89 2-2V3c0-1.11-.89-2-2-2zm0 2h6v4H4zM3 13v7h7v-2H5v-5zm11 0c-1.11 0-2 .89-2 2v4c0 1.11.89 2 2 2h-3v2h12v-2h-3c1.11 0 2-.89 2-2v-4c0-1.11-.89-2-2-2zm0 2h6v4h-6z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="Shell" data-group="0" label="Shell" group="0" variant="detail" icon="mdi:console-line" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M13 19v-3h8v3zm-4.5-6L2.47 7h4.24l4.96 4.95c.58.59.58 1.55 0 2.12L6.74 19H2.5z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-3 detail-tag" data-name="运维" data-group="3" label="运维" group="3" variant="detail" icon="mdi:server" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M4 1h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1m0 8h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1m0 8h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1M9 5h1V3H9zm0 8h1v-2H9zm0 8h1v-2H9zM5 3v2h2V3zm0 8v2h2v-2zm0 8v2h2v-2z&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>一眼入门</h2><ul><li><code>ssh user@host</code>：默认端口 22，使用当前私钥集合尝试登录</li><li><code>ssh -p 2222 user@host</code>：指定端口</li><li><code>ssh -i ~/.ssh/id_ed25519 user@host</code>：指定身份文件</li><li><code>ssh -l user host</code>：单独指定登录用户</li><li><code>ssh host &quot;uname -a&quot;</code>：登录后执行单条命令</li><li><code>ssh -t host &quot;sudo systemctl restart app&quot;</code>：强制分配 TTY，适合需要交互的远端命令</li><li><code>ssh -N host</code>：只建立连接，不执行远端命令</li><li><code>ssh -T host</code>：禁止分配 TTY，适合转发与管道任务</li><li><code>ssh -v/-vv/-vvv host</code>：递增调试输出</li><li><code>ssh -o Option=Value host</code>：临时覆盖配置</li></ul><pre><code class="language-bash">ssh user@prod.example.com
+ssh -p 2222 user@10.0.0.12 &quot;hostname &amp;&amp; uptime&quot;
+ssh -i ~/.ssh/prod_ed25519 -t admin@server &quot;sudo journalctl -u app -n 100&quot;</code></pre></div><div class="card"><h2>🪪 身份与会话 <a href="https://man.openbsd.org/ssh_config.5" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这一组参数决定“用谁连、怎么连、连上后做什么”。</div><ul><li><code>ssh -l user host</code>：指定登录用户</li><li><code>ssh -i key.pem host</code>：指定私钥</li><li><code>ssh -o IdentitiesOnly=yes host</code>：只使用指定密钥，避免客户端乱试</li><li><code>ssh -o PreferredAuthentications=publickey host</code>：优先使用公钥</li><li><code>ssh -o PubkeyAuthentication=no host</code>：临时关闭公钥认证</li><li><code>ssh -o PasswordAuthentication=no host</code>：禁止密码登录</li><li><code>ssh -o BatchMode=yes host</code>：非交互模式，脚本里避免卡住</li><li><code>ssh -A host</code>：转发本地 agent 到远端</li><li><code>ssh -a host</code>：禁止 agent 转发</li><li><code>ssh -C host</code>：启用压缩</li><li><code>ssh -n host cmd</code> <code>/dev/null</code>：把 stdin 重定向到 ，避免占用终端</li><li><code>ssh -f host cmd</code> <code>-N</code>：后台执行，常与 搭配</li><li><code>ssh -q host</code>：安静模式</li><li><code>ssh -o ConnectTimeout=10 host</code>：连接超时</li><li><code>ssh -o ServerAliveInterval=30 -o ServerAliveCountMax=3 host</code>：保活与断线检测</li></ul></div><div class="card"><h2>🧭 端口转发 <a href="https://man.openbsd.org/ssh" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">端口转发把 SSH 变成“隧道工具”，本地转发、远程转发、动态代理都在这里。</div><ul><li><code>ssh -L 127.0.0.1:5432:db.internal:5432 host</code>：本地转发</li><li><code>ssh -R 8080:127.0.0.1:3000 host</code>：远程转发，绑定到远端回环地址</li><li><code>ssh -D 127.0.0.1:1080 host</code>：动态转发，提供 SOCKS 代理</li><li><code>ssh -N -L ... host</code>：只建隧道，不开 shell</li><li><code>ssh -N -R ... host</code>：只暴露远端监听口</li><li><code>ssh -g -L ...</code>：允许远端主机访问本地转发端口</li><li><code>ssh -R 0.0.0.0:8080:127.0.0.1:3000 host</code> <code>GatewayPorts</code>：让远端所有网卡都可访问，通常还需要服务器端</li><li><code>ssh -W host:port jump</code>：通过标准输入输出透传到后端，常用于代理链</li></ul><pre><code class="language-bash"># 把本地 5432 转到内网数据库
+ssh -N -L 127.0.0.1:5432:10.0.2.15:5432 bastion
+
+# 用 SSH 提供本地 SOCKS5 代理
+ssh -N -D 127.0.0.1:1080 jump-host
+
+# 把本机 3000 暴露给远端服务器
+ssh -N -R 8080:127.0.0.1:3000 host</code></pre></div><div class="card"><h2>🪜 跳板与代理链 <a href="https://man.openbsd.org/ssh_config.5" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">先穿过堡垒机，再到目标机，是最常见的生产连接方式。</div><ul><li><code>ssh -J bastion target</code>：直接指定跳板机</li><li><code>ssh -J user@bastion:2222 user@target</code>：跳板也可自定义用户和端口</li><li><code>ssh -o ProxyJump=bastion target</code>：用配置项写法</li><li><code>ssh -o ProxyCommand=&quot;ssh -W %h:%p bastion&quot; target</code>：老版本兼容写法</li><li><code>ssh -W target:22 bastion</code>：让跳板机只负责转发，不开交互 shell</li><li><code>ssh -J bastion target &quot;cmd&quot;</code>：跳板后执行命令</li></ul><pre><code class="language-bash">ssh -J jump.example.com admin@10.10.0.25
+ssh -o ProxyJump=bastion admin@10.10.0.25 &quot;uptime&quot;</code></pre></div><div class="card"><h2>配置文件</h2><ul><li><code>Host alias</code>：匹配主机别名</li><li><code>HostName 10.0.0.25</code>：真正的目标地址</li><li><code>User admin</code>：默认登录用户</li><li><code>Port 2222</code>：默认端口</li><li><code>IdentityFile ~/.ssh/prod_ed25519</code>：默认密钥</li><li><code>ProxyJump bastion</code>：默认跳板</li><li><code>ForwardAgent yes</code>：默认 agent 转发</li><li><code>ServerAliveInterval 30</code>：保活</li><li><code>ControlMaster auto</code>：开启连接复用</li><li><code>ControlPath ~/.ssh/cm-%r@%h:%p</code>：复用控制 socket</li><li><code>ControlPersist 10m</code>：后台保持复用连接</li><li><code>StrictHostKeyChecking yes|no|ask</code>：主机指纹校验策略</li><li><code>StrictHostKeyChecking accept-new</code>：新版本常用的折中策略</li><li><code>UserKnownHostsFile ~/.ssh/known_hosts</code>：指定已知主机文件</li><li><code>Include ~/.ssh/config.d/*.conf</code>：拆分配置</li></ul><pre><code class="language-bash">Host prod
+  HostName 10.0.0.25
+  User admin
+  Port 2222
+  IdentityFile ~/.ssh/prod_ed25519
+  ProxyJump bastion
+  ServerAliveInterval 30
+  ControlMaster auto
+  ControlPath ~/.ssh/cm-%r@%h:%p
+  ControlPersist 10m</code></pre></div><div class="card"><h2>🗝️ 密钥与主机 <a href="https://man.openbsd.org/ssh-keygen.1" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">登录体验和安全边界，基本都由密钥体系决定。</div><ul><li><code>ssh-keygen -t ed25519 -C &quot;you@example.com&quot;</code>：生成主密钥</li><li><code>ssh-keygen -f ~/.ssh/id_ed25519 -p</code>：修改密钥口令</li><li><code>ssh-keygen -y -f ~/.ssh/id_ed25519</code>：从私钥导出公钥</li><li><code>ssh-keygen -lf ~/.ssh/id_ed25519.pub</code>：查看指纹</li><li><code>ssh-keygen -R host</code> <code>known_hosts</code>：从 删除旧指纹</li><li><code>ssh-keygen -F host</code> <code>known_hosts</code>：在 中查找</li><li><code>ssh-keyscan host</code>：抓取远端公钥指纹</li><li><code>ssh-agent</code>：启动 agent</li><li><code>ssh-add ~/.ssh/id_ed25519</code>：把私钥加入 agent</li><li><code>ssh-add -l</code>：查看 agent 中的密钥</li><li><code>ssh-add -D</code>：清空 agent</li><li><code>ssh-add -t 1h key</code>：设定密钥有效期</li></ul><pre><code class="language-bash">eval &quot;$(ssh-agent -s)&quot;
+ssh-add ~/.ssh/id_ed25519
+ssh-add -l
+ssh-keygen -lf ~/.ssh/id_ed25519.pub
+ssh-keyscan -H github.com &gt;&gt; ~/.ssh/known_hosts</code></pre></div><div class="card"><h2>🚪 场景 1：第一次连生产机 <a href="https://man.openbsd.org/ssh" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">目标是“第一次能连上、第二次能稳定连上”，而不是单纯输一条命令。</div><ul><li><code>ssh -v -p 22 user@host</code></li><li>第一次看到主机指纹时，核对 fingerprint 再接受</li><li><code>~/.ssh/config</code> <code>-i</code></li><li><code>ed25519</code></li><li><code>authorized_keys</code></li></ul><pre><code class="language-bash">ssh-keygen -t ed25519 -C &quot;laptop&quot;
+cat ~/.ssh/id_ed25519.pub | ssh user@host &#39;umask 077; mkdir -p ~/.ssh &amp;&amp; cat &gt;&gt; ~/.ssh/authorized_keys&#39;
+ssh user@host</code></pre></div><div class="card"><h2>🪜 场景 2：通过堡垒机进内网 <a href="https://man.openbsd.org/ssh_config.5" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">最常见的生产路径：先到跳板，再到目标，必要时把转发也一起带上。</div><ul><li><code>ssh -J bastion target</code></li><li><code>ProxyJump bastion</code></li><li><code>-W</code></li><li>跳板上不要转发多余 agent，除非确实需要</li></ul><pre><code class="language-bash">ssh -J admin@bastion.example.com:2222 admin@10.0.1.8
+ssh -o ProxyJump=admin@bastion.example.com:2222 admin@10.0.1.8 &quot;uptime&quot;</code></pre></div><div class="card"><h2>🧪 场景 3：用 SSH 做内网访问入口 <a href="https://man.openbsd.org/ssh" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">让 SSH 充当临时网络入口，常见于数据库、Redis、K8s API、内网 HTTP 服务。</div><ul><li><code>-L</code></li><li><code>-R</code></li><li><code>-D</code></li><li><code>-N</code></li><li><code>-g</code></li></ul><pre><code class="language-bash"># 本地访问内网数据库
+ssh -N -L 127.0.0.1:5432:db.internal:5432 bastion
+
+# 让远端能访问你本机的开发服务
+ssh -N -R 8080:127.0.0.1:3000 host
+
+# 给浏览器挂 SOCKS5 代理
+ssh -N -D 127.0.0.1:1080 proxy-host</code></pre></div><div class="card"><h2>🧯 场景 4：排错 <a href="https://man.openbsd.org/ssh" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">遇到连不上，先分清是认证、主机密钥、网络，还是远端 shell 问题。</div><ul><li><code>ssh -vvv host</code>：看握手细节</li><li><code>ssh -G host</code>：展开最终生效配置</li><li><code>ssh -Q key</code>：列出支持的 key 算法</li><li><code>ssh -Q cipher</code>：列出支持的加密算法</li><li><code>ssh -Q mac</code>：列出支持的 MAC</li><li><code>ssh -o PreferredAuthentications=publickey -o PubkeyAuthentication=yes host</code>：强制公钥路径</li><li><code>ssh -o IdentitiesOnly=yes -i key host</code>：只试这把钥匙</li><li><code>ssh-keygen -R host</code>：主机指纹冲突时先清理旧记录</li><li><code>ssh -o HostKeyAlgorithms=ssh-ed25519 host</code>：仅在兼容老旧设备时使用</li><li><code>ssh -o KexAlgorithms=curve25519-sha256 host</code>：仅在老设备握手失败时再考虑</li></ul></div><div class="card"><h2>⚠️ 常见坑 <a href="https://man.openbsd.org/ssh" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这些问题最常见，也最容易误判成“SSH 坏了”。</div><ul><li><code>Permission denied (publickey)</code> <code>authorized_keys</code>：通常是用户不对、密钥没进 、私钥没加载，或者权限过宽</li><li><code>Host key verification failed</code> <code>known_hosts</code>：里旧指纹冲突，先核对再删</li><li><code>Connection timed out</code>：端口没通、ACL/安全组拦了、跳板机不可达</li><li><code>Pseudo-terminal will not be allocated</code> <code>-T</code>：远端命令不需要交互，或你用了</li><li><code>stdin: is not a tty</code> <code>-t</code>：需要交互的命令缺少</li><li><code>REMOTE HOST IDENTIFICATION HAS CHANGED!</code>：先确认服务器是否重装或 DNS/路由是否被劫持</li><li><code>ServerAliveInterval</code> <code>ControlPersist</code></li><li><code>BatchMode=yes</code></li></ul><pre><code class="language-bash">ssh -o BatchMode=yes -o ConnectTimeout=5 host &quot;true&quot;
+ssh -o StrictHostKeyChecking=ask host</code></pre></div><div class="card"><h2>🧾 一屏总结 <a href="https://man.openbsd.org/ssh" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">如果只记 8 条，先记这 8 条。</div><ul><li><code>ssh user@host</code>：最基础登录</li><li><code>ssh -J bastion target</code>：跳板机</li><li><code>ssh -L local:remote</code>：本地转发</li><li><code>ssh -R remote:local</code>：远程转发</li><li><code>ssh -D port host</code>：SOCKS 代理</li><li><code>ssh -N</code>：只建隧道</li><li><code>ssh -G host</code>：展开配置</li><li><code>ssh-keygen -t ed25519</code>：生成密钥</li></ul></div>
+    </div>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>

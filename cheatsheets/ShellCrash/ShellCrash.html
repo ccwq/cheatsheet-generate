@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>ShellCrash 速查 + Cookbook</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="apple-touch-icon" href="icon.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 420px; 
+      --gap: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
+      <span class="title">ShellCrash 速查 + Cookbook</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">1.9.4</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-02-15</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/juewuy/ShellCrash" target="_blank" rel="noopener">juewuy/ShellCrash</a></span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/juewuy/ShellCrash" target="_blank" rel="noopener">打开 Zread</a></span></span>
+      </div>
+      <div class="meta-tags"><tag-chip class="tag tag-group-1 detail-tag" data-name="CLI / Terminal" data-group="1" label="CLI / Terminal" group="1" variant="detail" icon="mdi:console" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M20 19V7H4v12zm0-16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-7 14v-2h5v2zm-3.42-4L5.57 9H8.4l3.3 3.3c.39.39.39 1.03 0 1.42L8.42 17H5.59z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="CLI 工具" data-group="2" label="CLI 工具" group="2" variant="detail" icon="mdi:console-network-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M15 20a1 1 0 0 0-1-1h-1v-2h4a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4v2h-1a1 1 0 0 0-1 1H2v2h7a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1h7v-2zm-8-5V5h10v10zm1-8.11l3.56 3.56L8 14h2.53l2.92-2.92c.33-.34.33-.9 0-1.26L10.5 6.89zm8 5.33h-2.67V14H16z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="网络工具" data-group="2" label="网络工具" group="2" variant="detail" icon="mdi:lan-connect" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M4 1c-1.11 0-2 .89-2 2v4c0 1.11.89 2 2 2H1v2h12V9h-3c1.11 0 2-.89 2-2V3c0-1.11-.89-2-2-2zm0 2h6v4H4zM3 13v7h7v-2H5v-5zm11 0c-1.11 0-2 .89-2 2v4c0 1.11.89 2 2 2h-3v2h12v-2h-3c1.11 0 2-.89 2-2v-4c0-1.11-.89-2-2-2zm0 2h6v4h-6z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="自动化工具" data-group="2" label="自动化工具" group="2" variant="detail" icon="mdi:robot" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5A2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5a2.5 2.5 0 0 0 2.5 2.5a2.5 2.5 0 0 0 2.5-2.5a2.5 2.5 0 0 0-2.5-2.5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-3 detail-tag" data-name="运维" data-group="3" label="运维" group="3" variant="detail" icon="mdi:server" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M4 1h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1m0 8h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1m0 8h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1M9 5h1V3H9zm0 8h1v-2H9zm0 8h1v-2H9zM5 3v2h2V3zm0 8v2h2v-2zm0 8v2h2v-2z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-4 detail-tag" data-name="代理 / 服务" data-group="4" label="代理 / 服务" group="4" variant="detail" icon="mdi:server-network-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M13 13v2h1c.6 0 1 .4 1 1h7v2h-7c0 .6-.4 1-1 1h-4c-.6 0-1-.4-1-1H2v-2h7c0-.6.4-1 1-1h1v-2H3.2c-.7 0-1.2-.7-1.2-1.6V6.6C2 5.7 2.5 5 3.2 5h17.6c.7 0 1.2.7 1.2 1.6v4.8c0 .9-.5 1.6-1.2 1.6zm-4-3V8h1v2zM5 8h2v2H5zm15-1H4v4h16z&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>🚦 快速定位 <a href="https://github.com/juewuy/ShellCrash" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">ShellCrash 是面向 Linux / OpenWrt / 路由器 / Docker 环境的代理与流量转发管理脚本，核心价值不是“单条命令很多”，而是把内核管理、配置导入、模式切换、面板、定时任务和维护动作收拢到一套 Shell 菜单里。</div><h3>它最适合解决什么问题？</h3><ul><li><code>mihomo</code> <code>sing-box</code></li><li>把“订阅导入、配置检查、规则更新、面板管理、开机自启”放在同一条工作流里。</li><li>在路由器、本机、保守模式、Docker 等不同运行环境之间切换。</li></ul><h3>最短路径</h3><pre><code class="language-bash"># 进入交互菜单
+crash
+
+# 看命令帮助
+crash -h
+
+# 直接启动 / 停止服务
+crash -s start
+crash -s stop
+
+# 调试启动脚本
+crash -d</code></pre><h3>顶层菜单怎么理解？</h3><ul><li><code>1</code>：配置差不多就绪后直接起服务。</li><li><code>2</code>：处理运行模式、端口、DNS、转发相关基础项。</li><li><code>4</code>：解决开机自启、守护、启动脚本问题。</li><li><code>5</code>：定时更新、周期维护、自动任务。</li><li><code>6</code>：内核、配置文件、订阅与配置检查的主入口。</li><li><code>7</code>：适合路由器/旁路由场景的网关类设置。</li><li><code>8</code>：附加工具与实用脚本入口。</li><li><code>9</code>：更新脚本、切换版本、维护组件。</li></ul></div><div class="card"><h2>🧭 最小工作流 <a href="https://raw.githubusercontent.com/juewuy/ShellCrash/dev/scripts/menu.sh" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">真正高频的使用路径是“进菜单 -&gt; 导入或整理配置 -&gt; 选内核和模式 -&gt; 启动 -&gt; 看状态/面板 -&gt; 打开定时任务”，不是一开始就深挖细节。</div><h3>第一次装好之后先做什么？</h3><h3>最小闭环检查</h3><pre><code class="language-bash"># 看帮助是否正常
+crash -h
+
+# 直接拉起服务
+crash -s start
+
+# 需要停服务时
+crash -s stop
+
+# 仅初始化环境或补充启动文件
+start.sh init</code></pre><h3>如果你是不同设备，入口重点不同</h3><ul><li>路由器 / OpenWrt 场景，优先关注 7 网关、2 设置、4 自启动。</li><li>普通 Linux 主机场景，优先关注 6 核心配置、2 设置、5 任务。</li><li>Docker：重点是容器网络、持久化目录、内核与配置挂载是否完整。</li><li>老旧设备 / 第三方固件：优先确认是否需要“保守模式”，再谈规则和高级功能。</li></ul></div><div class="card"><h2>🧩 高频场景 Recipes <a href="https://raw.githubusercontent.com/juewuy/ShellCrash/dev/README_CN.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">ShellCrash 更像“场景驱动工具箱”。下面按实际动作组织，而不是按脚本目录平铺。</div><h3>场景 1：先把服务跑起来</h3><ul><li>入口命令是 crash。</li><li>主路径通常是 6 核心配置 -&gt; 2 设置 -&gt; 1 启动服务。</li><li>判断标准：服务能启动，面板可访问，流量按预期接管或转发。</li></ul><h3>场景 2：切换内核或修配置</h3><ul><li>主要入口在 6 核心配置。</li><li>适用时机：订阅能拉到但运行异常、某些规则或语法不兼容、你需要从 mihomo 切到 sing-box。</li><li>先做什么：先切内核，再跑配置检查，再重启服务。</li></ul><h3>场景 3：把它变成稳定旁路由 / 网关</h3><ul><li>常用组合入口是 7 网关 + 2 设置 + 4 自启动。</li><li>适用时机：ShellCrash 跑在路由器、旁路由、小主机、软路由里，需要长期在线。</li><li>收尾动作：确认自启动、任务计划、端口不冲突、规则会自动更新。</li></ul><h3>场景 4：需要可视化面板</h3><ul><li>适用时机：你要看连接、策略组、规则命中和流量，不想只盯着终端。</li><li>典型动作：先让服务稳定运行，再安装或切换本地 Dashboard。</li><li>注意：面板能打开，不等于配置正确；面板打不开，先排查端口、目录和服务状态。</li></ul><h3>场景 5：准备长期维护</h3><ul><li>维护主入口通常是 5 任务 + 9 更新。</li><li>适用时机：订阅和规则需要定时刷新，或者你要周期性更新脚本/内核。</li><li>核心动作：把“自动更新”与“手动更新”分开，先验证一次手动链路，再上定时任务。</li></ul><h3>速查：场景到菜单</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>目标</th><th>先看哪里</th><th>再看哪里</th></tr></thead><tbody><tr><td>导入订阅 / 配置</td><td>6 核心配置</td><td>1 启动服务</td></tr><tr><td>切换运行模式</td><td>2 设置</td><td>1 启动服务</td></tr><tr><td>做开机自启</td><td>4 自启动</td><td>crash -s start</td></tr><tr><td>配自动更新</td><td>5 任务</td><td>9 更新</td></tr><tr><td>看网关相关</td><td>7 网关</td><td>2 设置</td></tr><tr><td>停服务排障</td><td>3 停止服务</td><td>crash -d</td></tr></tbody></table></div></div><div class="card"><h2>📌 入口、命令与菜单速查 <a href="https://raw.githubusercontent.com/juewuy/ShellCrash/dev/scripts/menu.sh" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">ShellCrash 的命令行接口本身不算多，高频主要是 `crash` 入口、`-s start/stop`、调试与卸载；其余动作大多通过菜单完成。</div><h3>命令速查</h3><pre><code class="language-bash"># 进入主菜单
+crash
+
+# 简洁界面
+crash -l
+
+# 帮助
+crash -h
+
+# 启动 / 停止服务
+crash -s start
+crash -s stop
+
+# 调试模式
+crash -d
+
+# 卸载
+crash -u
+
+# 初始化
+crash -i
+start.sh init</code></pre><h3>菜单地图</h3><pre><code class="language-text">1 启动服务
+2 设置
+3 停止服务
+4 自启动
+5 任务
+6 核心配置
+7 网关
+8 工具
+9 更新
+0 退出</code></pre><h3>你什么时候优先用命令，而不是菜单？</h3><ul><li>自动化脚本里如果只需要启停服务，直接用 crash -s start 或 crash -s stop。</li><li>需要确认安装是否正常时，先用 crash -h。</li><li>启动链路有问题时，用 crash -d 生成调试信息。</li><li>大部分配置变更：还是回到交互菜单更稳。</li></ul></div><div class="card"><h2>🌐 运行模式与环境决策 <a href="https://raw.githubusercontent.com/juewuy/ShellCrash/dev/README_CN.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">ShellCrash 的难点通常不在“命令记不住”，而在“这台设备该跑哪种模式、依赖是否满足、什么时候需要保守模式或 Docker”。</div><h3>常见决策</h3><ul><li>路由器 / OpenWrt：优先把它当网关类工具来配置，重点是流量接管、自启动、防火墙规则。</li><li>Linux 主机：更像本机代理服务，优先看内核、配置文件和服务启停。</li><li>如果依赖不全，比如没有 iptables / nftables，很多场景只能退回纯净模式。</li><li>老旧或兼容性差的固件：优先考虑保守模式，再逐步开启额外能力。</li></ul><h3>依赖速查</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>组件</th><th>必要性</th><th>影响</th></tr></thead><tbody><tr><td>curl / wget</td><td>必须</td><td>订阅、在线安装、更新都依赖它</td></tr><tr><td>iptables / nftables</td><td>很重要</td><td>缺少时只能跑纯净模式或能力受限</td></tr><tr><td>crontab</td><td>较低</td><td>没它就没法稳定跑定时任务</td></tr><tr><td>net-tools</td><td>较低</td><td>端口检测和一些兼容逻辑会受影响</td></tr><tr><td>ubus / iproute 相关工具</td><td>视环境而定</td><td>路由器上本机地址识别更依赖它们</td></tr></tbody></table></div><h3>Quick Ref</h3><pre><code class="language-bash"># 先确认帮助与入口正常
+crash -h
+
+# 初始化启动环境
+crash -i
+
+# 起服务
+crash -s start
+
+# 停服务
+crash -s stop</code></pre></div><div class="card"><h2>🔁 更新、任务与维护收尾 <a href="https://github.com/juewuy/ShellCrash/releases" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">ShellCrash 适合长期运行，所以“更新、任务、自启动、调试”不是边角料，而是日常维护主线。</div><h3>维护顺序</h3><h3>1.9.4 这一版值得关注的点</h3><ul><li>新增 TG 控制机器人，可做服务管理、日志查看、配置文件上传下载、备份还原等。</li><li>新增自定义公网 vmess / ss 入站能力。</li><li>新增 Tailscale / WireGuard 内网穿透入口。</li><li>支持更细的 DNS 劫持端口与更多内核版本分支选择。</li><li>强化自启检测、版本回退与守护逻辑。</li></ul><h3>维护动作速查</h3><pre><code class="language-bash"># 停掉当前服务后再做大改动
+crash -s stop
+
+# 改完再重新拉起
+crash -s start
+
+# 启动链路异常时跑调试
+crash -d</code></pre></div><div class="card"><h2>🛠 排障与常见坑 <a href="https://juewuy.github.io/chang-jian-wen-ti/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">真正常见的问题大多集中在端口冲突、依赖缺失、配置格式不兼容、自启动失败和运行模式选错，而不是脚本本身“不会用”。</div><h3>最常见的排障顺序</h3><h3>高概率问题</h3><ul><li>面板打不开：先查服务是不是起来了，再查端口和 Dashboard 目录。</li><li>订阅能导入但不能启动：优先怀疑内核与配置语法不兼容。</li><li><code>4 自启动</code>：优先检查 ，再看系统服务或固件启动脚本。</li><li><code>5 任务</code>：优先补 ，不要只靠手工更新。</li><li>路由器场景异常：先怀疑网关模式、防火墙规则和 LAN 口识别。</li></ul><h3>调试速记</h3><pre><code class="language-bash"># 基础帮助
+crash -h
+
+# 调试启动链路
+crash -d
+
+# 初始化执行环境
+crash -i
+
+# 手动启停
+crash -s stop
+crash -s start</code></pre></div><div class="card"><h2>🧷 Quick Ref <a href="https://github.com/juewuy/ShellCrash/releases" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">保留真正高频的入口、动作和判断顺序，适合临时抄命令与回忆菜单方向。</div><h3>入口命令</h3><pre><code class="language-bash">crash
+crash -l
+crash -h
+crash -i
+crash -d
+crash -u</code></pre><h3>服务动作</h3><pre><code class="language-bash">crash -s start
+crash -s stop
+start.sh init</code></pre><h3>菜单优先级</h3><pre><code class="language-text">6 核心配置   -&gt; 处理内核 / 订阅 / 配置
+2 设置       -&gt; 处理模式 / 端口 / DNS / 转发
+1 启动服务   -&gt; 验证能否跑通
+4 自启动     -&gt; 做开机拉起
+5 任务       -&gt; 配自动更新
+9 更新       -&gt; 升级、回退、维护
+7 网关       -&gt; 路由器 / 旁路由重点入口</code></pre><h3>最小排障链</h3><pre><code class="language-bash">crash -h
+crash -s stop
+crash -s start
+crash -d</code></pre></div>
+    </div>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>
