@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>Swiper JS 速查</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png">
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 380px; 
+      --gap: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
+      <span class="title">Swiper JS 速查</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">12.1.3</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-03-24</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/nolimits4web/swiper" target="_blank" rel="noopener">nolimits4web/swiper</a></span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/nolimits4web/swiper" target="_blank" rel="noopener">打开 Zread</a></span></span>
+      </div>
+      <div class="meta-tags"><tag-chip class="tag tag-group-1 detail-tag" data-name="JavaScript" data-group="1" label="JavaScript" group="1" variant="detail" icon="mdi:language-javascript" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M3 3h18v18H3zm4.73 15.04c.4.85 1.19 1.55 2.54 1.55c1.5 0 2.53-.8 2.53-2.55v-5.78h-1.7V17c0 .86-.35 1.08-.9 1.08c-.58 0-.82-.4-1.09-.87zm5.98-.18c.5.98 1.51 1.73 3.09 1.73c1.6 0 2.8-.83 2.8-2.36c0-1.41-.81-2.04-2.25-2.66l-.42-.18c-.73-.31-1.04-.52-1.04-1.02c0-.41.31-.73.81-.73c.48 0 .8.21 1.09.73l1.31-.87c-.55-.96-1.33-1.33-2.4-1.33c-1.51 0-2.48.96-2.48 2.23c0 1.38.81 2.03 2.03 2.55l.42.18c.78.34 1.24.55 1.24 1.13c0 .48-.45.83-1.15.83c-.83 0-1.31-.43-1.67-1.03z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-1 detail-tag" data-name="Web 前端" data-group="1" label="Web 前端" group="1" variant="detail" icon="mdi:monitor-cellphone" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M23 11h-5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1m0 9h-5v-7h5zM20 2H2C.89 2 0 2.89 0 4v12a2 2 0 0 0 2 2h7v2H7v2h8v-2h-2v-2h2v-2H2V4h18v5h2V4a2 2 0 0 0-2-2&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-4 detail-tag" data-name="库 / SDK" data-group="4" label="库 / SDK" group="4" variant="detail" icon="mdi:library-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M12 14.27L10.64 13A11.24 11.24 0 0 0 5 10.18v6.95c2.61.34 5 1.34 7 2.82c2-1.48 4.39-2.48 7-2.82v-6.95c-2.16.39-4.09 1.39-5.64 2.82M19 8.15c.65-.1 1.32-.15 2-.15v11c-3.5 0-6.64 1.35-9 3.54C9.64 20.35 6.5 19 3 19V8c.68 0 1.35.05 2 .15c2.69.41 5.1 1.63 7 3.39c1.9-1.76 4.31-2.98 7-3.39M12 6c.27 0 .5-.1.71-.29c.19-.21.29-.44.29-.71s-.1-.5-.29-.71C12.5 4.11 12.27 4 12 4s-.5.11-.71.29c-.18.21-.29.45-.29.71s.11.5.29.71c.21.19.45.29.71.29m2.12 1.12a2.997 2.997 0 1 1-4.24-4.24a2.997 2.997 0 1 1 4.24 4.24&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-3 detail-tag" data-name="开发" data-group="3" label="开发" group="3" variant="detail" icon="mdi:code-tags" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m14.6 16.6l4.6-4.6l-4.6-4.6L16 6l6 6l-6 6zm-5.2 0L4.8 12l4.6-4.6L8 6l-6 6l6 6z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="动画引擎" data-group="2" label="动画引擎" group="2" variant="detail" icon="mdi:motion-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M7 13H3c-.55 0-1-.45-1-1s.45-1 1-1h4c.55 0 1 .45 1 1s-.45 1-1 1M6 8c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1s.45 1 1 1h1c.55 0 1-.45 1-1m16 4c0 2.76-2.24 5-5 5H4c-.55 0-1-.45-1-1s.45-1 1-1h9c-.42-.58-.75-1.26-.9-2H10c-.55 0-1-.45-1-1s.45-1 1-1h2.1c.15-.74.48-1.42.9-2H8c-.55 0-1-.45-1-1s.45-1 1-1h9c2.76 0 5 2.24 5 5m-2 0c0-1.65-1.35-3-3-3s-3 1.35-3 3s1.35 3 3 3s3-1.35 3-3&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>🎠 快速定位 / 入口 <a href="https://swiperjs.com/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Swiper 的主线是“容器结构 + modules + CSS + 实例方法”。先把原生初始化跑通，再按场景补 Navigation、Pagination、Thumbs、Virtual、Effects。</div><ul><li><code>.swiper</code> <code>.swiper-wrapper</code> <code>.swiper-slide</code>：-&gt; -&gt;</li><li><code>new Swiper(...)</code> <code>swiper/react</code> <code>swiper/vue</code> <code>swiper/element</code>：、、、</li><li><code>Navigation</code> <code>Pagination</code> <code>Scrollbar</code> <code>Autoplay</code> <code>FreeMode</code> <code>Grid</code> <code>Thumbs</code> <code>Controller</code>：、、、、、、、</li><li><code>EffectFade</code> <code>EffectCube</code> <code>EffectCoverflow</code> <code>EffectFlip</code> <code>EffectCards</code> <code>EffectCreative</code>：、、、、、</li><li><code>slideChange</code> <code>reachEnd</code> <code>progress</code> <code>breakpoint</code>：、、、</li><li><code>document.querySelector(&#39;.swiper&#39;).swiper</code></li></ul><pre><code class="language-javascript">import Swiper from &#39;swiper&#39;;
+import { Navigation, Pagination } from &#39;swiper/modules&#39;;
+
+import &#39;swiper/css&#39;;
+import &#39;swiper/css/navigation&#39;;
+import &#39;swiper/css/pagination&#39;;
+
+const swiper = new Swiper(&#39;.swiper&#39;, {
+  modules: [Navigation, Pagination],
+  slidesPerView: 1,
+  spaceBetween: 16,
+  navigation: true,
+  pagination: { clickable: true },
+});</code></pre></div><div class="card"><h2>🧩 最小工作流：原生 JS <a href="https://swiperjs.com/get-started" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">先用最少的参数把“可滑动、可翻页、可响应式”跑通，再考虑特效和联动。大多数项目都应该从这一版开始。</div><ul><li>先确认容器结构完整</li><li>再引入核心 CSS</li><li>需要按钮、分页、滚动条时，再装对应模块</li><li><code>breakpoints</code></li><li><code>allowTouchMove: false</code></li></ul><pre><code class="language-html">&lt;div class=&quot;swiper&quot;&gt;
+  &lt;div class=&quot;swiper-wrapper&quot;&gt;
+    &lt;div class=&quot;swiper-slide&quot;&gt;Slide 1&lt;/div&gt;
+    &lt;div class=&quot;swiper-slide&quot;&gt;Slide 2&lt;/div&gt;
+    &lt;div class=&quot;swiper-slide&quot;&gt;Slide 3&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;swiper-button-prev&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;swiper-button-next&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;swiper-pagination&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre><pre><code class="language-javascript">import Swiper from &#39;swiper&#39;;
+import { Navigation, Pagination, A11y } from &#39;swiper/modules&#39;;
+
+import &#39;swiper/css&#39;;
+import &#39;swiper/css/navigation&#39;;
+import &#39;swiper/css/pagination&#39;;
+
+const swiper = new Swiper(&#39;.swiper&#39;, {
+  modules: [Navigation, Pagination, A11y],
+  slidesPerView: 1,
+  spaceBetween: 12,
+  loop: true,
+  speed: 450,
+  navigation: {
+    nextEl: &#39;.swiper-button-next&#39;,
+    prevEl: &#39;.swiper-button-prev&#39;,
+  },
+  pagination: {
+    el: &#39;.swiper-pagination&#39;,
+    clickable: true,
+  },
+  a11y: true,
+});</code></pre></div><div class="card"><h2>🎬 Recipe：基础轮播怎么配 <a href="https://swiperjs.com/swiper-api" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">最常见的是“一个横向轮播 + 分页 + 响应式断点 + 轻微过渡”。这种场景不要上复杂特效，优先把滑动体验调顺。</div><ul><li><code>slidesPerView</code>：每屏显示几张</li><li><code>spaceBetween</code>：卡片间距</li><li><code>breakpoints</code>：按屏宽切换布局</li><li><code>centeredSlides</code>：居中展示首屏</li><li><code>watchOverflow</code>：滑块太少时自动禁用交互</li><li><code>grabCursor</code>：桌面端更像可拖拽组件</li></ul><pre><code class="language-javascript">const swiper = new Swiper(&#39;.swiper&#39;, {
+  slidesPerView: 1.15,
+  spaceBetween: 12,
+  centeredSlides: false,
+  grabCursor: true,
+  watchOverflow: true,
+  breakpoints: {
+    640: { slidesPerView: 2, spaceBetween: 16 },
+    1024: { slidesPerView: 3, spaceBetween: 20 },
+  },
+});</code></pre></div><div class="card"><h2>🖼️ Recipe：缩略图联动大图 <a href="https://swiperjs.com/swiper-api" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">图库、商品详情、作品集最常见的组合是“主图 + 缩略图”。关键不是事件，而是 `Thumbs` 和 `watchSlidesProgress`。</div><ul><li><code>thumbs: { swiper: thumbsSwiper }</code></li><li><code>watchSlidesProgress: true</code></li><li>缩略图通常关掉复杂交互，只保留点击切换</li><li><code>loop</code> <code>watchOverflow</code></li></ul><pre><code class="language-javascript">import Swiper from &#39;swiper&#39;;
+import { Thumbs, FreeMode } from &#39;swiper/modules&#39;;
+import &#39;swiper/css&#39;;
+
+const thumbs = new Swiper(&#39;.thumbs&#39;, {
+  modules: [FreeMode],
+  slidesPerView: 5,
+  spaceBetween: 8,
+  freeMode: true,
+  watchSlidesProgress: true,
+});
+
+const main = new Swiper(&#39;.main&#39;, {
+  modules: [Thumbs],
+  slidesPerView: 1,
+  spaceBetween: 12,
+  thumbs: {
+    swiper: thumbs,
+  },
+});</code></pre></div><div class="card"><h2>🧮 Recipe：海量数据与虚拟列表 <a href="https://swiperjs.com/swiper-api" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">当 slide 很多时，重点是减少 DOM 压力，而不是一味调动画。虚拟列表适合长列表、日志页、卡片墙和动态数据源。</div><ul><li><code>virtual</code>：开启虚拟滑块</li><li><code>renderExternal</code>：把渲染交给外部框架</li><li><code>renderExternalUpdate</code>：异步渲染后手动更新</li><li><code>slidesPerView: &#39;auto&#39;</code> <code>slidesPerViewAutoSlideSize</code></li><li><code>update()</code></li></ul><pre><code class="language-javascript">import Swiper from &#39;swiper&#39;;
+import { Virtual } from &#39;swiper/modules&#39;;
+
+const swiper = new Swiper(&#39;.swiper&#39;, {
+  modules: [Virtual],
+  virtual: {
+    slides: Array.from({ length: 1000 }, (_, i) =&gt; `Slide ${i + 1}`),
+  },
+  slidesPerView: 3,
+  spaceBetween: 12,
+});</code></pre><pre><code class="language-javascript">swiper.virtual.slides.push(&#39;New slide&#39;);
+swiper.update();</code></pre></div><div class="card"><h2>✨ Recipe：特效和动效 <a href="https://swiperjs.com/react" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Swiper 的特效模块适合做封面、展示页和轻量营销页。不要在复杂业务列表里乱堆特效，维护成本会很快上来。</div><ul><li><code>fade</code> <code>cube</code> <code>coverflow</code> <code>flip</code> <code>cards</code> <code>creative</code>：、、、、、</li><li><code>swiper/css/effect-fade</code></li><li><code>fade</code> <code>creative</code> <code>cards</code></li></ul><pre><code class="language-javascript">import Swiper from &#39;swiper&#39;;
+import { EffectFade, EffectCreative } from &#39;swiper/modules&#39;;
+
+import &#39;swiper/css&#39;;
+import &#39;swiper/css/effect-fade&#39;;
+import &#39;swiper/css/effect-creative&#39;;
+
+const fadeSwiper = new Swiper(&#39;.fade-swiper&#39;, {
+  modules: [EffectFade],
+  effect: &#39;fade&#39;,
+  fadeEffect: {
+    crossFade: true,
+  },
+});
+
+const creativeSwiper = new Swiper(&#39;.creative-swiper&#39;, {
+  modules: [EffectCreative],
+  effect: &#39;creative&#39;,
+  creativeEffect: {
+    prev: {
+      shadow: true,
+      translate: [&#39;-20%&#39;, 0, -1],
+    },
+    next: {
+      translate: [&#39;100%&#39;, 0, 0],
+    },
+  },
+});</code></pre></div><div class="card"><h2>🧱 Recipe：React / Vue / Web Components <a href="https://swiperjs.com/element" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Swiper 的三种官方入口共享同一套核心参数，但组件封装层不同。React / Vue 用组件，Web Components 用自定义元素。</div><ul><li><code>swiper/react</code></li><li><code>swiper/vue</code></li><li><code>swiper/element</code> <code>swiper/element/bundle</code>：或</li><li><code>modules</code></li><li><code>swiper/element</code> <code>register()</code></li></ul><pre><code class="language-tsx">// React
+import { Swiper, SwiperSlide } from &#39;swiper/react&#39;;
+import { Navigation, Pagination } from &#39;swiper/modules&#39;;
+import &#39;swiper/css&#39;;
+
+export default function App() {
+  return (
+    &lt;Swiper
+      modules={[Navigation, Pagination]}
+      spaceBetween={24}
+      slidesPerView={3}
+      navigation
+      pagination={{ clickable: true }}
+      onSlideChange={() =&gt; console.log(&#39;slide change&#39;)}
+    &gt;
+      &lt;SwiperSlide&gt;Slide 1&lt;/SwiperSlide&gt;
+      &lt;SwiperSlide&gt;Slide 2&lt;/SwiperSlide&gt;
+      &lt;SwiperSlide&gt;Slide 3&lt;/SwiperSlide&gt;
+    &lt;/Swiper&gt;
+  );
+}</code></pre><pre><code class="language-vue">&lt;!-- Vue --&gt;
+&lt;template&gt;
+  &lt;Swiper
+    :modules=&quot;[Navigation, Pagination]&quot;
+    :slides-per-view=&quot;3&quot;
+    :space-between=&quot;24&quot;
+    navigation
+    :pagination=&quot;{ clickable: true }&quot;
+    @slideChange=&quot;onSlideChange&quot;
+  &gt;
+    &lt;SwiperSlide&gt;Slide 1&lt;/SwiperSlide&gt;
+    &lt;SwiperSlide&gt;Slide 2&lt;/SwiperSlide&gt;
+    &lt;SwiperSlide&gt;Slide 3&lt;/SwiperSlide&gt;
+  &lt;/Swiper&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+import { Swiper, SwiperSlide } from &#39;swiper/vue&#39;;
+import { Navigation, Pagination } from &#39;swiper/modules&#39;;
+import &#39;swiper/css&#39;;
+
+const onSlideChange = () =&gt; {
+  console.log(&#39;slide change&#39;);
+};
+&lt;/script&gt;</code></pre><pre><code class="language-html">&lt;!-- Web Components --&gt;
+&lt;swiper-container init=&quot;false&quot;&gt;&lt;/swiper-container&gt;
+
+&lt;script type=&quot;module&quot;&gt;
+  import { register } from &#39;swiper/element/bundle&#39;;
+
+  register();
+
+  const el = document.querySelector(&#39;swiper-container&#39;);
+  Object.assign(el, {
+    slidesPerView: 3,
+    navigation: true,
+    pagination: { clickable: true },
+  });
+  el.initialize();
+&lt;/script&gt;</code></pre></div><div class="card"><h2>🧭 Quick Ref：核心参数 <a href="https://swiperjs.com/swiper-api" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">先记住最常调的一组参数，其他参数多数都是围绕“交互、布局、响应式、容器行为”展开。</div><div class="table-wrap"><table class="cheat-table"><thead><tr><th>参数</th><th>默认</th><th>作用</th><th>常见搭配</th></tr></thead><tbody><tr><td>slidesPerView</td><td>1</td><td>每屏显示数量</td><td>spaceBetween、breakpoints</td></tr><tr><td>spaceBetween</td><td>0</td><td>slide 间距</td><td>卡片式轮播</td></tr><tr><td>loop</td><td>false</td><td>无缝循环</td><td>navigation、autoplay</td></tr><tr><td>rewind</td><td>false</td><td>到头后回到第一张</td><td>少量 slides、无克隆</td></tr><tr><td>speed</td><td>300</td><td>过渡时长(ms)</td><td>所有动画场景</td></tr><tr><td>direction</td><td>horizontal</td><td>方向</td><td>横向/纵向切换</td></tr><tr><td>breakpoints</td><td>{}</td><td>响应式参数</td><td>布局自适应</td></tr><tr><td>centeredSlides</td><td>false</td><td>居中当前 slide</td><td>轮播封面</td></tr><tr><td>centeredSlidesBounds</td><td>false</td><td>居中但限制边界空白</td><td>少量 slide</td></tr><tr><td>grabCursor</td><td>false</td><td>桌面端拖拽光标</td><td>展示型轮播</td></tr><tr><td>watchOverflow</td><td>true</td><td>slide 不够时自动禁用</td><td>内容不固定</td></tr><tr><td>allowTouchMove</td><td>true</td><td>允许手势拖动</td><td>只读展示页可关</td></tr><tr><td>autoHeight</td><td>false</td><td>容器高度随当前 slide 变</td><td>文本高低不一</td></tr><tr><td>watchSlidesProgress</td><td>false</td><td>记录滑块可见状态</td><td>Thumbs、高级联动</td></tr><tr><td>virtualTranslate</td><td>false</td><td>不真的移动 wrapper</td><td>自定义过渡</td></tr><tr><td>createElements</td><td>false</td><td>自动补 wrapper/控件</td><td>快速原型</td></tr><tr><td>cssMode</td><td>false</td><td>用 CSS Scroll Snap</td><td>简单滚动场景</td></tr><tr><td>width / height</td><td>null</td><td>强制尺寸</td><td>隐藏初始化、SSR、测试</td></tr></tbody></table></div></div><div class="card"><h2>📚 Quick Ref：模块、方法、事件 <a href="https://swiperjs.com/swiper-api" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">模块决定“能做什么”，方法决定“怎么驱动”，事件决定“什么时候接业务逻辑”。</div><h3>模块速查</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>模块</th><th>作用</th><th>常见参数</th></tr></thead><tbody><tr><td>Navigation</td><td>上一页 / 下一页</td><td>nextEl、prevEl</td></tr><tr><td>Pagination</td><td>分页点 / 分页条</td><td>el、clickable、type</td></tr><tr><td>Scrollbar</td><td>滚动条拖拽</td><td>el、draggable</td></tr><tr><td>Autoplay</td><td>自动播放</td><td>delay、disableOnInteraction、pauseOnMouseEnter</td></tr><tr><td>FreeMode</td><td>自由滚动</td><td>enabled、sticky</td></tr><tr><td>Grid</td><td>多行布局</td><td>rows、fill</td></tr><tr><td>Thumbs</td><td>缩略图联动</td><td>swiper</td></tr><tr><td>Controller</td><td>双向控制</td><td>control、inverse</td></tr><tr><td>Virtual</td><td>虚拟列表</td><td>slides、renderExternal</td></tr><tr><td>Zoom</td><td>图片缩放</td><td>maxRatio</td></tr><tr><td>Keyboard</td><td>键盘控制</td><td>enabled、onlyInViewport</td></tr><tr><td>Mousewheel</td><td>滚轮切换</td><td>forceToAxis、releaseOnEdges</td></tr><tr><td>A11y</td><td>无障碍</td><td>prevSlideMessage、nextSlideMessage</td></tr><tr><td>Parallax</td><td>视差</td><td>data-swiper-parallax</td></tr><tr><td>EffectFade / Cube / Coverflow / Flip / Cards / Creative</td><td>动效</td><td>各自 effect 参数</td></tr></tbody></table></div><h3>方法速查</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>方法 / 属性</th><th>用途</th></tr></thead><tbody><tr><td>slideNext(speed?, runCallbacks?)</td><td>下一张</td></tr><tr><td>slidePrev(speed?, runCallbacks?)</td><td>上一张</td></tr><tr><td>slideTo(index, speed?, runCallbacks?)</td><td>跳到指定索引</td></tr><tr><td>slideToLoop(index, speed?, runCallbacks?)</td><td>loop 模式下按真实索引跳转</td></tr><tr><td>slideReset(speed?, runCallbacks?)</td><td>回到当前活动点</td></tr><tr><td>slideToClosest(speed?, runCallbacks?)</td><td>回到最近 snap 点</td></tr><tr><td>update()</td><td>手动改 DOM 后刷新</td></tr><tr><td>updateSize()</td><td>重算容器尺寸</td></tr><tr><td>updateSlides()</td><td>重算 slides</td></tr><tr><td>updateSlidesClasses()</td><td>刷新 active / prev / next 类</td></tr><tr><td>updateAutoHeight(speed?)</td><td>刷新高度</td></tr><tr><td>changeDirection(&#39;horizontal&#39; | &#39;vertical&#39;)</td><td>切换方向</td></tr><tr><td>changeLanguageDirection(&#39;rtl&#39; | &#39;ltr&#39;)</td><td>切换语言方向</td></tr><tr><td>destroy(deleteInstance?, cleanStyles?)</td><td>销毁实例</td></tr><tr><td>use(modules)</td><td>运行时安装模块</td></tr></tbody></table></div><h3>事件速查</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>事件</th><th>触发时机</th></tr></thead><tbody><tr><td>init</td><td>初始化完成</td></tr><tr><td>beforeInit</td><td>初始化前</td></tr><tr><td>slideChange</td><td>当前 slide 改变</td></tr><tr><td>transitionStart / transitionEnd</td><td>过渡开始 / 结束</td></tr><tr><td>progress</td><td>滑动进度变化</td></tr><tr><td>reachBeginning / reachEnd</td><td>到达首尾</td></tr><tr><td>setTranslate / setTransition</td><td>wrapper 位置 / 过渡更新</td></tr><tr><td>click / tap</td><td>点击或轻触</td></tr><tr><td>touchStart / touchMove / touchEnd</td><td>触摸链路</td></tr><tr><td>breakpoint</td><td>断点切换</td></tr><tr><td>observerUpdate</td><td>观察到 DOM 变化</td></tr></tbody></table></div></div><div class="card"><h2>⚠️ 常见坑 / 决策规则 <a href="https://swiperjs.com/swiper-api" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Swiper 的坑通常来自“模块没引、样式没引、结构没对、模式没选对”。先排这些基础项，再看业务逻辑。</div><ul><li>只写 JS 不引 CSS，样式会直接不完整</li><li>React / Vue / Element 都不是同一个入口，别混着用</li><li><code>thumbs</code> <code>watchSlidesProgress</code></li><li><code>loop</code> <code>rewind</code></li><li><code>nextEl</code> <code>prevEl</code> <code>el</code></li><li><code>virtual</code> <code>update()</code></li><li><code>cssMode</code></li><li><code>loading=&quot;lazy&quot;</code></li></ul></div>
+    </div>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>

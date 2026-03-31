@@ -1,0 +1,11 @@
+desc: Swiper JS 速查，前半按轮播、缩略图、虚拟列表、特效和框架接入给出可直接照抄的场景套路，后半补齐核心参数、模块、方法与事件参考。
+tags:
+  - JavaScript
+  - Web 前端
+  - 库 / SDK
+  - 开发
+  - 动画引擎
+version: "12.1.3"
+github: "nolimits4web/swiper"
+date: "2026-03-24"
+
