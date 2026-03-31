@@ -1,0 +1,11 @@
+desc: Oh My Bash 速查，覆盖主题、插件、别名、补全、更新、卸载，以及 Windows Git Bash 的实际用法。
+tags:
+  - CLI 工具
+  - CLI / Terminal
+  - Windows
+  - 操作系统
+  - 学习 / 入门
+  - 开发
+version: 05e6d038
+github: ohmybash/oh-my-bash
+date: "2026-03-01"

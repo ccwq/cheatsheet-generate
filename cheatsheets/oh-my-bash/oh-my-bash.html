@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>Oh My Bash 速查</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png">
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 420px; 
+      --gap: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
+      <span class="title">Oh My Bash 速查</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">05e6d038</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-03-01</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/ohmybash/oh-my-bash" target="_blank" rel="noopener">ohmybash/oh-my-bash</a></span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/ohmybash/oh-my-bash" target="_blank" rel="noopener">打开 Zread</a></span></span>
+      </div>
+      <div class="meta-tags"><tag-chip class="tag tag-group-2 detail-tag" data-name="CLI 工具" data-group="2" label="CLI 工具" group="2" variant="detail" icon="mdi:console-network-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M15 20a1 1 0 0 0-1-1h-1v-2h4a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4v2h-1a1 1 0 0 0-1 1H2v2h7a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1h7v-2zm-8-5V5h10v10zm1-8.11l3.56 3.56L8 14h2.53l2.92-2.92c.33-.34.33-.9 0-1.26L10.5 6.89zm8 5.33h-2.67V14H16z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-1 detail-tag" data-name="CLI / Terminal" data-group="1" label="CLI / Terminal" group="1" variant="detail" icon="mdi:console" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M20 19V7H4v12zm0-16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-7 14v-2h5v2zm-3.42-4L5.57 9H8.4l3.3 3.3c.39.39.39 1.03 0 1.42L8.42 17H5.59z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-1 detail-tag" data-name="Windows" data-group="1" label="Windows" group="1" variant="detail" icon="mdi:microsoft-windows" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M3 12V6.75l6-1.32v6.48zm17-9v8.75l-10 .15V5.21zM3 13l6 .09v6.81l-6-1.15zm17 .25V22l-10-1.91V13.1z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-1 detail-tag" data-name="操作系统" data-group="1" label="操作系统" group="1" variant="detail" icon="mdi:desktop-classic" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M6 2c-1.11 0-2 .89-2 2v8c0 1.11.89 2 2 2h12c1.11 0 2-.89 2-2V4c0-1.11-.89-2-2-2zm0 2h12v8H6zM4 15c-1.11 0-2 .89-2 2v3c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2v-3c0-1.11-.89-2-2-2zm4 2h12v3H8zm1 .75v1.5h4v-1.5zm6 0v1.5h4v-1.5z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-3 detail-tag" data-name="学习 / 入门" data-group="3" label="学习 / 入门" group="3" variant="detail" icon="mdi:school-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9zm6.82 6L12 12.72L5.18 9L12 5.28zM17 16l-5 2.72L7 16v-3.73L12 15l5-2.73z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-3 detail-tag" data-name="开发" data-group="3" label="开发" group="3" variant="detail" icon="mdi:code-tags" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m14.6 16.6l4.6-4.6l-4.6-4.6L16 6l6 6l-6 6zm-5.2 0L4.8 12l4.6-4.6L8 6l-6 6l6 6z&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>🧭 快速定位 <a href="https://github.com/ohmybash/oh-my-bash" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Oh My Bash 是 Bash 配置框架，核心就是主题、插件、别名、补全和更新。先记住它主要靠 `~/.bashrc` 驱动。</div><ul><li><code>OSH</code> <code>~/.oh-my-bash</code>：Oh My Bash 安装目录，默认是</li><li><code>OSH_THEME</code> <code>font</code>：当前主题名，默认模板是</li><li><code>plugins</code>：需要加载的插件数组</li><li><code>aliases</code>：需要加载的别名包数组</li><li><code>completions</code>：需要加载的补全数组</li><li><code>source &quot;$OSH&quot;/oh-my-bash.sh</code>：真正启动 Oh My Bash 的入口</li><li><code>upgrade_oh_my_bash</code>：手动更新</li><li><code>uninstall_oh_my_bash</code>：卸载并回退配置</li></ul><pre><code class="language-bash">echo &quot;$OSH&quot;
+echo &quot;$OSH_THEME&quot;
+type upgrade_oh_my_bash
+type uninstall_oh_my_bash</code></pre></div><div class="card"><h2>📦 安装 <a href="https://github.com/ohmybash/oh-my-bash#basic-installation" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">安装只需一行命令，脚本会自动备份原有 `.bashrc` 并写入新配置。安装前确认已有 `bash`、`git`、`curl` 或 `wget`。</div><ul><li><code>bash -c &quot;$(curl -fsSL ...)&quot;</code>：通过 curl 安装（推荐）</li><li><code>bash -c &quot;$(wget -qO- ...)&quot;</code>：无 curl 时用 wget 替代</li><li><code>~/.bashrc.omb-backup-*</code>：安装时自动备份的原始配置</li><li><code>OSH_THEME</code> <code>~/.bashrc</code>：安装后在 里改这一行就可以换主题</li><li><code>git clone</code> <code>source</code>：先 仓库，再手动追加 入口</li></ul><pre><code class="language-bash"># curl 安装
+bash -c &quot;$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)&quot;
+
+# wget 安装
+bash -c &quot;$(wget -qO- https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)&quot;
+
+# 离线 / 指定目录安装
+OSH=~/.oh-my-bash git clone https://github.com/ohmybash/oh-my-bash.git &quot;$OSH&quot;
+# 然后手动在 ~/.bashrc 追加：
+# export OSH=&quot;$HOME/.oh-my-bash&quot;
+# source &quot;$OSH/oh-my-bash.sh&quot;</code></pre></div><div class="card"><h2>🪟 Windows / Git Bash 起手 <a href="https://github.com/ohmybash/oh-my-bash#basic-installation" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">在 Windows 上，最稳的用法是把 Git Bash 当成 Bash 环境来处理：改 `~/.bashrc`，确保 `~/.bash_profile` 会再转到它。</div><ul><li><code>~/.bashrc</code> <code>~/.bash_profile</code></li><li><code>~/.bash_profile</code> <code>source ~/.bashrc</code></li><li><code>/c/Users/&lt;name&gt;/...</code> <code>C:\...</code></li><li><code>notepad.exe ~/.bashrc</code> <code>code ~/.bashrc</code></li><li>如果主题符号乱码，先换终端字体，再判断是不是主题不兼容</li><li>推荐终端 : Windows Terminal + Git Bash profile，比默认 mintty 更稳</li></ul><pre><code class="language-bash"># ~/.bash_profile
+if [[ -f ~/.bashrc ]]; then
+  source ~/.bashrc
+fi</code></pre><pre><code class="language-bash"># Windows 路径和 Unix 路径互转
+cygpath -u &#39;C:\Users\me\Downloads&#39;
+cygpath -w &#39;/c/Users/me/.oh-my-bash&#39;</code></pre></div><div class="card"><h2>🚀 最小工作流 <a href="https://github.com/ohmybash/oh-my-bash#using-oh-my-bash" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">第一次接手一台机器时，不要先改很多模块，先确认加载链、主题和一个插件能不能正常工作。</div><pre><code class="language-bash">source ~/.bashrc
+alias
+declare -p OSH_THEME plugins aliases completions 2&gt;/dev/null</code></pre></div><div class="card"><h2>🎨 主题切换 <a href="https://github.com/ohmybash/oh-my-bash#themes" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">主题是最容易立刻看到效果的部分。Windows 下优先选稳定主题，追求花哨前先确认字体支持。</div><ul><li><code>OSH_THEME=&quot;font&quot;</code>：默认主题，最稳</li><li><code>OSH_THEME=&quot;random&quot;</code>：每次随机一个主题</li><li><code>OMB_THEME_RANDOM_CANDIDATES=(...)</code>：只从指定列表里随机</li><li><code>OMB_THEME_RANDOM_IGNORED=(...)</code>：排除不想要的主题</li><li><code>OMB_THEME_RANDOM_SELECTED</code>：当前随机到的主题名</li><li><code>agnoster</code>：常见漂亮主题，但通常需要 Powerline / Nerd Font</li><li><code>ls &quot;$OSH/themes&quot;</code></li><li><code>OSH_THEME=xxx source ~/.bashrc</code>：直接 ，不用重开终端</li></ul><pre><code class="language-bash"># 主题切换：稳妥起步
+OSH_THEME=&quot;font&quot;
+
+# 主题切换：随机，但限制候选
+OSH_THEME=&quot;random&quot;
+OMB_THEME_RANDOM_CANDIDATES=(&quot;font&quot; &quot;powerline-light&quot; &quot;minimal&quot;)
+OMB_THEME_RANDOM_IGNORED=(&quot;powerbash10k&quot; &quot;wanelo&quot;)</code></pre><pre><code class="language-bash"># 快速预览所有主题（循环切换，每次回车换下一个）
+for theme in &quot;$OSH&quot;/themes/*/; do
+  t=$(basename &quot;$t&quot;)
+  echo &quot;&gt;&gt;&gt; $t&quot;
+  OSH_THEME=&quot;$t&quot; source ~/.bashrc
+  read -r
+done</code></pre></div><div class="card"><h2>🧩 插件 / 别名 / 补全 <a href="https://github.com/ohmybash/oh-my-bash#plugins" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这三类东西决定你日常是否顺手。顺序建议是先补全，再插件，最后别名，避免一口气加载太多拖慢启动。</div><ul><li><code>completions=(git composer ssh)</code>：按需加载补全</li><li><code>aliases=(general)</code>：加载别名包</li><li><code>plugins=(git bashmarks)</code>：加载插件包</li><li><code>custom/completions/</code>：自定义补全目录</li><li><code>custom/aliases/</code>：自定义别名目录</li><li><code>custom/plugins/</code>：自定义插件目录</li><li><code>custom/themes/</code>：自定义主题目录</li><li><code>ls &quot;$OSH/plugins&quot;</code></li><li><code>ls &quot;$OSH/aliases&quot;</code></li><li><code>ls &quot;$OSH/completions&quot;</code></li></ul><pre><code class="language-bash"># 典型配置
+completions=(
+  git
+  composer
+  ssh
+)
+
+aliases=(
+  general
+)
+
+plugins=(
+  git
+  bashmarks
+)</code></pre><pre><code class="language-bash"># 条件加载：只在 SSH 会话里启用某个插件
+[ &quot;$SSH_TTY&quot; ] &amp;&amp; plugins+=(tmux-autoattach)
+
+# 查看某个别名包里定义了哪些别名
+cat &quot;$OSH/aliases/general.aliases.sh&quot;
+
+# 查看某个插件提供了什么函数
+grep -E &#39;^function |^[a-z_]+\(\)&#39; &quot;$OSH/plugins/git/git.plugin.sh&quot;</code></pre></div><div class="card"><h2>常用内置别名（general）</h2><ul><li><code>..</code> <code>...</code> <code>....</code>：向上跳 1 / 2 / 3 层目录</li><li><code>ll</code> <code>ls -lh</code></li><li><code>la</code> <code>ls -lAh</code></li><li><code>lx</code>：按扩展名排序列目录</li><li><code>lk</code>：按文件大小排序</li><li><code>lt</code>：按修改时间排序</li><li><code>md</code> <code>mkdir -p</code></li><li><code>rd</code> <code>rmdir</code></li><li><code>please</code> <code>sudo</code>：（复用上一条命令时加 sudo）</li><li><code>h</code> <code>history</code></li><li><code>j</code> <code>jobs -l</code></li></ul><pre><code class="language-bash"># 这些是 general 别名包给你的，不用自己写
+..        # cd ..
+...       # cd ../..
+ll        # ls -lh
+la        # ls -lAh
+md foo    # mkdir -p foo
+please    # sudo !!
+h | grep ssh</code></pre></div><div class="card"><h2>常用内置别名（git）</h2><ul><li><code>g</code> <code>git</code></li><li><code>ga</code> <code>git add</code></li><li><code>gaa</code> <code>git add --all</code></li><li><code>gc</code> <code>git commit</code></li><li><code>gcm</code> <code>git commit -m</code></li><li><code>gco</code> <code>git checkout</code></li><li><code>gcb</code> <code>git checkout -b</code></li><li><code>gd</code> <code>git diff</code></li><li><code>gds</code> <code>git diff --staged</code></li><li><code>gl</code> <code>git pull</code></li><li><code>gp</code> <code>git push</code></li><li><code>gst</code> <code>git status</code></li><li><code>glg</code> <code>git log --oneline --graph --decorate</code></li></ul><pre><code class="language-bash"># 日常 git 流程极简版
+gaa
+gcm &quot;fix: typo&quot;
+gp</code></pre></div><div class="card"><h2>💬 提示符变量（Prompt） <a href="https://github.com/ohmybash/oh-my-bash/wiki/Prompt-variables" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Oh My Bash 主题通过一组 `OMB_PROMPT_*` 变量控制提示符内容的显示与隐藏，改这些变量比直接改主题文件更安全。</div><ul><li><code>OMB_PROMPT_SHOW_PYTHON_VENV=true</code>：显示 Python 虚拟环境名</li><li><code>OMB_PROMPT_SHOW_SPACK_ENV=true</code>：显示 Spack 环境名</li><li><code>OMB_PROMPT_SHOW_RUBY_GEMSET=true</code>：显示 RVM gemset（部分主题支持）</li><li><code>OMB_PROMPT_SHOW_NVM_VERSION=true</code>：显示 Node 版本（部分主题支持）</li><li><code>OMB_PROMPT_SHOW_AWS_VAULT=true</code>：显示 aws-vault profile（部分主题支持）</li><li><code>OMB_USE_SUDO=true</code>：允许 Oh My Bash 内部命令在需要时使用 sudo</li><li><code>OMB_TERM_USE_TPUT=true</code>：用 tput 代替转义序列初始化颜色，可降低开销</li></ul><pre><code class="language-bash"># 在 ~/.bashrc 里，放在 source oh-my-bash.sh 之前生效
+export OMB_PROMPT_SHOW_PYTHON_VENV=true
+export OMB_PROMPT_SHOW_SPACK_ENV=false
+export OMB_TERM_USE_TPUT=true</code></pre></div><div class="card"><h2>🛠️ 自定义与覆盖 <a href="https://github.com/ohmybash/oh-my-bash#customization-of--plugins-and-themes" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">真正适合长期用的做法，是把个性化内容放进 `custom/`，而不是直接改上游模块。这样升级时冲突最少。</div><ul><li><code>OSH_CUSTOM</code>：自定义目录根路径</li><li><code>custom/</code>：里的同名文件会覆盖内置模块</li><li><code>theme/plugin/alias/completion</code>：都可以按同样思路覆盖</li><li>先复制再改 : 适合想保留上游更新能力的场景</li><li><code>custom/</code> <code>.sh</code>：会被自动 source，适合放全局函数和环境变量</li></ul><pre><code class="language-bash"># 自定义目录放到 dotfiles 里
+export OSH_CUSTOM=&quot;$HOME/.dotfiles/oh-my-bash-custom&quot;
+
+# 覆盖主题
+mkdir -p &quot;$OSH_CUSTOM/themes&quot;
+cp -r &quot;$OSH/themes/agnoster&quot; &quot;$OSH_CUSTOM/themes/&quot;
+
+# 新建全局自定义脚本（会被自动 source）
+cat &gt; &quot;$OSH_CUSTOM/my-exports.sh&quot; &lt;&lt; &#39;EOF&#39;
+export EDITOR=vim
+export HISTSIZE=50000
+export HISTFILESIZE=100000
+EOF</code></pre><pre><code class="language-text">$OSH_CUSTOM/
+├─ themes/
+├─ plugins/
+├─ aliases/
+├─ completions/
+└─ my-exports.sh   ← 任意 .sh 文件都会被自动加载</code></pre></div><div class="card"><h2>🔄 更新 / 卸载 / 迁移 <a href="https://github.com/ohmybash/oh-my-bash#getting-updates" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">更新和卸载都不复杂，关键是先确认你有没有把本地改动放在 `custom/`，否则升级时容易被覆盖。</div><ul><li><code>upgrade_oh_my_bash</code>：手动更新到最新提交</li><li><code>DISABLE_UPDATE_PROMPT=true</code>：关闭升级提示</li><li><code>DISABLE_AUTO_UPDATE=true</code>：关闭自动更新检查</li><li><code>UPDATE_OSH_DAYS=13</code>：调整检查间隔（天数）</li><li><code>uninstall_oh_my_bash</code>：回滚并删除安装</li><li><code>~/.bashrc</code> <code>$OSH_CUSTOM</code>：只需复制 和 目录，再重新安装框架本体</li></ul><pre><code class="language-bash"># 手动更新
+upgrade_oh_my_bash
+
+# 关闭自动检查
+DISABLE_AUTO_UPDATE=true
+
+# 迁移：打包自定义配置
+tar czf omb-custom.tar.gz ~/.bashrc &quot;$OSH_CUSTOM&quot;</code></pre></div><div class="card"><h2>⚡ 性能调优 <a href="https://github.com/ohmybash/oh-my-bash/wiki/Performance" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">启动慢几乎都是插件和补全太多导致的。先用 `time` 或 `bash -i -c exit` 测基线，再逐步排除。</div><ul><li><code>time bash -i -c exit</code>：测量 Bash 启动耗时，基线应在 200ms 以内</li><li><code>DISABLE_AUTO_UPDATE=true</code>：更新检查会在后台加一次网络请求</li><li><code>completions</code>：是最常见的启动杀手，只留必要的</li><li><code>OMB_TERM_USE_TPUT=true</code>：降低终端颜色初始化成本</li><li><code>$(git status)</code>：每次刷新提示符都会 fork 一个进程</li><li>关闭 dirty 检查 : 大仓库里 git dirty 状态检测极慢，主题通常有开关变量</li></ul><pre><code class="language-bash"># 测基线
+time bash -i -c exit
+
+# 二分法定位慢在哪一段
+# 注释掉一半 plugins，再测；缩小范围直到找到元凶
+time bash -i -c exit
+
+# 关闭 git dirty 检测（以 powerline 主题为例）
+OMB_THEME_POWERLINE_DISABLE_GIT_STATUS=true</code></pre></div><div class="card"><h2>⚠️ 常见坑 <a href="https://github.com/ohmybash/oh-my-bash#installation-problems" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">大多数问题都不是&quot;框架坏了&quot;，而是启动文件链、字体、路径和模块选择出了问题。</div><ul><li><code>~/.bash_profile</code> <code>~/.bashrc</code>：Git Bash 里最常见</li><li>主题乱码 : 先换字体（推荐 Nerd Font / Cascadia Code PL），再换主题</li><li><code>time bash -i -c exit</code>：少加载插件和补全，用 定位</li><li><code>PATH</code> <code>.bashrc</code>：检查 是否被你自己的 改坏</li><li>仓库状态太慢 : 关闭过重的 dirty 检查</li><li><code>OSH_CUSTOM</code> <code>.sh</code> <code>.sh</code>：文件名里不能有空格，扩展名必须是</li><li><code>$OSH/themes/</code>：检查是否直接改了 下的文件，改动被覆盖了</li><li><code>echo &quot;$BASH_VERSION&quot;</code>：确认当前用的是哪个</li><li><code>complete</code> <code>completions</code> <code>source oh-my-bash.sh</code>：检查 数组是否写在 之前</li></ul><pre><code class="language-bash"># 排查顺序
+echo &quot;$0&quot;
+echo &quot;$BASH_VERSION&quot;
+echo &quot;$OSH&quot;
+echo &quot;$OSH_THEME&quot;
+echo &quot;$OSH_CUSTOM&quot;
+source ~/.bashrc</code></pre></div><div class="card"><h2>📌 Quick Ref <a href="https://github.com/ohmybash/oh-my-bash" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">适合日常查阅的高频项汇总，先看这一张就能大致判断该改哪一段。</div><div class="table-wrap"><table class="cheat-table"><thead><tr><th>项</th><th>作用</th></tr></thead><tbody><tr><td>OSH_THEME</td><td>切换主题</td></tr><tr><td>plugins</td><td>启用插件</td></tr><tr><td>aliases</td><td>启用别名包</td></tr><tr><td>completions</td><td>启用补全包</td></tr><tr><td>OSH_CUSTOM</td><td>覆盖内置模块</td></tr><tr><td>DISABLE_AUTO_UPDATE</td><td>关闭自动更新</td></tr><tr><td>DISABLE_UPDATE_PROMPT</td><td>关闭更新提示</td></tr><tr><td>UPDATE_OSH_DAYS</td><td>更新检查间隔（天）</td></tr><tr><td>OMB_USE_SUDO</td><td>控制内部是否使用 sudo</td></tr><tr><td>OMB_PROMPT_SHOW_PYTHON_VENV</td><td>显示/隐藏 Python 虚拟环境</td></tr><tr><td>OMB_PROMPT_SHOW_SPACK_ENV</td><td>显示/隐藏 Spack 环境</td></tr><tr><td>OMB_TERM_USE_TPUT</td><td>降低终端颜色初始化成本</td></tr><tr><td>OMB_THEME_RANDOM_CANDIDATES</td><td>随机主题候选列表</td></tr><tr><td>OMB_THEME_RANDOM_IGNORED</td><td>随机主题排除列表</td></tr><tr><td>OMB_THEME_RANDOM_SELECTED</td><td>当前随机到的主题名</td></tr><tr><td>upgrade_oh_my_bash</td><td>手动更新框架</td></tr><tr><td>uninstall_oh_my_bash</td><td>卸载并回退配置</td></tr></tbody></table></div></div>
+    </div>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>
