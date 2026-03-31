@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>Zellij 速查表</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png">
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 460px; 
+      --gap: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
+      <span class="title">Zellij 速查表</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">0.43.1</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2025-08-08</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/zellij-org/zellij" target="_blank" rel="noopener">zellij-org/zellij</a></span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/zellij-org/zellij" target="_blank" rel="noopener">打开 Zread</a></span></span>
+      </div>
+      <div class="meta-tags"><tag-chip class="tag tag-group-1 detail-tag" data-name="CLI / Terminal" data-group="1" label="CLI / Terminal" group="1" variant="detail" icon="mdi:console" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M20 19V7H4v12zm0-16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-7 14v-2h5v2zm-3.42-4L5.57 9H8.4l3.3 3.3c.39.39.39 1.03 0 1.42L8.42 17H5.59z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="CLI 工具" data-group="2" label="CLI 工具" group="2" variant="detail" icon="mdi:console-network-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M15 20a1 1 0 0 0-1-1h-1v-2h4a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4v2h-1a1 1 0 0 0-1 1H2v2h7a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1h7v-2zm-8-5V5h10v10zm1-8.11l3.56 3.56L8 14h2.53l2.92-2.92c.33-.34.33-.9 0-1.26L10.5 6.89zm8 5.33h-2.67V14H16z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-4 detail-tag" data-name="命令行" data-group="4" label="命令行" group="4" variant="detail" icon="mdi:console" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M20 19V7H4v12zm0-16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-7 14v-2h5v2zm-3.42-4L5.57 9H8.4l3.3 3.3c.39.39.39 1.03 0 1.42L8.42 17H5.59z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-3 detail-tag" data-name="开发" data-group="3" label="开发" group="3" variant="detail" icon="mdi:code-tags" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m14.6 16.6l4.6-4.6l-4.6-4.6L16 6l6 6l-6 6zm-5.2 0L4.8 12l4.6-4.6L8 6l-6 6l6 6z&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>🧭 Cookbook: 先把环境跑顺 <a href="https://zellij.dev/documentation/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Zellij 是终端工作区管理器。先把首次启动、键位预设、主题、鼠标和会话这五条主线跑通，再去记全量快捷键。</div><ul><li><code>config.kdl</code></li><li><code>options --theme</code></li><li><code>options --mouse-mode</code></li><li><code>session-manager</code> <code>list-sessions</code> <code>attach</code></li></ul><pre><code class="language-bash"># 1. 先起一个可恢复的会话
+zellij -l welcome
+
+# 2. 临时切主题
+zellij options --theme nord
+
+# 3. 临时开关鼠标
+zellij options --mouse-mode true</code></pre><h3>Recipe: 第一次装好后，先切到自己顺手的键位</h3><ul><li>默认预设更适合直接上手</li><li><code>unlock-first</code></li><li><code>config.kdl</code></li></ul><pre><code class="language-bash">zellij setup --dump-config &gt; ~/.config/zellij/config.kdl</code></pre><h3>Recipe: 需要亮色主题时</h3><ul><li><code>nord</code></li><li><code>solarized-light</code> <code>gruvbox-light</code> <code>tokyo-night-light</code> <code>catppuccin-latte</code></li><li><code>nord-light</code></li></ul><pre><code class="language-bash">zellij options --theme solarized-light</code></pre><h3>Recipe: 需要恢复旧会话时</h3><ul><li>先看当前会话列表</li><li>再 attach 到目标会话</li><li><code>--create-background</code></li></ul><pre><code class="language-bash">zellij list-sessions
+zellij attach work
+zellij attach --create-background work</code></pre></div><div class="card"><h2>⚡ 快速定位 <a href="https://zellij.dev/documentation/command-line-options.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">记住四个命令就够开始：`zellij`、`options --theme`、`options --mouse-mode`、`attach`。</div><ul><li><code>zellij</code></li><li><code>zellij -l welcome</code></li><li><code>zellij options --theme nord</code></li><li><code>zellij options --mouse-mode true</code></li><li><code>zellij list-sessions</code></li><li><code>zellij attach &lt;name&gt;</code></li></ul></div><div class="card"><h2>🎨 主题切换：暗色和亮色 <a href="https://zellij.dev/documentation/theme-list.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">主题名必须和内置列表一致，`theme &quot;...&quot;` 和 `options --theme ...` 用的都是这个名字。</div><ul><li><code>nord</code></li><li><code>solarized-light</code></li><li><code>gruvbox-light</code></li><li><code>tokyo-night-light</code></li><li><code>catppuccin-latte</code></li><li><code>tokyo-night</code></li><li><code>gruvbox-dark</code></li></ul><pre><code class="language-bash"># 临时切换
+zellij options --theme nord
+zellij options --theme solarized-light</code></pre><pre><code class="language-kdl">// 持久化：写进 config.kdl
+theme &quot;nord&quot;</code></pre></div><div class="card"><h2>鼠标支持</h2><ul><li><code>mouse_mode true</code>：默认开启</li><li><code>mouse_mode false</code>：关闭鼠标事件接管</li><li><code>Shift</code>：临时让终端自己的鼠标选择生效</li></ul><pre><code class="language-kdl">// ~/.config/zellij/config.kdl
+mouse_mode true</code></pre><pre><code class="language-bash"># 临时开关
+zellij options --mouse-mode true
+zellij options --mouse-mode false</code></pre></div><div class="card"><h2>⌨️ 按键预设 <a href="https://zellij.dev/documentation/keybinding-presets.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">官方文档里的预设重点是 `default` 和 `unlock-first`；`tmux` 是兼容风格，通常靠 `keybinds` 自定义出来。</div><ul><li><code>default</code>：默认预设，进 Zellij 后直接可用</li><li><code>unlock-first</code>：先解锁再用，适合减少和其他程序的按键冲突</li><li><code>tmux</code>：tmux 风格的按键习惯，不是独立的官方预设名</li><li><code>~/.config/zellij/config.kdl</code></li></ul><pre><code class="language-bash">zellij setup --dump-config &gt; ~/.config/zellij/config.kdl</code></pre></div><div class="card"><h2>🧷 快捷键：全局与锁定 <a href="https://github.com/zellij-org/zellij/blob/main/zellij-utils/assets/config/default.kdl" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">先记住会在所有模式里反复用到的全局键。</div><ul><li><code>Ctrl g</code> <code>Locked</code>：切到</li><li><code>Ctrl q</code>：退出 Zellij</li><li><code>Alt f</code>：切换浮动 pane</li><li><code>Alt n</code>：新建 pane</li><li><code>Alt c</code>：复制</li><li><code>Alt i</code>：把当前 tab 往左移</li><li><code>Alt o</code>：把当前 tab 往右移</li><li><code>Alt h</code> <code>Alt Left</code>：切到左侧 pane 或 tab</li><li><code>Alt l</code> <code>Alt Right</code>：切到右侧 pane 或 tab</li><li><code>Alt j</code> <code>Alt Down</code>：切到下方 pane</li><li><code>Alt k</code> <code>Alt Up</code>：切到上方 pane</li><li><code>Alt =</code> <code>Alt +</code>：放大</li><li><code>Alt -</code>：缩小</li><li><code>Alt [</code>：切到上一个布局</li><li><code>Alt ]</code>：切到下一个布局</li><li><code>Alt p</code>：切换 pane 组内焦点</li><li><code>Alt Shift p</code>：切换组标记</li></ul></div><div class="card"><h2>🧭 快捷键：模式入口 <a href="https://github.com/zellij-org/zellij/blob/main/zellij-utils/assets/config/default.kdl" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这些键负责把你送进具体模式。记住入口，就能把后面的操作拆开记。</div><ul><li><code>Ctrl p</code> <code>Pane</code>：进入</li><li><code>Ctrl n</code> <code>Resize</code>：进入</li><li><code>Ctrl s</code> <code>Scroll</code>：进入</li><li><code>Ctrl o</code> <code>Session</code>：进入</li><li><code>Ctrl t</code> <code>Tab</code>：进入</li><li><code>Ctrl h</code> <code>Move</code>：进入</li><li><code>Ctrl b</code> <code>Tmux</code>：进入</li></ul></div><div class="card"><h2>🪟 快捷键：Resize <a href="https://github.com/zellij-org/zellij/blob/main/zellij-utils/assets/config/default.kdl" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">调整 pane 大小的键就这些，和 Pane card 分开记更轻。</div><ul><li><code>Ctrl n</code> <code>Normal</code>：回到</li><li><code>h</code> <code>Left</code>：向左调大</li><li><code>j</code> <code>Down</code>：向下调大</li><li><code>k</code> <code>Up</code>：向上调大</li><li><code>l</code> <code>Right</code>：向右调大</li><li><code>H</code>：向左调小</li><li><code>J</code>：向下调小</li><li><code>K</code>：向上调小</li><li><code>L</code>：向右调小</li><li><code>=</code> <code>+</code>：整体放大</li><li><code>-</code>：整体缩小</li></ul></div><div class="card"><h2>🪟 快捷键：Pane <a href="https://github.com/zellij-org/zellij/blob/main/zellij-utils/assets/config/default.kdl" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">分屏、关闭、全屏、浮动和 pin 都属于 pane 级别操作。</div><ul><li><code>Ctrl p</code> <code>Normal</code>：回到</li><li><code>h</code> <code>Left</code>：切到左边 pane</li><li><code>j</code> <code>Down</code>：切到下边 pane</li><li><code>k</code> <code>Up</code>：切到上边 pane</li><li><code>l</code> <code>Right</code>：切到右边 pane</li><li><code>p</code>：循环切焦点</li><li><code>n</code>：新建 pane</li><li><code>d</code>：向下拆分新 pane</li><li><code>r</code>：向右拆分新 pane</li><li><code>s</code>：stacked 布局新 pane</li><li><code>x</code>：关闭当前 pane</li><li><code>f</code>：切换当前 pane 全屏</li><li><code>z</code>：切换 pane 边框</li><li><code>w</code>：切换 floating panes</li><li><code>e</code>：在 embed 和 floating 之间切换</li><li><code>c</code>：重命名 pane</li><li><code>i</code>：切换 pinned</li></ul></div><div class="card"><h2>🔀 快捷键：Tab <a href="https://github.com/zellij-org/zellij/blob/main/zellij-utils/assets/config/default.kdl" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">tab 切换、重命名、拆分和同步输入，放在一张卡里最顺。</div><ul><li><code>Ctrl t</code> <code>Normal</code>：回到</li><li><code>r</code>：重命名 tab</li><li><code>h</code> <code>Left</code> <code>Up</code> <code>k</code>：上一个 tab</li><li><code>l</code> <code>Right</code> <code>Down</code> <code>j</code>：下一个 tab</li><li><code>n</code>：新建 tab</li><li><code>x</code>：关闭 tab</li><li><code>s</code>：切换 tab 同步输入</li><li><code>b</code>：把当前 pane 拆到新 tab</li><li><code>[</code>：把当前 pane 拆到左边新 tab</li><li><code>]</code>：把当前 pane 拆到右边新 tab</li><li><code>Tab</code>：切换 tab</li><li><code>1</code> <code>9</code>：直接跳到对应 tab</li></ul></div><div class="card"><h2>↔️ 快捷键：Move <a href="https://github.com/zellij-org/zellij/blob/main/zellij-utils/assets/config/default.kdl" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">pane 只是“看见”的布局，Move 是“搬家”。和 Tab 分开记会更直观。</div><ul><li><code>Ctrl h</code> <code>Normal</code>：回到</li><li><code>Tab</code> <code>n</code>：移动 pane</li><li><code>p</code>：反向移动 pane</li><li><code>h</code> <code>Left</code>：左移</li><li><code>j</code> <code>Down</code>：下移</li><li><code>k</code> <code>Up</code>：上移</li><li><code>l</code> <code>Right</code>：右移</li></ul></div><div class="card"><h2>🔎 快捷键：Scroll / Search <a href="https://github.com/zellij-org/zellij/blob/main/zellij-utils/assets/config/default.kdl" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">滚动、搜索、确认搜索和重命名冲突，适合一起记。</div><ul><li><code>Ctrl s</code> <code>Normal</code>：回到</li><li><code>e</code>：编辑 scrollback</li><li><code>s</code>：进入搜索</li><li><code>Ctrl c</code>：滚到最底部</li><li><code>j</code> <code>Down</code>：向下滚</li><li><code>k</code> <code>Up</code>：向上滚</li><li><code>Ctrl f</code> <code>PageDown</code> <code>Right</code> <code>l</code>：翻页向下</li><li><code>Ctrl b</code> <code>PageUp</code> <code>Left</code> <code>h</code>：翻页向上</li><li><code>d</code>：半页向下</li><li><code>u</code>：半页向上</li><li><code>Ctrl s</code> <code>Normal</code>：回到</li><li><code>Ctrl c</code>：滚回底部</li><li><code>j</code> <code>Down</code>：下一条</li><li><code>k</code> <code>Up</code>：上一条</li><li><code>Ctrl s</code> <code>Normal</code>：回到</li><li><code>Ctrl f</code> <code>PageDown</code> <code>Right</code> <code>l</code>：向下翻页</li><li><code>Ctrl b</code> <code>PageUp</code> <code>Left</code> <code>h</code>：向上翻页</li><li><code>d</code>：半页向下</li><li><code>u</code>：半页向上</li><li><code>n</code>：下一个匹配</li><li><code>p</code>：上一个匹配</li><li><code>c</code>：切换大小写敏感</li><li><code>w</code>：切换 wrap</li><li><code>o</code>：切换 whole word</li><li><code>Ctrl c</code> <code>Esc</code> <code>Scroll</code>：回到</li><li><code>Enter</code>：执行搜索</li><li><code>Ctrl c</code>：取消并回到上层模式</li><li><code>Esc</code>：撤销重命名并返回</li></ul></div><div class="card"><h2>🧩 快捷键：Session <a href="https://github.com/zellij-org/zellij/blob/main/zellij-utils/assets/config/default.kdl" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">会话、插件入口和分离动作放在一起看最顺。</div><ul><li><code>Ctrl o</code> <code>Normal</code>：回到</li><li><code>d</code>：Detach</li><li><code>w</code> <code>session-manager</code>：打开</li><li><code>c</code>：打开配置相关插件</li><li><code>p</code>：打开插件管理器</li><li><code>a</code>：打开 about</li><li><code>s</code>：打开 share</li><li><code>l</code>：打开 layout manager</li></ul></div><div class="card"><h2>🪤 快捷键：Tmux <a href="https://github.com/zellij-org/zellij/blob/main/zellij-utils/assets/config/default.kdl" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">兼容 tmux 习惯的前缀键方案，单独记一组最省脑子。</div><ul><li><code>Ctrl b</code> <code>Normal</code>：Tmux 前缀键，回到</li><li><code>[</code> <code>Scroll</code>：进入</li><li><code>&quot;</code>：向下新建 pane</li><li><code>%</code>：向右新建 pane</li><li><code>z</code>：切换当前 pane 全屏</li><li><code>c</code>：新建 tab</li><li><code>,</code>：重命名 tab</li><li><code>p</code>：上一个 tab</li><li><code>n</code>：下一个 tab</li><li><code>h</code> <code>j</code> <code>k</code> <code>l</code>：切焦点</li><li><code>o</code>：切到下一个 pane</li><li><code>d</code>：Detach</li><li><code>Space</code>：切换布局</li><li><code>x</code>：关闭当前 pane</li></ul></div><div class="card"><h2>🧩 会话管理 <a href="https://zellij.dev/tutorials/session-management/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">会话管理最实用的入口是 session manager 和 `attach` / `list-sessions`。先分离，再恢复，是最稳的用法。</div><ul><li><code>Ctrl o</code> <code>w</code>：打开 session manager</li><li><code>Ctrl o</code> <code>d</code>：分离会话，后台继续跑</li><li><code>zellij -l welcome</code>：直接进欢迎页</li><li><code>zellij list-sessions</code>：查看当前会话</li><li><code>zellij attach &lt;name&gt;</code>：连接到指定会话</li><li><code>zellij attach --create-background &lt;name&gt;</code>：没有会话时后台创建</li><li><code>zellij delete-session &lt;name&gt;</code>：删除已退出的会话</li></ul><pre><code class="language-bash">zellij list-sessions
+zellij attach work
+zellij attach --create-background work
+zellij delete-session work</code></pre></div>
+    </div>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>

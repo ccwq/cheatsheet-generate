@@ -1,0 +1,9 @@
+desc: Zellij 的官方文档核验版速查，先用 cookbook 跑通启动、主题、鼠标和会话，再整理默认配置里的完整快捷键。
+tags:
+  - CLI / Terminal
+  - CLI 工具
+  - 命令行
+  - 开发
+version: "0.43.1"
+github: zellij-org/zellij
+date: "2025-08-08"
