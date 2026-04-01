@@ -1,7 +1,7 @@
-desc: 面向终端重度用户的 terminal multiplexer 速查表，覆盖 session、tab、pane、浮动窗格、布局和插件，并附带常见工作流。
+desc: Zellij terminal multiplexer 速查表，涵盖 session 管理、pane/tab 操作、布局配置、浮动窗口、CLI 动作和自动化脚本场景，面向从 tmux 迁移和自动化工作流用户。
 tags:
   - CLI / Terminal
-  - CLI 工具
+  - 开发工具
   - 开发
 version: "0.44.0"
 github: zellij-org/zellij
