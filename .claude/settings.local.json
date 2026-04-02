@@ -49,7 +49,9 @@
       "Bash(pnpm --help:*)",
       "Bash(pnpm help -a)",
       "Bash(pnpm help)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "WebFetch(domain:docs.anthropic.com)",
+      "WebFetch(domain:docs.claude.com)"
     ],
     "deny": [],
     "ask": []
