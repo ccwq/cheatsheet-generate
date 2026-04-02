@@ -1,0 +1,8 @@
+desc: Anthropic Claude CLI 工具，提供代码生成、补全、重构、错误诊断与智能编程支持。
+tags:
+  - AI / LLM
+  - CLI 工具
+  - 开发
+version: "2.1.90"
+github: anthropics/claude-code
+date: "2026-04-01"

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>Claude CLI</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="apple-touch-icon" href="icon.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 420px; 
+      --gap: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
+      <span class="title">Claude CLI</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2.1.90</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-04-01</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/anthropics/claude-code" target="_blank" rel="noopener">anthropics/claude-code</a></span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/anthropics/claude-code" target="_blank" rel="noopener">打开 Zread</a></span></span>
+      </div>
+      <div class="meta-tags"><tag-chip class="tag tag-group-1 detail-tag" data-name="AI / LLM" data-group="1" label="AI / LLM" group="1" variant="detail" icon="mdi:brain" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M21.33 12.91c.09 1.55-.62 3.04-1.89 3.95l.77 1.49c.23.45.26.98.06 1.45c-.19.47-.58.84-1.06 1l-.79.25a1.69 1.69 0 0 1-1.86-.55L14.44 18c-.89-.15-1.73-.53-2.44-1.1c-.5.15-1 .23-1.5.23c-.88 0-1.76-.27-2.5-.79c-.53.16-1.07.23-1.62.22c-.79.01-1.57-.15-2.3-.45a4.1 4.1 0 0 1-2.43-3.61c-.08-.72.04-1.45.35-2.11c-.29-.75-.32-1.57-.07-2.33C2.3 7.11 3 6.32 3.87 5.82c.58-1.69 2.21-2.82 4-2.7c1.6-1.5 4.05-1.66 5.83-.37c.42-.11.86-.17 1.3-.17c1.36-.03 2.65.57 3.5 1.64c2.04.53 3.5 2.35 3.58 4.47c.05 1.11-.25 2.2-.86 3.13c.07.36.11.72.11 1.09m-5-1.41c.57.07 1.02.5 1.02 1.07a1 1 0 0 1-1 1h-.63c-.32.9-.88 1.69-1.62 2.29c.25.09.51.14.77.21c5.13-.07 4.53-3.2 4.53-3.25a2.59 2.59 0 0 0-2.69-2.49a1 1 0 0 1-1-1a1 1 0 0 1 1-1c1.23.03 2.41.49 3.33 1.3c.05-.29.08-.59.08-.89c-.06-1.24-.62-2.32-2.87-2.53c-1.25-2.96-4.4-1.32-4.4-.4c-.03.23.21.72.25.75a1 1 0 0 1 1 1c0 .55-.45 1-1 1c-.53-.02-1.03-.22-1.43-.56c-.48.31-1.03.5-1.6.56c-.57.05-1.04-.35-1.07-.9a.97.97 0 0 1 .88-1.1c.16-.02.94-.14.94-.77c0-.66.25-1.29.68-1.79c-.92-.25-1.91.08-2.91 1.29C6.75 5 6 5.25 5.45 7.2C4.5 7.67 4 8 3.78 9c1.08-.22 2.19-.13 3.22.25c.5.19.78.75.59 1.29c-.19.52-.77.78-1.29.59c-.73-.32-1.55-.34-2.3-.06c-.32.27-.32.83-.32 1.27c0 .74.37 1.43 1 1.83c.53.27 1.12.41 1.71.4q-.225-.39-.39-.81a1.038 1.038 0 0 1 1.96-.68c.4 1.14 1.42 1.92 2.62 2.05c1.37-.07 2.59-.88 3.19-2.13c.23-1.38 1.34-1.5 2.56-1.5m2 7.47l-.62-1.3l-.71.16l1 1.25zm-4.65-8.61a1 1 0 0 0-.91-1.03c-.71-.04-1.4.2-1.93.67c-.57.58-.87 1.38-.84 2.19a1 1 0 0 0 1 1c.57 0 1-.45 1-1c0-.27.07-.54.23-.76c.12-.1.27-.15.43-.15c.55.03 1.02-.38 1.02-.92&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="CLI 工具" data-group="2" label="CLI 工具" group="2" variant="detail" icon="mdi:console-network-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M15 20a1 1 0 0 0-1-1h-1v-2h4a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4v2h-1a1 1 0 0 0-1 1H2v2h7a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1h7v-2zm-8-5V5h10v10zm1-8.11l3.56 3.56L8 14h2.53l2.92-2.92c.33-.34.33-.9 0-1.26L10.5 6.89zm8 5.33h-2.67V14H16z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-3 detail-tag" data-name="开发" data-group="3" label="开发" group="3" variant="detail" icon="mdi:code-tags" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m14.6 16.6l4.6-4.6l-4.6-4.6L16 6l6 6l-6 6zm-5.2 0L4.8 12l4.6-4.6L8 6l-6 6l6 6z&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>快速定位</h2><h3>最短路径</h3><pre><code class="language-bash">claude                    # 启动交互模式
+claude &quot;修复这个 bug&quot;     # 单次任务
+claude -p &quot;审查代码&quot;       # 打印输出后退出</code></pre><h3>核心场景速查</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>场景</th><th>命令</th></tr></thead><tbody><tr><td>启动对话</td><td>claude</td></tr><tr><td>继续上次</td><td>claude -c</td></tr><tr><td>恢复指定会话</td><td>claude -r &lt;session-id&gt;</td></tr><tr><td>智能 Git 提交</td><td>claude commit</td></tr><tr><td>列出所有会话</td><td>claude --list</td></tr></tbody></table></div></div><div class="card"><h2>最小工作流</h2><h3>起手式</h3><pre><code class="language-bash">cd 项目目录
+claude                    # 启动交互模式</code></pre><h3>核心命令链</h3><pre><code class="language-bash">claude &quot;添加用户认证&quot;      # 自然语言任务
+claude exec &quot;重构这块逻辑&quot; # 非交互自动化
+claude -p &quot;审查 PR&quot;       # 打印输出</code></pre><h3>收尾动作</h3><pre><code class="language-bash">/exit                     # 退出
+/checkpoint                # 保存检查点</code></pre></div><div class="card"><h2>高频场景 Recipes</h2><h3>代码生成与重构</h3><pre><code class="language-bash">添加 RESTful API 端点
+将这个 class 改为 TypeScript
+为这个函数添加单元测试
+重构这段 SQL 查询</code></pre><h3>调试与修复</h3><pre><code class="language-bash">修复空指针异常
+解决 500 错误
+为什么这个 API 超时
+修复 CSS 在 Safari 的问题</code></pre><h3>代码审查</h3><pre><code class="language-bash">审查这段代码的安全性
+检查这个函数的性能
+分析项目架构和技术栈
+优化这个复杂查询</code></pre><h3>DevOps 与自动化</h3><pre><code class="language-bash">设置 Docker 容器化
+创建 GitHub Actions 流水线
+更新所有依赖到最新版本
+配置 Nginx 反向代理</code></pre><h3>Unix 哲学组合</h3><pre><code class="language-bash">git diff | claude -p &quot;审查变更并生成报告&quot;
+tail -f app.log | claude -p &quot;发现异常立即通知&quot;
+find . -name &quot;*.js&quot; -exec claude -p &quot;优化此文件&quot; {} \;</code></pre></div><div class="card"><h2>CLI 命令速查</h2><h3>基础命令</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>命令</th><th>说明</th></tr></thead><tbody><tr><td>claude</td><td>启动交互模式</td></tr><tr><td>claude &quot;任务&quot;</td><td>单次任务</td></tr><tr><td>claude -p &quot;查询&quot;</td><td>打印退出</td></tr><tr><td>claude exec &quot;自动化&quot;</td><td>非交互模式</td></tr><tr><td>claude -c</td><td>继续最近对话</td></tr><tr><td>claude -r [id]</td><td>恢复会话</td></tr><tr><td>claude --new</td><td>新建对话</td></tr><tr><td>claude --list</td><td>列出所有会话</td></tr><tr><td>claude --delete ID</td><td>删除会话</td></tr><tr><td>claude commit</td><td>智能 Git 提交</td></tr><tr><td>claude update</td><td>检查更新</td></tr></tbody></table></div><h3>CLI 选项</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>选项</th><th>说明</th></tr></thead><tbody><tr><td>--help / -h</td><td>帮助信息</td></tr><tr><td>--version / -v</td><td>版本信息</td></tr><tr><td>--debug [filter]</td><td>调试模式</td></tr><tr><td>--debug-file &lt;path&gt;</td><td>调试日志输出到文件</td></tr><tr><td>--model &lt;model&gt;</td><td>指定模型</td></tr><tr><td>--settings &lt;file/json&gt;</td><td>加载设置</td></tr><tr><td>--setting-sources &lt;sources&gt;</td><td>设置源（user,project,local）</td></tr><tr><td>--permission-mode &lt;mode&gt;</td><td>权限模式</td></tr><tr><td>--mcp-config &lt;configs&gt;</td><td>MCP 服务器配置</td></tr><tr><td>--strict-mcp-config</td><td>仅用 --mcp-config</td></tr><tr><td>--add-dir &lt;dirs&gt;</td><td>允许目录</td></tr><tr><td>--output-format &lt;fmt&gt;</td><td>输出格式（text/json/stream-json）</td></tr><tr><td>--input-format &lt;fmt&gt;</td><td>输入格式</td></tr><tr><td>--bare</td><td>跳过 hooks/LSP/插件同步</td></tr><tr><td>--name / -n &lt;name&gt;</td><td>会话名称</td></tr><tr><td>--session-id &lt;uuid&gt;</td><td>指定会话 ID</td></tr><tr><td>--fork-session</td><td>恢复时创建新会话</td></tr><tr><td>--from-pr &lt;num&gt;</td><td>从 PR 恢复会话</td></tr><tr><td>--resume / -r [id]</td><td>恢复会话</td></tr><tr><td>--continue / -c</td><td>继续最近对话</td></tr><tr><td>--max-turns &lt;n&gt;</td><td>最大 agent 轮数</td></tr><tr><td>--max-budget-usd &lt;amount&gt;</td><td>最大 API 花费</td></tr><tr><td>--effort &lt;level&gt;</td><td>努力级别（low/medium/high/max）</td></tr><tr><td>--agent &lt;name&gt;</td><td>指定子代理</td></tr><tr><td>--agents &lt;json&gt;</td><td>动态定义子代理</td></tr><tr><td>--tools &lt;tools&gt;</td><td>限制可用工具</td></tr><tr><td>--allowedTools &lt;tools&gt;</td><td>允许的工具</td></tr><tr><td>--disallowedTools &lt;tools&gt;</td><td>禁止的工具</td></tr><tr><td>--system-prompt &lt;prompt&gt;</td><td>替换系统提示</td></tr><tr><td>--system-prompt-file &lt;file&gt;</td><td>从文件加载系统提示</td></tr><tr><td>--append-system-prompt &lt;prompt&gt;</td><td>追加系统提示</td></tr><tr><td>--append-system-prompt-file &lt;file&gt;</td><td>从文件追加系统提示</td></tr><tr><td>--permission-prompt-tool &lt;tool&gt;</td><td>MCP 处理权限提示</td></tr><tr><td>--mcp-config &lt;configs&gt;</td><td>MCP 服务器配置</td></tr><tr><td>--plugin-dir &lt;paths&gt;</td><td>加载插件目录</td></tr><tr><td>--chrome</td><td>启用 Chrome 集成</td></tr><tr><td>--no-chrome</td><td>禁用 Chrome 集成</td></tr><tr><td>--ide</td><td>自动连接 IDE</td></tr><tr><td>--remote &quot;任务&quot;</td><td>创建 Web 会话</td></tr><tr><td>--teleport</td><td>恢复 Web 会话到本地</td></tr><tr><td>--remote-control / --rc</td><td>启用远程控制</td></tr><tr><td>--worktree / -w [name]</td><td>git worktree 隔离</td></tr><tr><td>--tmux</td><td>创建 tmux 会话（需 --worktree）</td></tr><tr><td>--enable-auto-mode</td><td>启用自动模式</td></tr><tr><td>--allow-dangerously-skip-permissions</td><td>允许跳过权限</td></tr><tr><td>--dangerously-skip-permissions</td><td>跳过所有权限检查</td></tr><tr><td>--betas &lt;headers&gt;</td><td>Beta 请求头</td></tr><tr><td>--init</td><td>运行初始化 hooks</td></tr><tr><td>--init-only</td><td>仅运行初始化</td></tr><tr><td>--maintenance</td><td>运行维护 hooks</td></tr><tr><td>--replay-user-messages</td><td>重放用户消息到 stdout</td></tr><tr><td>--include-hook-events</td><td>在输出中包含 hook 事件</td></tr><tr><td>--include-partial-messages</td><td>包含部分流式事件</td></tr><tr><td>--json-schema &lt;schema&gt;</td><td>JSON Schema 验证输出</td></tr><tr><td>--fallback-model &lt;model&gt;</td><td>模型过载时的备用模型</td></tr><tr><td>--verbose</td><td>详细日志</td></tr><tr><td>--no-session-persistence</td><td>禁用会话持久化</td></tr><tr><td>--print / -p</td><td>打印模式</td></tr><tr><td>--idle-timeout</td><td>空闲超时（默认 90s）</td></tr></tbody></table></div></div><div class="card"><h2>CLI 子命令速查</h2><h3>认证管理</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>命令</th><th>说明</th></tr></thead><tbody><tr><td>claude auth login</td><td>登录账户</td></tr><tr><td>claude auth login --console</td><td>API 计费登录</td></tr><tr><td>claude auth login --sso</td><td>SSO 认证</td></tr><tr><td>claude auth logout</td><td>登出</td></tr><tr><td>claude auth status</td><td>显示认证状态</td></tr><tr><td>claude auth status --text</td><td>人类可读输出</td></tr></tbody></table></div><h3>其他子命令</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>命令</th><th>说明</th></tr></thead><tbody><tr><td>claude agents</td><td>列出所有配置的子代理</td></tr><tr><td>claude auto-mode defaults</td><td>打印自动模式规则 JSON</td></tr><tr><td>claude auto-mode config</td><td>显示有效配置</td></tr><tr><td>claude mcp</td><td>MCP 服务器配置</td></tr><tr><td>claude plugin &lt;subcommand&gt;</td><td>插件管理</td></tr><tr><td>claude remote-control</td><td>启动远程控制服务器</td></tr><tr><td>claude update</td><td>更新到最新版本</td></tr></tbody></table></div></div><div class="card"><h2>内置斜杠命令速查</h2><h3>基本操作</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>命令</th><th>说明</th></tr></thead><tbody><tr><td>/help</td><td>显示所有命令</td></tr><tr><td>/clear</td><td>清除历史</td></tr><tr><td>/exit</td><td>退出</td></tr><tr><td>/config</td><td>设置界面</td></tr><tr><td>/status</td><td>状态信息</td></tr><tr><td>/init</td><td>初始化项目</td></tr><tr><td>/doctor</td><td>健康检查</td></tr></tbody></table></div><h3>账户与模型</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>命令</th><th>说明</th></tr></thead><tbody><tr><td>/login</td><td>登录账户</td></tr><tr><td>/logout</td><td>登出</td></tr><tr><td>/model</td><td>选择模型</td></tr><tr><td>/usage</td><td>使用限制</td></tr><tr><td>/cost</td><td>Token 成本</td></tr></tbody></table></div><h3>开发工具</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>命令</th><th>说明</th></tr></thead><tbody><tr><td>/memory</td><td>记忆文件</td></tr><tr><td>/todos</td><td>待办事项</td></tr><tr><td>/context</td><td>上下文使用（含操作建议）</td></tr><tr><td>/review</td><td>代码审查</td></tr><tr><td>/pr_comments</td><td>查看 PR 评论</td></tr><tr><td>/mcp</td><td>MCP 连接</td></tr><tr><td>/rewind</td><td>回溯对话</td></tr><tr><td>/output-style</td><td>输出风格</td></tr><tr><td>/checkpoint</td><td>检查点</td></tr><tr><td>/compact</td><td>压缩历史</td></tr><tr><td>/simplify</td><td>简化命令（v2.1.63+）</td></tr><tr><td>/batch</td><td>批处理命令（v2.1.63+）</td></tr><tr><td>/effort</td><td>努力级别（v2.1.76+）</td></tr><tr><td>/loop</td><td>循环任务（v2.1.71+）</td></tr><tr><td>/copy</td><td>复制到文件（v2.1.72+）</td></tr><tr><td>/branch</td><td>分支会话（v2.1.77+，原 /fork）</td></tr></tbody></table></div><h3>配置与 UI</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>命令</th><th>说明</th></tr></thead><tbody><tr><td>/statusline</td><td>状态行配置</td></tr><tr><td>/terminal-setup</td><td>终端快捷键</td></tr><tr><td>/privacy-settings</td><td>隐私设置</td></tr><tr><td>/permissions</td><td>权限管理</td></tr><tr><td>/vim</td><td>Vim 编辑模式</td></tr><tr><td>/sandbox</td><td>沙盒 bash</td></tr><tr><td>/powerup</td><td>交互式教程（v2.1.90+）</td></tr></tbody></table></div></div><div class="card"><h2>Auto Memory 系统</h2><h3>基础命令</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>命令</th><th>说明</th></tr></thead><tbody><tr><td>/memory</td><td>编辑记忆文件</td></tr><tr><td>/memory edit</td><td>编辑记忆</td></tr><tr><td>/memory show</td><td>显示当前记忆</td></tr><tr><td>/memory clear</td><td>清除记忆</td></tr><tr><td>/memory reload</td><td>重新加载</td></tr></tbody></table></div><h3>配置</h3><pre><code class="language-bash"># 设置自动记忆目录 (user/local 级别)
+autoMemoryDirectory: &quot;~/my-memory-dir&quot;
+
+# memory frontmatter - 持久记忆 (v2.1.33+)
+---
+memory: 记住这个项目的技术栈是 Next.js + TypeScript
+---</code></pre><h3>记忆文件位置</h3><pre><code class="language-bash">.claude/memory.md      # 项目级记忆
+~/.claude/memory.md    # 全局记忆
+autoMemoryDirectory/   # 自定义自动记忆目录</code></pre><h3>记忆语法</h3><pre><code class="language-markdown"># 项目记忆
+## 代码规范
+- 使用 TypeScript 严格模式
+- 函数必须类型注解
+
+## 项目结构
+- src/: 源代码
+- tests/: 测试</code></pre></div><div class="card"><h2>新功能模块（v2.1+）</h2><h3>v2.1.90（2026-04-01）</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>功能</th><th>说明</th></tr></thead><tbody><tr><td>/powerup</td><td>交互式教程，动画演示功能</td></tr><tr><td>CLAUDE_CODE_PLUGIN_KEEP_MARKETPLACE_ON_FAILURE</td><td>离线环境保持插件市场</td></tr><tr><td>.husky 保护</td><td>acceptEdits 模式下保护 .husky 目录</td></tr><tr><td>PowerShell 强化</td><td>修复后台任务绕过、调试器挂起等安全问题</td></tr><tr><td>SSE 性能优化</td><td>修复二次方帧处理问题</td></tr><tr><td>--resume 并行加载</td><td>提升大项目恢复速度</td></tr></tbody></table></div><h3>v2.1.89（2026-04-01）</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>功能</th><th>说明</th></tr></thead><tbody><tr><td>defer 权限决策</td><td>PreToolUse hooks 支持延迟决策</td></tr><tr><td>CLAUDE_CODE_NO_FLICKER=1</td><td>消除 Alt-Screen 闪烁</td></tr><tr><td>PermissionDenied hook</td><td>权限拒绝时触发，可返回 retry</td></tr><tr><td>命名子代理</td><td>@ 提及时显示子代理建议</td></tr><tr><td>MCP_CONNECTION_NONBLOCKING=true</td><td>-p 模式跳过 MCP 等待</td></tr><tr><td>showThinkingSummaries</td><td>思考摘要默认关闭</td></tr></tbody></table></div><h3>v2.1.86（2026-03-27）</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>功能</th><th>说明</th></tr></thead><tbody><tr><td>X-Claude-Code-Session-Id header</td><td>代理请求聚合</td></tr><tr><td>.jj / .sl 排除</td><td>Jujutsu 和 Sapling 元数据</td></tr><tr><td>Read 工具优化</td><td>紧凑行号格式、去重重读</td></tr></tbody></table></div><h3>v2.1.85（2026-03-26）</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>功能</th><th>说明</th></tr></thead><tbody><tr><td>CLAUDE_CODE_MCP_SERVER_NAME/URL</td><td>MCP headersHelper 脚本环境变量</td></tr><tr><td>Hook 条件 if 字段</td><td>使用权限规则语法</td></tr><tr><td>时间戳标记</td><td>定时任务（/loop, CronCreate）</td></tr><tr><td>滚动性能</td><td>WASM yoga-layout 替换为纯 TS</td></tr></tbody></table></div><h3>v2.1.84（2026-03-26）</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>功能</th><th>说明</th></tr></thead><tbody><tr><td>PowerShell 工具</td><td>Windows opt-in 预览</td></tr><tr><td>ANTHROPIC_DEFAULT_{OPUS,SONNET,HAIKU}_MODEL_SUPPORTS</td><td>第三方提供商默认模型</td></tr><tr><td>CLAUDE_STREAM_IDLE_TIMEOUT_MS</td><td>空闲超时（默认 90s）</td></tr><tr><td>TaskCreated hook</td><td>任务创建时触发</td></tr></tbody></table></div><h3>v2.1.83（2026-03-25）</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>功能</th><th>说明</th></tr></thead><tbody><tr><td>managed-settings.d/</td><td>独立策略片段目录</td></tr><tr><td>CwdChanged / FileChanged hooks</td><td>响应式环境管理（如 direnv）</td></tr><tr><td>sandbox.failIfUnavailable</td><td>沙盒不可用时失败</td></tr><tr><td>Transcript 搜索</td><td>Ctrl+O 模式下按 / 搜索</td></tr><tr><td>Ctrl+X Ctrl+E</td><td>外部编辑器别名</td></tr></tbody></table></div><h3>v2.1.81（2026-03-20）</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>功能</th><th>说明</th></tr></thead><tbody><tr><td>--bare</td><td>-p 模式跳过 hooks/LSP/插件同步</td></tr><tr><td>--channels</td><td>MCP 服务器转发审批到手机</td></tr></tbody></table></div><h3>v2.1.80（2026-03-19）</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>功能</th><th>说明</th></tr></thead><tbody><tr><td>rate_limits</td><td>statusline 脚本显示速率限制</td></tr><tr><td>source: &#39;settings&#39;</td><td>settings.json 内联插件声明</td></tr><tr><td>effort frontmatter</td><td>skills 和斜杠命令支持</td></tr></tbody></table></div><h3>v2.1.79（2026-03-18）</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>功能</th><th>说明</th></tr></thead><tbody><tr><td>--console</td><td>Anthropic Console 认证</td></tr></tbody></table></div><h3>v2.1.78（2026-03-17）</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>功能</th><th>说明</th></tr></thead><tbody><tr><td>StopFailure hook</td><td>任务停止失败时触发</td></tr><tr><td>${CLAUDE_PLUGIN_DATA}</td><td>持久化插件状态变量</td></tr><tr><td>行对行流式响应</td><td>改进流式输出</td></tr><tr><td>tmux 穿透支持</td><td>改进 tmux 集成</td></tr></tbody></table></div><h3>v2.1.77（2026-03-17）</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>功能</th><th>说明</th></tr></thead><tbody><tr><td>Opus 4.6 token 限额</td><td>默认 64k，最大 128k</td></tr><tr><td>启动速度优化</td><td>macOS 提升约 60ms</td></tr><tr><td>/fork 重命名为 /branch</td><td>分支会话命令</td></tr></tbody></table></div><h3>v2.1.76（2026-03-14）</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>功能</th><th>说明</th></tr></thead><tbody><tr><td>MCP elicitation 支持</td><td>MCP 服务器征询用户输入</td></tr><tr><td>Elicitation / ElicitationResult hooks</td><td>征询钩子</td></tr><tr><td>/effort 斜杠命令</td><td>设置努力级别</td></tr><tr><td>PostCompact hook</td><td>压缩后触发</td></tr></tbody></table></div><h3>v2.1.74（2026-03-12）</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>功能</th><th>说明</th></tr></thead><tbody><tr><td>/context 可操作建议</td><td>上下文菜单优化</td></tr><tr><td>autoMemoryDirectory 设置</td><td>配置自动记忆目录</td></tr><tr><td>内存泄漏修复</td><td>流式响应缓冲区</td></tr></tbody></table></div><h3>v2.1.73（2026-03-11）</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>功能</th><th>说明</th></tr></thead><tbody><tr><td>modelOverrides 设置</td><td>自定义模型 ID 映射</td></tr><tr><td>SSL 错误指导</td><td>连接问题排查</td></tr><tr><td>默认模型更新</td><td>Bedrock/Vertex/Foundry 改为 Opus 4.6</td></tr></tbody></table></div><h3>v2.1.72（2026-03-10）</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>功能</th><th>说明</th></tr></thead><tbody><tr><td>简化 effort 级别</td><td>low/medium/high 三级</td></tr><tr><td>/loop 命令</td><td>循环任务</td></tr><tr><td>/copy 命令</td><td>w 键直接写入文件</td></tr></tbody></table></div><h3>v2.1.71（2026-03-07）</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>功能</th><th>说明</th></tr></thead><tbody><tr><td>/loop + cron 调度</td><td>定时循环任务</td></tr><tr><td>语音 push-to-talk</td><td>键盘快捷键</td></tr><tr><td>桥接会话重连</td><td>改进睡眠后重连</td></tr></tbody></table></div><h3>v2.1.69（2026-03-05）</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>功能</th><th>说明</th></tr></thead><tbody><tr><td>/claude-api skill</td><td>API 集成技能</td></tr><tr><td>Voice STT</td><td>新增 10 种语言语音识别</td></tr><tr><td>includeGitInstructions</td><td>Git 指令设置</td></tr><tr><td>安全性修复</td><td>HTTP hooks 等</td></tr></tbody></table></div><h3>v2.1.63（2026-02-28）</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>功能</th><th>说明</th></tr></thead><tbody><tr><td>/simplify 命令</td><td>简化bundled命令</td></tr><tr><td>/batch 命令</td><td>批处理bundled命令</td></tr><tr><td>HTTP hooks</td><td>JSON POST/recv 支持</td></tr><tr><td>/model 改进</td><td>模型选择优化</td></tr></tbody></table></div><h3>v2.1.59（2026-02-26）</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>功能</th><th>说明</th></tr></thead><tbody><tr><td>Auto Memory 自动记忆</td><td>Claude 自动保存上下文</td></tr><tr><td>/copy 命令</td><td>复制内容</td></tr></tbody></table></div><h3>v2.1.51（2026-02-24）</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>功能</th><th>说明</th></tr></thead><tbody><tr><td>claude remote-control</td><td>远程控制子命令</td></tr><tr><td>自定义 npm registry</td><td>npm registry 支持</td></tr><tr><td>安全修复</td><td>HTTP hooks, statusLine, fileSuggestion</td></tr></tbody></table></div><h3>v2.1.50（2026-02-20）</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>功能</th><th>说明</th></tr></thead><tbody><tr><td>Worktree 隔离</td><td>git worktree 支持</td></tr><tr><td>内存泄漏修复</td><td>LSP, shell, circular buffer</td></tr></tbody></table></div><h3>v2.1.41（2026-02-13）</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>功能</th><th>说明</th></tr></thead><tbody><tr><td>Windows ARM64 支持</td><td>ARM Windows 原生</td></tr><tr><td>claude auth CLI 子命令</td><td>认证管理命令</td></tr><tr><td>自动会话命名</td><td>生成描述性名称</td></tr></tbody></table></div></div><div class="card"><h2>Hooks 系统</h2><h3>配置文件</h3><pre><code class="language-bash">.claude/hooks.json        # 项目级
+~/.claude/hooks.json      # 全局</code></pre><h3>事件类型</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>事件</th><th>触发时机</th></tr></thead><tbody><tr><td>pre-edit</td><td>文件编辑前</td></tr><tr><td>post-edit</td><td>文件编辑后</td></tr><tr><td>pre-run</td><td>命令执行前</td></tr><tr><td>post-run</td><td>命令执行后</td></tr><tr><td>conversation-start</td><td>会话开始</td></tr><tr><td>conversation-end</td><td>会话结束</td></tr><tr><td>CwdChanged</td><td>目录变更（v2.1.83+）</td></tr><tr><td>FileChanged</td><td>文件变更（v2.1.83+）</td></tr><tr><td>TaskCreated</td><td>任务创建（v2.1.84+）</td></tr><tr><td>PermissionDenied</td><td>权限拒绝（v2.1.89+）</td></tr><tr><td>StopFailure</td><td>停止失败（v2.1.78+）</td></tr><tr><td>Elicitation</td><td>MCP 征询（v2.1.76+）</td></tr><tr><td>ElicitationResult</td><td>征询结果（v2.1.76+）</td></tr><tr><td>PostCompact</td><td>压缩后（v2.1.76+）</td></tr><tr><td>TeammateIdle</td><td>团队成员空闲（v2.1.33+）</td></tr><tr><td>TaskCompleted</td><td>任务完成（v2.1.33+）</td></tr></tbody></table></div><h3>Hook 条件语法</h3><pre><code class="language-json">{
+  &quot;pre-edit&quot;: {
+    &quot;if&quot;: &quot;file.endsWith(&#39;.js&#39;)&quot;,
+    &quot;script&quot;: &quot;console.log(&#39;编辑 JS&#39;)&quot;
+  }
+}</code></pre><h3>defer 权限决策（v2.1.89+）</h3><pre><code class="language-json">{
+  &quot;PreToolUse&quot;: {
+    &quot;if&quot;: &quot;tool.name == &#39;Bash&#39;&quot;,
+    &quot;script&quot;: &quot;return { defer: true }&quot;
+  }
+}</code></pre></div><div class="card"><h2>MCP 集成</h2><h3>管理命令</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>命令</th><th>说明</th></tr></thead><tbody><tr><td>/mcp list</td><td>列出服务器</td></tr><tr><td>/mcp add 名称</td><td>添加服务器</td></tr><tr><td>/mcp remove 名称</td><td>移除服务器</td></tr><tr><td>--mcp-list</td><td>CLI 查看</td></tr></tbody></table></div><h3>CLI 子命令</h3><pre><code class="language-bash">claude mcp                    # MCP 配置</code></pre><h3>环境变量</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>变量</th><th>说明</th></tr></thead><tbody><tr><td>CLAUDE_CODE_MCP_SERVER_NAME</td><td>MCP 服务器名称</td></tr><tr><td>CLAUDE_CODE_MCP_SERVER_URL</td><td>MCP 服务器 URL</td></tr><tr><td>MCP_CONNECTION_NONBLOCKING=true</td><td>-p 模式跳过等待</td></tr></tbody></table></div></div><div class="card"><h2>Settings 配置速查</h2><h3>配置作用域</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>作用域</th><th>位置</th><th>影响范围</th></tr></thead><tbody><tr><td>Managed</td><td>服务器/ MDM / registry</td><td>所有用户</td></tr><tr><td>User</td><td>~/.claude/settings.json</td><td>当前用户</td></tr><tr><td>Project</td><td>.claude/settings.json</td><td>团队共享</td></tr><tr><td>Local</td><td>.claude/settings.local.json</td><td>仅本地</td></tr></tbody></table></div><h3>常用设置</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>设置</th><th>说明</th></tr></thead><tbody><tr><td>model</td><td>默认模型</td></tr><tr><td>effortLevel</td><td>努力级别（low/medium/high）</td></tr><tr><td>autoMemoryDirectory</td><td>自动记忆目录</td></tr><tr><td>includeGitInstructions</td><td>包含 Git 指令</td></tr><tr><td>autoUpdatesChannel</td><td>更新通道（stable/latest）</td></tr><tr><td>cleanupPeriodDays</td><td>会话清理周期</td></tr><tr><td>defaultShell</td><td>默认 shell（bash/powershell）</td></tr><tr><td>language</td><td>响应语言</td></tr><tr><td>alwaysThinkingEnabled</td><td>启用扩展思考</td></tr><tr><td>showThinkingSummaries</td><td>显示思考摘要</td></tr></tbody></table></div><h3>权限设置</h3><pre><code class="language-json">{
+  &quot;permissions&quot;: {
+    &quot;allow&quot;: [&quot;Bash(git *)&quot;, &quot;Read(./src/**)&quot;],
+    &quot;deny&quot;: [&quot;Read(./.env)&quot;, &quot;Bash(rm -rf *)&quot;],
+    &quot;defaultMode&quot;: &quot;acceptEdits&quot;
+  }
+}</code></pre><h3>沙盒设置</h3><pre><code class="language-json">{
+  &quot;sandbox&quot;: {
+    &quot;enabled&quot;: true,
+    &quot;failIfUnavailable&quot;: true,
+    &quot;filesystem&quot;: {
+      &quot;allowWrite&quot;: [&quot;/tmp/build&quot;],
+      &quot;denyRead&quot;: [&quot;~/.aws/credentials&quot;]
+    },
+    &quot;network&quot;: {
+      &quot;allowedDomains&quot;: [&quot;github.com&quot;, &quot;*.npmjs.org&quot;]
+    }
+  }
+}</code></pre></div><div class="card"><h2>子代理（Subagents）</h2><h3>内置代理</h3><pre><code class="language-bash">general-purpose        # 通用问题解决
+code-reviewer        # 代码审查专家
+test-runner          # 测试执行专家
+debug-expert        # 调试专家
+documentation-writer # 文档专家</code></pre><h3>调用语法</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>命令</th><th>说明</th></tr></thead><tbody><tr><td>/agent use code-reviewer</td><td>使用代码审查代理</td></tr><tr><td>/agent run test-runner &quot;场景&quot;</td><td>运行测试代理</td></tr><tr><td>/agent list</td><td>列出可用代理</td></tr><tr><td>/agent info &lt;name&gt;</td><td>查看代理信息</td></tr></tbody></table></div><h3>CLI 调用</h3><pre><code class="language-bash">claude agents                    # 列出所有子代理
+claude --agent my-agent         # 指定子代理
+claude --agents &#39;{&quot;reviewer&quot;:{&quot;description&quot;:&quot;...&quot;}}&#39;  # 动态定义</code></pre></div><div class="card"><h2>工作树（Worktree）隔离</h2><h3>CLI 选项</h3><pre><code class="language-bash">--worktree / -w [name]          # 创建 worktree
+--tmux                          # 创建 tmux 会话
+--tmux=classic                  # 传统 tmux</code></pre><h3>设置</h3><pre><code class="language-json">{
+  &quot;worktree&quot;: {
+    &quot;symlinkDirectories&quot;: [&quot;node_modules&quot;, &quot;.cache&quot;],
+    &quot;sparsePaths&quot;: [&quot;packages/my-app&quot;]
+  }
+}</code></pre></div><div class="card"><h2>远程控制（Remote Control）</h2><h3>CLI</h3><pre><code class="language-bash">claude remote-control --name &quot;My Project&quot;  # 启动服务器
+claude --remote-control                     # 交互模式启用</code></pre><h3>Web 会话</h3><pre><code class="language-bash">claude --remote &quot;任务描述&quot;    # 创建 Web 会话
+claude --teleport            # 恢复 Web 会话到本地</code></pre></div><div class="card"><h2>Chrome 集成</h2><h3>CLI 选项</h3><pre><code class="language-bash">--chrome                     # 启用 Chrome 集成
+--no-chrome                  # 禁用 Chrome 集成</code></pre></div><div class="card"><h2>输出风格配置</h2><h3>基础模式</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>命令</th><th>说明</th></tr></thead><tbody><tr><td>/output-style concise</td><td>简洁</td></tr><tr><td>/output-style detailed</td><td>详细</td></tr><tr><td>/output-style code-focused</td><td>代码优先</td></tr><tr><td>/output-style explanation</td><td>解释详细</td></tr><tr><td>/output-style summary</td><td>摘要</td></tr></tbody></table></div><h3>语言风格</h3><pre><code class="language-bash">/output-style --javascript google
+/output-style --python pep8
+/output-style --typescript standard</code></pre></div><div class="card"><h2>状态行配置</h2><h3>命令</h3><pre><code class="language-bash">/statusline enable        # 启用
+/statusline disable       # 禁用
+/statusline reset         # 重置</code></pre><h3>显示信息</h3><pre><code class="language-bash">--show model              # 当前模型
+--show tokens             # Token 使用
+--show time               # 响应时间
+--show rate_limits        # 速率限制
+--show git-branch         # Git 分支</code></pre><h3>位置与主题</h3><pre><code class="language-bash">--position top/bottom     # 位置
+--align left/center/right # 对齐
+--theme dark/light/auto   # 主题
+--style minimal/detailed  # 风格</code></pre></div><div class="card"><h2>终端与快捷键</h2><h3>快捷键</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>按键</th><th>功能</th></tr></thead><tbody><tr><td>Ctrl+C</td><td>中断操作</td></tr><tr><td>Ctrl+D</td><td>退出</td></tr><tr><td>Tab</td><td>智能补全</td></tr><tr><td>↑/↓</td><td>历史导航</td></tr><tr><td>Esc+Esc</td><td>回溯菜单</td></tr><tr><td>Ctrl+R</td><td>搜索历史</td></tr><tr><td>Ctrl+X Ctrl+E</td><td>外部编辑器</td></tr><tr><td>Ctrl+O</td><td>Transcript 模式</td></tr></tbody></table></div><h3>终端配置</h3><pre><code class="language-bash">/terminal-setup --bind &quot;Ctrl+P&quot; /previous
+/terminal-setup --preset vim
+/terminal-setup --theme monokai</code></pre></div><div class="card"><h2>权限管理</h2><h3>基础命令</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>命令</th><th>说明</th></tr></thead><tbody><tr><td>/permissions show</td><td>显示权限</td></tr><tr><td>/permissions reset</td><td>重置</td></tr><tr><td>/permissions import file.json</td><td>导入</td></tr></tbody></table></div><h3>权限模式</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>模式</th><th>说明</th></tr></thead><tbody><tr><td>default</td><td>询问确认</td></tr><tr><td>acceptEdits</td><td>自动接受编辑</td></tr><tr><td>plan</td><td>仅规划模式</td></tr><tr><td>auto</td><td>自动模式（需许可）</td></tr><tr><td>dontAsk</td><td>不询问</td></tr><tr><td>bypassPermissions</td><td>跳过所有检查</td></tr></tbody></table></div><h3>CLI 选项</h3><pre><code class="language-bash">--permission-mode &lt;mode&gt;           # 指定模式
+--enable-auto-mode                  # 启用自动模式
+--allow-dangerously-skip-permissions  # 允许跳过</code></pre></div><div class="card"><h2>隐私设置</h2><h3>数据保留</h3><pre><code class="language-bash">/privacy-settings retention 7days
+/privacy-settings retention 30days
+/privacy-settings retention session
+/privacy-settings retention permanent</code></pre><h3>匿名化</h3><pre><code class="language-bash">anonymize-on/off           # 开关匿名化
+strip-paths                # 移除路径
+strip-usernames            # 移除用户名
+mask-secrets               # 遮蔽密钥
+detect-pii                 # 检测隐私信息</code></pre></div><div class="card"><h2>故障排除</h2><h3>诊断</h3><pre><code class="language-bash">/doctor                    # 健康检查
+--debug                    # 调试模式
+--debug-file /tmp/claude-debug.log  # 调试日志
+--log-level debug          # 详细日志
+claude auth status         # 认证状态</code></pre><h3>常见问题</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>问题</th><th>解决</th></tr></thead><tbody><tr><td>连接超时</td><td>检查网络/代理</td></tr><tr><td>认证失败</td><td>/login 或 claude auth login</td></tr><tr><td>权限错误</td><td>检查文件权限</td></tr><tr><td>模型不可用</td><td>/model 切换</td></tr></tbody></table></div><h3>配置重置</h3><pre><code class="language-bash">/config reset             # 重置配置
+rm -rf .claude/           # 清理项目配置
+claude auth logout &amp;&amp; claude auth login  # 重新认证</code></pre></div><div class="card"><h2>CLAUDE.md 与记忆系统</h2><h3>CLAUDE.md 位置</h3><pre><code class="language-bash">~/.claude/CLAUDE.md       # 用户级
+CLAUDE.md                 # 项目根目录
+.claude/CLAUDE.md         # 项目 .claude 目录</code></pre><h3>frontmatter 支持</h3><pre><code class="language-markdown">---
+memory: 项目上下文记忆
+effort: medium
+agent: code-reviewer
+---</code></pre><h3>用途</h3><ul><li>项目级指令和上下文</li><li>编码规范和约定</li><li>常用命令和脚本</li><li>团队知识共享</li></ul></div>
+    </div>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>
