@@ -9,6 +9,97 @@ colWidth: 360px
 
 # Zellij 速查表
 
+## 安装与配置
+
+### Linux
+
+```bash
+# Arch Linux
+pacman -S zellij
+
+# Fedora (COPR)
+sudo dnf copr enable varlad/zellij
+sudo dnf install zellij
+
+# Void Linux
+sudo xbps-install zellij
+
+# 其他发行版 - 下载二进制
+tar -xvf zellij*.tar.gz
+chmod +x zellij
+sudo mv zellij /usr/local/bin/
+```
+
+### macOS
+
+```bash
+# Homebrew (推荐)
+brew install zellij
+
+# MacPorts
+sudo port install zellij
+```
+
+### Windows (WSL2 / PowerShell)
+
+```bash
+# WSL2 - 下载二进制
+tar -xvf zellij*x86_64-unknown-linux-musl.tar.gz
+chmod +x zellij
+./zellij.exe  # Windows 原生运行
+
+# PowerShell - 从 Release 下载 .zip，解压后运行 zellij.exe
+```
+
+### cargo 安装
+
+```bash
+# 编译安装
+cargo install --locked zellij
+
+# 快速安装二进制 (需先安装 cargo-binstall)
+cargo binstall zellij
+```
+
+### 无安装试用
+
+```bash
+# 直接运行，无需安装
+bash <(curl -L https://zellij.dev/launch)
+```
+
+### 基础配置
+
+```bash
+# 首次运行自动创建默认配置
+# 配置文件位置: ~/.config/zellij/config.kdl
+
+# 导出默认配置到文件
+zellij setup --dump-config > ~/.config/zellij/config.kdl
+
+# 使用指定配置文件启动
+zellij -c /path/to/config.kdl
+
+# 常用启动选项
+zellij options --theme dracula        # 设置主题
+zellij options --mouse-mode true     # 启用鼠标
+zellij options --pane-frames false   # 隐藏边框
+zellij options --default-shell bash   # 默认 shell
+```
+
+### Shell 补全
+
+```bash
+# Bash
+zellij setup --generate-completion bash >> ~/.bashrc
+
+# Zsh
+zellij setup --generate-completion zsh >> ~/.zshrc
+
+# Fish
+zellij setup --generate-completion fish >> ~/.config/fish/config.fish
+```
+
 ## 一眼入口
 
 ### 最短入口
