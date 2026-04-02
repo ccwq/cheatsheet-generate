@@ -2,12 +2,28 @@
 title: Vim 速查
 lang: bash
 version: "9.1"
-date: 2024-01-02
+date: 2026-04-02
 github: vim/vim
 colWidth: 380px
 ---
 
 # Vim 速查
+
+## 快捷键: 快速退出 ZZ / ZQ
+---
+lang: bash
+link: https://vimhelp.org/quickref.txt.html
+desc: ZZ 和 ZQ 是 Vim 最被低估的两个内置快捷键——无需进入命令模式，直接在普通模式按两键完成保存退出或强制退出。
+---
+
+- `ZZ`: 保存并退出（等价于 `:wq`）
+- `ZQ`: 放弃修改并退出（等价于 `:q!`）
+
+```bash
+# 普通模式直接按，不用输入冒号
+ZZ    # 保存 + 退出
+ZQ    # 强制退出 + 放弃修改
+```
 
 ## Cookbook: 起手式
 ---
@@ -155,6 +171,147 @@ Ctrl+w l
 /timeout
 Ctrl+w h
 /timeout
+```
+
+## 快捷键: 折叠
+---
+lang: bash
+link: https://vimhelp.org/fold.txt.html
+desc: 代码块折叠是阅读大文件的利器，折叠命令覆盖开、关、嵌套和导航。
+---
+
+- `za`: 打开/关闭当前折叠
+- `zA`: 递归切换当前折叠
+- `zo`: 打开当前折叠
+- `zO`: 递归打开当前折叠
+- `zc`: 关闭当前折叠
+- `zC`: 递归关闭当前折叠
+- `zM`: 关闭所有折叠
+- `zR`: 打开所有折叠
+- `zm`: 增加折叠层级（更多折叠）
+- `zr`: 减少折叠层级（更少折叠）
+- `zd`: 删除当前折叠
+- `zE`: 删除窗口内所有折叠
+- `zj`: 跳到下一个折叠处
+- `zk`: 跳到上一个折叠处
+- `[z`: 跳到当前折叠的开头
+- `]z`: 跳到当前折叠的结尾
+- `z=`: 显示折叠建议（需要 manual fold 或基于缩进）
+
+```bash
+# 快速折叠/展开当前区块
+za
+
+# 关闭所有折叠专注顶部
+zM
+
+# 打开所有折叠
+zR
+```
+
+## 快捷键: 大小写与数字
+---
+lang: bash
+link: https://vimhelp.org/change.txt.html
+desc: 大小写切换和数字增删是高频操作，gU/gu 比手动重打快得多。
+---
+
+- `g~`: 反转当前字符大小写
+- `gUU`: 当前行转大写
+- `guu`: 当前行转小写
+- `gUaw`: 当前单词转大写
+- `guaw`: 当前单词转小写
+- `Ctrl+a`: 数字加 1
+- `Ctrl+x`: 数字减 1
+- `5Ctrl+a`: 数字加 5
+- `10Ctrl+x`: 数字减 10
+- `ga`: 显示光标处字符的 ASCII/Unicode 值
+- `g8`: 显示光标处 UTF-8 字节序列
+
+```bash
+# 快速递增数字
+Ctrl+a
+10Ctrl+x
+
+# 整行转大写
+gUU
+```
+
+## 快捷键: 光标屏幕定位
+---
+lang: bash
+link: https://vimhelp.org/scroll.txt.html
+desc: zt/zz/zb 把当前行定位到屏幕顶部/中部/底部，比滚屏再校准更直接。
+---
+
+- `zt`: 当前行移到屏幕顶部
+- `zz`: 当前行移到屏幕中部
+- `zb`: 当前行移到屏幕底部
+- `z.`: 重画并将光标行放到屏幕中部（等价 zz）
+- `z-`: 重画并将光标行放到屏幕底部（等价 zb）
+- `z<CR>`: 重画并将光标行放到屏幕顶部（等价 zt）
+- `Ctrl+y`: 向上滚动一行（保持光标位置）
+- `Ctrl+e`: 向下滚动一行
+
+```bash
+# 搜索匹配后快速将匹配行居中
+/TODO
+zz
+```
+
+## 快捷键: 寄存器与粘贴
+---
+lang: bash
+link: https://vimhelp.org/change.txt.html
+desc: Vim 有多个寄存器，复制删除默认到 " 寄存器，系统粘贴板是 + 或 *。
+---
+
+- `:reg`: 查看所有寄存器内容
+- `"ay`: 复制到寄存器 a
+- `"bdd`: 删除到寄存器 b
+- `"ap`: 粘贴寄存器 a 的内容
+- `"+y`: 复制到系统粘贴板（需要 +clipboard 支持）
+- `"+p`: 粘贴系统粘贴板内容
+- `gp`: 粘贴并把光标移到新内容之后
+- `gP`: 在前方粘贴并把光标移到新内容之后
+- `:ls`: 列出所有缓冲区
+
+```bash
+# 查看寄存器
+:reg
+
+# 复制到命名寄存器 a
+"ayy
+
+# 粘贴并移动光标到内容之后
+gp
+```
+
+## 快捷键: 启动与多文件
+---
+lang: bash
+link: https://vimhelp.org/starting.txt.html
+desc: Vim 支持启动时直接分屏、打开多个文件、进入标签页，适合脚本和快速对比。
+---
+
+- `vim -o file1 file2`: 水平分屏打开多个文件
+- `vim -O file1 file2`: 垂直分屏打开多个文件
+- `vim -p file1 file2`: 多标签页打开（Vim 7+）
+- `vim -d file1 file2`: Diff 模式打开两文件对比
+- `:args`: 显示参数列表
+- `:next`: 下一个文件（参数列表）
+- `:prev`: 上一个文件
+- `:argdo {cmd}`: 对参数列表所有文件执行命令
+- `:bufdo {cmd}`: 对所有缓冲区执行命令
+- `:all`: 为参数列表每个文件开窗口
+- `Ctrl+w T`: 将当前窗口移到新标签页
+
+```bash
+# 垂直分屏对比两个配置
+vim -O config.yml config.example.yml
+
+# Diff 模式对比
+vim -d old.txt new.txt
 ```
 
 ## Cookbook: 常见场景

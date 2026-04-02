@@ -19,6 +19,9 @@
 - [change.txt](https://vimhelp.org/change.txt.html) - 删除、修改、替换、缩进
 - [textobjects.txt](https://vimhelp.org/textobjects.txt.html) - 文本对象与组合动作
 - [options.txt](https://vimhelp.org/options.txt.html) - 常见选项与行为控制
+- [fold.txt](https://vimhelp.org/fold.txt.html) - 折叠命令、折叠层级控制
+- [scroll.txt](https://vimhelp.org/scroll.txt.html) - 滚屏、光标定位、屏幕行移动
+- [starting.txt](https://vimhelp.org/starting.txt.html) - Vim 启动参数、多文件/多标签启动
 
 ## 官方入口
 - [Vim Official Site](https://www.vim.org/) - 官网首页
