@@ -51,7 +51,8 @@
       "Bash(pnpm help)",
       "Bash(curl:*)",
       "WebFetch(domain:docs.anthropic.com)",
-      "WebFetch(domain:docs.claude.com)"
+      "WebFetch(domain:docs.claude.com)",
+      "mcp__MiniMax__web_search"
     ],
     "deny": [],
     "ask": []
