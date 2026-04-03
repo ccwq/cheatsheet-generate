@@ -14,9 +14,14 @@
 ## 关键主题
 - 快照与 refs: `snapshot`, `click @e1`, `fill @e2`
 - CDP 接管现有浏览器: `--cdp 9222`, `connect 9222`
-- 会话复用: `--session`, `--profile`, `--state`
-- 调试排查: `console`, `errors`, `trace`, `record`
-- 网络控制: `network route`, `network requests`, `network unroute`
+- 自动连接 Chrome: `--auto-connect`（复用已登录态）
+- 会话复用: `--session`, `--profile`, `--state`, `--session-name`
+- 调试排查: `console`, `errors`, `trace`, `record`, `profiler`, `inspect`
+- 网络控制: `network route`, `network requests`, `network unroute`, `network har`
+- 批量与确认: `batch`, `confirm`, `deny`
+- 认证保险库: `auth save`, `auth login`, `auth list`
+- Diff 对比: `diff snapshot`, `diff screenshot`, `diff url`
+- 剪贴板: `clipboard read`, `clipboard write`, `clipboard copy/paste`
 
 ## 相关规范与生态
 - Playwright 文档: https://playwright.dev/docs/intro

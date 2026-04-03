@@ -209,52 +209,118 @@ find . -name "*.js" -exec claude -p "优化此文件" {} \;
 | 命令 | 说明 |
 |------|------|
 | `/help` | 显示所有命令 |
-| `/clear` | 清除历史 |
-| `/exit` | 退出 |
-| `/config` | 设置界面 |
-| `/status` | 状态信息 |
-| `/init` | 初始化项目 |
-| `/doctor` | 健康检查 |
+| `/clear` | 清除历史。别名：`/reset`, `/new` |
+| `/exit` | 退出 CLI。别名：`/quit` |
+| `/config` | 打开设置界面。别名：`/settings` |
+| `/status` | 显示版本、模型、账户、连接状态 |
+| `/init` | 初始化项目，创建 `CLAUDE.md` |
+| `/doctor` | 健康检查，诊断安装问题 |
 
 ### 账户与模型
 | 命令 | 说明 |
 |------|------|
-| `/login` | 登录账户 |
-| `/logout` | 登出 |
-| `/model` | 选择模型 |
-| `/usage` | 使用限制 |
-| `/cost` | Token 成本 |
+| `/login` | 登录 Anthropic 账户 |
+| `/logout` | 登出账户 |
+| `/model [name]` | 选择或更改 AI 模型 |
+| `/usage` | 显示计划限额和速率限制状态 |
+| `/cost` | 显示 Token 使用统计 |
+| `/extra-usage` | 配置额外用量，绕过速率限制 |
+
+### 文件与代码
+| 命令 | 说明 |
+|------|------|
+| `/memory` | 编辑 `CLAUDE.md` 记忆文件，管理自动记忆 |
+| `/context` | 可视化上下文使用，显示优化建议 |
+| `/compact [instructions]` | 压缩对话，释放上下文空间 |
+| `/rewind` | 回溯对话/代码到之前状态。别名：`/checkpoint` |
+| `/copy [N]` | 复制上一个响应到剪贴板（`/copy 2` 复制倒数第二个） |
+| `/export [filename]` | 导出会话为纯文本 |
+
+### Git 与版本控制
+| 命令 | 说明 |
+|------|------|
+| `/diff` | 打开交互式 diff 查看器，查看未提交变更 |
+| `/branch [name]` | 在当前点创建对话分支。别名：`/fork` |
+| `/resume [session]` | 恢复指定 ID 或名称的会话。别名：`/continue` |
+| `/pr-comments [PR]` | 获取并显示 GitHub PR 评论 |
 
 ### 开发工具
 | 命令 | 说明 |
 |------|------|
-| `/memory` | 记忆文件 |
-| `/todos` | 待办事项 |
-| `/context` | 上下文使用（含操作建议） |
-| `/review` | 代码审查 |
-| `/pr_comments` | 查看 PR 评论 |
-| `/mcp` | MCP 连接 |
-| `/rewind` | 回溯对话 |
-| `/output-style` | 输出风格 |
-| `/checkpoint` | 检查点 |
-| `/compact` | 压缩历史 |
-| `/simplify` | 简化命令（v2.1.63+） |
-| `/batch` | 批处理命令（v2.1.63+） |
-| `/effort` | 努力级别（v2.1.76+） |
-| `/loop` | 循环任务（v2.1.71+） |
-| `/copy` | 复制到文件（v2.1.72+） |
-| `/branch` | 分支会话（v2.1.77+，原 /fork） |
+| `/mcp` | 管理 MCP 服务器连接和 OAuth 认证 |
+| `/agents` | 管理 agent 子代理配置 |
+| `/tasks` | 列出和管理后台任务。别名：`/bashes` |
+| `/hooks` | 查看 hook 配置 |
+| `/plugins` | 管理插件 |
 
-### 配置与 UI
+### 调试与排障
 | 命令 | 说明 |
 |------|------|
-| `/statusline` | 状态行配置 |
-| `/terminal-setup` | 终端快捷键 |
-| `/privacy-settings` | 隐私设置 |
-| `/permissions` | 权限管理 |
-| `/vim` | Vim 编辑模式 |
-| `/sandbox` | 沙盒 bash |
+| `/btw <question>` | 快速提问，不添加对话历史 |
+| `/debug [description]` | 启用调试日志，排查问题 |
+| `/sandbox` | 切换沙盒模式（支持平台） |
+| `/security-review` | 分析当前分支变更的安全漏洞 |
+
+### 自动化与计划
+| 命令 | 说明 |
+|------|------|
+| `/loop [interval] <prompt>` | 按间隔重复运行提示，监控部署等 |
+| `/schedule [description]` | 创建云端定时任务 |
+| `/effort [low\|medium\|high\|max\|auto]` | 设置努力级别 |
+
+### 输出与界面
+| 命令 | 说明 |
+|------|------|
+| `/output-style` | 设置输出风格 |
+| `/statusline` | 配置状态行显示 |
+| `/terminal-setup` | 配置终端快捷键（仅支持终端） |
+| `/theme [name]` | 更改颜色主题（含亮/暗/色盲模式） |
+| `/color [color]` | 设置提示栏颜色（red/blue/green/yellow/purple/orange/pink/cyan） |
+| `/vim` | 切换 Vim/Normal 编辑模式 |
+| `/fast [on\|off]` | 切换快速模式 |
+
+### IDE 与集成
+| 命令 | 说明 |
+|------|------|
+| `/ide` | 管理 IDE 集成，显示状态 |
+| `/chrome` | 配置 Chrome 集成 |
+| `/desktop` | 在桌面应用中继续当前会话（macOS/Windows）别名：`/app` |
+| `/mobile` | 显示二维码下载移动端应用。别名：`/ios`, `/android` |
+
+### 安装与升级
+| 命令 | 说明 |
+|------|------|
+| `/install-github-app` | 设置 GitHub Actions 应用 |
+| `/install-slack-app` | 安装 Slack 应用 |
+| `/upgrade` | 打开升级页面 |
+| `/release-notes` | 查看完整更新日志 |
+
+### 其他
+| 命令 | 说明 |
+|------|------|
+| `/plan [description]` | 进入计划模式 |
+| `/permissions` | 管理工具权限规则。别名：`/allowed-tools` |
+| `/privacy-settings` | 查看和更新隐私设置（Pro/Max） |
+| `/rename [name]` | 重命名当前会话 |
+| `/insights` | 生成会话分析报告 |
+| `/stats` | 可视化每日用量、会话历史、连续使用 |
+| `/feedback [report]` | 提交反馈。别名：`/bug` |
+| `/stickers` | 订购贴纸 |
+| `/passes` | 与朋友分享免费周 |
+| `/keybindings` | 打开或创建快捷键配置文件 |
+| `/reload-plugins` | 重新加载所有插件 |
+| `/remote-control` | 启用远程控制。别名：`/rc` |
+| `/remote-env` | 配置远程环境默认值 |
 | `/powerup` | 交互式教程（v2.1.90+） |
+
+### 内置 Bundled Skills
+| 命令 | 说明 |
+|------|------|
+| `/batch <instruction>` | 并行大规模变更，协调多个 agent |
+| `/claude-api` | 加载 Claude API 参考（自动触发） |
+| `/debug [description]` | 启用调试并排查问题 |
+| `/loop [interval] <prompt>` | 按计划重复运行提示 |
+| `/simplify [focus]` | 审查并修复代码质量问题 |
 
 ---
 

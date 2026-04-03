@@ -1,10 +1,10 @@
-desc: CLI-Anything 的混合风格速查，覆盖 build/refine/test/validate/list 工作流、多平台接入、生成后的 CLI 交付、HARNESS 质量门槛与 CLI-Hub。
+desc: CLI-Anything 的混合风格速查，覆盖 build/refine/test/validate/list 工作流、多平台接入（新增 Copilot CLI）、v0.2.0 分层 HARNESS、guides/ 子文档、1,839+ 测试覆盖与 CLI-Hub。
 tags:
   - AI / LLM
   - Python
   - CLI 工具
   - 自动化工具
   - 开发
-version: main@ddba3db (2026-03-25)
+version: v0.2.0@8980fdc (2026-04-02)
 github: HKUDS/CLI-Anything
-date: "2026-03-25"
+date: "2026-04-02"

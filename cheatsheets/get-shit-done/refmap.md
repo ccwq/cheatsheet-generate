@@ -10,7 +10,7 @@
 - [How It Works](https://github.com/gsd-build/get-shit-done#how-it-works) — 工作流程详解
 - [Commands](https://github.com/gsd-build/get-shit-done#commands) — 全部命令参考
 - [Why It Works](https://github.com/gsd-build/get-shit-done#why-it-works) — 技术原理
-- [User Guide](https://github.com/gsd-build/get-shit-done#user-guide) — 用户指南
+- [User Guide](https://github.com/gsd-build/get-shit-done/blob/main/docs/USER-GUIDE.md) — 用户指南
 
 ## 安装与配置
 
@@ -39,14 +39,33 @@
 - [Plan Phase](https://github.com/gsd-build/get-shit-done#3-plan-phase) — 规划阶段
 - [Execute Phase](https://github.com/gsd-build/get-shit-done#4-execute-phase) — 执行阶段
 - [Verify Work](https://github.com/gsd-build/get-shit-done#5-verify-work) — 验证工作
+- [Repeat → Ship → Complete → Next Milestone](https://github.com/gsd-build/get-shit-done#6-repeat---ship---complete---next-milestone) — 完整循环
 
 ### 里程碑管理
-- [Complete Milestone](https://github.com/gsd-build/get-shit-done#6-repeat---complete---next-milestone) — 里程碑管理
+- [Complete Milestone](https://github.com/gsd-build/get-shit-done#6-repeat---ship---complete---next-milestone) — 里程碑管理
 - [Phase Management](https://github.com/gsd-build/get-shit-done#phase-management) — 阶段管理命令
 
 ### 特殊模式
 - [Quick Mode](https://github.com/gsd-build/get-shit-done#quick-mode) — 快速模式
 - [Brownfield](https://github.com/gsd-build/get-shit-done#brownfield) — 现有代码库
+
+## 高级功能
+
+### Workstreams
+- [Workstreams](https://github.com/gsd-build/get-shit-done#workstreams) — 并行里程碑工作流
+
+### Workspaces
+- [Multi-Project Workspaces](https://github.com/gsd-build/get-shit-done#workspaces) — 多项目隔离工作空间
+
+### UI 设计
+- [UI Phase](https://github.com/gsd-build/get-shit-done#ui-design) — 前端阶段 UI 设计
+- [UI Review](https://github.com/gsd-build/get-shit-done#ui-design) — 视觉审计
+
+### 代码质量
+- [Code Quality](https://github.com/gsd-build/get-shit-done#code-quality) — review、安全验证、PR 分支
+
+### Backlog & Threads
+- [Backlog & Threads](https://github.com/gsd-build/get-shit-done#backlog-and-threads) — 未来想法、待办、持久化上下文
 
 ## 技术原理
 
@@ -67,5 +86,5 @@
 
 ## 社区资源
 
-- [Discord Community](https://github.com/gsd-build/get-shit-done#commands) — 通过 /gsd:join-discord 加入
+- [Discord Community](https://discord.gg/gsd) — 加入 Discord
 - [Community Ports](https://github.com/gsd-build/get-shit-done#community-ports) — 社区移植版本
