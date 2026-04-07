@@ -1,0 +1,10 @@
+desc: "GSD (Get Shit Done) v2 — 自主式 AI 编码 Agent，支持 Auto Mode、并行编排、动态模型路由、Git 隔离策略， 实现\"一键启动、无人值守、干净 Git 历史\"的里程碑驱动开发"
+tags:
+  - CLI 工具
+  - AI / LLM
+  - AI 辅助工具
+  - TypeScript
+  - 规范 / 流程
+version: "2.64.0"
+date: "2026-04-06"
+github: gsd-build/gsd-2
