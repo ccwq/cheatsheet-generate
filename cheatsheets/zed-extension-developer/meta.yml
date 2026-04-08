@@ -1,0 +1,9 @@
+desc: Zed 编辑器插件开发速查表，包含 Language、Theme、Icon Theme、Debugger、Snippets、Agent Server、MCP Server 七种扩展类型的开发指南。
+tags:
+  - IDE / 编辑器
+  - 插件
+  - Rust
+  - 开发
+version: "0.230.2"
+github: zed-industries/zed
+date: "2026-04-06"
