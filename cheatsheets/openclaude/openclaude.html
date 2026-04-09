@@ -43,7 +43,7 @@
       <span class="title">OpenClaude</span>
       <!-- META_INFO_START -->
       <div class="meta-info">
-        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">v0.1.8</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">v0.2.0</span></span>
         <span class="meta-item"><span class="meta-label"></span><span class="meta-value">unknown</span></span>
         <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/Gitlawb/openclaude" target="_blank" rel="noopener">Gitlawb/openclaude</a></span></span>
         <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/Gitlawb/openclaude" target="_blank" rel="noopener">打开 Zread</a></span></span>
@@ -58,29 +58,118 @@
     </div>
     <div class="cheat-columns" id="columns">
       <div class="card"><h2>安装与启动</h2><pre><code class="language-bash">npm install -g @gitlawb/openclaude
-openclaude</code></pre><div class="desc">交互内使用 /provider 配置提供商，/onboard-github 配置 GitHub Models</div></div><div class="card"><h2>快速配置</h2><h3>OpenAI</h3><pre><code class="language-bash">export CLAUDE_CODE_USE_OPENAI=1
+openclaude</code></pre><div class="desc">首次运行自动引导配置，或使用 /provider 交互式配置</div></div><div class="card"><h2>快速配置</h2><h3>OpenAI</h3><pre><code class="language-bash">export CLAUDE_CODE_USE_OPENAI=1
 export OPENAI_API_KEY=sk-your-key
 export OPENAI_MODEL=gpt-4o</code></pre><h3>Ollama 本地</h3><pre><code class="language-bash">export CLAUDE_CODE_USE_OPENAI=1
 export OPENAI_BASE_URL=http://localhost:11434/v1
 export OPENAI_MODEL=qwen2.5-coder:7b</code></pre><h3>DeepSeek</h3><pre><code class="language-bash">export CLAUDE_CODE_USE_OPENAI=1
 export OPENAI_API_KEY=sk-...
 export OPENAI_BASE_URL=https://api.deepseek.com/v1
-export OPENAI_MODEL=deepseek-chat</code></pre></div><div class="card"><h2>slash 命令速查</h2><div class="table-wrap"><table class="cheat-table"><thead><tr><th>命令</th><th>说明</th></tr></thead><tbody><tr><td>/provider</td><td>交互式配置提供商和管理 profiles</td></tr><tr><td>/onboard-github</td><td>GitHub Models 引导配置</td></tr><tr><td>/model</td><td>本地 OpenAI 兼容模型发现</td></tr></tbody></table></div></div><div class="card"><h2>环境变量</h2><div class="table-wrap"><table class="cheat-table"><thead><tr><th>变量</th><th>必填</th><th>说明</th></tr></thead><tbody><tr><td>CLAUDE_CODE_USE_OPENAI</td><td>是</td><td>设为 1 启用 OpenAI 兼容模式</td></tr><tr><td>OPENAI_API_KEY</td><td>是*</td><td>API key（*本地模型不需要）</td></tr><tr><td>OPENAI_MODEL</td><td>是</td><td>模型名，如 gpt-4o、deepseek-chat</td></tr><tr><td>OPENAI_BASE_URL</td><td>否</td><td>API 端点，默认 https://api.openai.com/v1</td></tr></tbody></table></div></div><div class="card"><h2>Agent 路由</h2><div class="desc">在 ~/.claude/settings.json 配置：</div><pre><code class="language-json">{
+export OPENAI_MODEL=deepseek-chat</code></pre><h3>更多 Provider 示例</h3><pre><code class="language-bash"># LM Studio (本地)
+export CLAUDE_CODE_USE_OPENAI=1
+export OPENAI_BASE_URL=http://localhost:1234/v1
+export OPENAI_MODEL=your-model-id
+
+# Together AI
+export CLAUDE_CODE_USE_OPENAI=1
+export OPENAI_API_KEY=...
+export OPENAI_BASE_URL=https://api.together.xyz/v1
+export OPENAI_MODEL=meta-llama/Llama-3.3-70B-Instruct-Turbo
+
+# Groq
+export CLAUDE_CODE_USE_OPENAI=1
+export OPENAI_API_KEY=gsk_...
+export OPENAI_BASE_URL=https://api.groq.com/openai/v1
+export OPENAI_MODEL=llama-3.3-70b-versatile
+
+# Mistral
+export CLAUDE_CODE_USE_OPENAI=1
+export OPENAI_API_KEY=...
+export OPENAI_BASE_URL=https://api.mistral.ai/v1
+export OPENAI_MODEL=mistral-large-latest
+
+# Azure OpenAI
+export CLAUDE_CODE_USE_OPENAI=1
+export OPENAI_API_KEY=your-azure-key
+export OPENAI_BASE_URL=https://your-resource.openai.azure.com/openai/deployments/your-deployment/v1
+export OPENAI_MODEL=gpt-4o
+
+# Codex via ChatGPT auth
+export CLAUDE_CODE_USE_OPENAI=1
+export OPENAI_MODEL=codexplan  # 或 codexspark（更快）
+export CODEX_API_KEY=...  # 可选，已有 ~/.codex/auth.json 则自动读取</code></pre></div><div class="card"><h2>slash 命令速查</h2><h3>核心命令</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>命令</th><th>说明</th></tr></thead><tbody><tr><td>/provider</td><td>交互式配置提供商和管理 profiles</td></tr><tr><td>/onboard-github</td><td>GitHub Models 引导配置</td></tr><tr><td>/model</td><td>本地 OpenAI 兼容模型发现</td></tr><tr><td>/help</td><td>显示帮助</td></tr><tr><td>/exit</td><td>退出</td></tr><tr><td>/clear</td><td>清屏</td></tr></tbody></table></div><h3>会话管理</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>命令</th><th>说明</th></tr></thead><tbody><tr><td>/session</td><td>会话管理（列表、恢复、删除）</td></tr><tr><td>/resume</td><td>恢复指定会话</td></tr><tr><td>/compact</td><td>压缩上下文</td></tr><tr><td>/context</td><td>查看当前上下文状态</td></tr><tr><td>/summary</td><td>生成会话摘要</td></tr></tbody></table></div><h3>Git 操作</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>命令</th><th>说明</th></tr></thead><tbody><tr><td>/commit</td><td>创建 commit</td></tr><tr><td>/diff</td><td>查看未提交的更改</td></tr><tr><td>/branch</td><td>分支管理</td></tr><tr><td>/review</td><td>代码审查</td></tr></tbody></table></div><h3>工具与插件</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>命令</th><th>说明</th></tr></thead><tbody><tr><td>/mcp</td><td>MCP 服务器管理</td></tr><tr><td>/skills</td><td>Skill 管理</td></tr><tr><td>/hooks</td><td>Hooks 管理</td></tr><tr><td>/plugins</td><td>插件管理</td></tr><tr><td>/agent</td><td>Agent 管理</td></tr><tr><td>/task</td><td>任务管理</td></tr></tbody></table></div><h3>配置与诊断</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>命令</th><th>说明</th></tr></thead><tbody><tr><td>/config</td><td>查看/编辑配置</td></tr><tr><td>/doctor</td><td>运行时诊断</td></tr><tr><td>/status</td><td>显示状态信息</td></tr><tr><td>/cost</td><td>显示会话成本</td></tr><tr><td>/usage</td><td>使用统计</td></tr><tr><td>/theme</td><td>终端主题</td></tr><tr><td>/keybindings</td><td>键盘快捷键</td></tr></tbody></table></div><h3>其他命令</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>命令</th><th>说明</th></tr></thead><tbody><tr><td>/plan</td><td>计划模式切换</td></tr><tr><td>/fast</td><td>快速模式</td></tr><tr><td>/memory</td><td>记忆系统</td></tr><tr><td>/dream</td><td>背景记忆整合</td></tr><tr><td>/feedback</td><td>发送反馈</td></tr><tr><td>/btw</td><td>快速备注</td></tr><tr><td>/sticker</td><td>表情贴纸</td></tr><tr><td>/wiki</td><td>Wiki 查询</td></tr><tr><td>/insights</td><td>会话分析报告</td></tr></tbody></table></div></div><div class="card"><h2>配置目录</h2><div class="table-wrap"><table class="cheat-table"><thead><tr><th>变量</th><th>说明</th></tr></thead><tbody><tr><td>CLAUDE_CONFIG_DIR</td><td>覆盖默认配置目录，默认为 ~/.openclaude，旧用户 ~/.claude 继续使用</td></tr></tbody></table></div></div><div class="card"><h2>环境变量</h2><h3>Provider 选择</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>变量</th><th>说明</th></tr></thead><tbody><tr><td>CLAUDE_CODE_USE_OPENAI=1</td><td>启用 OpenAI 兼容模式</td></tr><tr><td>CLAUDE_CODE_USE_GEMINI=1</td><td>启用 Google Gemini</td></tr><tr><td>CLAUDE_CODE_USE_GITHUB=1</td><td>启用 GitHub Models</td></tr><tr><td>CLAUDE_CODE_USE_BEDROCK=1</td><td>启用 AWS Bedrock</td></tr><tr><td>CLAUDE_CODE_USE_VERTEX=1</td><td>启用 Google Vertex AI</td></tr><tr><td>CLAUDE_CODE_USE_FOUNDRY=1</td><td>启用 Microsoft Foundry</td></tr></tbody></table></div><h3>OpenAI 兼容模式</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>变量</th><th>必填</th><th>说明</th></tr></thead><tbody><tr><td>OPENAI_API_KEY</td><td>是*</td><td>API key（*本地模型不需要）</td></tr><tr><td>OPENAI_MODEL</td><td>是</td><td>模型名</td></tr><tr><td>OPENAI_BASE_URL</td><td>否</td><td>API 端点，默认 https://api.openai.com/v1</td></tr></tbody></table></div><h3>Anthropic</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>变量</th><th>必填</th><th>说明</th></tr></thead><tbody><tr><td>ANTHROPIC_API_KEY</td><td>是</td><td>Anthropic API key</td></tr><tr><td>ANTHROPIC_MODEL</td><td>否</td><td>覆盖默认模型</td></tr><tr><td>ANTHROPIC_BASE_URL</td><td>否</td><td>自定义端点</td></tr></tbody></table></div><h3>Google Gemini</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>变量</th><th>必填</th><th>说明</th></tr></thead><tbody><tr><td>GEMINI_API_KEY</td><td>是</td><td>Gemini API key（也支持 GOOGLE_API_KEY）</td></tr><tr><td>GEMINI_MODEL</td><td>否</td><td>模型名，默认 gemini-2.0-flash</td></tr><tr><td>GEMINI_BASE_URL</td><td>否</td><td>自定义端点</td></tr></tbody></table></div><h3>GitHub Models</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>变量</th><th>必填</th><th>说明</th></tr></thead><tbody><tr><td>GITHUB_TOKEN</td><td>是</td><td>GitHub Token（也支持 GH_TOKEN）</td></tr></tbody></table></div><h3>AWS Bedrock</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>变量</th><th>必填</th><th>说明</th></tr></thead><tbody><tr><td>AWS_REGION</td><td>是</td><td>AWS 区域，如 us-east-1</td></tr><tr><td>AWS_BEARER_TOKEN_BEDROCK</td><td>是</td><td>Bedrock bearer token</td></tr></tbody></table></div><h3>Google Vertex AI</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>变量</th><th>必填</th><th>说明</th></tr></thead><tbody><tr><td>ANTHROPIC_VERTEX_PROJECT_ID</td><td>是</td><td>GCP 项目 ID（也支持 GOOGLE_CLOUD_PROJECT）</td></tr><tr><td>CLOUD_ML_REGION</td><td>否</td><td>区域，默认 us-east5</td></tr></tbody></table></div><h3>Codex 特定</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>变量</th><th>说明</th></tr></thead><tbody><tr><td>CODEX_API_KEY</td><td>Codex/ChatGPT access token override</td></tr><tr><td>CODEX_AUTH_JSON_PATH</td><td>Path to Codex CLI auth.json（默认 ~/.codex/auth.json）</td></tr><tr><td>CODEX_HOME</td><td>替代 Codex home 目录</td></tr></tbody></table></div><h3>Web 搜索</h3><div class="desc">API Keys（设置其中一个）：</div><div class="table-wrap"><table class="cheat-table"><thead><tr><th>变量</th><th>说明</th></tr></thead><tbody><tr><td>TAVILY_API_KEY</td><td>Tavily AI 优化搜索（推荐）</td></tr><tr><td>EXA_API_KEY</td><td>Exa 神经/语义搜索</td></tr><tr><td>YOU_API_KEY</td><td>You.com RAG-ready snippets</td></tr><tr><td>JINA_API_KEY</td><td>Jina 搜索</td></tr><tr><td>BING_API_KEY</td><td>Bing 网页搜索</td></tr><tr><td>MOJEEK_API_KEY</td><td>Mojeek 隐私搜索</td></tr><tr><td>LINKUP_API_KEY</td><td>Linkup 搜索</td></tr><tr><td>FIRECRAWL_API_KEY</td><td>Firecrawl 高级搜索（JS 渲染页面）</td></tr></tbody></table></div><div class="desc">配置：</div><div class="table-wrap"><table class="cheat-table"><thead><tr><th>变量</th><th>默认</th><th>说明</th></tr></thead><tbody><tr><td>WEB_SEARCH_PROVIDER</td><td>auto</td><td>Provider：auto、custom、tavily、exa、ddg 等</td></tr><tr><td>WEB_SEARCH_API</td><td>-</td><td>自定义搜索端点</td></tr><tr><td>WEB_URL_TEMPLATE</td><td>-</td><td>含 {query} 的 URL 模板</td></tr><tr><td>WEB_CUSTOM_TIMEOUT_SEC</td><td>15</td><td>请求超时（秒）</td></tr></tbody></table></div><h3>重试与超时</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>变量</th><th>默认</th><th>说明</th></tr></thead><tbody><tr><td>CLAUDE_CODE_MAX_RETRIES</td><td>10</td><td>API 重试次数</td></tr><tr><td>CLAUDE_CODE_UNATTENDED_RETRY</td><td>-</td><td>设为 1 启用 CI 持续重试模式（429/529）</td></tr><tr><td>API_TIMEOUT_MS</td><td>-</td><td>自定义超时（毫秒）</td></tr></tbody></table></div><h3>调试</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>变量</th><th>说明</th></tr></thead><tbody><tr><td>CLAUDE_DEBUG</td><td>启用调试日志</td></tr><tr><td>CLAUDE_CODE_DEBUG_LOG_LEVEL</td><td>日志级别</td></tr><tr><td>CLAUDE_CODE_DEBUG_LOGS_DIR</td><td>调试日志目录</td></tr></tbody></table></div><h3>其他</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>变量</th><th>说明</th></tr></thead><tbody><tr><td>OPENCLAUDE_DISABLE_CO_AUTHORED_BY=1</td><td>禁用 git Co-Authored-By</td></tr><tr><td>OPENCLAUDE_ENABLE_EXTENDED_KEYS=1</td><td>扩展键盘协议（iTerm2/WezTerm/Ghostty）</td></tr><tr><td>CLAUDE_CODE_SIMPLE 或 --bare</td><td>跳过 hooks、LSP、插件同步、skill 扫描</td></tr><tr><td>CLAUDE_CODE_DISABLE_TELEMETRY</td><td>禁用遥测</td></tr><tr><td>CLAUDE_CODE_DISABLE_AUTO_MEMORY</td><td>禁用自动记忆</td></tr><tr><td>CLAUDE_CODE_DISABLE_THINKING</td><td>禁用思考模式</td></tr><tr><td>CLAUDE_CODE_DISABLE_AUTO_MEMORY</td><td>禁用自动记忆</td></tr></tbody></table></div></div><div class="card"><h2>settings.json 配置</h2><div class="desc">在 ~/.claude/settings.json（或 ~/.openclaude/settings.json）中配置：</div><h3>Agent 路由</h3><pre><code class="language-json">{
+  &quot;agentModels&quot;: {
+    &quot;deepseek-chat&quot;: {
+      &quot;base_url&quot;: &quot;https://api.deepseek.com/v1&quot;,
+      &quot;api_key&quot;: &quot;sk-your-key&quot;
+    }
+  },
   &quot;agentRouting&quot;: {
     &quot;Explore&quot;: &quot;deepseek-chat&quot;,
     &quot;Plan&quot;: &quot;gpt-4o&quot;,
     &quot;general-purpose&quot;: &quot;gpt-4o&quot;,
     &quot;default&quot;: &quot;gpt-4o&quot;
   }
-}</code></pre></div><div class="card"><h2>Web 搜索</h2><ul><li>默认：非 Anthropic 模型使用 DuckDuckGo</li><li><code>export FIRECRAWL_API_KEY=your-key</code></li></ul></div><div class="card"><h2>开发命令</h2><pre><code class="language-bash">bun run dev              # 开发模式
+}</code></pre><h3>权限配置</h3><pre><code class="language-json">{
+  &quot;permissions&quot;: {
+    &quot;allow&quot;: [{ &quot;command&quot;: &quot;npm install&quot; }],
+    &quot;deny&quot;: [{ &quot;command&quot;: &quot;rm -rf /&quot; }],
+    &quot;defaultMode&quot;: &quot;ask&quot;
+  }
+}</code></pre><h3>Hooks 配置</h3><pre><code class="language-json">{
+  &quot;hooks&quot;: {
+    &quot;BeforeThinking&quot;: [{ &quot;command&quot;: &quot;echo &#39;thinking...&#39;&quot; }],
+    &quot;AfterThinking&quot;: [{ &quot;command&quot;: &quot;echo &#39;done&#39;&quot; }]
+  }
+}</code></pre><h3>工作目录配置</h3><pre><code class="language-json">{
+  &quot;additionalDirectories&quot;: [&quot;/path/to/include&quot;]
+}</code></pre><h3>其他配置项</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>配置项</th><th>说明</th></tr></thead><tbody><tr><td>cleanupPeriodDays</td><td>保留会话天数（默认 30），0 禁用</td></tr><tr><td>env</td><td>为会话设置的环境变量</td></tr><tr><td>model</td><td>覆盖默认模型</td></tr><tr><td>fastMode</td><td>启用快速模式</td></tr><tr><td>effortLevel</td><td>努力级别：low、medium、high</td></tr><tr><td>language</td><td>响应语言（如 &quot;japanese&quot;）</td></tr><tr><td>syntaxHighlightingDisabled</td><td>禁用 diff 语法高亮</td></tr><tr><td>autoMemoryEnabled</td><td>启用自动记忆</td></tr><tr><td>autoMemoryDirectory</td><td>自动记忆目录</td></tr></tbody></table></div></div><div class="card"><h2>Skill 系统</h2><h3>安装 Skills</h3><pre><code class="language-bash"># GitHub 速记
+npx skills add &lt;owner/repo&gt;
+
+# 安装到全局
+npx skills add vercel-labs/agent-skills -g
+
+# 安装特定 skill
+npx skills add vercel-labs/agent-skills --skill frontend-design
+
+# 列出可用 skills
+npx skills add vercel-labs/agent-skills --list
+
+# 列出已安装
+npx skills list</code></pre><h3>复用 Skills</h3><div class="desc">在指令中使用 skill: 或 agentskill: 前缀调用：</div><pre><code class="language-zh">skill: cheatsheet-maker
+agentskill: icon-complete-skill</code></pre><div class="desc">标准位置：</div><ul><li><code>skills/</code></li><li><code>.claude/skills/</code></li><li><code>.agents/skills/</code></li></ul><div class="desc">环境变量：</div><ul><li><code>INSTALL_INTERNAL_SKILLS=1</code></li></ul></div><div class="card"><h2>Provider Profile 脚本</h2><pre><code class="language-bash"># 引导式初始化（优先本地 Ollama，否则 OpenAI）
+bun run profile:init
+
+# 推荐最佳 provider/model
+bun run profile:recommend -- --goal coding --benchmark
+
+# 自动应用最佳配置
+bun run profile:auto -- --goal latency
+
+# 启动已保存的 profile
+bun run dev:profile
+
+# Codex 引导
+bun run profile:codex
+
+# 快速 profile
+bun run profile:fast
+bun run profile:code</code></pre></div><div class="card"><h2>诊断与验证</h2><pre><code class="language-bash">bun run smoke                  # 快速启动检查
+bun run doctor:runtime         # 验证 provider 环境
+bun run doctor:runtime:json    # 机器可读诊断
+bun run doctor:report          # 生成诊断报告
+bun run hardening:check       # 本地硬化检查
+bun run hardening:strict       # 严格硬化（含 typecheck）</code></pre></div><div class="card"><h2>gRPC 服务</h2><pre><code class="language-bash">npm run dev:grpc              # 启动 gRPC 服务器（默认 50051）
+npm run dev:grpc:cli          # 运行 gRPC CLI 客户端</code></pre><div class="desc">环境变量：GRPC_PORT（默认 50051）、GRPC_HOST（默认 localhost）</div></div><div class="card"><h2>VS Code 扩展</h2><div class="desc">仓库包含 vscode-extension/openclaude-vscode 扩展，提供启动集成和主题支持。</div></div><div class="card"><h2>开发命令</h2><pre><code class="language-bash">bun run dev              # 开发模式
 bun test                 # 运行测试
-bun run smoke             # 快速启动检查
-bun run doctor:runtime    # 验证 provider 环境
-bun run build             # 构建</code></pre></div><div class="card"><h2>gRPC 服务</h2><pre><code class="language-bash">npm run dev:grpc          # 启动 gRPC 服务器（默认 50051）
-npm run dev:grpc:cli      # 运行 gRPC CLI 客户端</code></pre><div class="desc">Proto 定义：src/proto/openclaude.proto</div></div><div class="card"><h2>仓库结构</h2><pre><code class="language-zh">src/                     核心 CLI/运行时
+bun run test:coverage     # 测试覆盖率
+bun run build            # 构建
+bun run verify:privacy   # 隐私验证</code></pre></div><div class="card"><h2>仓库结构</h2><pre><code class="language-zh">src/                     核心 CLI/运行时
 scripts/                 构建、验证脚本
 docs/                    设置与贡献文档
-vscode-extension/         VS Code 扩展</code></pre></div>
+python/                  Python helpers 和测试
+vscode-extension/        VS Code 扩展
+bin/                     CLI 入口点</code></pre></div>
     </div>
   </div>
 
