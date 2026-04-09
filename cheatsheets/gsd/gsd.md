@@ -1,10 +1,10 @@
 ---
-title: GSD (Get Shit Done)
+title: GSD
 lang: bash
-version: "1.31.0"
-date: "2026-04-01"
+version: "1.34.0"
+date: "2026-04-09"
 github: gsd-build/get-shit-done
-colWidth: 430px
+colWidth: 520px
 ---
 
 # GSD (Get Shit Done)
@@ -190,6 +190,27 @@ desc: 创建 PR、归档里程碑、开始下一版本
 /gsd:new-milestone [name]      # 开始下一版本
 /gsd:audit-milestone           # 验证里程碑是否达成
 /gsd:milestone-summary [version] # 生成项目总结，用于团队 onboarding
+```
+
+## Phase Management
+---
+emoji: 🔧
+link: https://github.com/gsd-build/get-shit-done#phase-management
+desc: 管理里程碑阶段的增删查改
+---
+
+| 命令 | 说明 |
+|------|------|
+| `/gsd:insert-phase [N]` | 在阶段 N 后插入紧急工作 |
+| `/gsd:add-phase` | 追加新阶段到路线图 |
+| `/gsd:remove-phase [N]` | 移除未来阶段并重新编号 |
+| `/gsd:list-phase-assumptions [N]` | 查看规划前的预期方案 |
+| `/gsd:plan-milestone-gaps` | 创建阶段以填补审计缺口 |
+
+```bash
+/gsd:insert-phase 2          # 在阶段 2 后插入紧急工作
+/gsd:remove-phase 3          # 移除阶段 3，重新编号后续阶段
+/gsd:plan-milestone-gaps     # 审计并填补里程碑缺口
 ```
 
 ## 快速模式
