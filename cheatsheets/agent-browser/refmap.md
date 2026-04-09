@@ -1,5 +1,12 @@
 # Agent Browser 参考资源
 
+## 版本记录
+- 当前版本: v0.25.3（2026-04-06）
+- v0.24.1: `profiles` 命令列出本机 Chrome profile
+- v0.25.0: AI chat 命令、`--urls` 快照标志、batch 内联参数、dashboard 集成进 CLI
+- v0.25.2: 修复 Linux 上 Chrome 空闲约10秒后被杀死的问题
+- v0.25.3: 修复 accessibility tree 快照遗漏隐藏单选/复选框问题
+
 ## 官方入口
 - GitHub 仓库: https://github.com/vercel-labs/agent-browser
 - NPM 包: https://www.npmjs.com/package/agent-browser
@@ -12,13 +19,15 @@
 - 网络帮助: `npx agent-browser network --help`
 
 ## 关键主题
-- 快照与 refs: `snapshot`, `click @e1`, `fill @e2`
+- 快照与 refs: `snapshot`, `click @e1`, `fill @e2`, `snapshot --urls`（v0.25.0+）
 - CDP 接管现有浏览器: `--cdp 9222`, `connect 9222`
 - 自动连接 Chrome: `--auto-connect`（复用已登录态）
 - 会话复用: `--session`, `--profile`, `--state`, `--session-name`
+- Profile 管理: `profiles`（v0.24.1+）
+- AI 对话: `chat`（v0.25.0+）
 - 调试排查: `console`, `errors`, `trace`, `record`, `profiler`, `inspect`
 - 网络控制: `network route`, `network requests`, `network unroute`, `network har`
-- 批量与确认: `batch`, `confirm`, `deny`
+- 批量与确认: `batch`, `batch open example.com snapshot -i`（内联参数 v0.25.0+）, `confirm`, `deny`
 - 认证保险库: `auth save`, `auth login`, `auth list`
 - Diff 对比: `diff snapshot`, `diff screenshot`, `diff url`
 - 剪贴板: `clipboard read`, `clipboard write`, `clipboard copy/paste`

@@ -1,8 +1,8 @@
 ---
 title: Agent Browser 速查表
 lang: bash
-version: "0.24.0"
-date: 2026-04-03
+version: "v0.25.3"
+date: 2026-04-09
 github: vercel-labs/agent-browser
 colWidth: 340px
 ---
@@ -19,7 +19,7 @@ desc: 面向 AI agent 的浏览器自动化 CLI。核心思路是先打开页面
 
 - 适合场景：网页测试、表单自动化、数据抓取、截图、录屏、CDP 连接现有浏览器
 - 核心链路：`open -> snapshot -i -> click/fill/get -> wait -> screenshot/pdf`
-- 最新核对版本：`0.24.0`
+- 最新核对版本：`v0.25.3`
 - 官方仓库：`vercel-labs/agent-browser`
 
 ```bash
@@ -100,12 +100,14 @@ agent-browser snapshot -i
 agent-browser snapshot -c
 agent-browser snapshot -d 3
 agent-browser snapshot -s “#main”
+agent-browser snapshot --urls
 ```
 
 - `-i`：只保留交互元素，日常最常用
 - `-c`：压缩空结构，适合减少输出噪音
 - `-s`：只分析某个局部区域，适合大页面
 - `-d`：深度抓取延迟（毫秒）
+- `--urls`：快照中包含元素的 href URL（v0.25.0+）
 - `-C`：已废弃（cursor-interactive 元素现已默认包含）
 
 ## 交互命令
@@ -270,6 +272,9 @@ desc: 批量执行命令和动作确认流程。
 agent-browser batch [--bail]
 # 输入 JSON 数组命令
 echo '[["open","example.com"],["snapshot","-i"]]' | agent-browser batch
+
+# v0.25.0+ 支持内联参数
+agent-browser batch open example.com snapshot -i
 ```
 
 ### 动作确认
@@ -298,6 +303,15 @@ agent-browser tab
 agent-browser tab new https://example.com
 agent-browser tab 2
 agent-browser tab close
+```
+
+### Chrome Profile 管理（v0.24.1+）
+```bash
+# 列出本机可用的 Chrome profile
+agent-browser profiles
+
+# 使用指定 profile 目录
+agent-browser --profile "Profile 5" open https://example.com
 ```
 
 ### Cookies 与 Storage
@@ -369,6 +383,26 @@ agent-browser --no-auto-dialog open example.com
 - `--no-auto-dialog`：禁用自动接受 alert/beforeunload
 - 自动 dialog 接受默认开启，防止弹窗阻塞
 - `--auto-connect`：自动发现并连接已运行的 Chrome，复用其认证状态（Tip: `agent-browser --auto-connect state save ./auth.json`）
+
+## AI 对话（v0.25.0+）
+---
+lang: bash
+emoji: 🤖
+link: https://github.com/vercel-labs/agent-browser
+desc: v0.25.0 新增 AI chat 命令，可通过自然语言对话方式控制浏览器，适合需要多轮交互的复杂场景。
+---
+
+```bash
+# 进入 AI 对话模式，控制浏览器执行任务
+agent-browser chat "滚动到页面底部，点击注册按钮"
+
+# 对话过程中可随时截图确认
+agent-browser screenshot
+```
+
+- AI chat 内嵌于 CLI 内，无需单独启动服务
+- 结合 dashboard 可视化调试 AI 决策链路
+- 适合复杂多步操作，比单条命令链更灵活
 
 ## 调试、截图与录制
 ---

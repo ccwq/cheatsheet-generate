@@ -43,8 +43,8 @@
       <span class="title">Agent Browser 速查表</span>
       <!-- META_INFO_START -->
       <div class="meta-info">
-        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">0.24.0</span></span>
-        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-04-03</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">v0.25.3</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-04-09</span></span>
         <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/vercel-labs/agent-browser" target="_blank" rel="noopener">vercel-labs/agent-browser</a></span></span>
         <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/vercel-labs/agent-browser" target="_blank" rel="noopener">打开 Zread</a></span></span>
       </div>
@@ -57,7 +57,7 @@
       <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
     </div>
     <div class="cheat-columns" id="columns">
-      <div class="card"><h2>🧭 快速定位 <a href="https://github.com/vercel-labs/agent-browser" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">面向 AI agent 的浏览器自动化 CLI。核心思路是先打开页面，再通过 snapshot 拿到 `@e1` 这类引用，后续点击、填写、提取信息都围绕这些 ref 展开。</div><ul><li>适合场景：网页测试、表单自动化、数据抓取、截图、录屏、CDP 连接现有浏览器</li><li><code>open -&gt; snapshot -i -&gt; click/fill/get -&gt; wait -&gt; screenshot/pdf</code></li><li><code>0.24.0</code></li><li><code>vercel-labs/agent-browser</code></li></ul><pre><code class="language-bash">agent-browser open https://example.com
+      <div class="card"><h2>🧭 快速定位 <a href="https://github.com/vercel-labs/agent-browser" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">面向 AI agent 的浏览器自动化 CLI。核心思路是先打开页面，再通过 snapshot 拿到 `@e1` 这类引用，后续点击、填写、提取信息都围绕这些 ref 展开。</div><ul><li>适合场景：网页测试、表单自动化、数据抓取、截图、录屏、CDP 连接现有浏览器</li><li><code>open -&gt; snapshot -i -&gt; click/fill/get -&gt; wait -&gt; screenshot/pdf</code></li><li><code>v0.25.3</code></li><li><code>vercel-labs/agent-browser</code></li></ul><pre><code class="language-bash">agent-browser open https://example.com
 agent-browser snapshot -i
 agent-browser click @e1
 agent-browser fill @e2 &quot;user@example.com&quot;
@@ -92,7 +92,8 @@ agent-browser close</code></pre><h3>快照选项</h3><pre><code class="language-
 agent-browser snapshot -i
 agent-browser snapshot -c
 agent-browser snapshot -d 3
-agent-browser snapshot -s “#main”</code></pre><ul><li><code>-i</code>：只保留交互元素，日常最常用</li><li><code>-c</code>：压缩空结构，适合减少输出噪音</li><li><code>-s</code>：只分析某个局部区域，适合大页面</li><li><code>-d</code>：深度抓取延迟（毫秒）</li><li><code>-C</code>：已废弃（cursor-interactive 元素现已默认包含）</li></ul></div><div class="card"><h2>🖱️ 交互命令 <a href="https://github.com/vercel-labs/agent-browser" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">ref 交互比 CSS 选择器更稳，尤其适合给 agent 用。只有在 snapshot 不方便时，再退回 `find` 或普通 selector。</div><h3>常见点击与输入</h3><pre><code class="language-bash">agent-browser click @e1
+agent-browser snapshot -s “#main”
+agent-browser snapshot --urls</code></pre><ul><li><code>-i</code>：只保留交互元素，日常最常用</li><li><code>-c</code>：压缩空结构，适合减少输出噪音</li><li><code>-s</code>：只分析某个局部区域，适合大页面</li><li><code>-d</code>：深度抓取延迟（毫秒）</li><li><code>--urls</code>：快照中包含元素的 href URL（v0.25.0+）</li><li><code>-C</code>：已废弃（cursor-interactive 元素现已默认包含）</li></ul></div><div class="card"><h2>🖱️ 交互命令 <a href="https://github.com/vercel-labs/agent-browser" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">ref 交互比 CSS 选择器更稳，尤其适合给 agent 用。只有在 snapshot 不方便时，再退回 `find` 或普通 selector。</div><h3>常见点击与输入</h3><pre><code class="language-bash">agent-browser click @e1
 agent-browser dblclick @e1
 agent-browser hover @e1
 agent-browser focus @e1
@@ -147,7 +148,10 @@ agent-browser auth list
 agent-browser auth show myapp
 agent-browser auth delete myapp</code></pre></div><div class="card"><h2>📋 批量执行与动作确认 <a href="https://github.com/vercel-labs/agent-browser" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">批量执行命令和动作确认流程。</div><h3>批量执行</h3><pre><code class="language-bash">agent-browser batch [--bail]
 # 输入 JSON 数组命令
-echo &#39;[[&quot;open&quot;,&quot;example.com&quot;],[&quot;snapshot&quot;,&quot;-i&quot;]]&#39; | agent-browser batch</code></pre><h3>动作确认</h3><pre><code class="language-bash">agent-browser confirm &lt;id&gt;
+echo &#39;[[&quot;open&quot;,&quot;example.com&quot;],[&quot;snapshot&quot;,&quot;-i&quot;]]&#39; | agent-browser batch
+
+# v0.25.0+ 支持内联参数
+agent-browser batch open example.com snapshot -i</code></pre><h3>动作确认</h3><pre><code class="language-bash">agent-browser confirm &lt;id&gt;
 agent-browser deny &lt;id&gt;</code></pre></div><div class="card"><h2>🗂️ 会话、存储与网络 <a href="https://github.com/vercel-labs/agent-browser" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">会话相关功能决定了“状态能不能复用”。需要保留登录态时，优先考虑 `--profile` 或 `--state`，而不是每次重登。</div><h3>会话与标签页</h3><pre><code class="language-bash">agent-browser --session qa open site-a.com
 agent-browser --session qa snapshot -i
 agent-browser session
@@ -157,7 +161,11 @@ agent-browser close --all
 agent-browser tab
 agent-browser tab new https://example.com
 agent-browser tab 2
-agent-browser tab close</code></pre><h3>Cookies 与 Storage</h3><pre><code class="language-bash">agent-browser cookies
+agent-browser tab close</code></pre><h3>Chrome Profile 管理（v0.24.1+）</h3><pre><code class="language-bash"># 列出本机可用的 Chrome profile
+agent-browser profiles
+
+# 使用指定 profile 目录
+agent-browser --profile &quot;Profile 5&quot; open https://example.com</code></pre><h3>Cookies 与 Storage</h3><pre><code class="language-bash">agent-browser cookies
 agent-browser cookies set token abc123 --url https://example.com
 agent-browser cookies clear
 
@@ -185,7 +193,11 @@ agent-browser dashboard stop
 agent-browser dashboard install</code></pre><h3>WebSocket 流管理</h3><pre><code class="language-bash">agent-browser stream enable
 agent-browser stream disable
 agent-browser stream status</code></pre><h3>Dialog 处理</h3><pre><code class="language-bash">agent-browser dialog status
-agent-browser --no-auto-dialog open example.com</code></pre><ul><li><code>--no-auto-dialog</code>：禁用自动接受 alert/beforeunload</li><li>自动 dialog 接受默认开启，防止弹窗阻塞</li><li><code>--auto-connect</code> <code>agent-browser --auto-connect state save ./auth.json</code>：自动发现并连接已运行的 Chrome，复用其认证状态（Tip: ）</li></ul></div><div class="card"><h2>🛠️ 调试、截图与录制 <a href="https://github.com/vercel-labs/agent-browser" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这部分适合排查“为什么 agent 没点对”“为什么页面状态不对”。思路和前端排查问题很像，先看页面表现，再看控制台和 trace。</div><h3>截图与 PDF</h3><pre><code class="language-bash">agent-browser screenshot
+agent-browser --no-auto-dialog open example.com</code></pre><ul><li><code>--no-auto-dialog</code>：禁用自动接受 alert/beforeunload</li><li>自动 dialog 接受默认开启，防止弹窗阻塞</li><li><code>--auto-connect</code> <code>agent-browser --auto-connect state save ./auth.json</code>：自动发现并连接已运行的 Chrome，复用其认证状态（Tip: ）</li></ul></div><div class="card"><h2>🤖 AI 对话（v0.25.0+） <a href="https://github.com/vercel-labs/agent-browser" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">v0.25.0 新增 AI chat 命令，可通过自然语言对话方式控制浏览器，适合需要多轮交互的复杂场景。</div><pre><code class="language-bash"># 进入 AI 对话模式，控制浏览器执行任务
+agent-browser chat &quot;滚动到页面底部，点击注册按钮&quot;
+
+# 对话过程中可随时截图确认
+agent-browser screenshot</code></pre><ul><li>AI chat 内嵌于 CLI 内，无需单独启动服务</li><li>结合 dashboard 可视化调试 AI 决策链路</li><li>适合复杂多步操作，比单条命令链更灵活</li></ul></div><div class="card"><h2>🛠️ 调试、截图与录制 <a href="https://github.com/vercel-labs/agent-browser" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这部分适合排查“为什么 agent 没点对”“为什么页面状态不对”。思路和前端排查问题很像，先看页面表现，再看控制台和 trace。</div><h3>截图与 PDF</h3><pre><code class="language-bash">agent-browser screenshot
 agent-browser screenshot page.png
 agent-browser screenshot --full
 agent-browser pdf page.pdf</code></pre><h3>调试命令</h3><pre><code class="language-bash">agent-browser console
