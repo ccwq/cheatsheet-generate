@@ -43,8 +43,8 @@
       <span class="title">OpenClaw 速查 + Cookbook</span>
       <!-- META_INFO_START -->
       <div class="meta-info">
-        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">v2026.3.24</span></span>
-        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-03-25</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">v2026.4.9</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-04-09</span></span>
         <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/openclaw/openclaw" target="_blank" rel="noopener">openclaw/openclaw</a></span></span>
         <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/openclaw/openclaw" target="_blank" rel="noopener">打开 Zread</a></span></span>
       </div>
@@ -57,17 +57,36 @@
       <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
     </div>
     <div class="cheat-columns" id="columns">
-      <div class="card"><h2>🧭 快速定位 <a href="https://docs.openclaw.ai/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">OpenClaw 是把网关、频道、消息、模型、会话、浏览器、节点和自动化串起来的运行层。先跑通网关，再按场景接入频道、模型和自动化。</div><h3>它最适合做什么</h3><ul><li>把聊天频道接到同一套代理层。</li><li>统一管理模型路由、会话、消息动作和运维状态。</li><li>把浏览器自动化、远程节点、定时任务和插件扩展接进同一条链。</li></ul><h3>最短路径</h3><pre><code class="language-bash"># 首次使用先走向导
-openclaw onboard
+      <div class="card"><h2>✨ v2026.4.x 新增能力 <a href="https://github.com/openclaw/openclaw/releases" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">v2026.4.x 是最大一次更新，新增 inference hub、媒体生成、记忆梦境、Diary UI、12+语言支持，以及大量安全修复。</div><h3>Inference Hub（v2026.4.7+）</h3><pre><code class="language-bash"># 新增统一推理工作流入口
+openclaw infer
+# 支持 provider-backed inference 管理
+# 配合 model scan 和 auth 体系使用</code></pre><h3>内置媒体生成（v2026.4.5+）</h3><pre><code class="language-bash"># 视频生成（内置 video_generate tool）
+# 支持 Google Lyria、MiniMax、Comfy
+
+# 音乐生成（内置 music_generate tool）
+# 支持 Google Lyria、MiniMax、Comfy
+
+# 自动在 auth-backed 图像/音乐/视频 provider 间做 fallback</code></pre><h3>记忆与梦境（v2026.4.7+）</h3><pre><code class="language-bash"># 三阶段协作记忆：light、deep、REM
+# grounded REM backfill lane
+# diary commit / reset flows
+# durable-fact extraction</code></pre><h3>Control UI — Diary View（v2026.4.9+）</h3><pre><code class="language-bash"># 结构化日记视图，带时间线导航
+# backfill 控制面板
+# 与 memory/dreaming 系统集成</code></pre><h3>新增 Provider（v2026.4.5-v2026.4.7）</h3><ul><li>Google Gemma 4</li><li>Arcee AI</li><li>Amazon Bedrock Mantle</li><li>Qwen（v2026.4.5+）</li><li>Fireworks AI（v2026.4.5+）</li><li>StepFun（v2026.4.5+）</li></ul><h3>Control UI 多语言（v2026.4.5+）</h3><ul><li>12+ 语言本地化支持</li><li>本地化界面减少团队使用门槛</li></ul><h3>节点能力扩展</h3><pre><code class="language-bash">openclaw nodes screen record     # 屏幕录制
+openclaw nodes location get      # 位置获取
+openclaw nodes notify           # 节点通知</code></pre><h3>安全修复（v2026.4.8-v2026.4.9）</h3><ul><li>Browser/SSRF：交互后导航重新检查安全策略</li><li>dotenv：阻止不受信 workspace .env 中的运行时控制环境变量</li><li><code>System:</code>：清理节点提供的文本防止 内容注入</li><li>basic-ftp：强制升级到 5.2.1 修复 CRLF 命令注入</li><li>Plugin auth：防止 workspace 插件与内置 provider auth-choice ID 冲突</li></ul><h3>Breaking Changes（v2026.4.5）</h3><ul><li><code>talk.voiceId</code> <code>agents.*.sandbox.perSession</code></li><li><code>openclaw config validate</code></li></ul></div><div class="card"><h2>🧭 快速定位 <a href="https://docs.openclaw.ai/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">OpenClaw 是把网关、频道、消息、模型、会话、浏览器、节点和自动化串起来的运行层。先跑通网关，再按场景接入频道、模型和自动化。</div><h3>它最适合做什么</h3><ul><li>把聊天频道接到同一套代理层。</li><li>统一管理模型路由、会话、消息动作和运维状态。</li><li>把浏览器自动化、远程节点、定时任务和插件扩展接进同一条链。</li></ul><h3>最短路径</h3><pre><code class="language-bash"># 首次使用先走向导（支持 --install-daemon）
+openclaw onboard --install-daemon
 
 # 补全或重做配置
 openclaw configure
 
-# 启动控制台
+# 启动控制台（Web UI）
 openclaw dashboard
 
 # 启动网关
 openclaw gateway --port 18789
+
+# 推理工作流（v2026.4.7+）
+openclaw infer
 
 # 看整体状态
 openclaw status --deep</code></pre></div><div class="card"><h2>🚀 起手工作流 <a href="https://docs.openclaw.ai/start/getting-started" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">先把“配置、网关、频道、模型、会话”这几件事跑通，再谈扩展和自动化。</div><h3>1. 先确认入口</h3><pre><code class="language-bash"># 交互式上手

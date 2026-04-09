@@ -1,4 +1,11 @@
-# OpenClaw 参考映射
+# OpenClaw 参考资源
+
+## 版本记录
+- 当前版本: v2026.4.9（2026-04-09）
+- v2026.4.5: 内置 video_generate / music_generate，12+ 语言 UI，移除旧版 config 别名
+- v2026.4.7: `openclaw infer` 推理工作流，memory-wiki 恢复，webhook ingress，compaction checkpoints
+- v2026.4.8: bundled channels/plugins 修复，Slack proxy，agents/progress 更新
+- v2026.4.9: Memory/Dreaming REM，Diary view，安全修复（SSRF、dotenv、exec injection、ftp CRLF）
 
 ## 官方入口
 - [文档首页](https://docs.openclaw.ai/) - 总入口，适合从导航重新定位。
@@ -46,6 +53,16 @@
 - [Plugins](https://docs.openclaw.ai/plugins) - 插件扩展。
 - [Plugin Manifest](https://docs.openclaw.ai/plugins/manifest) - 插件清单与元数据。
 
+## v2026.4.x 新增命令
+- `openclaw infer` — 推理工作流 hub（v2026.4.7+）
+- `openclaw nodes screen record` — 屏幕录制
+- `openclaw nodes location get` — 位置获取
+- `openclaw nodes notify` — 节点通知
+- `openclaw browser profiles` — 浏览器 profile 管理
+- `openclaw browser create-profile` / `delete-profile` — profile CRUD
+- `openclaw plugins marketplace list` — 插件市场浏览
+
 ## 版本备注
-- 当前条目对齐 GitHub Release `v2026.3.24`，发布日期 `2026-03-25`。
+- 当前条目对齐 GitHub Release `v2026.4.9`，发布日期 `2026-04-09`。
+- v2026.4.5 有 Breaking Changes：移除旧版 config 别名，升级后需运行 `openclaw config validate`。
 - 若子页面路径有调整，优先从文档首页和 `CLI 总览` 重新定位。
