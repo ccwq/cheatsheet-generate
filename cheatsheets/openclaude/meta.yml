@@ -1,0 +1,10 @@
+desc: 开源 coding-agent CLI，支持 OpenAI、Gemini、DeepSeek、Ollama、Codex 等 200+ 模型
+tags:
+  - ai
+  - coding-agent
+  - cli
+  - openai-compatible
+  - llm
+version: v0.1.8
+github: Gitlawb/openclaude
+date: 2026-04-06

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>OpenClaude</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="apple-touch-icon" href="icon.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 450px; 
+      --gap: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
+      <span class="title">OpenClaude</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">v0.1.8</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">unknown</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/Gitlawb/openclaude" target="_blank" rel="noopener">Gitlawb/openclaude</a></span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/Gitlawb/openclaude" target="_blank" rel="noopener">打开 Zread</a></span></span>
+      </div>
+      <div class="meta-tags"><tag-chip class="tag tag-group-0 detail-tag" data-name="ai" data-group="0" label="ai" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="coding-agent" data-group="0" label="coding-agent" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="cli" data-group="0" label="cli" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="openai-compatible" data-group="0" label="openai-compatible" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="llm" data-group="0" label="llm" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>安装与启动</h2><pre><code class="language-bash">npm install -g @gitlawb/openclaude
+openclaude</code></pre><div class="desc">交互内使用 /provider 配置提供商，/onboard-github 配置 GitHub Models</div></div><div class="card"><h2>快速配置</h2><h3>OpenAI</h3><pre><code class="language-bash">export CLAUDE_CODE_USE_OPENAI=1
+export OPENAI_API_KEY=sk-your-key
+export OPENAI_MODEL=gpt-4o</code></pre><h3>Ollama 本地</h3><pre><code class="language-bash">export CLAUDE_CODE_USE_OPENAI=1
+export OPENAI_BASE_URL=http://localhost:11434/v1
+export OPENAI_MODEL=qwen2.5-coder:7b</code></pre><h3>DeepSeek</h3><pre><code class="language-bash">export CLAUDE_CODE_USE_OPENAI=1
+export OPENAI_API_KEY=sk-...
+export OPENAI_BASE_URL=https://api.deepseek.com/v1
+export OPENAI_MODEL=deepseek-chat</code></pre></div><div class="card"><h2>slash 命令速查</h2><div class="table-wrap"><table class="cheat-table"><thead><tr><th>命令</th><th>说明</th></tr></thead><tbody><tr><td>/provider</td><td>交互式配置提供商和管理 profiles</td></tr><tr><td>/onboard-github</td><td>GitHub Models 引导配置</td></tr><tr><td>/model</td><td>本地 OpenAI 兼容模型发现</td></tr></tbody></table></div></div><div class="card"><h2>环境变量</h2><div class="table-wrap"><table class="cheat-table"><thead><tr><th>变量</th><th>必填</th><th>说明</th></tr></thead><tbody><tr><td>CLAUDE_CODE_USE_OPENAI</td><td>是</td><td>设为 1 启用 OpenAI 兼容模式</td></tr><tr><td>OPENAI_API_KEY</td><td>是*</td><td>API key（*本地模型不需要）</td></tr><tr><td>OPENAI_MODEL</td><td>是</td><td>模型名，如 gpt-4o、deepseek-chat</td></tr><tr><td>OPENAI_BASE_URL</td><td>否</td><td>API 端点，默认 https://api.openai.com/v1</td></tr></tbody></table></div></div><div class="card"><h2>Agent 路由</h2><div class="desc">在 ~/.claude/settings.json 配置：</div><pre><code class="language-json">{
+  &quot;agentRouting&quot;: {
+    &quot;Explore&quot;: &quot;deepseek-chat&quot;,
+    &quot;Plan&quot;: &quot;gpt-4o&quot;,
+    &quot;general-purpose&quot;: &quot;gpt-4o&quot;,
+    &quot;default&quot;: &quot;gpt-4o&quot;
+  }
+}</code></pre></div><div class="card"><h2>Web 搜索</h2><ul><li>默认：非 Anthropic 模型使用 DuckDuckGo</li><li><code>export FIRECRAWL_API_KEY=your-key</code></li></ul></div><div class="card"><h2>开发命令</h2><pre><code class="language-bash">bun run dev              # 开发模式
+bun test                 # 运行测试
+bun run smoke             # 快速启动检查
+bun run doctor:runtime    # 验证 provider 环境
+bun run build             # 构建</code></pre></div><div class="card"><h2>gRPC 服务</h2><pre><code class="language-bash">npm run dev:grpc          # 启动 gRPC 服务器（默认 50051）
+npm run dev:grpc:cli      # 运行 gRPC CLI 客户端</code></pre><div class="desc">Proto 定义：src/proto/openclaude.proto</div></div><div class="card"><h2>仓库结构</h2><pre><code class="language-zh">src/                     核心 CLI/运行时
+scripts/                 构建、验证脚本
+docs/                    设置与贡献文档
+vscode-extension/         VS Code 扩展</code></pre></div>
+    </div>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>
