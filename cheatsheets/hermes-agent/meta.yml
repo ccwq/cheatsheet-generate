@@ -1,0 +1,10 @@
+﻿desc: Hermes Agent 是 NousResearch 的多端 AI 智能体工具链，覆盖 CLI、模型与工具集配置、消息网关、技能、MCP、记忆、定时任务和安全控制。
+tags:
+  - AI / LLM
+  - AI 辅助工具
+  - CLI 工具
+  - CLI / Terminal
+  - 自动化工具
+version: "0.8.0"
+github: nousresearch/hermes-agent
+date: "2026-04-08"

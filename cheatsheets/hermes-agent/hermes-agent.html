@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>Hermes Agent 速查</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png">
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 340px; 
+      --gap: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
+      <span class="title">Hermes Agent 速查</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">0.8.0</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-04-08</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/nousresearch/hermes-agent" target="_blank" rel="noopener">nousresearch/hermes-agent</a></span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/nousresearch/hermes-agent" target="_blank" rel="noopener">打开 Zread</a></span></span>
+      </div>
+      <div class="meta-tags"><tag-chip class="tag tag-group-1 detail-tag" data-name="AI / LLM" data-group="1" label="AI / LLM" group="1" variant="detail" icon="mdi:brain" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M21.33 12.91c.09 1.55-.62 3.04-1.89 3.95l.77 1.49c.23.45.26.98.06 1.45c-.19.47-.58.84-1.06 1l-.79.25a1.69 1.69 0 0 1-1.86-.55L14.44 18c-.89-.15-1.73-.53-2.44-1.1c-.5.15-1 .23-1.5.23c-.88 0-1.76-.27-2.5-.79c-.53.16-1.07.23-1.62.22c-.79.01-1.57-.15-2.3-.45a4.1 4.1 0 0 1-2.43-3.61c-.08-.72.04-1.45.35-2.11c-.29-.75-.32-1.57-.07-2.33C2.3 7.11 3 6.32 3.87 5.82c.58-1.69 2.21-2.82 4-2.7c1.6-1.5 4.05-1.66 5.83-.37c.42-.11.86-.17 1.3-.17c1.36-.03 2.65.57 3.5 1.64c2.04.53 3.5 2.35 3.58 4.47c.05 1.11-.25 2.2-.86 3.13c.07.36.11.72.11 1.09m-5-1.41c.57.07 1.02.5 1.02 1.07a1 1 0 0 1-1 1h-.63c-.32.9-.88 1.69-1.62 2.29c.25.09.51.14.77.21c5.13-.07 4.53-3.2 4.53-3.25a2.59 2.59 0 0 0-2.69-2.49a1 1 0 0 1-1-1a1 1 0 0 1 1-1c1.23.03 2.41.49 3.33 1.3c.05-.29.08-.59.08-.89c-.06-1.24-.62-2.32-2.87-2.53c-1.25-2.96-4.4-1.32-4.4-.4c-.03.23.21.72.25.75a1 1 0 0 1 1 1c0 .55-.45 1-1 1c-.53-.02-1.03-.22-1.43-.56c-.48.31-1.03.5-1.6.56c-.57.05-1.04-.35-1.07-.9a.97.97 0 0 1 .88-1.1c.16-.02.94-.14.94-.77c0-.66.25-1.29.68-1.79c-.92-.25-1.91.08-2.91 1.29C6.75 5 6 5.25 5.45 7.2C4.5 7.67 4 8 3.78 9c1.08-.22 2.19-.13 3.22.25c.5.19.78.75.59 1.29c-.19.52-.77.78-1.29.59c-.73-.32-1.55-.34-2.3-.06c-.32.27-.32.83-.32 1.27c0 .74.37 1.43 1 1.83c.53.27 1.12.41 1.71.4q-.225-.39-.39-.81a1.038 1.038 0 0 1 1.96-.68c.4 1.14 1.42 1.92 2.62 2.05c1.37-.07 2.59-.88 3.19-2.13c.23-1.38 1.34-1.5 2.56-1.5m2 7.47l-.62-1.3l-.71.16l1 1.25zm-4.65-8.61a1 1 0 0 0-.91-1.03c-.71-.04-1.4.2-1.93.67c-.57.58-.87 1.38-.84 2.19a1 1 0 0 0 1 1c.57 0 1-.45 1-1c0-.27.07-.54.23-.76c.12-.1.27-.15.43-.15c.55.03 1.02-.38 1.02-.92&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="AI 辅助工具" data-group="2" label="AI 辅助工具" group="2" variant="detail" icon="mdi:robot-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M17.5 15.5c0 1.11-.89 2-2 2s-2-.89-2-2s.9-2 2-2s2 .9 2 2m-9-2c-1.1 0-2 .9-2 2s.9 2 2 2s2-.89 2-2s-.89-2-2-2M23 15v3c0 .55-.45 1-1 1h-1v1c0 1.11-.89 2-2 2H5a2 2 0 0 1-2-2v-1H2c-.55 0-1-.45-1-1v-3c0-.55.45-1 1-1h1c0-3.87 3.13-7 7-7h1V5.73c-.6-.34-1-.99-1-1.73c0-1.1.9-2 2-2s2 .9 2 2c0 .74-.4 1.39-1 1.73V7h1c3.87 0 7 3.13 7 7h1c.55 0 1 .45 1 1m-2 1h-2v-2c0-2.76-2.24-5-5-5h-4c-2.76 0-5 2.24-5 5v2H3v1h2v3h14v-3h2z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="CLI 工具" data-group="2" label="CLI 工具" group="2" variant="detail" icon="mdi:console-network-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M15 20a1 1 0 0 0-1-1h-1v-2h4a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4v2h-1a1 1 0 0 0-1 1H2v2h7a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1h7v-2zm-8-5V5h10v10zm1-8.11l3.56 3.56L8 14h2.53l2.92-2.92c.33-.34.33-.9 0-1.26L10.5 6.89zm8 5.33h-2.67V14H16z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-1 detail-tag" data-name="CLI / Terminal" data-group="1" label="CLI / Terminal" group="1" variant="detail" icon="mdi:console" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M20 19V7H4v12zm0-16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-7 14v-2h5v2zm-3.42-4L5.57 9H8.4l3.3 3.3c.39.39.39 1.03 0 1.42L8.42 17H5.59z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="自动化工具" data-group="2" label="自动化工具" group="2" variant="detail" icon="mdi:robot" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5A2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5a2.5 2.5 0 0 0 2.5 2.5a2.5 2.5 0 0 0 2.5-2.5a2.5 2.5 0 0 0-2.5-2.5&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>快速定位</h2><div class="table-wrap"><table class="cheat-table"><thead><tr><th>目标</th><th>最短入口</th><th>备注</th></tr></thead><tbody><tr><td>进入交互式对话</td><td>hermes</td><td>启动 CLI</td></tr><tr><td>选提供商/模型</td><td>hermes model</td><td>也可切换 Codex / OpenRouter / 自定义端点</td></tr><tr><td>配工具集</td><td>hermes tools</td><td>按平台启用或禁用工具</td></tr><tr><td>一次性配置</td><td>hermes setup</td><td>把模型、工具、网关一起配完</td></tr><tr><td>诊断问题</td><td>hermes doctor</td><td>检查缺失依赖与配置</td></tr><tr><td>连消息平台</td><td>hermes gateway setup</td><td>Telegram / Discord / Slack / WhatsApp / Signal / Email / Home Assistant</td></tr><tr><td>继续会话</td><td>hermes --continue</td><td>恢复最近一次会话</td></tr></tbody></table></div><h3>最短路径</h3><pre><code class="language-bash"># 1. 先确认能正常聊天
+hermes
+
+# 2. 再选一个模型提供商
+hermes model
+
+# 3. 再决定哪些工具可用
+hermes tools
+
+# 4. 需要的话直接做全量初始化
+hermes setup</code></pre></div><div class="card"><h2>起步流</h2><h3>先把运行后端定下来</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>场景</th><th>推荐值</th><th>说明</th></tr></thead><tbody><tr><td>本机信任环境</td><td>local</td><td>最省事</td></tr><tr><td>不可信代码</td><td>docker</td><td>容器隔离</td></tr><tr><td>远程机器</td><td>ssh</td><td>把执行放到别处</td></tr><tr><td>HPC / 共享机</td><td>singularity</td><td>无 root 容器</td></tr><tr><td>云沙箱</td><td>modal / daytona</td><td>适合长期任务</td></tr></tbody></table></div><pre><code class="language-bash"># 直接改成 Docker 沙箱
+hermes config set terminal.backend docker
+
+# 或切到远程机
+hermes config set terminal.backend ssh</code></pre><h3>先把模型配对</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>提供商</th><th>适合什么</th><th>常见入口</th></tr></thead><tbody><tr><td>Nous Portal</td><td>官方默认方案</td><td>hermes model</td></tr><tr><td>OpenAI Codex</td><td>ChatGPT OAuth</td><td>hermes model</td></tr><tr><td>Anthropic</td><td>Claude 直接接入</td><td>hermes model</td></tr><tr><td>OpenRouter</td><td>多模型路由</td><td>hermes model</td></tr><tr><td>Z.AI / GLM</td><td>国内可用模型</td><td>API key</td></tr><tr><td>Kimi / Moonshot</td><td>编程与长上下文</td><td>API key</td></tr><tr><td>MiniMax</td><td>国际 / 中国区</td><td>API key</td></tr><tr><td>Alibaba Cloud</td><td>Qwen 系列</td><td>API key</td></tr><tr><td>Hugging Face</td><td>聚合开源模型</td><td>HF token</td></tr><tr><td>DeepSeek</td><td>直接接入</td><td>API key</td></tr><tr><td>GitHub Copilot</td><td>订阅型接入</td><td>OAuth / token</td></tr><tr><td>Vercel AI Gateway</td><td>网关路由</td><td>API key</td></tr><tr><td>Custom Endpoint</td><td>自建 OpenAI-compatible API</td><td>base URL + key</td></tr></tbody></table></div><h3>先把工具范围收口</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>工具集</th><th>典型能力</th></tr></thead><tbody><tr><td>web</td><td>搜索和抓取网页</td></tr><tr><td>terminal</td><td>执行命令、管理进程</td></tr><tr><td>file</td><td>读写、搜索、补丁编辑</td></tr><tr><td>browser</td><td>浏览器自动化</td></tr><tr><td>vision</td><td>图片理解</td></tr><tr><td>image_gen</td><td>图像生成</td></tr><tr><td>tts</td><td>语音输出</td></tr><tr><td>skills</td><td>技能搜索、查看、管理</td></tr><tr><td>memory</td><td>记忆与用户画像</td></tr><tr><td>session_search</td><td>会话检索</td></tr><tr><td>cronjob</td><td>定时任务</td></tr><tr><td>delegation</td><td>子代理分工</td></tr><tr><td>clarify</td><td>追问澄清</td></tr><tr><td>mcp</td><td>外部工具接入</td></tr></tbody></table></div></div><div class="card"><h2>高频场景</h2><h3>1. 先建项目上下文</h3><pre><code class="language-bash">cd your-repo
+hermes
+
+# 在 CLI 里先看命令和工具
+/help
+/tools</code></pre><h3>2. 先规划再执行</h3><pre><code class="language-bash"># 先切到更保守的执行后端
+hermes config set terminal.backend docker
+
+# 再让 agent 先给方案，不要直接开改
+请先给出执行计划，再开始修改</code></pre><h3>3. 先用技能复用流程</h3><pre><code class="language-bash">hermes skills search kubernetes
+hermes skills install openai/skills/k8s
+
+# 在会话里直接装载
+/skills
+/github-pr-workflow</code></pre><h3>4. 先做消息平台接入</h3><pre><code class="language-bash">hermes gateway setup</code></pre><div class="desc">可接入 Telegram、Discord、Slack、WhatsApp、Signal、Email、Home Assistant。</div><h3>5. 先开语音模式</h3><pre><code class="language-bash">pip install &quot;hermes-agent[voice]&quot;
+pip install faster-whisper
+
+# CLI 内打开
+/voice on
+/voice tts</code></pre><h3>6. 先加定时任务</h3><pre><code class="language-bash">/cron add 30m &quot;提醒我检查构建&quot;
+/cron add &quot;every 2h&quot; &quot;检查服务状态&quot;
+/cron add &quot;every 1h&quot; &quot;汇总新的信息流&quot; --skill blogwatcher</code></pre><h3>7. 先接 MCP</h3><pre><code class="language-yaml"># ~/.hermes/config.yaml
+mcp_servers:
+  github:
+    command: npx
+    args: [&quot;-y&quot;, &quot;@modelcontextprotocol/server-github&quot;]
+    env:
+      GITHUB_PERSONAL_ACCESS_TOKEN: &quot;ghp_xxx&quot;</code></pre><h3>8. 先接编辑器</h3><pre><code class="language-bash">pip install -e &#39;.[acp]&#39;
+hermes acp</code></pre></div><div class="card"><h2>速查卡</h2><h3>CLI 命令</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>命令</th><th>作用</th></tr></thead><tbody><tr><td>hermes</td><td>启动交互式 CLI</td></tr><tr><td>hermes model</td><td>选择模型与提供商</td></tr><tr><td>hermes tools</td><td>配置可用工具</td></tr><tr><td>hermes setup</td><td>全量配置向导</td></tr><tr><td>hermes doctor</td><td>排查问题</td></tr><tr><td>hermes update</td><td>更新到最新版本</td></tr><tr><td>hermes gateway</td><td>启动消息网关</td></tr><tr><td>hermes gateway setup</td><td>配置消息平台</td></tr><tr><td>hermes memory setup</td><td>配置外部记忆提供商</td></tr><tr><td>hermes memory status</td><td>查看记忆状态</td></tr><tr><td>hermes skills search &lt;q&gt;</td><td>搜索技能</td></tr><tr><td>hermes skills install &lt;id&gt;</td><td>安装技能</td></tr><tr><td>hermes acp</td><td>作为 ACP server 运行</td></tr><tr><td>hermes --continue / hermes -c</td><td>继续最近会话</td></tr></tbody></table></div><h3>CLI 内命令</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>命令</th><th>作用</th></tr></thead><tbody><tr><td>/help</td><td>查看所有命令</td></tr><tr><td>/tools</td><td>查看工具</td></tr><tr><td>/model</td><td>切换模型</td></tr><tr><td>/personality &lt;name&gt;</td><td>切换人格预设</td></tr><tr><td>/save</td><td>保存会话</td></tr><tr><td>/voice on</td><td>开启语音</td></tr><tr><td>/voice tts</td><td>让回复也语音播报</td></tr><tr><td>/voice status</td><td>查看语音状态</td></tr><tr><td>/cron add ...</td><td>添加定时任务</td></tr><tr><td>/skills</td><td>浏览可用技能</td></tr></tbody></table></div><h3>关键配置</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>配置</th><th>作用</th></tr></thead><tbody><tr><td>terminal.backend</td><td>选择执行后端</td></tr><tr><td>approvals.mode</td><td>manual / smart / off</td></tr><tr><td>checkpoints.enabled</td><td>危险操作前自动快照</td></tr><tr><td>memory.memory_enabled</td><td>启用 MEMORY.md</td></tr><tr><td>memory.user_profile_enabled</td><td>启用 USER.md</td></tr><tr><td>compression.enabled</td><td>长会话自动压缩</td></tr><tr><td>delegation.provider</td><td>子代理用什么提供商</td></tr><tr><td>clarify.timeout</td><td>追问等待时长</td></tr><tr><td>timezone</td><td>日志与定时任务时区</td></tr><tr><td>mcp_servers</td><td>外部工具服务</td></tr><tr><td>tts.provider</td><td>语音输出提供商</td></tr></tbody></table></div><h3>记忆与上下文</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>文件</th><th>作用</th><th>作用域</th></tr></thead><tbody><tr><td>SOUL.md</td><td>主要人格与语气</td><td>~/.hermes/SOUL.md 或 $HERMES_HOME/SOUL.md</td></tr><tr><td>.hermes.md / HERMES.md</td><td>项目级最高优先级说明</td><td>向上查找 git root</td></tr><tr><td>AGENTS.md</td><td>项目约定与工程规则</td><td>递归目录树</td></tr><tr><td>CLAUDE.md</td><td>Claude 兼容上下文</td><td>仅当前目录</td></tr><tr><td>.cursorrules</td><td>Cursor 规则</td><td>仅当前目录</td></tr><tr><td>MEMORY.md</td><td>agent 个人记忆</td><td>~/.hermes/memories/</td></tr><tr><td>USER.md</td><td>用户画像</td><td>~/.hermes/memories/</td></tr></tbody></table></div><h3>安全默认值</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>主题</th><th>建议</th></tr></thead><tbody><tr><td>不可信代码</td><td>用 docker / ssh 后端</td></tr><tr><td>危险命令</td><td>保持 approvals.mode: manual 或 smart</td></tr><tr><td>消息网关</td><td>用 allowlist 或 DM pairing，不要开全量放行</td></tr><tr><td>密钥</td><td>放 ~/.hermes/.env，不要写进仓库</td></tr><tr><td>容器前向变量</td><td>只转发你能接受暴露的变量</td></tr></tbody></table></div></div><div class="card"><h2>结构图</h2><pre><code class="language-text">hermes-agent/
+├── run_agent.py        # 核心对话循环与工具调度
+├── cli.py              # 交互式 TUI
+├── toolsets.py         # 工具组与预设
+├── hermes_state.py     # SQLite 会话库 + FTS5
+├── batch_runner.py     # 批量任务 / 轨迹生成
+├── agent/
+│   ├── prompt_builder.py
+│   ├── context_compressor.py
+│   ├── auxiliary_client.py
+│   └── skills_hub.py
+├── tools/
+│   ├── registry.py
+│   ├── approval.py
+│   ├── terminal_tool.py
+│   ├── file_operations.py
+│   ├── web_tools.py
+│   ├── vision_tools.py
+│   ├── delegate_tool.py
+│   ├── session_search_tool.py
+│   ├── cronjob_tools.py
+│   └── skill_manager_tool.py
+├── gateway/
+│   ├── run.py
+│   ├── config.py
+│   └── platforms/
+└── skills/ / optional-skills/ / environments/ / tests/</code></pre></div><div class="card"><h2>风险控制</h2><pre><code class="language-bash"># 只在可信环境才放宽审批
+hermes config set approvals.mode smart
+
+# 更稳的做法：把命令执行放到容器里
+hermes config set terminal.backend docker</code></pre></div><div class="card"><h2>收尾</h2><div class="table-wrap"><table class="cheat-table"><thead><tr><th>想做什么</th><th>看哪里</th></tr></thead><tbody><tr><td>快速上手</td><td>hermes + hermes model + hermes tools</td></tr><tr><td>场景化自动化</td><td>gateway / skills / cron</td></tr><tr><td>深入定制</td><td>config.yaml / SOUL.md / AGENTS.md</td></tr><tr><td>扩展能力</td><td>MCP / ACP / plugins</td></tr></tbody></table></div></div>
+    </div>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>
