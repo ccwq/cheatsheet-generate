@@ -1,8 +1,8 @@
 ---
 title: Codex CLI 速查
 lang: bash
-version: "0.117.0"
-date: 2026-03-26
+version: "0.118.0"
+date: 2026-04-09
 github: openai/codex
 colWidth: 340px
 ---
@@ -107,6 +107,9 @@ codex exec --json "总结这个仓库的构建步骤"
 
 # 如果只需要最后一条答复，适合脚本取值
 codex exec --output-last-message "列出这个项目的环境变量"
+
+# 支持 stdin 管道输入 + 单独 prompt（0.118.0+）
+echo "package.json 内容" | codex exec "分析这个文件"
 ```
 
 ### Recipe 3：先 review，再决定是否让它改

@@ -43,8 +43,8 @@
       <span class="title">Codex CLI 速查表</span>
       <!-- META_INFO_START -->
       <div class="meta-info">
-        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">0.117.0</span></span>
-        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-03-26</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">0.118.0</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-04-09</span></span>
         <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/openai/codex" target="_blank" rel="noopener">openai/codex</a></span></span>
         <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/openai/codex" target="_blank" rel="noopener">打开 Zread</a></span></span>
       </div>
@@ -106,7 +106,10 @@ codex exec &quot;为 scripts/release.js 增加重试逻辑&quot;
 codex exec --json &quot;总结这个仓库的构建步骤&quot;
 
 # 如果只需要最后一条答复，适合脚本取值
-codex exec --output-last-message &quot;列出这个项目的环境变量&quot;</code></pre><h3>Recipe 3：先 review，再决定是否让它改</h3><pre><code class="language-bash"># 非交互审查当前工作树
+codex exec --output-last-message &quot;列出这个项目的环境变量&quot;
+
+# 支持 stdin 管道输入 + 单独 prompt（0.118.0+）
+echo &quot;package.json 内容&quot; | codex exec &quot;分析这个文件&quot;</code></pre><h3>Recipe 3：先 review，再决定是否让它改</h3><pre><code class="language-bash"># 非交互审查当前工作树
 codex review
 
 # 交互期也可以随时切 review 视角
