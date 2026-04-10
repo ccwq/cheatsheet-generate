@@ -1,481 +1,105 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8">
-    <title>Volta.js 开发命令速查表</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- 引入公共CSS样式 -->
-    <link rel="stylesheet" href="../../assets/variables.css">
-    <link rel="stylesheet" href="../../assets/global.css">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>Volta.js Node版本管理器</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
   <link rel="stylesheet" href="../../assets/cheatsheet.css">
-
-    <style>
-      /* 特有的样式调整 */
-      .cheat-columns {
-        /* 使用column-count布局 */
-        column-count: 4;
-      }
-
-      @media (max-width: 1500px) {
-        .cheat-columns {
-          column-count: 3;
-        }
-      }
-
-      @media (max-width: 1100px) {
-        .cheat-columns {
-          column-count: 2;
-        }
-      }
-
-      @media (max-width: 750px) {
-        .cheat-columns {
-          column-count: 1;
-        }
-      }
-
-      .panel label {
-        color: #ffe49b; /* 保持原有的label颜色 */
-      }
-
-      .slider-bar {
-        min-width: 120px; /* 保持原有的滑块宽度 */
-      }
-
-      .slider-val {
-        min-width: 28px; /* 保持原有的值显示宽度 */
-      }
-    </style>
-  
-    <link rel="icon" type="image/png" href="icon.png" />
-    <link rel="apple-touch-icon" href="icon.png" />
-  </head>
-  <body>
-    <div class="container">
-      <div class="panel">
-        <span style="color:#7bfbb7;font-size:16px;margin-right:auto;">Volta.js 速查表</span>
-<!-- META_INFO_START -->
-<div class="meta-info">
-  <span class="meta-item"><span class="meta-label">版本</span><span class="meta-value">unknown</span></span>
-  <span class="meta-item"><span class="meta-label">更新日志</span><span class="meta-value">2025-11-17</span></span>
-  <span class="meta-item"><span class="meta-label">GitHub</span><span class="meta-value"><a class="meta-link" href="https://github.com/volta-cli/volta" target="_blank" rel="noopener">volta-cli/volta</a></span></span>
-</div>
-<!-- META_INFO_END -->
-
-        <label for="columnWidth">🔧 调整每列宽度：</label>
-        <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
-        <span id="widthVal" class="slider-val">340px</span>
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="apple-touch-icon" href="icon.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 340px; 
+      --gap: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
+      <span class="title">Volta.js Node版本管理器</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2.0.2</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2025-11-17</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/volta-cli/volta" target="_blank" rel="noopener">volta-cli/volta</a></span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/volta-cli/volta" target="_blank" rel="noopener">打开 Zread</a></span></span>
       </div>
-      <div class="cheat-columns" id="columns">
-        <!-- 安装指南 -->
-        <div class="card">
-          <h2>🚀 安装指南 <a href="https://docs.volta.sh/guide/getting-started" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-          <h3>Unix/macOS 安装</h3>
-          <pre><code>curl https://get.volta.sh | bash</code></pre>
-          <h3>Windows 安装</h3>
-          <pre><code>winget install Volta.Volta</code></pre>
-          <h3>手动配置</h3>
-          <ul>
-            <li>设置 <code>VOLTA_HOME</code> 变量为 <code>$HOME/.volta</code></li>
-            <li>将 <code>$VOLTA_HOME/bin</code> 添加到 PATH 开头</li>
-          </ul>
-          <desc class="desc">自动更新控制台启动脚本，如需跳过请参考官方文档</desc>
-        </div>
-
-        <!-- 基础命令 -->
-        <div class="card">
-          <h2>⚡ 基础命令 <a href="https://docs.volta.sh/guide/getting-started" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-          <ul>
-            <li><code>volta install node</code>：安装最新稳定版 Node.js</li>
-            <li><code>volta install node@22.5.1</code>：安装指定版本 Node.js</li>
-            <li><code>volta install node@lts</code>：安装最新 LTS 版本</li>
-            <li><code>volta install npm</code>：安装 npm</li>
-            <li><code>volta install yarn</code>：安装 Yarn</li>
-            <li><code>volta install pnpm</code>：安装 pnpm</li>
-            <li><code>volta fetch node@18</code>：下载但不激活 Node.js</li>
-          </ul>
-          <desc class="desc">安装的工具版本将成为默认版本，在项目外使用</desc>
-        </div>
-
-        <!-- 项目管理 -->
-        <div class="card">
-          <h2>📦 项目管理 <a href="https://docs.volta.sh/guide/getting-started" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-          <h3>项目版本锁定</h3>
-          <ul>
-            <li><code>volta pin node@18</code>：为项目锁定 Node.js 版本</li>
-            <li><code>volta pin npm@9</code>：为项目锁定 npm 版本</li>
-            <li><code>volta pin yarn@1.22</code>：为项目锁定 Yarn 版本</li>
-            <li><code>volta pin pnpm@8</code>：为项目锁定 pnpm 版本</li>
-          </ul>
-          <h3>查看版本</h3>
-          <ul>
-            <li><code>volta list</code>：列出已安装的版本</li>
-            <li><code>volta list all</code>：列出所有可用版本</li>
-            <li><code>volta list --default</code>：显示默认版本</li>
-          </ul>
-          <desc class="desc">版本信息保存在 package.json 的 volta 字段中</desc>
-        </div>
-
-        <!-- 包管理 -->
-        <div class="card">
-          <h2>🛠️ 包管理 <a href="https://docs.volta.sh/guide/getting-started" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-          <h3>全局包管理</h3>
-          <ul>
-            <li><code>volta install typescript</code>：安装全局包</li>
-            <li><code>volta uninstall typescript</code>：卸载全局包</li>
-            <li><code>volta list</code>：列出已安装的全局包</li>
-          </ul>
-          <h3>项目依赖</h3>
-          <pre><code>volta pin @types/node@20
-volta pin nodemon</code></pre>
-          <h3>包版本锁定</h3>
-          <ul>
-            <li><code>volta pin typescript@5.0</code>：锁定包版本</li>
-            <li><code>volta pin typescript@latest</code>：使用最新版本</li>
-          </ul>
-          <desc class="desc">全局包与 Node 版本绑定，确保兼容性</desc>
-        </div>
-
-        <!-- 配置管理 -->
-        <div class="card">
-          <h2>⚙️ 配置管理 <a href="https://docs.volta.sh/guide/getting-started" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-          <h3>环境配置</h3>
-          <ul>
-            <li><code>volta setup</code>：重新设置 Volta 环境</li>
-            <li><code>volta completions</code>：生成命令补全脚本</li>
-          </ul>
-          <h3>配置文件</h3>
-          <pre><code># ~/.volta/index.json
-{
-  "node": {
-    "default": "18.17.0",
-    "current": "18.17.0"
-  },
-  "npm": {
-    "default": "9.6.7",
-    "current": "9.6.7"
-  }
-}</code></pre>
-          <desc class="desc">配置文件存储在 $VOLTA_HOME 目录中</desc>
-        </div>
-
-        <!-- 工作原理 -->
-        <div class="card">
-          <h2>🔍 工作原理 <a href="https://docs.volta.sh/guide/understanding" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-          <h3>版本检测</h3>
-          <ul>
-            <li>自动检测项目目录中的 package.json</li>
-            <li>读取 volta 字段配置的版本</li>
-            <li>自动切换到项目指定版本</li>
-          </ul>
-          <h3>版本优先级</h3>
-          <ol>
-            <li>项目级版本（package.json volta 字段）</li>
-            <li>用户默认版本</li>
-            <li>系统安装版本</li>
-          </ol>
-          <h3>工具隔离</h3>
-          <ul>
-            <li>每个 Node 版本独立的包环境</li>
-            <li>全局包与 Node 版本绑定</li>
-            <li>避免版本冲突问题</li>
-          </ul>
-          <desc class="desc">基于项目目录自动切换工具版本，无需手动操作</desc>
-        </div>
-
-        <!-- 常用场景 -->
-        <div class="card">
-          <h2>💡 常用场景 <a href="https://docs.volta.sh/guide/getting-started" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-          <h3>新项目设置</h3>
-          <pre><code>cd my-project
+      <div class="meta-tags"><tag-chip class="tag tag-group-2 detail-tag" data-name="CLI 工具" data-group="2" label="CLI 工具" group="2" variant="detail" icon="mdi:console-network-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M15 20a1 1 0 0 0-1-1h-1v-2h4a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4v2h-1a1 1 0 0 0-1 1H2v2h7a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1h7v-2zm-8-5V5h10v10zm1-8.11l3.56 3.56L8 14h2.53l2.92-2.92c.33-.34.33-.9 0-1.26L10.5 6.89zm8 5.33h-2.67V14H16z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-1 detail-tag" data-name="JavaScript" data-group="1" label="JavaScript" group="1" variant="detail" icon="mdi:language-javascript" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M3 3h18v18H3zm4.73 15.04c.4.85 1.19 1.55 2.54 1.55c1.5 0 2.53-.8 2.53-2.55v-5.78h-1.7V17c0 .86-.35 1.08-.9 1.08c-.58 0-.82-.4-1.09-.87zm5.98-.18c.5.98 1.51 1.73 3.09 1.73c1.6 0 2.8-.83 2.8-2.36c0-1.41-.81-2.04-2.25-2.66l-.42-.18c-.73-.31-1.04-.52-1.04-1.02c0-.41.31-.73.81-.73c.48 0 .8.21 1.09.73l1.31-.87c-.55-.96-1.33-1.33-2.4-1.33c-1.51 0-2.48.96-2.48 2.23c0 1.38.81 2.03 2.03 2.55l.42.18c.78.34 1.24.55 1.24 1.13c0 .48-.45.83-1.15.83c-.83 0-1.31-.43-1.67-1.03z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="版本控制" data-group="2" label="版本控制" group="2" variant="detail" icon="mdi:source-branch" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M13 14c-3.36 0-4.46 1.35-4.82 2.24C9.25 16.7 10 17.76 10 19a3 3 0 0 1-3 3a3 3 0 0 1-3-3c0-1.31.83-2.42 2-2.83V7.83A2.99 2.99 0 0 1 4 5a3 3 0 0 1 3-3a3 3 0 0 1 3 3c0 1.31-.83 2.42-2 2.83v5.29c.88-.65 2.16-1.12 4-1.12c2.67 0 3.56-1.34 3.85-2.23A3.01 3.01 0 0 1 14 7a3 3 0 0 1 3-3a3 3 0 0 1 3 3c0 1.34-.88 2.5-2.09 2.86C17.65 11.29 16.68 14 13 14m-6 4a1 1 0 0 0-1 1a1 1 0 0 0 1 1a1 1 0 0 0 1-1a1 1 0 0 0-1-1M7 4a1 1 0 0 0-1 1a1 1 0 0 0 1 1a1 1 0 0 0 1-1a1 1 0 0 0-1-1m10 2a1 1 0 0 0-1 1a1 1 0 0 0 1 1a1 1 0 0 0 1-1a1 1 0 0 0-1-1&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>快速索引</h2><ul><li>基础命令</li><li>项目管理</li><li>包管理</li><li>工作原理</li><li>常用场景</li><li>故障排除</li><li>最佳实践</li><li>高级用法</li><li>工具对比</li><li>企业应用</li><li>资源链接</li><li>钩子机制</li><li>包二进制管理</li><li>安装器配置</li><li>工作区管理</li><li>pnpm支持</li><li>卸载方法</li></ul></div><div class="card"><h2>基础命令 <a href="https://docs.volta.sh/guide/getting-started" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><h3>版本安装</h3><ul><li><code>volta install node</code></li><li><code>volta install node@22.5.1</code></li><li><code>volta install node@lts</code></li><li><code>volta install npm/yarn/pnpm</code></li></ul><h3>版本管理</h3><ul><li><code>volta fetch node@18</code></li><li><code>volta list</code></li><li><code>volta list all</code></li><li><code>volta list --default</code></li></ul></div><div class="card"><h2>项目管理 <a href="https://docs.volta.sh/guide/getting-started" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><h3>版本锁定</h3><ul><li><code>volta pin node@18</code></li><li><code>volta pin npm@9</code></li><li><code>volta pin yarn@1.22</code></li><li><code>volta pin pnpm@8</code></li></ul><h3>配置存储</h3><div class="desc">版本信息保存在package.json的volta字段中</div></div><div class="card"><h2>包管理 <a href="https://docs.volta.sh/guide/getting-started" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><h3>全局包</h3><ul><li><code>volta install typescript</code></li><li><code>volta uninstall typescript</code></li><li><code>volta list</code></li></ul><h3>项目依赖</h3><ul><li><code>volta pin @types/node@20</code></li><li><code>volta pin typescript@latest</code></li></ul></div><div class="card"><h2>工作原理 <a href="https://docs.volta.sh/guide/understanding" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><h3>版本检测机制</h3><h3>版本优先级</h3><h3>工具隔离</h3><ul><li>每个Node版本独立包环境</li><li>全局包与Node版本绑定</li><li>避免版本冲突</li></ul></div><div class="card"><h2>常用场景</h2><h3>volta run vs 直接运行</h3><div class="desc">为什么用 volta run yarn 而不是直接 yarn？</div><div class="desc">因为直接 yarn 走的是系统全局 Yarn，不是项目在 package.json 里通过 Volta 锁定的版本。</div><div class="desc">volta run yarn ... 强制使用项目声明的版本，避免：</div><ul><li>Yarn 版本不一致导致 lockfile 解析差异</li><li>缓存目录不一致</li><li>Node 版本不一致带来的依赖安装行为差异</li></ul><div class="desc">所以重装时用 volta run yarn install 更稳。</div><h3>新项目设置</h3><pre><code class="language-bash">cd my-project
 volta pin node@18
 volta pin npm@9
-npm install</code></pre>
-          <h3>旧项目维护</h3>
-          <pre><code>cd legacy-project
+npm install</code></pre><h3>旧项目维护</h3><pre><code class="language-bash">cd legacy-project
 volta pin node@14
 npm install
-npm run dev</code></pre>
-          <h3>团队协作</h3>
-          <ul>
-            <li>将 volta 配置提交到 git</li>
-            <li>团队成员自动使用相同版本</li>
-            <li>避免"在我机器上能运行"问题</li>
-          </ul>
-          <desc class="desc">确保团队开发环境一致性，提升协作效率</desc>
-        </div>
-
-        <!-- 故障排除 -->
-        <div class="card">
-          <h2>🔧 故障排除 <a href="https://docs.volta.sh/guide/troubleshooting" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-          <h3>常见问题</h3>
-          <ul>
-            <li><code>command not found: volta</code>：检查 PATH 配置</li>
-            <li><code>permission denied</code>：检查文件权限</li>
-            <li><code>network error</code>：检查网络连接或代理设置</li>
-          </ul>
-          <h3>调试命令</h3>
-          <ul>
-            <li><code>volta --version</code>：检查 Volta 版本</li>
-            <li><code>volta which node</code>：查看当前 Node 路径</li>
-            <li><code>volta list --current</code>：查看当前激活版本</li>
-          </ul>
-          <h3>重置安装</h3>
-          <pre><code># 卸载
-curl https://get.volta.sh | bash --uninstall
-
-# 重新安装
-curl https://get.volta.sh | bash</code></pre>
-          <desc class="desc">遇到问题时优先检查环境配置和网络连接</desc>
-        </div>
-
-        <!-- 最佳实践 -->
-        <div class="card">
-          <h2>✨ 最佳实践 <a href="https://docs.volta.sh/guide/getting-started" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-          <h3>版本选择</h3>
-          <ul>
-            <li>新项目使用最新 LTS 版本</li>
-            <li>维护项目保持原有版本</li>
-            <li>定期更新安全补丁版本</li>
-          </ul>
-          <h3>项目配置</h3>
-          <pre><code>{
-  "volta": {
-    "node": "18.17.0",
-    "npm": "9.6.7"
+npm run dev</code></pre><h3>团队协作</h3><ul><li>提交volta配置到git</li><li>团队成员自动使用相同版本</li><li>避免&quot;在我机器上能运行&quot;问题</li></ul></div><div class="card"><h2>故障排除</h2><h3>常见问题</h3><ul><li><code>command not found: volta</code></li><li><code>permission denied</code></li><li><code>network error</code></li></ul><h3>调试命令</h3><ul><li><code>volta --version</code></li><li><code>volta which node</code></li><li><code>volta list --current</code></li></ul></div><div class="card"><h2>最佳实践</h2><h3>版本选择原则</h3><ul><li>新项目使用最新LTS版本</li><li>维护项目保持原有版本</li><li>定期更新安全补丁版本</li></ul><h3>项目配置示例</h3><pre><code class="language-json">{
+  &quot;volta&quot;: {
+    &quot;node&quot;: &quot;18.17.0&quot;,
+    &quot;npm&quot;: &quot;9.6.7&quot;
   },
-  "engines": {
-    "node": ">=18.0.0"
+  &quot;engines&quot;: {
+    &quot;node&quot;: &quot;&gt;=18.0.0&quot;
   }
-}</code></pre>
-          <h3>CI/CD 集成</h3>
-          <ul>
-            <li>在构建脚本中安装 Volta</li>
-            <li>使用 volta 安装指定版本</li>
-            <li>确保构建环境一致性</li>
-          </ul>
-          <desc class="desc">结合 engines 字段提供更好的版本约束</desc>
-        </div>
-
-        <!-- 高级用法 -->
-        <div class="card">
-          <h2>🚀 高级用法</h2>
-          <h3>版本切换</h3>
-          <ul>
-            <li><code>volta use node@16</code>：临时切换版本</li>
-            <li><code>volta use node@14 yarn@1.22</code>：切换多个工具版本</li>
-          </ul>
-          <h3>自定义配置</h3>
-          <pre><code># 设置自定义安装目录
-export VOLTA_HOME="$HOME/.custom-volta"
-export PATH="$VOLTA_HOME/bin:$PATH"</code></pre>
-          <h3>代理设置</h3>
-          <pre><code># 设置代理
-export https_proxy=http://proxy.company.com:8080
+}</code></pre><h3>CI/CD集成</h3><ul><li>构建脚本中安装Volta</li><li>使用volta安装指定版本</li><li>确保构建环境一致性</li></ul></div><div class="card"><h2>高级用法</h2><h3>版本切换</h3><ul><li><code>volta use node@16</code></li><li><code>volta use node@14 yarn@1.22</code></li></ul><h3>自定义配置</h3><pre><code class="language-bash">export VOLTA_HOME=&quot;$HOME/.custom-volta&quot;
+export PATH=&quot;$VOLTA_HOME/bin:$PATH&quot;</code></pre><h3>代理设置</h3><pre><code class="language-bash">export https_proxy=http://proxy.company.com:8080
 export http_proxy=http://proxy.company.com:8080
-volta install node@18</code></pre>
-          <desc class="desc">支持灵活的环境配置和自定义设置</desc>
-        </div>
-
-        <!-- 钩子机制 -->
-        <div class="card">
-          <h2>🎣 钩子机制 <a href="https://docs.volta.sh/advanced/hooks/" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-          <h3>配置位置</h3>
-          <ul>
-            <li>全局配置：<code>~/.volta/hooks.json</code>（Linux/MacOS）</li>
-            <li>项目配置：<code>&lt;PROJECT_ROOT&gt;/.volta/hooks.json</code></li>
-          </ul>
-          <h3>钩子类型</h3>
-          <ul>
-            <li><code>prefix</code>：URL 前缀替换</li>
-            <li><code>template</code>：URL 模板替换</li>
-            <li><code>bin</code>：外部脚本调用</li>
-          </ul>
-          <h3>配置示例</h3>
-          <pre><code>{
-  "node": {
-    "index": { "bin": "/usr/local/node-lookup" },
-    "latest": { "prefix": "http://example.com/node/" },
-    "distro": { "template": "http://example.com/{{os}}/{{arch}}/node-{{version}}.tar.gz" }
-  }
-}</code></pre>
-          <desc class="desc">支持从不同源下载 Node、npm 和 Yarn</desc>
-        </div>
-
-        <!-- 包二进制管理 -->
-        <div class="card">
-          <h2>📦 包二进制管理 <a href="https://docs.volta.sh/advanced/packages" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-          <h3>自定义下载位置</h3>
-          <ul>
-            <li>创建 <code>~/.npmrc</code> 文件</li>
-            <li>支持内部仓库和私有 repo</li>
-          </ul>
-          <h3>Node 版本固定</h3>
-          <ul>
-            <li>Volta 0.9.0+：固定到当前默认 Node 版本</li>
-            <li>使用 <code>volta run --node 15 npm i -g ember-cli</code> 指定版本</li>
-          </ul>
-          <h3>引擎要求</h3>
-          <ul>
-            <li>根据 package.json 中的 engines 字段确定版本</li>
-            <li>优先选择满足要求的最新 LTS 版本</li>
-          </ul>
-          <desc class="desc">管理全局包的 Node 版本依赖</desc>
-        </div>
-
-        <!-- 安装器配置 -->
-        <div class="card">
-          <h2>🔧 安装器配置 <a href="https://docs.volta.sh/advanced/installers" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-          <h3>跳过自动设置</h3>
-          <pre><code>curl https://get.volta.sh | bash -s -- --skip-setup</code></pre>
-          <h3>安装旧版本</h3>
-          <pre><code>curl https://raw.githubusercontent.com/volta-cli/volta/.../dev/unix/volta-install.sh | bash -s -- --version 1.0.8</code></pre>
-          <h3>自定义安装</h3>
-          <ul>
-            <li>分发二进制文件到目标机器</li>
-            <li>添加 shim 目录到 PATH</li>
-            <li>可选：设置自定义 VOLTA_HOME</li>
-          </ul>
-          <desc class="desc">支持自定义安装和分发方式</desc>
-        </div>
-
-        <!-- 工作区管理 -->
-        <div class="card">
-          <h2>📁 工作区管理 <a href="https://docs.volta.sh/advanced/workspaces" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-          <h3>扩展配置</h3>
-          <pre><code>{
-  "volta": {
-    "extends": "../path/to/root/package.json"
-  }
-}</code></pre>
-          <h3>工具固定</h3>
-          <ul>
-            <li><code>volta pin</code> 添加到最近的 package.json</li>
-            <li>根配置需在工作区根目录运行</li>
-          </ul>
-          <h3>项目本地依赖</h3>
-          <ul>
-            <li>在每个 extends 指向的文件位置查找</li>
-            <li>检测 node_modules/.bin 中的本地依赖</li>
-          </ul>
-          <desc class="desc">支持多项目共享 Volta 设置</desc>
-        </div>
-
-        <!-- pnpm 支持 -->
-        <div class="card">
-          <h2>⚡ pnpm 支持 <a href="https://docs.volta.sh/advanced/pnpm" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-          <h3>安装 pnpm</h3>
-          <ul>
-            <li><code>volta install pnpm</code>：安装 pnpm</li>
-            <li><code>volta pin pnpm@8</code>：为项目锁定版本</li>
-          </ul>
-          <h3>使用 pnpm</h3>
-          <ul>
-            <li>自动管理 pnpm 版本</li>
-            <li>与 Node 版本绑定</li>
-            <li>支持工作区项目</li>
-          </ul>
-          <h3>最佳实践</h3>
-          <ul>
-            <li>在团队项目中统一 pnpm 版本</li>
-            <li>结合 volta 字段确保一致性</li>
-          </ul>
-          <desc class="desc">完整的 pnpm 版本管理支持</desc>
-        </div>
-
-        <!-- 卸载方法 -->
-        <div class="card">
-          <h2>🧹 卸载方法 <a href="https://docs.volta.sh/advanced/uninstall" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-          <h3>Unix 卸载</h3>
-          <pre><code>rm -rf ~/.volta</code></pre>
-          <ul>
-            <li>删除 ~/.volta 目录</li>
-            <li>编辑 shell 配置文件移除 Volta 相关行</li>
-          </ul>
-          <h3>Windows 卸载</h3>
-          <ul>
-            <li>开始 > 设置 > 应用</li>
-            <li>选择 Volta 并点击卸载</li>
-          </ul>
-          <desc class="desc">完全移除 Volta 及其配置</desc>
-        </div>
-
-        <!-- 与其他工具比较 -->
-        <div class="card">
-          <h2>📊 工具对比</h2>
-          <h3>Volta vs nvm</h3>
-          <ul>
-            <li><strong>性能</strong>：Volta 启动更快，更轻量</li>
-            <li><strong>项目管理</strong>：Volta 支持项目级版本锁定</li>
-            <li><strong>包管理</strong>：Volta 更好的全局包管理</li>
-            <li><strong>跨平台</strong>：Volta 原生支持 Windows</li>
-          </ul>
-          <h3>Volta vs fnm</h3>
-          <ul>
-            <li><strong>安装方式</strong>：Volta 集成度更高</li>
-            <li><strong>配置</strong>：Volta 配置更简单</li>
-            <li><strong>生态</strong>：Volta 支持更多包管理器</li>
-          </ul>
-          <desc class="desc">Volta 提供更完整的 JavaScript 工具链管理方案</desc>
-        </div>
-
-        <!-- 企业应用 -->
-        <div class="card">
-          <h2>🏢 企业应用</h2>
-          <h3>团队标准化</h3>
-          <ul>
-            <li>统一开发环境版本</li>
-            <li>简化新人上手流程</li>
-            <li>减少环境相关问题</li>
-          </ul>
-          <h3>CI/CD 集成</h3>
-          <pre><code># GitHub Actions
+volta install node@18</code></pre></div><div class="card"><h2>工具对比</h2><h3>Volta vs nvm</h3><ul><li>性能：Volta启动更快，更轻量</li><li>项目管理：Volta支持项目级版本锁定</li><li>包管理：Volta更好的全局包管理</li><li>跨平台：Volta原生支持Windows</li></ul><h3>Volta vs fnm</h3><ul><li>安装方式：Volta集成度更高</li><li>配置：Volta配置更简单</li><li>生态：Volta支持更多包管理器</li></ul></div><div class="card"><h2>企业应用</h2><h3>团队标准化</h3><ul><li>统一开发环境版本</li><li>简化新人上手流程</li><li>减少环境相关问题</li></ul><h3>CI/CD集成示例</h3><pre><code class="language-yaml"># GitHub Actions
 - name: Install Volta
   run: curl https://get.volta.sh | bash
-
 - name: Install Node
-  run: volta install node@18</code></pre>
-          <h3>安全考虑</h3>
-          <ul>
-            <li>锁定版本避免意外更新</li>
-            <li>隔离包环境防止冲突</li>
-            <li>支持离线安装和缓存</li>
-          </ul>
-          <desc class="desc">适合企业级项目的版本管理和团队协作</desc>
-        </div>
-
-        <!-- 资源链接 -->
-        <div class="card">
-          <h2>📚 资源链接</h2>
-          <h3>官方资源</h3>
-          <ul>
-            <li><a href="https://volta.sh" target="_blank" style="color:#93cdfc;">官方网站</a></li>
-            <li><a href="https://docs.volta.sh" target="_blank" style="color:#93cdfc;">官方文档</a></li>
-            <li><a href="https://github.com/volta-cli/volta" target="_blank" style="color:#93cdfc;">GitHub 仓库</a></li>
-          </ul>
-          <h3>社区资源</h3>
-          <ul>
-            <li><a href="https://volta.sh/love" target="_blank" style="color:#93cdfc;">用户案例</a></li>
-            <li><a href="https://volta.sh/blog" target="_blank" style="color:#93cdfc;">官方博客</a></li>
-            <li><a href="https://github.com/volta-cli/volta/discussions" target="_blank" style="color:#93cdfc;">社区讨论</a></li>
-          </ul>
-          <h3>相关工具</h3>
-          <ul>
-            <li><a href="https://nodejs.org" target="_blank" style="color:#93cdfc;">Node.js</a></li>
-            <li><a href="https://npmjs.com" target="_blank" style="color:#93cdfc;">npm</a></li>
-            <li><a href="https://yarnpkg.com" target="_blank" style="color:#93cdfc;">Yarn</a></li>
-          </ul>
-          <desc class="desc">更多信息和帮助请参考官方文档和社区资源</desc>
-        </div>
-      </div>
+  run: volta install node@18</code></pre><h3>安全考虑</h3><ul><li>锁定版本避免意外更新</li><li>隔离包环境防止冲突</li><li>支持离线安装和缓存</li></ul></div><div class="card"><h2>钩子机制</h2><h3>配置位置</h3><ul><li><code>~/.volta/hooks.json</code>：（Linux/MacOS）</li><li><code>&lt;PROJECT_ROOT&gt;/.volta/hooks.json</code></li></ul><h3>钩子类型</h3><ul><li><code>prefix</code>：URL 前缀替换</li><li><code>template</code>：URL 模板替换</li><li><code>bin</code>：外部脚本调用</li></ul><h3>配置示例</h3><pre><code class="language-json">{
+  &quot;node&quot;: {
+    &quot;index&quot;: { &quot;bin&quot;: &quot;/usr/local/node-lookup&quot; },
+    &quot;latest&quot;: { &quot;prefix&quot;: &quot;http://example.com/node/&quot; },
+    &quot;distro&quot;: { &quot;template&quot;: &quot;http://example.com/{{os}}/{{arch}}/node-{{version}}.tar.gz&quot; }
+  }
+}</code></pre></div><div class="card"><h2>包二进制管理</h2><h3>自定义下载位置</h3><ul><li><code>~/.npmrc</code></li><li>支持内部仓库和私有 repo</li></ul><h3>Node 版本固定</h3><ul><li>Volta 0.9.0+：固定到当前默认 Node 版本</li><li><code>volta run --node 15 npm i -g ember-cli</code></li></ul><h3>引擎要求</h3><ul><li>根据 package.json 中的 engines 字段确定版本</li><li>优先选择满足要求的最新 LTS 版本</li></ul></div><div class="card"><h2>安装器配置</h2><h3>跳过自动设置</h3><pre><code class="language-bash">curl https://get.volta.sh | bash -s -- --skip-setup</code></pre><h3>安装旧版本</h3><pre><code class="language-bash">curl https://raw.githubusercontent.com/volta-cli/volta/.../dev/unix/volta-install.sh | bash -s -- --version 1.0.8</code></pre><h3>自定义安装</h3><ul><li>分发二进制文件到目标机器</li><li>添加 shim 目录到 PATH</li><li>可选：设置自定义 VOLTA_HOME</li></ul></div><div class="card"><h2>工作区管理</h2><h3>扩展配置</h3><pre><code class="language-json">{
+  &quot;volta&quot;: {
+    &quot;extends&quot;: &quot;../path/to/root/package.json&quot;
+  }
+}</code></pre><h3>工具固定</h3><ul><li><code>volta pin</code></li><li>根目录配置需在工作区根目录运行</li></ul><h3>项目本地依赖</h3><ul><li>在每个 extends 指向的文件位置查找</li><li>检测 node_modules/.bin 中的本地依赖</li></ul></div><div class="card"><h2>pnpm支持</h2><h3>安装 pnpm</h3><ul><li><code>volta install pnpm</code>：安装 pnpm</li><li><code>volta pin pnpm@8</code>：为项目锁定版本</li></ul><h3>使用 pnpm</h3><ul><li>自动管理 pnpm 版本</li><li>与 Node 版本绑定</li><li>支持工作区项目</li></ul><h3>最佳实践</h3><ul><li>在团队项目中统一 pnpm 版本</li><li>结合 volta 字段确保一致性</li></ul></div><div class="card"><h2>卸载方法</h2><h3>Unix 卸载</h3><pre><code class="language-bash">rm -rf ~/.volta</code></pre><ul><li>删除 ~/.volta 目录</li><li>编辑 shell 配置文件移除 Volta 相关行</li></ul><h3>Windows 卸载</h3><ul><li>开始 &gt; 设置 &gt; 应用</li><li>选择 Volta 并点击卸载</li></ul></div><div class="card"><h2>资源链接</h2><h3>官方资源</h3><ul><li>官方网站：https://volta.sh</li><li>官方文档：https://docs.volta.sh</li><li>GitHub仓库：https://github.com/volta-cli/volta</li></ul><h3>社区资源</h3><ul><li>用户案例：https://volta.sh/love</li><li>官方博客：https://volta.sh/blog</li><li>社区讨论：https://github.com/volta-cli/volta/discussions</li></ul><h3>相关工具</h3><ul><li>Node.js：https://nodejs.org</li><li>npm：https://npmjs.com</li><li>Yarn：https://yarnpkg.com</li></ul></div>
     </div>
-    <script>
-      document.getElementById('columnWidth').addEventListener('input', function(e) {
-        const width = e.target.value;
-        document.getElementById('widthVal').textContent = width + 'px';
-        const columns = document.getElementById('columns');
-        columns.style.columnWidth = width + 'px';
-      });
-    </script>
-  </body>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
 </html>

@@ -1,6 +1,15 @@
+---
+title: Volta.js Node版本管理器
+lang: bash
+version: 2.0.2
+date: 2026-04-10
+github: volta-cli/volta
+colWidth: 340px
+---
+
 # Volta.js Node版本管理器
 
-> 基于 `cheatsheets/volta-js/volta-js.html` 梳理，面向大模型提示与自动化生成场景优化，便于按章节引用。
+> 基于官方文档整理，面向大模型提示与自动化生成场景优化，便于按章节引用。
 
 ## 快速索引
 - [基础命令](#基础命令)
@@ -22,7 +31,10 @@
 - [卸载方法](#卸载方法)
 
 
-## 基础命令 [🔗](https://docs.volta.sh/guide/getting-started)
+## 基础命令
+---
+link: https://docs.volta.sh/guide/getting-started
+---
 
 ### 版本安装
 - `volta install node` - 安装最新稳定版
@@ -36,7 +48,10 @@
 - `volta list all` - 列出所有可用版本
 - `volta list --default` - 显示默认版本
 
-## 项目管理 [🔗](https://docs.volta.sh/guide/getting-started)
+## 项目管理
+---
+link: https://docs.volta.sh/guide/getting-started
+---
 
 ### 版本锁定
 - `volta pin node@18` - 锁定Node版本
@@ -47,7 +62,10 @@
 ### 配置存储
 版本信息保存在package.json的volta字段中
 
-## 包管理 [🔗](https://docs.volta.sh/guide/getting-started)
+## 包管理
+---
+link: https://docs.volta.sh/guide/getting-started
+---
 
 ### 全局包
 - `volta install typescript` - 安装全局包
@@ -59,7 +77,10 @@
 - `volta pin typescript@latest` - 使用最新版本
 
 
-## 工作原理 [🔗](https://docs.volta.sh/guide/understanding)
+## 工作原理
+---
+link: https://docs.volta.sh/guide/understanding
+---
 
 ### 版本检测机制
 1. 自动检测package.json
@@ -77,6 +98,18 @@
 - 避免版本冲突
 
 ## 常用场景
+
+### volta run vs 直接运行
+**为什么用 `volta run yarn` 而不是直接 `yarn`？**
+
+因为直接 `yarn` 走的是系统全局 Yarn，不是项目在 package.json 里通过 Volta 锁定的版本。
+
+`volta run yarn ...` 强制使用项目声明的版本，避免：
+- Yarn 版本不一致导致 lockfile 解析差异
+- 缓存目录不一致
+- Node 版本不一致带来的依赖安装行为差异
+
+所以重装时用 `volta run yarn install` 更稳。
 
 ### 新项目设置
 ```bash
