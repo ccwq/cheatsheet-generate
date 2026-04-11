@@ -15,6 +15,11 @@
       "source": "E:\\project\\self.project\\cheatsheet-generate\\cheatsheet-html-maker\\tag-ci-skills",
       "sourceType": "local",
       "computedHash": "3afd01a5ef2fbd50bf5cfe9a189381c58c44b0f3094200f27aecc8a70849a444"
+    },
+    "web-research": {
+      "source": "langchain-ai/deepagents",
+      "sourceType": "github",
+      "computedHash": "c91e55da8a6e313c9ec9962ec2699ccef5caee1ea15c9d7a71db6274ab7c90b6"
     }
   }
 }
