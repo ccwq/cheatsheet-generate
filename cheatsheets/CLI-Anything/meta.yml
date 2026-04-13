@@ -1,4 +1,4 @@
-desc: CLI-Anything 的混合风格速查，覆盖 build/refine/test/validate/list 工作流、多平台接入（新增 Copilot CLI）、v0.2.0 分层 HARNESS、guides/ 子文档、1,839+ 测试覆盖与 CLI-Hub。
+desc: CLI-Anything 混合风格速查，覆盖 build/refine/test/validate/list 工作流、7 阶段流水线、SKILL.md AI 可发现性、CLI-Hub 社区注册中心、8 大平台接入（新增 Pi）与 16+ 应用 harness。
 tags:
   - AI / LLM
   - Python

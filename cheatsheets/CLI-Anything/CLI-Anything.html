@@ -43,7 +43,7 @@
       <span class="title">CLI-Anything 混合速查</span>
       <!-- META_INFO_START -->
       <div class="meta-info">
-        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">“v0.2.0@8980fdc (2026-04-02)”</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">v0.2.0@8980fdc (2026-04-02)</span></span>
         <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-04-02</span></span>
         <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/HKUDS/CLI-Anything" target="_blank" rel="noopener">HKUDS/CLI-Anything</a></span></span>
         <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/HKUDS/CLI-Anything" target="_blank" rel="noopener">打开 Zread</a></span></span>
@@ -57,36 +57,103 @@
       <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
     </div>
     <div class="cheat-columns" id="columns">
-      <div class="card"><h2>🧭 一眼入口 <a href="https://github.com/HKUDS/CLI-Anything" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">CLI-Anything 的核心不是”又一个命令”，而是把现有软件包装成 Agent 可稳定调用、可测试、可发布的 CLI 工作流。</div><ul><li><code>cli-anything-&lt;software&gt;</code>：把 GUI 软件或复杂代码库变成</li><li><code>agent-harness/</code> <code>--json</code> <code>TEST.md</code> <code>HARNESS.md</code> <code>SKILL.md</code>：、Click CLI、REPL、、、、</li><li>主入口：build、refine、test、validate、list</li><li>接入面：Claude Code、OpenCode、Codex、OpenClaw、Qodercli、Goose、GitHub Copilot CLI</li><li>新重点：v0.2.0 重构 HARNESS.md 分层导览、guides/ 拆分子文档、1,839+ 测试覆盖</li></ul><h3>Quick Ref</h3><ul><li><code>/cli-anything:cli-anything</code></li><li><code>/cli-anything:refine</code></li><li><code>/cli-anything:validate</code></li><li><code>/cli-anything:test</code></li></ul></div><div class="card"><h2>⚡ 最短闭环 <a href="https://github.com/HKUDS/CLI-Anything#-quick-start" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这套工具最适合先生成最小可用 harness，再用 refine 和 validate 迭代补强。</div><pre><code class="language-bash"># Claude Code 先安装插件
+      <div class="card"><h2>🧭 一眼入口 <a href="https://github.com/HKUDS/CLI-Anything" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">把任意软件包装成 AI Agent 可稳定调用、可测试、可发布的 CLI 工作流。</div><div class="desc">核心定位：不是又一个命令，而是把现有软件变成 cli-anything-&lt;software&gt;，让 AI Agent 能调用。</div><div class="table-wrap"><table class="cheat-table"><thead><tr><th>交付物</th><th>说明</th></tr></thead><tbody><tr><td>agent-harness/</td><td>核心产物目录</td></tr><tr><td>Click CLI + REPL</td><td>人类/机器双接口</td></tr><tr><td>--json</td><td>机器可读输出</td></tr><tr><td>SKILL.md</td><td>AI Agent 可发现性</td></tr><tr><td>TEST.md</td><td>测试覆盖文档</td></tr></tbody></table></div><div class="desc">5 条必记命令</div><div class="table-wrap"><table class="cheat-table"><thead><tr><th>命令</th><th>用途</th></tr></thead><tbody><tr><td>/cli-anything:cli-anything</td><td>生成 harness</td></tr><tr><td>/cli-anything:refine</td><td>增量补能力</td></tr><tr><td>/cli-anything:validate</td><td>验规范</td></tr><tr><td>/cli-anything:test</td><td>跑回归</td></tr><tr><td>/cli-anything:list</td><td>盘点已有</td></tr></tbody></table></div><div class="desc">支持平台：Claude Code · OpenCode · Codex · OpenClaw · Qodercli · Goose · GitHub Copilot CLI · Pi</div></div><div class="card"><h2>⚡ 最短闭环 <a href="https://github.com/HKUDS/CLI-Anything#-quick-start" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">先生成最小可用 harness，再用 refine 和 validate 迭代补强。</div><pre><code class="language-bash"># Claude Code 安装插件
 /plugin marketplace add HKUDS/CLI-Anything
 /plugin install cli-anything
 
-# 生成一个软件的 harness
+# 1️⃣ Build：生成 harness
 /cli-anything:cli-anything ./gimp
 
-# 按场景补能力
+# 2️⃣ Refine：按场景补能力
 /cli-anything:refine ./gimp &quot;batch processing and filters&quot;
 
-# 交付前做规范检查
+# 3️⃣ Validate：交付前验规范
 /cli-anything:validate ./gimp
 
-# 跑回归并回写测试结果
-/cli-anything:test ./gimp</code></pre><h3>什么时候停在哪一步</h3><ul><li>只想验证思路：停在 build</li><li>命令覆盖不够：继续 refine</li><li>结构和标准不稳：先 validate</li><li>准备发给别人用：test 后再安装生成结果</li></ul></div><div class="card"><h2>🏗️ 标准流水线 <a href="https://github.com/HKUDS/CLI-Anything/blob/main/cli-anything-plugin/README.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">官方 README 仍沿用分阶段心智，但插件侧已经把实际流程拆成更明确的 8 个动作。</div><h3>产物检查</h3><ul><li><code>&lt;software&gt;/agent-harness/</code></li><li><code>pip install -e .</code></li><li><code>cli-anything-&lt;software&gt; --help</code></li><li><code>--json</code></li><li><code>skills/SKILL.md</code></li></ul></div><div class="card"><h2>🍳 高频场景 <a href="https://github.com/HKUDS/CLI-Anything/blob/main/cli-anything-plugin/QUICKSTART.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">先按场景找起手式，再决定是否要 refine、validate 或 test。</div><h3>本地源码转 harness</h3><pre><code class="language-bash">/cli-anything:cli-anything ./gimp</code></pre><h3>直接处理 GitHub 仓库</h3><pre><code class="language-bash">/cli-anything https://github.com/blender/blender</code></pre><h3>对整个软件做增量补强</h3><pre><code class="language-bash">/cli-anything:refine ./obs-studio</code></pre><h3>只补某个功能域</h3><pre><code class="language-bash">/cli-anything:refine ./shotcut &quot;vid-in-vid and picture-in-picture compositing&quot;
-/cli-anything:refine ./blender &quot;particle systems and physics simulation&quot;</code></pre><h3>盘点已生成的 harness</h3><pre><code class="language-bash">/cli-anything:list
-/cli-anything:list --depth 2
-/cli-anything:list --json</code></pre><h3>交付前验收</h3><pre><code class="language-bash">/cli-anything:validate ./audacity
-/cli-anything:test ./inkscape</code></pre></div><div class="card"><h2>🤖 接入方式 <a href="https://github.com/HKUDS/CLI-Anything#-quick-start" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">不同平台只是入口不同，方法论一致，核心差别在安装介质、命令格式和可发现性。</div><h3>Claude Code</h3><ul><li>主路径，生态最完整</li><li><code>/plugin marketplace add HKUDS/CLI-Anything</code> <code>/plugin install cli-anything</code>：+</li><li><code>/cli-anything:cli-anything</code> <code>/cli-anything:refine</code> <code>/cli-anything:test</code> <code>/cli-anything:validate</code>：、、、</li><li><code>/cli-anything</code>：Claude Code 2.x 以下可用</li></ul><h3>OpenCode</h3><ul><li><code>opencode-commands/*.md</code> <code>HARNESS.md</code></li><li><code>/cli-anything</code> <code>/cli-anything-refine</code> <code>/cli-anything-test</code> <code>/cli-anything-validate</code> <code>/cli-anything-list</code>：、、、、</li><li><code>HARNESS.md</code>：必须和命令文件放在同一目录</li></ul><h3>Codex</h3><ul><li>通过仓库自带安装脚本装 skill</li><li><code>.\CLI-Anything\codex-skill\scripts\install.ps1</code></li><li>更适合自然语言指令，例如“Use CLI-Anything to validate ./libreoffice”</li></ul><h3>OpenClaw</h3><ul><li><code>openclaw-skill/SKILL.md</code> <code>~/.openclaw/skills/cli-anything/</code></li><li>入口不是 slash command，而是 skill 调用</li><li><code>@cli-anything build a CLI for ./gimp</code></li></ul><h3>Qodercli</h3><ul><li><code>bash CLI-Anything/qoder-plugin/setup-qodercli.sh</code></li><li>注册后重启会话</li><li>支持 build / refine / validate</li></ul><h3>Goose</h3><ul><li>通过 Claude Code 一类 CLI provider 复用</li><li>本质上沿用 provider 的命令格式</li></ul><h3>GitHub Copilot CLI</h3><ul><li><code>copilot plugin install ./cli-anything-plugin</code></li><li><code>/cli-anything:cli-anything</code> <code>/cli-anything:refine</code> <code>/cli-anything:validate</code>：、、</li><li>插件安装后重启会话即可使用</li></ul></div><div class="card"><h2>📋 命令速查 <a href="https://github.com/HKUDS/CLI-Anything/blob/main/cli-anything-plugin/README.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">如果你已经知道自己要 build、补能力、校验还是盘点，这张卡可以直接抄。</div><h3>Build</h3><pre><code class="language-bash">/cli-anything &lt;software-path-or-repo&gt;</code></pre><ul><li>输入：本地源码目录或 GitHub URL</li><li>输出：完整 harness、测试、文档、可安装包</li></ul><h3>Refine</h3><pre><code class="language-bash">/cli-anything:refine &lt;software-path&gt; [focus]</code></pre><ul><li>用途：做 gap analysis，增量补命令与测试</li><li><code>focus</code>：传具体场景，比“优化一下”有效得多</li></ul><h3>Test</h3><pre><code class="language-bash">/cli-anything:test &lt;software-path-or-repo&gt;</code></pre><ul><li><code>TEST.md</code>：跑测试并回写</li><li>适合：回归、重构后验证、准备发布前检查</li></ul><h3>Validate</h3><pre><code class="language-bash">/cli-anything:validate &lt;software-path-or-repo&gt;</code></pre><ul><li><code>HARNESS.md</code>：对照 检查结构和最佳实践</li><li>适合：怀疑生成结果“能跑但不规范”时先跑一遍</li></ul><h3>List</h3><pre><code class="language-bash">/cli-anything:list [--path &lt;directory&gt;] [--depth &lt;n&gt;] [--json]</code></pre><ul><li><code>--path</code>：指定搜索根目录</li><li><code>--depth</code>：限制递归深度</li><li><code>--json</code>：输出机器可读结果</li></ul></div><div class="card"><h2>🧪 生成后的 CLI <a href="https://github.com/HKUDS/CLI-Anything#-demo-using-a-generated-cli" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">真正交付给 Agent 的不是 CLI-Anything 本身，而是它生成出来的 `cli-anything-&lt;software&gt;`。</div><pre><code class="language-bash"># 安装生成结果
+# 4️⃣ Test：跑回归
+/cli-anything:test ./gimp</code></pre><h3>决策树：什么时候停在哪一步</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>目标</th><th>停在哪</th></tr></thead><tbody><tr><td>只验证思路</td><td>build</td></tr><tr><td>命令覆盖不够</td><td>refine</td></tr><tr><td>结构和标准不稳</td><td>validate</td></tr><tr><td>准备给别人用</td><td>test → 安装</td></tr></tbody></table></div></div><div class="card"><h2>🏗️ 标准流水线（7 阶段） <a href="https://github.com/HKUDS/CLI-Anything/blob/main/cli-anything-plugin/README.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">插件侧把流程拆成 8 个明确动作，v0.2.0 重构为分层导览。</div><pre><code class="language-markdown">Phase 1  Source Acquisition     → 源码获取（GitHub URL 或本地目录）
+Phase 2  Codebase Analysis    → 扫描结构、入口、可暴露能力
+Phase 3  CLI Architecture      → 规划命令组、输出模型、交互方式
+Phase 4  Implementation        → 生成 Click CLI、REPL、JSON/Human 输出
+Phase 5  Test Planning         → 产出 TEST.md 和测试计划
+Phase 6  Test &amp; Documentation  → 补测试并回写结果
+Phase 6.5 SKILL.md Generation  → 生成包内技能文件（AI 可发现性）
+Phase 7  PyPI Publishing       → 安装、发布、PATH 暴露</code></pre><h3>产物检查清单</h3><pre><code class="language-bash"># 逐项核对
+[ -d &lt;software&gt;/agent-harness/ ]    &amp;&amp; echo &quot;✓ harness 目录&quot;
+[ -f &lt;software&gt;/agent-harness/pyproject.toml ] &amp;&amp; echo &quot;✓ 可安装&quot;
+which cli-anything-&lt;software&gt;       &amp;&amp; echo &quot;✓ PATH 已暴露&quot;
+cli-anything-&lt;software&gt; --help     &amp;&amp; echo &quot;✓ CLI 可用&quot;
+cli-anything-&lt;software&gt; --json -1  &amp;&amp; echo &quot;✓ JSON 输出&quot;
+[ -f skills/SKILL.md ]             &amp;&amp; echo &quot;✓ AI 技能卡&quot;</code></pre></div><div class="card"><h2>🍳 高频场景 Recipes <a href="https://github.com/HKUDS/CLI-Anything/blob/main/cli-anything-plugin/QUICKSTART.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">先按场景找起手式，再决定是否要 refine、validate 或 test。</div><h3>场景 A：本地源码 → harness</h3><pre><code class="language-bash">/cli-anything:cli-anything ./gimp</code></pre><h3>场景 B：GitHub 仓库直连</h3><pre><code class="language-bash">/cli-anything https://github.com/blender/blender</code></pre><h3>场景 C：整软件增量补强</h3><pre><code class="language-bash">/cli-anything:refine ./obs-studio</code></pre><h3>场景 D：按功能域精准补</h3><pre><code class="language-bash">/cli-anything:refine ./shotcut &quot;vid-in-vid and picture-in-picture compositing&quot;
+/cli-anything:refine ./blender &quot;particle systems and physics simulation&quot;</code></pre><h3>场景 E：盘点已有 harness</h3><pre><code class="language-bash">/cli-anything:list                           # 列出所有
+/cli-anything:list --depth 2                 # 限制递归深度
+/cli-anything:list --json                   # 机器可读</code></pre><h3>场景 F：交付前验收</h3><pre><code class="language-bash">/cli-anything:validate ./audacity           # 结构规范检查
+/cli-anything:test ./inkscape               # 回归测试</code></pre></div><div class="card"><h2>🤖 平台接入对照 <a href="https://github.com/HKUDS/CLI-Anything#-quick-start" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">不同平台只是入口不同，方法论一致，差别在安装介质和命令格式。</div><h3>Claude Code（主路径，生态最完整）</h3><pre><code class="language-bash">/plugin marketplace add HKUDS/CLI-Anything
+/plugin install cli-anything
+
+# 5 条核心命令
+/cli-anything:cli-anything &lt;software-path-or-repo&gt;
+/cli-anything:refine &lt;software-path&gt; [focus]
+/cli-anything:validate &lt;software-path-or-repo&gt;
+/cli-anything:test &lt;software-path-or-repo&gt;
+/cli-anything:list [--path &lt;dir&gt;] [--depth &lt;n&gt;] [--json]</code></pre><h3>OpenCode</h3><pre><code class="language-bash"># 复制命令文件和 HARNESS.md 到同一目录
+cp opencode-commands/*.md &lt;target&gt;/
+cp HARNESS.md &lt;target&gt;/
+
+# 命令（无 slash 前缀）
+/cli-anything
+/cli-anything-refine
+/cli-anything-test
+/cli-anything-validate
+/cli-anything-list</code></pre><h3>Codex（自然语言友好）</h3><pre><code class="language-bash"># Windows 安装
+.\CLI-Anything\codex-skill\scripts\install.ps1
+
+# 自然语言指令示例
+Use CLI-Anything to validate ./libreoffice</code></pre><h3>OpenClaw</h3><pre><code class="language-bash"># 复制 SKILL.md 到指定目录
+cp openclaw-skill/SKILL.md ~/.openclaw/skills/cli-anything/
+
+# skill 调用（不是 slash command）
+@cli-anything build a CLI for ./gimp</code></pre><h3>Qodercli</h3><pre><code class="language-bash">bash CLI-Anything/qoder-plugin/setup-qodercli.sh
+# 重启会话后可用 build / refine / validate</code></pre><h3>GitHub Copilot CLI</h3><pre><code class="language-bash">copilot plugin install ./cli-anything-plugin
+# 重启会话后可用 /cli-anything:*</code></pre><h3>Goose</h3><pre><code class="language-bash"># 复用 Claude Code 类 CLI provider
+# 沿用 provider 的命令格式</code></pre><h3>Pi</h3><pre><code class="language-bash"># 接入方式同 Claude Code
+/plugin marketplace add HKUDS/CLI-Anything
+/plugin install cli-anything</code></pre></div><div class="card"><h2>📦 生成后的 CLI <a href="https://github.com/HKUDS/CLI-Anything#-demo-using-a-generated-cli" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">真正交付给 Agent 的是 `cli-anything-&lt;software&gt;`，不是 CLI-Anything 本身。</div><pre><code class="language-bash"># 安装生成结果
 cd &lt;software&gt;/agent-harness
 pip install -e .
 
 # 人类可读帮助
 cli-anything-&lt;software&gt; --help
 
-# 进入 REPL
+# 进入 REPL 交互
 cli-anything-&lt;software&gt;
 
 # 机器可读输出
-cli-anything-&lt;software&gt; --json &lt;command&gt;</code></pre><h3>Quick Ref</h3><ul><li><code>invoke_without_command=True</code>：裸命令通常直接进 REPL</li><li><code>which cli-anything-&lt;software&gt;</code>：快速确认是否已进 PATH</li><li><code>skills/SKILL.md</code>：便于 Agent 自动发现可用技能</li></ul></div><div class="card"><h2>📐 质量门槛 <a href="https://github.com/HKUDS/CLI-Anything#-the-standard-playbook-harnessmd" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这部分决定 harness 是”能跑”，还是”能稳定给 Agent 用”。</div><ul><li>必须调用真实软件，不要拿替代库假装实现核心能力</li><li>不能只看退出码，要验证输出内容或结构</li><li>GUI 软件常见 rendering gap，要把最终渲染结果纳入检查</li><li>输出格式验证要覆盖 magic bytes、ZIP / OOXML 结构、像素、音频、时长等</li><li><code>validate</code></li><li>v0.2.0 已通过 1,839+ 测试，覆盖 16 个应用，跨创意、生产力、通信等多元领域</li></ul></div><div class="card"><h2>⚠️ 限制与决策 <a href="https://github.com/HKUDS/CLI-Anything#limitations" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这个项目很强，但不是万能包装器。质量通常受模型强度、源码可得性和验证覆盖率共同影响。</div><ul><li>更依赖强基模：官方 README 提到 Claude Opus 4.6、Claude Sonnet 4.6、GPT-5.4 这一类前沿模型</li><li>更适合有源码的软件；只有二进制或需要反编译时，质量会明显下降</li><li>首轮 build 不等于完成，生产可用通常需要多轮 refine</li><li><code>bash</code> <code>cygpath</code></li></ul><h3>典型判断</h3><ul><li>有源码、能跑测试：优先 build + refine</li><li>只有二进制：先评估覆盖率，再决定是否继续</li><li>目标是交付给 Agent：一定补 validate</li></ul></div><div class="card"><h2>🌐 发布与收尾 <a href="https://hkuds.github.io/CLI-Anything/hub/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">CLI-Anything 已经从单仓库方法论扩展到可浏览、可安装的 CLI 注册中心。</div><ul><li><code>CLI-Hub</code>：集中浏览、搜索、安装社区 CLI</li><li><code>registry.json</code>：PR 一个 条目即可更新 Hub</li><li><code>PUBLISHING.md</code></li><li><code>HARNESS.md</code></li></ul><h3>收尾动作</h3><ul><li><code>validate</code></li><li><code>test</code></li><li><code>--help</code> <code>--json</code></li><li>再考虑发布或加入 Hub</li></ul></div>
+cli-anything-&lt;software&gt; --json &lt;command&gt;</code></pre><h3>SKILL.md — AI Agent 的可发现性</h3><pre><code class="language-markdown">&lt;!-- skills/SKILL.md 示例结构 --&gt;
+# Skill: cli-anything-&lt;software&gt;
+
+## Commands
+- `cli-anything-&lt;software&gt; --json &lt;cmd&gt;` → 机器输出
+- `cli-anything-&lt;software&gt; &lt;cmd&gt;` → 人类输出
+
+## Use Case
+当需要调用 &lt;software&gt; 功能时使用此 CLI。</code></pre></div><div class="card"><h2>🔌 CLI-Hub — 社区 CLI 注册中心</h2><h3>安装 Hub</h3><pre><code class="language-bash">pip install cli-anything-hub</code></pre><h3>浏览社区 CLI</h3><pre><code class="language-bash"># 查看所有可用 CLI
+cli-anything-hub list
+
+# 搜索特定 CLI
+cli-anything-hub search &lt;keyword&gt;
+
+# 安装社区 CLI
+cli-anything-hub install &lt;cli-name&gt;</code></pre><h3>贡献社区 CLI</h3><pre><code class="language-bash"># 1. 生成本地 CLI harness
+/cli-anything:cli-anything ./your-software
+
+# 2. 提交到 registry.json（PR）
+# 3. 审核通过后即可被其他用户安装</code></pre><h3>已收录案例（16+）</h3><div class="desc">Openscreen · CloudAnalyzer · WireMock · VideoCaptioner · GIMP · Blender · Audacity · Inkscape · OBS Studio · Shotcut · LibreOffice 等</div></div><div class="card"><h2>📋 命令速查</h2><h3>Build — 生成 harness</h3><pre><code class="language-bash">/cli-anything:cli-anything &lt;software-path-or-repo&gt;</code></pre><ul><li>输入：本地源码目录或 GitHub URL</li><li>输出：完整 harness、测试、文档、可安装包</li></ul><h3>Refine — 增量补能力</h3><pre><code class="language-bash">/cli-anything:refine &lt;software-path&gt; [focus]</code></pre><div class="table-wrap"><table class="cheat-table"><thead><tr><th>参数</th><th>必填</th><th>说明</th></tr></thead><tbody><tr><td>software-path</td><td>✓</td><td>本地源码目录</td></tr><tr><td>focus</td><td></td><td>具体场景描述，比&quot;优化一下&quot;有效得多</td></tr></tbody></table></div><h3>Test — 回归测试</h3><pre><code class="language-bash">/cli-anything:test &lt;software-path-or-repo&gt;</code></pre><ul><li><code>TEST.md</code></li><li>适合：回归验证、重构后检查、发布前验收</li></ul><h3>Validate — 规范检查</h3><pre><code class="language-bash">/cli-anything:validate &lt;software-path-or-repo&gt;</code></pre><ul><li><code>HARNESS.md</code></li><li>适合：怀疑&quot;能跑但不规范&quot;时先跑一遍</li></ul><h3>List — 盘点已有</h3><pre><code class="language-bash">/cli-anything:list [--path &lt;directory&gt;] [--depth &lt;n&gt;] [--json]</code></pre><div class="table-wrap"><table class="cheat-table"><thead><tr><th>参数</th><th>说明</th></tr></thead><tbody><tr><td>--path</td><td>指定搜索根目录</td></tr><tr><td>--depth</td><td>限制递归深度</td></tr><tr><td>--json</td><td>输出机器可读结果</td></tr></tbody></table></div></div><div class="card"><h2>🔌 质量门槛 <a href="https://hkuds.github.io/CLI-Anything/hub/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">CLI-Anything 从单仓库方法论扩展到可浏览、可安装的 CLI 注册中心。</div><div class="table-wrap"><table class="cheat-table"><thead><tr><th>要求</th><th>说明</th></tr></thead><tbody><tr><td>调用真实软件</td><td>不要拿替代库假装实现核心能力</td></tr><tr><td>验证输出内容</td><td>不能只看退出码，要验证结构</td></tr><tr><td>渲染结果检查</td><td>GUI 软件要把最终渲染纳入检查</td></tr><tr><td>多格式验证</td><td>magic bytes、ZIP/OOXML、像素、音频、时长等</td></tr><tr><td>必须 validate</td><td>把&quot;勉强可用&quot;拦在交付前的门槛</td></tr></tbody></table></div></div><div class="card"><h2>📋 限制与决策 <a href="https://github.com/HKUDS/CLI-Anything/blob/main/cli-anything-plugin/README.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">5 条核心命令，覆盖完整生命周期。</div><div class="table-wrap"><table class="cheat-table"><thead><tr><th>限制</th><th>影响</th></tr></thead><tbody><tr><td>更依赖强基模</td><td>推荐 Claude Opus 4.6 / Sonnet 4.6 / GPT-5.4</td></tr><tr><td>适合有源码的软件</td><td>只有二进制时质量下降</td></tr><tr><td>首轮 build ≠ 完成</td><td>生产可用通常需要多轮 refine</td></tr><tr><td>Windows 缺 bash/cygpath</td><td>部分链路可能失败</td></tr></tbody></table></div><h3>典型判断</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>情况</th><th>行动</th></tr></thead><tbody><tr><td>有源码、能跑测试</td><td>build + refine</td></tr><tr><td>只有二进制</td><td>先评估覆盖率，再决定</td></tr><tr><td>目标是交付给 Agent</td><td>一定补 validate</td></tr></tbody></table></div></div><div class="card"><h2>📐 发布与收尾 <a href="https://github.com/HKUDS/CLI-Anything#-the-standard-playbook-harnessmd" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这部分决定 harness 是&quot;能跑&quot;，还是&quot;能稳定给 Agent 用&quot;。</div><h3>收尾检查清单</h3><pre><code class="language-bash"># 逐项确认
+/cli-anything:validate ./&lt;software&gt;   # 结构规范
+/cli-anything:test ./&lt;software&gt;        # 回归测试
+cli-anything-&lt;software&gt; --help         # 人类接口正常
+cli-anything-&lt;software&gt; --json -1     # 机器接口正常
+# REPL 手动走一遍核心命令</code></pre><h3>下一步</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>目标</th><th>看什么</th></tr></thead><tbody><tr><td>复用生成结果</td><td>PUBLISHING.md</td></tr><tr><td>判断 harness 质量</td><td>HARNESS.md → 示例项目</td></tr><tr><td>分发社区 CLI</td><td>CLI-Hub registry.json PR</td></tr></tbody></table></div></div>
     </div>
   </div>
 
