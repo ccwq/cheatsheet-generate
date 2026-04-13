@@ -109,7 +109,7 @@ codex exec --json "总结这个仓库的构建步骤"
 codex exec --output-last-message "列出这个项目的环境变量"
 
 # 支持 stdin 管道输入 + 单独 prompt（0.118.0+）
-echo "package.json 内容" | codex exec "分析这个文件"
+echo "package.json 内容" | codex exec -
 ```
 
 ### Recipe 3：先 review，再决定是否让它改
@@ -161,7 +161,7 @@ codex mcp-server
 codex cloud
 ```
 
-## Quick Ref / 命令速查
+## Quick Ref / 命令与参数
 ---
 lang: bash
 emoji: 🛠️
@@ -180,6 +180,7 @@ codex apply     # 把最近一次 patch 应用到工作树
 
 ### 扩展入口
 ```bash
+codex app         # macOS 桌面端，打开工作区路径
 codex login       # 登录
 codex logout      # 清理本地认证
 codex mcp         # 管理 MCP 服务
@@ -187,9 +188,11 @@ codex mcp-server  # 以 MCP server 方式启动 Codex
 codex sandbox     # 在 Codex 沙箱里运行命令
 codex completion  # 生成 shell 补全
 codex cloud       # 浏览 Codex Cloud 任务
-codex features    # 查看 feature flags
+codex execpolicy  # 检查 execpolicy 规则文件
+codex features    # 查看/管理 feature flags
 codex debug       # 输出调试信息
 codex app-server  # 实验性 app server 工具
+codex debug app-server send-message-v2  # app-server 调试入口
 ```
 
 ### 高频全局参数
@@ -201,6 +204,7 @@ codex app-server  # 实验性 app server 工具
 -a, --ask-for-approval POLICY     # untrusted / on-failure / on-request / never
 --full-auto                       # 常用自动化组合
 --search                          # 启用联网搜索
+--json, --experimental-json        # 输出 NDJSON，适合脚本消费
 -i, --image FILE                  # 给首轮提示附图，可重复
 -C, --cd DIR                      # 指定工作目录
 --add-dir DIR                     # 额外开放可写目录
@@ -211,6 +215,32 @@ codex app-server  # 实验性 app server 工具
 --no-alt-screen                   # 禁用 alternate screen
 -h, --help                        # 查看帮助
 -V, --version                     # 查看版本
+```
+
+### 非交互补遗
+```bash
+--output-last-message, -o   # 将最终消息写到文件，便于脚本串联
+--output-schema             # 用 JSON Schema 校验最终输出
+--ephemeral                 # 不落盘会话文件
+--skip-git-repo-check       # 允许在非 Git 仓库中运行
+```
+
+### 命令补遗
+```bash
+codex exec -                # 从 stdin 读取 prompt
+codex exec resume [ID]      # 按 ID 恢复 exec 会话
+codex cloud list --json     # 机器可读地列出云端任务
+codex mcp add <name> -- <command...>   # 添加 stdio MCP
+codex mcp add <name> --url <url>       # 添加 streamable HTTP MCP
+codex mcp list --json                  # 列出 MCP 服务器
+codex mcp get <name> --json            # 查看单个 MCP 配置
+codex mcp login <name>                 # OAuth 登录
+codex mcp logout <name>                # 清除 OAuth 凭据
+codex mcp remove <name>                # 删除 MCP 服务器
+codex execpolicy check      # 保存规则前先做规则检查
+codex features list         # 查看已知 feature flags
+codex features enable <f>    # 持久启用某个 feature flag
+codex features disable <f>   # 持久禁用某个 feature flag
 ```
 
 ### 最常抄的命令组合
@@ -228,7 +258,7 @@ codex --full-auto
 codex -C ~/work/app --model gpt-5-codex
 
 # 临时改配置
-codex -c model=\"gpt-5-codex\" -c 'features.search=true'
+codex -c model=\"gpt-5-codex\" -c 'web_search=\"live\"'
 ```
 
 ## Slash Commands / 交互速记
@@ -245,11 +275,35 @@ link: https://developers.openai.com/codex/cli/slash-commands/
 /diff          # 看当前建议改动
 /review        # 进入审查视角
 /plan          # 先出计划再执行
-/approvals     # 调整审批策略
+/permissions   # 调整审批策略
+/approvals     # 旧别名，部分版本仍可用
 /compact       # 压缩上下文，适合长会话
 /logout        # 清除本地登录状态
 /quit          # 退出 CLI
 /exit          # 退出 CLI
+```
+
+### 官网补遗：会话命令
+```bash
+/mention             # 关联文件到当前会话
+/fast                # 切换 Fast mode
+/personality         # 切换表达风格
+/ps                  # 查看后台终端
+/debug-config        # 查看配置层与策略诊断
+/statusline          # 配置底部状态栏项
+/clear               # 清空当前会话并新开一轮
+/copy                # 复制最新完成的回复
+/new                 # 在同一 CLI 会话中新建对话
+/fork                # 从当前对话分叉
+/resume              # 恢复已保存会话
+/init                # 生成 AGENTS.md scaffold
+/mcp                 # 查看当前 MCP 工具
+/apps                # 浏览可用 app mentions
+/agent               # 切换 agent 线程
+/feedback            # 发送日志和诊断
+/experimental        # 切换实验功能
+/permissions         # 更新审批策略
+/sandbox-add-read-dir # Windows 下追加只读目录
 ```
 
 ### 什么时候用这些命令
@@ -258,7 +312,7 @@ link: https://developers.openai.com/codex/cli/slash-commands/
 想确认改了什么            -> /diff
 想确认当前模式和上下文     -> /status
 会话太长、上下文太重       -> /compact
-准备切模型或切策略         -> /model /approvals
+准备切模型或切策略         -> /model /permissions
 ```
 
 ## 决策点 / 常见坑
@@ -290,7 +344,7 @@ codex --profile work
 
 # -c 管“当前这一轮临时覆盖”
 codex -c model=\"gpt-5-codex\"
-codex -c 'features.search=true'
+codex -c 'web_search=\"live\"'
 
 # 经验规则：
 # profile 像前端项目里的环境文件
@@ -307,6 +361,46 @@ codex fork --last
 
 # 长会话先 compact，再继续追问
 /compact
+```
+
+### 配置补充：常见但原稿没展开的项
+```bash
+web_search                               # disabled / cached / live，控制联网搜索策略
+service_tier                             # flex / fast，控制默认服务层级
+model_provider                           # 选择当前模型提供方
+model_providers.<id>.base_url            # 自定义 provider 的 API base URL
+profiles.<name>.service_tier             # profile 级服务层级偏好
+profiles.<name>.personality              # none / friendly / pragmatic
+profiles.<name>.model_instructions_file  # profile 级替换内置指令文件
+profiles.<name>.plan_mode_reasoning_effort  # profile 级 Plan-mode 推理档位
+review_model                             # review 任务使用的模型
+model_instructions_file                  # 用外部文件替换内置指令来源
+feedback.enabled                         # 控制 /feedback 是否可用
+file_opener                              # 点击引用时用哪个编辑器打开
+forced_login_method                      # 仅允许 chatgpt 或 api 登录
+forced_chatgpt_workspace_id              # 锁定 ChatGPT 登录 workspace
+project_root_markers                     # 自定义项目根目录标记文件
+projects.<path>.trust_level              # 对项目或工作树标记 trusted / untrusted
+```
+
+### 配置补充：功能开关和平台项
+```bash
+features.codex_hooks                     # hooks.json 生命周期钩子
+features.enable_request_compression      # 请求体压缩
+features.fast_mode                       # Fast mode 开关
+features.multi_agent                     # 多代理开关
+features.undo                            # 撤销支持
+features.unified_exec                    # PTY-backed exec tool
+features.web_search                      # 旧版兼容开关，优先用顶层 web_search
+sandbox_workspace_write.network_access   # workspace-write 下允许联网
+sandbox_workspace_write.writable_roots   # 额外可写根目录
+shell_environment_policy.*               # 环境变量过滤 / 继承策略
+tui.status_line                          # 底部状态栏项
+tui.theme                                # TUI 主题
+windows.sandbox                          # Windows 专用沙箱模式
+windows_wsl_setup_acknowledged           # Windows 初始化确认
+mcp_servers.*                            # MCP 服务器定义
+rules.*                                  # 规则文件与执行策略
 ```
 
 ## 排障 / 收尾动作

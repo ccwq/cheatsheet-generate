@@ -5,6 +5,7 @@
 - [CLI Reference](https://developers.openai.com/codex/cli/reference) - 全局参数、子命令、非交互参数
 - [Slash Commands](https://developers.openai.com/codex/cli/slash-commands/) - 交互会话内的 slash commands
 - [Features](https://developers.openai.com/codex/cli/features) - 工作流、会话、review、搜索、多模态等能力说明
+- [Configuration Reference](https://developers.openai.com/codex/config-reference) - profiles、feature flags、TUI、sandbox、web search
 - [Local Config / CLI](https://developers.openai.com/codex/local-config#cli) - `config.toml`、profiles 与本地配置
 
 ## 仓库与版本
@@ -18,6 +19,7 @@
 - `高频场景 Recipes`：CLI 首页 + Features + Reference 中的交互、exec、review、resume/fork、MCP、cloud
 - `Quick Ref / 命令速查`：Reference 页面里的子命令与全局参数
 - `Slash Commands / 交互速记`：Slash Commands 页面
+- `配置补遗 / 高级配置`：Configuration Reference 页面
 - `决策点 / 常见坑`：Features 与 Local Config 页面里的 sandbox、approval、profile、临时配置覆盖
 - `排障 / 收尾动作`：Local Config / CLI、Reference、npm 版本信息
 
