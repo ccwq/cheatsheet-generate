@@ -1,0 +1,13 @@
+---
+title: Playwright 自动化测试
+lang: zh
+version: "1.54"
+date: 2026-04-13
+github: microsoft/playwright
+desc: Microsoft出品的跨浏览器自动化测试工具，支持Chromium、Firefox、WebKit，提供自动等待、网络拦截、可视化调试等特性。
+tags:
+  - playwright
+  - 自动化测试
+  - e2e测试
+  - 浏览器自动化
+  - 跨浏览器测试

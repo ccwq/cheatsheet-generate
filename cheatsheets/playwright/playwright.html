@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>Playwright 自动化测试</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png">
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 340px; 
+      --gap: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
+      <span class="title">Playwright 自动化测试</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">1.54</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">unknown</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/microsoft/playwright" target="_blank" rel="noopener">microsoft/playwright</a></span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/microsoft/playwright" target="_blank" rel="noopener">打开 Zread</a></span></span>
+      </div>
+      <div class="meta-tags"><tag-chip class="tag tag-group-0 detail-tag" data-name="playwright" data-group="0" label="playwright" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="自动化测试" data-group="0" label="自动化测试" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="e2e测试" data-group="0" label="e2e测试" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="浏览器自动化" data-group="0" label="浏览器自动化" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="跨浏览器测试" data-group="0" label="跨浏览器测试" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>一眼入口</h2><div class="desc">这是什么：Microsoft开发的跨浏览器自动化库，支持Chromium/Firefox/WebKit，提供自动等待、网络拦截、可视化调试。</div><div class="desc">最短路径：安装浏览器 → 写测试 → 运行 npx playwright test</div><div class="desc">核心优势：自动等待、强大定位器、跨浏览器、多语言支持</div></div><div class="card"><h2>快速安装</h2><pre><code class="language-bash"># 安装Playwright（含浏览器）
+npm init playwright@latest
+# 或单独安装
+npm install @playwright/test
+npx playwright install
+
+# 安装指定浏览器
+npx playwright install chromium
+npx playwright install --with-deps  # 含系统依赖</code></pre></div><div class="card"><h2>最小工作流</h2><h3>起手式</h3><pre><code class="language-typescript">import { test, expect } from &#39;@playwright/test&#39;;
+
+test(&#39;基础测试&#39;, async ({ page }) =&gt; {
+  await page.goto(&#39;https://example.com&#39;);
+  await expect(page.getByRole(&#39;heading&#39;)).toHaveText(&#39;Example&#39;);
+});</code></pre><h3>配置文件</h3><pre><code class="language-typescript">// playwright.config.ts
+import { defineConfig, devices } from &#39;@playwright/test&#39;;
+
+export default defineConfig({
+  testDir: &#39;./tests&#39;,
+  fullyParallel: true,
+  retries: process.env.CI ? 1 : 0,
+  workers: process.env.CI ? 1 : undefined,
+  reporter: &#39;html&#39;,
+  use: {
+    baseURL: &#39;http://localhost:3000&#39;,
+    trace: &#39;on-first-retry&#39;,
+  },
+  projects: [
+    { name: &#39;chromium&#39;, use: { ...devices[&#39;Desktop Chrome&#39;] } },
+    { name: &#39;firefox&#39;, use: { ...devices[&#39;Desktop Firefox&#39;] } },
+    { name: &#39;webkit&#39;, use: { ...devices[&#39;Desktop Safari&#39;] } },
+  ],
+});</code></pre></div><div class="card"><h2>核心类速查</h2><h3>Browser / BrowserContext / Page</h3><pre><code class="language-typescript">// 启动浏览器
+const browser = await chromium.launch({ headless: true });
+const context = await browser.newContext({
+  viewport: { width: 1280, height: 720 },
+  colorScheme: &#39;dark&#39;,
+});
+const page = await context.newPage();
+
+// 导航
+await page.goto(&#39;https://example.com&#39;, {
+  waitUntil: &#39;domcontentloaded&#39;,  // load | domcontentloaded | networkidle
+  timeout: 30000,
+});
+
+// 清理
+await page.close();
+await context.close();
+await browser.close();</code></pre><div class="table-wrap"><table class="cheat-table"><thead><tr><th>类</th><th>职责</th><th>隔离级别</th></tr></thead><tbody><tr><td>Browser</td><td>浏览器实例</td><td>整个进程</td></tr><tr><td>BrowserContext</td><td>浏览器上下文（独立Cookie/缓存）</td><td>context级</td></tr><tr><td>Page</td><td>页面/标签页</td><td>page级</td></tr></tbody></table></div></div><div class="card"><h2>定位器速查</h2><h3>语义定位器（推荐）</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>方法</th><th>用途</th><th>示例</th></tr></thead><tbody><tr><td>get_by_role(role, name)</td><td>ARIA角色</td><td>get_by_role(&#39;button&#39;, { name: &#39;Submit&#39; })</td></tr><tr><td>get_by_label(text)</td><td>表单标签</td><td>get_by_label(&#39;Email&#39;).fill(&#39;a@b.com&#39;)</td></tr><tr><td>get_by_placeholder(text)</td><td>占位符</td><td>get_by_placeholder(&#39;Search...&#39;)</td></tr><tr><td>get_by_text(text)</td><td>可见文本</td><td>get_by_text(&#39;Welcome&#39;)</td></tr><tr><td>get_by_alt_text(text)</td><td>alt属性</td><td>get_by_alt_text(&#39;logo&#39;)</td></tr><tr><td>get_by_title(text)</td><td>title属性</td><td>get_by_title(&#39;Close&#39;)</td></tr><tr><td>get_by_test_id(id)</td><td>data-testid</td><td>get_by_test_id(&#39;directions&#39;)</td></tr></tbody></table></div><h3>CSS / XPath</h3><pre><code class="language-typescript">page.locator(&#39;button.submit&#39;)           // CSS类
+page.locator(&#39;#submit-btn&#39;)             // CSS ID
+page.locator(&#39;[data-testid=&quot;btn&quot;]&#39;)     // 属性
+page.locator(&#39;xpath=//button[1]&#39;)       // XPath
+page.locator(&#39;//button[text()=&quot;Go&quot;]&#39;)   // XPath文本</code></pre><h3>过滤与链式</h3><pre><code class="language-typescript">// 文本过滤
+page.get_by_role(&#39;listitem&#39;).filter(has_text=&#39;Product 2&#39;)
+
+// 组合定位
+page.get_by_role(&#39;dialog&#39;).filter(
+  has=page.get_by_role(&#39;heading&#39;, { name: &#39;Confirm&#39; })
+)
+
+// nth / first / last
+page.get_by_role(&#39;listitem&#39;).nth(2)
+page.get_by_role(&#39;listitem&#39;).first
+page.get_by_role(&#39;listitem&#39;).last
+
+// iframe定位
+page.frame_locator(&#39;#iframe-id&#39;).get_by_role(&#39;button&#39;).click()</code></pre></div><div class="card"><h2>常用操作速查</h2><h3>点击与输入</h3><pre><code class="language-typescript">// 点击
+await page.getByRole(&#39;button&#39;).click()
+await page.locator(&#39;.btn&#39;).click({ button: &#39;right&#39;, clickCount: 2 })
+
+// 填充（清空后输入）
+await page.getByLabel(&#39;Email&#39;).fill(&#39;test@example.com&#39;)
+
+// 按键输入（逐字符，有延迟）
+await page.getByPlaceholder(&#39;Search&#39;).type(&#39;query&#39;, { delay: 50 })
+
+// 特殊键
+await page.locator(&#39;input&#39;).press(&#39;Enter&#39;)
+await page.locator(&#39;input&#39;).press(&#39;Control+A&#39;)
+await page.locator(&#39;input&#39;).press(&#39;Tab&#39;)</code></pre><h3>表单操作</h3><pre><code class="language-typescript">// 下拉选择
+await page.locator(&#39;select&#39;).selectOption(&#39;value&#39;)
+await page.getByRole(&#39;combobox&#39;).select_option([&#39;val1&#39;, &#39;val2&#39;])
+
+// 复选框
+await page.get_by_role(&#39;checkbox&#39;, { name: &#39;Remember me&#39; }).check()
+
+// 清空
+await page.get_byLabel(&#39;Input&#39;).clear()</code></pre><h3>文件与对话框</h3><pre><code class="language-typescript">// 文件上传
+await page.setInputFiles(&#39;input[type=file]&#39;, &#39;path/to/file.png&#39;)
+await page.setInputFiles(&#39;input[type=file]&#39;, [])  // 清空
+
+// 对话框处理
+page.on(&#39;dialog&#39;, dialog =&gt; dialog.accept(&#39;answer&#39;))
+page.on(&#39;dialog&#39;, dialog =&gt; dialog.dismiss())
+
+// 文件下载
+const [download] = await Promise.all([
+  page.waitForEvent(&#39;download&#39;),
+  page.getByRole(&#39;button&#39;, { name: &#39;Download&#39; }).click(),
+]);
+await download.saveAs(&#39;/path/to/file&#39;);</code></pre></div><div class="card"><h2>等待策略速查</h2><div class="table-wrap"><table class="cheat-table"><thead><tr><th>策略</th><th>用法</th><th>场景</th></tr></thead><tbody><tr><td>自动等待</td><td>await page.getByRole(&#39;button&#39;).click()</td><td>默认，元素就绪自动等待</td></tr><tr><td>显式等待</td><td>await page.waitForSelector(&#39;.loaded&#39;, { timeout: 5000 })</td><td>特定条件</td></tr><tr><td>网络等待</td><td>await page.waitForLoadState(&#39;networkidle&#39;)</td><td>API调用后</td></tr><tr><td>函数等待</td><td>await page.waitForFunction(() =&gt; window.status === &#39;ready&#39;)</td><td>条件判断</td></tr><tr><td>响应等待</td><td>await page.waitForResponse(url =&gt; url.includes(&#39;/api&#39;))</td><td>拦截响应</td></tr></tbody></table></div><pre><code class="language-typescript">// expect系列
+await expect(page.getByRole(&#39;heading&#39;)).toHaveText(&#39;Welcome&#39;)
+await expect(page.getByLabel(&#39;Email&#39;)).toHaveValue(&#39;test@example.com&#39;)
+await expect(page.locator(&#39;.loading&#39;)).toBeHidden()
+
+// 软断言（不中断测试）
+await expect.soft(page.getByRole(&#39;heading&#39;)).toHaveText(&#39;Welcome&#39;)</code></pre></div><div class="card"><h2>截图与PDF</h2><pre><code class="language-typescript">// 普通截图
+await page.screenshot({ path: &#39;screenshot.png&#39; })
+
+// 全页截图
+await page.screenshot({ path: &#39;full.png&#39;, fullPage: true })
+
+// 元素截图
+await page.locator(&#39;.header&#39;).screenshot({ path: &#39;header.png&#39; })
+
+// 截图对比（视觉回归）
+await expect(page).toHaveScreenshot(&#39;home.png&#39;, {
+  maxDiffPixels: 100,
+  maxDiffPixelRatio: 0.2,
+})
+
+// PDF（仅Chromium）
+await page.emulate_media({ media: &#39;screen&#39; })
+await page.pdf({
+  path: &#39;output.pdf&#39;,
+  format: &#39;A4&#39;,
+  printBackground: true,
+  margin: { top: &#39;1cm&#39;, bottom: &#39;1cm&#39; },
+})</code></pre></div><div class="card"><h2>网络拦截速查</h2><pre><code class="language-typescript">// 拦截请求
+await page.route(&#39;**/*.{png,jpg,jpeg}&#39;, route =&gt; route.abort());
+
+// 修改响应
+await page.route(&#39;**/api/**&#39;, async route =&gt; {
+  if (route.request().url().includes(&#39;/api/data&#39;)) {
+    await route.fulfill({
+      status: 200,
+      contentType: &#39;application/json&#39;,
+      body: JSON.stringify({ mock: true }),
+    });
+  } else {
+    await route.continue();
+  }
+});
+
+// 等待请求/响应
+const [response] = await Promise.all([
+  page.waitForResponse(resp =&gt; resp.url().includes(&#39;/api&#39;) &amp;&amp; resp.status() === 200),
+  page.getByText(&#39;Submit&#39;).click(),
+]);</code></pre></div><div class="card"><h2>CLI命令速查</h2><div class="table-wrap"><table class="cheat-table"><thead><tr><th>命令</th><th>说明</th><th>常用选项</th></tr></thead><tbody><tr><td>npx playwright test</td><td>运行测试</td><td>--headed, --debug, -g &lt;grep&gt;, --project</td></tr><tr><td>npx playwright install</td><td>安装浏览器</td><td>--with-deps, --force, chromium</td></tr><tr><td>npx playwright show-report</td><td>显示报告</td><td>--port 8080</td></tr><tr><td>npx playwright codegen [url]</td><td>生成测试代码</td><td>--target=python, --device=&quot;iPhone 13&quot;</td></tr><tr><td>npx playwright open [url]</td><td>快速打开页面</td><td>--browser=chromium, --device</td></tr><tr><td>npx playwright screenshot &lt;url&gt; &lt;file&gt;</td><td>页面截图</td><td>--full-page</td></tr><tr><td>npx playwright show-trace &lt;file&gt;</td><td>查看跟踪</td><td>--port 8080</td></tr></tbody></table></div><h3>调试模式</h3><pre><code class="language-bash"># 启动调试器
+npx playwright test --debug
+
+# 浏览器控制台访问playwright对象
+PWDEBUG=console npx playwright test
+
+# 在测试中暂停
+await page.pause();</code></pre></div><div class="card"><h2>Trace Viewer</h2><pre><code class="language-typescript">// 配置跟踪录制
+export default defineConfig({
+  use: { trace: &#39;on-first-retry&#39; },
+});
+
+// 手动控制
+await page.tracing.start({ screenshots: true, snapshots: true });
+// ... 执行操作 ...
+await page.tracing.stop();</code></pre><pre><code class="language-bash"># 查看跟踪文件
+npx playwright show-trace trace.zip</code></pre></div><div class="card"><h2>高频场景Recipes</h2><h3>场景1：表单提交测试</h3><pre><code class="language-typescript">test(&#39;登录表单提交&#39;, async ({ page }) =&gt; {
+  await page.goto(&#39;/login&#39;);
+
+  await page.getByLabel(&#39;Email&#39;).fill(&#39;user@example.com&#39;);
+  await page.getByLabel(&#39;Password&#39;).fill(&#39;password123&#39;);
+  await page.getByRole(&#39;button&#39;, { name: &#39;Sign In&#39; }).click();
+
+  await expect(page).toHaveURL(&#39;**/dashboard&#39;);
+  await expect(page.getByRole(&#39;heading&#39;)).toHaveText(&#39;Welcome&#39;);
+});</code></pre><h3>场景2：数据抓取</h3><pre><code class="language-typescript">test(&#39;抓取产品列表&#39;, async ({ page }) =&gt; {
+  await page.goto(&#39;/products&#39;);
+
+  const products = await page.locator(&#39;.product-item&#39;).evaluateAll(
+    items =&gt; items.map(item =&gt; ({
+      title: item.querySelector(&#39;h3&#39;)?.textContent,
+      price: item.querySelector(&#39;.price&#39;)?.textContent,
+    }))
+  );
+
+  console.log(products);
+});</code></pre><h3>场景3：跨浏览器配置</h3><pre><code class="language-typescript">export default defineConfig({
+  projects: [
+    { name: &#39;chromium&#39;, use: { ...devices[&#39;Desktop Chrome&#39;] } },
+    { name: &#39;firefox&#39;, use: { ...devices[&#39;Desktop Firefox&#39;] } },
+    { name: &#39;webkit&#39;, use: { ...devices[&#39;Desktop Safari&#39;] } },
+    { name: &#39;Mobile Chrome&#39;, use: { ...devices[&#39;Pixel 5&#39;] } },
+  ],
+});</code></pre><h3>场景4：代理与认证状态</h3><pre><code class="language-typescript">// 代理配置
+const context = await browser.newContext({
+  proxy: {
+    server: &#39;http://proxy:3128&#39;,
+    username: &#39;user&#39;,
+    password: &#39;pass&#39;,
+  },
+});
+
+// 保存/加载认证状态
+await page.context().storageState({ path: &#39;auth.json&#39; });
+const context2 = await browser.newContext({
+  storageState: &#39;./auth.json&#39;,
+});</code></pre></div><div class="card"><h2>Page Object模式</h2><pre><code class="language-typescript">// pages/LoginPage.ts
+export class LoginPage {
+  constructor(private page: Page) {}
+
+  async goto() {
+    await this.page.goto(&#39;/login&#39;);
+  }
+
+  async login(email: string, password: string) {
+    await this.page.getByLabel(&#39;Email&#39;).fill(email);
+    await this.page.getByLabel(&#39;Password&#39;).fill(password);
+    await this.page.getByRole(&#39;button&#39;, { name: &#39;Sign In&#39; }).click();
+  }
+
+  async expectError() {
+    await expect(this.page.locator(&#39;.error&#39;)).toBeVisible();
+  }
+}
+
+// tests/login.spec.ts
+test(&#39;登录失败&#39;, async ({ page }) =&gt; {
+  const loginPage = new LoginPage(page);
+  await loginPage.goto();
+  await loginPage.login(&#39;bad@example.com&#39;, &#39;wrong&#39;);
+  await loginPage.expectError();
+});</code></pre></div><div class="card"><h2>Fixtures与Hooks</h2><pre><code class="language-typescript">// fixtures.ts
+import { test as base } from &#39;@playwright/test&#39;;
+import { LoginPage } from &#39;./pages/LoginPage&#39;;
+
+export test = base.extend({
+  loginPage: async ({ page }, use) =&gt; {
+    const lp = new LoginPage(page);
+    await lp.goto();
+    await use(lp);
+  },
+
+  authenticatedPage: async ({ browser }, use) =&gt; {
+    const ctx = await browser.newContext();
+    const page = await ctx.newPage();
+    // 执行登录...
+    await use(page);
+    await ctx.close();
+  },
+});
+
+// 使用
+test(&#39;用户资料&#39;, async ({ authenticatedPage }) =&gt; {
+  // 已登录状态
+});</code></pre></div><div class="card"><h2>测试分类与命名</h2><pre><code class="language-typescript">// 按标签分类
+test.describe(&#39;Login&#39;, () =&gt; {
+  test(&#39;验证邮箱格式 @slow&#39;, async ({ page }) =&gt; {});
+  test(&#39;密码错误提示 @smoke&#39;, async ({ page }) =&gt; {});
+});
+
+// 运行特定标签
+// npx playwright test --grep @smoke
+// npx playwright test --grep-invert @slow</code></pre></div><div class="card"><h2>常见坑与风险点</h2><div class="table-wrap"><table class="cheat-table"><thead><tr><th>坑</th><th>原因</th><th>解决方案</th></tr></thead><tbody><tr><td>固定延迟</td><td>waitForTimeout 不稳定</td><td>使用自动等待或 waitForSelector</td></tr><tr><td>networkidle不可靠</td><td>现代SPA持续请求</td><td>使用 waitForLoadState(&#39;load&#39;)</td></tr><tr><td>iframe操作失败</td><td>未使用frameLocator</td><td>page.frameLocator(&#39;#iframe&#39;).locator(...)</td></tr><tr><td>上下文共享</td><td>测试间状态污染</td><td>每个测试用独立context</td></tr><tr><td>截图不一致</td><td>视口/字体差异</td><td>配置统一viewport和使用字体</td></tr></tbody></table></div></div><div class="card"><h2>Quick Ref</h2><pre><code class="language-typescript">// 最小启动
+const { chromium } = require(&#39;playwright&#39;);
+(async () =&gt; {
+  const browser = await chromium.launch();
+  const page = await browser.newPage();
+  await page.goto(&#39;https://example.com&#39;);
+  await browser.close();
+})();
+
+// 常用配置速记
+timeout: 30000          // 默认超时
+waitUntil: &#39;load&#39;       // 导航等待
+headless: true          // 无头模式
+fullPage: true          // 全页截图</code></pre></div><div class="card"><h2>参考资源</h2><ul><li>官方文档：https://playwright.dev</li><li>API参考：https://playwright.dev/docs/api/class-page</li><li>配置指南：https://playwright.dev/docs/test-configuration</li><li>最佳实践：https://playwright.dev/docs/best-practices</li><li>Trace Viewer：https://playwright.dev/docs/trace-viewer</li></ul></div>
+    </div>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>
