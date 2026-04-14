@@ -67,6 +67,7 @@ npx @playwright/cli@latest --help
 playwright-cli install --skills
 playwright-cli install --skills=claude
 playwright-cli install --skills=agents
+npx skills add https://github.com/microsoft/playwright-cli --skill playwright-cli
 ```
 
 ### 标准起手式

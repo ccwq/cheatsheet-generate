@@ -80,7 +80,8 @@ playwright-cli --help snapshot
 npx @playwright/cli@latest --help</code></pre><h3>安装 skill</h3><pre><code class="language-bash"># 给 Claude / agents 安装本地 skills
 playwright-cli install --skills
 playwright-cli install --skills=claude
-playwright-cli install --skills=agents</code></pre><h3>标准起手式</h3><pre><code class="language-bash"># 1. 打开页面
+playwright-cli install --skills=agents
+npx skills add https://github.com/microsoft/playwright-cli --skill playwright-cli</code></pre><h3>标准起手式</h3><pre><code class="language-bash"># 1. 打开页面
 playwright-cli open https://demo.playwright.dev/todomvc/
 
 # 2. 拿页面快照，获取 e15 / e21 这类元素引用
