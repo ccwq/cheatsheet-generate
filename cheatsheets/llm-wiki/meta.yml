@@ -1,0 +1,10 @@
+desc: LLM Wiki 是一个基于 Karpathy 方法论构建的跨平台桌面应用，通过两步思维链摄入将文档增量转化为持久化知识库。包含知识图谱、Louvain 社区检测、深度研究、向量搜索、多对话聊天等核心功能。
+tags:
+  - AI / LLM
+  - 知识管理
+  - 桌面应用
+  - 知识图谱
+  - RAG
+version: 0.3.1
+github: nashsu/llm_wiki
+date: "2026-04-12"

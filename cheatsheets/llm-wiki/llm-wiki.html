@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>LLM Wiki</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="apple-touch-icon" href="icon.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 340px; 
+      --gap: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
+      <span class="title">LLM Wiki</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">0.3.1</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-04-12</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/nashsu/llm_wiki" target="_blank" rel="noopener">nashsu/llm_wiki</a></span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/nashsu/llm_wiki" target="_blank" rel="noopener">打开 Zread</a></span></span>
+      </div>
+      <div class="meta-tags"><tag-chip class="tag tag-group-1 detail-tag" data-name="AI / LLM" data-group="1" label="AI / LLM" group="1" variant="detail" icon="mdi:brain" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M21.33 12.91c.09 1.55-.62 3.04-1.89 3.95l.77 1.49c.23.45.26.98.06 1.45c-.19.47-.58.84-1.06 1l-.79.25a1.69 1.69 0 0 1-1.86-.55L14.44 18c-.89-.15-1.73-.53-2.44-1.1c-.5.15-1 .23-1.5.23c-.88 0-1.76-.27-2.5-.79c-.53.16-1.07.23-1.62.22c-.79.01-1.57-.15-2.3-.45a4.1 4.1 0 0 1-2.43-3.61c-.08-.72.04-1.45.35-2.11c-.29-.75-.32-1.57-.07-2.33C2.3 7.11 3 6.32 3.87 5.82c.58-1.69 2.21-2.82 4-2.7c1.6-1.5 4.05-1.66 5.83-.37c.42-.11.86-.17 1.3-.17c1.36-.03 2.65.57 3.5 1.64c2.04.53 3.5 2.35 3.58 4.47c.05 1.11-.25 2.2-.86 3.13c.07.36.11.72.11 1.09m-5-1.41c.57.07 1.02.5 1.02 1.07a1 1 0 0 1-1 1h-.63c-.32.9-.88 1.69-1.62 2.29c.25.09.51.14.77.21c5.13-.07 4.53-3.2 4.53-3.25a2.59 2.59 0 0 0-2.69-2.49a1 1 0 0 1-1-1a1 1 0 0 1 1-1c1.23.03 2.41.49 3.33 1.3c.05-.29.08-.59.08-.89c-.06-1.24-.62-2.32-2.87-2.53c-1.25-2.96-4.4-1.32-4.4-.4c-.03.23.21.72.25.75a1 1 0 0 1 1 1c0 .55-.45 1-1 1c-.53-.02-1.03-.22-1.43-.56c-.48.31-1.03.5-1.6.56c-.57.05-1.04-.35-1.07-.9a.97.97 0 0 1 .88-1.1c.16-.02.94-.14.94-.77c0-.66.25-1.29.68-1.79c-.92-.25-1.91.08-2.91 1.29C6.75 5 6 5.25 5.45 7.2C4.5 7.67 4 8 3.78 9c1.08-.22 2.19-.13 3.22.25c.5.19.78.75.59 1.29c-.19.52-.77.78-1.29.59c-.73-.32-1.55-.34-2.3-.06c-.32.27-.32.83-.32 1.27c0 .74.37 1.43 1 1.83c.53.27 1.12.41 1.71.4q-.225-.39-.39-.81a1.038 1.038 0 0 1 1.96-.68c.4 1.14 1.42 1.92 2.62 2.05c1.37-.07 2.59-.88 3.19-2.13c.23-1.38 1.34-1.5 2.56-1.5m2 7.47l-.62-1.3l-.71.16l1 1.25zm-4.65-8.61a1 1 0 0 0-.91-1.03c-.71-.04-1.4.2-1.93.67c-.57.58-.87 1.38-.84 2.19a1 1 0 0 0 1 1c.57 0 1-.45 1-1c0-.27.07-.54.23-.76c.12-.1.27-.15.43-.15c.55.03 1.02-.38 1.02-.92&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-1 detail-tag" data-name="知识管理" data-group="1" label="知识管理" group="1" variant="detail" icon="mdi:book-open-page-variant-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m19 1l-5 5v11l5-4.5zm2 4v13.5c-1.1-.35-2.3-.5-3.5-.5c-1.7 0-4.15.65-5.5 1.5V6c-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5c.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5c1.35-.85 3.8-1.5 5.5-1.5c1.65 0 3.35.3 4.75 1.05c.1.05.15.05.25.05c.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1M10 18.41C8.75 18.09 7.5 18 6.5 18c-1.06 0-2.32.19-3.5.5V7.13c.91-.4 2.14-.63 3.5-.63s2.59.23 3.5.63z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="桌面应用" data-group="0" label="桌面应用" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="知识图谱" data-group="0" label="知识图谱" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="RAG" data-group="0" label="RAG" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>一眼入口</h2><h3>核心定位</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>维度</th><th>说明</th></tr></thead><tbody><tr><td>核心理念</td><td>增量构建持久化 Wiki，知识只编译一次并持续更新</td></tr><tr><td>基础方法论</td><td>基于 Karpathy 的 LLM Wiki 设计模式</td></tr><tr><td>架构</td><td>原始资料（不可变）→ Wiki（LLM 生成）→ Schema（规则配置）</td></tr><tr><td>Obsidian 兼容</td><td>Wiki 目录可直接作为 Obsidian 仓库使用</td></tr></tbody></table></div><h3>三步上手</h3><pre><code class="language-bash"># 1. 启动应用 → 创建新项目（选择模板）
+# 2. 设置 → 配置 LLM 提供商（API 密钥 + 模型）
+# 3. 资料源 → 导入文档（PDF、DOCX、MD 等）</code></pre><h3>安装命令</h3><pre><code class="language-bash"># 预编译二进制（推荐）
+# 从 https://github.com/nashsu/llm_wiki/releases 下载对应平台安装包
+
+# 从源码构建（前置条件：Node.js 20+, Rust 1.70+）
+git clone https://github.com/nashsu/llm_wiki.git
+cd llm_wiki
+npm install
+npm run tauri dev      # 开发模式
+npm run tauri build     # 生产构建
+
+# Chrome 扩展
+# 1. 打开 chrome://extensions
+# 2. 启用「开发者模式」
+# 3. 点击「加载已解压的扩展程序」
+# 4. 选择 extension/ 目录</code></pre></div><div class="card"><h2>最小工作流</h2><h3>两步思维链摄入</h3><div class="desc">LLM Wiki 将文档摄入拆分为两次顺序 LLM 调用，显著提升质量：</div><pre><code class="language-zh">┌─────────────────────────────────────────────────────────────┐
+│  第一步（分析）：LLM 阅读资料 → 结构化分析                    │
+│  - 关键实体、概念、论点                                      │
+│  - 与现有 Wiki 内容的关联                                    │
+│  - 与现有知识的矛盾和张力                                    │
+│  - Wiki 结构建议                                            │
+├─────────────────────────────────────────────────────────────┤
+│  第二步（生成）：LLM 基于分析 → 生成 Wiki 文件               │
+│  - 带 frontmatter 的资料摘要（type, title, sources[]）       │
+│  - 实体页面、概念页面及交叉引用                              │
+│  - 更新 index.md、log.md、overview.md                       │
+│  - 需要人工判断的审核项                                      │
+└─────────────────────────────────────────────────────────────┘</code></pre><h3>摄入增强机制</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>特性</th><th>说明</th></tr></thead><tbody><tr><td>SHA256 增量缓存</td><td>摄入前检查源文件内容哈希，未变更自动跳过</td></tr><tr><td>持久化队列</td><td>串行处理，队列持久化到磁盘，重启后自动恢复</td></tr><tr><td>失败重试</td><td>失败任务自动重试最多 3 次</td></tr><tr><td>文件夹导入</td><td>递归导入保留目录结构，路径作为分类上下文</td></tr><tr><td>向量 Embedding</td><td>开启向量搜索时，新页面摄入后自动生成</td></tr><tr><td>来源可追溯</td><td>frontmatter sources: [] 字段链接回原始资料</td></tr></tbody></table></div></div><div class="card"><h2>高频场景 Recipes</h2><h3>场景 1：导入文档构建知识库</h3><pre><code class="language-zh">资料源 → 选择文件/文件夹 → 观察活动面板 → Wiki 自动生成</code></pre><div class="table-wrap"><table class="cheat-table"><thead><tr><th>步骤</th><th>操作</th></tr></thead><tbody><tr><td>1</td><td>点击侧边栏「资料源」图标</td></tr><tr><td>2</td><td>选择导入方式：单个文件 / 文件夹</td></tr><tr><td>3</td><td>等待活动面板显示摄入进度</td></tr><tr><td>4</td><td>浏览 wiki/ 目录查看生成的页面</td></tr></tbody></table></div><h3>场景 2：查询知识库</h3><pre><code class="language-zh">聊天 → 输入问题 → LLM 读取相关 Wiki → 返回带引用的回答</code></pre><div class="table-wrap"><table class="cheat-table"><thead><tr><th>步骤</th><th>操作</th></tr></thead><tbody><tr><td>1</td><td>点击侧边栏「聊天」图标</td></tr><tr><td>2</td><td>输入自然语言问题</td></tr><tr><td>3</td><td>查看带编号引用的回答 [1]、[2]</td></tr><tr><td>4</td><td>展开「引用参考面板」查看来源页面</td></tr></tbody></table></div><h3>场景 3：探索知识图谱</h3><pre><code class="language-zh">图谱 → 查看节点/边 → 点击洞察卡片 → 触发深度研究</code></pre><div class="table-wrap"><table class="cheat-table"><thead><tr><th>步骤</th><th>操作</th></tr></thead><tbody><tr><td>1</td><td>点击侧边栏「图谱」图标</td></tr><tr><td>2</td><td>按类型或社区查看节点着色</td></tr><tr><td>3</td><td>悬停节点查看关联度分数</td></tr><tr><td>4</td><td>点击「惊奇连接」或「知识空白」卡片</td></tr><tr><td>5</td><td>可选：点击 Deep Research 按钮填补知识空白</td></tr></tbody></table></div><h3>场景 4：深度研究</h3><pre><code class="language-zh">图谱洞察 → Deep Research → LLM 生成搜索查询 → 网络搜索 → 研究结果自动摄入</code></pre><div class="table-wrap"><table class="cheat-table"><thead><tr><th>步骤</th><th>操作</th></tr></thead><tbody><tr><td>1</td><td>从图谱洞察触发或手动启动</td></tr><tr><td>2</td><td>LLM 读取 overview.md + purpose.md 生成研究主题</td></tr><tr><td>3</td><td>在确认对话框中编辑主题和搜索查询</td></tr><tr><td>4</td><td>Tavily API 执行多条网络搜索</td></tr><tr><td>5</td><td>LLM 综合结果生成 Wiki 研究页面</td></tr><tr><td>6</td><td>自动交叉引用现有 Wiki 并摄入</td></tr></tbody></table></div><h3>场景 5：使用 Chrome 扩展剪藏网页</h3><pre><code class="language-zh">网页 → 点击扩展图标 → 选择目标 Wiki → 自动摄入</code></pre><div class="table-wrap"><table class="cheat-table"><thead><tr><th>步骤</th><th>操作</th></tr></thead><tbody><tr><td>1</td><td>安装 Chrome 扩展（见安装命令）</td></tr><tr><td>2</td><td>浏览目标网页，点击扩展图标</td></tr><tr><td>3</td><td>选择剪藏到的 Wiki 项目</td></tr><tr><td>4</td><td>应用自动执行两步摄入流程</td></tr></tbody></table></div></div><div class="card"><h2>知识图谱速查</h2><h3>四信号关联度模型</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>信号</th><th>权重</th><th>描述</th></tr></thead><tbody><tr><td>直接链接</td><td>×3.0</td><td>通过 [[wikilinks]] 链接的页面</td></tr><tr><td>来源重叠</td><td>×4.0</td><td>共享同一原始资料的页面</td></tr><tr><td>Adamic-Adar</td><td>×1.5</td><td>共享共同邻居的页面（按邻居度数加权）</td></tr><tr><td>类型亲和</td><td>×1.0</td><td>相同页面类型的加分</td></tr></tbody></table></div><h3>图谱交互</h3><pre><code class="language-zh">悬停节点 → 邻居保持可见，非邻居变暗，边高亮显示关联度分数
+缩放控件 → 放大、缩小、适应屏幕
+着色切换 → 按页面类型 或 按 Louvain 社区</code></pre><h3>Louvain 社区检测</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>特性</th><th>说明</th></tr></thead><tbody><tr><td>自动聚类</td><td>根据链接拓扑发现知识聚类</td></tr><tr><td>内聚度评分</td><td>内部边密度评分，低内聚（&lt; 0.15）标警告</td></tr><tr><td>12 色调色板</td><td>集群之间视觉区分清晰</td></tr></tbody></table></div><h3>图谱洞察类型</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>类型</th><th>说明</th><th>交互</th></tr></thead><tbody><tr><td>惊奇连接</td><td>跨社区边、跨类型链接、边缘↔核心耦合</td><td>可消除，标记后不再重复</td></tr><tr><td>孤立页面</td><td>度 ≤ 1，与 Wiki 其余部分缺少连接</td><td>点击高亮，可 Deep Research</td></tr><tr><td>稀疏社区</td><td>cohesion &lt; 0.15，≥ 3 页</td><td>可 Deep Research</td></tr><tr><td>桥接节点</td><td>连接 3+ 个集群的关键枢纽页面</td><td>附带 Deep Research 按钮</td></tr></tbody></table></div></div><div class="card"><h2>查询检索管线</h2><pre><code class="language-zh">阶段 1：分词搜索
+  - 英文：分词 + 停用词过滤
+  - 中文：CJK 二元组分词
+  - 标题匹配加分（+10 分）
+  - 同时搜索 wiki/ 和 raw/sources/
+
+阶段 1.5：向量语义搜索（可选）
+  - OpenAI 兼容 /v1/embeddings 端点
+  - LanceDB 存储（Rust 嵌入式）
+  - 余弦相似度发现语义相关页面
+  - 召回率从 58.2% 提升至 71.4%
+
+阶段 2：图谱扩展
+  - 搜索结果作为种子节点
+  - 四信号关联度模型发现相关页面
+  - 2 跳遍历带衰减
+
+阶段 3：预算控制
+  - 可配置上下文窗口：4K → 1M tokens
+  - 比例分配：60% Wiki 页面，20% 聊天历史，5% 索引，15% 系统提示
+
+阶段 4：上下文组装
+  - 编号页面附完整内容
+  - 系统提示包含 purpose.md、语言规则、引用格式、index.md
+  - LLM 按编号引用页面：[1]、[2]</code></pre></div><div class="card"><h2>多对话聊天</h2><div class="table-wrap"><table class="cheat-table"><thead><tr><th>功能</th><th>说明</th></tr></thead><tbody><tr><td>独立会话</td><td>创建、重命名、删除对话</td></tr><tr><td>对话侧边栏</td><td>快速切换不同主题</td></tr><tr><td>持久化</td><td>每个对话保存到 .llm-wiki/chats/{id}.json</td></tr><tr><td>历史深度</td><td>可配置上下文消息数量（默认 10）</td></tr><tr><td>引用参考面板</td><td>显示使用了哪些 Wiki 页面，按类型分组</td></tr><tr><td>重新生成</td><td>一键重新生成最后一条回复</td></tr><tr><td>保存到 Wiki</td><td>将回答归档到 wiki/queries/，自动摄入实体/概念</td></tr></tbody></table></div><h3>思维链展示</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>特性</th><th>说明</th></tr></thead><tbody><tr><td>流式思维展示</td><td>生成中滚动显示 5 行，带透明度渐变</td></tr><tr><td>默认折叠</td><td>生成完成后隐藏，点击展开</td></tr><tr><td>视觉分离</td><td>思维内容与主回复分开显示</td></tr></tbody></table></div></div><div class="card"><h2>文档格式支持</h2><div class="table-wrap"><table class="cheat-table"><thead><tr><th>格式</th><th>方法</th></tr></thead><tbody><tr><td>PDF</td><td>pdf-extract（Rust）+ 文件缓存</td></tr><tr><td>DOCX</td><td>docx-rs：标题、加粗/斜体、列表、表格 → 结构化 Markdown</td></tr><tr><td>PPTX</td><td>ZIP + XML：逐页提取，保留标题/列表结构</td></tr><tr><td>XLSX/XLS/ODS</td><td>calamine：正确单元格类型、多工作表、Markdown 表格</td></tr><tr><td>图片</td><td>原生预览（png, jpg, gif, webp, svg 等）</td></tr><tr><td>视频/音频</td><td>内置播放器</td></tr><tr><td>网页剪藏</td><td>Readability.js + Turndown.js → 干净 Markdown</td></tr></tbody></table></div></div><div class="card"><h2>设置与配置</h2><h3>LLM 提供商</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>提供商</th><th>配置项</th></tr></thead><tbody><tr><td>OpenAI</td><td>API Key、模型、上下文窗口</td></tr><tr><td>Anthropic</td><td>API Key、模型</td></tr><tr><td>Google</td><td>API Key、模型</td></tr><tr><td>Ollama</td><td>本地端点、模型</td></tr><tr><td>自定义</td><td>OpenAI 兼容端点</td></tr></tbody></table></div><h3>向量搜索（可选）</h3><pre><code class="language-bash"># 开启步骤
+1. 设置 → 启用向量语义搜索
+2. 配置 OpenAI 兼容 embedding 端点
+3. 配置 API Key
+4. 选择 embedding 模型</code></pre><h3>上下文窗口配置</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>窗口大小</th><th>适用场景</th></tr></thead><tbody><tr><td>4K tokens</td><td>轻量级 LLM</td></tr><tr><td>32K tokens</td><td>标准使用</td></tr><tr><td>128K tokens</td><td>长文档分析</td></tr><tr><td>1M tokens</td><td>超长上下文 LLM</td></tr></tbody></table></div><h3>场景模板</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>模板</th><th>用途</th></tr></thead><tbody><tr><td>研究</td><td>学术研究、知识探索</td></tr><tr><td>阅读</td><td>文档阅读、读书笔记</td></tr><tr><td>个人成长</td><td>自学、技能积累</td></tr><tr><td>商业</td><td>商业分析、市场调研</td></tr><tr><td>通用</td><td>通用知识管理</td></tr></tbody></table></div></div><div class="card"><h2>项目结构</h2><pre><code class="language-zh">my-wiki/
+├── purpose.md              # 目标、关键问题、研究范围（Wiki 的灵魂）
+├── schema.md               # Wiki 结构规则、页面类型
+├── raw/
+│   ├── sources/            # 上传的文档（不可变）
+│   └── assets/             # 本地图片
+├── wiki/
+│   ├── index.md            # 内容目录
+│   ├── log.md              # 操作历史（可解析格式）
+│   ├── overview.md         # 全局概要（自动更新）
+│   ├── entities/           # 人物、组织、产品
+│   ├── concepts/           # 理论、方法、技术
+│   ├── sources/            # 资料摘要
+│   ├── queries/            # 保存的聊天回答 + 研究
+│   ├── synthesis/          # 跨资料分析
+│   └── comparisons/        # 并列对比
+├── .obsidian/              # Obsidian 仓库配置（自动生成）
+└── .llm-wiki/              # 应用配置、聊天历史、审核项</code></pre><h3>Wiki 页面组成</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>字段</th><th>说明</th></tr></thead><tbody><tr><td>type</td><td>页面类型（entity/concept/source/query/synthesis/comparison）</td></tr><tr><td>title</td><td>页面标题</td></tr><tr><td>sources[]</td><td>贡献的原始资料文件路径</td></tr><tr><td>[[wikilinks]]</td><td>交叉引用语法</td></tr><tr><td>index.md</td><td>内容目录和 LLM 导航入口</td></tr><tr><td>log.md</td><td>时序操作记录</td></tr></tbody></table></div></div><div class="card"><h2>技术栈</h2><div class="table-wrap"><table class="cheat-table"><thead><tr><th>层级</th><th>技术</th></tr></thead><tbody><tr><td>桌面</td><td>Tauri v2（Rust 后端）</td></tr><tr><td>前端</td><td>React 19 + TypeScript + Vite</td></tr><tr><td>UI</td><td>shadcn/ui + Tailwind CSS v4</td></tr><tr><td>编辑器</td><td>Milkdown（基于 ProseMirror）</td></tr><tr><td>图谱</td><td>sigma.js + graphology + ForceAtlas2</td></tr><tr><td>搜索</td><td>分词 + 图谱关联度 + 向量（LanceDB）</td></tr><tr><td>PDF</td><td>pdf-extract</td></tr><tr><td>Office</td><td>docx-rs + calamine</td></tr><tr><td>国际化</td><td>react-i18next</td></tr><tr><td>状态管理</td><td>Zustand</td></tr><tr><td>网络搜索</td><td>Tavily API</td></tr></tbody></table></div></div><div class="card"><h2>常见操作命令</h2><h3>摄入相关</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>操作</th><th>说明</th></tr></thead><tbody><tr><td>导入单个文件</td><td>资料源 → 选择文件 → 等待摄入</td></tr><tr><td>导入文件夹</td><td>资料源 → 选择文件夹 → 保留目录结构</td></tr><tr><td>重试失败任务</td><td>活动面板 → 找到失败项 → 点击重试</td></tr><tr><td>取消摄入</td><td>活动面板 → 找到队列项 → 点击取消</td></tr></tbody></table></div><h3>审核系统</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>操作</th><th>说明</th></tr></thead><tbody><tr><td>查看审核项</td><td>点击侧边栏「审核」图标</td></tr><tr><td>预定义操作</td><td>创建页面 / 深度研究 / 跳过</td></tr><tr><td>摄入时生成搜索</td><td>LLM 为审核项预生成 Tavily 搜索查询</td></tr></tbody></table></div><h3>Lint 维护</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>操作</th><th>说明</th></tr></thead><tbody><tr><td>运行 Lint</td><td>点击侧边栏「Lint」图标</td></tr><tr><td>修复失效链接</td><td>自动清理指向已删除页面的 [[wikilinks]]</td></tr><tr><td>清理孤立页面</td><td>删除无关联的 Wiki 页面</td></tr></tbody></table></div></div><div class="card"><h2>收尾动作与排障</h2><h3>数据清理</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>场景</th><th>操作</th></tr></thead><tbody><tr><td>删除资料文件</td><td>同时移除 Wiki 摘要页面</td></tr><tr><td>三重匹配</td><td>frontmatter sources[]、摘要页面名称、章节引用</td></tr><tr><td>共享实体保护</td><td>链接到多资料的实体只从 sources[] 移除，不删整个页面</td></tr><tr><td>索引清理</td><td>被移除页面从 index.md 清除</td></tr></tbody></table></div><h3>关闭行为</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>平台</th><th>行为</th></tr></thead><tbody><tr><td>macOS</td><td>关闭按钮隐藏窗口（程序后台运行），Cmd+Q 退出</td></tr><tr><td>Windows/Linux</td><td>关闭时弹出确认对话框</td></tr></tbody></table></div><h3>常见问题</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>问题</th><th>解决</th></tr></thead><tbody><tr><td>摄入失败</td><td>检查 LLM API 密钥、网络连接；活动面板重试</td></tr><tr><td>向量搜索无结果</td><td>确认已开启向量搜索、配置了 embedding 端点</td></tr><tr><td>图谱显示异常</td><td>检查 Wiki 内容是否有 [[wikilinks]]</td></tr><tr><td>中文文件名崩溃</td><td>使用 Unicode 安全字符串处理（已内置）</td></tr></tbody></table></div></div>
+    </div>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>
