@@ -1,0 +1,12 @@
+desc: Capacitor 速查，跨平台原生运行时，支持 iOS/Android/Web，一次编写多平台部署，通过插件访问原生设备功能。
+tags:
+  - 跨平台
+  - 移动开发
+  - iOS
+  - Android
+  - Web
+  - 原生
+  - Ionic
+version: "8.3.0"
+github: ionic-team/capacitor
+date: "2026-03-25"

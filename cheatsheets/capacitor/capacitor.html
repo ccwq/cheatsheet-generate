@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>Capacitor 速查</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png">
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 450px; 
+      --gap: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
+      <span class="title">Capacitor 速查</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">8.3.0</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-03-25</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/ionic-team/capacitor" target="_blank" rel="noopener">ionic-team/capacitor</a></span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/ionic-team/capacitor" target="_blank" rel="noopener">打开 Zread</a></span></span>
+      </div>
+      <div class="meta-tags"><tag-chip class="tag tag-group-0 detail-tag" data-name="跨平台" data-group="0" label="跨平台" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="移动开发" data-group="0" label="移动开发" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="iOS" data-group="0" label="iOS" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-1 detail-tag" data-name="Android" data-group="1" label="Android" group="1" variant="detail" icon="mdi:android" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M16.61 15.15c-.46 0-.84-.37-.84-.83s.38-.82.84-.82s.84.36.84.82s-.38.83-.84.83m-9.2 0c-.46 0-.84-.37-.84-.83s.38-.82.84-.82s.83.36.83.82s-.37.83-.83.83m9.5-5.01l1.67-2.88c.09-.17.03-.38-.13-.47c-.17-.1-.38-.04-.45.13l-1.71 2.91A10.15 10.15 0 0 0 12 8.91c-1.53 0-3 .33-4.27.91L6.04 6.91a.334.334 0 0 0-.47-.13c-.17.09-.22.3-.13.47l1.66 2.88C4.25 11.69 2.29 14.58 2 18h20c-.28-3.41-2.23-6.3-5.09-7.86&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="Web" data-group="0" label="Web" group="0" variant="detail" icon="mdi:web" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M16.36 14c.08-.66.14-1.32.14-2s-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2m-5.15 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95a8.03 8.03 0 0 1-4.33 3.56M14.34 14H9.66c-.1-.66-.16-1.32-.16-2s.06-1.35.16-2h4.68c.09.65.16 1.32.16 2s-.07 1.34-.16 2M12 19.96c-.83-1.2-1.5-2.53-1.91-3.96h3.82c-.41 1.43-1.08 2.76-1.91 3.96M8 8H5.08A7.92 7.92 0 0 1 9.4 4.44C8.8 5.55 8.35 6.75 8 8m-2.92 8H8c.35 1.25.8 2.45 1.4 3.56A8 8 0 0 1 5.08 16m-.82-2C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2s.06 1.34.14 2M12 4.03c.83 1.2 1.5 2.54 1.91 3.97h-3.82c.41-1.43 1.08-2.77 1.91-3.97M18.92 8h-2.95a15.7 15.7 0 0 0-1.38-3.56c1.84.63 3.37 1.9 4.33 3.56M12 2C6.47 2 2 6.5 2 12a10 10 0 0 0 10 10a10 10 0 0 0 10-10A10 10 0 0 0 12 2&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="原生" data-group="0" label="原生" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="Ionic" data-group="0" label="Ionic" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>🧭 一眼入口</h2><div class="desc">Capacitor 是跨平台原生运行时，让 Web 应用（React/Vue/Angular/纯 HTML）能打包成 iOS/Android 原生 App，并通过插件访问原生设备功能。</div><h3>安装命令</h3><pre><code class="language-bash">npm install @capacitor/core @capacitor/cli
+npx cap init</code></pre><h3>核心组件</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>包</th><th>作用</th></tr></thead><tbody><tr><td>@capacitor/core</td><td>核心运行时</td></tr><tr><td>@capacitor/cli</td><td>CLI 命令行工具</td></tr><tr><td>@capacitor/ios</td><td>iOS 平台支持</td></tr><tr><td>@capacitor/android</td><td>Android 平台支持</td></tr><tr><td>@capacitor/web</td><td>Web 平台支持</td></tr></tbody></table></div></div><div class="card"><h2>⚡ 最小工作流</h2><div class="desc">从零到跑起 iOS/Android App 的最短路径</div><pre><code class="language-bash"># 1. 初始化（已有 Web 项目）
+npx cap init &quot;MyApp&quot; &quot;com.example.myapp&quot;
+
+# 2. 添加平台
+npm install @capacitor/ios @capacitor/android
+npx cap add ios
+npx cap add android
+
+# 3. 构建 Web 产物
+npm run build
+
+# 4. 同步到原生项目
+npx cap sync
+
+# 5. 打开 IDE 运行
+npx cap open ios    # Xcode
+npx cap open android  # Android Studio</code></pre><h3>目录结构</h3><pre><code class="language-bash">项目根/
+├── Web 应用代码/
+│   ├── src/
+│   └── dist/          # 构建产物目录
+├── ios/               # 原生 iOS 项目
+├── android/           # 原生 Android 项目
+└── capacitor.config.ts</code></pre></div><div class="card"><h2>📦 高频场景 Recipes</h2><h3>场景1：日常开发（Live Reload）</h3><pre><code class="language-bash"># 启动开发服务器 + 实时刷新
+npx cap run ios --livereload
+npx cap run android --livereload
+
+# 指定设备
+npx cap run ios --target &quot;iPhone 16&quot;</code></pre><h3>场景2：正式打包</h3><pre><code class="language-bash"># 构建 Web 产物
+npm run build
+
+# 同步并打包（iOS 需要签名配置）
+npx cap sync ios
+npx cap build ios
+
+# Android 生成 APK/AAB
+npx cap sync android
+npx cap build android</code></pre><h3>场景3：插件安装</h3><pre><code class="language-bash"># 安装官方插件
+npm install @capacitor/camera @capacitor/geolocation
+
+# 同步插件到原生项目
+npx cap sync</code></pre><h3>场景4：环境隔离</h3><pre><code class="language-typescript">// capacitor.config.ts
+const isDev = process.env.NODE_ENV === &#39;development&#39;;
+
+const config: CapacitorConfig = {
+  appId: isDev ? &#39;com.example.dev&#39; : &#39;com.example.prod&#39;,
+  server: {
+    hostname: isDev ? &#39;localhost&#39; : &#39;production.example.com&#39;,
+  },
+};
+
+export default config;</code></pre></div><div class="card"><h2>🔧 CLI 命令速查</h2><div class="desc">常用命令一览</div><div class="table-wrap"><table class="cheat-table"><thead><tr><th>命令</th><th>作用</th></tr></thead><tbody><tr><td>cap init</td><td>初始化项目配置</td></tr><tr><td>cap add &lt;platform&gt;</td><td>添加平台（ios / android）</td></tr><tr><td>cap sync</td><td>同步 Web 产物 + 插件</td></tr><tr><td>cap copy</td><td>仅复制 Web 产物</td></tr><tr><td>cap update</td><td>仅更新插件原生代码</td></tr><tr><td>cap build</td><td>构建原生安装包</td></tr><tr><td>cap open &lt;platform&gt;</td><td>在 IDE 中打开</td></tr><tr><td>cap run &lt;platform&gt;</td><td>同步 + 构建 + 运行到设备</td></tr><tr><td>cap ls</td><td>列出已添加的平台和插件</td></tr><tr><td>cap doctor</td><td>诊断开发环境</td></tr><tr><td>cap migrate</td><td>从旧版迁移</td></tr></tbody></table></div><h3>cap init</h3><pre><code class="language-bash"># 交互式初始化
+npx cap init
+
+# 参数方式
+npx cap init &quot;AppName&quot; &quot;com.example.app&quot; --web-dir=dist</code></pre><h3>cap sync vs cap copy vs cap update</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>命令</th><th>Web 产物</th><th>插件代码</th></tr></thead><tbody><tr><td>cap sync</td><td>✅</td><td>✅</td></tr><tr><td>cap copy</td><td>✅</td><td>❌</td></tr><tr><td>cap update</td><td>❌</td><td>✅</td></tr></tbody></table></div><h3>cap run 常用选项</h3><pre><code class="language-bash">--livereload       # 启用实时刷新
+--external        # 允许外部访问（手机可访问开发服务器）
+--target &lt;id&gt;     # 指定目标设备
+--dark-mode       # 启用暗色模式</code></pre></div><div class="card"><h2>⚙️ 配置速查 <a href="https://capacitorjs.com/docs/config" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">capacitor.config.ts 常用配置项</div><h3>顶层配置</h3><pre><code class="language-typescript">import { CapacitorConfig } from &#39;@capacitor/cli&#39;;
+
+const config: CapacitorConfig = {
+  appId: &#39;com.example.myapp&#39;,
+  appName: &#39;MyApp&#39;,
+  webDir: &#39;dist&#39;,
+  loggingBehavior: &#39;debug&#39;,
+};
+
+export default config;</code></pre><h3>平台特定配置</h3><pre><code class="language-typescript">const config: CapacitorConfig = {
+  // iOS 配置
+  ios: {
+    scheme: &#39;myapp&#39;,
+    allowsLinkPreview: true,
+    scrollEnabled: false,
+  },
+
+  // Android 配置
+  android: {
+    flavor: &#39;prod&#39;,
+    minVersion: 22,
+    backgroundColor: &#39;#ffffff&#39;,
+  },
+
+  // 本地开发服务器
+  server: {
+    hostname: &#39;localhost&#39;,
+    iosScheme: &#39;https&#39;,
+    androidScheme: &#39;https&#39;,
+  },
+};</code></pre><h3>插件配置示例</h3><pre><code class="language-typescript">const config: CapacitorConfig = {
+  plugins: {
+    SplashScreen: {
+      launchShowDuration: 2000,
+      backgroundColor: &#39;#ffffffff&#39;,
+    },
+    StatusBar: {
+      style: &#39;LIGHT&#39;,
+      backgroundColor: &#39;#20861e&#39;,
+    },
+  },
+};</code></pre></div><div class="card"><h2>🔌 常用插件速查 <a href="https://capacitorjs.com/docs/apis" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">官方核心插件一览</div><h3>Camera</h3><pre><code class="language-typescript">import { Camera, CameraResultType, CameraSource } from &#39;@capacitor/camera&#39;;
+
+const image = await Camera.getPhoto({
+  quality: 90,
+  resultType: CameraResultType.DataUrl,
+  source: CameraSource.Camera,
+});</code></pre><h3>Preferences（轻量存储）</h3><pre><code class="language-typescript">import { Preferences } from &#39;@capacitor/preferences&#39;;
+
+// 存储
+await Preferences.set({ key: &#39;username&#39;, value: &#39;john&#39; });
+
+// 读取
+const { value } = await Preferences.get({ key: &#39;username&#39; });</code></pre><h3>Geolocation</h3><pre><code class="language-typescript">import { Geolocation } from &#39;@capacitor/geolocation&#39;;
+
+const position = await Geolocation.getCurrentPosition({
+  timeout: 5000,
+  enableHighAccuracy: true,
+});</code></pre><h3>Filesystem</h3><pre><code class="language-typescript">import { Filesystem, Directory, Encoding } from &#39;@capacitor/filesystem&#39;;
+
+await Filesystem.writeFile({
+  path: &#39;note.txt&#39;,
+  data: &#39;Hello&#39;,
+  directory: Directory.Documents,
+  encoding: Encoding.UTF8,
+});</code></pre><h3>插件与存储选型</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>需求</th><th>推荐插件</th></tr></thead><tbody><tr><td>键值存储</td><td>@capacitor/preferences</td></tr><tr><td>原生文件系统</td><td>@capacitor/filesystem</td></tr><tr><td>敏感数据</td><td>@aparajita/capacitor-secure-storage</td></tr><tr><td>结构化数据</td><td>@capgo/capacitor-data-storage-sqlite</td></tr></tbody></table></div></div><div class="card"><h2>🚨 排障与收尾</h2><div class="desc">常见问题与解决方案</div><h3>环境诊断</h3><pre><code class="language-bash"># 检查开发环境
+npx cap doctor
+
+# 常见问题
+# - Node.js 版本不兼容
+# - 原生平台工具缺失（Xcode/Android SDK）
+# - 端口被占用</code></pre><h3>清理与重置</h3><pre><code class="language-bash"># 卸载平台
+npx cap remove ios
+npx cap remove android
+
+# 重新添加
+npx cap add ios
+npx cap add android
+
+# 强制同步
+npx cap sync --force</code></pre><h3>权限问题（iOS）</h3><pre><code class="language-xml">&lt;!-- Info.plist --&gt;
+&lt;key&gt;NSCameraUsageDescription&lt;/key&gt;
+&lt;string&gt;需要访问相机&lt;/string&gt;
+&lt;key&gt;NSLocationWhenInUseUsageDescription&lt;/key&gt;
+&lt;string&gt;需要访问位置&lt;/string&gt;</code></pre><h3>权限问题（Android）</h3><pre><code class="language-xml">&lt;!-- AndroidManifest.xml --&gt;
+&lt;uses-permission android:name=&quot;android.permission.CAMERA&quot; /&gt;
+&lt;uses-permission android:name=&quot;android.permission.ACCESS_FINE_LOCATION&quot; /&gt;</code></pre><h3>WebView 文件路径</h3><pre><code class="language-typescript">import { Capacitor } from &#39;@capacitor/core&#39;;
+
+// 转换文件路径（iOS/Android 必须）
+const fileSrc = Capacitor.convertFileSrc(originalPath);</code></pre></div><div class="card"><h2>📚 核心对比</h2><div class="desc">Capacitor vs Cordova vs React Native</div><div class="table-wrap"><table class="cheat-table"><thead><tr><th>特性</th><th>Capacitor</th><th>Cordova</th><th>React Native</th></tr></thead><tbody><tr><td>核心思路</td><td>WebView + 插件</td><td>WebView + 插件</td><td>原生组件</td></tr><tr><td>插件系统</td><td>Swift/Java/JS</td><td>JS/原生</td><td>原生模块</td></tr><tr><td>项目结构</td><td>融入现有 Web 项目</td><td>独立 wrapper</td><td>独立项目</td></tr><tr><td>性能</td><td>依赖 WebView</td><td>依赖 WebView</td><td>接近原生</td></tr><tr><td>Ionic 集成</td><td>默认推荐</td><td>历史方案</td><td>需适配</td></tr></tbody></table></div></div>
+    </div>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>
