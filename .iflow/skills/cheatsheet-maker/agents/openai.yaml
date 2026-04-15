@@ -1,4 +1,0 @@
-interface:
-  display_name: "Cheatsheet Maker"
-  short_description: "创建并维护 cheatsheet，支持三种正文风格"
-  default_prompt: "Use $cheatsheet-maker to create or rebuild a cheatsheet in cheatsheet, cookbook, or mixed cookbook+cheatsheet style based on the user's request and the source structure."
