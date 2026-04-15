@@ -1,0 +1,5 @@
+desc: 在 Windows 中高效使用 WSL2 的核心命令、PATH 差异解决方案与互操作技巧。
+tags: ["文档/规范", "开发环境", "Windows", "Linux"]
+version: "1.0"
+github: microsoft/WSL
+date: "2026-04-15"
