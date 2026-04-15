@@ -1,189 +1,281 @@
 ---
-title: WSL2 命令速查
+title: WSL2 命令与互操作速查
 lang: bash
-version: "1.0"
-date: "2026-04-15"
+version: "2.6.3"
+date: "2025-12-12"
 github: microsoft/WSL
 colWidth: 4
-desc: 在 Windows 中高效使用 WSL2 的核心命令、PATH 差异解决方案与互操作技巧。
+desc: 覆盖 WSL2 的高频管理命令、Windows/Linux 互操作、环境变量传递与常见排障路径。
 ---
 
 ## 快速定位
 ---
 lang: bash
-desc: WSL2 是 Windows Subsystem for Linux 2，让你在 Windows 上无缝运行 Linux 环境。常用于在 Windows 开发中调用 Linux 工具链。
+link: https://learn.microsoft.com/en-us/windows/wsl/basic-commands
+desc: WSL2 适合两类动作：一类是管理发行版和运行时，另一类是在 Windows 与 Linux 之间直接混用命令、路径和环境。
 ---
 
-- 核心场景：在 Windows CMD/PowerShell 中直接调用 Linux 命令
-- 与 Windows 互操作：`\\wsl$\` 访问 Linux 文件，WSL IP 可从 Windows 访问
-- 入口命令：`wsl`（交互式）、`wsl <命令>`（非交互式）
+- 最短路径：先看“起手工作流”，再按“命令速查”或“互操作 recipes”抄命令
+- 如果你是在 PowerShell / CMD 里调用 Linux 命令，优先记住 `wsl <command>`、`wsl -d <Distro> <command>`、`wsl -e <command>`
+- 如果你是在维护 WSL 本身，优先记住 `wsl --status`、`wsl --update`、`wsl --shutdown`
+- 如果你是在做迁移或清理，优先记住 `--export`、`--import`、`--unregister`
 
-## 在 Windows 中非交互式执行 WSL2 命令
+## 起手工作流
 ---
-lang: bash
-desc: 从 CMD、PowerShell 或脚本直接调用 WSL2 中的 Linux 命令，执行完毕自动返回 Windows。
+lang: powershell
+link: https://learn.microsoft.com/en-us/windows/wsl/basic-commands
+desc: 新机器或新环境里，先确认状态、发行版和默认版本，再决定是直接运行命令，还是进入交互式 shell。
 ---
-
-### 基本语法
 
 ```powershell
-# 在默认发行版执行一条命令后返回
-wsl uname
-# 输出: Linux
+# 首次安装 WSL
+wsl --install
 
-wsl uname -a
-# 输出: Linux DESKTOP-XXX 5.15.xxx-microsoft-standard-WSL2 ...
-```
+# 查看当前 WSL 状态与默认版本
+wsl --status
 
-### 常用方式
-
-```powershell
-# 指定发行版执行（非默认）
-wsl -d Ubuntu uname -a
-
-# 查看当前默认发行版
+# 查看发行版及其运行状态
 wsl -l -v
 
+# 更新 WSL 运行时
+wsl --update
+
+# 进入默认发行版的交互式 shell
+wsl
+```
+
+### 场景映射
+
+- **我要先装起来**：`wsl --install`
+- **我要确认系统现在是什么状态**：`wsl --status`
+- **我要看有哪些发行版、谁是默认**：`wsl -l -v`
+- **我要更新 WSL 本体**：`wsl --update`
+- **我要先进 shell 再手动操作**：直接 `wsl`
+
+## 运行发行版与执行命令
+---
+lang: powershell
+link: https://learn.microsoft.com/en-us/windows/wsl/basic-commands
+desc: 这组命令解决“在哪个发行版里，以什么方式，执行哪条 Linux 命令”。
+---
+
+### 最常用命令链
+
+```powershell
+# 在默认发行版中执行一条命令，执行完返回 Windows
+wsl uname -a
+
+# 指定发行版执行
+wsl -d Ubuntu uname -a
+
+# 指定用户执行
+wsl -d Ubuntu -u root id
+
+# 直接执行程序，不经默认 shell 二次解析
+wsl -e sh -lc "uname -a"
+
+# 指定起始目录
+wsl --cd ~
+wsl --cd /mnt/c/Users/you/project
+```
+
+### 参数速查
+
+| 参数 | 作用 | 适用场景 |
+| --- | --- | --- |
+| `wsl <command>` | 在默认发行版执行单条命令 | PowerShell/CMD 里顺手跑 Linux 工具 |
+| `wsl -d <Distro> <command>` | 指定发行版执行 | 多发行版并存 |
+| `wsl -u <User>` | 指定 Linux 用户 | 需要 root 或特定用户环境 |
+| `wsl -e <command>` | 直接执行程序 | 避免 shell 解析差异 |
+| `wsl --cd <Directory>` | 指定 WSL 启动目录 | 切换目录后再执行 |
+| `wsl --` | 把后续内容传给默认 shell | 参数里有 `-` 或复杂拼接时 |
+
+### 快速判断
+
+- **只跑一条命令**：`wsl <command>`
+- **怕引号或 shell 解析搞乱参数**：改用 `wsl -e`
+- **多发行版环境**：显式加 `-d`
+- **命令依赖当前目录**：显式加 `--cd`
+
+## 发行版生命周期管理
+---
+lang: powershell
+link: https://learn.microsoft.com/en-us/windows/wsl/basic-commands
+desc: 这组命令用于切换 WSL1/WSL2、设置默认发行版、停止实例、清理发行版。
+---
+
+```powershell
 # 设置默认发行版
 wsl --set-default Ubuntu
+
+# 把某个发行版切换到 WSL2
+wsl --set-version Ubuntu 2
+
+# 停止某个发行版
+wsl --terminate Ubuntu
+
+# 关闭整个 WSL 虚拟机
+wsl --shutdown
+
+# 注销发行版（会删除该发行版的数据）
+wsl --unregister Ubuntu
 ```
 
-### 在 CMD / PowerShell / 脚本中调用
+### 什么时候用哪条
+
+- **刚装完发行版，想切到 WSL2**：`wsl --set-version <Distro> 2`
+- **命令卡住或网络状态异常，想重启 WSL**：`wsl --shutdown`
+- **只想停掉一个发行版**：`wsl --terminate <Distro>`
+- **彻底删掉某个发行版**：`wsl --unregister <Distro>`
+
+## 备份、迁移与磁盘
+---
+lang: powershell
+link: https://learn.microsoft.com/en-us/windows/wsl/basic-commands
+desc: 这组命令处理导出/导入发行版和附加磁盘，适合迁移、备份和隔离数据盘。
+---
 
 ```powershell
-# PowerShell
-$result = wsl uname -a
-Write-Output $result
+# 导出发行版
+wsl --export Ubuntu D:\\backup\\ubuntu.tar
 
-# CMD
-for /f %i in ('wsl uname -r') do echo %i
+# 导入发行版到新位置
+wsl --import Ubuntu-Dev D:\\wsl\\ubuntu-dev D:\\backup\\ubuntu.tar --version 2
+
+# 原地导入已有 VHDX
+wsl --import-in-place Ubuntu-Data D:\\wsl\\ubuntu-data.vhdx
+
+# 挂载物理磁盘或 VHD
+wsl --mount \\\\.\\PHYSICALDRIVE3
 ```
 
-### 关键参数
+### 注意点
 
-| 参数 | 说明 |
-|------|------|
-| `wsl <命令>` | 在默认发行版执行命令后返回 |
-| `wsl -d <名称> <命令>` | 指定发行版执行 |
-| `wsl -e <命令>` | 明确指定要执行的程序（避免 shell 解析） |
-| `wsl --` | 分隔符，后面的内容原样传给 Linux shell |
+- `--export` / `--import` 适合迁移发行版、做冷备份
+- `--import` 时可以顺手指定 `--version 2`
+- `--unregister` 前如果数据重要，先 `--export`
+- `--mount` 只在 WSL2 可用，适合直接读取 ext4 磁盘或数据盘
 
-> **注意**：不加任何命令的 `wsl` 会进入交互式 shell，加上命令后执行完即退出。
-
----
-
-## 根本原因：环境变量 PATH 不同
----
-lang: bash
-desc: 为什么同样一条命令，交互式能找到但非交互式找不到？根源在 PATH。
----
-
-### 交互式 vs 非交互式的差异
-
-当你执行 `wsl`（交互式）时，会加载完整的 shell 初始化文件：
-
-```
-~/.bashrc  →  ~/.bash_profile  →  /etc/profile  →  /etc/profile.d/*
-```
-
-当你执行 `wsl x`（非交互式）时，**这些文件都不会加载**，PATH 是最小化的系统默认值。
-
-### 验证问题所在
-
-```bash
-# 比较两种模式的 PATH
-wsl echo $PATH          # 非交互式的 PATH（很短）
-wsl bash -ic 'echo $PATH'  # 交互式的 PATH（完整）
-
-# 查看命令 x 在哪里
-wsl which x             # 可能找不到
-wsl bash -ic 'which x' # 能找到，说明问题在 PATH
-```
-
-### 解决方案
-
-**方法 1：强制加载交互式环境（最简单）**
-
-```bash
-wsl bash -ic 'x'
-# -i = interactive, -c = 执行命令
-```
-
-**方法 2：使用绝对路径**
-
-```bash
-# 先找到 x 的位置
-wsl bash -ic 'which x'   # 假设输出 /usr/local/bin/x
-
-# 然后直接用绝对路径
-wsl /usr/local/bin/x
-```
-
-**方法 3：在 `~/.bashrc` 末尾加入 PATH（一劳永逸）**
-
-```bash
-# 在 WSL 中编辑
-echo 'export PATH="$PATH:/usr/local/bin"' >> ~/.bashrc
-```
-
-### 为什么 `uname` 不受影响？
-
-`uname` 位于 `/usr/bin/uname`，这个路径**始终在默认 PATH 中**，所以任何模式都能找到。
-
-而你的 `x` 命令可能安装在：
-
-- `/usr/local/bin` — 不一定在非交互式 PATH 中
-- `~/bin` 或 `~/.local/bin` — 几乎肯定不在
-- 某个通过 `.bashrc` 添加的自定义路径
-
----
-
-## WSL2 与 Windows 互操作
+## Windows 与 Linux 互操作 Recipes
 ---
 lang: bash
-desc: WSL2 与 Windows 之间的高频互操作场景。
+link: https://learn.microsoft.com/en-us/windows/wsl/filesystems
+desc: WSL 的强项不是“开一个 Linux”，而是让 Windows 和 Linux 的命令、文件系统与工具链互相借力。
 ---
 
-### 在 Windows 中访问 Linux 文件
+### Windows 里跑 Linux 命令
 
 ```powershell
-# 通过 \\wsl$\ 路径直接访问
-\\wsl$\Ubuntu\home\username\project
+# 直接从当前 Windows 目录调用 Linux 命令
+wsl ls -la
 
-# 在 PowerShell 中切换到 Linux home
-cd \\wsl$\Ubuntu\home
+# 访问 Windows 路径时改成 /mnt/<drive> 形式
+wsl ls -la /mnt/c/Users
 ```
 
-### 在 Linux 中访问 Windows 文件
+### Windows 访问 Linux 文件
+
+```powershell
+# 资源管理器地址栏可直接输入
+\\wsl$
+
+# 指定某个发行版
+\\wsl$\Ubuntu\home\you\project
+```
+
+### Linux 访问 Windows 文件和 Windows 程序
 
 ```bash
-# 挂载的 Windows 驱动器在 /mnt/ 下
-ls /mnt/c/Users/
+# 访问 Windows 文件
+cd /mnt/c/Users/you/project
 
-# 通过 $MACHINE_NAME 访问 Windows 主机
-ping host.docker.internal
+# 从 WSL 打开资源管理器
+explorer.exe .
+
+# 从 WSL 调用 VS Code
+code .
+```
+
+### 经验规则
+
+- Linux 项目文件优先放在 `\\wsl$` 对应的 Linux 文件系统里，性能通常比直接放 `/mnt/c` 更好
+- Windows 路径进 WSL 后一般变成 `/mnt/c/...`
+- Windows 命令从 WSL 调用时通常保留 `.exe` 后缀更稳，例如 `explorer.exe`
+
+## PATH 与环境变量
+---
+lang: bash
+link: https://learn.microsoft.com/en-us/windows/wsl/filesystems
+desc: 非交互式执行、shell 启动文件和 Windows/WSL 变量传递，是最容易把人绕晕的一段；这里给最小可用规则，不硬讲 shell 教科书。
+---
+
+### 先记住结论
+
+- `wsl <command>` 是“从 Windows 发起的一次执行”，不要默认它等价于你手工进入交互式 shell 后的环境
+- 命令找不到时，先区分是 PATH 问题、shell 初始化问题，还是命令压根没装
+- 跨 Windows/WSL 共享自定义环境变量时，优先用 `WSLENV`
+
+### 定位 PATH 问题
+
+```powershell
+# 查看 WSL 中的 PATH
+wsl printenv PATH
+
+# 通过交互式 bash 查看 PATH
+wsl bash -ic 'printenv PATH'
+
+# 查看命令到底在哪
+wsl bash -ic 'command -v node'
+```
+
+### 常见解决方式
+
+```bash
+# 方式 1：需要交互式 shell 初始化时，用 bash -ic
+wsl bash -ic 'node -v'
+
+# 方式 2：直接使用绝对路径
+wsl /usr/bin/env
+
+# 方式 3：把自定义 PATH 放进你实际使用的 shell 启动文件
 ```
 
 ### 环境变量传递
 
 ```powershell
-# Windows → WSL：Windows 环境变量自动可见
-wsl echo $PATH
+# 查看 WSLENV
+wsl printenv WSLENV
 
-# WSL → Windows：需要手动引用
-wsl echo $WIN_HOME  # 需要在 WSL 中先定义
+# 传一个普通变量给 WSL 使用
+setx DEMO_HOME C:\demo
+setx WSLENV DEMO_HOME/p
 ```
 
+- 官方推荐通过 `WSLENV` 控制变量如何在 Windows 与 WSL 间转换
+- 不要把“Windows 环境变量自动都能在 WSL 里看到”当成规则，默认只把你确认过的变量当成可用
+
+## 高频排障
+---
+lang: powershell
+link: https://learn.microsoft.com/en-us/windows/wsl/basic-commands
+desc: WSL 出问题时，先缩小范围：是发行版、运行时、路径互操作，还是环境差异。
 ---
 
-## 核心场景小贴士
----
-lang: bash
-desc: 不想背命令时，记住下面这些场景映射就够了。
----
+### 我应该先查什么
 
-- **在 PowerShell 里调用 Linux 命令**：直接 `wsl <命令>`，无需进入 WSL
-- **命令找不到时报错**：先用 `wsl bash -ic 'which <命令>'` 确认路径，再用 `wsl <绝对路径>` 执行
-- **需要完整 shell 环境**：用 `wsl bash -ic '<命令>'` 强制走交互式加载
-- **修改 WSL 命令永久生效**：把 export 写入 `~/.bashrc`
-- **跨系统编辑 Windows 文件**：在 WSL 里用 `code /mnt/c/...` 打开 VS Code
+| 现象 | 先执行什么 | 常见原因 |
+| --- | --- | --- |
+| `wsl` 启动异常 | `wsl --status` | WSL 组件状态异常 |
+| 发行版不对 / 默认不对 | `wsl -l -v` | 默认发行版或版本设置不对 |
+| 单个发行版卡死 | `wsl --terminate <Distro>` | 实例挂起 |
+| 整体网络或挂载异常 | `wsl --shutdown` | 需要重启整套 WSL 虚拟机 |
+| 命令找不到 | `wsl bash -ic 'command -v <cmd>'` | PATH 或 shell 初始化差异 |
+| 数据迁移前不放心 | `wsl --export <Distro> <File>` | 先做备份 |
+
+### 收尾速记
+
+- **改版本**：`wsl --set-version <Distro> 2`
+- **改默认发行版**：`wsl --set-default <Distro>`
+- **看状态**：`wsl --status`
+- **看列表**：`wsl -l -v`
+- **重启 WSL**：`wsl --shutdown`

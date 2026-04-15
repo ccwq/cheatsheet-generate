@@ -13,7 +13,7 @@
       document.documentElement.setAttribute('data-theme', resolved);
     })();
   </script>
-  <title>WSL2 命令速查</title>
+  <title>WSL2 命令与互操作速查</title>
   <link rel="stylesheet" href="../../assets/variables.css">
   <link rel="stylesheet" href="../../assets/global.css">
   <link rel="stylesheet" href="../../assets/cheatsheet.css">
@@ -40,15 +40,15 @@
         </svg>
         <span>首页</span>
       </a>
-      <span class="title">WSL2 命令速查</span>
+      <span class="title">WSL2 命令与互操作速查</span>
       <!-- META_INFO_START -->
       <div class="meta-info">
-        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">1.0</span></span>
-        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-04-15</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2.6.3</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2025-12-12</span></span>
         <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/microsoft/WSL" target="_blank" rel="noopener">microsoft/WSL</a></span></span>
         <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/microsoft/WSL" target="_blank" rel="noopener">打开 Zread</a></span></span>
       </div>
-      <div class="meta-tags"><tag-chip class="tag tag-group-0 detail-tag" data-name="文档/规范" data-group="0" label="文档/规范" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="开发环境" data-group="0" label="开发环境" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-1 detail-tag" data-name="Windows" data-group="1" label="Windows" group="1" variant="detail" icon="mdi:microsoft-windows" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M3 12V6.75l6-1.32v6.48zm17-9v8.75l-10 .15V5.21zM3 13l6 .09v6.81l-6-1.15zm17 .25V22l-10-1.91V13.1z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="Linux" data-group="0" label="Linux" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <div class="meta-tags"><tag-chip class="tag tag-group-0 detail-tag" data-name="开发环境" data-group="0" label="开发环境" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-1 detail-tag" data-name="Windows" data-group="1" label="Windows" group="1" variant="detail" icon="mdi:microsoft-windows" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M3 12V6.75l6-1.32v6.48zm17-9v8.75l-10 .15V5.21zM3 13l6 .09v6.81l-6-1.15zm17 .25V22l-10-1.91V13.1z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="Linux" data-group="0" label="Linux" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="CLI" data-group="0" label="CLI" group="0" variant="detail" icon="mdi:console" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M20 19V7H4v12zm0-16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-7 14v-2h5v2zm-3.42-4L5.57 9H8.4l3.3 3.3c.39.39.39 1.03 0 1.42L8.42 17H5.59z&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
       <!-- META_INFO_END -->
       <label for="columnWidth">🔧 调整每列宽度：</label>
       <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
@@ -57,48 +57,90 @@
       <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
     </div>
     <div class="cheat-columns" id="columns">
-      <div class="card"><h2>快速定位</h2><div class="desc">WSL2 是 Windows Subsystem for Linux 2，让你在 Windows 上无缝运行 Linux 环境。常用于在 Windows 开发中调用 Linux 工具链。</div><ul><li>核心场景：在 Windows CMD/PowerShell 中直接调用 Linux 命令</li><li><code>\\wsl$\</code>：访问 Linux 文件，WSL IP 可从 Windows 访问</li><li><code>wsl</code> <code>wsl &lt;命令&gt;</code>：（交互式）、（非交互式）</li></ul></div><div class="card"><h2>在 Windows 中非交互式执行 WSL2 命令</h2><div class="desc">从 CMD、PowerShell 或脚本直接调用 WSL2 中的 Linux 命令，执行完毕自动返回 Windows。</div><h3>基本语法</h3><pre><code class="language-powershell"># 在默认发行版执行一条命令后返回
-wsl uname
-# 输出: Linux
+      <div class="card"><h2>快速定位 <a href="https://learn.microsoft.com/en-us/windows/wsl/basic-commands" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">WSL2 适合两类动作：一类是管理发行版和运行时，另一类是在 Windows 与 Linux 之间直接混用命令、路径和环境。</div><ul><li>最短路径：先看“起手工作流”，再按“命令速查”或“互操作 recipes”抄命令</li><li><code>wsl &lt;command&gt;</code> <code>wsl -d &lt;Distro&gt; &lt;command&gt;</code> <code>wsl -e &lt;command&gt;</code></li><li><code>wsl --status</code> <code>wsl --update</code> <code>wsl --shutdown</code></li><li><code>--export</code> <code>--import</code> <code>--unregister</code></li></ul></div><div class="card"><h2>起手工作流 <a href="https://learn.microsoft.com/en-us/windows/wsl/basic-commands" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">新机器或新环境里，先确认状态、发行版和默认版本，再决定是直接运行命令，还是进入交互式 shell。</div><pre><code class="language-powershell"># 首次安装 WSL
+wsl --install
 
-wsl uname -a
-# 输出: Linux DESKTOP-XXX 5.15.xxx-microsoft-standard-WSL2 ...</code></pre><h3>常用方式</h3><pre><code class="language-powershell"># 指定发行版执行（非默认）
-wsl -d Ubuntu uname -a
+# 查看当前 WSL 状态与默认版本
+wsl --status
 
-# 查看当前默认发行版
+# 查看发行版及其运行状态
 wsl -l -v
 
-# 设置默认发行版
-wsl --set-default Ubuntu</code></pre><h3>在 CMD / PowerShell / 脚本中调用</h3><pre><code class="language-powershell"># PowerShell
-$result = wsl uname -a
-Write-Output $result
+# 更新 WSL 运行时
+wsl --update
 
-# CMD
-for /f %i in (&#39;wsl uname -r&#39;) do echo %i</code></pre><h3>关键参数</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>参数</th><th>说明</th></tr></thead><tbody><tr><td>wsl &lt;命令&gt;</td><td>在默认发行版执行命令后返回</td></tr><tr><td>wsl -d &lt;名称&gt; &lt;命令&gt;</td><td>指定发行版执行</td></tr><tr><td>wsl -e &lt;命令&gt;</td><td>明确指定要执行的程序（避免 shell 解析）</td></tr><tr><td>wsl --</td><td>分隔符，后面的内容原样传给 Linux shell</td></tr></tbody></table></div></div><div class="card"><h2>根本原因：环境变量 PATH 不同</h2><div class="desc">为什么同样一条命令，交互式能找到但非交互式找不到？根源在 PATH。</div><h3>交互式 vs 非交互式的差异</h3><div class="desc">当你执行 wsl（交互式）时，会加载完整的 shell 初始化文件：</div><pre><code class="language-bash">~/.bashrc  →  ~/.bash_profile  →  /etc/profile  →  /etc/profile.d/*</code></pre><div class="desc">当你执行 wsl x（非交互式）时，这些文件都不会加载，PATH 是最小化的系统默认值。</div><h3>验证问题所在</h3><pre><code class="language-bash"># 比较两种模式的 PATH
-wsl echo $PATH          # 非交互式的 PATH（很短）
-wsl bash -ic &#39;echo $PATH&#39;  # 交互式的 PATH（完整）
+# 进入默认发行版的交互式 shell
+wsl</code></pre><h3>场景映射</h3><ul><li><code>wsl --install</code></li><li><code>wsl --status</code></li><li><code>wsl -l -v</code></li><li><code>wsl --update</code></li><li><code>wsl</code>：直接</li></ul></div><div class="card"><h2>运行发行版与执行命令 <a href="https://learn.microsoft.com/en-us/windows/wsl/basic-commands" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这组命令解决“在哪个发行版里，以什么方式，执行哪条 Linux 命令”。</div><h3>最常用命令链</h3><pre><code class="language-powershell"># 在默认发行版中执行一条命令，执行完返回 Windows
+wsl uname -a
 
-# 查看命令 x 在哪里
-wsl which x             # 可能找不到
-wsl bash -ic &#39;which x&#39; # 能找到，说明问题在 PATH</code></pre><h3>解决方案</h3><div class="desc">方法 1：强制加载交互式环境（最简单）</div><pre><code class="language-bash">wsl bash -ic &#39;x&#39;
-# -i = interactive, -c = 执行命令</code></pre><div class="desc">方法 2：使用绝对路径</div><pre><code class="language-bash"># 先找到 x 的位置
-wsl bash -ic &#39;which x&#39;   # 假设输出 /usr/local/bin/x
+# 指定发行版执行
+wsl -d Ubuntu uname -a
 
-# 然后直接用绝对路径
-wsl /usr/local/bin/x</code></pre><div class="desc">方法 3：在 ~/.bashrc 末尾加入 PATH（一劳永逸）</div><pre><code class="language-bash"># 在 WSL 中编辑
-echo &#39;export PATH=&quot;$PATH:/usr/local/bin&quot;&#39; &gt;&gt; ~/.bashrc</code></pre><h3>为什么 uname 不受影响？</h3><div class="desc">uname 位于 /usr/bin/uname，这个路径始终在默认 PATH 中，所以任何模式都能找到。</div><div class="desc">而你的 x 命令可能安装在：</div><ul><li><code>/usr/local/bin</code></li><li><code>~/bin</code> <code>~/.local/bin</code></li><li><code>.bashrc</code></li></ul></div><div class="card"><h2>WSL2 与 Windows 互操作</h2><div class="desc">WSL2 与 Windows 之间的高频互操作场景。</div><h3>在 Windows 中访问 Linux 文件</h3><pre><code class="language-powershell"># 通过 \\wsl$\ 路径直接访问
-\\wsl$\Ubuntu\home\username\project
+# 指定用户执行
+wsl -d Ubuntu -u root id
 
-# 在 PowerShell 中切换到 Linux home
-cd \\wsl$\Ubuntu\home</code></pre><h3>在 Linux 中访问 Windows 文件</h3><pre><code class="language-bash"># 挂载的 Windows 驱动器在 /mnt/ 下
-ls /mnt/c/Users/
+# 直接执行程序，不经默认 shell 二次解析
+wsl -e sh -lc &quot;uname -a&quot;
 
-# 通过 $MACHINE_NAME 访问 Windows 主机
-ping host.docker.internal</code></pre><h3>环境变量传递</h3><pre><code class="language-powershell"># Windows → WSL：Windows 环境变量自动可见
-wsl echo $PATH
+# 指定起始目录
+wsl --cd ~
+wsl --cd /mnt/c/Users/you/project</code></pre><h3>参数速查</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>参数</th><th>作用</th><th>适用场景</th></tr></thead><tbody><tr><td>wsl &lt;command&gt;</td><td>在默认发行版执行单条命令</td><td>PowerShell/CMD 里顺手跑 Linux 工具</td></tr><tr><td>wsl -d &lt;Distro&gt; &lt;command&gt;</td><td>指定发行版执行</td><td>多发行版并存</td></tr><tr><td>wsl -u &lt;User&gt;</td><td>指定 Linux 用户</td><td>需要 root 或特定用户环境</td></tr><tr><td>wsl -e &lt;command&gt;</td><td>直接执行程序</td><td>避免 shell 解析差异</td></tr><tr><td>wsl --cd &lt;Directory&gt;</td><td>指定 WSL 启动目录</td><td>切换目录后再执行</td></tr><tr><td>wsl --</td><td>把后续内容传给默认 shell</td><td>参数里有 - 或复杂拼接时</td></tr></tbody></table></div><h3>快速判断</h3><ul><li><code>wsl &lt;command&gt;</code></li><li><code>wsl -e</code>：改用</li><li><code>-d</code>：显式加</li><li><code>--cd</code>：显式加</li></ul></div><div class="card"><h2>发行版生命周期管理 <a href="https://learn.microsoft.com/en-us/windows/wsl/basic-commands" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这组命令用于切换 WSL1/WSL2、设置默认发行版、停止实例、清理发行版。</div><pre><code class="language-powershell"># 设置默认发行版
+wsl --set-default Ubuntu
 
-# WSL → Windows：需要手动引用
-wsl echo $WIN_HOME  # 需要在 WSL 中先定义</code></pre></div><div class="card"><h2>核心场景小贴士</h2><div class="desc">不想背命令时，记住下面这些场景映射就够了。</div><ul><li><code>wsl &lt;命令&gt;</code>：直接 ，无需进入 WSL</li><li><code>wsl bash -ic &#39;which &lt;命令&gt;&#39;</code> <code>wsl &lt;绝对路径&gt;</code>：先用 确认路径，再用 执行</li><li><code>wsl bash -ic &#39;&lt;命令&gt;&#39;</code>：用 强制走交互式加载</li><li><code>~/.bashrc</code>：把 export 写入</li><li><code>code /mnt/c/...</code>：在 WSL 里用 打开 VS Code</li></ul></div>
+# 把某个发行版切换到 WSL2
+wsl --set-version Ubuntu 2
+
+# 停止某个发行版
+wsl --terminate Ubuntu
+
+# 关闭整个 WSL 虚拟机
+wsl --shutdown
+
+# 注销发行版（会删除该发行版的数据）
+wsl --unregister Ubuntu</code></pre><h3>什么时候用哪条</h3><ul><li><code>wsl --set-version &lt;Distro&gt; 2</code></li><li><code>wsl --shutdown</code></li><li><code>wsl --terminate &lt;Distro&gt;</code></li><li><code>wsl --unregister &lt;Distro&gt;</code></li></ul></div><div class="card"><h2>备份、迁移与磁盘 <a href="https://learn.microsoft.com/en-us/windows/wsl/basic-commands" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这组命令处理导出/导入发行版和附加磁盘，适合迁移、备份和隔离数据盘。</div><pre><code class="language-powershell"># 导出发行版
+wsl --export Ubuntu D:\\backup\\ubuntu.tar
+
+# 导入发行版到新位置
+wsl --import Ubuntu-Dev D:\\wsl\\ubuntu-dev D:\\backup\\ubuntu.tar --version 2
+
+# 原地导入已有 VHDX
+wsl --import-in-place Ubuntu-Data D:\\wsl\\ubuntu-data.vhdx
+
+# 挂载物理磁盘或 VHD
+wsl --mount \\\\.\\PHYSICALDRIVE3</code></pre><h3>注意点</h3><ul><li><code>--export</code> <code>--import</code></li><li><code>--import</code> <code>--version 2</code></li><li><code>--unregister</code> <code>--export</code></li><li><code>--mount</code></li></ul></div><div class="card"><h2>Windows 与 Linux 互操作 Recipes <a href="https://learn.microsoft.com/en-us/windows/wsl/filesystems" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">WSL 的强项不是“开一个 Linux”，而是让 Windows 和 Linux 的命令、文件系统与工具链互相借力。</div><h3>Windows 里跑 Linux 命令</h3><pre><code class="language-powershell"># 直接从当前 Windows 目录调用 Linux 命令
+wsl ls -la
+
+# 访问 Windows 路径时改成 /mnt/&lt;drive&gt; 形式
+wsl ls -la /mnt/c/Users</code></pre><h3>Windows 访问 Linux 文件</h3><pre><code class="language-powershell"># 资源管理器地址栏可直接输入
+\\wsl$
+
+# 指定某个发行版
+\\wsl$\Ubuntu\home\you\project</code></pre><h3>Linux 访问 Windows 文件和 Windows 程序</h3><pre><code class="language-bash"># 访问 Windows 文件
+cd /mnt/c/Users/you/project
+
+# 从 WSL 打开资源管理器
+explorer.exe .
+
+# 从 WSL 调用 VS Code
+code .</code></pre><h3>经验规则</h3><ul><li><code>\\wsl$</code> <code>/mnt/c</code></li><li><code>/mnt/c/...</code></li><li><code>.exe</code> <code>explorer.exe</code></li></ul></div><div class="card"><h2>PATH 与环境变量 <a href="https://learn.microsoft.com/en-us/windows/wsl/filesystems" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">非交互式执行、shell 启动文件和 Windows/WSL 变量传递，是最容易把人绕晕的一段；这里给最小可用规则，不硬讲 shell 教科书。</div><h3>先记住结论</h3><ul><li><code>wsl &lt;command&gt;</code></li><li>命令找不到时，先区分是 PATH 问题、shell 初始化问题，还是命令压根没装</li><li><code>WSLENV</code></li></ul><h3>定位 PATH 问题</h3><pre><code class="language-powershell"># 查看 WSL 中的 PATH
+wsl printenv PATH
+
+# 通过交互式 bash 查看 PATH
+wsl bash -ic &#39;printenv PATH&#39;
+
+# 查看命令到底在哪
+wsl bash -ic &#39;command -v node&#39;</code></pre><h3>常见解决方式</h3><pre><code class="language-bash"># 方式 1：需要交互式 shell 初始化时，用 bash -ic
+wsl bash -ic &#39;node -v&#39;
+
+# 方式 2：直接使用绝对路径
+wsl /usr/bin/env
+
+# 方式 3：把自定义 PATH 放进你实际使用的 shell 启动文件</code></pre><h3>环境变量传递</h3><pre><code class="language-powershell"># 查看 WSLENV
+wsl printenv WSLENV
+
+# 传一个普通变量给 WSL 使用
+setx DEMO_HOME C:\demo
+setx WSLENV DEMO_HOME/p</code></pre><ul><li><code>WSLENV</code></li><li>不要把“Windows 环境变量自动都能在 WSL 里看到”当成规则，默认只把你确认过的变量当成可用</li></ul></div><div class="card"><h2>高频排障 <a href="https://learn.microsoft.com/en-us/windows/wsl/basic-commands" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">WSL 出问题时，先缩小范围：是发行版、运行时、路径互操作，还是环境差异。</div><h3>我应该先查什么</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>现象</th><th>先执行什么</th><th>常见原因</th></tr></thead><tbody><tr><td>wsl 启动异常</td><td>wsl --status</td><td>WSL 组件状态异常</td></tr><tr><td>发行版不对 / 默认不对</td><td>wsl -l -v</td><td>默认发行版或版本设置不对</td></tr><tr><td>单个发行版卡死</td><td>wsl --terminate &lt;Distro&gt;</td><td>实例挂起</td></tr><tr><td>整体网络或挂载异常</td><td>wsl --shutdown</td><td>需要重启整套 WSL 虚拟机</td></tr><tr><td>命令找不到</td><td>wsl bash -ic &#39;command -v &lt;cmd&gt;&#39;</td><td>PATH 或 shell 初始化差异</td></tr><tr><td>数据迁移前不放心</td><td>wsl --export &lt;Distro&gt; &lt;File&gt;</td><td>先做备份</td></tr></tbody></table></div><h3>收尾速记</h3><ul><li><code>wsl --set-version &lt;Distro&gt; 2</code></li><li><code>wsl --set-default &lt;Distro&gt;</code></li><li><code>wsl --status</code></li><li><code>wsl -l -v</code></li><li><code>wsl --shutdown</code></li></ul></div>
     </div>
   </div>
 

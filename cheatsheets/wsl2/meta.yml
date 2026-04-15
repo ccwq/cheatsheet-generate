@@ -1,5 +1,5 @@
-desc: 在 Windows 中高效使用 WSL2 的核心命令、PATH 差异解决方案与互操作技巧。
-tags: ["文档/规范", "开发环境", "Windows", "Linux"]
-version: "1.0"
+desc: 覆盖 WSL2 的高频管理命令、Windows/Linux 互操作、环境变量传递与常见排障路径。
+tags: ["开发环境", "Windows", "Linux", "CLI"]
+version: "2.6.3"
 github: microsoft/WSL
-date: "2026-04-15"
+date: "2025-12-12"
