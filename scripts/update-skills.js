@@ -5,16 +5,17 @@ const sources = [
   "./cheatsheet-html-maker/cheatsheet-maker-skill",
   "./cheatsheet-html-maker/icon-complete-skill",
   "./cheatsheet-html-maker/tag-ci-skills",
+  "./cheatsheet-html-maker/cheatsheet-review-skill",
 ];
 
 const agents = [
   "claude-code",
   "codex",
-  "gemini-cli",
-  "iflow-cli",
-  "trae",
-  "qwen-code",
-  "windsurf",
+  // "gemini-cli",
+  // "iflow-cli",
+  // "trae",
+  // "qwen-code",
+  // "windsurf",
 ];
 
 const extraArgs = process.argv.slice(2);
@@ -39,7 +40,7 @@ function runInstall(source) {
 
   console.log(`\n[update-skills] installing: ${path.normalize(source)}`);
   console.log(
-    `[update-skills] command: ${isWindows ? "npx" : command} ${args.join(" ")}`
+    `[update-skills] command: ${isWindows ? "npx" : command} ${args.join(" ")}`,
   );
 
   const result = spawnSync(command, spawnArgs, {

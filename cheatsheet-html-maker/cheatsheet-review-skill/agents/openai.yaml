@@ -1,0 +1,4 @@
+interface:
+  display_name: "Cheatsheet Review"
+  short_description: "评审单个 cheatsheet topic 的完整度、正确性与可发布性"
+  default_prompt: "Use $cheatsheet-review-skill to audit one cheatsheet topic in this repository for completeness, factual accuracy, and release readiness."
