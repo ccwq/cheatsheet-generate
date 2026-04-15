@@ -7,7 +7,7 @@ github: gsd-build/gsd-2
 colWidth: 500px
 ---
 
-# GSD 2 — Cookbok + Cheatsheet
+# GSD 2 — Cookbook + Cheatsheet
 
 <!-- desc: 自主式 AI 编码 Agent，支持 Auto Mode、并行编排、动态模型路由，实现"一键启动、无人值守、干净 Git 历史"的里程碑驱动开发 -->
 
@@ -851,3 +851,15 @@ gsd --web [path]    # 启动浏览器界面
 - **命令面板**：启动/停止 agent、切换模型、导出会话
 
 安装：VS Code marketplace 搜索 "GSD"（发布者：FluxLabs）
+
+## 不要混淆：GSD v1 vs v2
+
+| | **GSD v1** | **GSD v2** |
+|---|---|---|
+| **定位** | prompt 框架 + 工作流方法论 | 可运行的 TypeScript Agent 应用 |
+| **执行方式** | 依赖 Claude Code，指令驱动 | 可独立运行（Auto Mode / Step Mode） |
+| **核心思路** | Discuss → Plan → Gap → Execute → Verify → Ship | 里程碑驱动 + 动态模型路由 + Git 隔离 |
+| **新增能力** | 波次执行、原子提交、worktree | Auto Mode、并行编排、动态模型路由、Agent Dashboard |
+| **适用场景** | 想改善与 AI 的协作流程、理解上下文工程原理 | 想直接跑一个无人值守的编码 Agent |
+
+**不要混淆**：v1 是"说明书"，v2 是"运行程序"。v2 不只是 v1 的增强版，而是完全不同层面的东西。如果你在找 AI 编码方法论，看 v1；如果想跑一个真正的 autonomous coding agent，用 v2。

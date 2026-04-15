@@ -16,6 +16,7 @@
     "release": "npx -y standard-version",
     "changelog": "npx -y standard-version",
     "update-skills": "node scripts/update-skills.js",
+    "validate:playwright-cli": "node scripts/validate-playwright-cli.js",
     "preview": "npx -y live-server@1.2.2 . --port=36715"
   },
   "dependencies": {
@@ -40,6 +41,6 @@
     "yarn": "1.22.19"
   },
   "devDependencies": {
-    "agent-browser": "^0.24.0"
+    "agent-browser": "^0.25.3"
   }
 }

@@ -636,3 +636,19 @@ desc: 真正容易踩坑的地方，不是命令拼写，而是会话边界、re
 - 要复用登录态，优先 `state-save/state-load`，其次才是直接改 cookies / localStorage
 - 多任务并行时优先用 `-s=name` 分会话，不要把所有流程挤进一个默认 session
 - 需要稳定输出产物时，把 `outputDir`、`outputMode` 和截图/trace/video 策略写进配置文件
+
+## 不要混淆：playwright-cli vs agent-browser
+
+| | **playwright-cli** | **agent-browser** |
+|---|---|---|
+| **出品方** | Microsoft | Vercel Labs |
+| **元素引用语法** | `e15`（纯数字后缀） | `@e1`（at-e1） |
+| **连接已有浏览器** | `--cdp` via 配置文件 | `--auto-connect`（推荐）/ `--cdp 9222`（手动） |
+| **Provider 生态** | 传统 Playwright Provider | Browserbase、Browserless、Kernel、AgentCore、iOS 模拟器等 |
+| **AI 集成** | 无 | v0.25.0+ 内嵌 `chat` 命令 |
+| **OAuth MCP** | 无 | 支持（v0.24.0+） |
+| **适用场景** | 测试驱动、session 状态管理、Playwright 生态深度用户 | AI agent 驱动、需要会话复用、云端浏览器、多 Provider |
+
+两者功能有较大重叠（open/snapshot/click/fill/screenshot 等），但定位不同：
+- **playwright-cli** 更适合测试和 Playwright 生态深度用户，强调 session/profile 管理和传统测试工作流
+- **agent-browser** 更适合 AI agent 场景，强调会话复用、Provider 生态、OAuth MCP 和自然语言交互

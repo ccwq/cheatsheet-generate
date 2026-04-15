@@ -559,3 +559,19 @@ agent-browser snapshot -i -c
 agent-browser get count ".item"
 agent-browser get text @e4
 ```
+
+## 不要混淆：agent-browser vs playwright-cli
+
+| | **agent-browser** | **playwright-cli** |
+|---|---|---|
+| **出品方** | Vercel Labs | Microsoft |
+| **元素引用语法** | `@e1`（at-e1） | `e15`（纯数字后缀） |
+| **连接已有浏览器** | `--auto-connect`（推荐）/ `--cdp 9222`（手动） | `--cdp` via 配置文件 |
+| **Provider 生态** | Browserbase、Browserless、Kernel、AgentCore、iOS 模拟器等 | 传统 Playwright Provider |
+| **AI 集成** | v0.25.0+ 内嵌 `chat` 命令，支持自然语言控制 | 无 |
+| **OAuth MCP** | 支持（v0.24.0+） | 无 |
+| **适用场景** | AI agent 驱动、需要会话复用、云端浏览器、多 Provider | 测试驱动、session 状态管理、Playwright 生态深度用户 |
+
+两者功能有较大重叠（open/snapshot/click/fill/screenshot 等），但定位不同：
+- **agent-browser** 更适合 AI agent 场景，强调会话复用、Provider 生态、OAuth MCP 和自然语言交互
+- **playwright-cli** 更适合测试和 Playwright 生态深度用户，强调 session/profile 管理和传统测试工作流
