@@ -1,0 +1,9 @@
+desc: Python 管理、环境配置与包管理速查指南，涵盖 pip/uv 协作、PATH 配置、虚拟环境与 .local/bin 目录理解。
+tags:
+  - Python
+  - 包管理器
+  - 环境配置
+  - CLI 工具
+version: "3.12"
+github: python/cpython
+date: 2026-04-16
