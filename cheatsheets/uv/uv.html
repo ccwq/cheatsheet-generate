@@ -167,7 +167,25 @@ ignore-error-codes = [403]</code></pre><pre><code class="language-bash"># 登录
 uv auth login packages.example.com
 
 # 查看当前记录的 token / 凭据信息
-uv auth token packages.example.com</code></pre></div><div class="card"><h2>⚡ Quick Ref：高频命令速查 <a href="https://docs.astral.sh/uv/reference/cli/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">下面这组命令覆盖了大多数“我要现在做什么”的检索需求。</div><ul><li><code>uv init demo</code></li><li><code>uv init --script demo.py</code></li><li><code>uv add httpx</code></li><li><code>uv add --script demo.py httpx</code></li><li><code>uv run pytest</code></li><li><code>uv run demo.py</code></li><li><code>uvx ruff check .</code></li><li><code>uv tool install ruff</code></li><li><code>uv lock</code></li><li><code>uv sync --locked</code></li><li><code>uv python install 3.12</code></li><li><code>uv python pin 3.12</code></li><li><code>uv pip install -r requirements.txt</code></li></ul></div><div class="card"><h2>⚠️ 常见决策 / 易错点 <a href="https://docs.astral.sh/uv/reference/cli/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">真正常见的问题不是命令记不住，而是模式混用、锁文件策略不清和认证时机没想明白。</div><ul><li><code>uv run</code> <code>uvx</code> <code>uv tool run</code></li><li><code>uv run script.py</code> <code>.venv</code></li><li><code>uv sync --locked</code></li><li><code>requirements.txt</code> <code>pyproject.toml</code></li><li><code>authenticate = &quot;always&quot;</code></li><li><code>uv</code> <code>uv self update</code> <code>pip</code> <code>pipx</code></li></ul></div>
+uv auth token packages.example.com</code></pre></div><div class="card"><h2>⚡ Quick Ref：高频命令速查 <a href="https://docs.astral.sh/uv/reference/cli/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">下面这组命令覆盖了大多数“我要现在做什么”的检索需求。</div><ul><li><code>uv init demo</code></li><li><code>uv init --script demo.py</code></li><li><code>uv add httpx</code></li><li><code>uv add --script demo.py httpx</code></li><li><code>uv run pytest</code></li><li><code>uv run demo.py</code></li><li><code>uvx ruff check .</code></li><li><code>uv tool install ruff</code></li><li><code>uv lock</code></li><li><code>uv sync --locked</code></li><li><code>uv python install 3.12</code></li><li><code>uv python pin 3.12</code></li><li><code>uv pip install -r requirements.txt</code></li></ul></div><div class="card"><h2>⚠️ 常见决策 / 易错点 <a href="https://docs.astral.sh/uv/reference/cli/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">真正常见的问题不是命令记不住，而是模式混用、锁文件策略不清和认证时机没想明白。</div><ul><li><code>uv run</code> <code>uvx</code> <code>uv tool run</code></li><li><code>uv run script.py</code> <code>.venv</code></li><li><code>uv sync --locked</code></li><li><code>requirements.txt</code> <code>pyproject.toml</code></li><li><code>authenticate = &quot;always&quot;</code></li><li><code>uv</code> <code>uv self update</code> <code>pip</code> <code>pipx</code></li></ul></div><div class="card"><h2>🌐 uv vs 全局 Python：边界与定位 <a href="https://docs.astral.sh/uv/guides/install-python/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">uv 可以覆盖 Python 工具链的大部分能力，但它不是一个以&quot;全局 python 命令&quot;为核心的版本管理器。</div><h3>uv 能替代什么</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>传统工具</th><th>uv 替代方案</th><th>说明</th></tr></thead><tbody><tr><td>pip</td><td>uv pip install</td><td>基本兼容，默认作用于虚拟环境</td></tr><tr><td>venv</td><td>uv venv</td><td>创建更快，与 uv 运行时无缝集成</td></tr><tr><td>pipx</td><td>uv tool install / uvx</td><td>长期工具用 install，一次性工具用 uvx</td></tr><tr><td>pyenv</td><td>uv python install</td><td>按需安装，不提供&quot;全局切换版本&quot;的语义</td></tr></tbody></table></div><pre><code class="language-bash"># uv 管理 Python 版本（不接管系统 python）
+uv python install 3.12
+
+# 临时执行一段代码
+uv run python -c &quot;print(&#39;hello&#39;)&quot;
+
+# 临时工具执行
+uvx ruff check .
+
+# 长期安装 CLI 工具
+uv tool install ruff</code></pre><h3>为什么不能完全替代全局 Python</h3><div class="desc">1. 执行模型不同</div><div class="desc">传统方式直接调用 python 命令，而 uv 需要通过 uv run python 驱动。uv 是&quot;环境驱动&quot;，而不是&quot;解释器驱动&quot;。</div><div class="desc">2. python 命令不是默认入口</div><ul><li>uv 管理的 Python 不会自动成为系统默认解释器</li><li><code>python</code></li><li><code>--default</code></li></ul><pre><code class="language-bash"># 传统方式
+python script.py
+
+# uv 方式（更推荐）
+uv run script.py</code></pre><div class="desc">3. 不鼓励&quot;全局 pip install&quot;</div><div class="desc">uv 默认把包装进虚拟环境，避免污染系统。--system 仅适用于 CI / 容器等特殊场景。</div><pre><code class="language-bash"># 典型项目 workflow
+uv run python script.py
+
+# 仅限 CI / 容器环境
+uv pip install -r requirements.txt --system</code></pre><div class="desc">4. 硬编码路径无法接管</div><div class="desc">/usr/bin/python 这类硬编码路径不受 uv 管理，仍依赖系统 Python。</div><h3>适用场景判断</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>使用目标</th><th>推荐方案</th></tr></thead><tbody><tr><td>像 nvm/volta 那样管理全局 Python</td><td>❌ uv 不是最直接方案</td></tr><tr><td>构建&quot;环境为中心&quot;的现代 Python 开发体系</td><td>✔ uv 是最佳选择</td></tr><tr><td>项目依赖 + 脚本 + CLI 工具统一管理</td><td>✔ uv 一站式解决</td></tr><tr><td>长期维护 legacy 系统 Python 环境</td><td>❌ 保留系统 Python + uv 补充</td></tr></tbody></table></div></div>
     </div>
   </div>
 
