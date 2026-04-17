@@ -43,8 +43,8 @@
       <span class="title">uv</span>
       <!-- META_INFO_START -->
       <div class="meta-info">
-        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">0.9.18</span></span>
-        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2025-12-16</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">0.11.7</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-04-15</span></span>
         <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/astral-sh/uv" target="_blank" rel="noopener">astral-sh/uv</a></span></span>
         <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/astral-sh/uv" target="_blank" rel="noopener">打开 Zread</a></span></span>
       </div>
@@ -57,28 +57,117 @@
       <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
     </div>
     <div class="cheat-columns" id="columns">
-      <div class="card"><h2>🐍 快速定位 / 入口 <a href="https://docs.astral.sh/uv/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">uv 把 Python 安装、虚拟环境、依赖锁定、脚本运行和工具分发收进了一套 workflow。</div><ul><li><code>uv init</code></li><li><code>uv add</code></li><li><code>uv run</code></li><li><code>uv python</code></li><li><code>uv tool</code> <code>uvx</code>：/</li><li><code>uv pip</code></li></ul></div><div class="card"><h2>🚀 起手式：从 0 到可运行项目 <a href="https://docs.astral.sh/uv/concepts/projects/init/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">最常见路径是“初始化项目 -&gt; 加依赖 -&gt; 运行 -&gt; 锁定 -&gt; 同步”。</div><ul><li><code>uv init --app demo</code>：新建应用项目</li><li><code>uv add httpx rich</code>：添加运行依赖</li><li><code>uv run python main.py</code>：在项目环境里执行</li><li><code>uv lock</code> <code>uv.lock</code>：生成或更新</li><li><code>uv sync --frozen</code>：按锁文件还原环境</li></ul><pre><code class="language-bash">uv init --app demo
+      <div class="card"><h2>🐍 快速定位 / 一眼入口 <a href="https://docs.astral.sh/uv/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">uv 把项目依赖、单文件脚本、Python 版本、工具分发和 pip 兼容层收进一套统一 workflow。</div><ul><li><code>uv init demo</code></li><li><code>uv add httpx</code></li><li><code>uv run pytest</code></li><li><code>uv lock</code> <code>uv sync --locked</code>：/</li><li><code>uv init --script demo.py</code> <code>uv add --script demo.py httpx</code> <code>uv run demo.py</code>：、、</li><li><code>uvx ruff check .</code></li><li><code>uv tool install ruff</code></li><li><code>uv python install 3.12</code> <code>uv python pin 3.12</code>：、</li><li><code>uv pip install -r requirements.txt</code></li></ul></div><div class="card"><h2>📥 安装 / 更新入口 <a href="https://docs.astral.sh/uv/getting-started/installation/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">第一次使用时先把命令装上；如果是独立安装器安装，后续可直接自更新。</div><ul><li><code>curl -LsSf https://astral.sh/uv/install.sh | sh</code></li><li><code>powershell -ExecutionPolicy ByPass -c &quot;irm https://astral.sh/uv/install.ps1 | iex&quot;</code></li><li><code>pip install uv</code></li><li><code>pipx install uv</code></li><li><code>uv self update</code></li></ul><pre><code class="language-bash"># 安装 uv
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# 使用独立安装器安装时可直接自更新
+uv self update</code></pre></div><div class="card"><h2>🚀 最小工作流：新项目从 0 到可运行 <a href="https://docs.astral.sh/uv/concepts/projects/init/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">最常见路径是“初始化项目 -&gt; 加依赖 -&gt; 在项目环境运行 -&gt; 锁定 -&gt; 同步”。</div><ul><li><code>uv init demo</code>：创建项目</li><li><code>cd demo</code></li><li><code>uv add httpx rich</code>：写入依赖并创建环境</li><li><code>uv run python main.py</code>：在项目环境内运行</li><li><code>uv lock</code> <code>uv.lock</code>：更新</li><li><code>uv sync --locked</code>：按锁文件同步环境</li></ul><pre><code class="language-bash"># 初始化项目目录
+uv init demo
+
+# 进入项目目录
 cd demo
+
+# 添加运行依赖
 uv add httpx rich
+
+# 在项目环境内运行入口脚本
 uv run python main.py
+
+# 生成或更新锁文件
 uv lock
-uv sync --frozen</code></pre></div><div class="card"><h2>📦 Recipe：快速开一个可发布包 <a href="https://docs.astral.sh/uv/concepts/projects/dependencies/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">适合“我要做一个库并且以后准备发布到 PyPI”的场景。</div><ul><li><code>uv init --package demo-lib</code>：按包结构初始化</li><li><code>uv add pydantic</code>：加运行依赖</li><li><code>uv add --dev pytest ruff</code>：加开发依赖</li><li><code>uv build</code>：构建分发包</li><li><code>uv publish</code>：发布到 PyPI</li></ul><pre><code class="language-bash">uv init --package demo-lib
+
+# 按锁文件同步环境
+uv sync --locked</code></pre></div><div class="card"><h2>Recipe：单文件脚本是 uv 的核心主线</h2><ul><li><code>uv init --script example.py --python 3.12</code>：初始化带 inline metadata 的脚本</li><li><code>uv add --script example.py requests rich</code>：把依赖写进脚本头部</li><li><code>uv run example.py</code>：隔离环境运行脚本</li><li><code>uv lock --script example.py</code>：为脚本生成锁定结果</li><li><code>#!/usr/bin/env -S uv run --script</code></li></ul><pre><code class="language-bash"># 初始化带 inline metadata 的脚本
+uv init --script example.py --python 3.12
+
+# 把依赖写进脚本头部
+uv add --script example.py requests rich
+
+# 直接运行脚本
+uv run example.py
+
+# 为脚本生成锁定结果
+uv lock --script example.py</code></pre></div><div class="card"><h2>📦 Recipe：做应用或包，优先走 project workflow <a href="https://docs.astral.sh/uv/concepts/projects/dependencies/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">要做长期维护的应用或库，主路径还是 project 模式，而不是手动管 `.venv`。</div><ul><li><code>uv init --app demo</code>：应用项目</li><li><code>uv init --package demo-lib</code>：库项目</li><li><code>uv add pydantic</code>：运行依赖</li><li><code>uv add --dev pytest ruff</code>：开发依赖</li><li><code>uv run pytest</code>：在项目环境中跑测试</li><li><code>uv build</code> <code>uv publish</code>：构建与发布</li></ul><pre><code class="language-bash"># 初始化包项目
+uv init --package demo-lib
+
+# 进入项目目录
 cd demo-lib
+
+# 添加运行依赖
 uv add pydantic
+
+# 添加开发依赖
 uv add --dev pytest ruff
+
+# 在项目环境中运行测试
 uv run pytest
-uv build</code></pre></div><div class="card"><h2>▶️ Recipe：把命令、测试、脚本都收进同一环境 <a href="https://docs.astral.sh/uv/concepts/projects/run/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这是 uv 最省事的用法，重点是“不要手动 source `.venv`”。</div><ul><li><code>uv run python script.py</code>：跑脚本</li><li><code>uv run pytest</code>：跑测试</li><li><code>uv run ruff check .</code>：跑代码检查</li><li><code>uv run --with rich script.py</code>：临时附带额外依赖</li><li><code>uv run --python 3.12 python -V</code>：指定解释器版本</li></ul><pre><code class="language-bash">uv run pytest
+
+# 构建分发包
+uv build</code></pre></div><div class="card"><h2>Recipe：把命令、测试、临时依赖都收进 uv run</h2><ul><li><code>uv run pytest</code>：运行测试</li><li><code>uv run ruff check .</code>：运行工具</li><li><code>uv run --with httpx==0.26.0 python -c &quot;import httpx; print(httpx.__version__)&quot;</code></li><li><code>uv run --python 3.12 python -V</code>：指定解释器</li><li>带 inline metadata 的脚本会自动隔离运行，不复用项目环境</li></ul><pre><code class="language-bash"># 在项目环境中运行测试
+uv run pytest
+
+# 在项目环境中执行 ruff
 uv run ruff check .
-uv run --with httpx python -c &quot;import httpx; print(httpx.get(&#39;https://example.com&#39;).status_code)&quot;</code></pre></div><div class="card"><h2>Recipe：只想临时执行工具，不想污染项目</h2><ul><li><code>uv tool install ruff</code></li><li><code>uv tool upgrade ruff</code></li><li><code>uv tool list</code></li><li><code>uvx ruff check .</code></li><li><code>uvx --python 3.12 mypy src</code></li></ul><pre><code class="language-bash">uv tool install ruff
+
+# 临时附带 httpx 依赖并执行一段 Python 代码
+uv run --with httpx python -c &quot;import httpx; print(httpx.__version__)&quot;
+
+# 指定解释器版本运行 Python
+uv run --python 3.12 python -V</code></pre></div><div class="card"><h2>🛠️ Recipe：工具执行分两类，uvx 和 uv tool 不要混 <a href="https://docs.astral.sh/uv/concepts/tools/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">一次性执行走 `uvx`；要把可执行文件长期放到 PATH，再用 `uv tool install`。</div><ul><li><code>uvx ruff check .</code>：临时执行工具</li><li><code>uv tool install ruff</code>：长期安装工具</li><li><code>uv tool list</code>：列出现有工具</li><li><code>uv tool upgrade ruff</code>：升级工具环境</li><li><code>uv tool uninstall ruff</code>：移除长期安装工具</li></ul><pre><code class="language-bash"># 一次性执行工具
 uvx pycowsay &quot;hello&quot;
-uvx --python 3.12 mypy src</code></pre></div><div class="card"><h2>🧰 Recipe：管理 Python 版本，不再手装解释器 <a href="https://docs.astral.sh/uv/guides/install-python/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">适合“项目要锁 Python 版本”或者“本机要并存多个 Python”的场景。</div><ul><li><code>uv python install 3.12</code>：安装解释器</li><li><code>uv python list</code>：查看可用版本</li><li><code>uv python find 3.11</code>：查找指定版本</li><li><code>uv python pin 3.12</code>：当前目录固定版本</li><li><code>uv venv --python 3.12</code>：按指定解释器建环境</li></ul><pre><code class="language-bash">uv python install 3.11 3.12
+
+# 长期安装 ruff 到工具环境
+uv tool install ruff
+
+# 查看已安装工具
+uv tool list
+
+# 升级 ruff 工具环境
+uv tool upgrade ruff</code></pre></div><div class="card"><h2>Recipe：管理 Python 版本，而不是手动装解释器</h2><ul><li><code>uv python install 3.11 3.12</code></li><li><code>uv python list --only-installed</code></li><li><code>uv python find 3.12</code></li><li><code>uv python pin 3.12</code></li><li><code>uv venv --python 3.12</code></li></ul><pre><code class="language-bash"># 安装多个 Python 版本
+uv python install 3.11 3.12
+
+# 在当前目录固定 Python 版本
 uv python pin 3.12
+
+# 使用指定解释器创建虚拟环境
+uv venv --python 3.12
+
+# 确认当前项目实际使用的 Python 版本
+uv run python -V</code></pre></div><div class="card"><h2>🔁 Recipe：旧项目迁移先稳住，再慢慢切主路径 <a href="https://docs.astral.sh/uv/pip/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">已有 `requirements.txt` 的项目不必一次性改完，可以先走 `uv pip` 兼容层。</div><ul><li><code>uv venv</code>：创建虚拟环境</li><li><code>uv pip install -r requirements.txt</code>：先让旧项目跑起来</li><li><code>uv pip compile requirements.in -o requirements.txt</code>：锁定版本</li><li><code>uv pip sync requirements.txt</code>：按 requirements 同步环境</li><li><code>pyproject.toml</code> <code>uv add</code> <code>uv lock</code></li></ul><pre><code class="language-bash"># 创建虚拟环境
 uv venv
-uv run python -V</code></pre></div><div class="card"><h2>🔁 Recipe：从 requirements.txt 迁到 uv，但别一次全重构 <a href="https://docs.astral.sh/uv/pip/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">迁移旧项目时，先用 `uv pip` 兼容层稳住，再逐步切 `pyproject.toml`。</div><ul><li><code>uv pip install -r requirements.txt</code>：先让旧项目跑起来</li><li><code>uv pip compile requirements.in -o requirements.txt</code>：生成锁定版本</li><li><code>uv pip sync requirements.txt</code>：同步环境</li><li><code>uv add</code> <code>uv lock</code></li></ul><pre><code class="language-bash">uv venv
+
+# 先按 requirements.txt 安装旧项目依赖
 uv pip install -r requirements.txt
-uv pip freeze &gt; requirements.lock.txt</code></pre></div><div class="card"><h2>🧩 Recipe：CI / Docker / 团队协作的稳妥姿势 <a href="https://docs.astral.sh/uv/guides/integration/github/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">团队环境最重要的是“锁文件确定性”和“缓存目录复用”。</div><ul><li><code>uv sync --frozen</code></li><li><code>UV_CACHE_DIR</code></li><li>固定 Python 版本，避免 runner 漂移</li><li><code>uv sync</code></li><li><code>uv sync --all-packages</code></li></ul><pre><code class="language-bash">uv sync --frozen
+
+# 从 requirements.in 解析并锁定版本
+uv pip compile requirements.in -o requirements.txt
+
+# 按 requirements.txt 同步环境
+uv pip sync requirements.txt</code></pre></div><div class="card"><h2>🧩 Recipe：CI / Docker / workspace 以锁文件和缓存为中心 <a href="https://docs.astral.sh/uv/guides/integration/github/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">团队环境里最关键的是锁文件确定性、缓存复用，以及把版本漂移压到最小。</div><ul><li><code>astral-sh/setup-uv@v7</code></li><li><code>uv sync --locked --all-extras --dev</code></li><li><code>UV_CACHE_DIR</code></li><li><code>uv cache prune --ci</code></li><li><code>uv sync --all-packages</code></li><li><code>pyproject.toml</code></li></ul><pre><code class="language-bash"># 在 CI 中按锁文件安装依赖和开发环境
+uv sync --locked --all-extras --dev
+
+# 执行测试
 uv run pytest
-uv run ruff check .</code></pre></div><div class="card"><h2>⚠️ 常见坑 / 决策规则 <a href="https://docs.astral.sh/uv/reference/cli/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">真正常见的问题不是命令记不住，而是模式混用。</div><ul><li><code>uv run</code> <code>uvx</code></li><li><code>uv sync --frozen</code> <code>uv.lock</code></li><li><code>requirements.txt</code> <code>pyproject.toml</code></li><li>私有源通常还要补认证配置，否则“解析成功、下载失败”很常见</li><li>想让团队一致，优先锁 Python 版本，再锁依赖版本</li></ul></div>
+
+# 在 CI 收尾阶段清理缓存
+uv cache prune --ci</code></pre></div><div class="card"><h2>🔐 Recipe：私有索引和认证别只停留在“记得配” <a href="https://docs.astral.sh/uv/concepts/indexes/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">私有源最常见的问题不是解析失败，而是凭据查找时机不对，导致请求被错误转发到公开索引。</div><ul><li><code>uv auth login example.com</code>：把凭据写入 uv credential store</li><li><code>uv auth token example.com</code>：查看当前服务凭据</li><li><code>authenticate = &quot;always&quot;</code></li><li><code>403</code> <code>ignore-error-codes = [403]</code></li></ul><pre><code class="language-toml"># 定义私有包索引
+[[tool.uv.index]]
+
+# 给索引起一个名字，供 source 或日志引用
+name = &quot;private&quot;
+
+# 私有 simple API 地址
+url = &quot;https://packages.example.com/simple&quot;
+
+# 强制先认证，避免匿名请求错误回退到公开索引
+authenticate = &quot;always&quot;
+
+# 某些私有源未命中时会返回 403，可显式忽略
+ignore-error-codes = [403]</code></pre><pre><code class="language-bash"># 登录私有源并写入凭据
+uv auth login packages.example.com
+
+# 查看当前记录的 token / 凭据信息
+uv auth token packages.example.com</code></pre></div><div class="card"><h2>⚡ Quick Ref：高频命令速查 <a href="https://docs.astral.sh/uv/reference/cli/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">下面这组命令覆盖了大多数“我要现在做什么”的检索需求。</div><ul><li><code>uv init demo</code></li><li><code>uv init --script demo.py</code></li><li><code>uv add httpx</code></li><li><code>uv add --script demo.py httpx</code></li><li><code>uv run pytest</code></li><li><code>uv run demo.py</code></li><li><code>uvx ruff check .</code></li><li><code>uv tool install ruff</code></li><li><code>uv lock</code></li><li><code>uv sync --locked</code></li><li><code>uv python install 3.12</code></li><li><code>uv python pin 3.12</code></li><li><code>uv pip install -r requirements.txt</code></li></ul></div><div class="card"><h2>⚠️ 常见决策 / 易错点 <a href="https://docs.astral.sh/uv/reference/cli/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">真正常见的问题不是命令记不住，而是模式混用、锁文件策略不清和认证时机没想明白。</div><ul><li><code>uv run</code> <code>uvx</code> <code>uv tool run</code></li><li><code>uv run script.py</code> <code>.venv</code></li><li><code>uv sync --locked</code></li><li><code>requirements.txt</code> <code>pyproject.toml</code></li><li><code>authenticate = &quot;always&quot;</code></li><li><code>uv</code> <code>uv self update</code> <code>pip</code> <code>pipx</code></li></ul></div>
     </div>
   </div>
 
