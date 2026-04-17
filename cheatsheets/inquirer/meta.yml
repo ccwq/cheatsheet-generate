@@ -1,9 +1,9 @@
-desc: Inquirer.js 是一个命令行交互工具，用于创建美观、易用的交互式命令行界面，支持多种提问类型和高级配置选项。
+desc: Inquirer.js 是 Node.js 交互式命令行问答库，适合维护旧 CLI、脚手架和需要 question 数组配置流的场景；新项目更应同时了解官方推荐的 @inquirer/prompts 迁移方向。
 tags:
   - CLI 工具
   - 库 / SDK
   - Node.js
   - 开发
-version: unknown
+version: "13.4.1"
 github: SBoudrias/Inquirer.js
-date: "2026-01-19"
+date: "2026-04-07"
