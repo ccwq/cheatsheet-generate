@@ -12,3 +12,4 @@ node_modules/
 # 临时拉取的上游仓库/素材（cheatsheet 生成过程中用）
 .tmp/
 /research_*
+.playwright-cli
