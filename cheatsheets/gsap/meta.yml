@@ -1,5 +1,5 @@
-desc: GSAP 动画工作流速览，覆盖 tween、timeline、ScrollTrigger、插件与性能优化。
+desc: GSAP 动画工作流速查，覆盖 Tween、Timeline、ScrollTrigger、插件与性能优化，含高频 Recipes 与响应式方案。
 tags: ["Web 前端", "JavaScript", "动画引擎", "开发", "库 / SDK"]
-version: "3.13.0"
+version: "3.15.0"
 github: greensock/GSAP
-date: "2025-11-14"
+date: "2026-04-13"

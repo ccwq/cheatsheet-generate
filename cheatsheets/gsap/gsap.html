@@ -43,8 +43,8 @@
       <span class="title">GSAP</span>
       <!-- META_INFO_START -->
       <div class="meta-info">
-        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">3.13.0</span></span>
-        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2025-11-14</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">3.15.0</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-04-13</span></span>
         <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/greensock/GSAP" target="_blank" rel="noopener">greensock/GSAP</a></span></span>
         <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/greensock/GSAP" target="_blank" rel="noopener">打开 Zread</a></span></span>
       </div>
@@ -57,90 +57,89 @@
       <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
     </div>
     <div class="cheat-columns" id="columns">
-      <div class="card"><h2>核心入口</h2><ul><li><code>gsap.to(targets, vars)</code>：从当前状态补间到目标状态</li><li><code>gsap.from(targets, vars)</code>：从给定初始状态进入当前状态</li><li><code>gsap.fromTo(targets, fromVars, toVars)</code>：显式声明起止状态</li><li><code>gsap.set(targets, vars)</code>：立即写值，不创建补间</li><li><code>gsap.delayedCall(delay, fn)</code>：延时执行回调</li></ul><pre><code class="language-javascript">// 进入场动画
+      <div class="card"><h2>⚡ 快速定位 <a href="https://gsap.com/docs/v3/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">GSAP（GreenSock Animation Platform）是一个高性能 JavaScript 动画引擎。通过 Tween（补间）和 Timeline（时间轴）组织动画，支持 ScrollTrigger、Flip 等插件。适用于 UI 交互、滚动动画、SVG 动效、React/Vue 集成等场景。</div><ul><li><code>import gsap from &quot;gsap&quot;</code></li><li>核心概念：Tween（单次动画）→ Timeline（时间轴，按顺序组织多个 Tween）→ Plugin（扩展能力）</li><li><code>gsap.registerPlugin(...)</code>：，必须在使用插件能力前调用</li><li>官方文档：https://gsap.com/docs/v3/</li></ul><pre><code class="language-javascript">// 最小工作流：import → 注册插件 → 写动画
+import gsap from &quot;gsap&quot;;
+import ScrollTrigger from &quot;gsap/ScrollTrigger&quot;;
+
+gsap.registerPlugin(ScrollTrigger);
+
+gsap.to(&quot;.box&quot;, {
+  x: 200,
+  rotation: 45,
+  duration: 1,
+  ease: &quot;power2.out&quot;
+});</code></pre></div><div class="card"><h2>🏃 最小工作流 <a href="https://gsap.com/docs/v3/GSAP/gsap.to()" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">最基础的动画流程：选目标 → 定终点 → 配参数 → 执行。</div><h3>核心 Tween 四兄弟</h3><ul><li><code>gsap.to(targets, vars)</code></li><li><code>gsap.from(targets, fromVars)</code></li><li><code>gsap.fromTo(targets, fromVars, toVars)</code></li><li><code>gsap.set(targets, vars)</code></li></ul><pre><code class="language-javascript">// 入场动画：从 y:50 运动到当前位置
 gsap.from(&quot;.hero-title&quot;, {
-  y: 32,
+  y: 50,
   opacity: 0,
   duration: 0.8,
   ease: &quot;power2.out&quot;
 });
 
-// 交互反馈
+// 交互反馈：暂停状态，点击后播放
 gsap.to(&quot;.card&quot;, {
-  scale: 1.02,
+  scale: 1.05,
   duration: 0.2,
   paused: true
-});</code></pre></div><div class="card"><h2>📦 模块导入与注册 <a href="https://gsap.com/docs/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">当前官方包默认提供 ESM；插件使用前先 import，再 `registerPlugin()`。</div><ul><li><code>import gsap from &quot;gsap&quot;</code>：导入核心</li><li><code>import ScrollTrigger from &quot;gsap/ScrollTrigger&quot;</code>：单独导入插件</li><li><code>import { gsap, Flip, ScrollTrigger } from &quot;gsap/all&quot;</code>：一次导入常用公开插件</li><li><code>gsap.registerPlugin(ScrollTrigger, Flip)</code>：注册后才能使用插件能力</li></ul><pre><code class="language-javascript">import gsap from &quot;gsap&quot;;
-import ScrollTrigger from &quot;gsap/ScrollTrigger&quot;;
-import Flip from &quot;gsap/Flip&quot;;
-
-gsap.registerPlugin(ScrollTrigger, Flip);</code></pre></div><div class="card"><h2>🎛️ Tween 常用参数 <a href="https://gsap.com/docs/v3/GSAP/Tween/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">duration、delay、repeat、stagger、callbacks 是高频参数组合。</div><ul><li><code>duration</code>：动画时长，单位秒</li><li><code>delay</code>：延迟开始</li><li><code>ease</code>：缓动函数</li><li><code>repeat</code> <code>-1</code>：重复次数， 为无限</li><li><code>yoyo</code>：往返播放</li><li><code>stagger</code>：批量目标错峰执行</li><li><code>onStart/onUpdate/onComplete</code>：生命周期回调</li></ul><pre><code class="language-javascript">// 批量列表项依次出现
-gsap.to(&quot;.item&quot;, {
+});
+// 触发：tween.play()</code></pre><h3>常用参数</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>参数</th><th>说明</th><th>示例</th></tr></thead><tbody><tr><td>duration</td><td>动画时长（秒）</td><td>duration: 1</td></tr><tr><td>delay</td><td>延迟执行</td><td>delay: 0.5</td></tr><tr><td>ease</td><td>缓动函数</td><td>ease: &quot;power2.out&quot;</td></tr><tr><td>repeat</td><td>重复次数，-1=无限</td><td>repeat: 2</td></tr><tr><td>yoyo</td><td>来回播放</td><td>yoyo: true</td></tr><tr><td>stagger</td><td>批量错峰</td><td>stagger: 0.1</td></tr><tr><td>paused</td><td>创建时暂停</td><td>paused: true</td></tr><tr><td>onStart / onUpdate / onComplete</td><td>生命周期回调</td><td>见下方</td></tr></tbody></table></div><pre><code class="language-javascript">gsap.to(&quot;.item&quot;, {
   opacity: 1,
   y: 0,
   duration: 0.5,
+  stagger: { each: 0.08, from: &quot;start&quot; },
+  ease: &quot;power3.out&quot;
+});</code></pre></div><div class="card"><h2>🍳 高频 Recipes <a href="https://gsap.com/docs/v3/GSAP/Timeline/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">按场景组织常用套路，左侧抄命令，右侧理解使用时机。</div><h3>1. 列表项依次入场</h3><pre><code class="language-javascript">// 批量列表项依次出现，每项间隔 80ms
+gsap.from(&quot;.item&quot;, {
+  opacity: 0,
+  y: 20,
+  duration: 0.4,
   stagger: {
     each: 0.08,
-    from: &quot;start&quot;
+    from: &quot;start&quot;  // &quot;end&quot; | &quot;center&quot; | &quot;random&quot;
   },
-  ease: &quot;power3.out&quot;
-});</code></pre></div><div class="card"><h2>🧵 时间轴 <a href="https://gsap.com/docs/v3/GSAP/Timeline/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Timeline 负责组织多段动画、标签与相对时间位置。</div><ul><li><code>gsap.timeline(options)</code>：创建时间轴</li><li><code>tl.to()</code>：追加一个 tween</li><li><code>tl.from()</code>：追加进入动画</li><li><code>tl.addLabel(&quot;intro&quot;)</code>：增加标签</li><li><code>tl.play()</code>：播放</li><li><code>tl.pause()</code>：暂停</li><li><code>tl.reverse()</code>：反向播放</li><li><code>tl.seek(&quot;intro&quot;)</code>：跳到标签或时间点</li></ul><pre><code class="language-javascript">const tl = gsap.timeline({
-  defaults: {
-    duration: 0.5,
-    ease: &quot;power2.out&quot;
-  }
+  ease: &quot;power2.out&quot;
+});</code></pre><h3>2. 时间轴串联</h3><pre><code class="language-javascript">const tl = gsap.timeline({
+  defaults: { duration: 0.5, ease: &quot;power2.out&quot; }
 });
 
 tl.from(&quot;.hero-title&quot;, { y: 30, opacity: 0 })
-  .from(&quot;.hero-subtitle&quot;, { y: 18, opacity: 0 }, &quot;&lt;0.1&quot;)
-  .from(&quot;.hero-cta&quot;, { scale: 0.92, opacity: 0 }, &quot;&gt;-0.1&quot;)
-  .addLabel(&quot;ready&quot;);</code></pre></div><div class="card"><h2>时间位置语法</h2><ul><li><code>0</code>：绝对时间</li><li><code>&quot;+=0.3&quot;</code>：在当前末尾后再延迟 0.3 秒</li><li><code>&quot;-=0.2&quot;</code>：与前一个动画重叠 0.2 秒</li><li><code>&quot;&lt;&quot;</code>：与前一个动画同起点</li><li><code>&quot;&gt;&quot;</code>：接在前一个动画结束后</li><li><code>&quot;label+=0.2&quot;</code>：基于标签偏移</li></ul><pre><code class="language-javascript">tl.from(&quot;.panel&quot;, { opacity: 0, y: 24 }, 0)
-  .from(&quot;.panel-title&quot;, { opacity: 0, y: 12 }, &quot;&lt;0.1&quot;)
-  .from(&quot;.panel-body&quot;, { opacity: 0 }, &quot;&gt;-0.1&quot;)
-  .from(&quot;.panel-actions&quot;, { opacity: 0, y: 10 }, &quot;ready+=0.2&quot;);</code></pre></div><div class="card"><h2>🌊 缓动与函数值 <a href="https://gsap.com/docs/v3/Eases/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">合适的 ease 与函数值，能比硬编码参数更自然。</div><ul><li><code>&quot;power2.out&quot;</code>：常见 UI 进入动画</li><li><code>&quot;power2.inOut&quot;</code>：前后都平滑</li><li><code>&quot;back.out(1.7)&quot;</code>：带轻微回弹</li><li><code>&quot;elastic.out(1, 0.4)&quot;</code>：明显弹性</li><li><code>&quot;steps(5)&quot;</code>：分段动画</li><li><code>x: (index) =&gt; index * 24</code>：用函数按序生成值</li></ul><pre><code class="language-javascript">gsap.to(&quot;.dot&quot;, {
-  x: (index) =&gt; index * 18,
-  scale: (index) =&gt; 1 + index * 0.08,
-  ease: &quot;back.out(1.7)&quot;,
-  stagger: 0.05
-});</code></pre></div><div class="card"><h2>🧲 ScrollTrigger <a href="https://gsap.com/docs/v3/Plugins/ScrollTrigger/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">滚动驱动动画时，先注册插件，再定义 trigger、start、end、scrub。</div><ul><li><code>gsap.registerPlugin(ScrollTrigger)</code>：注册插件</li><li><code>trigger</code>：触发元素</li><li><code>start/end</code>：起止位置</li><li><code>scrub</code>：将动画与滚动进度绑定</li><li><code>pin</code>：固定元素</li><li><code>toggleActions</code>：进入/离开时行为</li><li><code>markers</code>：调试定位</li></ul><pre><code class="language-javascript">gsap.registerPlugin(ScrollTrigger);
+  .from(&quot;.hero-subtitle&quot;, { y: 18, opacity: 0 }, &quot;&lt;0.1&quot;)   // 紧随前一个
+  .from(&quot;.hero-cta&quot;, { scale: 0.92, opacity: 0 }, &quot;&gt;-0.1&quot;)  // 重叠 0.1s
+  .addLabel(&quot;ready&quot;);</code></pre><h3>3. ScrollTrigger 滚动驱动</h3><pre><code class="language-javascript">gsap.registerPlugin(ScrollTrigger);
 
 gsap.to(&quot;.feature-image&quot;, {
   y: -80,
   ease: &quot;none&quot;,
   scrollTrigger: {
     trigger: &quot;.feature&quot;,
-    start: &quot;top bottom&quot;,
-    end: &quot;bottom top&quot;,
-    scrub: true
+    start: &quot;top bottom&quot;,    // trigger 顶部接触视口底部
+    end: &quot;bottom top&quot;,       // trigger 底部接触视口顶部
+    scrub: true             // 绑定到滚动进度
   }
-});</code></pre></div><div class="card"><h2>🧩 常用插件 <a href="https://gsap.com/docs/v3/Plugins/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">ScrollTrigger、Flip、MotionPath、Observer、SplitText 是当前常见插件组合。</div><ul><li><code>ScrollTrigger</code>：滚动驱动动画</li><li><code>ScrollToPlugin</code>：平滑滚动到目标</li><li><code>Flip</code>：布局切换过渡</li><li><code>MotionPathPlugin</code>：沿路径运动</li><li><code>Observer</code>：统一鼠标、触控、滚轮输入</li><li><code>Draggable</code>：拖拽交互</li><li><code>TextPlugin</code>：文本渐变显示</li><li><code>SplitText</code>：文本拆分动效</li></ul><pre><code class="language-javascript">// GSAP 3.13 起，原 bonus plugins 已免费开放
-import { SplitText } from &quot;gsap/SplitText&quot;;
+});</code></pre><h3>4. Flip 布局切换过渡</h3><pre><code class="language-javascript">gsap.registerPlugin(Flip);
 
-gsap.registerPlugin(SplitText);
-const split = SplitText.create(&quot;.headline&quot;, { type: &quot;chars,words&quot; });
-gsap.from(split.chars, { y: 24, opacity: 0, stagger: 0.03 });</code></pre><pre><code class="language-javascript">gsap.registerPlugin(Flip);
-
-const state = Flip.getState(&quot;.card&quot;);
+const state = Flip.getState(&quot;.card&quot;);  // 拍摄当前状态
 document.querySelector(&quot;.grid&quot;).classList.toggle(&quot;is-expanded&quot;);
-
 Flip.from(state, {
   duration: 0.45,
   ease: &quot;power2.inOut&quot;,
   absolute: true
-});</code></pre></div><div class="card"><h2>🧱 上下文与框架集成 <a href="https://gsap.com/docs/v3/GSAP/gsap.context()" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">在 React、Vue 等框架中，用 `context()` 和 `matchMedia()` 收拢副作用。</div><ul><li><code>gsap.context(fn, scope)</code>：记录当前上下文里创建的动画</li><li><code>ctx.revert()</code>：清理上下文动画</li><li><code>gsap.matchMedia()</code>：按媒体查询注册动画</li><li><code>mm.add(query, fn)</code>：为断点分别定义动画</li></ul><pre><code class="language-javascript">const mm = gsap.matchMedia();
+});</code></pre><h3>5. 响应式 matchMedia</h3><pre><code class="language-javascript">const mm = gsap.matchMedia();
 
 mm.add(&quot;(min-width: 768px)&quot;, () =&gt; {
   const ctx = gsap.context(() =&gt; {
     gsap.from(&quot;.sidebar&quot;, { x: -40, opacity: 0 });
   });
-
   return () =&gt; ctx.revert();
-});</code></pre></div><div class="card"><h2>工具函数</h2><ul><li><code>gsap.utils.toArray(selector)</code>：把选择器结果转成数组</li><li><code>gsap.utils.clamp(min, max, value)</code>：限制数值范围</li><li><code>gsap.utils.interpolate(a, b, progress)</code>：按进度插值</li><li><code>gsap.quickSetter(target, prop, unit)</code>：创建高性能写值函数</li><li><code>gsap.quickTo(target, prop, vars)</code>：创建“追逐式”补间函数</li></ul><pre><code class="language-javascript">const moveX = gsap.quickTo(&quot;.cursor-follower&quot;, &quot;x&quot;, {
+});
+
+window.addEventListener(&quot;resize&quot;, () =&gt; {
+  gsap.matchMediaRefresh();
+});</code></pre><h3>6. 鼠标跟随（quickTo 追逐函数）</h3><pre><code class="language-javascript">const moveX = gsap.quickTo(&quot;.cursor&quot;, &quot;x&quot;, {
   duration: 0.18,
   ease: &quot;power3.out&quot;
 });
-
-const moveY = gsap.quickTo(&quot;.cursor-follower&quot;, &quot;y&quot;, {
+const moveY = gsap.quickTo(&quot;.cursor&quot;, &quot;y&quot;, {
   duration: 0.18,
   ease: &quot;power3.out&quot;
 });
@@ -148,15 +147,44 @@ const moveY = gsap.quickTo(&quot;.cursor-follower&quot;, &quot;y&quot;, {
 window.addEventListener(&quot;pointermove&quot;, (event) =&gt; {
   moveX(event.clientX);
   moveY(event.clientY);
-});</code></pre></div><div class="card"><h2>📐 响应式重算 <a href="https://gsap.com/docs/v3/GSAP/gsap.matchMedia()" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">断点变化明显时，除了 `matchMedia()` 本身，也要配合刷新与重建逻辑。</div><ul><li><code>gsap.matchMedia()</code>：注册断点级动画</li><li><code>mm.revert()</code>：清理当前媒体查询中的动画</li><li><code>gsap.matchMediaRefresh()</code>：重新评估所有 matchMedia 逻辑</li><li><code>ScrollTrigger.refresh()</code>：重新计算滚动触发器</li></ul><pre><code class="language-javascript">const mm = gsap.matchMedia();
+});</code></pre></div><div class="card"><h2>🧩 插件速查 <a href="https://gsap.com/docs/v3/Plugins/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">所有插件现已 100% 免费（含 ScrollTrigger、Flip、MotionPath、SplitText 等）。</div><div class="table-wrap"><table class="cheat-table"><thead><tr><th>插件</th><th>用途</th><th>关键 API</th></tr></thead><tbody><tr><td>ScrollTrigger</td><td>滚动驱动动画</td><td>ScrollTrigger.create() refresh() getAll()</td></tr><tr><td>ScrollToPlugin</td><td>平滑滚动到锚点</td><td>gsap.to(window, { scrollTo: y })</td></tr><tr><td>Flip</td><td>DOM 布局过渡</td><td>Flip.getState() Flip.from()</td></tr><tr><td>MotionPathPlugin</td><td>沿 SVG/canvas 路径运动</td><td>motionPath</td></tr><tr><td>Observer</td><td>统一鼠标/触控/滚轮输入</td><td>gsap.observe()</td></tr><tr><td>Draggable</td><td>拖拽交互</td><td>Draggable.create()</td></tr><tr><td>TextPlugin</td><td>文本渐变显示</td><td>TextPlugin</td></tr><tr><td>SplitText</td><td>文本拆分动效</td><td>SplitText.create()</td></tr></tbody></table></div><pre><code class="language-javascript">// SplitText 文本拆分动画
+import { SplitText } from &quot;gsap/SplitText&quot;;
 
-mm.add(&quot;(max-width: 767px)&quot;, () =&gt; {
-  gsap.set(&quot;.sidebar&quot;, { clearProps: &quot;all&quot; });
-});
+gsap.registerPlugin(SplitText);
+const split = SplitText.create(&quot;.headline&quot;, { type: &quot;chars,words&quot; });
+gsap.from(split.chars, { y: 24, opacity: 0, stagger: 0.03 });</code></pre></div><div class="card"><h2>🧵 时间轴与位置语法 <a href="https://gsap.com/docs/v3/GSAP/Timeline/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Timeline 负责按顺序组织多段动画；位置语法控制时间重叠与间隔。</div><h3>基础控制</h3><pre><code class="language-javascript">const tl = gsap.timeline();
+tl.to(&quot;.el&quot;, { x: 100 })
+  .to(&quot;.el&quot;, { y: 50 }, &quot;+=0.3&quot;)    // 当前末尾再延迟 0.3s
+  .to(&quot;.el&quot;, { scale: 1.2 }, &quot;-=0.2&quot;)  // 重叠前一个 0.2s
+  .play()
+  .pause()
+  .reverse()
+  .seek(&quot;labelName&quot;);</code></pre><h3>时间位置符号</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>符号</th><th>含义</th></tr></thead><tbody><tr><td>0</td><td>绝对时间点</td></tr><tr><td>&quot;+=0.3&quot;</td><td>在当前末尾延迟 0.3s</td></tr><tr><td>&quot;-=0.2&quot;</td><td>与前一个重叠 0.2s</td></tr><tr><td>&quot;&lt;&quot;</td><td>与前一个动画同起点</td></tr><tr><td>&quot;&gt;&quot;</td><td>接在前一个动画结束后</td></tr><tr><td>&quot;label+=0.2&quot;</td><td>基于标签偏移</td></tr></tbody></table></div><pre><code class="language-javascript">tl.from(&quot;.panel&quot;, { opacity: 0 }, 0)
+  .from(&quot;.panel-title&quot;, { opacity: 0 }, &quot;&lt;0.1&quot;)
+  .from(&quot;.panel-body&quot;, { opacity: 0 }, &quot;&gt;-0.1&quot;)
+  .from(&quot;.panel-actions&quot;, { opacity: 0 }, &quot;ready+=0.2&quot;);</code></pre></div><div class="card"><h2>🌊 缓动函数 <a href="https://gsap.com/docs/v3/Eases/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">合适的 ease 能让动画更自然。函数值允许按索引生成个性化参数。</div><h3>常用 ease</h3><ul><li><code>&quot;power1.out&quot;</code> <code>&quot;power2.out&quot;</code> <code>&quot;power3.out&quot;</code></li><li><code>&quot;power1.inOut&quot;</code> <code>&quot;power2.inOut&quot;</code></li><li><code>&quot;back.out(1.7)&quot;</code></li><li><code>&quot;elastic.out(1, 0.4)&quot;</code></li><li><code>&quot;steps(5)&quot;</code></li><li><code>&quot;none&quot;</code></li></ul><h3>ease 组合表</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>场景</th><th>推荐 ease</th></tr></thead><tbody><tr><td>按钮点击反馈</td><td>power2.out</td></tr><tr><td>Modal 入场</td><td>back.out(1.7)</td></tr><tr><td>Loading 循环</td><td>power1.inOut</td></tr><tr><td>滚动同步动画</td><td>none</td></tr></tbody></table></div><pre><code class="language-javascript">// 函数值：每项按索引生成不同偏移
+gsap.to(&quot;.dot&quot;, {
+  x: (index) =&gt; index * 18,
+  scale: (index) =&gt; 1 + index * 0.08,
+  ease: &quot;back.out(1.7)&quot;,
+  stagger: 0.05
+});</code></pre></div><div class="card"><h2>🧱 框架集成 <a href="https://gsap.com/docs/v3/GSAP/gsap.context()" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">在 React/Vue 等框架中，用 context() 收拢动画副作用，配合 matchMedia() 处理响应式。</div><h3>gsap.context() 清理生命周期</h3><pre><code class="language-javascript">import gsap from &quot;gsap&quot;;
 
-window.addEventListener(&quot;resize&quot;, () =&gt; {
-  gsap.matchMediaRefresh();
-});</code></pre></div><div class="card"><h2>🎚️ 控制与回调 <a href="https://gsap.com/docs/v3/GSAP/Tween/eventCallback()" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">实例方法适合在业务状态、路由切换和手动播放场景中配合使用。</div><ul><li><code>tween.pause()</code>：暂停</li><li><code>tween.resume()</code>：继续</li><li><code>tween.restart()</code>：重头播放</li><li><code>tween.progress(0.5)</code>：设置进度</li><li><code>tween.kill()</code>：销毁 tween</li><li><code>tween.eventCallback(&quot;onComplete&quot;, fn)</code>：动态修改回调</li></ul><pre><code class="language-javascript">const tween = gsap.to(&quot;.toast&quot;, {
+function Component() {
+  useEffect(() =&gt; {
+    const ctx = gsap.context(() =&gt; {
+      gsap.from(&quot;.box&quot;, { y: 20, opacity: 0 });
+    });
+    return () =&gt; ctx.revert();  // 组件卸载时清理
+  }, []);
+}</code></pre><h3>动态注册插件（按需加载）</h3><pre><code class="language-javascript">import gsap from &quot;gsap&quot;;
+import { ScrollTrigger } from &quot;gsap/ScrollTrigger&quot;;
+
+gsap.registerPlugin(ScrollTrigger);</code></pre></div><div class="card"><h2>🛠️ 工具函数 <a href="https://gsap.com/docs/v3/GSAP/UtilityMethods/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">utils、quickSetter、quickTo 用于高频交互优化与性能调优。</div><div class="table-wrap"><table class="cheat-table"><thead><tr><th>函数</th><th>用途</th></tr></thead><tbody><tr><td>gsap.utils.toArray(selector)</td><td>选择器转数组</td></tr><tr><td>gsap.utils.clamp(min, max, value)</td><td>限制范围</td></tr><tr><td>gsap.utils.interpolate(a, b, progress)</td><td>按进度插值</td></tr><tr><td>gsap.utils.random(min, max, [integer])</td><td>生成随机数</td></tr><tr><td>gsap.utils.snap(step, value)</td><td>按步长吸附</td></tr><tr><td>gsap.quickSetter(target, prop, unit)</td><td>高性能写值函数</td></tr><tr><td>gsap.quickTo(target, prop, vars)</td><td>追逐式补间函数</td></tr></tbody></table></div><pre><code class="language-javascript">// 快速吸附到 0.5 的倍数
+gsap.utils.snap(0.5, 1.3); // 1.5
+
+// 范围限制
+gsap.utils.clamp(0, 100, 150); // 100</code></pre></div><div class="card"><h2>🎚️ 控制与回调 <a href="https://gsap.com/docs/v3/GSAP/Tween/eventCallback()" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">tween/timeline 实例方法用于业务状态控制：暂停、恢复、跳转、重启。</div><div class="table-wrap"><table class="cheat-table"><thead><tr><th>方法</th><th>作用</th></tr></thead><tbody><tr><td>tween.pause()</td><td>暂停</td></tr><tr><td>tween.resume()</td><td>继续</td></tr><tr><td>tween.restart()</td><td>重头播放</td></tr><tr><td>tween.reverse()</td><td>反向播放</td></tr><tr><td>tween.progress(value)</td><td>设置/读取进度（0~1）</td></tr><tr><td>tween.kill()</td><td>销毁</td></tr><tr><td>tween.eventCallback(&quot;onComplete&quot;, fn)</td><td>动态绑定回调</td></tr></tbody></table></div><pre><code class="language-javascript">const tween = gsap.to(&quot;.toast&quot;, {
   autoAlpha: 1,
   y: 0,
   paused: true,
@@ -164,10 +192,131 @@ window.addEventListener(&quot;resize&quot;, () =&gt; {
 });
 
 document.querySelector(&quot;.open&quot;).addEventListener(&quot;click&quot;, () =&gt; tween.restart());
-document.querySelector(&quot;.close&quot;).addEventListener(&quot;click&quot;, () =&gt; tween.reverse());</code></pre></div><div class="card"><h2>🩺 性能与排障 <a href="https://gsap.com/docs/v3/GSAP/gsap.config()" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">少做 layout thrash，多做 transform，及时清理 ScrollTrigger 与上下文。</div><ul><li><code>transform</code> <code>opacity</code>：优先动画的属性</li><li><code>will-change</code>：只在短时间内为热点元素启用</li><li><code>ScrollTrigger.refresh()</code>：布局变化后刷新触发器</li><li><code>ScrollTrigger.getAll().forEach(trigger =&gt; trigger.kill())</code>：清理全部触发器</li><li><code>gsap.defaults({...})</code>：设置全局默认值</li><li><code>gsap.config({ nullTargetWarn: false })</code>：调整全局行为</li></ul><pre><code class="language-javascript">// 内容懒加载或手风琴展开后，刷新 ScrollTrigger
-document.querySelector(&quot;.accordion&quot;).addEventListener(&quot;transitionend&quot;, () =&gt; {
-  ScrollTrigger.refresh();
-});</code></pre></div>
+document.querySelector(&quot;.close&quot;).addEventListener(&quot;click&quot;, () =&gt; tween.reverse());</code></pre></div><div class="card"><h2>🩺 性能与排障 <a href="https://gsap.com/docs/v3/GSAP/gsap.config()" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">优先用 transform/opacity，避免 layout thrash；布局变化后及时刷新 ScrollTrigger。</div><ul><li><code>transform</code> <code>opacity</code>：和 （GPU 加速，不触发 layout）</li><li>will-change：只在短时间内为热点元素启用</li><li><code>ScrollTrigger.refresh()</code></li><li><code>ScrollTrigger.getAll().forEach(trigger =&gt; trigger.kill())</code></li><li><code>gsap.config({ nullTargetWarn: false })</code></li></ul><pre><code class="language-javascript">// 手风琴展开后刷新触发器
+document.querySelector(&quot;.accordion&quot;)
+  .addEventListener(&quot;transitionend&quot;, () =&gt; {
+    ScrollTrigger.refresh();
+  });
+
+// 页面卸载前清理
+window.addEventListener(&quot;beforeunload&quot;, () =&gt; {
+  ScrollTrigger.getAll().forEach(trigger =&gt; trigger.kill());
+});</code></pre></div><div class="card"><h2>⚙️ Tween vars 完整配置 <a href="https://gsap.com/docs/v3/GSAP/Tween/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Tween 的 vars 对象是 GSAP 的核心配置单元，以下是所有支持的属性分类说明。</div><h3>基础动画属性</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>属性</th><th>类型</th><th>说明</th></tr></thead><tbody><tr><td>x / y / z</td><td>number | string</td><td>目标位置， 支持 += -= 相对值</td></tr><tr><td>rotation / rotationX / rotationY</td><td>number | string</td><td>旋转角度（°）</td></tr><tr><td>scale / scaleX / scaleY</td><td>number</td><td>缩放，1 = 原始大小</td></tr><tr><td>opacity</td><td>number</td><td>透明度，0~1</td></tr><tr><td>skewX / skewY</td><td>number | string</td><td>斜切（°）</td></tr></tbody></table></div><pre><code class="language-javascript">gsap.to(&quot;.box&quot;, {
+  x: 100,
+  y: 50,
+  rotation: 45,
+  scale: 1.2,
+  opacity: 0.8,
+  duration: 1
+});</code></pre><h3>颜色与样式属性</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>属性</th><th>说明</th></tr></thead><tbody><tr><td>fill</td><td>SVG fill 或 CSS background-color</td></tr><tr><td>stroke</td><td>SVG stroke 或 CSS border-color</td></tr><tr><td>strokeWidth</td><td>线条宽度</td></tr><tr><td>width / height</td><td>尺寸（含 transition 可能触发 layout）</td></tr><tr><td>backgroundColor</td><td>背景色</td></tr></tbody></table></div><pre><code class="language-javascript">gsap.to(&quot;.btn&quot;, {
+  backgroundColor: &quot;#ff6b6b&quot;,
+  duration: 0.3
+});</code></pre><h3>字符串增量</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>语法</th><th>说明</th></tr></thead><tbody><tr><td>x: &quot;+=100&quot;</td><td>在当前位置基础上右移 100px</td></tr><tr><td>y: &quot;-=50&quot;</td><td>在当前位置基础上上移 50px</td></tr><tr><td>rotation: &quot;+=180&quot;</td><td>顺时针增加 180°</td></tr></tbody></table></div><pre><code class="language-javascript">gsap.to(&quot;.draggable&quot;, {
+  x: &quot;+=200&quot;,
+  duration: 0.5,
+  ease: &quot;power2.out&quot;
+});</code></pre><h3>时间控制</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>属性</th><th>类型</th><th>说明</th></tr></thead><tbody><tr><td>duration</td><td>number</td><td>动画时长（秒），默认 0.3</td></tr><tr><td>delay</td><td>number</td><td>延迟执行（秒）</td></tr><tr><td>repeat</td><td>number</td><td>重复次数，-1 为无限</td></tr><tr><td>repeatDelay</td><td>number</td><td>每次重复之间的间隔（秒）</td></tr><tr><td>yoyo</td><td>boolean</td><td>来回播放（需配合 repeat）</td></tr><tr><td>delay</td><td>number</td><td>延迟开始</td></tr></tbody></table></div><pre><code class="language-javascript">gsap.to(&quot;.loader&quot;, {
+  rotation: 360,
+  duration: 1,
+  repeat: -1,
+  repeatDelay: 0.5,
+  yoyo: true,
+  ease: &quot;power1.inOut&quot;
+});</code></pre><h3>缓动（ease）</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>属性</th><th>说明</th></tr></thead><tbody><tr><td>ease</td><td>缓动函数字符串或自定义函数</td></tr><tr><td>easeParams</td><td>传递给 ease 的额外参数数组</td></tr></tbody></table></div><pre><code class="language-javascript">gsap.to(&quot;.modal&quot;, {
+  y: 0,
+  opacity: 1,
+  duration: 0.4,
+  ease: &quot;back.out(1.7)&quot;  // 带回弹
+});</code></pre><h3>回调函数</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>属性</th><th>说明</th></tr></thead><tbody><tr><td>onStart</td><td>动画开始时触发</td></tr><tr><td>onUpdate</td><td>每一帧更新时触发</td></tr><tr><td>onComplete</td><td>动画完成时触发</td></tr><tr><td>onRepeat</td><td>每次重复开始时触发</td></tr><tr><td>onReverse</td><td>反向播放开始时触发</td></tr><tr><td>onReverseComplete</td><td>反向播放完成时触发</td></tr><tr><td>onInterrupted</td><td>被 kill 中断时触发</td></tr></tbody></table></div><pre><code class="language-javascript">gsap.to(&quot;.toast&quot;, {
+  y: 0,
+  opacity: 1,
+  duration: 0.3,
+  onStart: () =&gt; console.log(&quot;开始&quot;),
+  onUpdate: () =&gt; console.log(&quot;进度:&quot;, tween.progress()),
+  onComplete: () =&gt; console.log(&quot;完成&quot;)
+});</code></pre><h3>stagger（批量错峰）</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>写法</th><th>说明</th></tr></thead><tbody><tr><td>stagger: 0.1</td><td>每项间隔 0.1s</td></tr><tr><td>stagger: { each: 0.1 }</td><td>同上</td></tr><tr><td>stagger: { each: 0.1, from: &quot;start&quot; }</td><td>从头开始</td></tr><tr><td>stagger: { each: 0.1, from: &quot;end&quot; }</td><td>从尾开始</td></tr><tr><td>stagger: { each: 0.1, from: &quot;center&quot; }</td><td>从中间开始</td></tr><tr><td>stagger: { each: 0.1, from: &quot;random&quot; }</td><td>随机顺序</td></tr><tr><td>stagger: { each: 0.1, grid: [rows, cols] }</td><td>二维网格顺序</td></tr><tr><td>stagger: { each: 0.1, ease: &quot;power2.out&quot; }</td><td>错峰本身也有 ease</td></tr></tbody></table></div><pre><code class="language-javascript">gsap.from(&quot;.card&quot;, {
+  y: 30,
+  opacity: 0,
+  duration: 0.4,
+  stagger: {
+    each: 0.08,
+    from: &quot;start&quot;,
+    ease: &quot;power2.inOut&quot;
+  }
+});</code></pre><h3>特殊属性</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>属性</th><th>类型</th><th>说明</th></tr></thead><tbody><tr><td>paused</td><td>boolean</td><td>创建后暂停，默认 false</td></tr><tr><td>lazy</td><td>boolean</td><td>延迟渲染，默认 true</td></tr><tr><td>overwrite</td><td>boolean | string</td><td>覆盖同目标动画</td></tr><tr><td>autoSleep</td><td>number</td><td>多少秒无活动自动休眠（默认 60）</td></tr><tr><td>snap</td><td>object</td><td>属性吸附配置</td></tr><tr><td>keyframes</td><td>array</td><td>关键帧数组</td></tr><tr><td>cssNamespace</td><td>string</td><td>CSS 类名前缀</td></tr></tbody></table></div><pre><code class="language-javascript">// overwrite 示例
+gsap.to(&quot;.box&quot;, { x: 100, duration: 1 });
+gsap.to(&quot;.box&quot;, { x: 50, duration: 1, overwrite: &quot;auto&quot; }); // 自动覆盖前一个
+
+// keyframes 示例
+gsap.to(&quot;.ball&quot;, {
+  keyframes: [
+    { y: -50, duration: 0.2 },
+    { y: 0, duration: 0.2, ease: &quot;bounce.out&quot; }
+  ]
+});</code></pre><h3>ScrollTrigger 配置（scrollTrigger）</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>属性</th><th>说明</th></tr></thead><tbody><tr><td>trigger</td><td>触发元素或选择器</td></tr><tr><td>start</td><td>开始位置，默认 &quot;top bottom&quot;</td></tr><tr><td>end</td><td>结束位置，默认 &quot;bottom top&quot;</td></tr><tr><td>scrub</td><td>绑定滚动（true / number）</td></tr><tr><td>pin</td><td>固定元素</td></tr><tr><td>pinSpacing</td><td>固定同时是否保留间距</td></tr><tr><td>toggleActions</td><td>enter/leave/enterBack/leaveBack</td></tr><tr><td>markers</td><td>显示调试标记（开发用）</td></tr><tr><td>id</td><td>唯一标识</td></tr><tr><td>onEnter / onLeave 等</td><td>生命周期回调</td></tr></tbody></table></div><pre><code class="language-javascript">ScrollTrigger.create({
+  trigger: &quot;.section&quot;,
+  start: &quot;top 80%&quot;,
+  end: &quot;bottom 20%&quot;,
+  scrub: 1,
+  pin: true,
+  pinSpacing: false,
+  toggleActions: &quot;play none none reverse&quot;,
+  markers: false
+});</code></pre><h3>过滤器与 autoAlpha</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>属性</th><th>说明</th></tr></thead><tbody><tr><td>autoAlpha</td><td>同时设置 opacity 和 visibility（0 = visibility:hidden）</td></tr><tr><td>filter</td><td>CSS filter：blur() grayscale() saturate() 等</td></tr></tbody></table></div><pre><code class="language-javascript">gsap.to(&quot;.modal&quot;, {
+  autoAlpha: 1,  // 等效于 opacity:1, visibility:visible
+  duration: 0.3
+});
+
+gsap.to(&quot;.img&quot;, {
+  filter: &quot;grayscale(100%)&quot;,
+  duration: 0.5
+});</code></pre></div><div class="card"><h2>🧵 Timeline 完整 API <a href="https://gsap.com/docs/v3/GSAP/Timeline/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Timeline 是 GSAP 组织多段动画的核心。除了基础的 add/insert 方法，还有标签控制、进度管理、子timeline等完整能力。</div><h3>创建与配置</h3><pre><code class="language-javascript">const tl = gsap.timeline({
+  defaults: { duration: 0.5, ease: &quot;power2.out&quot; },  // 所有子项的默认值
+  paused: false,
+  smoothChildTiming: true,    // 子项时间自动校准父级
+  align: &quot;sequence&quot;,          // 子项对齐方式
+  onStart: () =&gt; {},
+  onComplete: () =&gt; {}
+});</code></pre><h3>Timeline 配置选项</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>选项</th><th>说明</th></tr></thead><tbody><tr><td>defaults</td><td>子项默认 duration / ease</td></tr><tr><td>paused</td><td>创建时暂停</td></tr><tr><td>smoothChildTiming</td><td>移动子项时自动调整后续时间</td></tr><tr><td>align</td><td>&quot;sequence&quot; / &quot;start&quot; / &quot;normal&quot;</td></tr><tr><td>onStart</td><td>timeline 开始回调</td></tr><tr><td>onComplete</td><td>timeline 结束回调</td></tr></tbody></table></div><h3>添加动画（add / insert）</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>方法</th><th>说明</th></tr></thead><tbody><tr><td>tl.to(targets, vars, position)</td><td>追加 Tween</td></tr><tr><td>tl.from(targets, vars, position)</td><td>追加进入动画</td></tr><tr><td>tl.fromTo(targets, from, to, position)</td><td>追加起止明确的动画</td></tr><tr><td>tl.set(targets, vars, position)</td><td>立即设置值</td></tr><tr><td>tl.add(callback, position)</td><td>添加回调函数</td></tr><tr><td>tl.call(callback, params, position)</td><td>调用函数（推荐）</td></tr><tr><td>tl.addLabel(label, position)</td><td>添加标签</td></tr></tbody></table></div><pre><code class="language-javascript">const tl = gsap.timeline();
+
+tl.to(&quot;.a&quot;, { x: 100 })
+  .addLabel(&quot;phase1&quot;)  // 添加标签
+  .to(&quot;.b&quot;, { x: 100 }, &quot;+=0.2&quot;)
+  .call(() =&gt; console.log(&quot;回调&quot;), null, &quot;-=0.1&quot;)
+  .add(() =&gt; console.log(&quot;直接添加函数&quot;))
+  .to(&quot;.c&quot;, { x: 100 }, &quot;phase1+=0.3&quot;);  // 基于标签定位</code></pre><h3>标签控制</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>方法</th><th>说明</th></tr></thead><tbody><tr><td>tl.addLabel(label, time)</td><td>添加标签</td></tr><tr><td>tl.getLabelTime(label)</td><td>获取标签对应时间</td></tr><tr><td>tl.getLabelsArray()</td><td>获取所有标签及时间</td></tr></tbody></table></div><pre><code class="language-javascript">tl.addLabel(&quot;intro&quot;, 0)
+  .from(&quot;.title&quot;, { opacity: 0 }, &quot;intro&quot;)
+  .from(&quot;.body&quot;, { opacity: 0 }, &quot;intro+=0.2&quot;)
+  .addLabel(&quot;ready&quot;, &quot;+=0.5&quot;);
+
+console.log(tl.getLabelTime(&quot;ready&quot;));  // 1.7</code></pre><h3>时间位置语法（position 参数）</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>符号</th><th>含义</th></tr></thead><tbody><tr><td>0</td><td>绝对时间</td></tr><tr><td>&quot;+=0.5&quot;</td><td>相对当前末尾延迟</td></tr><tr><td>&quot;-=0.5&quot;</td><td>相对当前末尾提前</td></tr><tr><td>&quot;&lt;&quot;</td><td>与前一项同起点</td></tr><tr><td>&quot;&gt;&quot;</td><td>在前一项结束后</td></tr><tr><td>&quot;label&quot;</td><td>标签位置</td></tr><tr><td>&quot;label+=0.3&quot;</td><td>标签后偏移</td></tr><tr><td>&quot;&lt;0.3&quot;</td><td>前一项开始后 0.3s</td></tr><tr><td>&quot;&gt;0.3&quot;</td><td>前一项结束后 0.3s</td></tr></tbody></table></div><pre><code class="language-javascript">tl.to(&quot;.a&quot;, { x: 100 }, 0)         // 绝对时间 0
+  .to(&quot;.b&quot;, { x: 100 }, &quot;+=0.3&quot;)    // 当前末尾 +0.3s
+  .to(&quot;.c&quot;, { x: 100 }, &quot;-=0.2&quot;)    // 提前 0.2s 插入
+  .to(&quot;.d&quot;, { x: 100 }, &quot;&lt;&quot;)        // 与 c 同起点
+  .to(&quot;.e&quot;, { x: 100 }, &quot;&gt;&quot;)        // 在 c 结束后
+  .to(&quot;.f&quot;, { x: 100 }, &quot;ready&quot;)    // 在 ready 标签处
+  .to(&quot;.g&quot;, { x: 100 }, &quot;ready+=0.5&quot;); // ready 后 0.5s</code></pre><h3>播放控制</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>方法</th><th>说明</th></tr></thead><tbody><tr><td>tl.play(fromTime, suppressEvents)</td><td>播放</td></tr><tr><td>tl.pause(atTime, suppressEvents)</td><td>暂停</td></tr><tr><td>tl.reverse(fromTime, suppressEvents)</td><td>反向播放</td></tr><tr><td>tl.restart(fromTime, suppressEvents)</td><td>重头播放</td></tr><tr><td>tl.seek(timeOrLabel)</td><td>跳转到时间或标签</td></tr><tr><td>tl.progress(value)</td><td>设置/获取进度（0~1）</td></tr><tr><td>tl.time(value)</td><td>设置/获取当前时间</td></tr><tr><td>tl.timeScale(value)</td><td>时间缩放（0.1~10）</td></tr></tbody></table></div><pre><code class="language-javascript">tl.play();           // 播放
+tl.pause();           // 暂停
+tl.reverse();         // 反向
+tl.seek(&quot;ready&quot;);     // 跳到 ready 标签
+tl.progress(0.5);     // 跳到 50%
+tl.timeScale(2);      // 2 倍速播放</code></pre><h3>查询</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>方法</th><th>说明</th></tr></thead><tbody><tr><td>tl.duration()</td><td>获取总时长</td></tr><tr><td>tl.totalDuration()</td><td>含重复的总时长</td></tr><tr><td>tl.time()</td><td>当前时间</td></tr><tr><td>tl.totalTime()</td><td>当前总时间</td></tr><tr><td>tl.isActive()</td><td>是否正在播放</td></tr><tr><td>tl.getChildren()</td><td>获取子 Tween</td></tr><tr><td>tl.getById(id)</td><td>按 id 获取子 Tween</td></tr><tr><td>tl.getLabelTime(label)</td><td>获取标签时间</td></tr></tbody></table></div><pre><code class="language-javascript">console.log(tl.duration());        // 总时长
+console.log(tl.totalDuration());   // 含 repeat
+console.log(tl.isActive());        // 是否播放中
+tl.getChildren();                 // 所有子 Tween</code></pre><h3>销毁与回收</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>方法</th><th>说明</th></tr></thead><tbody><tr><td>tl.kill(children, restoreImmediateProps)</td><td>杀死子项</td></tr><tr><td>tl.clear()</td><td>清空所有子项</td></tr><tr><td>tl.revert()</td><td>恢复到初始状态</td></tr></tbody></table></div><pre><code class="language-javascript">tl.kill();           // 杀死整个 timeline
+tl.clear();          // 清空
+tl.revert();         // 恢复初始</code></pre><h3>嵌套 Timeline</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>方法</th><th>说明</th></tr></thead><tbody><tr><td>tl.add(childTimeline, position)</td><td>嵌套子 timeline</td></tr><tr><td>父 timeline 控制子 timeline 时间</td><td>父 play 时子自动播放</td></tr></tbody></table></div><pre><code class="language-javascript">const innerTl = gsap.timeline({ paused: true });
+innerTl.to(&quot;.inner&quot;, { x: 50 });
+
+const outerTl = gsap.timeline();
+outerTl.to(&quot;.outer&quot;, { x: 100 })
+  .add(innerTl, &quot;-=0.2&quot;);  // innerTl 作为子 timeline 插入</code></pre></div><div class="card"><h2>📋 Quick Ref <a href="https://gsap.com/docs/v3/GSAP/UtilityMethods/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">一页流快速检索，可直接复制。</div><h3>安装</h3><pre><code class="language-bash">npm install gsap
+# 或 CDN: https://cdnjs.com/libraries/gsap</code></pre><h3>插件导入（全部免费）</h3><pre><code class="language-javascript">import gsap from &quot;gsap&quot;;
+import { ScrollTrigger, Flip, SplitText } from &quot;gsap/all&quot;;
+// 或按需单独导入
+import ScrollTrigger from &quot;gsap/ScrollTrigger&quot;;
+import Flip from &quot;gsap/Flip&quot;;
+gsap.registerPlugin(ScrollTrigger, Flip);</code></pre><h3>核心速查</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>命令</th><th>说明</th></tr></thead><tbody><tr><td>gsap.to() / from() / fromTo() / set()</td><td>四个基础 Tween</td></tr><tr><td>gsap.timeline()</td><td>时间轴</td></tr><tr><td>gsap.context(fn, scope)</td><td>生命周期上下文</td></tr><tr><td>gsap.matchMedia()</td><td>响应式断点</td></tr><tr><td>gsap.quickTo()</td><td>追逐函数</td></tr><tr><td>gsap.defaults({...})</td><td>全局默认值</td></tr></tbody></table></div></div>
     </div>
   </div>
 
