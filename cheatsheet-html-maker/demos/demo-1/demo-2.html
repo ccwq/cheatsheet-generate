@@ -3,72 +3,61 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
   <title>页面标题覆盖</title>
   <link rel="stylesheet" href="../../../assets/variables.css">
   <link rel="stylesheet" href="../../../assets/global.css">
   <link rel="stylesheet" href="../../../assets/cheatsheet.css">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
   <link rel="icon" type="image/png" href="../../../assets/brand/cheatsheet.png">
   <link rel="apple-touch-icon" href="../../../assets/brand/cheatsheet.png">
   <style>
     :root {
-      --col-width: 340px;
+      /*默认列宽*/
+      --col-width: 340px; 
       --gap: 16px;
-    }
-
-    .panel label {
-      color: var(--panel-accent);
-    }
-
-    .panel .title {
-      color: var(--panel-accent);
-    }
-
-    .card pre,
-    .card pre code[class^="language-"] {
-      font-size: 13px;
-      line-height: 1.2;
-    }
-
-    .card h2 {
-      font-size: 16px;
-    }
-
-    .card,
-    .card li,
-    .desc {
-      font-size: 14px;
-      line-height: 1.2;
-    }
-
-    .meta-link {
-      color: var(--text-link);
-    }
-
-    .meta-link:hover {
-      text-decoration: underline;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
       <span class="title">页面标题覆盖</span>
       <!-- META_INFO_START -->
       <div class="meta-info">
-        <span class="meta-item"><span class="meta-label">版本</span><span class="meta-value">1.0.0</span></span>
-        <span class="meta-item"><span class="meta-label">更新日志</span><span class="meta-value">unknown</span></span>
-        <span class="meta-item"><span class="meta-label">GitHub</span><span class="meta-value"><a class="meta-link" href="https://github.com/example/demo-repo" target="_blank" rel="noopener">example/demo-repo</a></span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">1.0.0</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">unknown</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/example/demo-repo" target="_blank" rel="noopener">example/demo-repo</a></span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/example/demo-repo" target="_blank" rel="noopener">打开 Zread</a></span></span>
       </div>
+      
       <!-- META_INFO_END -->
       <label for="columnWidth">🔧 调整每列宽度：</label>
       <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
       <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
     </div>
     <div class="cheat-columns" id="columns">
-      <div class="card"><h2>📌 基础 <a href="https://example.com/docs" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这是一段卡片说明</div><h3>子集</h3><ul><li><code>tmux ls</code>：查看会话</li><li><code>C-b c</code>：新建窗口<ul><li>子项A</li><li>子项B</li></ul></li><li>普通文字</li></ul><pre><code class="language-bash">echo hello</code></pre><pre><code class="language-js">console.log(&#39;x&#39;)</code></pre><div class="desc">这是一段说明文字。</div><div class="desc">src
+      <div class="card" style="grid-column: span 2"><h2>📌 基础 <a href="https://example.com/docs" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这是一段卡片说明</div><h3>子集</h3><ul><li><code>tmux ls</code>：查看会话</li><li><code>C-b c</code>：新建窗口<ul><li>子项A</li><li>子项B</li></ul></li><li>普通文字</li></ul><pre><code class="language-bash">echo hello</code></pre><pre><code class="language-js">console.log(&#39;x&#39;)</code></pre><div class="desc">这是一段说明文字。</div><div class="desc">src
 app
 main.js</div></div><div class="card"><h2>网络与排错</h2><h3>请求</h3><ul><li><code>curl -I https://example.com</code>：查看响应头</li><li>连接超时时先检查代理与 DNS</li></ul><h3>日志</h3><pre><code class="language-bash">journalctl -u nginx -n 100 --no-pager</code></pre><pre><code class="language-bash">└── services
 ├── api
@@ -77,6 +66,7 @@ main.js</div></div><div class="card"><h2>网络与排错</h2><h3>请求</h3><ul>
     </div>
   </div>
 
+  <script src="../../../assets/tag-chip.js"></script>
   <script src="../../../assets/common.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {

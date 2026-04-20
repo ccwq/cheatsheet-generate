@@ -91,17 +91,67 @@ function initCheatsheetMasonry() {
     var rowHeight = parseFloat(styles.getPropertyValue('grid-auto-rows')) || 8;
     var rowGap = parseFloat(styles.getPropertyValue('row-gap')) || parseFloat(styles.getPropertyValue('gap')) || 0;
 
+    // 计算当前 grid 列数（每行列数）
+    var colCount = 1;
+    var containerWidth = columns.clientWidth;
+    var colWidth = parseFloat(styles.getPropertyValue('--col-width')) || 340;
+    if (colWidth > 0) {
+      colCount = Math.max(1, Math.round(containerWidth / (colWidth + rowGap)));
+    }
+
+    // cellOccupied[row * colCount + col] = boolean
+    var occupied = [];
+
     $$('.card', columns).forEach(function(card) {
       if (card.style.display === 'none') {
         card.style.gridRowEnd = '';
+        card.style.gridColumnStart = '';
         return;
       }
 
-      // 先重置，再按真实高度计算跨行数，避免重复缩放时累积误差。
+      // 重置
+      card.style.gridColumnStart = '';
       card.style.gridRowEnd = 'span 1';
+
       var cardHeight = card.getBoundingClientRect().height;
-      var span = Math.max(1, Math.ceil((cardHeight + rowGap) / (rowHeight + rowGap)));
-      card.style.gridRowEnd = 'span ' + span;
+      var rowSpan = Math.max(1, Math.ceil((cardHeight + rowGap) / (rowHeight + rowGap)));
+
+      // 读取 colspan（默认 1）
+      var colspan = 1;
+      var cs = card.style.gridColumn;
+      if (cs && cs.indexOf('span') !== -1) {
+        colspan = parseInt(cs.replace(/[^0-9]/g, ''), 10) || 1;
+      }
+
+      // 找到第一个能放下该卡片的起始位置（行, 列）
+      var row = 0;
+      var placed = false;
+      while (!placed) {
+        for (var col = 0; col <= colCount - colspan; col += 1) {
+          var canPlace = true;
+          for (var c = col; c < col + colspan; c += 1) {
+            if (occupied[row * colCount + c]) {
+              canPlace = false;
+              break;
+            }
+          }
+          if (canPlace) {
+            // 占用 cells
+            for (var c2 = col; c2 < col + colspan; c2 += 1) {
+              for (var r2 = 0; r2 < rowSpan; r2 += 1) {
+                occupied[(row + r2) * colCount + c2] = true;
+              }
+            }
+            card.style.gridColumnStart = String(col + 1);
+            card.style.gridRowEnd = 'span ' + rowSpan;
+            placed = true;
+            break;
+          }
+        }
+        if (!placed) {
+          row += 1;
+        }
+      }
     });
   }
 
