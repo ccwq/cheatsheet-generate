@@ -1,0 +1,9 @@
+desc: Git Worktree 速查。同一仓库多个工作目录并行，分支隔离，共享 .git 对象库。覆盖概念、起手工作流、4 个典型场景（并行开发 / 热修切入 / Monorepo 解耦 / 清理维护）、完整命令速查、常见报错处理。
+tags:
+  - CLI 工具
+  - DevOps
+  - 版本控制
+  - Git
+version: 2.53.0
+github: git/git
+date: "2026-04-20"
