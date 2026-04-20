@@ -128,6 +128,11 @@ export function normalizeColWidth(colWidth, fallback = DEFAULT_COL_WIDTH) {
   return fallback
 }
 
+export function normalizeColspan(value) {
+  const n = Math.floor(Number(value))
+  return (Number.isFinite(n) && n >= 1) ? n : 1
+}
+
 export function extractFrontmatter(markdown) {
   const match = markdown.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?/)
   if (!match) {
