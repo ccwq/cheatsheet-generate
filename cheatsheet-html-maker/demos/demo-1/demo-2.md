@@ -14,6 +14,7 @@ lang: bash
 emoji: 📌
 link: https://example.com/docs
 desc: 这是一段卡片说明
+colspan: 2
 ---
 
 ### 子集
