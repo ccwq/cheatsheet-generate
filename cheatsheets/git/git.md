@@ -414,9 +414,19 @@ desc: 这组命令负责“腾现场”和“救现场”。`stash` 适合短暂
 - `git stash apply` : 应用但不删除
 - `git stash pop` : 应用并删除
 - `git stash drop stash@{0}` : 删除一条 stash
-- `git worktree list` : 查看额外工作树
-- `git worktree add ../repo-hotfix -b fix/login-500 origin/main` : 新开一个目录并切到新分支
-- `git worktree remove ../repo-hotfix` : 删除工作树
+- `git worktree list` : 列出所有 worktree，含路径+分支+状态
+- `git worktree list --porcelain` : 机器友好的输出格式
+- `git worktree add <path> -b <branch>` : 新目录 + 新分支
+- `git worktree add <path> -b <branch> origin/main` : 基于远端分支创建
+- `git worktree add <path> <commit>` : 检出到具体 commit
+- `git worktree remove <path>` : 安全删除（检查未提交变更）
+- `git worktree remove --force <path>` : 强制删除
+- `git worktree remove <path> --reason "..."` : 记录删除原因（2.40+）
+- `git worktree lock <path> -m "reason"` : 锁定防止修改/删除
+- `git worktree unlock <path>` : 解除锁定
+- `git worktree move <old> <new>` : 移动 worktree 目录（2.40+）
+- `git worktree prune` : 清理失效 worktree 引用
+- `git worktree repair` : 修复 worktree 配置错误
 - `git reset --soft HEAD~1` : 撤销最近提交，保留 staged
 - `git reset --mixed HEAD~1` : 撤销最近提交，改动回工作区
 - `git reset --hard HEAD~1` : 彻底回滚到上一提交，危险
