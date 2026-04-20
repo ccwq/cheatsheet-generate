@@ -26,7 +26,7 @@
   <style>
     :root {
       /*默认列宽*/
-      --col-width: 520px; 
+      --col-width: 400px; 
       --gap: 16px;
     }
   </style>
@@ -57,7 +57,7 @@
       <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
     </div>
     <div class="cheat-columns" id="columns">
-      <div class="card"><h2>入口与定位 <a href="https://github.com/acmesh-official/acme.sh" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">纯 Shell 编写的 ACME 客户端，用于自动化获取、续期、安装 SSL/TLS 证书。无需 Python，兼容 Bash/dash/sh，支持 ECDSA 证书和通配符。</div><ul><li>解决的问题：自动化管理 Let&#39;s Encrypt、ZeroSSL 等 CA 的证书生命周期</li><li>核心优势：<ul><li>纯 Shell，无依赖</li><li>支持 80+ DNS Provider API 自动验证</li><li>默认 ECC 证书，可选 RSA</li><li>自动续期（默认 60 天）</li><li>不需要 root 权限</li></ul></li></ul></div><div class="card"><h2>安装与初始化</h2><div class="desc">安装只有 3 步：下载、安装、验证。安装后会自动创建 cron job 用于续期。</div><pre><code class="language-bash"># 方式一：一键安装（推荐）
+      <div class="card" style="grid-column: span 3"><h2>入口与定位 <a href="https://github.com/acmesh-official/acme.sh" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">纯 Shell 编写的 ACME 客户端，用于自动化获取、续期、安装 SSL/TLS 证书。无需 Python，兼容 Bash/dash/sh，支持 ECDSA 证书和通配符。</div><ul><li>解决的问题：自动化管理 Let&#39;s Encrypt、ZeroSSL 等 CA 的证书生命周期</li><li>核心优势：<ul><li>纯 Shell，无依赖</li><li>支持 80+ DNS Provider API 自动验证</li><li>默认 ECC 证书，可选 RSA</li><li>自动续期（默认 60 天）</li><li>不需要 root 权限</li></ul></li></ul></div><div class="card"><h2>安装与初始化</h2><div class="desc">安装只有 3 步：下载、安装、验证。安装后会自动创建 cron job 用于续期。</div><pre><code class="language-bash"># 方式一：一键安装（推荐）
 curl https://get.acme.sh | sh -s email=your@email.com
 
 # 方式二：Wget 安装
@@ -113,7 +113,7 @@ acme.sh --issue --dns -d example.com
 # 按提示添加 DNS 记录后，手动续期
 acme.sh --renew -d example.com
 
-# ⚠️ 警告：手动模式无法自动续期！</code></pre></div><div class="card"><h2>证书安装到服务器</h2><div class="desc">证书生成后，必须用 --install-cert 复制到目标路径。不要直接使用 ~/.acme.sh/ 下的文件！</div><pre><code class="language-bash"># 安装到 Nginx
+# ⚠️ 警告：手动模式无法自动续期！</code></pre></div><div class="card" style="grid-column: span 2"><h2>证书安装到服务器</h2><div class="desc">证书生成后，必须用 --install-cert 复制到目标路径。不要直接使用 ~/.acme.sh/ 下的文件！</div><pre><code class="language-bash"># 安装到 Nginx
 acme.sh --install-cert -d example.com \
   --key-file /etc/nginx/ssl/example.com.key \
   --fullchain-file /etc/nginx/ssl/example.com.fullchain.pem \
@@ -151,7 +151,7 @@ acme.sh --set-default-ca --server zerossl
 acme.sh --set-default-ca --server google
 
 # 查看支持的 CA 列表
-acme.sh --server list</code></pre></div><div class="card"><h2>常见场景 Recipes</h2><div class="desc">直接复制这些模板到你的项目中使用。</div><h3>场景一：Nginx 站点 + 单域名</h3><pre><code class="language-bash"># 1. 获取证书
+acme.sh --server list</code></pre></div><div class="card" style="grid-column: span 2"><h2>常见场景 Recipes</h2><div class="desc">直接复制这些模板到你的项目中使用。</div><h3>场景一：Nginx 站点 + 单域名</h3><pre><code class="language-bash"># 1. 获取证书
 acme.sh --issue -d example.com -w /var/www/html
 
 # 2. 安装证书
