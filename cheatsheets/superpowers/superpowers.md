@@ -1,8 +1,8 @@
 ---
 title: Superpowers 速查
 lang: markdown
-version: "v5.0.6"
-date: 2026-03-24
+version: "v5.0.7"
+date: 2026-03-31
 github: obra/superpowers
 colWidth: 340px
 ---
@@ -16,7 +16,7 @@ emoji: ⚡
 link: https://github.com/obra/superpowers
 ---
 
-Superpowers 是一套面向 AI 编码代理的技能仓库，把「先澄清、再计划、再分解、再执行、最后验证/审查/收尾」固化成可复用流程。它不是单一 CLI，而是给 Claude Code、Cursor、Codex、OpenCode、Gemini CLI 等工具提供 skills、commands、hooks、agents 的协作层。
+Superpowers 是一套面向 AI 编码代理的流程框架（framework for building AI coding agents），把 brainstorming、计划、并行分解、测试、调试、审查和收尾固化成可复用流程。它不是单一 CLI，而是给 Claude Code、Cursor、Codex、OpenCode、Gemini CLI 等工具提供 skills、commands、hooks、agents 的协作层。
 
 ### 最短使用路径
 ```markdown
@@ -59,19 +59,31 @@ link: https://github.com/obra/superpowers#readme
 把实现、测试、文档、验证分给不同子代理，避免单线串行。
 ```
 
-### Recipe 4: 开始真正改代码
+### Recipe 4: 任务适合用 worktree 并行
+```markdown
+用 `using-git-worktrees` 创建隔离的 git worktree。
+每个 worktree 独立分支，避免并行改动互相干扰。
+```
+
+### Recipe 5: 开始真正改代码
 ```markdown
 用 `executing-plans` 按已批准计划推进。
 先做最小可行修改，再补测试，再做清理。
 ```
 
-### Recipe 5: 发现 bug
+### Recipe 6: 发现 bug
 ```markdown
 先用 `systematic-debugging`。
 复现 -> 缩小范围 -> 找根因 -> 做最小修复 -> 验证。
 ```
 
-### Recipe 6: 提交前收尾
+### Recipe 7: 需要先补测试或补齐测试链
+```markdown
+用 `test-driven-development`。
+先写失败的测试，再写让测试通过的实现，最后做重构。
+```
+
+### Recipe 8: 提交前收尾
 ```markdown
 先跑 `verification-before-completion`，再请求 `requesting-code-review`。
 最后用 `finishing-a-development-branch` 做分支收口、摘要和交接。
@@ -110,26 +122,40 @@ emoji: 🔌
 link: https://github.com/obra/superpowers#installation
 ---
 
-### Claude Code / Cursor
-```markdown
-通过官方插件/市场流程接入 Superpowers。
-接入后，优先让系统自动发现 `skills/`、`commands/`、`hooks/`、`agents/`。
+### Claude Code
+```bash
+# 在 Claude Code 中加载 Superpowers 项目目录
+# Claude Code 会自动发现 skills/、commands/、hooks/、agents/
+# 无需额外安装，直接克隆仓库并 cd 进入即可
+git clone https://github.com/obra/superpowers.git
+cd superpowers
+```
+
+### Cursor
+```bash
+# Cursor 支持 Claude Code 插件生态
+# 将 Superpowers 仓库克隆到本地
+git clone https://github.com/obra/superpowers.git
+# 在 Cursor 设置中指向该目录，或使用官方市场插件（若有）
 ```
 
 ### Codex
 ```bash
-# 关键路径来自仓库文档
-~/.codex/superpowers
-~/.agents/skills/superpowers
+# 方法一：克隆仓库到 ~/.codex/superpowers
+git clone https://github.com/obra/superpowers.git ~/.codex/superpowers
 
-# 常见做法是把仓库放到 ~/.codex/superpowers，
-# 再把 skills 目录链接到 ~/.agents/skills/superpowers，然后重启客户端。
+# 方法二：将 skills 软链接到 Codex 查找路径
+git clone https://github.com/obra/superpowers.git /tmp/superpowers
+ln -s /tmp/superpowers/skills ~/.agents/skills/superpowers
+
+# 确认生效：重启 Codex 客户端后，询问 Superpowers 技能是否可见
 ```
 
 ### OpenCode
-```markdown
-按 OpenCode 的 plugin 机制把仓库 URL 加进去，然后重启。
-核心目标是让 Superpowers 的 skills 在会话启动时可见。
+```bash
+# 将仓库 URL 添加到 OpenCode 插件配置中
+# 目标：让 skills 在会话启动时自动加载
+# 参考官方文档：https://raw.githubusercontent.com/obra/superpowers/main/docs/README.opencode.md
 ```
 
 ### Gemini CLI
