@@ -1,0 +1,9 @@
+desc: Git 核心命令学习指南，涵盖 fetch/pull/merge/rebase/checkout/reset/push。适合入门到进阶，以概念对比和场景选择为核心。
+tags:
+  - CLI 工具
+  - DevOps
+  - 版本控制
+  - 开发
+version: 1.0.0
+github: git/git
+date: "2026-04-21"
