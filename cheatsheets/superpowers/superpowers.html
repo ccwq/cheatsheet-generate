@@ -26,7 +26,7 @@
   <style>
     :root {
       /*默认列宽*/
-      --col-width: 340px; 
+      --col-width: 350px; 
       --gap: 16px;
     }
   </style>
@@ -57,7 +57,30 @@
       <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
     </div>
     <div class="cheat-columns" id="columns">
-      <div class="card"><h2>⚡ 一眼定位 <a href="https://github.com/obra/superpowers" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Superpowers 是一套面向 AI 编码代理的流程框架（framework for building AI coding agents），把 brainstorming、计划、并行分解、测试、调试、审查和收尾固化成可复用流程。它不是单一 CLI，而是给 Claude Code、Cursor、Codex、OpenCode、Gemini CLI 等工具提供 skills、commands、hooks、agents 的协作层。</div><h3>最短使用路径</h3><pre><code class="language-markdown">1. 先把 Superpowers 接到你的代理客户端。
+      <div class="card" style="grid-column: 1 / span 2"><h2>🔌 平台接入 <a href="https://github.com/obra/superpowers#installation" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><h3>Claude Code（推荐）</h3><pre><code class="language-bash"># 在 Claude Code 会话中执行插件市场安装
+/plugin marketplace add obra/superpowers-marketplace
+/plugin install superpowers@superpowers-marketplace
+# 重启 Claude Code（或新开会话）让插件生效</code></pre><h3>Cursor</h3><pre><code class="language-bash"># Cursor 支持 Claude Code 插件生态
+/plugin marketplace add obra/superpowers-marketplace
+/plugin install superpowers@superpowers-marketplace</code></pre><h3>Codex</h3><pre><code class="language-bash"># 克隆仓库到 ~/.codex/superpowers
+git clone https://github.com/obra/superpowers.git ~/.codex/superpowers
+
+# 创建 skills 软链接
+mkdir -p ~/.agents/skills
+ln -s ~/.codex/superpowers/skills ~/.agents/skills/superpowers
+
+# 子代理技能（如 subagent-driven-development）需开启多代理支持
+# 在 Codex 配置中添加：
+# [features]
+# multi_agent = true</code></pre><h3>OpenCode</h3><pre><code class="language-bash"># 克隆仓库到配置目录
+mkdir -p ~/.config/opencode/superpowers
+git clone https://github.com/obra/superpowers.git ~/.config/opencode/superpowers
+
+# 创建插件软链接
+mkdir -p ~/.config/opencode/plugin
+ln -sf ~/.config/opencode/superpowers/.opencode/plugin/superpowers.js ~/.config/opencode/plugin/superpowers.js
+# 重启 OpenCode 使插件生效</code></pre><h3>Gemini CLI</h3><pre><code class="language-bash">gemini extensions install https://github.com/obra/superpowers
+gemini extensions update superpowers</code></pre><h3>平台对比</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th></th><th>Claude Code</th><th>Codex</th><th>OpenCode</th><th>Gemini CLI</th></tr></thead><tbody><tr><td>安装方式</td><td>插件市场 /plugin</td><td>手动 symlink</td><td>手动 symlink</td><td>extensions 命令</td></tr><tr><td>子代理支持</td><td>✅ 原生</td><td>✅ 需配置</td><td>✅ 需配置</td><td>❌</td></tr><tr><td>更新便利性</td><td>/plugin update</td><td>git pull</td><td>git pull</td><td>gemini extensions update</td></tr><tr><td>Superpowers 完整支持</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td></tr></tbody></table></div></div><div class="card"><h2>⚡ 一眼定位 <a href="https://github.com/obra/superpowers" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Superpowers 是一套面向 AI 编码代理的流程框架（framework for building AI coding agents），把 brainstorming、计划、并行分解、测试、调试、审查和收尾固化成可复用流程。它不是单一 CLI，而是给 Claude Code、Cursor、Codex、OpenCode、Gemini CLI 等工具提供 skills、commands、hooks、agents 的协作层。</div><h3>最短使用路径</h3><pre><code class="language-markdown">1. 先把 Superpowers 接到你的代理客户端。
 2. 先走 `brainstorming`，不要直接开改。
 3. 再用 `writing-plans` 输出可执行计划。
 4. 需要并行时切 `subagent-driven-development` 或 `using-git-worktrees`。
@@ -69,24 +92,7 @@
 先做最小可行修改，再补测试，再做清理。</code></pre><h3>Recipe 6: 发现 bug</h3><pre><code class="language-markdown">先用 `systematic-debugging`。
 复现 -&gt; 缩小范围 -&gt; 找根因 -&gt; 做最小修复 -&gt; 验证。</code></pre><h3>Recipe 7: 需要先补测试或补齐测试链</h3><pre><code class="language-markdown">用 `test-driven-development`。
 先写失败的测试，再写让测试通过的实现，最后做重构。</code></pre><h3>Recipe 8: 提交前收尾</h3><pre><code class="language-markdown">先跑 `verification-before-completion`，再请求 `requesting-code-review`。
-最后用 `finishing-a-development-branch` 做分支收口、摘要和交接。</code></pre></div><div class="card"><h2>🧭 技能地图 <a href="https://github.com/obra/superpowers/tree/main/skills" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="table-wrap"><table class="cheat-table"><thead><tr><th>技能</th><th>作用</th><th>典型触发点</th></tr></thead><tbody><tr><td>using-superpowers</td><td>总入口，要求先调用合适的技能再回答</td><td>刚接手项目、需要遵循流程时</td></tr><tr><td>brainstorming</td><td>澄清问题、约束和方案</td><td>需求模糊、选型不确定</td></tr><tr><td>writing-plans</td><td>生成可执行计划</td><td>先对齐后动手</td></tr><tr><td>using-git-worktrees</td><td>用 worktree 隔离并行工作</td><td>多方案试验、多个代理并行</td></tr><tr><td>subagent-driven-development</td><td>把大任务拆给子代理</td><td>信息分散、适合并行</td></tr><tr><td>executing-plans</td><td>按计划实际落地</td><td>计划已确认，可以修改代码</td></tr><tr><td>test-driven-development</td><td>先测试后实现，或者补齐测试链</td><td>核心逻辑、回归风险高</td></tr><tr><td>systematic-debugging</td><td>结构化定位问题</td><td>线上/本地失败、复现不稳定</td></tr><tr><td>verification-before-completion</td><td>完成前最终检查</td><td>准备交付、准备合并</td></tr><tr><td>requesting-code-review</td><td>发起代码审查</td><td>进入 review 阶段</td></tr><tr><td>finishing-a-development-branch</td><td>收尾、总结、合并前清理</td><td>开发闭环</td></tr></tbody></table></div><h3>触发顺序建议</h3><pre><code class="language-markdown">brainstorming -&gt; writing-plans -&gt; subagent-driven-development -&gt; executing-plans -&gt; verification-before-completion -&gt; requesting-code-review -&gt; finishing-a-development-branch</code></pre></div><div class="card"><h2>🔌 平台接入 <a href="https://github.com/obra/superpowers#installation" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><h3>Claude Code</h3><pre><code class="language-bash"># 在 Claude Code 中加载 Superpowers 项目目录
-# Claude Code 会自动发现 skills/、commands/、hooks/、agents/
-# 无需额外安装，直接克隆仓库并 cd 进入即可
-git clone https://github.com/obra/superpowers.git
-cd superpowers</code></pre><h3>Cursor</h3><pre><code class="language-bash"># Cursor 支持 Claude Code 插件生态
-# 将 Superpowers 仓库克隆到本地
-git clone https://github.com/obra/superpowers.git
-# 在 Cursor 设置中指向该目录，或使用官方市场插件（若有）</code></pre><h3>Codex</h3><pre><code class="language-bash"># 方法一：克隆仓库到 ~/.codex/superpowers
-git clone https://github.com/obra/superpowers.git ~/.codex/superpowers
-
-# 方法二：将 skills 软链接到 Codex 查找路径
-git clone https://github.com/obra/superpowers.git /tmp/superpowers
-ln -s /tmp/superpowers/skills ~/.agents/skills/superpowers
-
-# 确认生效：重启 Codex 客户端后，询问 Superpowers 技能是否可见</code></pre><h3>OpenCode</h3><pre><code class="language-bash"># 将仓库 URL 添加到 OpenCode 插件配置中
-# 目标：让 skills 在会话启动时自动加载
-# 参考官方文档：https://raw.githubusercontent.com/obra/superpowers/main/docs/README.opencode.md</code></pre><h3>Gemini CLI</h3><pre><code class="language-bash">gemini extensions install https://github.com/obra/superpowers
-gemini extensions update superpowers</code></pre></div><div class="card"><h2>🧱 仓库骨架 <a href="https://github.com/obra/superpowers/tree/main" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="table-wrap"><table class="cheat-table"><thead><tr><th>目录 / 文件</th><th>作用</th></tr></thead><tbody><tr><td>skills/</td><td>核心技能库，定义应该先想什么、再做什么</td></tr><tr><td>commands/</td><td>可直接调用的命令入口</td></tr><tr><td>hooks/</td><td>前后置事件，负责自动化触发</td></tr><tr><td>agents/</td><td>专门化代理配置</td></tr><tr><td>docs/</td><td>平台接入与工作流说明</td></tr><tr><td>RELEASE-NOTES.md</td><td>版本更新和变更记录</td></tr></tbody></table></div></div><div class="card"><h2>🧠 使用规则 <a href="https://github.com/obra/superpowers/tree/main/skills/using-superpowers" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><ul><li><code>using-superpowers</code></li><li>用户的明确指令优先级高于技能建议。</li><li><code>brainstorming</code> <code>writing-plans</code></li><li>需要并行时，优先拆分成可独立验证的小任务。</li><li><code>verification-before-completion</code></li><li><code>requesting-code-review</code></li></ul><h3>推荐提示词</h3><pre><code class="language-markdown">请按 superpowers 流程处理这个需求：
+最后用 `finishing-a-development-branch` 做分支收口、摘要和交接。</code></pre></div><div class="card"><h2>🧭 技能地图 <a href="https://github.com/obra/superpowers/tree/main/skills" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="table-wrap"><table class="cheat-table"><thead><tr><th>技能</th><th>作用</th><th>典型触发点</th></tr></thead><tbody><tr><td>using-superpowers</td><td>总入口，要求先调用合适的技能再回答</td><td>刚接手项目、需要遵循流程时</td></tr><tr><td>brainstorming</td><td>澄清问题、约束和方案</td><td>需求模糊、选型不确定</td></tr><tr><td>writing-plans</td><td>生成可执行计划</td><td>先对齐后动手</td></tr><tr><td>using-git-worktrees</td><td>用 worktree 隔离并行工作</td><td>多方案试验、多个代理并行</td></tr><tr><td>subagent-driven-development</td><td>把大任务拆给子代理</td><td>信息分散、适合并行</td></tr><tr><td>executing-plans</td><td>按计划实际落地</td><td>计划已确认，可以修改代码</td></tr><tr><td>test-driven-development</td><td>先测试后实现，或者补齐测试链</td><td>核心逻辑、回归风险高</td></tr><tr><td>systematic-debugging</td><td>结构化定位问题</td><td>线上/本地失败、复现不稳定</td></tr><tr><td>verification-before-completion</td><td>完成前最终检查</td><td>准备交付、准备合并</td></tr><tr><td>requesting-code-review</td><td>发起代码审查</td><td>进入 review 阶段</td></tr><tr><td>finishing-a-development-branch</td><td>收尾、总结、合并前清理</td><td>开发闭环</td></tr></tbody></table></div><h3>触发顺序建议</h3><pre><code class="language-markdown">brainstorming -&gt; writing-plans -&gt; subagent-driven-development -&gt; executing-plans -&gt; verification-before-completion -&gt; requesting-code-review -&gt; finishing-a-development-branch</code></pre></div><div class="card"><h2>🧱 仓库骨架 <a href="https://github.com/obra/superpowers/tree/main" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="table-wrap"><table class="cheat-table"><thead><tr><th>目录 / 文件</th><th>作用</th></tr></thead><tbody><tr><td>skills/</td><td>核心技能库，定义应该先想什么、再做什么</td></tr><tr><td>commands/</td><td>可直接调用的命令入口</td></tr><tr><td>hooks/</td><td>前后置事件，负责自动化触发</td></tr><tr><td>agents/</td><td>专门化代理配置</td></tr><tr><td>docs/</td><td>平台接入与工作流说明</td></tr><tr><td>RELEASE-NOTES.md</td><td>版本更新和变更记录</td></tr></tbody></table></div></div><div class="card"><h2>🧠 使用规则 <a href="https://github.com/obra/superpowers/tree/main/skills/using-superpowers" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><ul><li><code>using-superpowers</code></li><li>用户的明确指令优先级高于技能建议。</li><li><code>brainstorming</code> <code>writing-plans</code></li><li>需要并行时，优先拆分成可独立验证的小任务。</li><li><code>verification-before-completion</code></li><li><code>requesting-code-review</code></li></ul><h3>推荐提示词</h3><pre><code class="language-markdown">请按 superpowers 流程处理这个需求：
 先 brainstorming，再 writing-plans。
 如果可以并行，就用 subagent-driven-development。
 实现时按执行计划推进，最后做 verification-before-completion 和 code review。</code></pre></div><div class="card"><h2>🧯 常见坑 <a href="https://github.com/obra/superpowers/blob/main/RELEASE-NOTES.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><ul><li>只接入仓库，不触发 skills，等于只装了壳，流程不会自动变好。</li><li>需求不清楚就直接实现，后面通常会返工。</li><li>多代理并行时不拆边界，容易互相覆盖改动。</li><li>没有最终验证就收尾，最容易把回归带出去。</li><li>收尾前不做 review summary，交接成本会很高。</li></ul><h3>快速检查</h3><pre><code class="language-markdown">1. 当前客户端是否已经能看到 Superpowers skills。

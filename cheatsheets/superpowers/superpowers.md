@@ -4,10 +4,76 @@ lang: markdown
 version: "v5.0.7"
 date: 2026-03-31
 github: obra/superpowers
-colWidth: 340px
+colWidth: 350px
 ---
 
 # Superpowers 速查表
+
+
+## 平台接入
+---
+lang: markdown
+emoji: 🔌
+link: https://github.com/obra/superpowers#installation
+colspan: 2
+---
+
+### Claude Code（推荐）
+```bash
+# 在 Claude Code 会话中执行插件市场安装
+/plugin marketplace add obra/superpowers-marketplace
+/plugin install superpowers@superpowers-marketplace
+# 重启 Claude Code（或新开会话）让插件生效
+```
+> **备选方式**：直接克隆仓库并 `cd` 进入，Claude Code 会自动发现 skills/、commands/、hooks/、agents/ 目录。但插件市场方式更便于更新管理。
+
+### Cursor
+```bash
+# Cursor 支持 Claude Code 插件生态
+/plugin marketplace add obra/superpowers-marketplace
+/plugin install superpowers@superpowers-marketplace
+```
+
+### Codex
+```bash
+# 克隆仓库到 ~/.codex/superpowers
+git clone https://github.com/obra/superpowers.git ~/.codex/superpowers
+
+# 创建 skills 软链接
+mkdir -p ~/.agents/skills
+ln -s ~/.codex/superpowers/skills ~/.agents/skills/superpowers
+
+# 子代理技能（如 subagent-driven-development）需开启多代理支持
+# 在 Codex 配置中添加：
+# [features]
+# multi_agent = true
+```
+
+### OpenCode
+```bash
+# 克隆仓库到配置目录
+mkdir -p ~/.config/opencode/superpowers
+git clone https://github.com/obra/superpowers.git ~/.config/opencode/superpowers
+
+# 创建插件软链接
+mkdir -p ~/.config/opencode/plugin
+ln -sf ~/.config/opencode/superpowers/.opencode/plugin/superpowers.js ~/.config/opencode/plugin/superpowers.js
+# 重启 OpenCode 使插件生效
+```
+
+### Gemini CLI
+```bash
+gemini extensions install https://github.com/obra/superpowers
+gemini extensions update superpowers
+```
+
+### 平台对比
+| | Claude Code | Codex | OpenCode | Gemini CLI |
+|---|---|---|---|---|
+| **安装方式** | 插件市场 /plugin | 手动 symlink | 手动 symlink | extensions 命令 |
+| **子代理支持** | ✅ 原生 | ✅ 需配置 | ✅ 需配置 | ❌ |
+| **更新便利性** | /plugin update | git pull | git pull | gemini extensions update |
+| **Superpowers 完整支持** | ✅ | ✅ | ✅ | ✅ |
 
 ## 一眼定位
 ---
@@ -115,54 +181,6 @@ link: https://github.com/obra/superpowers/tree/main/skills
 brainstorming -> writing-plans -> subagent-driven-development -> executing-plans -> verification-before-completion -> requesting-code-review -> finishing-a-development-branch
 ```
 
-## 平台接入
----
-lang: markdown
-emoji: 🔌
-link: https://github.com/obra/superpowers#installation
----
-
-### Claude Code
-```bash
-# 在 Claude Code 中加载 Superpowers 项目目录
-# Claude Code 会自动发现 skills/、commands/、hooks/、agents/
-# 无需额外安装，直接克隆仓库并 cd 进入即可
-git clone https://github.com/obra/superpowers.git
-cd superpowers
-```
-
-### Cursor
-```bash
-# Cursor 支持 Claude Code 插件生态
-# 将 Superpowers 仓库克隆到本地
-git clone https://github.com/obra/superpowers.git
-# 在 Cursor 设置中指向该目录，或使用官方市场插件（若有）
-```
-
-### Codex
-```bash
-# 方法一：克隆仓库到 ~/.codex/superpowers
-git clone https://github.com/obra/superpowers.git ~/.codex/superpowers
-
-# 方法二：将 skills 软链接到 Codex 查找路径
-git clone https://github.com/obra/superpowers.git /tmp/superpowers
-ln -s /tmp/superpowers/skills ~/.agents/skills/superpowers
-
-# 确认生效：重启 Codex 客户端后，询问 Superpowers 技能是否可见
-```
-
-### OpenCode
-```bash
-# 将仓库 URL 添加到 OpenCode 插件配置中
-# 目标：让 skills 在会话启动时自动加载
-# 参考官方文档：https://raw.githubusercontent.com/obra/superpowers/main/docs/README.opencode.md
-```
-
-### Gemini CLI
-```bash
-gemini extensions install https://github.com/obra/superpowers
-gemini extensions update superpowers
-```
 
 ## 仓库骨架
 ---
