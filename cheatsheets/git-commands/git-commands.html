@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>Git 核心命令指南</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png">
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 400px; 
+      --gap: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
+      <span class="title">Git 核心命令指南</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">1.0.0</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-04-21</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/git/git" target="_blank" rel="noopener">git/git</a></span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/git/git" target="_blank" rel="noopener">打开 Zread</a></span></span>
+      </div>
+      <div class="meta-tags"><tag-chip class="tag tag-group-2 detail-tag" data-name="CLI 工具" data-group="2" label="CLI 工具" group="2" variant="detail" icon="mdi:console-network-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M15 20a1 1 0 0 0-1-1h-1v-2h4a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4v2h-1a1 1 0 0 0-1 1H2v2h7a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1h7v-2zm-8-5V5h10v10zm1-8.11l3.56 3.56L8 14h2.53l2.92-2.92c.33-.34.33-.9 0-1.26L10.5 6.89zm8 5.33h-2.67V14H16z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-1 detail-tag" data-name="DevOps" data-group="1" label="DevOps" group="1" variant="detail" icon="mdi:infinity" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M18.6 6.62C21.58 6.62 24 9 24 12c0 2.96-2.42 5.37-5.4 5.37c-1.45 0-2.8-.56-3.82-1.57L12 13.34l-2.83 2.51c-.97.97-2.33 1.53-3.77 1.53C2.42 17.38 0 14.96 0 12s2.42-5.38 5.4-5.38c1.44 0 2.8.56 3.82 1.58L12 10.66l2.83-2.51c.97-.97 2.33-1.53 3.77-1.53M7.8 14.39L10.5 12L7.84 9.65c-.68-.68-1.53-1.03-2.44-1.03C3.53 8.62 2 10.13 2 12s1.53 3.38 3.4 3.38c.91 0 1.76-.35 2.4-.99m8.4-4.78L13.5 12l2.66 2.35c.68.68 1.54 1.03 2.44 1.03c1.87 0 3.4-1.51 3.4-3.38s-1.53-3.38-3.4-3.38c-.91 0-1.76.35-2.4.99&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="版本控制" data-group="2" label="版本控制" group="2" variant="detail" icon="mdi:source-branch" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M13 14c-3.36 0-4.46 1.35-4.82 2.24C9.25 16.7 10 17.76 10 19a3 3 0 0 1-3 3a3 3 0 0 1-3-3c0-1.31.83-2.42 2-2.83V7.83A2.99 2.99 0 0 1 4 5a3 3 0 0 1 3-3a3 3 0 0 1 3 3c0 1.31-.83 2.42-2 2.83v5.29c.88-.65 2.16-1.12 4-1.12c2.67 0 3.56-1.34 3.85-2.23A3.01 3.01 0 0 1 14 7a3 3 0 0 1 3-3a3 3 0 0 1 3 3c0 1.34-.88 2.5-2.09 2.86C17.65 11.29 16.68 14 13 14m-6 4a1 1 0 0 0-1 1a1 1 0 0 0 1 1a1 1 0 0 0 1-1a1 1 0 0 0-1-1M7 4a1 1 0 0 0-1 1a1 1 0 0 0 1 1a1 1 0 0 0 1-1a1 1 0 0 0-1-1m10 2a1 1 0 0 0-1 1a1 1 0 0 0 1 1a1 1 0 0 0 1-1a1 1 0 0 0-1-1&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-3 detail-tag" data-name="开发" data-group="3" label="开发" group="3" variant="detail" icon="mdi:code-tags" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m14.6 16.6l4.6-4.6l-4.6-4.6L16 6l6 6l-6 6zm-5.2 0L4.8 12l4.6-4.6L8 6l-6 6l6 6z&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>🧭 概念入门 <a href="https://git-scm.com/book/zh/v2/Git-基础-Git-工作原理" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">先理解 Git 的快照模型，再学命令会事半功倍。</div><h3>Git 快照模型</h3><div class="desc">Git 不是保存文件的差异，而是保存文件的完整快照。每次提交是对整个仓库的一次拍照。</div><ul><li><code>工作区 working tree</code>：你当前编辑的文件</li><li><code>暂存区 index/staged</code>：已标记要提交的文件</li><li><code>仓库 repository</code>：所有提交历史</li></ul><h3>指针与引用</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>引用</th><th>含义</th></tr></thead><tbody><tr><td>HEAD</td><td>指向当前分支的最新提交</td></tr><tr><td>origin/main</td><td>远程跟踪分支</td></tr><tr><td>main</td><td>本地分支</td></tr></tbody></table></div><h3>命令职责对照</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>命令</th><th>核心职责</th></tr></thead><tbody><tr><td>fetch</td><td>更新远程跟踪分支</td></tr><tr><td>pull</td><td>获取 + 合并远程提交</td></tr><tr><td>push</td><td>上传本地提交</td></tr><tr><td>merge</td><td>合并两个分支</td></tr><tr><td>rebase</td><td>变基，重写提交历史</td></tr><tr><td>checkout/switch</td><td>切换分支</td></tr><tr><td>reset</td><td>重置 HEAD 位置</td></tr></tbody></table></div></div><div class="card"><h2>☁️ fetch 与 pull <a href="https://git-scm.com/docs/git-fetch" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">fetch 和 pull 很容易混淆。关键区别是 fetch 不动本地分支，pull 会直接合并。</div><h3>fetch：只看不动</h3><pre><code class="language-bash">git fetch origin        # 获取所有远程分支更新
+git fetch origin main  # 只获取 main 分支
+git fetch --prune       # 清理已删除的远程分支</code></pre><h3>pull = fetch + merge</h3><pre><code class="language-bash">git pull                # 默认 fetch + merge
+git pull --ff-only      # 只允许快进，有冲突则失败
+git pull --rebase       # fetch + rebase，保持线性历史</code></pre><h3>场景选择</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>场景</th><th>推荐</th></tr></thead><tbody><tr><td>查看远程更新，不急着合并</td><td>git fetch</td></tr><tr><td>本地分支落后远程，需要快进</td><td>git pull --ff-only</td></tr><tr><td>保持线性历史，减少 merge 节点</td><td>git pull --rebase</td></tr><tr><td>不确定有没有冲突</td><td>先 git fetch，再看 git log</td></tr></tbody></table></div></div><div class="card"><h2>🔀 merge <a href="https://git-scm.com/docs/git-merge" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">merge 把两条分支合并成一条。根据分支关系不同，合并类型也不同。</div><h3>三种合并类型</h3><div class="desc">1. Fast-forward（快进）
+当分支没有分叉时，Git 直接把指针前移。</div><pre><code class="language-bash">git checkout feature
+git merge main  # 快进到 main</code></pre><div class="desc">2. 递归合并
+有分叉时创建 merge commit。</div><pre><code class="language-bash">git merge main  # 创建合并提交</code></pre><div class="desc">3. 快进失败
+无法快进时，Git 会创建 merge commit。</div><h3>常用选项</h3><pre><code class="language-bash">git merge --no-ff &lt;branch&gt;   # 即使能快进也创建 merge commit
+git merge --squash &lt;branch&gt;  # 压扁所有提交为一个
+git merge --abort            # 放弃当前合并</code></pre><h3>冲突处理</h3><h3>黄金法则</h3></div><div class="card"><h2>✂️ rebase <a href="https://git-scm.com/docs/git-rebase" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">rebase 会重写提交历史，把当前分支的提交&quot;复制&quot;到目标分支之上。</div><h3>基本 rebase</h3><pre><code class="language-bash">git checkout feature
+git rebase main  # 把 feature 变基到 main</code></pre><h3>rebase vs merge 对比</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>维度</th><th>rebase</th><th>merge</th></tr></thead><tbody><tr><td>历史</td><td>线性、干净</td><td>有 merge 节点</td></tr><tr><td>提交</td><td>重写</td><td>保留原样</td></tr><tr><td>适用</td><td>个人分支整理</td><td>公共分支</td></tr><tr><td>风险</td><td>只能用于私有分支</td><td>安全</td></tr></tbody></table></div><h3>交互式 rebase</h3><pre><code class="language-bash">git rebase -i HEAD~5  # 整理最近 5 个提交</code></pre><div class="table-wrap"><table class="cheat-table"><thead><tr><th>动作</th><th>效果</th></tr></thead><tbody><tr><td>pick</td><td>保留提交</td></tr><tr><td>reword</td><td>只改提交说明</td></tr><tr><td>squash</td><td>合并，保留说明</td></tr><tr><td>fixup</td><td>合并，丢弃说明</td></tr><tr><td>drop</td><td>删除提交</td></tr></tbody></table></div><h3>黄金法则</h3><h3>安全推送</h3><pre><code class="language-bash">git push --force-with-lease  # 比 --force 更安全</code></pre><h3>撤销 rebase</h3><pre><code class="language-bash">git reflog                      # 查看 rebase 前的 HEAD 位置
+git reset --hard HEAD@{1}       # 恢复到 rebase 前</code></pre></div><div class="card"><h2>📦 压缩合并 <a href="https://git-scm.com/docs/git-merge" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">把多个提交合并成一个的操作。适用于整理提交历史、清理零散补丁、合并功能分支。</div><h3>git merge --squash</h3><div class="desc">把指定分支的所有提交压缩成一个 merge commit，合并到当前分支。</div><pre><code class="language-bash">git checkout main
+git merge --squash feature/login   # 把 feature 分支所有提交压成一个
+git commit -m &quot;feat: add login feature&quot;  # 手动写一个清晰的提交说明</code></pre><div class="desc">原理：</div><ul><li>所有来自 feature 分支的改动保留，但提交历史被压缩成一条</li><li>原分支的提交不会被保留在当前分支的历史里</li><li>自动生成一个待提交的 merge commit，你需要手动写 message</li></ul><div class="desc">使用场景：</div><div class="table-wrap"><table class="cheat-table"><thead><tr><th>场景</th><th>说明</th></tr></thead><tbody><tr><td>功能分支开发完毕</td><td>把零碎的开发提交合并成一个大提交</td></tr><tr><td>合并他人的 PR</td><td>把多个人提交的补丁压成一个清晰的提交</td></tr><tr><td>代码审查后合并</td><td>审查过程中的小改动不需要保留在历史里</td></tr></tbody></table></div><div class="desc">常见误区：</div><div class="table-wrap"><table class="cheat-table"><thead><tr><th>误区</th><th>正确做法</th></tr></thead><tbody><tr><td>squash 后忘记提交</td><td>merge --squash 后必须 git commit 才能完成</td></tr><tr><td>误以为是 rebase</td><td>--squash 是 merge 的一种，不会改写历史</td></tr><tr><td>想保留多个提交</td><td>squash 会把所有提交合成一个</td></tr></tbody></table></div><div class="desc">撤销方法：</div><pre><code class="language-bash"># 如果还没提交，直接 reset
+git reset --hard HEAD~1
+
+# 如果已经提交，用 revert 创建反向提交
+git revert -m 1 HEAD</code></pre><h3>git rebase -i squash / fixup</h3><div class="desc">在交互式变基中，把多个连续的提交合并成一个。</div><pre><code class="language-bash">git rebase -i HEAD~5  # 整理最近 5 个提交</code></pre><div class="desc">squash vs fixup 对比：</div><div class="table-wrap"><table class="cheat-table"><thead><tr><th>动作</th><th>commit message</th><th>改动合并方式</th></tr></thead><tbody><tr><td>squash</td><td>合并后需要写新 message</td><td>保留所有改动 + message</td></tr><tr><td>fixup</td><td>直接丢弃后面的 message</td><td>保留所有改动，自动用第一个 message</td></tr></tbody></table></div><div class="desc">squash 示例：</div><pre><code class="language-bash"># 在编辑器里把要合并的提交改成 squash
+pick abc1234 feat: add login form
+squash def5678 fix typo in form
+squash 9123abc fix lint</code></pre><div class="desc">编辑器会弹出让你写新的 commit message，保存后三个提交会合并成一个。</div><div class="desc">fixup 示例：</div><pre><code class="language-bash"># fixup 会自动用第一个提交的消息，不需要写新 message
+pick abc1234 feat: add login form
+fixup def5678 fix typo
+fixup 9123abc fix lint</code></pre><div class="desc">常见误区：</div><div class="table-wrap"><table class="cheat-table"><thead><tr><th>误区</th><th>正确做法</th></tr></thead><tbody><tr><td>在已推送的分支上 squash</td><td>不要在公共分支上操作，会改写历史</td></tr><tr><td>squash 后发现有问题</td><td>用 git rebase --abort 取消，或 git reflog 恢复</td></tr><tr><td>把不相关的提交 squash 在一起</td><td>只合并逻辑上相关的提交</td></tr></tbody></table></div><div class="desc">撤销方法：</div><pre><code class="language-bash"># 在 rebase 过程中取消
+git rebase --abort
+
+# rebase 完成后，用 reflog 恢复
+git reflog
+git reset --hard HEAD@{1}  # 恢复到 rebase 前</code></pre><h3>两种方式对比</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>维度</th><th>merge --squash</th><th>rebase -i squash/fixup</th></tr></thead><tbody><tr><td>目的</td><td>合并两个分支时压缩历史</td><td>整理本地多个提交</td></tr><tr><td>结果</td><td>一个 merge commit</td><td>线性历史，无 merge 节点</td></tr><tr><td>是否改写历史</td><td>否，保留原提交</td><td>是，改写提交历史</td></tr><tr><td>适用分支</td><td>任何分支</td><td>只能用于本地、未推送的分支</td></tr><tr><td>操作时机</td><td>合并时</td><td>任何时候</td></tr><tr><td>撤销难度</td><td>简单（reset 或 revert）</td><td>复杂（需要 reflog）</td></tr></tbody></table></div><div class="desc">选择建议：</div><ul><li><code>merge --squash</code></li><li><code>rebase -i</code></li><li><code>merge --squash</code></li></ul></div><div class="card"><h2>🔄 checkout、switch 与 restore <a href="https://git-scm.com/docs/git-switch" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Git 2.23 把 checkout 的职责拆成了 switch（切换分支）和 restore（恢复文件）。</div><h3>老式 checkout（仍有见到）</h3><pre><code class="language-bash">git checkout main        # 切换分支
+git checkout -- file.txt # 丢弃文件修改</code></pre><h3>现代 switch（推荐）</h3><pre><code class="language-bash">git switch main          # 切换到 main
+git switch -c feat/xxx   # 创建并切换
+git switch -            # 回到上一个分支</code></pre><h3>restore（Git 2.23+）</h3><pre><code class="language-bash">git restore file.txt           # 丢弃工作区修改
+git restore --staged file.txt  # 取消暂存
+git restore --source=HEAD~1 file.txt  # 从指定提交恢复</code></pre><h3>职责对照</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>命令</th><th>职责</th></tr></thead><tbody><tr><td>git checkout</td><td>切换分支 + 恢复文件（老式）</td></tr><tr><td>git switch</td><td>只切换分支</td></tr><tr><td>git restore</td><td>只恢复文件</td></tr></tbody></table></div></div><div class="card"><h2>⏪ reset <a href="https://git-scm.com/docs/git-reset" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">reset 用于移动 HEAD 指针，配合不同模式可以控制暂存区和工作区的状态。</div><h3>三种模式对比</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>模式</th><th>HEAD</th><th>暂存区</th><th>工作区</th><th>常见用途</th></tr></thead><tbody><tr><td>--soft</td><td>回退</td><td>保留</td><td>保留</td><td>撤销提交，保留暂存</td></tr><tr><td>--mixed</td><td>回退</td><td>重置</td><td>保留</td><td>取消暂存，把改动放回工作区</td></tr><tr><td>--hard</td><td>回退</td><td>重置</td><td>重置</td><td>彻底回滚，危险</td></tr></tbody></table></div><h3>常用场景</h3><pre><code class="language-bash"># 撤销最近提交，保留暂存（可以重新提交）
+git reset --soft HEAD~1
+
+# 取消暂存，把改动放回工作区
+git reset --mixed HEAD~1
+
+# 彻底回滚（危险！）
+git reset --hard HEAD~1</code></pre><h3>reflog 后悔药</h3><pre><code class="language-bash">git reflog                        # 查看所有操作历史
+git reflog --date=relative        # 显示相对时间
+git reset --hard HEAD@{2}         # 恢复到某个操作前</code></pre><h3>revert vs reset</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>场景</th><th>推荐</th><th>原因</th></tr></thead><tbody><tr><td>撤销已推送的公共提交</td><td>git revert</td><td>不改历史，安全</td></tr><tr><td>撤销未推送的本地提交</td><td>git reset</td><td>不用生成反向提交</td></tr></tbody></table></div></div><div class="card"><h2>⬆️ push <a href="https://git-scm.com/docs/git-push" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">push 把本地提交上传到远程仓库。</div><h3>基本用法</h3><pre><code class="language-bash">git push                          # 推送到默认 upstream
+git push origin main              # 推送到指定远端分支
+git push -u origin feature        # 首次推送，建立 upstream
+git push --force-with-lease       # 安全强推</code></pre><h3>force-with-lease vs force</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>命令</th><th>安全性</th></tr></thead><tbody><tr><td>--force</td><td>危险，可能覆盖他人推送</td></tr><tr><td>--force-with-lease</td><td>更好，如果远程有更新会拒绝</td></tr></tbody></table></div><h3>删除远程分支</h3><pre><code class="language-bash">git push origin --delete old-branch</code></pre><h3>设置默认行为</h3><pre><code class="language-bash">git config --global push.autoSetupRemote true  # 首次 push 自动建立 upstream</code></pre></div><div class="card"><h2>📋 速查对照表</h2><div class="desc">快速查找各命令的核心参数和用法。</div><h3>reset 三兄弟</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>命令</th><th>HEAD</th><th>暂存区</th><th>工作区</th></tr></thead><tbody><tr><td>reset --soft HEAD~1</td><td>回退</td><td>保留</td><td>保留</td></tr><tr><td>reset --mixed HEAD~1</td><td>回退</td><td>重置</td><td>保留</td></tr><tr><td>reset --hard HEAD~1</td><td>回退</td><td>重置</td><td>重置</td></tr></tbody></table></div><h3>pull 策略</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>命令</th><th>效果</th></tr></thead><tbody><tr><td>pull</td><td>fetch + merge</td></tr><tr><td>pull --ff-only</td><td>只接受快进，有冲突则失败</td></tr><tr><td>pull --rebase</td><td>fetch + rebase</td></tr></tbody></table></div><h3>rebase -i 动作</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>动作</th><th>效果</th></tr></thead><tbody><tr><td>pick</td><td>保留</td></tr><tr><td>reword</td><td>改 message</td></tr><tr><td>squash</td><td>合并，保留 message</td></tr><tr><td>fixup</td><td>合并，丢弃 message</td></tr><tr><td>drop</td><td>删除</td></tr></tbody></table></div><h3>checkout / switch / restore</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>场景</th><th>命令</th></tr></thead><tbody><tr><td>切换分支</td><td>switch &lt;branch&gt;</td></tr><tr><td>创建并切换</td><td>switch -c &lt;branch&gt;</td></tr><tr><td>恢复文件（丢弃修改）</td><td>restore &lt;file&gt;</td></tr><tr><td>取消暂存</td><td>restore --staged &lt;file&gt;</td></tr></tbody></table></div></div>
+    </div>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>
