@@ -376,6 +376,8 @@ desc: fetch、pull、push 三件事别混成一件。
 
 - `git remote show origin` : 查看远端详细信息
 
+> 这部分内容已迁移至 [git-commands](../git-commands/) 完整学习指南，包含 fetch/pull/push 的详细场景对比。
+
 ## stash、worktree、恢复与重置
 ---
 emoji: 🧰
