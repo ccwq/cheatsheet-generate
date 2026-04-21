@@ -176,6 +176,125 @@ git reflog                      # 查看 rebase 前的 HEAD 位置
 git reset --hard HEAD@{1}       # 恢复到 rebase 前
 ```
 
+## 压缩合并
+---
+emoji: 📦
+link: https://git-scm.com/docs/git-merge
+desc: 把多个提交合并成一个的操作。适用于整理提交历史、清理零散补丁、合并功能分支。
+---
+
+### git merge --squash
+
+把指定分支的所有提交压缩成一个 merge commit，合并到当前分支。
+
+```bash
+git checkout main
+git merge --squash feature/login   # 把 feature 分支所有提交压成一个
+git commit -m "feat: add login feature"  # 手动写一个清晰的提交说明
+```
+
+**原理：**
+- 所有来自 feature 分支的改动保留，但提交历史被压缩成一条
+- 原分支的提交不会被保留在当前分支的历史里
+- 自动生成一个待提交的 merge commit，你需要手动写 message
+
+**使用场景：**
+
+| 场景 | 说明 |
+|------|------|
+| 功能分支开发完毕 | 把零碎的开发提交合并成一个大提交 |
+| 合并他人的 PR | 把多个人提交的补丁压成一个清晰的提交 |
+| 代码审查后合并 | 审查过程中的小改动不需要保留在历史里 |
+
+**常见误区：**
+
+| 误区 | 正确做法 |
+|------|---------|
+| squash 后忘记提交 | merge --squash 后必须 git commit 才能完成 |
+| 误以为是 rebase | --squash 是 merge 的一种，不会改写历史 |
+| 想保留多个提交 | squash 会把所有提交合成一个 |
+
+**撤销方法：**
+
+```bash
+# 如果还没提交，直接 reset
+git reset --hard HEAD~1
+
+# 如果已经提交，用 revert 创建反向提交
+git revert -m 1 HEAD
+```
+
+### git rebase -i squash / fixup
+
+在交互式变基中，把多个连续的提交合并成一个。
+
+```bash
+git rebase -i HEAD~5  # 整理最近 5 个提交
+```
+
+**squash vs fixup 对比：**
+
+| 动作 | commit message | 改动合并方式 |
+|------|---------------|-------------|
+| squash | 合并后需要写新 message | 保留所有改动 + message |
+| fixup | 直接丢弃后面的 message | 保留所有改动，自动用第一个 message |
+
+**squash 示例：**
+
+```bash
+# 在编辑器里把要合并的提交改成 squash
+pick abc1234 feat: add login form
+squash def5678 fix typo in form
+squash 9123abc fix lint
+```
+
+编辑器会弹出让你写新的 commit message，保存后三个提交会合并成一个。
+
+**fixup 示例：**
+
+```bash
+# fixup 会自动用第一个提交的消息，不需要写新 message
+pick abc1234 feat: add login form
+fixup def5678 fix typo
+fixup 9123abc fix lint
+```
+
+**常见误区：**
+
+| 误区 | 正确做法 |
+|------|---------|
+| 在已推送的分支上 squash | 不要在公共分支上操作，会改写历史 |
+| squash 后发现有问题 | 用 `git rebase --abort` 取消，或 `git reflog` 恢复 |
+| 把不相关的提交 squash 在一起 | 只合并逻辑上相关的提交 |
+
+**撤销方法：**
+
+```bash
+# 在 rebase 过程中取消
+git rebase --abort
+
+# rebase 完成后，用 reflog 恢复
+git reflog
+git reset --hard HEAD@{1}  # 恢复到 rebase 前
+```
+
+### 两种方式对比
+
+| 维度 | merge --squash | rebase -i squash/fixup |
+|------|---------------|----------------------|
+| 目的 | 合并两个分支时压缩历史 | 整理本地多个提交 |
+| 结果 | 一个 merge commit | 线性历史，无 merge 节点 |
+| 是否改写历史 | 否，保留原提交 | 是，改写提交历史 |
+| 适用分支 | 任何分支 | **只能用于本地、未推送的分支** |
+| 操作时机 | 合并时 | 任何时候 |
+| 撤销难度 | 简单（reset 或 revert） | 复杂（需要 reflog） |
+
+**选择建议：**
+
+- 合并功能分支 → 用 `merge --squash`
+- 整理本地提交历史 → 用 `rebase -i`
+- 不确定时，优先用 `merge --squash`，更安全
+
 ## checkout、switch 与 restore
 ---
 emoji: 🔄
