@@ -1,0 +1,10 @@
+desc: rclone 命令速查，覆盖远端概念、copy/sync/bisync、挂载、校验和过滤规则，适合云盘迁移与自动化同步。
+tags:
+  - CLI 工具
+  - 云存储
+  - 同步备份
+  - DevOps
+version: 1.73.5
+github: rclone/rclone
+date: "2026-04-19"
+

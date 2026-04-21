@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>rclone 命令速查</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png">
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 360px; 
+      --gap: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
+      <span class="title">rclone 命令速查</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">1.73.5</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-04-19</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/rclone/rclone" target="_blank" rel="noopener">rclone/rclone</a></span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/rclone/rclone" target="_blank" rel="noopener">打开 Zread</a></span></span>
+      </div>
+      <div class="meta-tags"><tag-chip class="tag tag-group-2 detail-tag" data-name="CLI 工具" data-group="2" label="CLI 工具" group="2" variant="detail" icon="mdi:console-network-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M15 20a1 1 0 0 0-1-1h-1v-2h4a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4v2h-1a1 1 0 0 0-1 1H2v2h7a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1h7v-2zm-8-5V5h10v10zm1-8.11l3.56 3.56L8 14h2.53l2.92-2.92c.33-.34.33-.9 0-1.26L10.5 6.89zm8 5.33h-2.67V14H16z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="云存储" data-group="0" label="云存储" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="同步备份" data-group="0" label="同步备份" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-1 detail-tag" data-name="DevOps" data-group="1" label="DevOps" group="1" variant="detail" icon="mdi:infinity" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M18.6 6.62C21.58 6.62 24 9 24 12c0 2.96-2.42 5.37-5.4 5.37c-1.45 0-2.8-.56-3.82-1.57L12 13.34l-2.83 2.51c-.97.97-2.33 1.53-3.77 1.53C2.42 17.38 0 14.96 0 12s2.42-5.38 5.4-5.38c1.44 0 2.8.56 3.82 1.58L12 10.66l2.83-2.51c.97-.97 2.33-1.53 3.77-1.53M7.8 14.39L10.5 12L7.84 9.65c-.68-.68-1.53-1.03-2.44-1.03C3.53 8.62 2 10.13 2 12s1.53 3.38 3.4 3.38c.91 0 1.76-.35 2.4-.99m8.4-4.78L13.5 12l2.66 2.35c.68.68 1.54 1.03 2.44 1.03c1.87 0 3.4-1.51 3.4-3.38s-1.53-3.38-3.4-3.38c-.91 0-1.76.35-2.4.99&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>🧭 一眼入口 <a href="https://rclone.org/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">rclone 是 “rsync for cloud storage”，适合做云盘迁移、同步、挂载和校验。</div><h3>最短路径</h3><pre><code class="language-bash">rclone config
+rclone lsd remote:
+rclone copy ./data remote:backup
+rclone sync ./data remote:mirror</code></pre><h3>你先记住这 4 个动作</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>目标</th><th>命令</th></tr></thead><tbody><tr><td>只补新增或变更文件</td><td>copy</td></tr><tr><td>让目标和源完全一致</td><td>sync</td></tr><tr><td>双向保持一致</td><td>bisync</td></tr><tr><td>先比对再操作</td><td>check</td></tr></tbody></table></div></div><div class="card"><h2>☁️ 远端概念 <a href="https://rclone.org/docs/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">rclone 把本地目录、云盘、对象存储和协议端点统一成 remote。</div><h3>路径写法</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>写法</th><th>含义</th></tr></thead><tbody><tr><td>local/path</td><td>本地路径</td></tr><tr><td>remote:</td><td>远端根目录</td></tr><tr><td>remote:dir/file.txt</td><td>远端某个路径</td></tr><tr><td>remote1:dir remote2:dir</td><td>远端之间复制或同步</td></tr></tbody></table></div><h3>先看远端</h3><pre><code class="language-bash">rclone listremotes
+rclone lsd remote:
+rclone ls remote:bucket
+rclone lsl remote:bucket</code></pre></div><div class="card"><h2>⚙️ 高频命令 <a href="https://rclone.org/commands/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">常用命令按“复制、同步、移动、校验、挂载、服务”来记最省脑。</div><h3>复制与同步</h3><pre><code class="language-bash">rclone copy ./data remote:backup
+rclone copy --progress ./data remote:backup
+rclone sync ./data remote:mirror
+rclone sync --dry-run ./data remote:mirror</code></pre><h3>双向同步</h3><pre><code class="language-bash">rclone bisync ./left remote:shared
+rclone bisync --resync ./left remote:shared</code></pre><h3>移动与清理</h3><pre><code class="language-bash">rclone move ./data remote:archive
+rclone delete remote:trash
+rclone purge remote:empty-dir</code></pre><h3>比对与校验</h3><pre><code class="language-bash">rclone check ./data remote:backup
+rclone checksum ./data remote:backup
+rclone size remote:backup</code></pre></div><div class="card"><h2>🧰 场景套路 <a href="https://rclone.org/overview/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">把 rclone 当成工作流工具用，通常比记零散命令更稳。</div><h3>1. 首次接入一个云盘</h3><pre><code class="language-bash">rclone config
+rclone listremotes
+rclone lsd remote:</code></pre><h3>2. 迁移一个目录到云端</h3><pre><code class="language-bash">rclone copy -P ./project remote:backup/project
+rclone copy -P --dry-run ./project remote:backup/project</code></pre><h3>3. 维护镜像备份</h3><pre><code class="language-bash">rclone sync -P ./project remote:mirror/project</code></pre><h3>4. 需要双向协作目录</h3><pre><code class="language-bash">rclone bisync -P ./shared remote:team/shared</code></pre><h3>5. 让本地程序把远端当磁盘用</h3><pre><code class="language-bash">rclone mount remote:bucket /mnt/bucket</code></pre><h3>6. 对外提供文件服务</h3><pre><code class="language-bash">rclone serve web remote:bucket
+rclone serve ftp remote:bucket
+rclone serve sftp remote:bucket</code></pre></div><div class="card"><h2>🛡️ 过滤与风险 <a href="https://rclone.org/filtering/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">先做过滤，再做删除类操作，能少踩很多坑。</div><h3>常用保护参数</h3><pre><code class="language-bash">rclone sync --dry-run ./data remote:mirror
+rclone sync --progress ./data remote:mirror
+rclone sync --exclude &quot;*.log&quot; ./data remote:mirror
+rclone sync --filter-from filters.txt ./data remote:mirror</code></pre><h3>过滤文件示例</h3><pre><code class="language-text">- *.log
+- node_modules/**
++ important.txt</code></pre><h3>删除前先确认</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>场景</th><th>建议</th></tr></thead><tbody><tr><td>第一次跑同步</td><td>先加 --dry-run</td></tr><tr><td>会删远端文件</td><td>先加 --progress 和 --dry-run</td></tr><tr><td>规则很多</td><td>用 --filter-from</td></tr><tr><td>需要反复跑</td><td>先固定过滤文件，再自动化</td></tr></tbody></table></div></div><div class="card"><h2>📋 速查表</h2><div class="desc">常见命令和用途快速对照。</div><div class="table-wrap"><table class="cheat-table"><thead><tr><th>命令</th><th>用途</th></tr></thead><tbody><tr><td>config</td><td>配置 remote</td></tr><tr><td>listremotes</td><td>查看所有 remote</td></tr><tr><td>lsd</td><td>列目录</td></tr><tr><td>ls / lsl</td><td>列文件</td></tr><tr><td>copy</td><td>复制新增/变更</td></tr><tr><td>sync</td><td>双端镜像</td></tr><tr><td>bisync</td><td>双向同步</td></tr><tr><td>move</td><td>复制后删除源</td></tr><tr><td>check</td><td>校验一致性</td></tr><tr><td>mount</td><td>挂载远端</td></tr><tr><td>serve</td><td>提供文件服务</td></tr></tbody></table></div></div>
+    </div>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>
