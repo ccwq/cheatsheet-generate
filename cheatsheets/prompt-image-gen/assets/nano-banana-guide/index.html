@@ -1,0 +1,1455 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nano Banana Pro 精准图像提示指南 — 编辑部排版版</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: oklch(0.971 0.006 250);
+      --bg-secondary: oklch(0.995 0.002 250);
+      --bg-sidebar: oklch(0.952 0.008 250);
+      --bg-highlight: oklch(0.956 0.024 239);
+      --bg-panel: oklch(0.984 0.007 250);
+      --bg-infobox: oklch(0.968 0.02 244);
+      --accent-blue: oklch(0.54 0.16 256);
+      --accent-blue-soft: oklch(0.92 0.03 250);
+      --accent-dark: oklch(0.22 0.022 252);
+      --accent-red: oklch(0.58 0.19 28);
+      --accent-green: oklch(0.59 0.14 151);
+      --accent-purple: oklch(0.56 0.16 312);
+      --accent-orange: oklch(0.66 0.16 58);
+      --accent-teal: oklch(0.56 0.11 200);
+      --accent-pink: oklch(0.57 0.18 350);
+      --accent-indigo: oklch(0.46 0.14 276);
+      --border-main: oklch(0.8 0.01 250);
+      --border-light: oklch(0.88 0.008 250);
+      --border-strong: oklch(0.73 0.02 250);
+      --text-primary: oklch(0.2 0.015 250);
+      --text-secondary: oklch(0.34 0.012 250);
+      --text-muted: oklch(0.48 0.01 250);
+      --text-link: oklch(0.46 0.16 255);
+      --shadow-soft: 0 16px 40px rgba(19, 27, 42, 0.06);
+      --shadow-card: 0 14px 28px rgba(23, 32, 47, 0.08);
+      --font-serif: 'Source Serif 4', 'Georgia', serif;
+      --font-sans: 'Noto Sans SC', sans-serif;
+      --font-display: 'Manrope', 'Noto Sans SC', sans-serif;
+      --radius-sm: 8px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --sidebar-width: 248px;
+      --content-max: 1360px;
+      --space-2xs: 4px;
+      --space-xs: 8px;
+      --space-sm: 12px;
+      --space-md: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+      --space-2xl: 48px;
+      --header-offset: 76px;
+      --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { font-size: 14px; scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-sans);
+      background:
+        radial-gradient(circle at top right, rgba(86, 117, 202, 0.08), transparent 24%),
+        linear-gradient(180deg, rgba(255,255,255,0.78), rgba(255,255,255,0.78)),
+        var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--text-link); text-decoration: none; transition: color 180ms var(--ease-out-quart); }
+    a:hover { color: var(--accent-dark); text-decoration: none; }
+    img { max-width: 100%; height: auto; display: block; }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg-primary); }
+    ::-webkit-scrollbar-thumb { background: var(--border-main); border-radius: 4px; }
+    ::selection { background: color-mix(in oklab, var(--accent-blue) 18%, white); }
+
+    /* Layout */
+    .wiki-container { display: flex; min-height: 100vh; }
+
+    /* Sidebar */
+    .wiki-sidebar {
+      position: sticky;
+      top: 0;
+      width: var(--sidebar-width);
+      height: 100vh;
+      overflow-y: auto;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.7), transparent 14%),
+        var(--bg-sidebar);
+      border-right: 1px solid var(--border-light);
+      flex-shrink: 0;
+      padding: 20px 0 28px;
+    }
+    .wiki-sidebar .sidebar-logo {
+      padding: 0 18px 18px;
+      border-bottom: 1px solid var(--border-light);
+      margin-bottom: 14px;
+    }
+    .wiki-sidebar .sidebar-logo a {
+      display: grid;
+      grid-template-columns: 36px 1fr;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 0.96rem;
+      color: var(--text-primary);
+      text-decoration: none;
+      line-height: 1.15;
+    }
+    .logo-copy small {
+      display: block;
+      margin-top: 4px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(145deg, color-mix(in oklab, var(--accent-dark) 90%, black), color-mix(in oklab, var(--accent-blue) 68%, white));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 0.96rem;
+      box-shadow: 0 10px 24px rgba(56, 77, 121, 0.2);
+    }
+    .toc-title {
+      padding: 0 18px;
+      font-family: var(--font-display);
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+    .wiki-sidebar nav ul { list-style: none; }
+    .wiki-sidebar nav ul li a {
+      display: block;
+      margin: 2px 10px;
+      padding: 7px 10px;
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      border-radius: 10px;
+      transition:
+        background-color 180ms var(--ease-out-quart),
+        color 180ms var(--ease-out-quart),
+        transform 180ms var(--ease-out-quart);
+    }
+    .wiki-sidebar nav ul li a:hover {
+      color: var(--accent-dark);
+      background: rgba(77, 108, 189, 0.08);
+      transform: translateX(2px);
+      text-decoration: none;
+    }
+    .wiki-sidebar nav ul li a.is-active {
+      color: var(--accent-dark);
+      background: color-mix(in oklab, var(--accent-blue) 12%, white);
+      font-weight: 700;
+    }
+    .wiki-sidebar nav ul li.section-header {
+      padding: 12px 18px 6px;
+      font-family: var(--font-display);
+      font-size: 0.68rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+    .toc-note {
+      margin: 8px 18px 0;
+      padding: 10px 12px;
+      background: rgba(77, 108, 189, 0.06);
+      border: 1px solid rgba(77, 108, 189, 0.12);
+      border-radius: 12px;
+      font-size: 0.72rem;
+      line-height: 1.55;
+      color: var(--text-muted);
+    }
+
+    /* Main */
+    .wiki-main { flex: 1; overflow: hidden; }
+
+    /* Header */
+    .wiki-header {
+      background: rgba(253, 253, 254, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-light);
+      padding: 12px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .wiki-header .header-left { display: flex; align-items: center; gap: 16px; font-size: 0.82rem; color: var(--text-muted); }
+    .wiki-header .breadcrumb { display: flex; align-items: center; gap: 6px; }
+    .wiki-header .breadcrumb a { color: var(--text-muted); }
+    .wiki-header .header-right { display: flex; align-items: center; gap: 14px; font-size: 0.76rem; color: var(--text-muted); }
+    .wiki-header .header-right a { color: var(--text-muted); }
+
+    /* Article */
+    .wiki-article { max-width: var(--content-max); margin: 0 auto; padding: 28px 28px 72px; }
+    .article-shell {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) 320px;
+      gap: 24px;
+      align-items: start;
+    }
+    .article-main { min-width: 0; }
+    .article-aside {
+      position: sticky;
+      top: calc(var(--header-offset) + 12px);
+      display: grid;
+      gap: 14px;
+    }
+
+    /* Title */
+    .article-title-section {
+      margin-bottom: 22px;
+      padding: 24px 26px 22px;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      background:
+        linear-gradient(135deg, rgba(77, 108, 189, 0.08), transparent 42%),
+        var(--bg-secondary);
+      box-shadow: var(--shadow-soft);
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--text-muted);
+    }
+    .eyebrow::before {
+      content: "";
+      width: 28px;
+      height: 1px;
+      background: var(--border-strong);
+    }
+    .article-title-section h1 {
+      max-width: 16ch;
+      font-family: var(--font-serif);
+      font-size: clamp(2.2rem, 3.4vw, 3.2rem);
+      font-weight: 600;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+      text-wrap: balance;
+    }
+    .article-title-section .subtitle {
+      max-width: 62ch;
+      font-size: 0.96rem;
+      color: var(--text-secondary);
+    }
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+    .hero-pill {
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: rgba(77, 108, 189, 0.08);
+      border: 1px solid rgba(77, 108, 189, 0.12);
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+    }
+
+    /* Infobox */
+    .infobox {
+      width: 100%;
+      background: var(--bg-infobox);
+      border: 1px solid rgba(77, 108, 189, 0.22);
+      border-radius: 20px;
+      overflow: hidden;
+      font-size: 0.8rem;
+      box-shadow: var(--shadow-soft);
+    }
+    .infobox-header {
+      background: linear-gradient(135deg, color-mix(in oklab, var(--accent-blue) 92%, black), color-mix(in oklab, var(--accent-blue) 72%, white));
+      color: white;
+      padding: 10px 14px;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
+    }
+    .infobox img { width: 100%; aspect-ratio: 1.16 / 1; object-fit: cover; border-bottom: 1px solid rgba(77,108,189,0.16); }
+    .infobox table { width: 100%; border-collapse: collapse; }
+    .infobox table tr { border-bottom: 1px solid rgba(77,108,189,0.1); }
+    .infobox table tr:last-child { border-bottom: none; }
+    .infobox table th { padding: 7px 12px; text-align: left; font-weight: 700; color: var(--text-secondary); width: 36%; vertical-align: top; font-size: 0.75rem; }
+    .infobox table td { padding: 7px 12px; text-align: left; font-size: 0.75rem; color: var(--text-secondary); }
+    .aside-panel {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-light);
+      border-radius: 18px;
+      padding: 14px 16px;
+      box-shadow: var(--shadow-soft);
+    }
+    .aside-panel h3 {
+      font-family: var(--font-display);
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+    .aside-list {
+      display: grid;
+      gap: 8px;
+      list-style: none;
+    }
+    .aside-list li {
+      display: grid;
+      grid-template-columns: 54px 1fr;
+      gap: 8px;
+      font-size: 0.76rem;
+      color: var(--text-secondary);
+    }
+    .aside-list strong {
+      font-family: var(--font-display);
+      font-weight: 800;
+      color: var(--accent-dark);
+    }
+    .aside-note {
+      font-size: 0.76rem;
+      line-height: 1.65;
+      color: var(--text-muted);
+    }
+
+    /* Sections */
+    .article-section {
+      margin: 26px 0 18px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border-light);
+      scroll-margin-top: calc(var(--header-offset) + 18px);
+    }
+    .article-section:first-of-type { margin-top: 0; }
+    .article-section h2 {
+      font-family: var(--font-serif);
+      font-size: 1.36rem;
+      font-weight: 600;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border-light);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .article-section h2 .section-num {
+      font-family: var(--font-display);
+      font-size: 0.74rem;
+      font-weight: 800;
+      color: white;
+      background: var(--accent-blue);
+      padding: 3px 10px;
+      border-radius: 999px;
+      min-width: 40px;
+      text-align: center;
+    }
+    .article-section h3 { font-family: var(--font-serif); font-size: 1.05rem; font-weight: 600; margin: 18px 0 10px; }
+    .article-section h4 { font-family: var(--font-display); font-size: 0.88rem; font-weight: 800; margin: 14px 0 8px; letter-spacing: 0.01em; }
+    .article-section p { margin-bottom: 12px; text-align: justify; font-size: 0.88rem; color: var(--text-primary); }
+
+    /* Tip Card */
+    .tip-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-light);
+      border-radius: 20px;
+      margin: 18px 0;
+      overflow: hidden;
+      box-shadow: var(--shadow-soft);
+      transition: transform 240ms var(--ease-out-quart), box-shadow 240ms var(--ease-out-quart), border-color 240ms var(--ease-out-quart);
+    }
+    .tip-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-card);
+      border-color: rgba(77, 108, 189, 0.22);
+    }
+    .tip-card .tip-card-header {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: linear-gradient(180deg, rgba(77, 108, 189, 0.04), transparent);
+    }
+    .tip-card .tip-card-header .tip-num { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-family: var(--font-display); font-weight: 700; font-size: 0.8rem; color: white; flex-shrink: 0; }
+    .tip-card .tip-card-header .tip-num.n1{background:#7b1fa2}.tip-card .tip-card-header .tip-num.n2{background:#e65100}.tip-card .tip-card-header .tip-num.n3{background:#1565c0}.tip-card .tip-card-header .tip-num.n4{background:#00695c}.tip-card .tip-card-header .tip-num.n5{background:#c62828}.tip-card .tip-card-header .tip-num.n6{background:#6a1b9a}.tip-card .tip-card-header .tip-num.n7{background:#00838f}.tip-card .tip-card-header .tip-num.n8{background:#2e7d32}.tip-card .tip-card-header .tip-num.n9{background:#ad1457}.tip-card .tip-card-header .tip-num.n10{background:#4527a0}.tip-card .tip-card-header .tip-num.n11{background:#00695c}.tip-card .tip-card-header .tip-num.n12{background:#ad1457}.tip-card .tip-card-header .tip-num.n13{background:#1565c0}.tip-card .tip-card-header .tip-num.n14{background:#6a1b9a}.tip-card .tip-card-header .tip-num.n15{background:#c62828}.tip-card .tip-card-header .tip-num.n16{background:#e65100}.tip-card .tip-card-header .tip-num.n17{background:#7b1fa2}.tip-card .tip-card-header .tip-num.n18{background:#2e7d32}.tip-card .tip-card-header .tip-num.n19{background:#00838f}.tip-card .tip-card-header .tip-num.n20{background:#3366cc}
+    .tip-card .tip-card-header h3 { font-family: var(--font-display); font-size: 0.9rem; font-weight: 800; margin: 0; line-height: 1.35; }
+    .tip-card .tip-card-body { display: grid; grid-template-columns: 1fr 1fr; }
+    .tip-card .tip-card-body .tip-text { padding: 16px; }
+    .tip-card .tip-card-body .tip-image { position: relative; min-height: 260px; }
+    .tip-card .tip-card-body .tip-image img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+    .tip-card .tip-card-body .tip-desc { font-size: 0.83rem; color: var(--text-secondary); margin-bottom: 12px; line-height: 1.75; }
+
+    /* Grid */
+    .two-col-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: 8px 0; }
+    .grid-item {
+      background: rgba(77, 108, 189, 0.05);
+      border: 1px solid rgba(77, 108, 189, 0.1);
+      border-radius: 12px;
+      padding: 7px 10px;
+      font-size: 0.79rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      min-width: 0;
+    }
+    .grid-item .emoji { font-size: 0.85rem; }
+
+    /* Lists */
+    .article-section ul, .article-section ol { margin: 0 0 12px 20px; padding: 0; }
+    .article-section ul li, .article-section ol li { margin-bottom: 5px; font-size: 0.88rem; }
+    .article-section ul li::marker { color: var(--accent-blue); }
+
+    /* Example box */
+    .example-box { background: oklch(0.985 0.03 97); border: 1px solid oklch(0.9 0.06 92); border-radius: 16px; padding: 12px 14px; margin: 10px 0; }
+    .example-box .label { font-family: var(--font-display); font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: oklch(0.63 0.15 72); margin-bottom: 8px; }
+    .example-row { display: flex; gap: 12px; margin-bottom: 4px; font-size: 0.82rem; }
+    .example-row:last-child { margin-bottom: 0; }
+    .example-key { color: var(--accent-blue); font-weight: 600; min-width: 60px; font-family: var(--font-display); }
+    .example-val { color: var(--text-primary); }
+
+    /* Quote */
+    blockquote {
+      position: relative;
+      background: var(--bg-highlight);
+      border: 1px solid rgba(77, 108, 189, 0.12);
+      padding: 14px 16px 14px 44px;
+      margin: 14px 0;
+      font-style: italic;
+      font-size: 0.86rem;
+      color: var(--text-secondary);
+      border-radius: 16px;
+    }
+    blockquote::before {
+      content: "“";
+      position: absolute;
+      left: 14px;
+      top: 8px;
+      font-family: var(--font-serif);
+      font-size: 2rem;
+      line-height: 1;
+      color: rgba(77, 108, 189, 0.42);
+    }
+
+    /* Insight box */
+    .insight-box { display: flex; align-items: center; gap: 8px; padding: 9px 12px; border-radius: 12px; margin: 8px 0; font-size: 0.8rem; font-weight: 600; }
+    .insight-box.purple { background: rgba(123, 31, 162, 0.08); border: 1px solid rgba(123, 31, 162, 0.2); color: var(--accent-purple); }
+    .insight-box.orange { background: rgba(230, 81, 0, 0.08); border: 1px solid rgba(230, 81, 0, 0.2); color: var(--accent-orange); }
+    .insight-box.blue { background: rgba(51, 102, 204, 0.08); border: 1px solid rgba(51, 102, 204, 0.2); color: var(--accent-blue); }
+    .insight-box.green { background: rgba(46, 125, 50, 0.08); border: 1px solid rgba(46, 125, 50, 0.2); color: var(--accent-green); }
+    .insight-box.teal { background: rgba(0, 105, 92, 0.08); border: 1px solid rgba(0, 105, 92, 0.2); color: var(--accent-teal); }
+    .insight-box.red { background: rgba(198, 40, 40, 0.08); border: 1px solid rgba(198, 40, 40, 0.2); color: var(--accent-red); }
+    .insight-box.pink { background: rgba(173, 20, 87, 0.08); border: 1px solid rgba(173, 20, 87, 0.2); color: var(--accent-pink); }
+    .insight-box.indigo { background: rgba(40, 53, 147, 0.08); border: 1px solid rgba(40, 53, 147, 0.2); color: var(--accent-indigo); }
+
+    /* Template box */
+    .template-box { background: oklch(0.975 0.022 309); border: 1px solid oklch(0.87 0.05 307); border-radius: 16px; padding: 12px 14px; margin: 10px 0; font-size: 0.83rem; line-height: 1.82; }
+    .template-box .label { font-family: var(--font-display); font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #7b1fa2; margin-bottom: 8px; }
+    .template-box p { margin-bottom: 3px; }
+    .template-box strong { color: var(--accent-purple); }
+
+    /* Stats table */
+    .stats-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin: 12px 0;
+      font-size: 0.8rem;
+      overflow: hidden;
+      border: 1px solid var(--border-light);
+      border-radius: 16px;
+    }
+    .stats-table th, .stats-table td {
+      border-bottom: 1px solid var(--border-light);
+      padding: 9px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    .stats-table th { background: var(--accent-blue-soft); font-weight: 700; color: var(--accent-dark); }
+    .stats-table td { color: var(--text-secondary); background: rgba(255,255,255,0.72); }
+    .stats-table tr:last-child td { border-bottom: none; }
+    .stats-table tr:nth-child(even) td { background: rgba(26, 39, 72, 0.02); }
+    .compact-note {
+      margin-top: 10px;
+      font-size: 0.76rem;
+      color: var(--text-muted);
+    }
+
+    /* Category */
+    .category-bar { display: flex; flex-wrap: wrap; gap: 7px; margin: 10px 0 0; }
+    .cat-tag { padding: 4px 10px; background: rgba(77, 108, 189, 0.07); border: 1px solid rgba(77, 108, 189, 0.12); border-radius: 999px; font-size: 0.7rem; color: var(--text-secondary); }
+
+    /* Footer */
+    .article-footer { margin-top: 42px; padding-top: 20px; border-top: 1px solid var(--border-light); font-size: 0.8rem; color: var(--text-muted); }
+
+    /* Intro card */
+    .intro-card { background: var(--bg-secondary); border: 1px solid var(--border-light); border-radius: 18px; padding: 18px; margin: 14px 0; box-shadow: var(--shadow-soft); }
+    .intro-card p { font-size: 0.88rem; line-height: 1.8; margin-bottom: 8px; }
+    .intro-card p:last-child { margin-bottom: 0; }
+    .overview-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 210px;
+      gap: 14px;
+      align-items: start;
+    }
+    .overview-sidecard {
+      background: rgba(77, 108, 189, 0.05);
+      border: 1px solid rgba(77, 108, 189, 0.1);
+      border-radius: 16px;
+      padding: 12px 14px;
+    }
+    .overview-sidecard h3 {
+      font-family: var(--font-display);
+      font-size: 0.74rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+    .overview-sidecard ul {
+      list-style: none;
+      margin: 0;
+      display: grid;
+      gap: 7px;
+    }
+    .overview-sidecard li {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* Cheat code final box */
+    .cheatcode-box { background: linear-gradient(135deg, #1b2438, #273557); border: 1px solid rgba(138, 156, 210, 0.3); border-radius: 20px; padding: 20px 24px; margin: 20px 0; color: white; box-shadow: var(--shadow-card); }
+    .cheatcode-box .label { font-family: var(--font-display); font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #a78bfa; margin-bottom: 12px; }
+    .cheatcode-box ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
+    .cheatcode-box ul li { font-size: 0.82rem; color: #e0e0ff; padding: 4px 0; }
+    .cheatcode-box ul li::before { content: '✓ '; color: #34d399; font-weight: bold; }
+
+    /* Responsive */
+    @media (max-width: 1180px) {
+      .article-shell { grid-template-columns: minmax(0, 1fr); }
+      .article-aside { position: static; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 900px) {
+      .wiki-sidebar { transform: translateX(-100%); transition: transform 0.3s ease; }
+      .wiki-sidebar.open { transform: translateX(0); display: block; position: fixed; top: 0; left: 0; width: 260px; height: 100vh; z-index: 250; }
+      .menu-toggle { display: flex; }
+      .menu-toggle.active span:first-child { transform: rotate(45deg) translate(4px, 4px); }
+      .menu-toggle.active span:nth-child(2) { opacity: 0; }
+      .menu-toggle.active span:last-child { transform: rotate(-45deg) translate(4px, -4px); }
+      .body-no-scroll { overflow: hidden; }
+      .kbd-hint { display: block; }
+      .wiki-header { padding: 12px 16px 12px 58px; }
+      .wiki-header .header-right { display: none; }
+      .wiki-article { padding: 18px 16px 60px; }
+      .article-title-section { padding: 18px; border-radius: 20px; }
+      .overview-grid, .article-aside { grid-template-columns: 1fr; }
+      .tip-card .tip-card-body { grid-template-columns: 1fr; }
+      .tip-card .tip-card-body .tip-image { min-height: 220px; position: relative; order: 0 !important; }
+      .two-col-grid, .cheatcode-box ul { grid-template-columns: 1fr; }
+    }
+
+    .fade-in { opacity: 0; transform: translateY(16px); transition: opacity 520ms var(--ease-out-expo), transform 520ms var(--ease-out-expo); }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    .hero-reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: rise-in 720ms var(--ease-out-expo) forwards;
+    }
+    .hero-reveal:nth-child(2) { animation-delay: 120ms; }
+    .hero-reveal:nth-child(3) { animation-delay: 220ms; }
+    .hero-reveal:nth-child(4) { animation-delay: 320ms; }
+
+    /* Back to Top */
+    .back-to-top { position: fixed; bottom: 24px; right: 24px; width: 44px; height: 44px; background: var(--accent-dark); color: white; border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; box-shadow: 0 12px 30px rgba(30,38,60,0.22); opacity: 0; visibility: hidden; transform: translateY(12px); transition: all 240ms var(--ease-out-quart); z-index: 200; }
+    .back-to-top.visible { opacity: 1; visibility: visible; transform: translateY(0); }
+    .back-to-top:hover { background: color-mix(in oklab, var(--accent-dark) 85%, var(--accent-blue)); transform: translateY(-2px); }
+    .back-to-top:active { transform: translateY(1px) scale(0.98); }
+
+    /* Mobile Menu Toggle */
+    .menu-toggle { display: none; position: fixed; top: 12px; left: 12px; z-index: 300; width: 40px; height: 40px; background: rgba(255,255,255,0.9); border: 1px solid var(--border-light); border-radius: 12px; cursor: pointer; align-items: center; justify-content: center; font-size: 1.1rem; backdrop-filter: blur(12px); box-shadow: var(--shadow-soft); }
+    .menu-toggle span { display: block; width: 18px; height: 2px; background: var(--text-primary); border-radius: 1px; transition: all 220ms var(--ease-out-quart); }
+    .menu-toggle span:nth-child(2) { margin: 4px 0; }
+
+    /* Sidebar backdrop overlay */
+    .sidebar-backdrop { display: none; position: fixed; inset: 0; background: rgba(9,14,23,0.34); z-index: 240; opacity: 0; transition: opacity 240ms var(--ease-out-quart); }
+    .sidebar-backdrop.active { opacity: 1; display: block; }
+
+    /* Keyboard hint */
+    .kbd-hint { position: fixed; bottom: 24px; left: 24px; font-size: 0.7rem; color: var(--text-muted); background: rgba(255,255,255,0.9); padding: 4px 8px; border-radius: 10px; border: 1px solid var(--border-light); display: none; backdrop-filter: blur(12px); }
+
+    /* Lazy load image placeholder */
+    .tip-image img { background: linear-gradient(90deg, #f0f2f5 25%, #e8e8e8 50%, #f0f2f5 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
+    .tip-image img[src] { background: none; animation: none; }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    @keyframes rise-in {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      .fade-in, .hero-reveal { opacity: 1; transform: none; animation: none; }
+      .tip-card:hover, .wiki-sidebar nav ul li a:hover { transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+<button class="menu-toggle" aria-label="菜单"><span></span><span></span><span></span></button>
+<div class="sidebar-backdrop"></div>
+
+<div class="wiki-container">
+
+  <!-- Sidebar -->
+  <aside class="wiki-sidebar">
+    <div class="sidebar-logo">
+      <a href="#">
+        <div class="logo-icon">📸</div>
+        <span class="logo-copy">Nano Banana Pro<small>Prompt Guide</small></span>
+      </a>
+    </div>
+    <div class="toc-title">目录</div>
+    <nav>
+      <ul>
+        <li class="section-header">概述</li>
+        <li><a href="#overview">简介</a></li>
+        <li><a href="#tips-list">技巧一览表</a></li>
+        <li><a href="#stats">数据统计</a></li>
+        <li class="section-header">核心技巧</li>
+        <li><a href="#tip1">1. 细节桶系统</a></li>
+        <li><a href="#tip2">2. 相机脑力黑客</a></li>
+        <li><a href="#tip3">3. 微细节超写实</a></li>
+        <li><a href="#tip5">5. 风格锚点</a></li>
+        <li><a href="#tip6">6. 要避免技巧</a></li>
+        <li class="section-header">控制技巧</li>
+        <li><a href="#tip8">8. 精确修饰词</a></li>
+        <li><a href="#tip9">9. 引用融合</a></li>
+        <li><a href="#tip10">10. 分层提示</a></li>
+        <li><a href="#tip11">11. 情感线索</a></li>
+        <li><a href="#tip12">12. 物理规律</a></li>
+        <li class="section-header">进阶技巧</li>
+        <li><a href="#tip13">13. 单一对象规则</a></li>
+        <li><a href="#tip14">14. 纹理词典</a></li>
+        <li><a href="#tip15">15. 隐形动词</a></li>
+        <li><a href="#tip16">16. 色彩心理</a></li>
+        <li><a href="#tip17">17. 灵感来自</a></li>
+        <li><a href="#tip18">18. 短长提示格式</a></li>
+        <li><a href="#tip19">19. 种子一致性</a></li>
+        <li><a href="#tip20">20. 要避免的错误</a></li>
+        <li class="section-header">附录</li>
+        <li><a href="#cheatcode">最终作弊码</a></li>
+        <li><a href="#source">来源参考</a></li>
+      </ul>
+    </nav>
+    <div class="toc-note">目录保留原始发布中的编号缺口，因此会直接跳过 4 和 7。这是来源结构，不是渲染错误。</div>
+  </aside>
+
+  <!-- Main -->
+  <main class="wiki-main">
+    <header class="wiki-header">
+      <div class="header-left">
+        <div class="breadcrumb">
+          <a href="#">首页</a><span>›</span>
+          <a href="#">AI 工具</a><span>›</span>
+          <a href="#">Nano Banana Pro</a><span>›</span>
+          <span style="color: var(--text-secondary);">提示指南</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <a href="#">阅读</a>
+        <a href="#">查看源码</a>
+        <a href="#">编辑</a>
+      </div>
+    </header>
+
+    <article class="wiki-article">
+      <div class="article-shell">
+        <div class="article-main">
+
+          <!-- Title -->
+          <div class="article-title-section">
+            <div class="eyebrow hero-reveal">编辑整理版 · AI 图像提示</div>
+            <h1 class="hero-reveal">Nano Banana Pro 精准图像提示指南</h1>
+            <p class="subtitle hero-reveal">以专业编辑部式编排整理原始公开内容，强调查阅效率、结构完整度与反复回看时的定位速度。</p>
+            <div class="hero-meta hero-reveal">
+              <span class="hero-pill">20 条核心技巧</span>
+              <span class="hero-pill">面向资料查阅者</span>
+              <span class="hero-pill">保留原始编号缺口</span>
+              <span class="hero-pill">紧凑排版 · 中等动效</span>
+            </div>
+          </div>
+
+          <!-- Overview -->
+          <section id="overview" class="article-section fade-in">
+            <h2><span class="section-num">0</span> 简介</h2>
+            <div class="overview-grid">
+              <div>
+                <div class="intro-card">
+                  <p><strong>Nano Banana Pro</strong> 是目前业界公认最强大的 AI 图像生成模型之一。然而，根据多位资深用户的实际测试反馈，<strong>绝大多数使用者仅发挥了该模型约 1% 的图像生成能力</strong>。</p>
+                  <p>这一现象的根本原因并非模型本身的能力限制，而是大多数用户在编写提示词（Prompt）时缺乏系统性的组织和表达策略。</p>
+                  <p>本指南系统性地总结了 <strong>20 条核心提示技巧</strong>，帮助用户将 Nano Banana Pro 的图像生成质量提升至接近专业摄影师和数字艺术家的水准。</p>
+                </div>
+                <blockquote>nano banana Pro 是目前最强大的图像模型，但几乎每个人都只用到了它 1% 的能力。以下是可以帮你精准生成任何图像的完整提示指南。</blockquote>
+                <div class="category-bar">
+                  <span class="cat-tag">AI 图像生成</span>
+                  <span class="cat-tag">Prompt 工程</span>
+                  <span class="cat-tag">Nano Banana Pro</span>
+                  <span class="cat-tag">数字艺术</span>
+                  <span class="cat-tag">摄影技巧</span>
+                  <span class="cat-tag">电影感</span>
+                  <span class="cat-tag">超写实</span>
+                  <span class="cat-tag">20条技巧</span>
+                </div>
+              </div>
+              <aside class="overview-sidecard">
+                <h3>阅读重点</h3>
+                <ul>
+                  <li>先读一览表，再跳转到具体技巧，查阅效率更高。</li>
+                  <li>缺失的 4 与 7 来自原始发布，本页不补写虚构内容。</li>
+                  <li>侧栏信息卡和目录都支持快速扫读，适合反复回看。</li>
+                </ul>
+              </aside>
+            </div>
+          </section>
+
+          <!-- Tips List -->
+          <section id="tips-list" class="article-section fade-in">
+            <h2><span class="section-num">#</span> 技巧一览表</h2>
+            <table class="stats-table">
+              <thead><tr><th>编号</th><th>技巧名称</th><th>核心功能</th></tr></thead>
+              <tbody>
+                <tr><td>1</td><td>细节桶系统</td><td>结构化分组细节描述</td></tr>
+                <tr><td>2</td><td>相机脑力黑客</td><td>电影级相机指令</td></tr>
+                <tr><td>3</td><td>微细节超写实</td><td>1-3词触发精确模式</td></tr>
+                <tr><td>5</td><td>风格锚点</td><td>精准控制艺术风格</td></tr>
+                <tr><td>6</td><td>要避免技巧</td><td>负面提示提升质量</td></tr>
+                <tr><td>8</td><td>精确修饰词</td><td>控制指令遵循程度</td></tr>
+                <tr><td>9</td><td>引用融合</td><td>混合多种视觉风格</td></tr>
+                <tr><td>10</td><td>分层提示</td><td>分层结构化输出</td></tr>
+                <tr><td>11</td><td>情感线索</td><td>添加情感氛围描述</td></tr>
+                <tr><td>12</td><td>物理规律</td><td>遵循物理规则增强写实</td></tr>
+                <tr><td>13</td><td>单一对象规则</td><td>聚焦单一主体更清晰</td></tr>
+                <tr><td>14</td><td>纹理词典</td><td>纹理改变整体氛围</td></tr>
+                <tr><td>15</td><td>隐形动词</td><td>引导模型而不凌乱</td></tr>
+                <tr><td>16</td><td>色彩心理</td><td>颜色背后的情感原因</td></tr>
+                <tr><td>17</td><td>灵感来自</td><td>复制任何艺术家风格</td></tr>
+                <tr><td>18</td><td>短长提示格式</td><td>两种格式适用不同场景</td></tr>
+                <tr><td>19</td><td>种子一致性</td><td>强制保持连续性</td></tr>
+                <tr><td>20</td><td>要避免的错误</td><td>不要在一句话中塞50个细节</td></tr>
+              </tbody>
+            </table>
+            <p class="compact-note">注：本页忠实保留来源编号，故目录和表格不会伪造缺失的 4 与 7。</p>
+          </section>
+
+          <!-- Stats -->
+          <section id="stats" class="article-section fade-in">
+            <h2><span class="section-num">#</span> 数据统计</h2>
+            <table class="stats-table">
+              <thead><tr><th>指标</th><th>数值</th><th>说明</th></tr></thead>
+              <tbody>
+                <tr><td>观看次数</td><td>180,236 次</td><td>总浏览量</td></tr>
+                <tr><td>书签保存</td><td>2,447 次</td><td>深度阅读用户</td></tr>
+                <tr><td>点赞数量</td><td>1,485 次</td><td>社区认可度</td></tr>
+                <tr><td>转帖分享</td><td>177 次</td><td>二次传播量</td></tr>
+                <tr><td>回复讨论</td><td>11 条</td><td>用户互动</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+      <!-- ========== TIP 1 ========== -->
+      <section id="tip1" class="article-section fade-in">
+        <h2><span class="section-num">01</span> 技巧一：使用"细节桶"系统</h2>
+        <div class="tip-card">
+          <div class="tip-card-header">
+            <div class="tip-num n1">1</div>
+            <h3>将细节分门别类，装入不同的"桶"</h3>
+          </div>
+          <div class="tip-card-body">
+            <div class="tip-text">
+              <p class="tip-desc">初学者最常犯的错误是<strong>将所有细节信息堆砌在一起</strong>，没有进行逻辑分组。这会导致模型在解析提示词时产生歧义，输出的图像元素之间缺乏协调性。</p>
+              <p class="tip-desc"><strong>解决方案：</strong>引入"细节桶"（Detail Bucket）系统，将提示词中的各种描述性元素归类到以下七个核心维度中。</p>
+              <h4>七大细节桶</h4>
+              <div class="two-col-grid">
+                <div class="grid-item"><span class="emoji">💡</span> 光线</div>
+                <div class="grid-item"><span class="emoji">🌫️</span> 氛围</div>
+                <div class="grid-item"><span class="emoji">🏞️</span> 环境</div>
+                <div class="grid-item"><span class="emoji">📷</span> 相机</div>
+                <div class="grid-item"><span class="emoji">🎨</span> 颜色</div>
+                <div class="grid-item"><span class="emoji">✨</span> 纹理</div>
+                <div class="grid-item"><span class="emoji">🖼️</span> 构图</div>
+              </div>
+              <div class="example-box">
+                <div class="label">💬 桶式提示词模板</div>
+                <div class="example-row"><span class="example-key">光线：</span><span class="example-val">柔和的霓虹紫</span></div>
+                <div class="example-row"><span class="example-key">相机：</span><span class="example-val">35mm，低角度</span></div>
+                <div class="example-row"><span class="example-key">氛围：</span><span class="example-val">平静，冥想</span></div>
+                <div class="example-row"><span class="example-key">纹理：</span><span class="example-val">光滑金属，湿玻璃</span></div>
+              </div>
+              <div class="insight-box purple">💡 <strong>核心结论：</strong>桶式提示 = 干净输出</div>
+            </div>
+            <div class="tip-image"><img src="img-02-bucket.jpg" alt="细节桶系统图示" loading="lazy"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== TIP 2 ========== -->
+      <section id="tip2" class="article-section fade-in">
+        <h2><span class="section-num">02</span> 技巧二：使用"相机脑力黑客"</h2>
+        <div class="tip-card">
+          <div class="tip-card-header">
+            <div class="tip-num n2">2</div>
+            <h3>像专业电影摄影师一样指定相机参数</h3>
+          </div>
+          <div class="tip-card-body">
+            <div class="tip-text">
+              <p class="tip-desc">Nano Banana Pro 对<strong>相机相关的专业术语极为敏感</strong>。当你在提示词中精确指定相机参数时，模型会调动其训练数据中对应风格的视觉特征，生成具有强烈电影感的图像。</p>
+              <p class="tip-desc">关键在于：<strong>不要使用模糊的描述，而要使用电影工业中的专业术语。</strong></p>
+              <h4>电影级相机指令</h4>
+              <div class="two-col-grid">
+                <div class="grid-item">📷 用35mm胶片拍摄</div>
+                <div class="grid-item">🔬 微距特写</div>
+                <div class="grid-item">⭕ f1.4浅景深</div>
+                <div class="grid-item">💡 体积光</div>
+                <div class="grid-item">🌙 变形镜头</div>
+                <div class="grid-item">⚡ 运动模糊</div>
+              </div>
+              <div class="insight-box orange">🎬 <strong>核心结论：</strong>这些指令会将你的普通提示变成电影级镜头</div>
+            </div>
+            <div class="tip-image"><img src="img-03-camera.jpg" alt="相机参数对照图示" loading="lazy"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== TIP 3 ========== -->
+      <section id="tip3" class="article-section fade-in">
+        <h2><span class="section-num">03</span> 技巧三：添加微细节实现超写实</h2>
+        <div class="tip-card">
+          <div class="tip-card-header">
+            <div class="tip-num n3">3</div>
+            <h3>1-3个词触发超精确模式</h3>
+          </div>
+          <div class="tip-card-body">
+            <div class="tip-text">
+              <p class="tip-desc">当你需要生成<strong>照片级真实感</strong>的图像时，仅仅依赖光线、颜色等宏观描述往往不够。这些微细节的关键词通常只有 <strong>1-3 个词</strong>，却能将模型的渲染精度推升至一个新的层次。</p>
+              <p class="tip-desc">它们通过触发模型训练数据中"真实物理世界"的高维特征向量，让生成结果具有照片级的可信度。</p>
+              <h4>超写实微细节关键词</h4>
+              <div class="two-col-grid">
+                <div class="grid-item">✨ 尘埃颗粒</div>
+                <div class="grid-item">🔍 微小划痕</div>
+                <div class="grid-item">🎞️ 胶片颗粒</div>
+                <div class="grid-item">🌟 柔和光晕</div>
+                <div class="grid-item">💎 细微高光</div>
+                <div class="grid-item">🌫️ 环境雾气</div>
+                <div class="grid-item">❄️ 冰冷反射</div>
+                <div class="grid-item">👆 指纹痕迹</div>
+              </div>
+              <div class="insight-box blue">🔍 <strong>核心结论：</strong>nano香蕉爱微细节</div>
+            </div>
+            <div class="tip-image"><img src="img-04-style.jpg" alt="微细节关键词图示" loading="lazy"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== TIP 5 ========== -->
+      <section id="tip5" class="article-section fade-in">
+        <h2><span class="section-num">05</span> 技巧五：使用"风格锚点"控制氛围</h2>
+        <div class="tip-card">
+          <div class="tip-card-header">
+            <div class="tip-num n5">5</div>
+            <h3>选择 1-2 个风格锚点，不要超过 10 个</h3>
+          </div>
+          <div class="tip-card-body">
+            <div class="tip-text">
+              <p class="tip-desc">风格锚点是 Nano Banana Pro 另一个强大的控制维度。通过<strong>引用已知的艺术风格、流派或艺术家特征</strong>，你可以精准地指定图像的整体艺术方向。</p>
+              <p class="tip-desc"><strong>核心原则：少即是多。</strong>选择 1-2 个你最希望突出的风格，不要贪多。过多的风格锚点会导致模型在多种风格之间产生冲突。</p>
+              <h4>推荐风格类型</h4>
+              <div class="two-col-grid">
+                <div class="grid-item">🎨 吉卜力工作室</div>
+                <div class="grid-item">✨ 写实动漫</div>
+                <div class="grid-item">🏛️ 韦斯·安德森对称</div>
+                <div class="grid-item">🎬 皮克斯着色</div>
+                <div class="grid-item">🖼️ 文艺复兴油画</div>
+                <div class="grid-item">📸 超写实摄影</div>
+                <div class="grid-item">🌃 赛博朋克黑色</div>
+              </div>
+              <div class="insight-box green">🎯 <strong>核心结论：</strong>保持风格锚点简短有力</div>
+            </div>
+            <div class="tip-image"><img src="img-04-style.jpg" alt="风格锚点图示" loading="lazy"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== TIP 6 ========== -->
+      <section id="tip6" class="article-section fade-in">
+        <h2><span class="section-num">06</span> 技巧六：使用"要避免"技巧</h2>
+        <div class="tip-card">
+          <div class="tip-card-header">
+            <div class="tip-num n6">6</div>
+            <h3>负面提示能给你清晰的结果</h3>
+          </div>
+          <div class="tip-card-body">
+            <div class="tip-text" style="grid-column: 1 / -1;">
+              <p class="tip-desc">很多人不知道：<strong>nano香蕉非常注意负面提示</strong>。通过明确告诉模型"不要什么"，可以有效地引导模型避开常见的错误生成结果。</p>
+              <h4>负面提示示例</h4>
+              <div class="example-box">
+                <div class="label">🚫 负面提示模板</div>
+                <div class="example-row"><span class="example-key">无变形</span><span class="example-val">— 避免人物或物体扭曲</span></div>
+                <div class="example-row"><span class="example-key">无多余肢体</span><span class="example-val">— 避免手指过多等常见错误</span></div>
+                <div class="example-row"><span class="example-key">无镜头扭曲</span><span class="example-val">— 保持正常的透视关系</span></div>
+                <div class="example-row"><span class="example-key">无过饱和颜色</span><span class="example-val">— 避免色彩过于鲜艳失真</span></div>
+                <div class="example-row"><span class="example-key">无卡通感</span><span class="example-val">— 保持写实风格</span></div>
+              </div>
+              <div class="insight-box red">⚠️ <strong>核心结论：</strong>负面提示能给你清晰的结果</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== TIP 8 ========== -->
+      <section id="tip8" class="article-section fade-in">
+        <h2><span class="section-num">08</span> 技巧八：使用"精确修饰词"</h2>
+        <div class="tip-card">
+          <div class="tip-card-header">
+            <div class="tip-num n8">8</div>
+            <h3>添加精确修饰词来控制指令遵循程度</h3>
+          </div>
+          <div class="tip-card-body">
+            <div class="tip-text" style="grid-column: 1 / -1;">
+              <p class="tip-desc">有时候模型会"过度发挥"，添加一些你没有要求但觉得"还不错"的元素。精确修饰词可以帮助你<strong>控制模型遵循指令的严格程度</strong>。</p>
+              <h4>精确修饰词列表</h4>
+              <div class="two-col-grid">
+                <div class="grid-item">📋 '完全如描述'</div>
+                <div class="grid-item">🎯 '忠实于提示'</div>
+                <div class="grid-item">📐 '严格构图'</div>
+                <div class="grid-item">🔒 '高度一致'</div>
+              </div>
+              <div class="insight-box green">✅ <strong>核心结论：</strong>这是阻止模型过度发挥的方法</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== TIP 9 ========== -->
+      <section id="tip9" class="article-section fade-in">
+        <h2><span class="section-num">09</span> 技巧九：使用"引用融合"方法</h2>
+        <div class="tip-card">
+          <div class="tip-card-header">
+            <div class="tip-num n9">9</div>
+            <h3>混合两种视觉或氛围</h3>
+          </div>
+          <div class="tip-card-body">
+            <div class="tip-text" style="grid-column: 1 / -1;">
+              <p class="tip-desc">Nano Banana Pro <strong>非常擅长融合</strong>不同的视觉风格。通过明确的融合指令，你可以创造出独特的视觉效果。</p>
+              <h4>融合方法</h4>
+              <div class="example-box">
+                <div class="label">🔀 风格融合模板</div>
+                <div class="example-row"><span class="example-key">方法一：</span><span class="example-val">以[风格1]风格融合[风格2]</span></div>
+                <div class="example-row"><span class="example-key">示例：</span><span class="example-val">以吉卜力工作室风格融合赛博朋克</span></div>
+                <div class="example-row"><span class="example-key">方法二：</span><span class="example-val">70%[风格]和30%[风格]的混合</span></div>
+                <div class="example-row"><span class="example-key">示例：</span><span class="example-val">70%超写实摄影和30%文艺复兴油画的混合</span></div>
+              </div>
+              <div class="insight-box purple">🔀 <strong>核心结论：</strong>nano香蕉非常擅长融合</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== TIP 10 ========== -->
+      <section id="tip10" class="article-section fade-in">
+        <h2><span class="section-num">10</span> 技巧十：分层提示，非段落</h2>
+        <div class="tip-card">
+          <div class="tip-card-header">
+            <div class="tip-num n10">10</div>
+            <h3>这是最重要的规则 — 像构建大纲一样组织提示词</h3>
+          </div>
+          <div class="tip-card-body">
+            <div class="tip-text" style="grid-column: 1 / -1;">
+              <p class="tip-desc"><strong>分层提示能持续输出完美结果。</strong>不要用自然段落，而是用明确分层的结构来组织你的提示词。</p>
+              <h4>分层结构模板</h4>
+              <div class="template-box">
+                <div class="label">📝 标准分层提示模板</div>
+                <p><strong>创意：</strong>[描述核心创意/主题]</p>
+                <p><strong>细节：</strong>[光线、氛围、环境等细节描述]</p>
+                <p><strong>相机：</strong>[相机参数和拍摄指令]</p>
+                <p><strong>风格：</strong>[风格锚点选择]</p>
+                <p><strong>颜色：</strong>[色彩偏好描述]</p>
+                <p><strong>负面：</strong>[需要避免的元素]</p>
+              </div>
+              <div class="insight-box teal">📋 <strong>核心结论：</strong>分层提示能持续输出完美结果</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== TIP 11 ========== -->
+      <section id="tip11" class="article-section fade-in">
+        <h2><span class="section-num">11</span> 技巧十一：使用情感线索</h2>
+        <div class="tip-card">
+          <div class="tip-card-header">
+            <div class="tip-num n11">11</div>
+            <h3>nano香蕉对情感氛围很敏感</h3>
+          </div>
+          <div class="tip-card-body">
+            <div class="tip-text" style="grid-column: 1 / -1;">
+              <p class="tip-desc"><strong>是的，情感线索很重要。</strong> Nano Banana Pro 能够捕捉和表达细腻的情感氛围，为图像注入更深层的叙事性。</p>
+              <h4>情感线索示例</h4>
+              <div class="two-col-grid">
+                <div class="grid-item">🌙 '孤独氛围'</div>
+                <div class="grid-item">🏠 '温馨舒适'</div>
+                <div class="grid-item">❄️ '冰冷未来的平静'</div>
+                <div class="grid-item">😰 '紧张氛围'</div>
+                <div class="grid-item">🍂 '怀旧悲伤'</div>
+              </div>
+              <div class="insight-box blue">💫 <strong>核心结论：</strong>情感线条增添魔力</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== TIP 12 ========== -->
+      <section id="tip12" class="article-section fade-in">
+        <h2><span class="section-num">12</span> 技巧十二：赋予nano香蕉"物理规律"</h2>
+        <div class="tip-card">
+          <div class="tip-card-header">
+            <div class="tip-num n12">12</div>
+            <h3>遵循物理规则，瞬间解锁写实感</h3>
+          </div>
+          <div class="tip-card-body">
+            <div class="tip-text" style="grid-column: 1 / -1;">
+              <p class="tip-desc">Nano Banana Pro <strong>喜欢物理规则</strong>。当你在提示词中包含符合物理规律的描述时，模型能够更好地理解和渲染真实世界的互动关系。</p>
+              <h4>物理规律示例</h4>
+              <div class="two-col-grid">
+                <div class="grid-item">🌧️ 雨打金属</div>
+                <div class="grid-item">💨 风吹面料</div>
+                <div class="grid-item">🌑 柔和阴影映在混凝土上</div>
+                <div class="grid-item">💧 水中扭曲的反射</div>
+              </div>
+              <div class="insight-box teal">⚡ <strong>核心结论：</strong>瞬间解锁写实感</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== TIP 13 ========== -->
+      <section id="tip13" class="article-section fade-in">
+        <h2><span class="section-num">13</span> 技巧十三："单一对象"规则保持清晰</h2>
+        <div class="tip-card">
+          <div class="tip-card-header">
+            <div class="tip-num n13">13</div>
+            <h3>聚焦单一主体，nano香蕉更喜欢清晰层次</h3>
+          </div>
+          <div class="tip-card-body">
+            <div class="tip-text" style="grid-column: 1 / -1;">
+              <p class="tip-desc">如果想要<strong>清晰结果</strong>，明确指定单一主体比罗列多个对象效果更好。模型在处理单一明确的主体时能够更精细地渲染细节。</p>
+              <h4>清晰聚焦表达方式</h4>
+              <div class="example-box">
+                <div class="label">🎯 单一主体表达模板</div>
+                <div class="example-row"><span class="example-key">方式一：</span><span class="example-val">'聚焦单一主体'</span></div>
+                <div class="example-row"><span class="example-key">方式二：</span><span class="example-val">'主体居中且清晰'</span></div>
+                <div class="example-row"><span class="example-key">方式三：</span><span class="example-val">'单人肖像，背景虚化'</span></div>
+              </div>
+              <div class="insight-box pink">🎯 <strong>核心结论：</strong>单一对象规则 = 清晰层次</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== TIP 14 ========== -->
+      <section id="tip14" class="article-section fade-in">
+        <h2><span class="section-num">14</span> 技巧十四：使用"纹理词典"黑客</h2>
+        <div class="tip-card">
+          <div class="tip-card-header">
+            <div class="tip-num n14">14</div>
+            <h3>纹理可以改变整体氛围</h3>
+          </div>
+          <div class="tip-card-body">
+            <div class="tip-text" style="grid-column: 1 / -1;">
+              <p class="tip-desc">纹理是提升图像质感的有力工具。<strong>不同的纹理材质可以立即改变图像的整体氛围和情感调性。</strong></p>
+              <h4>纹理词典</h4>
+              <div class="two-col-grid">
+                <div class="grid-item">🔩 拉丝钢</div>
+                <div class="grid-item">🧶 天鹅绒面料</div>
+                <div class="grid-item">🪟 磨砂玻璃</div>
+                <div class="grid-item">💨 破裂灰尘</div>
+                <div class="grid-item">🏛️ 光滑大理石</div>
+                <div class="grid-item">⬛ 哑光黑碳</div>
+                <div class="grid-item">🪵 风化木材</div>
+              </div>
+              <div class="insight-box indigo">✨ <strong>核心结论：</strong>纹理 = 即时风格切换</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== TIP 15 ========== -->
+      <section id="tip15" class="article-section fade-in">
+        <h2><span class="section-num">15</span> 技巧十五：秘诀："隐形动词"</h2>
+        <div class="tip-card">
+          <div class="tip-card-header">
+            <div class="tip-num n15">15</div>
+            <h3>这些动词引导模型不会让提示凌乱</h3>
+          </div>
+          <div class="tip-card-body">
+            <div class="tip-text" style="grid-column: 1 / -1;">
+              <p class="tip-desc">使用<strong>隐形动词</strong>可以引导模型的生成方向，同时保持提示词的简洁和优雅。这些动词具有描述性但不增加额外的视觉元素负担。</p>
+              <h4>隐形动词列表</h4>
+              <div class="two-col-grid">
+                <div class="grid-item">💡 强调</div>
+                <div class="grid-item">✨ 突出</div>
+                <div class="grid-item">🎬 展示</div>
+                <div class="grid-item">🌟 彰显</div>
+                <div class="grid-item">🌫️ 柔和</div>
+                <div class="grid-item">💪 强化</div>
+              </div>
+              <div class="example-box">
+                <div class="label">💬 使用示例</div>
+                <div class="example-row"><span class="example-key">示例：</span><span class="example-val">'强调角色周围的霓虹边缘光'</span></div>
+                <div class="example-row"><span class="example-key">示例：</span><span class="example-val">'柔和面部阴影'</span></div>
+              </div>
+              <div class="insight-box red">🌀 <strong>核心结论：</strong>隐形动词 = 精准引导，不增负担</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== TIP 16 ========== -->
+      <section id="tip16" class="article-section fade-in">
+        <h2><span class="section-num">16</span> 技巧十六："色彩心理"黑客</h2>
+        <div class="tip-card">
+          <div class="tip-card-header">
+            <div class="tip-num n16">16</div>
+            <h3>告诉它颜色背后的情感原因</h3>
+          </div>
+          <div class="tip-card-body">
+            <div class="tip-text" style="grid-column: 1 / -1;">
+              <p class="tip-desc">Nano Banana Pro <strong>对色彩心理极其敏感</strong>。告诉模型颜色背后的情感原因，而不仅仅是指定颜色代码，可以让图像的情感表达更加自然和有力。</p>
+              <h4>色彩心理表达示例</h4>
+              <div class="example-box">
+                <div class="label">🎨 色彩情感表达模板</div>
+                <div class="example-row"><span class="example-key">孤独感：</span><span class="example-val">'用冷蓝表达孤独'</span></div>
+                <div class="example-row"><span class="example-key">舒适感：</span><span class="example-val">'温暖橙色带来舒适'</span></div>
+                <div class="example-row"><span class="example-key">神秘感：</span><span class="example-val">'深紫增添神秘感'</span></div>
+                <div class="example-row"><span class="example-key">希望感：</span><span class="example-val">'金色阳光代表希望'</span></div>
+              </div>
+              <div class="insight-box orange">🎨 <strong>核心结论：</strong>nano香蕉对色彩心理极其敏感</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== TIP 17 ========== -->
+      <section id="tip17" class="article-section fade-in">
+        <h2><span class="section-num">17</span> 技巧十七：用"灵感来自"技巧复制任何艺术家</h2>
+        <div class="tip-card">
+          <div class="tip-card-header">
+            <div class="tip-num n17">17</div>
+            <h3>安全地引用艺术家风格的正确方式</h3>
+          </div>
+          <div class="tip-card-body">
+            <div class="tip-text" style="grid-column: 1 / -1;">
+              <p class="tip-desc">通过<strong>"灵感来自"</strong>的说法，你可以在不侵犯版权的情况下借鉴著名艺术家的风格特征。</p>
+              <h4>安全引用方式</h4>
+              <div class="example-box">
+                <div class="label">🖼️ 灵感引用模板</div>
+                <div class="example-row"><span class="example-key">推荐：</span><span class="example-val">'灵感来自[艺术家]的氛围和色彩'</span></div>
+                <div class="example-row"><span class="example-key">避免：</span><span class="example-val">'以...风格'（过于直接）</span></div>
+              </div>
+              <div class="insight-box purple">🖼️ <strong>核心结论：</strong>除非想严格复制，否则说"灵感来自"而非"以...风格"</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== TIP 18 ========== -->
+      <section id="tip18" class="article-section fade-in">
+        <h2><span class="section-num">18</span> 技巧十八：使用2种格式 — 短提示 vs 长提示</h2>
+        <div class="tip-card">
+          <div class="tip-card-header">
+            <div class="tip-num n18">18</div>
+            <h3>短提示用于探索，长提示用于精确结果</h3>
+          </div>
+          <div class="tip-card-body">
+            <div class="tip-text" style="grid-column: 1 / -1;">
+              <p class="tip-desc">根据使用场景选择合适的提示长度。<strong>短提示适合创意探索，长提示适合客户级精确结果。</strong></p>
+              <div class="example-box">
+                <div class="label">⚡ 短提示示例（创意探索）</div>
+                <p style="font-size:0.85rem; margin-bottom:8px;">'赛博朋克女孩在霓虹雨中行走，电影画面'</p>
+              </div>
+              <div class="template-box">
+                <div class="label">📝 长提示示例（精确客户级结果）</div>
+                <p><strong>创意：</strong>[描述核心创意]</p>
+                <p><strong>相机：</strong>[相机参数]</p>
+                <p><strong>光线：</strong>[光线描述]</p>
+                <p><strong>纹理：</strong>[纹理描述]</p>
+                <p><strong>背景：</strong>[背景描述]</p>
+                <p><strong>细节：</strong>[微细节关键词]</p>
+                <p><strong>负面：</strong>[需要避免的元素]</p>
+              </div>
+              <div class="insight-box green">📏 <strong>核心结论：</strong>短=探索，长=精确</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== TIP 19 ========== -->
+      <section id="tip19" class="article-section fade-in">
+        <h2><span class="section-num">19</span> 技巧十九：用"种子一致性"短语强制一致性</h2>
+        <div class="tip-card">
+          <div class="tip-card-header">
+            <div class="tip-num n19">19</div>
+            <h3>保持角色和场景连续性的技巧</h3>
+          </div>
+          <div class="tip-card-body">
+            <div class="tip-text" style="grid-column: 1 / -1;">
+              <p class="tip-desc">当需要生成<strong>系列图像</strong>（如漫画、连续镜头、游戏资源等）时，一致性至关重要。通过明确的连续性指令，nano香蕉能够很好地处理角色和外观的连续性。</p>
+              <h4>种子一致性表达</h4>
+              <div class="example-box">
+                <div class="label">🔄 连续性表达模板</div>
+                <div class="example-row"><span class="example-key">面部：</span><span class="example-val">'使用一致面部结构'</span></div>
+                <div class="example-row"><span class="example-key">角色：</span><span class="example-val">'每帧相同角色'</span></div>
+                <div class="example-row"><span class="example-key">光线：</span><span class="example-val">'保持所有镜头光线一致'</span></div>
+              </div>
+              <div class="insight-box teal">🔗 <strong>核心结论：</strong>当清晰告知时，nano香蕉能很好地处理连续性</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== TIP 20 ========== -->
+      <section id="tip20" class="article-section fade-in">
+        <h2><span class="section-num">20</span> 技巧二十：要避免的最大错误</h2>
+        <div class="tip-card">
+          <div class="tip-card-header">
+            <div class="tip-num n20">20</div>
+            <h3>不要在一句话中塞50个细节 — 拆分、分层、简化</h3>
+          </div>
+          <div class="tip-card-body">
+            <div class="tip-text" style="grid-column: 1 / -1;">
+              <p class="tip-desc"><strong>这是最常见也最致命的错误：</strong>在一个句子中塞入过多的细节描述。这会让模型无法区分重点，输出变得混乱。</p>
+              <h4>正确做法 vs 错误做法</h4>
+              <div class="example-box">
+                <div class="label">❌ 错误示范（一句话50个细节）</div>
+                <p style="font-size:0.82rem; color: var(--accent-red);">'一个漂亮的女孩站在霓虹灯下，穿着红色外套，金色头发，蓝色眼睛，脸上有微笑，背后是赛博朋克城市，有下雨效果，湿润的地面反射灯光...'</p>
+              </div>
+              <div class="template-box">
+                <div class="label">✅ 正确示范（分层简化）</div>
+                <p><strong>创意：</strong>赛博朋克风格女孩肖像</p>
+                <p><strong>光线：</strong>霓虹边缘光</p>
+                <p><strong>氛围：</strong>孤独神秘</p>
+                <p><strong>纹理：</strong>湿玻璃反射</p>
+                <p><strong>负面：</strong>无卡通感，无过饱和</p>
+              </div>
+              <div class="insight-box blue">🌬️ <strong>核心结论：</strong>当提示"呼吸"时，模型给出更好的图像</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== FINAL CHEATCODE ========== -->
+      <section id="cheatcode" class="article-section fade-in">
+        <h2><span class="section-num">★</span> 最终作弊码</h2>
+        <div class="cheatcode-box">
+          <div class="label">🏆 核心原则速记</div>
+          <ul>
+            <li>像说话一样写</li>
+            <li>聚焦清晰而非诗意</li>
+            <li>使用分层结构</li>
+            <li>使用桶式组织</li>
+            <li>控制光线和相机</li>
+            <li>限制风格锚点</li>
+            <li>使用负面提示</li>
+            <li>使用微细节</li>
+            <li>营造氛围</li>
+            <li>简化一切</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Source -->
+      <section id="source" class="article-section fade-in">
+        <h2><span class="section-num">ⓘ</span> 来源与参考</h2>
+        <table class="stats-table">
+          <tr><th>项目</th><th>内容</th></tr>
+          <tr><td>原始发布</td><td><a href="https://x.com/ChrisSlacker/status/2043872387125653836" target="_blank">X (Twitter) @ChrisSlacker</a></td></tr>
+          <tr><td>发布时间</td><td>2026年4月14日 上午10:02</td></tr>
+          <tr><td>账号性质</td><td>认证账号（科技圈资深创作者）</td></tr>
+          <tr><td>整理用途</td><td>仅供学习交流，版权归属原作者</td></tr>
+        </table>
+      </section>
+
+      <div class="article-footer">
+        <p>本文由 AI 助手根据公开推文内容整理排版，内容版权归属原作者 @ChrisSlacker。</p>
+        <p style="margin-top: 6px;">最后编辑于 2026年4月16日 · 页面版本 2.0 · 包含全部 20 条技巧</p>
+      </div>
+
+        </div>
+
+        <aside class="article-aside fade-in">
+          <div class="infobox">
+            <div class="infobox-header">📸 指南信息卡</div>
+            <img src="img-01-intro.jpg" alt="Nano Banana Pro" loading="lazy">
+            <table>
+              <tr><th>模型</th><td>Nano Banana Pro</td></tr>
+              <tr><th>类型</th><td>AI 图像生成提示技巧</td></tr>
+              <tr><th>作者</th><td><a href="https://x.com/ChrisSlacker" target="_blank">@ChrisSlacker</a></td></tr>
+              <tr><th>发布日期</th><td>2026年4月14日</td></tr>
+              <tr><th>观看</th><td>180,236 次</td></tr>
+              <tr><th>书签</th><td>2,447 次</td></tr>
+              <tr><th>点赞</th><td>1,485 次</td></tr>
+              <tr><th>技巧总数</th><td>20 条</td></tr>
+            </table>
+          </div>
+
+          <div class="aside-panel">
+            <h3>快速判断</h3>
+            <ul class="aside-list">
+              <li><strong>适用</strong><span>需要系统整理提示词结构、希望更稳定出图的人。</span></li>
+              <li><strong>重点</strong><span>从“分桶、相机、微细节、风格锚点”开始读最省时间。</span></li>
+              <li><strong>注意</strong><span>这是公开内容编辑整理版，不等于官方产品文档。</span></li>
+            </ul>
+          </div>
+
+          <div class="aside-panel">
+            <h3>阅读说明</h3>
+            <p class="aside-note">本页刻意保持高信息密度，但通过更稳定的分栏、统一的节奏和轻量动效来减轻阅读噪音。侧栏在桌面端保持可见，在移动端折叠为抽屉。</p>
+          </div>
+        </aside>
+      </div>
+    </article>
+  </main>
+</div>
+
+<button class="back-to-top" aria-label="回到顶部"></button>
+<span class="kbd-hint">按 ? 查看快捷键</span>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: "0px 0px -8% 0px" });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  const sections = document.querySelectorAll('.article-section[id]');
+  const navLinks = document.querySelectorAll('.wiki-sidebar nav a');
+  const backToTop = document.querySelector('.back-to-top');
+  const menuToggle = document.querySelector('.menu-toggle');
+  const sidebar = document.querySelector('.wiki-sidebar');
+  const backdrop = document.querySelector('.sidebar-backdrop');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const setActiveLink = (currentId) => {
+    navLinks.forEach(link => {
+      link.classList.toggle('is-active', link.getAttribute('href') === '#' + currentId);
+    });
+  };
+
+  // Back to Top
+  window.addEventListener('scroll', () => {
+    backToTop.classList.toggle('visible', window.scrollY > 400);
+    let current = '';
+    sections.forEach(section => {
+      if (window.scrollY >= section.offsetTop - 140) current = section.getAttribute('id');
+    });
+    setActiveLink(current || sections[0]?.id);
+  }, { passive: true });
+
+  backToTop.innerHTML = '↑';
+  backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' }));
+
+  // Mobile menu toggle
+  menuToggle.addEventListener('click', () => {
+    sidebar.classList.toggle('open');
+    menuToggle.classList.toggle('active');
+    backdrop.classList.toggle('active');
+    document.body.classList.toggle('body-no-scroll');
+  });
+
+  // Close sidebar on backdrop click (mobile)
+  backdrop.addEventListener('click', () => {
+    sidebar.classList.remove('open');
+    menuToggle.classList.remove('active');
+    backdrop.classList.remove('active');
+    document.body.classList.remove('body-no-scroll');
+  });
+
+  // Close sidebar on link click (mobile)
+  sidebar.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      sidebar.classList.remove('open');
+      menuToggle.classList.remove('active');
+      backdrop.classList.remove('active');
+      document.body.classList.remove('body-no-scroll');
+    });
+  });
+
+  // Keyboard shortcuts
+  document.addEventListener('keydown', (e) => {
+    if (e.key === '?' || (e.shiftKey && e.key === '/')) {
+      alert('快捷键: G 回顶部 | ← → 上一条/下一条技巧 | Esc 关闭侧栏');
+    }
+    if (e.key === 'g') {
+      setTimeout(() => window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' }), 100);
+    }
+    if (e.key === 'Escape') {
+      sidebar.classList.remove('open');
+      menuToggle.classList.remove('active');
+      backdrop.classList.remove('active');
+      document.body.classList.remove('body-no-scroll');
+    }
+    if (e.key === 'ArrowRight') {
+      const visible = [...sections].filter(s => s.getBoundingClientRect().top < 150);
+      const next = visible[visible.length - 1]?.nextElementSibling;
+      if (next) next.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+    }
+    if (e.key === 'ArrowLeft') {
+      const visible = [...sections].filter(s => s.getBoundingClientRect().top < 150);
+      const prev = visible[0]?.previousElementSibling;
+      if (prev) prev.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+    }
+  });
+
+  setActiveLink(sections[0]?.id);
+</script>
+</html>
