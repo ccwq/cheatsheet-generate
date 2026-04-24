@@ -1,0 +1,10 @@
+desc: DESIGN.md 是 Google Labs Code 开源的设计系统描述格式与 CLI，可把 design tokens、设计意图和组件规则写进一个 agent 可消费的文档里。
+tags:
+  - Web 前端
+  - CLI 工具
+  - AI 辅助工具
+  - 开发
+version: "0.1.0"
+github: google-labs-code/design.md
+date: "2026-04-21"
+
