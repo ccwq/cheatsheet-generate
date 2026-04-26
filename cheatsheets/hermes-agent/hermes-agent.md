@@ -1,4 +1,4 @@
-﻿---
+---
 title: Hermes Agent 速查
 lang: zh-CN
 version: "0.8.0"
@@ -16,7 +16,7 @@ tags:
 # Hermes Agent 速查
 
 ## 快速定位
-> 这是一个什么：一个可在 CLI、消息平台和编辑器里工作的 AI agent 工具链。  
+> 这是一个什么：一个可在 CLI、消息平台和编辑器里工作的 AI agent 工具链。
 > 先从哪开始：`hermes model` 选模型，`hermes tools` 选工具，`hermes` 开聊。
 
 | 目标 | 最短入口 | 备注 |
@@ -26,21 +26,16 @@ tags:
 | 配工具集 | `hermes tools` | 按平台启用或禁用工具 |
 | 一次性配置 | `hermes setup` | 把模型、工具、网关一起配完 |
 | 诊断问题 | `hermes doctor` | 检查缺失依赖与配置 |
-| 连消息平台 | `hermes gateway setup` | Telegram / Discord / Slack / WhatsApp / Signal / Email / Home Assistant |
+| 连消息平台 | `hermes gateway setup` | Telegram / Discord / Slack / WhatsApp / Signal / Email / Home Assistant / 飞书 / 企业微信 / Matrix / Mattermost / DingTalk |
 | 继续会话 | `hermes --continue` | 恢复最近一次会话 |
+| 切换模型 | `/model` | 会话中实时切换，支持所有网关平台 |
+| 后台任务 | `/background <prompt>` | 不阻塞当前会话 |
 
 ### 最短路径
 ```bash
-# 1. 先确认能正常聊天
 hermes
-
-# 2. 再选一个模型提供商
 hermes model
-
-# 3. 再决定哪些工具可用
 hermes tools
-
-# 4. 需要的话直接做全量初始化
 hermes setup
 ```
 
@@ -56,27 +51,26 @@ hermes setup
 | 云沙箱 | `modal` / `daytona` | 适合长期任务 |
 
 ```bash
-# 直接改成 Docker 沙箱
 hermes config set terminal.backend docker
-
-# 或切到远程机
 hermes config set terminal.backend ssh
 ```
 
 ### 先把模型配对
 | 提供商 | 适合什么 | 常见入口 |
 |---|---|---|
-| Nous Portal | 官方默认方案 | `hermes model` |
+| Nous Portal | 官方默认方案，400+ 模型 | `hermes model` |
 | OpenAI Codex | ChatGPT OAuth | `hermes model` |
 | Anthropic | Claude 直接接入 | `hermes model` |
+| Google AI Studio | Gemini 原生接入 | `hermes model` |
 | OpenRouter | 多模型路由 | `hermes model` |
+| GitHub Copilot | 订阅型接入 | OAuth / token |
 | Z.AI / GLM | 国内可用模型 | API key |
 | Kimi / Moonshot | 编程与长上下文 | API key |
 | MiniMax | 国际 / 中国区 | API key |
 | Alibaba Cloud | Qwen 系列 | API key |
 | Hugging Face | 聚合开源模型 | HF token |
 | DeepSeek | 直接接入 | API key |
-| GitHub Copilot | 订阅型接入 | OAuth / token |
+| xAI (Grok) | 直接接入 | API key |
 | Vercel AI Gateway | 网关路由 | API key |
 | Custom Endpoint | 自建 OpenAI-compatible API | base URL + key |
 
@@ -86,7 +80,7 @@ hermes config set terminal.backend ssh
 | `web` | 搜索和抓取网页 |
 | `terminal` | 执行命令、管理进程 |
 | `file` | 读写、搜索、补丁编辑 |
-| `browser` | 浏览器自动化 |
+| `browser` | 浏览器自动化（含 Camofox 反检测） |
 | `vision` | 图片理解 |
 | `image_gen` | 图像生成 |
 | `tts` | 语音输出 |
@@ -97,6 +91,9 @@ hermes config set terminal.backend ssh
 | `delegation` | 子代理分工 |
 | `clarify` | 追问澄清 |
 | `mcp` | 外部工具接入 |
+| `code_execution` | 沙箱 Python 执行 |
+| `todo` | 任务规划 |
+| `homeassistant` | 智能家居控制 |
 
 ## 高频场景
 
@@ -104,27 +101,21 @@ hermes config set terminal.backend ssh
 ```bash
 cd your-repo
 hermes
-
-# 在 CLI 里先看命令和工具
 /help
 /tools
 ```
 
 ### 2. 先规划再执行
 ```bash
-# 先切到更保守的执行后端
 hermes config set terminal.backend docker
-
-# 再让 agent 先给方案，不要直接开改
 请先给出执行计划，再开始修改
 ```
 
 ### 3. 先用技能复用流程
 ```bash
 hermes skills search kubernetes
+hermes skills search react --source skills-sh
 hermes skills install openai/skills/k8s
-
-# 在会话里直接装载
 /skills
 /github-pr-workflow
 ```
@@ -133,14 +124,12 @@ hermes skills install openai/skills/k8s
 ```bash
 hermes gateway setup
 ```
-可接入 Telegram、Discord、Slack、WhatsApp、Signal、Email、Home Assistant。
+可接入 Telegram、Discord、Slack、WhatsApp、Signal、Email、Home Assistant、飞书、企业微信、Matrix、Mattermost、DingTalk。
 
 ### 5. 先开语音模式
 ```bash
 pip install "hermes-agent[voice]"
 pip install faster-whisper
-
-# CLI 内打开
 /voice on
 /voice tts
 ```
@@ -154,7 +143,6 @@ pip install faster-whisper
 
 ### 7. 先接 MCP
 ```yaml
-# ~/.hermes/config.yaml
 mcp_servers:
   github:
     command: npx
@@ -167,6 +155,28 @@ mcp_servers:
 ```bash
 pip install -e '.[acp]'
 hermes acp
+```
+
+### 9. 先用后台任务
+```bash
+/background 分析 /var/log 下今天的错误日志
+```
+
+### 10. 先用 Profile 隔离多实例
+```bash
+hermes profile create work
+hermes -p work
+hermes profile list
+```
+
+### 11. 先配凭证池轮转
+```yaml
+credential_pool:
+  openrouter:
+    - sk-or-key1
+    - sk-or-key2
+credential_pool_strategies:
+  openrouter: least_used
 ```
 
 ## 速查卡
@@ -187,14 +197,25 @@ hermes acp
 | `hermes skills search <q>` | 搜索技能 |
 | `hermes skills install <id>` | 安装技能 |
 | `hermes acp` | 作为 ACP server 运行 |
+| `hermes mcp serve` | 作为 MCP server 运行 |
+| `hermes profile create <name>` | 创建隔离实例 |
+| `hermes profile list` | 列出所有 Profile |
+| `hermes profile switch <name>` | 切换 Profile |
+| `hermes config` | 查看当前配置 |
+| `hermes config set KEY VAL` | 设置配置项 |
+| `hermes config check` | 检查缺失配置 |
+| `hermes logs` | 查看集中日志 |
+| `hermes sessions list` | 浏览历史会话 |
 | `hermes --continue` / `hermes -c` | 继续最近会话 |
+| `hermes -w` | Git worktree 隔离模式 |
+| `hermes -s skill1,skill2` | 启动时预装技能 |
 
 ### CLI 内命令
 | 命令 | 作用 |
 |---|---|
 | `/help` | 查看所有命令 |
 | `/tools` | 查看工具 |
-| `/model` | 切换模型 |
+| `/model` | 切换模型（跨平台可用） |
 | `/personality <name>` | 切换人格预设 |
 | `/save` | 保存会话 |
 | `/voice on` | 开启语音 |
@@ -202,6 +223,21 @@ hermes acp
 | `/voice status` | 查看语音状态 |
 | `/cron add ...` | 添加定时任务 |
 | `/skills` | 浏览可用技能 |
+| `/background <prompt>` | 后台任务 |
+| `/reasoning high` | 提高推理强度 |
+| `/reasoning show` | 显示推理过程 |
+| `/compress` | 手动压缩上下文 |
+| `/rollback` | 回滚文件快照 |
+| `/stop` | 中断当前 agent 运行 |
+| `/approve` / `/deny` | 审批危险命令 |
+| `/queue` | 排队等待而非中断 |
+| `/statusbar` | 切换状态栏 |
+| `/cost` | 查看用量与费用 |
+| `/skin` | 切换 CLI 皮肤 |
+| `/verbose` | 切换工具输出详细度 |
+| `/title <name>` | 命名当前会话 |
+| `/usage` | 查看 token 用量明细 |
+| `/new` / `/reset` | 新建/重置会话 |
 
 ### 关键配置
 | 配置 | 作用 |
@@ -212,11 +248,33 @@ hermes acp
 | `memory.memory_enabled` | 启用 `MEMORY.md` |
 | `memory.user_profile_enabled` | 启用 `USER.md` |
 | `compression.enabled` | 长会话自动压缩 |
+| `compression.threshold` | 压缩触发阈值（默认 0.50） |
+| `compression.summary_model` | 压缩用的摘要模型 |
 | `delegation.provider` | 子代理用什么提供商 |
 | `clarify.timeout` | 追问等待时长 |
 | `timezone` | 日志与定时任务时区 |
 | `mcp_servers` | 外部工具服务 |
 | `tts.provider` | 语音输出提供商 |
+| `agent.reasoning_effort` | 推理强度：none / low / medium / high / xhigh |
+| `agent.tool_use_enforcement` | 工具调用强制引导：auto / true / false |
+| `agent.max_turns` | 每轮最大迭代次数（默认 90） |
+| `display.streaming` | CLI 实时流式输出 |
+| `display.tool_progress` | 工具进度显示：off / new / all / verbose |
+| `display.show_reasoning` | 显示推理过程 |
+| `display.show_cost` | 状态栏显示费用 |
+| `streaming.enabled` | 网关流式输出（Telegram/Discord/Slack） |
+| `group_sessions_per_user` | 群聊按用户隔离会话 |
+| `credential_pool` | 同提供商多 API Key 轮转 |
+| `credential_pool_strategies` | 轮转策略：fill_first / round_robin / least_used |
+| `fallback_providers` | 有序回退提供商链 |
+| `security.redact_secrets` | 工具输出中自动脱敏密钥 |
+| `security.tirith_enabled` | 命令执行前安全扫描 |
+| `security.website_blocklist` | 阻止访问指定域名 |
+| `privacy.redact_pii` | 网关 PII 脱敏 |
+| `web.backend` | 搜索后端：firecrawl / parallel / tavily / exa |
+| `browser.camofox` | Camofox 反检测浏览器 |
+| `quick_commands` | 自定义快捷命令 |
+| `human_delay` | 模拟人类回复节奏 |
 
 ### 记忆与上下文
 | 文件 | 作用 | 作用域 |
@@ -237,15 +295,30 @@ hermes acp
 | 消息网关 | 用 allowlist 或 DM pairing，不要开全量放行 |
 | 密钥 | 放 `~/.hermes/.env`，不要写进仓库 |
 | 容器前向变量 | 只转发你能接受暴露的变量 |
+| 密钥泄露 | `security.redact_secrets: true` 自动脱敏 |
+| MCP 安全 | MCP OAuth 2.1 PKCE + OSV 恶意软件扫描 |
+| 浏览器泄露 | URL 与 LLM 回复扫描密钥模式，阻止泄露 |
+
+### 辅助模型配置
+| 任务 | 配置路径 | 默认 |
+|---|---|---|
+| 图片分析 | `auxiliary.vision` | Gemini Flash |
+| 网页摘要 | `auxiliary.web_extract` | Gemini Flash |
+| 命令审批 | `auxiliary.approval` | Gemini Flash |
+| 上下文压缩 | `compression.summary_model` | Gemini Flash |
+| 会话检索 | `auxiliary.session_search` | Gemini Flash |
+| 记忆刷写 | `auxiliary.flush_memories` | Gemini Flash |
+
+每个辅助任务均支持 `provider` / `model` / `base_url` 三旋钮配置。
 
 ## 结构图
 ```text
 hermes-agent/
-├── run_agent.py        # 核心对话循环与工具调度
-├── cli.py              # 交互式 TUI
-├── toolsets.py         # 工具组与预设
-├── hermes_state.py     # SQLite 会话库 + FTS5
-├── batch_runner.py     # 批量任务 / 轨迹生成
+├── run_agent.py
+├── cli.py
+├── toolsets.py
+├── hermes_state.py
+├── batch_runner.py
 ├── agent/
 │   ├── prompt_builder.py
 │   ├── context_compressor.py
@@ -266,16 +339,16 @@ hermes-agent/
 │   ├── run.py
 │   ├── config.py
 │   └── platforms/
+├── plugins/
 └── skills/ / optional-skills/ / environments/ / tests/
 ```
 
 ## 风险控制
 ```bash
-# 只在可信环境才放宽审批
 hermes config set approvals.mode smart
-
-# 更稳的做法：把命令执行放到容器里
 hermes config set terminal.backend docker
+hermes config set security.redact_secrets true
+hermes config set security.tirith_enabled true
 ```
 
 ## 收尾
@@ -285,4 +358,5 @@ hermes config set terminal.backend docker
 | 场景化自动化 | `gateway` / `skills` / `cron` |
 | 深入定制 | `config.yaml` / `SOUL.md` / `AGENTS.md` |
 | 扩展能力 | `MCP` / `ACP` / `plugins` |
-
+| 多实例隔离 | `hermes profile` |
+| 排障 | `hermes doctor` / `hermes logs` |
