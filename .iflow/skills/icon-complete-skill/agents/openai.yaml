@@ -1,4 +1,0 @@
-interface:
-  display_name: "Icon Complete"
-  short_description: "补齐 cheatsheet 图标并对齐导览页图标约束"
-  default_prompt: "Use $icon-complete-skill to add or refresh icon.png for cheatsheets in this repository."

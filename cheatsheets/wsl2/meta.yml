@@ -1,0 +1,5 @@
+desc: 覆盖 WSL2 的高频管理命令、Windows/Linux 互操作、环境变量传递与常见排障路径。
+tags: ["开发环境", "Windows", "Linux", "CLI"]
+version: "2.6.3"
+github: microsoft/WSL
+date: "2025-12-12"

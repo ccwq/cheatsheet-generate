@@ -1,0 +1,12 @@
+desc: 面向 coding agent 的浏览器交互 CLI，支持页面打开、快照引用、元素交互、会话管理、存储状态、录屏与 trace。
+tags:
+  - Node.js
+  - JavaScript
+  - CLI 工具
+  - 自动化工具
+  - 测试
+  - 命令行
+  - 开发
+version: "0.1.7"
+github: microsoft/playwright-cli
+date: "2026-04-12"

@@ -19,7 +19,7 @@
 
 ### 开发和预览
 使用npm run preview开启预览服务, 服务端口为36715, 成功后打开浏览器访问 `http://localhost:36715`
-使用skill:agent-browser  执行浏览器操作, 务必为agent-browser加上参数 --cdp=9222执行所有操作,  如果连接浏览器失败, 停下来告诉我错误信息和需要我进行的操作
+
 
 开发功能完成之后, 使用预览服务进行验证和测试
 
@@ -32,4 +32,3 @@
 - Pages 源为 "Deploy from a branch"，分支 `main`，目录 `/(root)`
 - 站点路径形如：`https://<user>.github.io/<repo>/`
 - 模板中复制链接逻辑已兼容子路径部署
-

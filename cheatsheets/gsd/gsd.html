@@ -57,14 +57,24 @@
       <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
     </div>
     <div class="cheat-columns" id="columns">
-      <div class="card"><h2>🚀 一眼入口 <a href="https://github.com/gsd-build/get-shit-done" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">面向 Claude Code 的元提示和上下文工程框架，解决大模型上下文腐败问题</div><div class="desc">一句话定位：描述你想构建的东西 → GSD 通过结构化工作流帮你完成，保持上下文始终新鲜。</div><div class="desc">核心哲学：说清楚你要什么，GSD 帮你完成。背后是 context engineering、XML 格式化、子代理编排，但对你只是一个命令接着一个命令。</div></div><div class="card"><h2>⚡ 最小工作流 <a href="https://github.com/gsd-build/get-shit-done#how-it-works" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">一个里程碑的完整生命周期</div><pre><code class="language-bash">/gsd:new-project                  # 初始化项目
+      <div class="card"><h2>🚀 一眼入口 <a href="https://github.com/gsd-build/get-shit-done" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">面向 Claude Code 的元提示和上下文工程框架，解决大模型上下文腐败问题</div><div class="desc">一句话定位：描述你想构建的东西 → GSD 通过结构化工作流帮你完成，保持上下文始终新鲜。</div><div class="desc">核心哲学：说清楚你要什么，GSD 帮你完成。背后是 context engineering、XML 格式化、子代理编排，但对你只是一个命令接着一个命令。</div></div><div class="card"><h2>📦 安装 <a href="https://github.com/gsd-build/get-shit-done#getting-started" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">GSD 支持多种 AI 运行时，一键安装</div><div class="desc">安装：</div><pre><code class="language-bash">npx get-shit-done-cc --claude --global   # Claude Code
+npx get-shit-done-cc --opencode --global # OpenCode
+npx get-shit-done-cc --gemini --global   # Gemini CLI
+npx get-shit-done-cc --codex --global    # Codex
+npx get-shit-done-cc --copilot --global  # GitHub Copilot
+npx get-shit-done-cc --cursor --global   # Cursor CLI
+npx get-shit-done-cc --windsurf --global # Windsurf
+npx get-shit-done-cc --antigravity --global # Antigravity
+npx get-shit-done-cc --all --global      # 全部运行时</code></pre><div class="desc">卸载：</div><pre><code class="language-bash">npx get-shit-done-cc --&lt;runtime&gt; --global --uninstall</code></pre><div class="desc">验证安装：/gsd:help 或 /gsd-help（取决于运行时）</div></div><div class="card"><h2>⚡ 最小工作流 <a href="https://github.com/gsd-build/get-shit-done#how-it-works" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">一个里程碑的完整生命周期</div><pre><code class="language-bash">/gsd:map-codebase                # 旧项目先分析, 新项目跳过
+/gsd:new-project                 # 初始化项目
+/gsd:create-roadmap              # 生成 ROADMAP.md 和 STATE.md
 /gsd:discuss-phase 1             # 捕获实施决策
 /gsd:plan-phase 1                # 研究 + 规划 + 验证
-/gsd:execute-phase 1              # 波次并行执行
-/gsd:verify-work 1                # 人工验收测试
+/gsd:execute-phase 1             # 波次并行执行
+/gsd:verify-work 1               # 人工验收测试
 /gsd:ship 1                      # 从验证工作创建 PR
-/gsd:complete-milestone           # 归档里程碑，标记发布
-/gsd:new-milestone                # 开始下一版本</code></pre><div class="desc">快速模式（临时任务，不需要完整规划）：</div><pre><code class="language-bash">/gsd:quick &quot;添加深色模式切换&quot;     # 立即执行
+/gsd:complete-milestone          # 归档里程碑，标记发布
+/gsd:new-milestone               # 开始下一版本</code></pre><div class="desc">快速模式（临时任务，不需要完整规划）：</div><pre><code class="language-bash">/gsd:quick &quot;添加深色模式切换&quot;     # 立即执行
 /gsd:quick --full &quot;修复登录 bug&quot;  # 含讨论 + 研究 + 验证</code></pre></div><div class="card"><h2>🚀 全新项目初始化 <a href="https://github.com/gsd-build/get-shit-done#1-initialize-project" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">描述你想构建的东西，GSD 通过提问理解需求</div><ul><li><code>/gsd:new-project [--auto]</code>：启动新建项目流程</li></ul><div class="desc">系统依次执行：提问 → 研究调研 → 需求定义 → 路线图</div><pre><code class="language-bash"># 交互模式
 /gsd:new-project
 # 描述：我想做一个天气应用，用 Vue + Vite
@@ -79,8 +89,13 @@
 # 添加 trade-off 分析
 
 /gsd:discuss-phase 1 --chain
-# 自动进入规划和执行，无需手动推进</code></pre><div class="desc">输出：{phase_num}-CONTEXT.md</div></div><div class="card"><h2>📋 Plan Phase <a href="https://github.com/gsd-build/get-shit-done#3-plan-phase" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">研究 + 规划 + 验证</div><ul><li><code>/gsd:plan-phase [N] [--auto] [--reviews]</code></li></ul><div class="desc">研究如何实现该阶段，创建 2-3 个原子任务计划</div><div class="table-wrap"><table class="cheat-table"><thead><tr><th>标志</th><th>说明</th></tr></thead><tbody><tr><td>--auto</td><td>自动确认</td></tr><tr><td>--reviews</td><td>加载代码库 review 发现</td></tr></tbody></table></div><pre><code class="language-bash">/gsd:plan-phase 1
-# 输出：{phase_num}-RESEARCH.md, {phase_num}-{N}-PLAN.md</code></pre></div><div class="card"><h2>⚙️ Execute Phase <a href="https://github.com/gsd-build/get-shit-done#4-execute-phase" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">波次并行执行所有计划</div><ul><li><code>/gsd:execute-phase &lt;N&gt;</code></li></ul><div class="desc">按依赖关系分组执行，每个计划在全新上下文中运行</div><pre><code class="language-bash">/gsd:execute-phase 1
+# 自动进入规划和执行，无需手动推进</code></pre><div class="desc">输出：{phase_num}-CONTEXT.md</div></div><div class="card"><h2>📋 Plan Phase <a href="https://github.com/gsd-build/get-shit-done#3-plan-phase" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">研究 + 规划 + 验证</div><ul><li><code>/gsd:plan-phase [N] [--auto] [--reviews]</code></li></ul><div class="desc">研究如何实现该阶段，创建 2-3 个原子任务计划</div><div class="table-wrap"><table class="cheat-table"><thead><tr><th>标志</th><th>说明</th></tr></thead><tbody><tr><td>--auto</td><td>自动确认</td></tr><tr><td>--reviews</td><td>加载代码库 review 发现</td></tr><tr><td>--gaps</td><td>进入 gap-closure 模式，基于 VERIFICATION.md 生成修复计划</td></tr></tbody></table></div><pre><code class="language-bash">/gsd:plan-phase 1
+# 输出：{phase_num}-RESEARCH.md, {phase_num}-{N}-PLAN.md
+
+/gsd:plan-phase 1 --gaps
+# 基于验证缺口生成修复导向的计划</code></pre><div class="desc">补充：</div><ul><li><code>/gsd:research-phase [N]</code>：更偏向阶段前置研究</li><li><code>/gsd:plan-fix &lt;plan&gt;</code>：把验证/验收问题转成修复计划</li></ul></div><div class="card"><h2>🧯 Gap Closure <a href="https://github.com/gsd-build/get-shit-done#phase-management" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">针对验证缺口和延后问题做收敛</div><pre><code class="language-bash">/gsd:plan-fix &lt;plan&gt;             # 为验收或验证失败项生成修复计划
+/gsd:discuss-milestone           # 为下一里程碑收集上下文和约束
+/gsd:consider-issues             # 回顾延后事项，拆分可关闭与需保留的问题</code></pre></div><div class="card"><h2>⚙️ Execute Phase <a href="https://github.com/gsd-build/get-shit-done#4-execute-phase" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">波次并行执行所有计划</div><ul><li><code>/gsd:execute-phase &lt;N&gt;</code></li><li><code>/gsd:execute-plan</code>：执行已生成计划，和 execute-phase 一起看</li></ul><div class="desc">按依赖关系分组执行，每个计划在全新上下文中运行</div><pre><code class="language-bash">/gsd:execute-phase 1
 # 输出：{phase_num}-{N}-SUMMARY.md, {phase_num}-VERIFICATION.md</code></pre></div><div class="card"><h2>✅ Verify Work <a href="https://github.com/gsd-build/get-shit-done#5-verify-work" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">人工用户验收测试</div><ul><li><code>/gsd:verify-work [N]</code></li></ul><div class="desc">系统提取可测试的交付物，逐个引导你验证</div><pre><code class="language-bash">/gsd:verify-work 1
 # 输出：{phase_num}-UAT.md，若有问题则创建修复计划</code></pre></div><div class="card"><h2>🚢 Ship &amp; Milestone <a href="https://github.com/gsd-build/get-shit-done#6-repeat---ship---complete---next-milestone" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">创建 PR、归档里程碑、开始下一版本</div><pre><code class="language-bash">/gsd:ship 1 [--draft]          # 从验证工作创建 PR
 /gsd:complete-milestone         # 归档里程碑，标记发布
@@ -105,7 +120,11 @@
 /gsd:docs-update                          # 经验证的文件生成（doc-writer + doc-verifier）</code></pre></div><div class="card"><h2>📌 Backlog &amp; Threads <a href="https://github.com/gsd-build/get-shit-done#backlog-and-threads" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">未来想法、待办事项、跨会话持久化上下文</div><pre><code class="language-bash">/gsd:plant-seed &lt;idea&gt;                    # 捕获前瞻性想法，带触发条件
 /gsd:add-backlog &lt;desc&gt;                   # 添加到 backlog 停车场（999.x 编号）
 /gsd:review-backlog                       # 审查并提升 backlog 项到 active milestone
-/gsd:thread [name]                        # 持久化上下文线程，跨会话轻量级知识</code></pre></div><div class="card"><h2>💾 会话管理 <a href="https://github.com/gsd-build/get-shit-done#session" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">暂停和恢复开发工作</div><pre><code class="language-bash">/gsd:pause-work                          # 创建交接文档以便暂停
+/gsd:thread [name]                        # 持久化上下文线程，跨会话轻量级知识</code></pre></div><div class="card"><h2>🧰 工具命令 <a href="https://github.com/gsd-build/get-shit-done#commands" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">官网 Commands 段中偏通用的辅助命令</div><pre><code class="language-bash">/gsd:add-todo [desc]                     # 捕获待办
+/gsd:check-todos                         # 列出待处理 todos
+/gsd:do &lt;text&gt;                           # 自动路由到合适的 GSD 命令
+/gsd:note &lt;text&gt;                         # 低摩擦记录笔记，可转成 todo
+/gsd:profile-user [--questionnaire]      # 基于会话分析生成开发者行为画像</code></pre></div><div class="card"><h2>💾 会话管理 <a href="https://github.com/gsd-build/get-shit-done#session" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">暂停和恢复开发工作</div><pre><code class="language-bash">/gsd:pause-work                          # 创建交接文档以便暂停
 /gsd:resume-work                         # 恢复上次会话
 /gsd:session-report                      # 生成会话总结，含完成的工作和结果</code></pre></div><div class="card"><h2>🔎 诊断与统计 <a href="https://github.com/gsd-build/get-shit-done#troubleshooting" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">问题诊断和项目统计</div><pre><code class="language-bash">/gsd:forensics [desc]                    # 失败工作流的事后调查（诊断 stuck loops、缺失 artifacts、git 异常）
 /gsd:health [--repair]                   # 验证 .planning/ 目录完整性
@@ -143,16 +162,8 @@ lmn012o feat(08-02): 创建注册端点</code></pre><div class="desc">优势：G
       &quot;Read(**/*.key)&quot;
     ]
   }
-}</code></pre></div><div class="card"><h2>🚀 推荐使用方式 <a href="https://github.com/gsd-build/get-shit-done#recommended-skip-permissions-mode" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">开启无打扰模式，让 GSD 真正释放生产力</div><div class="desc">建议使用 --dangerously-skip-permissions 标志运行 Claude Code：</div><pre><code class="language-bash">claude --dangerously-skip-permissions</code></pre><div class="desc">这样 GSD 可以：自动执行命令、自动提交 Git、无需频繁确认</div></div><div class="card"><h2>⚙️ 支持的运行时 <a href="https://github.com/gsd-build/get-shit-done#getting-started" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">支持 Claude Code、OpenCode、Gemini、Codex、Copilot、Cursor、Windsurf、Antigravity、Augment</div><div class="desc">验证命令（因运行时而异）：</div><div class="table-wrap"><table class="cheat-table"><thead><tr><th>运行时</th><th>验证命令</th></tr></thead><tbody><tr><td>Claude Code / Gemini / Copilot / Antigravity</td><td>/gsd:help</td></tr><tr><td>OpenCode / Augment</td><td>/gsd-help</td></tr><tr><td>Codex</td><td>$gsd-help</td></tr></tbody></table></div><div class="desc">安装：</div><pre><code class="language-bash">npx get-shit-done-cc --claude --global   # Claude Code
-npx get-shit-done-cc --opencode --global # OpenCode
-npx get-shit-done-cc --gemini --global   # Gemini CLI
-npx get-shit-done-cc --codex --global    # Codex
-npx get-shit-done-cc --copilot --global  # GitHub Copilot
-npx get-shit-done-cc --cursor --global   # Cursor CLI
-npx get-shit-done-cc --windsurf --global # Windsurf
-npx get-shit-done-cc --antigravity --global # Antigravity
-npx get-shit-done-cc --all --global      # 全部运行时</code></pre></div><div class="card"><h2>🔧 故障排除 <a href="https://github.com/gsd-build/get-shit-done#troubleshooting" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">常见问题及解决方案</div><ul><li>安装后命令不工作？重启运行时以重新加载命令</li><li><code>/gsd:help</code></li><li><code>npx get-shit-done-cc@latest</code></li><li><code>CLAUDE_CONFIG_DIR</code>：设置 环境变量</li></ul><pre><code class="language-bash"># Docker 环境中
-CLAUDE_CONFIG_DIR=/home/youruser/.claude npx get-shit-done-cc --global</code></pre><div class="desc">卸载：</div><pre><code class="language-bash">npx get-shit-done-cc --&lt;runtime&gt; --global --uninstall</code></pre></div>
+}</code></pre></div><div class="card"><h2>🚀 推荐使用方式 <a href="https://github.com/gsd-build/get-shit-done#recommended-skip-permissions-mode" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">开启无打扰模式，让 GSD 真正释放生产力</div><div class="desc">建议使用 --dangerously-skip-permissions 标志运行 Claude Code：</div><pre><code class="language-bash">claude --dangerously-skip-permissions</code></pre><div class="desc">这样 GSD 可以：自动执行命令、自动提交 Git、无需频繁确认</div></div><div class="card"><h2>⚙️ 支持的运行时 <a href="https://github.com/gsd-build/get-shit-done#getting-started" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">支持 Claude Code、OpenCode、Gemini、Codex、Copilot、Cursor、Windsurf、Antigravity、Augment</div><div class="desc">验证命令（因运行时而异）：</div><div class="table-wrap"><table class="cheat-table"><thead><tr><th>运行时</th><th>验证命令</th></tr></thead><tbody><tr><td>Claude Code / Gemini / Copilot / Antigravity</td><td>/gsd:help</td></tr><tr><td>OpenCode / Augment</td><td>/gsd-help</td></tr><tr><td>Codex</td><td>$gsd-help</td></tr></tbody></table></div></div><div class="card"><h2>🔧 故障排除 <a href="https://github.com/gsd-build/get-shit-done#troubleshooting" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">常见问题及解决方案</div><ul><li>安装后命令不工作？重启运行时以重新加载命令</li><li><code>/gsd:help</code></li><li><code>npx get-shit-done-cc@latest</code></li><li><code>CLAUDE_CONFIG_DIR</code>：设置 环境变量</li></ul><pre><code class="language-bash"># Docker 环境中
+CLAUDE_CONFIG_DIR=/home/youruser/.claude npx get-shit-done-cc --global</code></pre></div>
     </div>
   </div>
 

@@ -151,7 +151,8 @@ function renderCard(card) {
     ? ` <a href="${escapeHtml(link)}" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a>`
     : ''
 
-  return `<div class="card"><h2>${title}${linkHtml}</h2>${body}</div>`
+  const colspanStyle = (card.colspan > 1) ? ` style="grid-column: 1 / span ${card.colspan}"` : ''
+  return `<div class="card"${colspanStyle}><h2>${title}${linkHtml}</h2>${body}</div>`
 }
 
 function githubHref(github) {

@@ -1,13 +1,79 @@
 ---
 title: Superpowers 速查
 lang: markdown
-version: "v5.0.6"
-date: 2026-03-24
+version: "v5.0.7"
+date: 2026-03-31
 github: obra/superpowers
-colWidth: 340px
+colWidth: 350px
 ---
 
 # Superpowers 速查表
+
+
+## 平台接入
+---
+lang: markdown
+emoji: 🔌
+link: https://github.com/obra/superpowers#installation
+colspan: 2
+---
+
+### Claude Code（推荐）
+```bash
+# 在 Claude Code 会话中执行插件市场安装
+/plugin marketplace add obra/superpowers-marketplace
+/plugin install superpowers@superpowers-marketplace
+# 重启 Claude Code（或新开会话）让插件生效
+```
+> **备选方式**：直接克隆仓库并 `cd` 进入，Claude Code 会自动发现 skills/、commands/、hooks/、agents/ 目录。但插件市场方式更便于更新管理。
+
+### Cursor
+```bash
+# Cursor 支持 Claude Code 插件生态
+/plugin marketplace add obra/superpowers-marketplace
+/plugin install superpowers@superpowers-marketplace
+```
+
+### Codex
+```bash
+# 克隆仓库到 ~/.codex/superpowers
+git clone https://github.com/obra/superpowers.git ~/.codex/superpowers
+
+# 创建 skills 软链接
+mkdir -p ~/.agents/skills
+ln -s ~/.codex/superpowers/skills ~/.agents/skills/superpowers
+
+# 子代理技能（如 subagent-driven-development）需开启多代理支持
+# 在 Codex 配置中添加：
+# [features]
+# multi_agent = true
+```
+
+### OpenCode
+```bash
+# 克隆仓库到配置目录
+mkdir -p ~/.config/opencode/superpowers
+git clone https://github.com/obra/superpowers.git ~/.config/opencode/superpowers
+
+# 创建插件软链接
+mkdir -p ~/.config/opencode/plugin
+ln -sf ~/.config/opencode/superpowers/.opencode/plugin/superpowers.js ~/.config/opencode/plugin/superpowers.js
+# 重启 OpenCode 使插件生效
+```
+
+### Gemini CLI
+```bash
+gemini extensions install https://github.com/obra/superpowers
+gemini extensions update superpowers
+```
+
+### 平台对比
+| | Claude Code | Codex | OpenCode | Gemini CLI |
+|---|---|---|---|---|
+| **安装方式** | 插件市场 /plugin | 手动 symlink | 手动 symlink | extensions 命令 |
+| **子代理支持** | ✅ 原生 | ✅ 需配置 | ✅ 需配置 | ❌ |
+| **更新便利性** | /plugin update | git pull | git pull | gemini extensions update |
+| **Superpowers 完整支持** | ✅ | ✅ | ✅ | ✅ |
 
 ## 一眼定位
 ---
@@ -16,7 +82,7 @@ emoji: ⚡
 link: https://github.com/obra/superpowers
 ---
 
-Superpowers 是一套面向 AI 编码代理的技能仓库，把「先澄清、再计划、再分解、再执行、最后验证/审查/收尾」固化成可复用流程。它不是单一 CLI，而是给 Claude Code、Cursor、Codex、OpenCode、Gemini CLI 等工具提供 skills、commands、hooks、agents 的协作层。
+Superpowers 是一套面向 AI 编码代理的流程框架（framework for building AI coding agents），把 brainstorming、计划、并行分解、测试、调试、审查和收尾固化成可复用流程。它不是单一 CLI，而是给 Claude Code、Cursor、Codex、OpenCode、Gemini CLI 等工具提供 skills、commands、hooks、agents 的协作层。
 
 ### 最短使用路径
 ```markdown
@@ -59,19 +125,31 @@ link: https://github.com/obra/superpowers#readme
 把实现、测试、文档、验证分给不同子代理，避免单线串行。
 ```
 
-### Recipe 4: 开始真正改代码
+### Recipe 4: 任务适合用 worktree 并行
+```markdown
+用 `using-git-worktrees` 创建隔离的 git worktree。
+每个 worktree 独立分支，避免并行改动互相干扰。
+```
+
+### Recipe 5: 开始真正改代码
 ```markdown
 用 `executing-plans` 按已批准计划推进。
 先做最小可行修改，再补测试，再做清理。
 ```
 
-### Recipe 5: 发现 bug
+### Recipe 6: 发现 bug
 ```markdown
 先用 `systematic-debugging`。
 复现 -> 缩小范围 -> 找根因 -> 做最小修复 -> 验证。
 ```
 
-### Recipe 6: 提交前收尾
+### Recipe 7: 需要先补测试或补齐测试链
+```markdown
+用 `test-driven-development`。
+先写失败的测试，再写让测试通过的实现，最后做重构。
+```
+
+### Recipe 8: 提交前收尾
 ```markdown
 先跑 `verification-before-completion`，再请求 `requesting-code-review`。
 最后用 `finishing-a-development-branch` 做分支收口、摘要和交接。
@@ -103,40 +181,6 @@ link: https://github.com/obra/superpowers/tree/main/skills
 brainstorming -> writing-plans -> subagent-driven-development -> executing-plans -> verification-before-completion -> requesting-code-review -> finishing-a-development-branch
 ```
 
-## 平台接入
----
-lang: markdown
-emoji: 🔌
-link: https://github.com/obra/superpowers#installation
----
-
-### Claude Code / Cursor
-```markdown
-通过官方插件/市场流程接入 Superpowers。
-接入后，优先让系统自动发现 `skills/`、`commands/`、`hooks/`、`agents/`。
-```
-
-### Codex
-```bash
-# 关键路径来自仓库文档
-~/.codex/superpowers
-~/.agents/skills/superpowers
-
-# 常见做法是把仓库放到 ~/.codex/superpowers，
-# 再把 skills 目录链接到 ~/.agents/skills/superpowers，然后重启客户端。
-```
-
-### OpenCode
-```markdown
-按 OpenCode 的 plugin 机制把仓库 URL 加进去，然后重启。
-核心目标是让 Superpowers 的 skills 在会话启动时可见。
-```
-
-### Gemini CLI
-```bash
-gemini extensions install https://github.com/obra/superpowers
-gemini extensions update superpowers
-```
 
 ## 仓库骨架
 ---

@@ -21,6 +21,7 @@ import yaml from 'js-yaml'
  * @property {string} link
  * @property {string} desc
  * @property {string} lang
+ * @property {number} colspan - 卡片跨列数，默认 1
  * @property {Array<EntryModel|InlineCodeModel|CodeBlockModel|SetModel|ListModel|DescModel|TableModel>} items
  */
 
@@ -128,6 +129,11 @@ export function normalizeColWidth(colWidth, fallback = DEFAULT_COL_WIDTH) {
   return fallback
 }
 
+export function normalizeColspan(value) {
+  const n = Math.floor(Number(value))
+  return (Number.isFinite(n) && n >= 1) ? n : 1
+}
+
 export function extractFrontmatter(markdown) {
   const match = markdown.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?/)
   if (!match) {
@@ -202,6 +208,7 @@ function extractCardMetaBlocks(markdownBody) {
           emoji: typeof data.emoji === 'string' ? data.emoji.trim() : '',
           link: typeof data.link === 'string' ? data.link.trim() : '',
           desc: typeof data.desc === 'string' ? data.desc.trim() : '',
+          colspan: normalizeColspan(data.colspan),
         })
       }
     } catch {
@@ -448,6 +455,7 @@ export function parseCheatsheetMarkdown(markdown) {
         link: cardMeta.link || '',
         desc: cardMeta.desc || '',
         lang: cardLang,
+        colspan: cardMeta.colspan ?? 1,
         items: [],
       }
 

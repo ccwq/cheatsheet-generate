@@ -1,9 +1,9 @@
-desc: Commander.js 是 node.js 命令行界面的完整解决方案。
+desc: Commander.js 是 Node.js CLI 的命令骨架库，负责子命令、参数解析、help 和错误输出；适合与 Inquirer 等库配合构建完整命令行工具。
 tags:
   - CLI 工具
   - 库 / SDK
   - Node.js
   - 开发
-version: unknown
+version: "14.0.3"
 github: tj/commander.js
-date: "2026-01-13"
+date: "2026-01-31"

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>DESIGN.md 速查表</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png">
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 360px; 
+      --gap: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
+      <span class="title">DESIGN.md 速查表</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">0.1.0</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-04-21</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/google-labs-code/design.md" target="_blank" rel="noopener">google-labs-code/design.md</a></span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/google-labs-code/design.md" target="_blank" rel="noopener">打开 Zread</a></span></span>
+      </div>
+      <div class="meta-tags"><tag-chip class="tag tag-group-1 detail-tag" data-name="Web 前端" data-group="1" label="Web 前端" group="1" variant="detail" icon="mdi:monitor-cellphone" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M23 11h-5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1m0 9h-5v-7h5zM20 2H2C.89 2 0 2.89 0 4v12a2 2 0 0 0 2 2h7v2H7v2h8v-2h-2v-2h2v-2H2V4h18v5h2V4a2 2 0 0 0-2-2&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="CLI 工具" data-group="2" label="CLI 工具" group="2" variant="detail" icon="mdi:console-network-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M15 20a1 1 0 0 0-1-1h-1v-2h4a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4v2h-1a1 1 0 0 0-1 1H2v2h7a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1h7v-2zm-8-5V5h10v10zm1-8.11l3.56 3.56L8 14h2.53l2.92-2.92c.33-.34.33-.9 0-1.26L10.5 6.89zm8 5.33h-2.67V14H16z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="AI 辅助工具" data-group="2" label="AI 辅助工具" group="2" variant="detail" icon="mdi:robot-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M17.5 15.5c0 1.11-.89 2-2 2s-2-.89-2-2s.9-2 2-2s2 .9 2 2m-9-2c-1.1 0-2 .9-2 2s.9 2 2 2s2-.89 2-2s-.89-2-2-2M23 15v3c0 .55-.45 1-1 1h-1v1c0 1.11-.89 2-2 2H5a2 2 0 0 1-2-2v-1H2c-.55 0-1-.45-1-1v-3c0-.55.45-1 1-1h1c0-3.87 3.13-7 7-7h1V5.73c-.6-.34-1-.99-1-1.73c0-1.1.9-2 2-2s2 .9 2 2c0 .74-.4 1.39-1 1.73V7h1c3.87 0 7 3.13 7 7h1c.55 0 1 .45 1 1m-2 1h-2v-2c0-2.76-2.24-5-5-5h-4c-2.76 0-5 2.24-5 5v2H3v1h2v3h14v-3h2z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-3 detail-tag" data-name="开发" data-group="3" label="开发" group="3" variant="detail" icon="mdi:code-tags" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m14.6 16.6l4.6-4.6l-4.6-4.6L16 6l6 6l-6 6zm-5.2 0L4.8 12l4.6-4.6L8 6l-6 6l6 6z&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card" style="grid-column: 1 / span 2"><h2>🚀 安装与调用入口 <a href="https://github.com/google-labs-code/design.md#cli-reference" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">DESIGN.md 是给 coding agent / design agent 用的设计系统描述格式。它把设计 token 放进 YAML front matter，再用 markdown 解释设计意图，让 agent 既拿到“精确值”，也拿到“为什么这样设计”。</div><h3>安装</h3><pre><code class="language-bash"># 全局安装 CLI
+npm install -g @google/design.md
+
+# 也可以直接用 npx 一次性执行
+npx @google/design.md lint DESIGN.md</code></pre><h3>在仓库里怎么放</h3><pre><code class="language-text">your-project/
+├─ DESIGN.md
+├─ src/
+└─ ...</code></pre><ul><li><code>DESIGN.md</code></li><li>文件上半部分写 tokens，下半部分写设计原则，适合长期演进。</li><li>agent 读取后，可以把“配色 / 字体 / 圆角 / 组件规则”持续带入生成结果。</li></ul><h3>最小可用文件</h3><pre><code class="language-md">---
+name: Heritage
+colors:
+  primary: &quot;#1A1C1E&quot;
+  secondary: &quot;#6C7278&quot;
+  tertiary: &quot;#B8422E&quot;
+typography:
+  body-md:
+    fontFamily: Public Sans
+    fontSize: 16px
+rounded:
+  sm: 4px
+spacing:
+  md: 16px
+---
+
+## Overview
+
+新闻感、克制、偏高对比；主色只给最重要动作。</code></pre><h3>起手调用方式</h3><pre><code class="language-bash"># 校验单个 DESIGN.md
+npx @google/design.md lint DESIGN.md
+
+# 对比两个版本
+npx @google/design.md diff DESIGN.old.md DESIGN.md
+
+# 导出到 Tailwind token
+npx @google/design.md export --format tailwind DESIGN.md
+
+# 输出规范文本给 agent / prompt 注入
+npx @google/design.md spec</code></pre></div><div class="card"><h2>最小工作流</h2><h3>从 0 到 1</h3><pre><code class="language-markdown">1. 先在项目根目录创建 `DESIGN.md`。
+2. 用 YAML front matter 写颜色、字体、圆角、间距、组件 token。
+3. 用 `##` 小节写设计意图、布局、组件规则、Do&#39;s and Don&#39;ts。
+4. 执行 `lint` 看结构、引用、对比度、章节顺序有没有问题。
+5. 需要评审设计变更时，用 `diff` 比两个版本。
+6. 需要喂给 Tailwind / token 管线时，用 `export` 导出。</code></pre><h3>最短闭环</h3><pre><code class="language-bash"># 1) 写文件
+$EDITOR DESIGN.md
+
+# 2) 先过 lint
+npx @google/design.md lint DESIGN.md
+
+# 3) 导出 token 给工程消费
+npx @google/design.md export --format tailwind DESIGN.md &gt; tailwind.theme.json</code></pre><h3>适合什么时候上</h3><ul><li>想把“品牌感 + token + 组件规范”交给 AI 持续遵守</li><li>设计系统已经有雏形，但散落在 Figma、Tailwind、口头约定里</li><li>团队开始让 agent 生成页面，希望输出别再每次都换一套风格</li></ul></div><div class="card"><h2>🧭 高频 Recipes <a href="https://github.com/google-labs-code/design.md#getting-started" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><h3>Recipe 1: 先验证文件有没有写坏</h3><pre><code class="language-bash">npx @google/design.md lint DESIGN.md</code></pre><ul><li>适合刚新建文件、刚改 token、刚补组件映射之后先做一次体检。</li><li>默认输出 JSON，方便被脚本、CI 或 agent 继续消费。</li></ul><h3>Recipe 2: 对比设计系统改动有没有回归</h3><pre><code class="language-bash">npx @google/design.md diff DESIGN.md DESIGN-v2.md</code></pre><ul><li>看 token 新增 / 删除 / 修改。</li><li>如果 after 版本出现更多 errors / warnings，会被视作 regression。</li></ul><h3>Recipe 3: 把 token 导出给前端工程</h3><pre><code class="language-bash"># 导出 Tailwind theme
+npx @google/design.md export --format tailwind DESIGN.md &gt; tailwind.theme.json
+
+# 导出 DTCG tokens
+npx @google/design.md export --format dtcg DESIGN.md &gt; tokens.json</code></pre><ul><li><code>tailwind</code></li><li><code>dtcg</code></li></ul><h3>Recipe 4: 把 spec 丢给 agent 当上下文</h3><pre><code class="language-bash"># 读 markdown 版规范
+npx @google/design.md spec
+
+# 只要规则表，机器处理更干净
+npx @google/design.md spec --rules-only --format json</code></pre><ul><li>适合给 agent 提供“这个格式到底怎么算合法”的硬规则。</li><li>比自己口述更稳定，尤其适合写校验 / 修复 prompt。</li></ul></div><div class="card"><h2>🍳 文件结构速查 <a href="https://github.com/google-labs-code/design.md#cli-reference" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><h3>两层结构</h3><pre><code class="language-md">---
+# YAML front matter: 机器读的 tokens
+---
+
+## Overview
+## Colors
+## Typography
+## Layout
+## Elevation &amp; Depth
+## Shapes
+## Components
+## Do&#39;s and Don&#39;ts</code></pre><h3>你可以这样理解</h3><ul><li><code>design-tokens.json</code></li><li>markdown body 像设计说明书，负责“语气、限制、使用原则”。</li><li>对 agent 来说，这和前端里“变量 + 文档注释”是一个类比，只是这里是设计系统版本。</li></ul><h3>canonical section 顺序</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>顺序</th><th>Section</th><th>别名</th></tr></thead><tbody><tr><td>1</td><td>Overview</td><td>Brand &amp; Style</td></tr><tr><td>2</td><td>Colors</td><td>-</td></tr><tr><td>3</td><td>Typography</td><td>-</td></tr><tr><td>4</td><td>Layout</td><td>Layout &amp; Spacing</td></tr><tr><td>5</td><td>Elevation &amp; Depth</td><td>Elevation</td></tr><tr><td>6</td><td>Shapes</td><td>-</td></tr><tr><td>7</td><td>Components</td><td>-</td></tr><tr><td>8</td><td>Do&#39;s and Don&#39;ts</td><td>-</td></tr></tbody></table></div></div><div class="card"><h2>🧱 Token 速查 <a href="https://github.com/google-labs-code/design.md/blob/main/docs/spec.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><h3>顶层 schema</h3><pre><code class="language-yaml">version: alpha
+name: Heritage
+description: Optional
+colors:
+  primary: &quot;#1A1C1E&quot;
+typography:
+  body-md:
+    fontFamily: Public Sans
+    fontSize: 16px
+rounded:
+  sm: 4px
+spacing:
+  md: 16px
+components:
+  button-primary:
+    backgroundColor: &quot;{colors.primary}&quot;</code></pre><h3>token 类型</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>类型</th><th>格式</th><th>例子</th><th>用途</th></tr></thead><tbody><tr><td>Color</td><td># + hex</td><td>&quot;#1A1C1E&quot;</td><td>配色 token</td></tr><tr><td>Dimension</td><td>数字 + 单位</td><td>48px 1rem -0.02em</td><td>字号、圆角、间距</td></tr><tr><td>Token Reference</td><td>{path.to.token}</td><td>{colors.primary}</td><td>避免重复写值</td></tr><tr><td>Typography</td><td>object</td><td>fontFamily fontSize lineHeight</td><td>字体层级</td></tr></tbody></table></div><h3>常见组别</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>组别</th><th>说明</th><th>常见键</th></tr></thead><tbody><tr><td>colors</td><td>语义色或色板</td><td>primary secondary tertiary neutral</td></tr><tr><td>typography</td><td>字体级别</td><td>headline-lg body-md label-sm</td></tr><tr><td>rounded</td><td>圆角尺度</td><td>sm md lg full</td></tr><tr><td>spacing</td><td>间距或布局尺度</td><td>xs sm md lg gutter</td></tr><tr><td>components</td><td>组件级样式映射</td><td>button-primary input-default</td></tr></tbody></table></div></div><div class="card"><h2>组件与引用规则</h2><h3>组件定义</h3><pre><code class="language-yaml">components:
+  button-primary:
+    backgroundColor: &quot;{colors.tertiary}&quot;
+    textColor: &quot;{colors.on-tertiary}&quot;
+    rounded: &quot;{rounded.sm}&quot;
+    padding: 12px
+  button-primary-hover:
+    backgroundColor: &quot;{colors.tertiary-container}&quot;</code></pre><h3>合法组件属性</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>属性</th><th>值类型</th></tr></thead><tbody><tr><td>backgroundColor</td><td>Color</td></tr><tr><td>textColor</td><td>Color</td></tr><tr><td>typography</td><td>Typography</td></tr><tr><td>rounded</td><td>Dimension</td></tr><tr><td>padding</td><td>Dimension</td></tr><tr><td>size</td><td>Dimension</td></tr><tr><td>height</td><td>Dimension</td></tr><tr><td>width</td><td>Dimension</td></tr></tbody></table></div><h3>Quick Ref</h3><ul><li><code>button-primary-hover</code></li><li><code>components</code></li><li>未知 component property 会被接受，但给 warning，不是直接报错。</li></ul></div><div class="card"><h2>CLI 命令速查</h2><h3>命令总览</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>命令</th><th>用途</th><th>常用参数</th></tr></thead><tbody><tr><td>lint</td><td>校验结构、引用、对比度、顺序</td><td>--format json</td></tr><tr><td>diff</td><td>比较两个 DESIGN.md 版本</td><td>--format json</td></tr><tr><td>export</td><td>导出 token 到其他格式</td><td>`--format tailwind</td><td>dtcg`</td></tr><tr><td>spec</td><td>输出格式规范 / 规则表</td><td>--rules --rules-only `--format markdown</td><td>json`</td></tr></tbody></table></div><h3>lint</h3><pre><code class="language-bash">npx @google/design.md lint DESIGN.md
+npx @google/design.md lint --format json DESIGN.md
+cat DESIGN.md | npx @google/design.md lint -</code></pre><h3>diff</h3><pre><code class="language-bash">npx @google/design.md diff DESIGN.md DESIGN-v2.md</code></pre><h3>export</h3><pre><code class="language-bash">npx @google/design.md export --format tailwind DESIGN.md
+npx @google/design.md export --format dtcg DESIGN.md</code></pre><h3>spec</h3><pre><code class="language-bash">npx @google/design.md spec
+npx @google/design.md spec --rules
+npx @google/design.md spec --rules-only --format json</code></pre></div><div class="card"><h2>Lint 规则与分支决策</h2><h3>内置规则</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>Rule</th><th>严重级别</th><th>作用</th></tr></thead><tbody><tr><td>broken-ref</td><td>error</td><td>引用的 token 路径不存在</td></tr><tr><td>missing-primary</td><td>warning</td><td>定义了颜色但没有 primary</td></tr><tr><td>contrast-ratio</td><td>warning</td><td>组件前景/背景不满足 WCAG AA</td></tr><tr><td>orphaned-tokens</td><td>warning</td><td>定义了颜色但没被组件引用</td></tr><tr><td>token-summary</td><td>info</td><td>输出 token 数量摘要</td></tr><tr><td>missing-sections</td><td>info</td><td>缺少可选 section</td></tr><tr><td>missing-typography</td><td>warning</td><td>有颜色但没 typography</td></tr><tr><td>section-order</td><td>warning</td><td>section 顺序不符合规范</td></tr></tbody></table></div><h3>常见判断</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>场景</th><th>处理方式</th></tr></thead><tbody><tr><td>新增了 token，但 agent 没用上</td><td>看 orphaned-tokens</td></tr><tr><td>组件样式看着对，lint 还报错</td><td>先查 broken-ref 路径是否拼错</td></tr><tr><td>视觉 OK，但可访问性不稳</td><td>看 contrast-ratio</td></tr><tr><td>文档可读，但 agent 行为飘</td><td>补 Overview / Components / Do&#39;s and Don&#39;ts</td></tr></tbody></table></div><h3>exit code</h3><ul><li><code>lint</code> <code>1</code> <code>0</code>：有 error 返回 ，否则</li><li><code>diff</code> <code>1</code>：如果 after 版本出现 regression，返回</li></ul></div><div class="card"><h2>常见坑与排障</h2><ul><li><code>DESIGN.md</code></li><li><code>section-order</code></li><li><code>{colors.primary}</code> <code>$primary</code></li><li><code>components</code></li><li><code>lineHeight</code> <code>fontSize</code> <code>padding</code> <code>rounded</code></li><li><code>alpha</code> <code>0.1.1</code></li></ul></div>
+    </div>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>

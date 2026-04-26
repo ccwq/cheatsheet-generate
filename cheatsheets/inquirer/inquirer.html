@@ -1,530 +1,311 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <title>Inquirer.js 速查表</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../../assets/variables.css">
-    <link rel="stylesheet" href="../../assets/global.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>Inquirer.js 速查表</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
   <link rel="stylesheet" href="../../assets/cheatsheet.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
-    <style>
-        :root {
-            --col-width: 400px;
-            --gap: 16px;
-        }
-
-        .cheat-columns {
-            column-count: 4;
-        }
-
-        @media (max-width: 1500px) {
-            .cheat-columns {
-                column-count: 3;
-            }
-        }
-
-        @media (max-width: 1100px) {
-            .cheat-columns {
-                column-count: 2;
-            }
-        }
-
-        @media (max-width: 750px) {
-            .cheat-columns {
-                column-count: 1;
-            }
-        }
-
-        .panel label {
-            color: var(--panel-accent);
-        }
-
-        .panel .title {
-            color: var(--panel-accent);
-        }
-
-        pre {
-            font-size: 13px;
-            line-height: 1.2;
-            margin: 8px 0;
-        }
-
-        code {
-            font-size: 13px;
-        }
-
-        h2 {
-            font-size: 16px;
-            margin: 0 0 12px 0;
-        }
-
-        h3 {
-            font-size: 14px;
-            margin: 12px 0 8px 0;
-        }
-
-        ul {
-            margin: 8px 0;
-            padding-left: 20px;
-        }
-
-        li {
-            margin: 4px 0;
-            font-size: 14px;
-            line-height: 1.2;
-        }
-
-        .tip {
-            background-color: rgba(34, 139, 34, 0.1);
-            border-left: 4px solid #228b22;
-            padding: 8px;
-            margin: 8px 0;
-            border-radius: 4px;
-            font-size: 13px;
-        }
-
-        .warning {
-            background-color: rgba(255, 165, 0, 0.1);
-            border-left: 4px solid #ffa500;
-            padding: 8px;
-            margin: 8px 0;
-            border-radius: 4px;
-            font-size: 13px;
-        }
-    </style>
-
-    <link rel="icon" type="image/png" href="icon.png" />
-    <link rel="apple-touch-icon" href="icon.png" />
-  </head>
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="apple-touch-icon" href="icon.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 360px; 
+      --gap: 16px;
+    }
+  </style>
+</head>
 <body>
-    <div class="container">
-        <div class="panel">
-            <span style="color:#7bfbb7;font-size:16px;margin-right:auto;">Inquirer.js 速查表</span>
-<!-- META_INFO_START -->
-<div class="meta-info">
-  <span class="meta-item"><span class="meta-label">版本</span><span class="meta-value">unknown</span></span>
-  <span class="meta-item"><span class="meta-label">更新日志</span><span class="meta-value">2026-01-19</span></span>
-  <span class="meta-item"><span class="meta-label">GitHub</span><span class="meta-value"><a class="meta-link" href="https://github.com/SBoudrias/Inquirer.js" target="_blank" rel="noopener">SBoudrias/Inquirer.js</a></span></span>
-</div>
-<!-- META_INFO_END -->
+  <div class="container">
+    <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
+      <span class="title">Inquirer.js 速查表</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">13.4.1</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-04-07</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/SBoudrias/Inquirer.js" target="_blank" rel="noopener">SBoudrias/Inquirer.js</a></span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/SBoudrias/Inquirer.js" target="_blank" rel="noopener">打开 Zread</a></span></span>
+      </div>
+      <div class="meta-tags"><tag-chip class="tag tag-group-2 detail-tag" data-name="CLI 工具" data-group="2" label="CLI 工具" group="2" variant="detail" icon="mdi:console-network-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M15 20a1 1 0 0 0-1-1h-1v-2h4a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4v2h-1a1 1 0 0 0-1 1H2v2h7a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1h7v-2zm-8-5V5h10v10zm1-8.11l3.56 3.56L8 14h2.53l2.92-2.92c.33-.34.33-.9 0-1.26L10.5 6.89zm8 5.33h-2.67V14H16z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-4 detail-tag" data-name="库 / SDK" data-group="4" label="库 / SDK" group="4" variant="detail" icon="mdi:library-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M12 14.27L10.64 13A11.24 11.24 0 0 0 5 10.18v6.95c2.61.34 5 1.34 7 2.82c2-1.48 4.39-2.48 7-2.82v-6.95c-2.16.39-4.09 1.39-5.64 2.82M19 8.15c.65-.1 1.32-.15 2-.15v11c-3.5 0-6.64 1.35-9 3.54C9.64 20.35 6.5 19 3 19V8c.68 0 1.35.05 2 .15c2.69.41 5.1 1.63 7 3.39c1.9-1.76 4.31-2.98 7-3.39M12 6c.27 0 .5-.1.71-.29c.19-.21.29-.44.29-.71s-.1-.5-.29-.71C12.5 4.11 12.27 4 12 4s-.5.11-.71.29c-.18.21-.29.45-.29.71s.11.5.29.71c.21.19.45.29.71.29m2.12 1.12a2.997 2.997 0 1 1-4.24-4.24a2.997 2.997 0 1 1 4.24 4.24&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-1 detail-tag" data-name="Node.js" data-group="1" label="Node.js" group="1" variant="detail" icon="mdi:nodejs" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M12 1.85c-.27 0-.55.07-.78.2l-7.44 4.3c-.48.28-.78.8-.78 1.36v8.58c0 .56.3 1.08.78 1.36l1.95 1.12c.95.46 1.27.47 1.71.47c1.4 0 2.21-.85 2.21-2.33V8.44c0-.12-.1-.22-.22-.22H8.5c-.13 0-.23.1-.23.22v8.47c0 .66-.68 1.31-1.77.76L4.45 16.5a.26.26 0 0 1-.11-.21V7.71c0-.09.04-.17.11-.21l7.44-4.29c.06-.04.16-.04.22 0l7.44 4.29c.07.04.11.12.11.21v8.58c0 .08-.04.16-.11.21l-7.44 4.29c-.06.04-.16.04-.23 0L10 19.65c-.08-.03-.16-.04-.21-.01c-.53.3-.63.36-1.12.51c-.12.04-.31.11.07.32l2.48 1.47q.36.21.78.21t.78-.21l7.44-4.29c.48-.28.78-.8.78-1.36V7.71c0-.56-.3-1.08-.78-1.36l-7.44-4.3c-.23-.13-.5-.2-.78-.2M14 8c-2.12 0-3.39.89-3.39 2.39c0 1.61 1.26 2.08 3.3 2.28c2.43.24 2.62.6 2.62 1.08c0 .83-.67 1.18-2.23 1.18c-1.98 0-2.4-.49-2.55-1.47a.226.226 0 0 0-.22-.18h-.96c-.12 0-.21.09-.21.22c0 1.24.68 2.74 3.94 2.74c2.35 0 3.7-.93 3.7-2.55c0-1.61-1.08-2.03-3.37-2.34c-2.31-.3-2.54-.46-2.54-1c0-.45.2-1.05 1.91-1.05c1.5 0 2.09.33 2.32 1.36c.02.1.11.17.21.17h.97c.05 0 .11-.02.15-.07c.04-.04.07-.1.05-.16C17.56 8.82 16.38 8 14 8&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-3 detail-tag" data-name="开发" data-group="3" label="开发" group="3" variant="detail" icon="mdi:code-tags" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m14.6 16.6l4.6-4.6l-4.6-4.6L16 6l6 6l-6 6zm-5.2 0L4.8 12l4.6-4.6L8 6l-6 6l6 6z&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>快速定位 / 一眼入口</h2><h3>这是什么，先怎么选</h3><pre><code class="language-javascript">// 旧项目 / 现有脚手架还在用 question[] -&gt; 继续用 inquirer
+npm install inquirer
 
-            <label for="columnWidth">🔧 调整每列宽度：</label>
-            <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
-            <span id="widthVal" class="slider-val">340px</span>
-        </div>
-        <div class="cheat-columns" id="columns">
-            <!-- 基础使用 -->
-            <div class="card">
-                <h2>🔧 基础使用 <a href="https://www.npmjs.com/package/inquirer" title="官方文档" target="_blank" style="color:#93cdfc;">>>></a></h2>
-                <pre><code class="language-javascript">// 安装
-// npm install inquirer
+// 新项目只要 prompt API -&gt; 优先看新包
+npm install @inquirer/prompts
 
-// 引入
-const inquirer = require('inquirer');
+// 最小起手式：一次收集一组答案
+import inquirer from &#39;inquirer&#39;;
 
-// 基本提问结构
-inquirer
-  .prompt([
-    // 提问配置
-  ])
-  .then(answers => {
-    console.log('答案:', answers);
-  })
-  .catch(error => {
-    if (error.isTtyError) {
-      // 无法在当前环境中使用
-    } else {
-      // 其他错误
-    }
-  });</code></pre>
-                <div class="tip">
-                    💡 Inquirer.js 是一个命令行交互工具，用于创建交互式命令行界面
-                </div>
-            </div>
-
-            <!-- Input - 文本输入 -->
-            <div class="card">
-                <h2>📝 Input - 文本输入</h2>
-                <pre><code class="language-javascript">{
-  type: 'input',
-  name: 'name',
-  message: '请输入你的名字:',
-  default: '张三', // 默认值
-  validate: function(value) {
-    // 验证函数
-    const valid = /^[a-zA-Z\u4e00-\u9fa5]+$/.test(value);
-    return valid || '请输入有效的名字';
-  },
-  filter: function(value) {
-    // 过滤函数，处理输入值
-    return value.trim();
-  },
-  transformer: function(value) {
-    // 转换显示值（不影响实际结果）
-    return `名字: ${value}`;
-  }
-}</code></pre>
-            </div>
-
-            <!-- Confirm - 确认 -->
-            <div class="card">
-                <h2>✅ Confirm - 确认</h2>
-                <pre><code class="language-javascript">{
-  type: 'confirm',
-  name: 'continue',
-  message: '是否继续?',
-  default: true
-}</code></pre>
-                <div class="tip">
-                    💡 用于获取 yes/no 类型的确认
-                </div>
-            </div>
-
-            <!-- List - 列表选择 -->
-            <div class="card">
-                <h2>📋 List - 列表选择</h2>
-                <pre><code class="language-javascript">{
-  type: 'list',
-  name: 'framework',
-  message: '选择一个框架:',
-  choices: [
-    'React',
-    'Vue',
-    'Angular',
-    { name: 'Svelte', value: 'svelte-framework' }
-  ],
-  loop: false // 是否允许循环选择
-}</code></pre>
-                <div class="tip">
-                    💡 用于从列表中选择一个选项
-                </div>
-            </div>
-
-            <!-- Checkbox - 多选 -->
-            <div class="card">
-                <h2>☑️ Checkbox - 多选</h2>
-                <pre><code class="language-javascript">{
-  type: 'checkbox',
-  name: 'languages',
-  message: '选择你熟悉的语言:',
-  choices: [
-    { name: 'JavaScript', checked: true }, // 默认选中
-    { name: 'Python', value: 'python-lang' },
-    { name: 'Java' },
-    { name: 'C++' }
-  ],
-  validate: function(answer) {
-    if (answer.length < 1) {
-      return '至少选择一个语言';
-    }
-    return true;
-  }
-}</code></pre>
-                <div class="tip">
-                    💡 用于从列表中选择多个选项
-                </div>
-            </div>
-
-            <!-- Password - 密码输入 -->
-            <div class="card">
-                <h2>🔒 Password - 密码输入</h2>
-                <pre><code class="language-javascript">{
-  type: 'password',
-  name: 'password',
-  message: '请输入密码:',
-  mask: '*', // 掩码字符
-  validate: function(value) {
-    return value.length >= 6 || '密码长度至少6位';
-  }
-}</code></pre>
-            </div>
-
-            <!-- Number - 数字输入 -->
-            <div class="card">
-                <h2>🔢 Number - 数字输入</h2>
-                <pre><code class="language-javascript">{
-  type: 'number',
-  name: 'age',
-  message: '请输入年龄:',
-  default: 18,
-  min: 0,
-  max: 120,
-  step: 1
-}</code></pre>
-                <div class="tip">
-                    💡 用于输入数字，支持范围限制
-                </div>
-            </div>
-
-            <!-- Editor - 编辑器输入 -->
-            <div class="card">
-                <h2>📄 Editor - 编辑器输入</h2>
-                <pre><code class="language-javascript">{
-  type: 'editor',
-  name: 'description',
-  message: '请输入详细描述:',
-  default: '默认内容',
-  postfix: '.md', // 临时文件后缀
-  editor: 'code' // 指定编辑器
-}</code></pre>
-                <div class="tip">
-                    💡 用于打开系统编辑器输入多行内容
-                </div>
-            </div>
-
-            <!-- Expand - 扩展选择 -->
-            <div class="card">
-                <h2>🔍 Expand - 扩展选择</h2>
-                <pre><code class="language-javascript">{
-  type: 'expand',
-  name: 'action',
-  message: '选择操作:',
-  choices: [
-    { key: 'y', name: '覆盖', value: 'overwrite' },
-    { key: 'a', name: '覆盖全部', value: 'overwriteAll' },
-    { key: 'n', name: '跳过', value: 'skip' },
-    { key: 'd', name: '查看差异', value: 'diff' }
-  ],
-  default: 'y'
-}</code></pre>
-                <div class="tip">
-                    💡 用于快速选择预定义的操作选项
-                </div>
-            </div>
-
-            <!-- SearchList - 搜索列表 -->
-            <div class="card">
-                <h2>🔎 SearchList - 搜索列表</h2>
-                <pre><code class="language-javascript">{
-  type: 'search-list',
-  name: 'package',
-  message: '搜索包名:',
-  choices: [
-    'react',
-    'react-dom',
-    'react-router',
-    'vue',
-    'vue-router',
-    'angular',
-    'svelte'
-  ]
-}</code></pre>
-                <div class="tip">
-                    💡 用于从长列表中搜索并选择选项
-                </div>
-            </div>
-
-            <!-- 分页选项 -->
-            <div class="card">
-                <h2>📑 分页选项</h2>
-                <pre><code class="language-javascript">{
-  type: 'list',
-  name: 'longList',
-  message: '长列表选择:',
-  choices: [...Array(50).keys()].map(i => `选项 ${i+1}`),
-  pageSize: 10, // 每页显示的选项数量
-  loop: true
-}</code></pre>
-                <div class="tip">
-                    💡 对于长列表，设置合理的 pageSize 可以提高用户体验
-                </div>
-            </div>
-
-            <!-- 条件提问 -->
-            <div class="card">
-                <h2>🔀 条件提问</h2>
-                <pre><code class="language-javascript">inquirer.prompt([
+const answers = await inquirer.prompt([
   {
-    type: 'confirm',
-    name: 'useCustomConfig',
-    message: '是否使用自定义配置?',
-    default: false
+    type: &#39;input&#39;,
+    name: &#39;projectName&#39;,
+    message: &#39;项目名?&#39;,
+  },
+]);
+
+console.log(answers.projectName);</code></pre><h3>快速判断：什么时候该用它</h3><pre><code class="language-javascript">保留旧版脚手架 / prompt 插件生态   -&gt; inquirer
+新 CLI，只想直接调用单个 prompt    -&gt; @inquirer/prompts
+要按 question[] 批量描述问卷       -&gt; inquirer
+要渐进迁移，不想一次性重写         -&gt; 两者并存也可以</code></pre></div><div class="card"><h2>🧭 最小工作流 <a href="https://github.com/SBoudrias/Inquirer.js/blob/main/packages/inquirer/README.md" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">实战里可以把 Inquirer 理解成“命令行表单引擎”。典型链路不是把所有类型背下来，而是先定问题流，再给每一步补 `validate`、`when` 和 `choices`。</div><h3>从 0 到可运行问答流</h3><pre><code class="language-javascript">import inquirer from &#39;inquirer&#39;;
+
+const answers = await inquirer.prompt([
+  {
+    type: &#39;input&#39;,
+    name: &#39;name&#39;,
+    message: &#39;项目名?&#39;,
+    validate(value) {
+      return value.trim() ? true : &#39;项目名不能为空&#39;;
+    },
+    filter(value) {
+      return value.trim();
+    },
   },
   {
-    type: 'input',
-    name: 'configPath',
-    message: '请输入配置文件路径:',
-    when: function(answers) {
-      // 只有当useCustomConfig为true时才显示
-      return answers.useCustomConfig;
-    }
-  }
-]);</code></pre>
-                <div class="tip">
-                    💡 使用 when 选项可以根据之前的答案动态调整后续提问
-                </div>
-            </div>
+    type: &#39;confirm&#39;,
+    name: &#39;useTypeScript&#39;,
+    message: &#39;启用 TypeScript?&#39;,
+    default: true,
+  },
+  {
+    type: &#39;list&#39;,
+    name: &#39;packageManager&#39;,
+    message: &#39;包管理器?&#39;,
+    choices: [&#39;npm&#39;, &#39;pnpm&#39;, &#39;yarn&#39;],
+  },
+]);
 
-            <!-- 循环提问 -->
-            <div class="card">
-                <h2>🔄 循环提问</h2>
-                <pre><code class="language-javascript">const promptLoop = async () => {
-  const answers = await inquirer.prompt([
-    {
-      type: 'input',
-      name: 'item',
-      message: '输入项目 (输入q退出):'
-    }
-  ]);
-  
-  if (answers.item !== 'q') {
-    // 处理输入
-    return promptLoop();
-  }
+console.log(answers);</code></pre><h3>速查：一条典型设计思路</h3><pre><code class="language-javascript">1. 先用 input / confirm / list 跑通主线
+2. 用 validate 保证输入质量
+3. 用 filter 做归一化
+4. 用 when 把分支题延后
+5. 需要兼容旧插件时再考虑 registerPrompt</code></pre></div><div class="card"><h2>🍳 高频场景 Recipes <a href="https://github.com/SBoudrias/Inquirer.js/tree/main/packages/inquirer/examples" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">重点不是“有哪些题型”，而是“如何把 CLI 决策流组织得不乱”。下面这几组写法覆盖了脚手架、发布脚本和交互式运维工具里最常见的场景。</div><h3>Recipe 1：脚手架首屏，先收最少关键信息</h3><pre><code class="language-javascript">const answers = await inquirer.prompt([
+  {
+    type: &#39;input&#39;,
+    name: &#39;appName&#39;,
+    message: &#39;应用名?&#39;,
+  },
+  {
+    type: &#39;list&#39;,
+    name: &#39;template&#39;,
+    message: &#39;模板?&#39;,
+    choices: [&#39;web&#39;, &#39;node&#39;, &#39;library&#39;],
+  },
+  {
+    type: &#39;confirm&#39;,
+    name: &#39;installDeps&#39;,
+    message: &#39;立即安装依赖?&#39;,
+    default: true,
+  },
+]);</code></pre><h3>Recipe 2：按前一个答案决定后续问题</h3><pre><code class="language-javascript">const answers = await inquirer.prompt([
+  {
+    type: &#39;confirm&#39;,
+    name: &#39;needProxy&#39;,
+    message: &#39;需要代理配置?&#39;,
+    default: false,
+  },
+  {
+    type: &#39;input&#39;,
+    name: &#39;proxyUrl&#39;,
+    message: &#39;代理地址?&#39;,
+    when(answers) {
+      return answers.needProxy;
+    },
+    validate(value) {
+      return /^https?:\/\//.test(value) ? true : &#39;请输入 http(s) 地址&#39;;
+    },
+  },
+]);</code></pre><h3>Recipe 3：列表值和展示名分离，避免业务值污染 UI</h3><pre><code class="language-javascript">const answers = await inquirer.prompt([
+  {
+    type: &#39;list&#39;,
+    name: &#39;runtime&#39;,
+    message: &#39;运行时?&#39;,
+    choices: [
+      { name: &#39;Node.js 20 LTS&#39;, value: &#39;node20&#39; },
+      { name: &#39;Node.js 22 LTS&#39;, value: &#39;node22&#39; },
+      { name: &#39;Bun&#39;, value: &#39;bun&#39; },
+    ],
+  },
+]);
+
+console.log(answers.runtime);</code></pre><h3>Recipe 4：checkbox 多选 + 最小数量校验</h3><pre><code class="language-javascript">const answers = await inquirer.prompt([
+  {
+    type: &#39;checkbox&#39;,
+    name: &#39;features&#39;,
+    message: &#39;启用哪些能力?&#39;,
+    choices: [
+      { name: &#39;ESLint&#39;, value: &#39;eslint&#39;, checked: true },
+      { name: &#39;Prettier&#39;, value: &#39;prettier&#39; },
+      { name: &#39;Vitest&#39;, value: &#39;vitest&#39; },
+    ],
+    validate(value) {
+      return value.length &gt; 0 ? true : &#39;至少选择一项&#39;;
+    },
+  },
+]);</code></pre><h3>Recipe 5：传入预填答案，跳过已知问题</h3><pre><code class="language-javascript">const presetAnswers = {
+  projectName: &#39;demo-app&#39;,
 };
 
-promptLoop();</code></pre>
-                <div class="tip">
-                    💡 使用 async/await 实现循环提问
-                </div>
-            </div>
+const answers = await inquirer.prompt(
+  [
+    {
+      type: &#39;input&#39;,
+      name: &#39;projectName&#39;,
+      message: &#39;项目名?&#39;,
+    },
+    {
+      type: &#39;confirm&#39;,
+      name: &#39;gitInit&#39;,
+      message: &#39;初始化 Git?&#39;,
+      default: true,
+    },
+  ],
+  presetAnswers,
+);</code></pre><h3>Recipe 6：为旧生态注册自定义 prompt</h3><pre><code class="language-javascript">import inquirer from &#39;inquirer&#39;;
+import searchPrompt from &#39;inquirer-search-list&#39;;
 
-            <!-- 事件处理 -->
-            <div class="card">
-                <h2>⚡ 事件处理</h2>
-                <pre><code class="language-javascript">const prompt = inquirer.createPromptModule();
+inquirer.registerPrompt(&#39;search-list&#39;, searchPrompt);
 
-// 监听键盘事件
-const ui = new inquirer.ui.BottomBar();
-ui.log.write('正在加载...');
+const answers = await inquirer.prompt([
+  {
+    type: &#39;search-list&#39;,
+    name: &#39;packageName&#39;,
+    message: &#39;搜索依赖&#39;,
+    choices: [&#39;react&#39;, &#39;vue&#39;, &#39;svelte&#39;],
+  },
+]);</code></pre><h3>Recipe 7：在非 TTY 环境给出清晰兜底</h3><pre><code class="language-javascript">try {
+  const answers = await inquirer.prompt([
+    {
+      type: &#39;confirm&#39;,
+      name: &#39;deploy&#39;,
+      message: &#39;继续部署?&#39;,
+    },
+  ]);
 
-// 处理答案变化
-const answers = {};
-prompt.on('answer', (name, value) => {
-  answers[name] = value;
-  ui.updateBottomBar(`已回答: ${name} = ${value}`);
+  console.log(answers.deploy);
+} catch (error) {
+  if (error.isTtyError) {
+    console.error(&#39;当前环境不是交互终端，改走 CI 默认参数&#39;);
+    process.exitCode = 1;
+  }
+
+  throw error;
+}</code></pre></div><div class="card"><h2>🧰 Quick Ref / 题型与配置速查 <a href="https://github.com/SBoudrias/Inquirer.js/blob/main/packages/inquirer/README.md#prompt-types" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这一段只压高频项。要记住的不是所有字段，而是哪些字段最常组成“输入质量 + 分支流 + 展示层”的组合拳。</div><h3>高频 prompt 类型</h3><pre><code class="language-javascript">input      // 单行文本输入
+number     // 数值输入
+confirm    // true / false
+list       // 单选列表
+rawlist    // 带索引的列表
+expand     // 单键快捷选择
+checkbox   // 多选列表
+password   // 掩码输入
+editor     // 打开系统编辑器输入长文本</code></pre><h3>Question 对象里最常用字段</h3><pre><code class="language-javascript">type         // 题型
+name         // answer key
+message      // 提示文案
+default      // 默认值
+choices      // list / checkbox / expand 的选项
+validate     // 校验输入，返回 true 或报错文本
+filter       // 标准化输入后再写入 answers
+transformer  // 只改显示，不改最终值
+when         // 条件题
+pageSize     // 长列表分页尺寸
+loop         // list / checkbox 是否循环滚动</code></pre><h3>常抄的 choices 写法</h3><pre><code class="language-javascript">choices: [&#39;npm&#39;, &#39;pnpm&#39;, &#39;yarn&#39;]
+
+choices: [
+  { name: &#39;正式环境&#39;, value: &#39;prod&#39; },
+  { name: &#39;预发环境&#39;, value: &#39;staging&#39; },
+]
+
+choices: [
+  &#39;清缓存&#39;,
+  new inquirer.Separator(),
+  &#39;重新安装依赖&#39;,
+]</code></pre><h3>异步校验 / 异步选项</h3><pre><code class="language-javascript">{
+  type: &#39;input&#39;,
+  name: &#39;repo&#39;,
+  message: &#39;仓库名?&#39;,
+  async validate(value) {
+    const exists = await checkRepo(value);
+    return exists ? &#39;仓库已存在&#39; : true;
+  },
+}
+
+{
+  type: &#39;list&#39;,
+  name: &#39;branch&#39;,
+  message: &#39;分支?&#39;,
+  async choices() {
+    return await loadBranches();
+  },
+}</code></pre></div><div class="card"><h2>⚠️ 迁移与常见坑 <a href="https://www.npmjs.com/package/@inquirer/prompts" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这部分是这次更新最重要的差异点。旧 cheatsheet 容易把所有第三方 prompt 都算成 Inquirer 内建能力，但新版官方心智已经变了：`inquirer` 是 legacy 主包，现代写法很多时候应转向 `@inquirer/prompts`。</div><h3>什么时候该转 @inquirer/prompts</h3><pre><code class="language-javascript">// 新项目更倾向这种“按需导入单个 prompt”的风格
+import { input, confirm, select } from &#39;@inquirer/prompts&#39;;
+
+const projectName = await input({
+  message: &#39;项目名?&#39;,
 });
 
-prompt.on('complete', () => {
-  ui.updateBottomBar('完成!');
+const useTS = await confirm({
+  message: &#39;启用 TypeScript?&#39;,
+  default: true,
 });
 
-prompt([
-  // 提问配置
-]);</code></pre>
-            </div>
+const runtime = await select({
+  message: &#39;运行时?&#39;,
+  choices: [
+    { name: &#39;Node.js&#39;, value: &#39;node&#39; },
+    { name: &#39;Bun&#39;, value: &#39;bun&#39; },
+  ],
+});</code></pre><h3>这次重构里明确去掉的旧认知</h3><pre><code class="language-javascript">// 这些不要再当成“内建 prompt 类型”写进速查主线
+search-list      // 常见于第三方插件，不是内建
+autocomplete     // 多来自插件生态
 
-            <!-- 自定义主题 -->
-            <div class="card">
-                <h2>🎨 自定义主题</h2>
-                <pre><code class="language-javascript">inquirer
-  .prompt([
-    // 提问配置
-  ])
-  .ui
-  .setTheme({
-    prefix: '🌈',
-    spinner: 'dots',
-    styles: {
-      message: 'cyan',
-      error: 'red',
-      answer: 'green bold',
-      defaultAnswer: 'gray italic'
-    }
-  });</code></pre>
-            </div>
-
-            <!-- 工具函数 -->
-            <div class="card">
-                <h2>🛠️ 工具函数</h2>
-                <pre><code class="language-javascript">// 创建提问模块
-const prompt = inquirer.createPromptModule();
-
-prompt([
-  // 提问配置
-]).then(answers => {
-  // 处理答案
-});
-
-// 注册自定义提问类型
-inquirer.registerPrompt('custom-prompt', require('custom-prompt-module'));
-
-// 自定义验证器
-const validateEmail = (email) => {
-  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return re.test(email) || '请输入有效的邮箱地址';
-};</code></pre>
-            </div>
-
-            <!-- 完整示例 -->
-            <div class="card">
-                <h2>📋 完整示例</h2>
-                <pre><code class="language-javascript">const inquirer = require('inquirer');
-
-inquirer
-  .prompt([
-    {
-      type: 'input',
-      name: 'name',
-      message: '请输入你的名字:',
-      default: '开发者'
-    },
-    {
-      type: 'number',
-      name: 'age',
-      message: '请输入年龄:',
-      default: 18,
-      min: 0,
-      max: 120
-    },
-    {
-      type: 'list',
-      name: 'experience',
-      message: '选择你的开发经验:',
-      choices: ['初级', '中级', '高级']
-    },
-    {
-      type: 'checkbox',
-      name: 'skills',
-      message: '选择你掌握的技能:',
-      choices: ['JavaScript', 'Python', 'Java', 'C++', 'React', 'Vue']
-    },
-    {
-      type: 'confirm',
-      name: 'continue',
-      message: '是否继续?',
-      default: true
-    }
-  ])
-  .then(answers => {
-    console.log('\n=== 收集到的信息 ===');
-    console.log(`姓名: ${answers.name}`);
-    console.log(`年龄: ${answers.age}`);
-    console.log(`经验: ${answers.experience}`);
-    console.log(`技能: ${answers.skills.join(', ')}`);
-    console.log(`继续: ${answers.continue ? '是' : '否'}`);
-  });</code></pre>
-            </div>
-
-            <!-- 最佳实践 -->
-            <div class="card">
-                <h2>💡 最佳实践</h2>
-                <ul>
-                    <li>合理组织提问顺序：从简单到复杂</li>
-                    <li>提供默认值，减少用户输入负担</li>
-                    <li>添加验证，确保输入数据有效</li>
-                    <li>使用条件提问，动态调整后续问题</li>
-                    <li>适当使用分页，提高长列表体验</li>
-                    <li>保持消息简洁明了</li>
-                    <li>处理可能的错误</li>
-                    <li>测试各种终端环境</li>
-                </ul>
-            </div>
-
-            <!-- 版本兼容 -->
-            <div class="card">
-                <h2>📌 版本兼容</h2>
-                <ul>
-                    <li>Inquirer v9.x：支持 ESM 和 CommonJS</li>
-                    <li>Inquirer v8.x：最后支持 Node.js 10 的版本</li>
-                    <li>Inquirer v7.x：支持 Node.js 8</li>
-                </ul>
-            </div>
-        </div>
+// 这些接口仍可用，但不该当成首推新写法
+inquirer.ui.BottomBar
+Reactive / RxJS 扩展流
+createPromptModule + 旧式事件流</code></pre><h3>决策速记</h3><pre><code class="language-javascript">旧项目延续 + 兼容插件       -&gt; inquirer
+新项目 + 现代 API           -&gt; @inquirer/prompts
+要保留 question[] 声明式流  -&gt; inquirer
+要最小依赖和最直观单题调用   -&gt; @inquirer/prompts</code></pre></div>
     </div>
-    <script src="../../assets/common.js"></script>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
 </body>
 </html>

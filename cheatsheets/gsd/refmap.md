@@ -9,6 +9,7 @@
 - [Why I Built This](https://github.com/gsd-build/get-shit-done#why-i-built-this) — 创始人讲述开发动机
 - [How It Works](https://github.com/gsd-build/get-shit-done#how-it-works) — 工作流程详解
 - [Commands](https://github.com/gsd-build/get-shit-done#commands) — 全部命令参考
+- [Commands Extras](https://github.com/gsd-build/get-shit-done#commands) — `create-roadmap`、`execute-plan`、`plan-fix`、`discuss-milestone`、`consider-issues`、`add-todo` 等补充命令
 - [Why It Works](https://github.com/gsd-build/get-shit-done#why-it-works) — 技术原理
 - [User Guide](https://github.com/gsd-build/get-shit-done/blob/main/docs/USER-GUIDE.md) — 用户指南
 

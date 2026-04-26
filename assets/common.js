@@ -97,7 +97,7 @@ function initCheatsheetMasonry() {
         return;
       }
 
-      // 先重置，再按真实高度计算跨行数，避免重复缩放时累积误差。
+      // 重置行跨度，再按真实高度计算，避免累积误差
       card.style.gridRowEnd = 'span 1';
       var cardHeight = card.getBoundingClientRect().height;
       var span = Math.max(1, Math.ceil((cardHeight + rowGap) / (rowHeight + rowGap)));

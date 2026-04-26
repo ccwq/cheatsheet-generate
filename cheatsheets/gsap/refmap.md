@@ -13,7 +13,7 @@
 
 ## 官方仓库与包
 - [greensock/GSAP](https://github.com/greensock/GSAP)
-- [npm: gsap 3.13.0](https://www.npmjs.com/package/gsap/v/3.13.0)
+- [npm: gsap 3.15.0](https://www.npmjs.com/package/gsap/v/3.15.0)
 
 ## 补充阅读
 - [React 集成入口](https://gsap.com/resources/React/)

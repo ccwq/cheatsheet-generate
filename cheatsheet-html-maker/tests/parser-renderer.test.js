@@ -4,7 +4,7 @@ import fs from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { normalizeColWidth, parseCheatsheetMarkdown } from '../parser.js'
+import { normalizeColWidth, normalizeColspan, parseCheatsheetMarkdown } from '../parser.js'
 import { renderDocument } from '../renderer.js'
 
 const sampleMarkdown = `---
@@ -87,6 +87,19 @@ test('renderer: 输出结构与高亮类名', async () => {
   assert.ok(html.includes('class="language-python"'))
   assert.ok(html.includes('class="language-js"'))
   assert.ok(html.includes('Prism.highlightAll();'))
+})
+
+test('parser: normalizeColspan 校验规则', () => {
+  assert.equal(normalizeColspan(2), 2)
+  assert.equal(normalizeColspan('3'), 3)
+  assert.equal(normalizeColspan('2.5'), 2)
+  assert.equal(normalizeColspan(1.7), 1)
+  assert.equal(normalizeColspan(3.9), 3)
+  assert.equal(normalizeColspan(0), 1)
+  assert.equal(normalizeColspan(-1), 1)
+  assert.equal(normalizeColspan('abc'), 1)
+  assert.equal(normalizeColspan(null), 1)
+  assert.equal(normalizeColspan(undefined), 1)
 })
 
 test('parser: 非法 colWidth 回退到默认值', () => {
@@ -194,4 +207,51 @@ test('e2e: 使用 tmux markdown 生成 HTML', async () => {
   assert.ok(html.includes('<div class="card">'))
   assert.ok(html.includes('<ul>'))
   assert.ok(html.includes('prism-core.min.js'))
+})
+
+test('parser/renderer: colspan 卡片输出 grid-column span style', async () => {
+  const markdown = `---
+title: Colspan Demo
+lang: bash
+---
+
+## 宽卡片
+---
+colspan: 2
+---
+
+- \`cmd\` : 描述
+`
+
+  const model = parseCheatsheetMarkdown(markdown)
+  const card = model.cards[0]
+  assert.equal(card.colspan, 2)
+
+  const testFile = fileURLToPath(import.meta.url)
+  const template = await fs.readFile(path.join(path.dirname(testFile), '..', 'template.html'), 'utf8')
+  const html = renderDocument(model, template)
+  assert.ok(html.includes('style="grid-column: span 2"'))
+})
+
+test('parser/renderer: colspan: 1 不输出 style 属性', async () => {
+  const markdown = `---
+title: Normal Card
+lang: bash
+---
+
+## 普通卡片
+---
+colspan: 1
+---
+
+- \`cmd\` : 描述
+`
+
+  const model = parseCheatsheetMarkdown(markdown)
+  assert.equal(model.cards[0].colspan, 1)
+
+  const testFile = fileURLToPath(import.meta.url)
+  const template = await fs.readFile(path.join(path.dirname(testFile), '..', 'template.html'), 'utf8')
+  const html = renderDocument(model, template)
+  assert.ok(!html.includes('grid-column'))
 })

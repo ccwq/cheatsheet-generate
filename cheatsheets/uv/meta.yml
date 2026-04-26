@@ -1,9 +1,9 @@
-desc: uv cookbook 式速查，按项目起手、工具执行、Python 管理、迁移和 CI 场景组织常用 workflow。
+desc: uv 混合式速查，覆盖项目 workflow、单文件脚本、工具执行、Python 管理、私有索引认证与 CI 集成。
 tags:
   - CLI 工具
   - 包管理器
   - Python
   - 开发
-version: "0.9.18"
+version: "0.11.7"
 github: astral-sh/uv
-date: "2025-12-16"
+date: "2026-04-15"

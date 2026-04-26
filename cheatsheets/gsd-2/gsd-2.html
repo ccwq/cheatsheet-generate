@@ -13,7 +13,7 @@
       document.documentElement.setAttribute('data-theme', resolved);
     })();
   </script>
-  <title>GSD 2 — Cookbok + Cheatsheet</title>
+  <title>GSD 2 — Cookbook + Cheatsheet</title>
   <link rel="stylesheet" href="../../assets/variables.css">
   <link rel="stylesheet" href="../../assets/global.css">
   <link rel="stylesheet" href="../../assets/cheatsheet.css">
@@ -40,7 +40,7 @@
         </svg>
         <span>首页</span>
       </a>
-      <span class="title">GSD 2 — Cookbok + Cheatsheet</span>
+      <span class="title">GSD 2 — Cookbook + Cheatsheet</span>
       <!-- META_INFO_START -->
       <div class="meta-info">
         <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2.64.0</span></span>
@@ -241,7 +241,7 @@ npx skills update</code></pre><h3>Skill 存放位置</h3><div class="table-wrap"
               ├─ extensions/gsd/    核心 GSD 扩展
               ├─ extensions/...     23 个支撑扩展
               ├─ agents/           scout, researcher, worker
-              └─ AGENTS.md         Agent 路由指令</code></pre><h3>关键设计</h3><ul><li><code>src/</code>：避免 Pi 主题解析与项目 冲突</li><li><code>loader.ts</code> <code>cli.ts</code>：设置环境变量， 动态导入</li><li><code>./gsd/</code>：是事实来源，Auto Mode 读写磁盘</li><li>Native Git：v2.16+ 使用 libgit2 减少 ~70 个进程/调度</li></ul></div><div class="card"><h2>🌐 Cheatsheet — Web 与 VS Code</h2><h3>Web 界面</h3><pre><code class="language-bash">gsd --web [path]    # 启动浏览器界面</code></pre><ul><li>浏览器仪表板</li><li>实时进度</li><li>多项目支持</li><li>端口 3000</li></ul><h3>VS Code 扩展</h3><ul><li>@gsd 聊天参与者：在 VS Code Chat 中对话</li><li>侧边栏仪表板：连接状态、模型信息、token 用量</li><li>命令面板：启动/停止 agent、切换模型、导出会话</li></ul><div class="desc">安装：VS Code marketplace 搜索 &quot;GSD&quot;（发布者：FluxLabs）</div></div>
+              └─ AGENTS.md         Agent 路由指令</code></pre><h3>关键设计</h3><ul><li><code>src/</code>：避免 Pi 主题解析与项目 冲突</li><li><code>loader.ts</code> <code>cli.ts</code>：设置环境变量， 动态导入</li><li><code>./gsd/</code>：是事实来源，Auto Mode 读写磁盘</li><li>Native Git：v2.16+ 使用 libgit2 减少 ~70 个进程/调度</li></ul></div><div class="card"><h2>🌐 Cheatsheet — Web 与 VS Code</h2><h3>Web 界面</h3><pre><code class="language-bash">gsd --web [path]    # 启动浏览器界面</code></pre><ul><li>浏览器仪表板</li><li>实时进度</li><li>多项目支持</li><li>端口 3000</li></ul><h3>VS Code 扩展</h3><ul><li>@gsd 聊天参与者：在 VS Code Chat 中对话</li><li>侧边栏仪表板：连接状态、模型信息、token 用量</li><li>命令面板：启动/停止 agent、切换模型、导出会话</li></ul><div class="desc">安装：VS Code marketplace 搜索 &quot;GSD&quot;（发布者：FluxLabs）</div></div><div class="card"><h2>不要混淆：GSD v1 vs v2</h2><div class="table-wrap"><table class="cheat-table"><thead><tr><th></th><th>GSD v1</th><th>GSD v2</th></tr></thead><tbody><tr><td>定位</td><td>prompt 框架 + 工作流方法论</td><td>可运行的 TypeScript Agent 应用</td></tr><tr><td>执行方式</td><td>依赖 Claude Code，指令驱动</td><td>可独立运行（Auto Mode / Step Mode）</td></tr><tr><td>核心思路</td><td>Discuss → Plan → Gap → Execute → Verify → Ship</td><td>里程碑驱动 + 动态模型路由 + Git 隔离</td></tr><tr><td>新增能力</td><td>波次执行、原子提交、worktree</td><td>Auto Mode、并行编排、动态模型路由、Agent Dashboard</td></tr><tr><td>适用场景</td><td>想改善与 AI 的协作流程、理解上下文工程原理</td><td>想直接跑一个无人值守的编码 Agent</td></tr></tbody></table></div><div class="desc">不要混淆：v1 是&quot;说明书&quot;，v2 是&quot;运行程序&quot;。v2 不只是 v1 的增强版，而是完全不同层面的东西。如果你在找 AI 编码方法论，看 v1；如果想跑一个真正的 autonomous coding agent，用 v2。</div></div>
     </div>
   </div>
 

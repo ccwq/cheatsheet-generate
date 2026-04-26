@@ -7,3 +7,8 @@ tags:
 version: "1.34.0"
 github: gsd-build/get-shit-done
 date: "2026-04-09"
+relatedVersions:
+  - version: "2.64.0"
+    path: ../gsd-2/
+    relationship: successor
+    note: "v2 是完全重写，不再是 prompt 框架，而是 TypeScript Agent 应用，支持 Auto Mode、并行编排和动态模型路由。如果需要当前活跃开发版本，请使用 gsd-2。"
