@@ -1,0 +1,10 @@
+desc: planning-with-files 是一个面向 AI Coding Agent 的工作流 Skill，通过 3-file pattern（task_plan.md、findings.md、progress.md）把任务目标、研究发现、执行进度写入项目目录，形成可持久化的"外部工作记忆"，适合复杂多步骤任务和研究调研。
+tags:
+  - AI / LLM
+  - CLI 工具
+  - 自动化工具
+  - 效率工具
+  - 工作流
+version: main@latest
+github: OthmanAdi/planning-with-files
+date: "2026-04-26"

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>planning-with-files 速查 + Cookbook</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="apple-touch-icon" href="icon.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 520px; 
+      --gap: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
+      <span class="title">planning-with-files 速查 + Cookbook</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">main@latest</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-04-26</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/OthmanAdi/planning-with-files" target="_blank" rel="noopener">OthmanAdi/planning-with-files</a></span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/OthmanAdi/planning-with-files" target="_blank" rel="noopener">打开 Zread</a></span></span>
+      </div>
+      <div class="meta-tags"><tag-chip class="tag tag-group-1 detail-tag" data-name="AI / LLM" data-group="1" label="AI / LLM" group="1" variant="detail" icon="mdi:brain" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M21.33 12.91c.09 1.55-.62 3.04-1.89 3.95l.77 1.49c.23.45.26.98.06 1.45c-.19.47-.58.84-1.06 1l-.79.25a1.69 1.69 0 0 1-1.86-.55L14.44 18c-.89-.15-1.73-.53-2.44-1.1c-.5.15-1 .23-1.5.23c-.88 0-1.76-.27-2.5-.79c-.53.16-1.07.23-1.62.22c-.79.01-1.57-.15-2.3-.45a4.1 4.1 0 0 1-2.43-3.61c-.08-.72.04-1.45.35-2.11c-.29-.75-.32-1.57-.07-2.33C2.3 7.11 3 6.32 3.87 5.82c.58-1.69 2.21-2.82 4-2.7c1.6-1.5 4.05-1.66 5.83-.37c.42-.11.86-.17 1.3-.17c1.36-.03 2.65.57 3.5 1.64c2.04.53 3.5 2.35 3.58 4.47c.05 1.11-.25 2.2-.86 3.13c.07.36.11.72.11 1.09m-5-1.41c.57.07 1.02.5 1.02 1.07a1 1 0 0 1-1 1h-.63c-.32.9-.88 1.69-1.62 2.29c.25.09.51.14.77.21c5.13-.07 4.53-3.2 4.53-3.25a2.59 2.59 0 0 0-2.69-2.49a1 1 0 0 1-1-1a1 1 0 0 1 1-1c1.23.03 2.41.49 3.33 1.3c.05-.29.08-.59.08-.89c-.06-1.24-.62-2.32-2.87-2.53c-1.25-2.96-4.4-1.32-4.4-.4c-.03.23.21.72.25.75a1 1 0 0 1 1 1c0 .55-.45 1-1 1c-.53-.02-1.03-.22-1.43-.56c-.48.31-1.03.5-1.6.56c-.57.05-1.04-.35-1.07-.9a.97.97 0 0 1 .88-1.1c.16-.02.94-.14.94-.77c0-.66.25-1.29.68-1.79c-.92-.25-1.91.08-2.91 1.29C6.75 5 6 5.25 5.45 7.2C4.5 7.67 4 8 3.78 9c1.08-.22 2.19-.13 3.22.25c.5.19.78.75.59 1.29c-.19.52-.77.78-1.29.59c-.73-.32-1.55-.34-2.3-.06c-.32.27-.32.83-.32 1.27c0 .74.37 1.43 1 1.83c.53.27 1.12.41 1.71.4q-.225-.39-.39-.81a1.038 1.038 0 0 1 1.96-.68c.4 1.14 1.42 1.92 2.62 2.05c1.37-.07 2.59-.88 3.19-2.13c.23-1.38 1.34-1.5 2.56-1.5m2 7.47l-.62-1.3l-.71.16l1 1.25zm-4.65-8.61a1 1 0 0 0-.91-1.03c-.71-.04-1.4.2-1.93.67c-.57.58-.87 1.38-.84 2.19a1 1 0 0 0 1 1c.57 0 1-.45 1-1c0-.27.07-.54.23-.76c.12-.1.27-.15.43-.15c.55.03 1.02-.38 1.02-.92&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="CLI 工具" data-group="2" label="CLI 工具" group="2" variant="detail" icon="mdi:console-network-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M15 20a1 1 0 0 0-1-1h-1v-2h4a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4v2h-1a1 1 0 0 0-1 1H2v2h7a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1h7v-2zm-8-5V5h10v10zm1-8.11l3.56 3.56L8 14h2.53l2.92-2.92c.33-.34.33-.9 0-1.26L10.5 6.89zm8 5.33h-2.67V14H16z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="自动化工具" data-group="2" label="自动化工具" group="2" variant="detail" icon="mdi:robot" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5A2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5a2.5 2.5 0 0 0 2.5 2.5a2.5 2.5 0 0 0 2.5-2.5a2.5 2.5 0 0 0-2.5-2.5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="效率工具" data-group="0" label="效率工具" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="工作流" data-group="0" label="工作流" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>🗂️ 快速定位 <a href="https://github.com/OthmanAdi/planning-with-files" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">面向 AI Coding Agent 的工作流 Skill，通过 3-file pattern 把任务目标、研究发现、执行进度写入项目目录，形成可持久化的&quot;外部工作记忆&quot;。核心思想是&quot;把 AI 上下文窗口当成 RAM，把文件系统当成 Disk&quot;。</div><ul><li>一句话理解：不是&quot;自动生成计划&quot;，而是把 AI 的临时上下文变成可恢复的文件化流程。</li><li>适合场景：多步骤开发、调研、项目搭建、长链路修复。</li><li>不适合：简单问答、单文件小改动、快速查询。</li><li><code>/plan &lt;任务描述&gt;</code>：→ 创建三个核心文件 → 按阶段执行</li></ul></div><div class="card"><h2>💾 核心心智模型</h2><div class="desc">Context Window = 临时内存（RAM），Filesystem = 持久化硬盘（Disk）。重要信息不要只放在对话上下文里，要写进文件。</div><h3>问题与处理对照</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>问题</th><th>表现</th><th>planning-with-files 处理方式</th></tr></thead><tbody><tr><td>上下文丢失</td><td>/clear、压缩上下文后忘记目标</td><td>任务计划写入 task_plan.md</td></tr><tr><td>目标漂移</td><td>做了几十步后偏离原始需求</td><td>每次关键操作前重读计划</td></tr><tr><td>错误重复</td><td>同样的失败尝试反复发生</td><td>错误写入计划和进度文件</td></tr><tr><td>发现丢失</td><td>调研结论散落在上下文里</td><td>统一写入 findings.md</td></tr></tbody></table></div></div><div class="card"><h2>📄 三个核心文件</h2><div class="desc">task_plan.md（任务总控）、findings.md（研究发现）、progress.md（执行日志），各司其职。</div><h3>task_plan.md — 任务总控文件</h3><pre><code class="language-markdown"># Task Plan
+
+## Goal
+说明本次任务的最终目标。
+
+## Phases
+### Phase 1: 需求理解与调研
+- [ ] 明确输入和约束
+- [ ] 阅读相关文件
+- **Status:** in_progress
+
+### Phase 2: 实现
+- [ ] 修改核心逻辑
+- [ ] 补充测试
+- **Status:** pending
+
+## Decisions
+| Time | Decision | Reason |
+|---|---|---|
+
+## Errors Encountered
+| Time | Error | Attempted Fix | Resolution |
+|---|---|---|---|</code></pre><div class="desc">规则：</div><ul><li><code>task_plan.md</code></li><li><code>[x]</code> <code>complete</code></li><li><code>Errors Encountered</code></li><li><code>Decisions</code></li></ul><h3>findings.md — 研究发现仓库</h3><div class="desc">核心规则：2-Action Rule — 每进行 2 次查看、搜索、浏览、阅读操作，必须把发现写入 findings.md</div><pre><code class="language-markdown"># Findings
+
+## Research Findings
+- 发现 A：xxx
+- 发现 B：xxx
+
+## Technical Decisions
+| Decision | Reason | Source |
+|---|---|---|
+
+## Useful Resources
+- 文档链接
+- API 说明
+- 相关代码位置</code></pre><div class="desc">实操理解：</div><pre><code class="language-markdown">读了两个文件 → 更新 findings.md
+查了两个网页 → 更新 findings.md
+看了两个错误日志 → 更新 findings.md
+比较了两个方案 → 更新 findings.md</code></pre><h3>progress.md — 执行日志和恢复入口</h3><pre><code class="language-markdown"># Progress
+
+## Current Status
+当前处于 Phase 2，实现核心逻辑。
+
+## Session Log
+| Time | Action | Files Modified |
+|---|---|---|
+
+## Test Results
+| Time | Command | Result | Notes |
+|---|---|---|---|
+
+## Error Log
+| Time | Error | Resolution |
+|---|---|---|
+
+## Resume Checklist
+- Where am I?
+- What is the next action?
+- What did I already test?
+- What remains incomplete?</code></pre><div class="desc">职责分工：</div><ul><li><code>progress.md</code></li><li><code>findings.md</code></li><li><code>task_plan.md</code></li></ul></div><div class="card"><h2>标准工作流</h2><h3>Step 1：启动计划</h3><pre><code class="language-text">/plan 实现一个用户登录页面，包含表单校验、接口对接、错误提示、单元测试</code></pre><div class="desc">期望结果：创建 task_plan.md、findings.md、progress.md 三个文件。</div><h3>Step 2：拆分阶段</h3><div class="desc">建议拆成 3 到 7 个阶段，不要太细也不要太粗。</div><pre><code class="language-markdown">## Phases
+
+### Phase 1: 需求确认
+- [ ] 明确输入字段
+- [ ] 明确校验规则
+- [ ] **Status:** in_progress
+
+### Phase 2: 技术调研
+- [ ] 阅读现有代码
+- [ ] 对比 API 文档
+- **Status:** pending
+
+### Phase 3: 组件实现
+- [ ] 实现核心逻辑
+- [ ] 实现校验
+- **Status:** pending</code></pre><h3>Step 3：边做边写</h3><pre><code class="language-markdown">创建三个文件
+    ↓
+进入迭代工作循环
+    ↓
+关键操作前读取 task_plan.md
+    ↓
+调研后更新 findings.md（每 2 次操作）
+    ↓
+实现后更新 progress.md
+    ↓
+阶段完成后更新 task_plan.md 和 progress.md
+    ↓
+错误发生后写入两个文件
+    ↓
+Stop Hook 检查阶段是否全部完成</code></pre><h3>Step 4：恢复上下文</h3><div class="desc">当中断后回来，先让 Agent 回答 5 个问题：</div><pre><code class="language-text">请基于 task_plan.md、findings.md、progress.md 回答：
+1. 当前任务目标是什么？
+2. 当前处于哪个阶段？
+3. 已经完成了什么？
+4. 发现了哪些关键结论？
+5. 下一步最小动作是什么？</code></pre><h3>Step 5：完成检查</h3><pre><code class="language-bash">ls -la task_plan.md findings.md progress.md</code></pre><div class="desc">检查：task_plan.md 中所有阶段都是 complete，progress.md 中所有阶段都有动作记录。</div></div><div class="card"><h2>常用提示词模板</h2><h3>启动复杂开发任务</h3><pre><code class="language-text">请使用 planning-with-files 工作流处理这个任务。
+
+任务：实现一个 Vue3 + ElementPlus 的可视化表单设计器。
+要求：
+1. 先创建 task_plan.md、findings.md、progress.md
+2. task_plan.md 拆分为 4-6 个阶段
+3. 每阅读 2 个文件或搜索 2 次后，更新 findings.md
+4. 每完成一个阶段，更新 task_plan.md 和 progress.md
+5. 遇到错误必须记录到 task_plan.md 和 progress.md</code></pre><h3>启动代码排错任务</h3><pre><code class="language-text">请使用 planning-with-files 工作流排查这个问题。
+
+问题：项目启动时报错 xxx。
+要求：
+1. 先创建 task_plan.md、findings.md、progress.md
+2. 不要直接改代码，先阅读相关配置和错误日志
+3. 每两个排查动作后更新 findings.md
+4. 每次失败尝试都记录到 Errors Encountered
+5. 最后给出根因、修改点、验证命令和回滚方案</code></pre><h3>让 Agent 恢复任务</h3><pre><code class="language-text">请读取当前项目的 task_plan.md、findings.md、progress.md，恢复上下文。
+请输出：
+1. 当前目标
+2. 已完成阶段
+3. 当前阶段
+4. 关键发现
+5. 未解决问题
+6. 下一步建议</code></pre><h3>强制防止目标漂移</h3><pre><code class="language-text">在继续之前，请先重读 task_plan.md。
+然后回答：
+1. 当前操作是否仍然服务于原始目标？
+2. 是否存在目标漂移？
+3. 是否需要调整计划？
+如果需要调整，请先更新 task_plan.md，再继续。</code></pre><h3>结束前检查</h3><pre><code class="language-text">请执行 planning-with-files 完成检查：
+1. 检查 task_plan.md 中所有 Phase 是否 complete
+2. 检查 progress.md 是否记录了每个阶段的执行动作
+3. 检查 findings.md 是否包含关键技术结论
+4. 如果未完成，请列出 remaining tasks
+5. 如果完成，请输出最终交付摘要</code></pre></div><div class="card"><h2>安装方式速记</h2><div class="table-wrap"><table class="cheat-table"><thead><tr><th>平台</th><th>安装命令</th></tr></thead><tbody><tr><td>Claude Code</td><td>/plugin marketplace add OthmanAdi/planning-with-files</td></tr><tr><td>通用 Skill</td><td>npx skills add OthmanAdi/planning-with-files --skill planning-with-files -g</td></tr><tr><td>中文版</td><td>npx skills add OthmanAdi/planning-with-files --skill planning-with-files-zh -g</td></tr></tbody></table></div><h3>Claude Code 常用命令</h3><pre><code class="language-text">/planning-with-files:plan    → /plan
+/planning-with-files:status  → /plan:status
+/planning-with-files:start</code></pre></div><div class="card"><h2>目录管理建议</h2><h3>默认模式（项目根目录）</h3><pre><code class="language-gitignore">!task_plan.md
+!findings.md
+!progress.md</code></pre><h3>可选：统一放到 .planning/</h3><pre><code class="language-text">.planning/
+  task_plan.md
+  findings.md
+  progress.md</code></pre><div class="desc">或按任务隔离：</div><pre><code class="language-text">.planning/
+  2026-04-login-page/
+    task_plan.md
+    findings.md
+    progress.md</code></pre><h3>适合提交的场景</h3><ul><li>开源项目开发计划</li><li>团队协作任务</li><li>长期重构任务</li><li>复杂调研结论</li><li>可复盘的问题排查记录</li></ul><h3>不适合提交的场景</h3><ul><li>包含敏感路径、账号、token</li><li>个人临时思考</li><li>客户私密信息</li></ul></div><div class="card"><h2>常见问题与处理</h2><h3>文件创建到了错误目录</h3><pre><code class="language-text">/planning-with-files - I&#39;m working in /path/to/my-project/, create all files there</code></pre><div class="desc">或在项目根目录加 CLAUDE.md：</div><pre><code class="language-markdown"># Project Context
+All planning files should be created in this directory.</code></pre><h3>Hooks 没有触发</h3><pre><code class="language-bash">claude --version  # 需要 v2.1.0 或更高</code></pre><div class="desc">Codex 检查：</div><pre><code class="language-bash">codex features list | rg &#39;^codex_hooks\s&#39;</code></pre><div class="desc">确认 ~/.codex/config.toml 中 codex_hooks = true</div><h3>Stop Hook 阻止结束</h3><div class="desc">原因通常是 task_plan.md 里还有阶段没有标记为 complete。</div><pre><code class="language-text">请检查 task_plan.md 中未完成的 Phase。
+如果实际已完成，请更新状态为 complete。
+如果未完成，请列出 remaining tasks。</code></pre><h3>更新后模板找不到</h3><pre><code class="language-bash">/plugin uninstall planning-with-files@planning-with-files
+/plugin marketplace add OthmanAdi/planning-with-files
+/plugin install planning-with-files@planning-with-files</code></pre></div><div class="card"><h2>最佳实践</h2><h3>不要把它当 TODO 工具</h3><div class="desc">错误用法：</div><pre><code class="language-markdown">- [ ] 写代码
+- [ ] 测试
+- [ ] 完成</code></pre><div class="desc">正确用法：</div><pre><code class="language-markdown">### Phase 2: 实现动态字段渲染
+- [x] 阅读现有 FormRenderer
+- [x] 确认 schema 字段协议
+- [ ] 实现 input/select/date 三类字段
+- **Status:** in_progress
+
+## Decisions
+| Decision | Reason |
+|---|---|
+| 使用 schema.children 支持嵌套字段 | 后续支持分组和布局更自然 |</code></pre><h3>每次失败都写下来</h3><pre><code class="language-markdown">| Time | Error | Attempted Fix | Resolution |
+|---|---|---|---|
+| 2026-04-26 10:20 | pnpm install 失败 | 删除 node_modules | 未解决，继续检查 lockfile |</code></pre><h3>findings 不要写废话</h3><div class="desc">差的 findings.md：</div><pre><code class="language-markdown">看了一些文件，发现项目比较复杂。</code></pre><div class="desc">好的 findings.md：</div><pre><code class="language-markdown">## Research Findings
+
+- `src/components/FormRenderer.vue` 当前只支持 input/select，未支持 date/radio
+- `src/types/schema.ts` 中 FieldSchema 没有 `visibleWhen` 字段
+- ElementPlus FormItem 的 prop 需要和 model path 对齐，否则校验不会触发</code></pre><h3>progress 要能让人接手</h3><pre><code class="language-markdown">## Current Status
+
+Phase 2 in_progress。已完成 schema 类型扩展，正在实现 FormRenderer 的条件显示。
+
+## Modified Files
+
+- src/types/schema.ts
+- src/components/FormRenderer.vue
+
+## Next Action
+
+实现 visibleWhen 的表达式解析，并补充单元测试。</code></pre></div><div class="card"><h2>什么时候不要用</h2><div class="desc">不建议使用：</div><pre><code class="language-markdown">解释一个概念
+改一个 CSS 样式
+修一个明显 typo
+写一个很短的函数
+查询一个命令用法</code></pre><div class="desc">建议使用：</div><pre><code class="language-markdown">重构模块
+排查复杂构建错误
+调研多个技术方案
+实现新功能并补测试
+跨多文件修改
+需要中断后继续的任务</code></pre></div><div class="card"><h2>项目规范模板</h2><pre><code class="language-markdown"># planning-with-files Project Rule
+
+For any complex task expected to require more than 5 tool calls, use the planning-with-files workflow.
+
+Required files:
+- task_plan.md: goal, phases, decisions, errors
+- findings.md: research findings, technical decisions, resources
+- progress.md: session log, test results, modified files
+
+Rules:
+1. Create task_plan.md before implementation
+2. Split work into 3-7 phases
+3. After every 2 file reads, searches, or browser operations, update findings.md
+4. Before major implementation decisions, re-read task_plan.md
+5. When a phase is complete, update both task_plan.md and progress.md
+6. Log all errors, even if immediately resolved
+7. Never repeat the same failed action without changing the approach
+8. Before final response, verify all phases are complete or list remaining work</code></pre></div><div class="card"><h2>横向对比</h2><h3>一句话区分</h3><pre><code class="language-markdown">planning-with-files = 轻量持久化记忆模式
+Superpowers        = 软件工程方法论 + Skill 集合
+GSD                = 上下文工程 + Spec-driven + 多阶段 Agent 编排系统</code></pre><h3>对比总览</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>维度</th><th>planning-with-files</th><th>Superpowers</th><th>GSD</th></tr></thead><tbody><tr><td>核心定位</td><td>用文件保存计划、发现、进度，防止上下文丢失</td><td>给编码 Agent 加一套完整开发方法论</td><td>面向长任务的上下文工程、规格驱动开发和阶段式执行系统</td></tr><tr><td>复杂度</td><td>低</td><td>中</td><td>高</td></tr><tr><td>主要文件</td><td>task_plan.md、findings.md、progress.md</td><td>brainstorming、writing-plans、TDD、code review 等 composable skills</td><td>.planning/、阶段文档、配置、命令、hooks、agents</td></tr><tr><td>解决的核心问题</td><td>上下文丢失、目标漂移、错误重复</td><td>Agent 不按工程流程走、跳过测试、缺少设计审查</td><td>长任务 context rot、多阶段交接、多 Agent 执行、质量门禁</td></tr><tr><td>工程流程强制程度</td><td>不强，主要是记录与提醒</td><td>强，强调设计、计划、TDD、review</td><td>很强，强调 spec、phase、orchestrator、verification</td></tr><tr><td>自动化程度</td><td>低到中，靠 hooks 提醒和检查</td><td>中到高，靠 skills 引导流程</td><td>高，命令、阶段、agent、上下文切分更完整</td></tr><tr><td>学习成本</td><td>最低</td><td>中等</td><td>最高</td></tr><tr><td>最适合场景</td><td>给任何 Agent 加一个简单可靠的&quot;文件记忆&quot;</td><td>希望 Agent 像工程师一样先设计、写测试、审查</td><td>多文件、多阶段、多天的大型实现</td></tr></tbody></table></div><h3>planning-with-files 的本质</h3><div class="desc">重点不是&quot;帮你写代码&quot;，而是把 Agent 的工作记忆外置到文件系统。</div><div class="desc">针对的问题：volatile memory、goal drift、hidden errors、context stuffing。
+解决方式：每个复杂任务创建三个文件，形成通用的 Agent 工作记忆协议。</div><div class="desc">优点：很轻，不绑死具体开发方法，可在 Claude Code、Codex、Hermes 等多种 Agent 里套用。</div><div class="desc">不足：不负责强制 TDD，不负责复杂多 Agent 编排，不提供项目级 spec-driven pipeline。它更多是&quot;文件化工作流骨架&quot;。</div><h3>层级关系</h3><pre><code class="language-markdown">planning-with-files  → 最小可用的持久化工作记忆（让 Agent 不忘事）
+Superpowers          → 工程方法论 + Skill 驱动开发流程（让 Agent 像工程师一样工作）
+GSD                  → 上下文工程 + Spec-driven + 多阶段 Agent 编排（让 Agent 像分阶段执行团队一样推进项目）</code></pre><h3>选型建议</h3><div class="desc">只想提升 Agent 稳定性 → planning-with-files</div><pre><code class="language-markdown">调研一个工具
+排查一个 bug
+写一篇技术博客
+整理复杂配置
+做多轮 prompt 优化
+让 Agent 记住自己做过什么</code></pre><div class="desc">想让 AI 编码更像正规工程流程 → Superpowers</div><pre><code class="language-markdown">功能开发
+重构
+测试驱动开发
+需要 code review
+需要先设计再实现
+不希望 Agent 直接乱写代码</code></pre><div class="desc">想让 Agent 长时间自主开发一个项目 → GSD</div><pre><code class="language-markdown">从 0 到 1 搭项目
+大型功能实现
+多阶段开发
+多 Agent 分工
+需要 phase handoff
+需要 rollback/recovery
+需要 ship / PR 流程</code></pre><h3>组合使用</h3><pre><code class="language-markdown">轻量日常任务        → planning-with-files
+中等复杂代码任务    → Superpowers + planning-with-files
+大型项目级开发      → GSD</code></pre></div><div class="card"><h2>一句话掌握</h2><pre><code class="language-markdown">计划写进 task_plan.md
+发现写进 findings.md
+执行写进 progress.md
+错误必须持久化
+关键操作前重读目标
+完成前检查所有阶段</code></pre><div class="desc">这就是 planning-with-files 的核心。</div></div>
+    </div>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>
