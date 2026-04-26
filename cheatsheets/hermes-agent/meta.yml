@@ -5,6 +5,6 @@ tags:
   - CLI 工具
   - CLI / Terminal
   - 自动化工具
-version: "0.8.0"
+version: "0.11.0"
 github: nousresearch/hermes-agent
-date: "2026-04-08"
+date: "2026-04-23"

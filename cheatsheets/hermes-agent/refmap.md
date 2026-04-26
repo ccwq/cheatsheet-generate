@@ -7,7 +7,7 @@
 - [Quickstart](https://hermes-agent.nousresearch.com/docs/getting-started/quickstart/) - 安装、模型、工具、网关与常用命令
 
 ## CLI 与配置
-- [CLI Guide](https://hermes-agent.nousresearch.com/docs/user-guide/cli/) - 终端交互与命令参考
+- [CLI Guide](https://hermes-agent.nousresearch.com/docs/user-guide/chat/) - 终端交互与命令参考
 - [Configuration](https://hermes-agent.nousresearch.com/docs/user-guide/configuration/) - `config.yaml`、`.env`、后端、审批、上下文与辅助任务
 - [Environment Variables](https://hermes-agent.nousresearch.com/docs/reference/environment-variables/) - 环境变量参考
 
@@ -43,6 +43,9 @@
 - [Tips & Best Practices](https://hermes-agent.nousresearch.com/docs/guides/tips/) - 实战建议
 
 ## 版本发布
+- [v0.11.0 (2026-04-23)](https://github.com/NousResearch/hermes-agent/releases/tag/v2026.4.23) - Latest release
+- [v0.10.0 (2026-04-16)](https://github.com/NousResearch/hermes-agent/releases/tag/v2026.4.16)
+- [v0.9.0 (2026-04-13)](https://github.com/NousResearch/hermes-agent/releases/tag/v2026.4.13)
 - [v0.8.0 (2026-04-08)](https://github.com/NousResearch/hermes-agent/releases/tag/v2026.4.8) - The intelligence release
 - [v0.7.0 (2026-04-03)](https://github.com/NousResearch/hermes-agent/releases/tag/v2026.4.3) - The resilience release
 - [v0.6.0 (2026-03-30)](https://github.com/NousResearch/hermes-agent/releases/tag/v2026.3.30) - The multi-instance release

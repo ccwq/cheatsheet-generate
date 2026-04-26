@@ -21,9 +21,10 @@ tags:
 
 | 目标 | 最短入口 | 备注 |
 |---|---|---|
-| 进入交互式对话 | `hermes` | 启动 CLI |
-| 选提供商/模型 | `hermes model` | 也可切换 Codex / OpenRouter / 自定义端点 |
-| 配工具集 | `hermes tools` | 按平台启用或禁用工具 |
+| 进入交互式对话 | `hermes` | 启动交互式 CLI |
+| 单次查询 | `hermes chat -q "<prompt>"` | 非交互式快速提问 |
+| 选提供商/模型 | `hermes chat --model <model>` 或会话内 `/model` | CLI 层用 --model flag，会话内用 slash command |
+| 配工具集 | `hermes chat --toolsets <toolsets>` 或会话内 `/tools` | CLI 层用 --toolsets flag，会话内用 slash command |
 | 一次性配置 | `hermes setup` | 把模型、工具、网关一起配完 |
 | 诊断问题 | `hermes doctor` | 检查缺失依赖与配置 |
 | 连消息平台 | `hermes gateway setup` | Telegram / Discord / Slack / WhatsApp / Signal / Email / Home Assistant / 飞书 / 企业微信 / Matrix / Mattermost / DingTalk |
@@ -33,10 +34,10 @@ tags:
 
 ### 最短路径
 ```bash
-hermes
-hermes model
-hermes tools
-hermes setup
+hermes chat -q "Hello"           # 单次查询
+hermes                              # 交互式对话
+hermes chat --model <model>         # 指定模型
+hermes setup                        # 全量配置向导
 ```
 
 ## 起步流
@@ -185,8 +186,9 @@ credential_pool_strategies:
 | 命令 | 作用 |
 |---|---|
 | `hermes` | 启动交互式 CLI |
-| `hermes model` | 选择模型与提供商 |
-| `hermes tools` | 配置可用工具 |
+| `hermes chat -q "<prompt>"` | 单次非交互式查询 |
+| `hermes chat --model <model>` | 指定模型（CLI 层） |
+| `hermes chat --toolsets <toolsets>` | 指定工具集（CLI 层） |
 | `hermes setup` | 全量配置向导 |
 | `hermes doctor` | 排查问题 |
 | `hermes update` | 更新到最新版本 |
