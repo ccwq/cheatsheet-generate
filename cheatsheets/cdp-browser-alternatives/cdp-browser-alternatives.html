@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>低内存 CDP 浏览器替代方案</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png">
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 340px; 
+      --gap: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
+      <span class="title">低内存 CDP 浏览器替代方案</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">1.0</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-04-26</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">unknown</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">unknown</span></span>
+      </div>
+      <div class="meta-tags"><tag-chip class="tag tag-group-0 detail-tag" data-name="浏览器" data-group="0" label="浏览器" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="CDP" data-group="0" label="CDP" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="Docker" data-group="0" label="Docker" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="自动化" data-group="0" label="自动化" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="DevTools" data-group="0" label="DevTools" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>一眼定位</h2><div class="desc">低内存 CDP 浏览器用于替代完整的 Headless Chrome，降低内存占用，适合 AI agents 和自动化场景。</div></div><div class="card"><h2>方案对比总览</h2><div class="table-wrap"><table class="cheat-table"><thead><tr><th>方案</th><th>内存占用</th><th>渲染引擎</th><th>CDP 兼容性</th><th>成熟度</th><th>截图支持</th><th>Docker 支持</th></tr></thead><tbody><tr><td>Lightpanda</td><td>~123MB (100 pages)</td><td>自研</td><td>Puppeteer/Playwright/chromedp</td><td>Beta</td><td>弱</td><td>amd64/arm64</td></tr><tr><td>zenika/alpine-chrome</td><td>~200-400MB</td><td>Chromium</td><td>原生 CDP</td><td>稳定</td><td>完整</td><td>amd64</td></tr><tr><td>chromedp/headless-shell</td><td>~300-500MB</td><td>Chromium (精简)</td><td>chromedp/Puppeteer/Playwright</td><td>稳定</td><td>完整</td><td>amd64</td></tr><tr><td>原生 Chrome headless</td><td>~500MB-2GB</td><td>Chromium</td><td>原生 CDP</td><td>稳定</td><td>完整</td><td>可自建</td></tr><tr><td>browserless</td><td>~500MB+</td><td>Chromium</td><td>API Queue 层</td><td>稳定</td><td>完整</td><td>amd64</td></tr></tbody></table></div></div><div class="card"><h2>推荐方案</h2><h3>⚡ Lightpanda</h3><div class="desc">官方定位：AI agents / automation 的 headless browser</div><div class="desc">核心特点：</div><ul><li>专为 AI 代理和自动化场景设计</li><li>支持 JavaScript、Web APIs</li><li>通过 CDP 兼容 Puppeteer、Playwright、chromedp</li><li>官方 benchmark：100 pages peak memory 123MB（Headless Chrome 2GB）</li><li>Docker 镜像支持 amd64 和 arm64</li></ul><div class="desc">Docker 部署：</div><pre><code class="language-bash">docker run -d --name lightpanda \
+  -p 9222:9222 \
+  lightpanda/browser:nightly</code></pre><div class="desc">CDP 连接：</div><pre><code class="language-bash">ws://localhost:9222
+# Puppeteer 示例
+const browser = await puppeteer.connect({
+  browserURL: &#39;http://localhost:9222&#39;
+});</code></pre><div class="desc">优缺点：</div><div class="table-wrap"><table class="cheat-table"><thead><tr><th>优点</th><th>缺点</th></tr></thead><tbody><tr><td>极致内存优化</td><td>Beta 阶段，生产环境需评估</td></tr><tr><td>多架构支持</td><td>非 Chromium/WebKit，内核自主研发</td></tr><tr><td>CDP 多客户端兼容</td><td>CSS/rendering/截图兼容性较弱</td></tr><tr><td>AI 场景针对性优化</td><td>无面向人类的图形渲染能力</td></tr></tbody></table></div><div class="desc">适用场景：极致内存优先的纯自动化场景，如大规模网页抓取、代理自动化。</div><h3>🏔️ zenika/alpine-chrome</h3><div class="desc">核心特点：</div><ul><li>Alpine Linux + Chromium，轻量级基础镜像</li><li>比 browserless 少 Node server/queue API 层</li><li>仍是完整 Chromium，100% CDP 兼容</li><li>镜像体积小 (~150MB base)</li></ul><div class="desc">Docker 部署：</div><pre><code class="language-bash">docker run -d --name alpine-chrome \
+  -p 9222:9222 \
+  zenika/alpine-chrome \
+  --headless \
+  --remote-debugging-address=0.0.0.0 \
+  --remote-debugging-port=9222 \
+  --no-sandbox \
+  --disable-gpu</code></pre><div class="desc">CDP 连接：ws://localhost:9222</div><div class="desc">优缺点：</div><div class="table-wrap"><table class="cheat-table"><thead><tr><th>优点</th><th>缺点</th></tr></thead><tbody><tr><td>完整 Chromium，兼容性最佳</td><td>内存占用仍高于 Lightpanda</td></tr><tr><td>镜像体积小</td><td>需要手动处理 --no-sandbox</td></tr><tr><td>简单直接，无多余层</td><td>无内置健康检查/重启</td></tr></tbody></table></div><div class="desc">适用场景：简单、直接的 CDP 服务，无需额外 queue 层。</div><h3>🧩 chromedp/headless-shell</h3><div class="desc">核心特点：</div><ul><li>Chrome DevTools Protocol 官方维护的 headless shell</li><li>是 Chrome 的精简版本，移除了 UI 部分</li><li>可被所有 CDP 客户端直接驱动</li><li>Docker 镜像由 chromedp 官方维护</li></ul><div class="desc">Docker 部署：</div><pre><code class="language-bash">docker run -d --name headless-shell \
+  -p 9222:9222 \
+  chromedp/headless-shell</code></pre><div class="desc">CDP 连接：</div><pre><code class="language-bash">ws://localhost:9222
+# chromedp 示例
+ctx, cancel := chromedp.NewContext(ctx)
+chromedp.Embed(
+    websocket.WithBlob(ws.DefaultDialer, &quot;ws://localhost:9222&quot;),
+)</code></pre><div class="desc">优缺点：</div><div class="table-wrap"><table class="cheat-table"><thead><tr><th>优点</th><th>缺点</th></tr></thead><tbody><tr><td>官方维护，CDP 兼容性强</td><td>内存占用中等</td></tr><tr><td>Docker 部署简便</td><td>仍是 Chromium 内核，体积较大</td></tr><tr><td>适合 Go 生态 (chromedp)</td><td>arm64 支持需确认</td></tr></tbody></table></div><div class="desc">适用场景：需要 Chromium 兼容性、Docker 部署、CDP 协议驱动的场景。</div><h3>🔧 原生 Chrome/Chromium headless</h3><div class="desc">核心特点：</div><ul><li>Chrome 官方支持的 headless 模式</li><li><code>--remote-debugging-port</code></li><li>运维完全可控</li><li>可自建最小 Debian/Ubuntu 镜像</li></ul><div class="desc">命令行启动：</div><pre><code class="language-bash"># Chrome (需已安装 Chrome)
+google-chrome --headless --remote-debugging-port=9222
+
+# Chromium (Ubuntu/Debian)
+chromium --headless --remote-debugging-port=9222
+
+# 完整命令示例
+chromium --headless \
+  --remote-debugging-address=0.0.0.0 \
+  --remote-debugging-port=9222 \
+  --no-sandbox \
+  --disable-gpu \
+  --disable-dev-shm-usage \
+  --user-data-dir=/tmp/chrome-data</code></pre><div class="desc">自建 Docker 镜像：</div><pre><code class="language-dockerfile">FROM debian:bookworm-slim
+RUN apt-get update &amp;&amp; apt-get install -y chromium
+COPY entrypoint.sh /entrypoint.sh
+ENTRYPOINT [&quot;/entrypoint.sh&quot;]</code></pre><pre><code class="language-bash">#!/bin/bash
+chromium --headless \
+  --remote-debugging-address=0.0.0.0 \
+  --remote-debugging-port=9222 \
+  --no-sandbox \
+  --disable-gpu \
+  --disable-dev-shm-usage</code></pre><div class="desc">运维需自行处理：</div><ul><li>崩溃重启 (supervisor/systemd)</li><li>健康检查 (curl /health 或 /json)</li><li>用户数据目录清理</li><li>sandbox/shm 配置 (Docker 中需 --privileged 或 --cap-add)</li></ul><div class="desc">适用场景：运维可控、需深度定制的场景。</div></div><div class="card"><h2>不优先推荐</h2><h3>❌ Selenium standalone-chrome</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>方面</th><th>说明</th></tr></thead><tbody><tr><td>主接口</td><td>WebDriver，不是直接 CDP</td></tr><tr><td>内存</td><td>较重，包含 Selenium server 层</td></tr><tr><td>适用</td><td>已有 Selenium 生态的场景</td></tr></tbody></table></div><pre><code class="language-bash"># Selenium standalone 启动
+java -jar selenium-server-standalone.jar \
+  --browser browser=chrome \
+  -port 4444</code></pre><h3>❌ Playwright server</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>方面</th><th>说明</th></tr></thead><tbody><tr><td>主接口</td><td>Playwright CLI/API，不是最直接的 CDP</td></tr><tr><td>内存</td><td>需要 Playwright 客户端 + 浏览器实例</td></tr><tr><td>适用</td><td>Playwright 生态内使用</td></tr></tbody></table></div><pre><code class="language-bash"># Playwright CLI 启动
+npx playwright launch-server --port 9222
+
+# 或使用内置 CDP
+npx playwright codegen --target javascript</code></pre><h3>❌ Camofox</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>方面</th><th>说明</th></tr></thead><tbody><tr><td>主接口</td><td>REST API (CAMOFOX_URL)</td></tr><tr><td>协议</td><td>不是 CDP，是 HTTP REST</td></tr><tr><td>适用</td><td>非 CDP 场景，Hermes agent 支持</td></tr></tbody></table></div><pre><code class="language-bash"># Camofox 启动 (REST 后端)
+camofox --host 0.0.0.0 --port 8080
+
+# agent-browser 使用方式
+export CAMOFOX_URL=http://localhost:8080</code></pre><div class="desc">注意：若要求 agent-browser --cdp，Camofox 不匹配。</div></div><div class="card"><h2>选型决策树</h2><pre><code class="language-bash">内存优先?
+├── 是 → 截图/CESs 兼容性要求高?
+│       ├── 否 → Lightpanda (Beta，生产环境需评估)
+│       └── 是 → zenika/alpine-chrome
+└── 否 → 需完整 Chromium 兼容?
+        ├── 是 → Docker 部署?
+        │       ├── 是 → chromedp/headless-shell
+        │       └── 否 → 原生 Chrome headless
+        └── 否 → Selenium/Playwright (已有生态)</code></pre></div><div class="card"><h2>Quick Ref</h2><div class="table-wrap"><table class="cheat-table"><thead><tr><th>方案</th><th>Docker 镜像</th><th>CDP 端口</th><th>内存星级</th><th>成熟度</th></tr></thead><tbody><tr><td>Lightpanda</td><td>lightpanda/browser:nightly</td><td>9222</td><td>⭐⭐⭐⭐⭐</td><td>Beta</td></tr><tr><td>zenika/alpine-chrome</td><td>zenika/alpine-chrome</td><td>9222</td><td>⭐⭐⭐⭐</td><td>稳定</td></tr><tr><td>chromedp/headless-shell</td><td>chromedp/headless-shell</td><td>9222</td><td>⭐⭐⭐</td><td>稳定</td></tr><tr><td>原生 Chrome</td><td>自建镜像</td><td>9222</td><td>⭐⭐</td><td>稳定</td></tr><tr><td>browserless</td><td>browserless/chrome</td><td>3000</td><td>⭐⭐</td><td>稳定</td></tr></tbody></table></div></div><div class="card"><h2>标签说明</h2><ul><li>CDP 兼容性：是否支持直接连接 Chrome DevTools Protocol</li><li>截图支持：完整截图 vs 受限/弱支持</li><li>arm64 支持：是否支持 ARM 架构 Docker 部署</li></ul></div>
+    </div>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>

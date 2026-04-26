@@ -1,0 +1,10 @@
+desc: 低内存 CDP 浏览器替代方案调研，涵盖 chromedp/headless-shell、Lightpanda、zenika/alpine-chrome、原生 Chrome/Chromium headless 等方案的对比与选型参考
+tags:
+  - 浏览器
+  - CDP
+  - Docker
+  - 自动化
+  - DevTools
+version: "1.0"
+github: unknown
+date: "2026-04-26"
