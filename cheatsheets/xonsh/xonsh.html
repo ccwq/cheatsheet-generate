@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>Xonsh 速查</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="apple-touch-icon" href="icon.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 460px; 
+      --gap: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
+      <span class="title">Xonsh 速查</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">0.23.2</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-04-26</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/xonsh/xonsh" target="_blank" rel="noopener">xonsh/xonsh</a></span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/xonsh/xonsh" target="_blank" rel="noopener">打开 Zread</a></span></span>
+      </div>
+      <div class="meta-tags"><tag-chip class="tag tag-group-1 detail-tag" data-name="Python" data-group="1" label="Python" group="1" variant="detail" icon="mdi:language-python" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M19.14 7.5A2.86 2.86 0 0 1 22 10.36v3.78A2.86 2.86 0 0 1 19.14 17H12c0 .39.32.96.71.96H17v1.68a2.86 2.86 0 0 1-2.86 2.86H9.86A2.86 2.86 0 0 1 7 19.64v-3.75a2.85 2.85 0 0 1 2.86-2.85h5.25a2.85 2.85 0 0 0 2.85-2.86V7.5zm-4.28 11.79c-.4 0-.72.3-.72.89s.32.71.72.71a.71.71 0 0 0 .71-.71c0-.59-.32-.89-.71-.89m-10-1.79A2.86 2.86 0 0 1 2 14.64v-3.78A2.86 2.86 0 0 1 4.86 8H12c0-.39-.32-.96-.71-.96H7V5.36A2.86 2.86 0 0 1 9.86 2.5h4.28A2.86 2.86 0 0 1 17 5.36v3.75a2.85 2.85 0 0 1-2.86 2.85H8.89a2.85 2.85 0 0 0-2.85 2.86v2.68zM9.14 5.71c.4 0 .72-.3.72-.89s-.32-.71-.72-.71c-.39 0-.71.12-.71.71s.32.89.71.89&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-1 detail-tag" data-name="CLI / Terminal" data-group="1" label="CLI / Terminal" group="1" variant="detail" icon="mdi:console" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M20 19V7H4v12zm0-16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-7 14v-2h5v2zm-3.42-4L5.57 9H8.4l3.3 3.3c.39.39.39 1.03 0 1.42L8.42 17H5.59z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="CLI 工具" data-group="2" label="CLI 工具" group="2" variant="detail" icon="mdi:console-network-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M15 20a1 1 0 0 0-1-1h-1v-2h4a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4v2h-1a1 1 0 0 0-1 1H2v2h7a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1h7v-2zm-8-5V5h10v10zm1-8.11l3.56 3.56L8 14h2.53l2.92-2.92c.33-.34.33-.9 0-1.26L10.5 6.89zm8 5.33h-2.67V14H16z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="脚本工具" data-group="2" label="脚本工具" group="2" variant="detail" icon="mdi:script-text-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M15 20a1 1 0 0 0 1-1V4H8a1 1 0 0 0-1 1v11H5V5a3 3 0 0 1 3-3h11a3 3 0 0 1 3 3v1h-2V5a1 1 0 0 0-1-1a1 1 0 0 0-1 1v14a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3v-1h11a2 2 0 0 0 2 2M9 6h5v2H9zm0 4h5v2H9zm0 4h5v2H9z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-3 detail-tag" data-name="开发" data-group="3" label="开发" group="3" variant="detail" icon="mdi:code-tags" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m14.6 16.6l4.6-4.6l-4.6-4.6L16 6l6 6l-6 6zm-5.2 0L4.8 12l4.6-4.6L8 6l-6 6l6 6z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-4 detail-tag" data-name="命令行" data-group="4" label="命令行" group="4" variant="detail" icon="mdi:console" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M20 19V7H4v12zm0-16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-7 14v-2h5v2zm-3.42-4L5.57 9H8.4l3.3 3.3c.39.39.39 1.03 0 1.42L8.42 17H5.59z&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>🧭 快速定位 <a href="https://xon.sh/tutorial.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Xonsh 不是“长得像 shell 的 Python REPL”，也不是“能跑命令的 Python 脚本”。更实用的理解是：它把 Python 3 和 shell 工作流放进了同一个交互层里。</div><ul><li><code>xonsh</code>：进入交互式 shell；语言本体是 Python 3 的超集</li><li>会话接口用 @ 访问；高频入口主要是 @.env、@.imp、@.lastcmd</li><li><code>$VAR</code>：环境变量读写；和普通 Python 变量不同</li><li><code>xontrib</code>：插件 / 扩展系统；用来补提示、补全、集成功能</li><li><code>~/.xonshrc</code>：最常见的个人配置文件</li><li>先记两个关键分界：<ul><li>想把命令结果当字符串 / 对象继续处理，用捕获语法</li><li>行里名字都找不到时，xonsh 会优先把它当 subprocess 来解析</li></ul></li></ul><pre><code class="language-xonsh"># 进入 xonsh
+xonsh
+
+# 看会话接口和环境
+help(@)
+$PATH
+@.env.get(&quot;HOME&quot;)</code></pre></div><div class="card"><h2>📦 安装 <a href="https://xon.sh/install.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">官方当前明确建议把 xonsh 当成“终端 profile / 独立环境”来用，而不是直接顶替系统默认登录 shell。安装方式很多，但适合长期使用的并不一样。</div><div class="table-wrap"><table class="cheat-table"><thead><tr><th>场景</th><th>方式</th><th>命令 / 入口</th><th>备注</th></tr></thead><tbody><tr><td>通用、最快上手</td><td>pip / uv / pipx</td><td>pip install &#39;xonsh[full]&#39;</td><td>适合已有 Python 环境</td></tr><tr><td>独立稳定环境</td><td>micromamba</td><td>官方安装脚本</td><td>官方最推荐的“独立 install”路线</td></tr><tr><td>Conda 用户</td><td>conda / mamba</td><td>conda install xonsh / mamba install xonsh</td><td>适合已有 conda 体系</td></tr><tr><td>Windows 无管理员</td><td>官方脚本 / xonsh-winget 安装器</td><td>install_xonsh.cmd 或下载 .exe</td><td>官方文档特别说明了 Windows 更新版安装流程</td></tr><tr><td>Linux 免安装便携</td><td>AppImage</td><td>下载 xonsh-x86_64.AppImage</td><td>适合临时使用或便携</td></tr><tr><td>CI / 自动化</td><td>容器 / GitHub Actions</td><td>xonsh/xonsh-interactive / xonsh/actions@v1</td><td>适合流水线</td></tr></tbody></table></div><pre><code class="language-console"># pip / uv / pipx 路线的核心都是装同一个包
+pip install &#39;xonsh[full]&#39;
+
+# 直接装最新仓库代码
+pip install &#39;https://github.com/xonsh/xonsh/archive/main.zip#egg=xonsh[full]&#39;
+
+# conda / mamba
+mamba install xonsh
+conda install xonsh</code></pre><pre><code class="language-console"># Linux / macOS / WSL：官方推荐的独立环境脚本
+TARGET_DIR=$HOME/.local/xonsh-env PYTHON_VER=3.11 XONSH_VER=&#39;xonsh[full]&#39; \
+  /bin/bash -c &quot;$(curl -fsSL https://xon.sh/install/mamba-install-xonsh.sh)&quot;
+
+# Windows：无管理员脚本安装
+curl -L -o install_xonsh.cmd https://xon.sh/install/windows_install_xonsh.cmd
+install_xonsh.cmd</code></pre><ul><li><code>当前发布版本</code> <code>0.23.2</code></li><li><code>发布时间</code> <code>2026-04-26</code></li><li><code>Python 要求</code> <code>&gt;= 3.11</code></li><li><code>默认 shell 决策</code> <code>chsh</code>：官方不推荐直接 替换系统登录 shell</li></ul></div><div class="card"><h2>🚀 最小工作流 <a href="https://xon.sh/xonshrc.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">第一次接手 xonsh，别先研究所有语法。先把“能启动、能改配置、能装扩展、能把命令结果继续交给 Python”这一条最小链路打通。</div><pre><code class="language-xonsh"># 生成或调整个人配置
+xonfig web
+xonfig wizard
+
+# 临时加载扩展
+xontrib list
+xontrib load zoxide
+
+# 重新开 shell 后验证
+echo $XONSH_INTERACTIVE
+echo $PATH</code></pre></div><div class="card"><h2>🧩 Recipe：先把 shell 命令和 Python 写在一起 <a href="https://xon.sh/tutorial.html#basics" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">xonsh 的真正价值，不是“Python 也能执行命令”，而是命令结果、字符串处理、对象操作可以直接连起来，不用频繁切回脚本语言。</div><ul><li>直接写 Python：表达式、循环、函数、导入模块都能用</li><li><code>echo</code> <code>git</code> <code>ls</code> <code>cd</code>：、、、 的心智模型基本延续 shell</li><li>关键桥梁：<ul><li><code>@(expr)</code>：把 Python 表达式插进命令参数</li><li><code>$()</code>：捕获命令输出</li><li><code>@.imp</code>：快速访问 Python 模块</li></ul></li></ul><pre><code class="language-xonsh"># 普通 Python
+1 + 1
+name = &quot;xonsh&quot;.upper()
+
+# 普通命令
+echo hello
+cd $HOME
+
+# 把 Python 值插进命令
+who = &quot;snail&quot;
+echo @(who) &gt; /tmp/@(who)
+
+# 把命令结果喂给 Python
+@.imp.json.loads($(echo &#39;{&quot;a&quot;: 1}&#39;))
+len($(whoami))</code></pre></div><div class="card"><h2>🔀 Recipe：理解 Python mode 和 subprocess mode <a href="https://xon.sh/tutorial.html#python-mode-vs-subprocess-mode" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这是 xonsh 最值得先搞清楚的判定规则。你可以把它类比成 JS 里同一行代码到底进解释器还是进某个 DSL：词法像，但运行语义不一样。</div><ul><li>对“只有表达式”的一行，xonsh 会先看名字是否已存在</li><li>如果名字都找不到，会尝试按 subprocess 解析</li><li>如果 subprocess 解析失败，再退回 Python mode</li><li><code>![ ... ]</code></li></ul><pre><code class="language-xonsh"># 这里会走 subprocess mode
+ls -l
+
+# 先定义变量，再看同一行变成 Python 计算
+ls = 44
+l = 2
+ls -l
+
+# 删除变量后，又会回到 subprocess mode
+del ls
+del l
+ls -l
+
+# 显式要求 subprocess
+![ls -l]</code></pre><ul><li>实战建议：<ul><li><code>ls</code> <code>cat</code> <code>time</code></li><li><code>![cmd ...]</code> <code>@(...)</code></li></ul></li></ul></div><div class="card"><h2>🌱 Recipe：环境变量、PATH 和会话对象 <a href="https://xon.sh/tutorial.html#environment-variables" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这一段是 xonsh 比传统 shell 更顺手的地方。环境变量不是只能当字符串，而是可以保留 Python 类型；`PATH` 也不是一段难处理的分隔字符串。</div><ul><li><code>$NAME</code>：读环境变量</li><li><code>$NAME = value</code>：设置并导出</li><li><code>del $NAME</code>：删除</li><li><code>${expr}</code>：动态拼环境变量名</li><li><code>@.env</code>：直接操作整个环境映射</li><li><code>PATH</code> <code>DIRS</code></li></ul><pre><code class="language-xonsh"># 基本读写
+$GOAL = &quot;Master the shell&quot;
+print($GOAL)
+del $GOAL
+
+# 动态取环境变量
+key = &quot;HOME&quot;
+${key}
+
+# PATH 是可操作列表
+$PATH.append(&quot;/opt/mytools/bin&quot;)
+$PATH.insert(0, &quot;$HOME/.local/bin&quot;)
+print($PATH)
+
+# 临时覆盖环境
+with @.env.swap(SOMEVAR=&quot;foo&quot;):
+    echo $SOMEVAR</code></pre><pre><code class="language-xonsh"># 一次性给子命令加环境变量
+$HELLO = &quot;snail&quot; xonsh -c &quot;echo Hello $HELLO&quot;</code></pre><ul><li>高价值结论：<ul><li><code>PATH</code></li><li><code>KeyError</code></li></ul></li></ul></div><div class="card"><h2>📥 Recipe：捕获输出、字符串与嵌套命令 <a href="https://xon.sh/tutorial.html#captured-subprocess-with-and" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">真正常用的是“命令输出如何继续处理”。如果只把 xonsh 当成能跑命令的 REPL，会错过它最顺手的一半。</div><ul><li><code>$()</code>：捕获子命令输出，常用来拿字符串结果</li><li><code>!()</code> <code>CommandPipeline</code>：完整捕获，返回 ，失败也不自动中断</li><li><code>@()</code>：强制把内容按 Python 求值</li><li>字符串里环境变量会在 subprocess mode 下展开</li><li><code>p&quot;...&quot;</code> <code>pathlib.Path</code>：路径字面量，直接返回</li></ul><pre><code class="language-xonsh"># 抓输出继续处理
+user = $(whoami).strip()
+print(user)
+
+# 命令中嵌套 Python 表达式
+echo @(&quot;my home is $HOME&quot;)
+
+# 原始字符串 / 格式化字符串 / 路径字面量
+echo r&quot;no\\escape&quot;
+echo f&quot;{&#39;hello&#39;:&gt;10}&quot;
+p&quot;/tmp&quot; / &quot;file.txt&quot;
+
+# 失败不抛出，自己判断
+if !(ls nofile):
+    print(&quot;found&quot;)
+else:
+    print(&quot;absent&quot;)</code></pre><ul><li>什么时候用哪种：<ul><li>只想拿文本结果时，先用 $()</li><li>想自己接管返回码、stdout、stderr 时，用 !()</li><li>想避免字符串里的 $HOME 被展开时，包一层 @(...)</li></ul></li></ul></div><div class="card"><h2>🛠️ Recipe：别名、函数别名和 xpip <a href="https://xon.sh/tutorial.html#aliases" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">别名在 xonsh 里不只是字符串替换。你可以像写 Python 函数那样注册命令入口，这比 bash alias 更像“轻量命令 API”。</div><ul><li><code>aliases[&#39;name&#39;] = &#39;...&#39;</code>：字符串别名</li><li><code>aliases[&#39;name&#39;] = [&#39;cmd&#39;, &#39;arg&#39;]</code>：列表别名</li><li><code>@aliases.register</code>：注册 callable alias</li><li>xpip 绑定到当前 xonsh 解释器环境对应的 pip</li><li><code>xcontext</code>：可查看当前 xonsh / Python 解释器上下文，Windows 更新时尤其有用</li></ul><pre><code class="language-xonsh"># 最基础的别名
+aliases[&quot;e&quot;] = &quot;echo @(2 + 2)&quot;
+aliases[&quot;ll&quot;] = [&quot;ls&quot;, &quot;-la&quot;]
+
+# 注册可调用别名
+@aliases.register
+def greet(args):
+    print(&quot;hello,&quot;, *args)
+
+greet world</code></pre><pre><code class="language-xonsh"># 更新当前 xonsh 环境里的包
+xpip install --upgrade xonsh
+
+# 看帮助和源码入口
+greet?
+greet??
+xonfig?</code></pre><ul><li>经验上：<ul><li>需要参数拼接、条件判断、复用逻辑时，直接上 callable alias</li><li>只是命令缩写时，用字符串 / 列表别名就够</li></ul></li></ul></div><div class="card"><h2>⚙️ Recipe：把配置固化到 xonshrc <a href="https://xon.sh/xonshrc.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">xonsh 的长期可用性主要取决于配置边界清不清楚。先认住入口文件，再把提示符、变量、扩展和 alias 分开管理。</div><ul><li>个人入口：<ul><li><code>~/.xonshrc</code></li><li><code>~/.config/xonsh/rc.xsh</code></li><li><code>~/.config/xonsh/rc.d/</code></li></ul></li><li>系统入口：<ul><li><code>/etc/xonsh/xonshrc</code></li><li><code>%ALLUSERSPROFILE%\\xonsh\\xonshrc</code></li></ul></li><li>命令行控制：<ul><li><code>xonsh --no-rc</code></li><li><code>xonsh --rc rc1.xsh rc2.xsh</code></li><li><code>xonsh -i script.xsh</code></li></ul></li></ul><pre><code class="language-xonsh"># ~/.xonshrc
+
+# 设置提示符
+$PROMPT = &quot;{user}@{hostname}:{cwd} @ &quot;
+
+# 调整 PATH
+$PATH.insert(0, &quot;$HOME/.local/bin&quot;)
+
+# 加载扩展
+xontrib load zoxide
+
+# 注册自定义命令
+@aliases.register
+def mkcd(args):
+    p = args[0]
+    mkdir -p @(p)
+    cd @(p)</code></pre><pre><code class="language-xonsh"># 启动一个不读默认 rc 的干净会话
+xonsh --no-rc
+
+# 指定 rc 启动
+xonsh --rc ./team.xsh</code></pre></div><div class="card"><h2>🧪 Recipe：用 xonfig 和 xontrib 扩展体验 <a href="https://xon.sh/xontrib.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">如果把 `xonshrc` 看成你的本地 wiring，`xonfig` 是配置向导，`xontrib` 则是功能生态。它们是 xonsh 真正形成“可长期使用 shell”的关键。</div><ul><li><code>xonfig web</code>：本地起一个页面，挑主题、prompt、xontrib</li><li><code>xonfig wizard</code>：问答式导入已有 shell 设定和环境变量</li><li><code>xontrib list</code>：列出已安装 / 是否已加载</li><li><code>xontrib load ...</code>：运行时加载</li><li><code>xontrib unload ...</code>：卸载当前会话扩展</li></ul><pre><code class="language-xonsh"># 配置入口
+xonfig web
+xonfig wizard
+
+# 查看和加载扩展
+xontrib list
+xontrib list --json zoxide
+xontrib load zoxide
+xontrib unload zoxide</code></pre><pre><code class="language-xonsh"># 常见做法：把常用 xontrib 固化到 rc
+xontrib load zoxide
+xontrib load prompt_starship</code></pre><ul><li>选型建议：<ul><li>想快速配主题和 prompt，先用 xonfig web</li><li>想迁移 bash 或 zsh 习惯，试 xonfig wizard</li><li>想增强补全、提示和第三方工具集成，找合适 xontrib</li></ul></li></ul></div><div class="card"><h2>📌 Quick Ref <a href="https://xon.sh/tutorial.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这一张适合放在旁边随时扫一眼，记住最常抄的语法、对象和命令。</div><div class="table-wrap"><table class="cheat-table"><thead><tr><th>项</th><th>作用</th></tr></thead><tbody><tr><td>xonsh</td><td>进入交互式 shell</td></tr><tr><td>xonsh -c &quot;...&quot;</td><td>执行一段 xonsh 代码后退出</td></tr><tr><td>$VAR / $VAR = ...</td><td>读取 / 设置环境变量</td></tr><tr><td>${expr}</td><td>动态计算环境变量名</td></tr><tr><td>@.env</td><td>环境映射对象</td></tr><tr><td>@.imp</td><td>快速导入模块入口</td></tr><tr><td>@.lastcmd</td><td>上一个命令的运行结果</td></tr><tr><td>@(expr)</td><td>在命令里执行 Python 表达式</td></tr><tr><td>$()</td><td>捕获命令输出</td></tr><tr><td>!()</td><td>返回 CommandPipeline，自己处理错误</td></tr><tr><td>![cmd ...]</td><td>强制 subprocess mode</td></tr><tr><td>p&quot;/path&quot;</td><td>路径字面量</td></tr><tr><td>aliases[...]</td><td>定义别名</td></tr><tr><td>@aliases.register</td><td>定义 callable alias</td></tr><tr><td>xonfig web / xonfig wizard</td><td>图形 / 问答式配置入口</td></tr><tr><td>xontrib list/load/unload</td><td>扩展查看 / 加载 / 卸载</td></tr><tr><td>xpip install -U xonsh</td><td>更新当前 xonsh 环境</td></tr><tr><td>xonsh --no-rc</td><td>干净启动，不读 rc</td></tr><tr><td>~/.xonshrc</td><td>最常见个人配置文件</td></tr></tbody></table></div></div><div class="card"><h2>⚠️ 常见决策与坑 <a href="https://xon.sh/install.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">xonsh 最大的坑不是语法多，而是把它误用成“系统默认 POSIX shell”或者“纯 Python 脚本替代品”。边界一旦搞错，后面的体验就会一直别扭。</div><ul><li><code>不要默认当系统登录 shell</code><ul><li>官方明确说它不是 POSIX-compatible shell</li><li>更稳的做法是给终端新建一个 xonsh profile</li></ul></li><li><code>别把模式判定当魔法</code><ul><li>一行到底按 Python 还是 subprocess 执行，取决于名字解析</li><li>调不准时就显式写 subprocess 包装语法，比如 ![...] 或 @(...)</li></ul></li><li><code>Windows 更新注意锁文件</code><ul><li>正在运行的 xonsh.exe 不能在当前会话里被 pip 替换</li><li>先用 xcontext 看解释器，再退出后从别的终端更新</li></ul></li><li><code>xsh 脚本不等于 bash 脚本</code><ul><li>xonsh 能跑很多命令，但不保证 POSIX shell 语法原样兼容</li></ul></li><li><code>先少量 xontrib，再逐步叠加</code><ul><li>启动慢、行为变复杂时，第一怀疑对象通常是扩展或 rc 里的重逻辑</li></ul></li></ul></div>
+    </div>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>
