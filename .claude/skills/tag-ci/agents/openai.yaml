@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tag CI"
+  short_description: "统一维护 cheatsheet 标签选择、归一化与新标签创建策略"
+  default_prompt: "Use $tag-ci to audit, normalize, correct, or create cheatsheet tags, then update meta.yml and the central tag definition files consistently."
