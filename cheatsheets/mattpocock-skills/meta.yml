@@ -1,0 +1,11 @@
+desc: Matt Pocock Skills — 工程导向的 agent skills 合集，解决沟通偏差、反馈缺失、代码腐化三大问题
+tags:
+  - agent
+  - skills
+  - engineering
+  - productivity
+  - tdd
+  - debugging
+version: 1.0.0
+github: mattpocock/skills
+date: "2026-05-06"

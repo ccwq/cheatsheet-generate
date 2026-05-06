@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>Matt Pocock Skills</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png">
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 340px; 
+      --gap: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
+      <span class="title">Matt Pocock Skills</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">1.0.0</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-05-06</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/mattpocock/skills" target="_blank" rel="noopener">mattpocock/skills</a></span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/mattpocock/skills" target="_blank" rel="noopener">打开 Zread</a></span></span>
+      </div>
+      <div class="meta-tags"><tag-chip class="tag tag-group-0 detail-tag" data-name="agent" data-group="0" label="agent" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="skills" data-group="0" label="skills" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="engineering" data-group="0" label="engineering" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="productivity" data-group="0" label="productivity" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="tdd" data-group="0" label="tdd" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="debugging" data-group="0" label="debugging" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>一眼入口</h2><div class="desc">mattpocock/skills 是一套工程导向的 agent skills 合集，解决&quot;沟通偏差、反馈缺失、代码腐化&quot;三大高频失败模式。</div><div class="desc">安装后通过 /setup-matt-pocock-skills 初始化 repo 配置，之后按场景选用对应 skill。</div></div><div class="card"><h2>Engineering Skills</h2><h3>入口与定位</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>Skill</th><th>触发词</th><th>解决什么问题</th></tr></thead><tbody><tr><td>grill-me</td><td>&quot;我要做 X&quot;</td><td>让 agent 彻底理解你想做什么</td></tr><tr><td>grill-with-docs</td><td>同上 + 已有 CONTEXT.md</td><td>加入项目行话与 ADR 对齐</td></tr><tr><td>diagnose</td><td>&quot;debug this&quot;、&quot;排查&quot;</td><td>严格六阶段 debug 循环</td></tr><tr><td>tdd</td><td>&quot;红绿重构&quot;、&quot;测试先行&quot;</td><td>垂直切片 tracer bullet 开发</td></tr><tr><td>triage</td><td>&quot;triage&quot;、&quot;分诊&quot;</td><td>issue 状态机流转</td></tr><tr><td>to-prd</td><td>&quot;转 PRD&quot;、&quot;生成产品文档&quot;</td><td>从上下文合成 PRD</td></tr><tr><td>to-issues</td><td>&quot;拆任务&quot;、&quot;转 issue&quot;</td><td>垂直切片转可领取 issue</td></tr><tr><td>zoom-out</td><td>&quot;看不懂这块&quot;、&quot;全局视图&quot;</td><td>代码全局上下文</td></tr><tr><td>improve-codebase-architecture</td><td>&quot;架构优化&quot;、&quot;深化模块&quot;</td><td>找 shallow→deep 机会</td></tr><tr><td>prototype</td><td>&quot;快速验证&quot;、&quot;先跑起来&quot;</td><td>最小可运行原型</td></tr></tbody></table></div></div><div class="card"><h2>起手工作流</h2><h3>1. 新任务：grill 确认理解</h3><pre><code class="language-bash">/grill-me
+/grill-with-docs</code></pre><div class="desc">何时用：</div><ul><li>还没写代码，先让 agent 问清楚所有分支</li><li><code>CONTEXT.md</code> <code>docs/adr/</code></li></ul><div class="desc">典型流程：</div><h3>2. 有 PRD 了：转 issue</h3><pre><code class="language-bash">/to-issues</code></pre><div class="desc">输入： 已有的 PRD 或详细方案
+输出： 垂直切片 issue 列表（AFK / HITL 分类）</div><h3>3. 开始实现：TDD 循环</h3><pre><code class="language-bash">/tdd</code></pre><div class="desc">规则：</div><ul><li>一次只写一个测试，再写实现</li><li>不写水平切片（先把所有测试写完再写代码是错的）</li><li>永远 red → green → refactor</li></ul></div><div class="card"><h2>场景 1：Bug 修复 → diagnose</h2><pre><code class="language-bash">/diagnose</code></pre><div class="desc">六阶段循环：</div><div class="table-wrap"><table class="cheat-table"><thead><tr><th>阶段</th><th>动作</th><th>产出</th></tr></thead><tbody><tr><td>1. 反馈环</td><td>构建可重复的失败信号</td><td>测试 / 脚本 / 捕获</td></tr><tr><td>2. 复现</td><td>让 bug 稳定出现</td><td>确认症状</td></tr><tr><td>3. 假设</td><td>提出 3-5 个可证伪假设</td><td>排序假设列表</td></tr><tr><td>4. 探测</td><td>一次改一个变量</td><td>定位根因</td></tr><tr><td>5. 修复</td><td>先写 regression test</td><td>测试通过</td></tr><tr><td>6. 收尾</td><td>清理 debug 日志，删除临时代码</td><td>干净 commit</td></tr></tbody></table></div><div class="desc">核心原则： 没有可重复的失败信号，不要进 Phase 2。</div></div><div class="card"><h2>场景 2：代码混乱 → improve-codebase-architecture</h2><pre><code class="language-bash">/improve-codebase-architecture</code></pre><div class="desc">找深层模块的机会：</div><ul><li>哪个模块删掉后复杂度会消失？（pass-through）</li><li>哪个模块接口和实现一样复杂？（shallow）</li><li>哪里改了 bug，N 个地方都得跟着改？（无 locality）</li></ul><div class="desc">输出： 候选列表 → 用户选 → grilling 对话 → 落实</div></div><div class="card"><h2>场景 3：Triage Issue</h2><pre><code class="language-bash">/triage</code></pre><div class="desc">Issue 状态机：</div><pre><code class="language-bash">unlabeled → needs-triage → needs-info / ready-for-agent / ready-for-human / wontfix
+                                ↑___回归___</code></pre><div class="desc">分类角色： bug / enhancement
+状态角色： 五选一</div></div><div class="card"><h2>Productivity Skills</h2><h3>caveman — 压缩沟通</h3><pre><code class="language-bash">/caveman</code></pre><div class="desc">触发： &quot;caveman mode&quot;、&quot;less tokens&quot;、&quot;be brief&quot;</div><div class="desc">规则：</div><ul><li>删 articles (a/an/the)</li><li>删 filler (just/really/basically/actually/simply)</li><li>短词替代长词 (big not extensive, fix not &quot;implement solution for&quot;)</li><li>用 → 表示因果</li></ul><div class="desc">示例：</div><h3>write-a-skill — 创建新 skill</h3><pre><code class="language-bash">/write-a-skill</code></pre><div class="desc">产出结构：</div><pre><code class="language-bash">skill-name/
+├── SKILL.md           # 必填，&lt;100 行
+├── REFERENCE.md       # 可选，内容过长时
+├── EXAMPLES.md        # 可选
+└── scripts/           # 可选，确定性操作</code></pre><div class="desc">SKILL.md 必含：</div><ul><li><code>name</code> <code>description</code></li><li>Quick start 最小示例</li><li>Workflows 步骤清单</li><li>进阶指向 REFERENCE.md</li></ul></div><div class="card"><h2>Quick Ref</h2><div class="table-wrap"><table class="cheat-table"><thead><tr><th>场景</th><th>命令</th></tr></thead><tbody><tr><td>想清楚再开始</td><td>/grill-me 或 /grill-with-docs</td></tr><tr><td>有方案要拆分</td><td>/to-issues</td></tr><tr><td>开始写代码</td><td>/tdd</td></tr><tr><td>遇到 bug</td><td>/diagnose</td></tr><tr><td>做完要同步</td><td>/triage</td></tr><tr><td>压缩 token</td><td>/caveman</td></tr><tr><td>创建新 skill</td><td>/write-a-skill</td></tr><tr><td>看不懂代码</td><td>/zoom-out</td></tr><tr><td>架构优化</td><td>/improve-codebase-architecture</td></tr><tr><td>快速验证想法</td><td>/prototype</td></tr></tbody></table></div></div><div class="card"><h2>架构设计原则</h2><div class="desc">mattpocock/skills 的核心哲学：</div><div class="desc">不追求大一统流程，而是让每个 skill 专注一件事，可自由组合。</div><div class="desc">三大工程信条：</div></div>
+    </div>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>
