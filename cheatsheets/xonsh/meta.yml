@@ -1,0 +1,11 @@
+desc: Xonsh 速查，覆盖 Python 与 shell 混合工作流、模式判定、环境变量、别名、xonshrc、xonfig 与 xontrib。
+tags:
+  - Python
+  - CLI / Terminal
+  - CLI 工具
+  - 脚本工具
+  - 开发
+  - 命令行
+version: 0.23.2
+github: xonsh/xonsh
+date: "2026-04-26"
