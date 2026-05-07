@@ -1,0 +1,10 @@
+desc: Headscale 速查，自托管 Tailscale 控制服务器的部署、节点管理、 ACL 策略与日常维护 Cookbook。
+tags:
+  - 网络 / 安全
+  - DevOps
+  - Self-hosted
+  - Go
+  - VPN
+version: 0.28.0
+github: juanfont/headscale
+date: "2026-02-04"

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>Headscale 速查表</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="apple-touch-icon" href="icon.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 460px; 
+      --gap: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
+      <span class="title">Headscale 速查表</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">0.28.0</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-02-04</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/juanfont/headscale" target="_blank" rel="noopener">juanfont/headscale</a></span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/juanfont/headscale" target="_blank" rel="noopener">打开 Zread</a></span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://codewiki.google/github.com/juanfont/headscale" target="_blank" rel="noopener">CodeWiki</a></span></span>
+      </div>
+      <div class="meta-tags"><tag-chip class="tag tag-group-0 detail-tag" data-name="网络 / 安全" data-group="0" label="网络 / 安全" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-1 detail-tag" data-name="DevOps" data-group="1" label="DevOps" group="1" variant="detail" icon="mdi:infinity" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M18.6 6.62C21.58 6.62 24 9 24 12c0 2.96-2.42 5.37-5.4 5.37c-1.45 0-2.8-.56-3.82-1.57L12 13.34l-2.83 2.51c-.97.97-2.33 1.53-3.77 1.53C2.42 17.38 0 14.96 0 12s2.42-5.38 5.4-5.38c1.44 0 2.8.56 3.82 1.58L12 10.66l2.83-2.51c.97-.97 2.33-1.53 3.77-1.53M7.8 14.39L10.5 12L7.84 9.65c-.68-.68-1.53-1.03-2.44-1.03C3.53 8.62 2 10.13 2 12s1.53 3.38 3.4 3.38c.91 0 1.76-.35 2.4-.99m8.4-4.78L13.5 12l2.66 2.35c.68.68 1.54 1.03 2.44 1.03c1.87 0 3.4-1.51 3.4-3.38s-1.53-3.38-3.4-3.38c-.91 0-1.76.35-2.4.99&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="Self-hosted" data-group="0" label="Self-hosted" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="Go" data-group="0" label="Go" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="VPN" data-group="0" label="VPN" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>🧭 快速定位 <a href="https://headscale.net/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Headscale 是开源自托管的 Tailscale 控制服务器，用自己的服务器替代 Tailscale 官方服务。</div><ul><li>一句话定位：把 Tailscale 的控制端跑在自己服务器上，不依赖官方云服务</li><li>解决的问题：数据自主、成本可控、不被 Tailscale 官方策略限制</li><li>典型场景：私有 VPN、内网穿透、多云互通、团队网络</li><li><code>headscale</code></li><li><code>/etc/headscale/config.yaml</code></li><li>默认端口：HTTP 8080，GRPC 9090</li></ul></div><div class="card"><h2>🚀 最小可运行实例 <a href="https://headscale.net/installation/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">用 Docker 快速起一个可用的 Headscale 服务，三行命令搞定基础部署。</div><h3>Docker 一键启动</h3><pre><code class="language-bash"># 创建配置目录
+mkdir -p /etc/headscale
+# 拉取官方配置模板
+curl -L https://headscale.net/config -o /etc/headscale/config.yaml
+
+# 启动容器（需要预先配置 config.yaml）
+docker run -d \
+  --name headscale \
+  --restart always \
+  -v /etc/headscale:/etc/headscale \
+  -p 8080:8080 \
+  -p 9090:9090 \
+  ghcr.io/juanfont/headscale:0.28.0</code></pre><h3>初始化数据库</h3><pre><code class="language-bash">docker exec headscale headscale nodes init</code></pre><h3>创建预共享密钥（可选）</h3><pre><code class="language-bash">docker exec headscale headscale preauthkeys create \
+  --expiration 24h \
+  --prefix &quot;dev-&quot;</code></pre></div><div class="card"><h2>📡 节点注册与管理 <a href="https://headscale.net/running-headscale-docker/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">节点（client）通过 `tailscale up` 连接 Headscale，认证方式支持 CLI 交互和预共享密钥两种。</div><h3>预共享密钥方式注册（推荐自动化场景）</h3><pre><code class="language-bash"># 服务器端：创建带过期时间的密钥
+docker exec headscale headscale preauthkeys create \
+  --expiration 24h \
+  --prefix &quot;prod-&quot;
+
+# 客户端：使用密钥连接
+tailscale up \
+  --login-server http://&lt;your-headscale-ip&gt;:8080 \
+  --authkey &lt;generated-key&gt; \
+  --hostname my-server</code></pre><h3>手动认证方式（首次连接）</h3><pre><code class="language-bash"># 服务器端：查看待认证节点
+docker exec headscale headscale nodes list
+
+# 客户端：触发注册
+tailscale up --login-server http://&lt;your-headscale-ip&gt;:8080
+
+# 服务器端：用 verbose key 授权
+docker exec headscale headscale nodes approve &lt;node-key&gt;</code></pre><h3>查看节点</h3><pre><code class="language-bash"># 列出所有节点
+docker exec headscale headscale nodes list
+
+# 查看单个节点详情
+docker exec headscale headscale nodes show &lt;node-id&gt;
+
+# 查看节点 IP
+docker exec headscale headscale nodes list -o json | jq &#39;.[] | {name, ip: .ip_addresses[0]}&#39;</code></pre><h3>删除节点</h3><pre><code class="language-bash">docker exec headscale headscale nodes delete &lt;node-id&gt;</code></pre></div><div class="card"><h2>🔐 ACL 策略 <a href="https://headscale.net/config/#acl" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Headscale 使用 Tailscale ACL JSON 格式控制网络访问策略，按组、用户、标签分配权限。</div><h3>查看当前 ACL</h3><pre><code class="language-bash">docker exec headscale headscale acl list</code></pre><h3>导入 ACL 策略</h3><pre><code class="language-bash"># 直接粘贴 JSON 策略
+docker exec headscale headscale acl import &lt;&lt; &#39;EOF&#39;
+{
+  &quot;acls&quot;: [
+    {&quot;action&quot;: &quot;accept&quot;, &quot;src&quot;: [&quot;group:admin&quot;], &quot;dst&quot;: [&quot;*:*&quot;]}
+  ]
+}
+EOF</code></pre><h3>测试 ACL 规则</h3><pre><code class="language-bash"># 模拟两节点间是否可以访问
+docker exec headscale headscale acl check \
+  --from &lt;node1-ip&gt; \
+  --to &lt;node2-ip&gt; \
+  --port 22</code></pre><h3>ACL 常用结构</h3><pre><code class="language-json">{
+  &quot;acls&quot;: [
+    { &quot;action&quot;: &quot;accept&quot;, &quot;src&quot;: [&quot;group:admin&quot;], &quot;dst&quot;: [&quot;*:*&quot;] },
+    { &quot;action&quot;: &quot;accept&quot;, &quot;src&quot;: [&quot;tag:web&quot;], &quot;dst&quot;: [&quot;tag:db:22&quot;] },
+    { &quot;action&quot;: &quot;accept&quot;, &quot;src&quot;: [&quot;10.1.0.0/16&quot;], &quot;dst&quot;: [&quot;10.2.0.0/16:*&quot;] }
+  ],
+  &quot;groups&quot;: {
+    &quot;group:admin&quot;: [&quot;user@example.com&quot;]
+  },
+  &quot;tagOwners&quot;: {
+    &quot;tag:web&quot;: [&quot;group:admin&quot;],
+    &quot;tag:db&quot;: [&quot;group:admin&quot;]
+  }
+}</code></pre></div><div class="card"><h2>🌐 路由与出口节点 <a href="https://headscale.net/running-headscale-service/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">设置出口节点（Exit Node）让流量走 Headscale 节点；设置子网路由让 Tailscale 网络覆盖内网段。</div><h3>子网路由</h3><pre><code class="language-bash"># 启用子网路由（节点侧）
+tailscale up --advertise-routes=10.0.0.0/24
+
+# 服务器端：批准路由
+docker exec headscale headscale routes list
+docker exec headscale headscale routes enable &lt;route-id&gt;</code></pre><h3>出口节点</h3><pre><code class="language-bash"># 节点侧：申请出口节点
+tailscale up --advertise-exit-node
+
+# 服务器端：批准出口节点
+docker exec headscale headscale nodes register \
+  --user &lt;user-id&gt; \
+  --node &lt;node-id&gt;
+
+# 客户端：使用出口节点
+tailscale up --exit-node &lt;exit-node-ip&gt;</code></pre></div><div class="card"><h2>🔧 日常维护 <a href="https://headscale.net/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">日常巡检、排障和版本升级的常用命令。</div><h3>日志查看</h3><pre><code class="language-bash"># 容器日志
+docker logs -f headscale
+
+# 实时 tailscale 状态
+tailscale status</code></pre><h3>用户管理</h3><pre><code class="language-bash"># 创建用户
+docker exec headscale headscale users create myuser
+
+# 列出用户
+docker exec headscale headscale users list
+
+# 为用户创建预共享密钥
+docker exec headscale headscale preauthkeys create \
+  --user myuser \
+  --expiration 72h</code></pre><h3>启用 DERP 中继（可选）</h3><pre><code class="language-yaml"># config.yaml 中配置
+derp:
+  server:
+    enabled: true
+    region_code: &quot;my-derp&quot;
+    region_name: &quot;My DERP&quot;
+  urls:
+    - https://controlplane.tailscale.com/derpmap/default</code></pre><h3>版本升级</h3><pre><code class="language-bash"># 拉取新镜像
+docker pull ghcr.io/juanfont/headscale:0.29.0
+
+# 重启容器
+docker stop headscale
+docker rm headscale
+# 重新运行启动命令
+docker run -d --name headscale ...</code></pre></div><div class="card"><h2>💡 常见场景小贴士</h2><div class="desc">记住这些场景映射，关键时刻不迷路。</div><ul><li><code>preauthkeys create</code> <code>tailscale up --authkey &lt;key&gt;</code>：先 ，再</li><li>多节点批量注册：用命名空间（namespace）+ 预共享密钥，隔离不同环境</li><li><code>tailscale status</code> <code>docker logs headscale</code>：和 一起看</li><li>内网不通：先确认 ACL 是否放行，再看节点是否在同一个 namespace</li><li>出口流量不稳定：换用自建 DERP 或使用 Tailscale 官方 DERP</li><li><code>/var/lib/headscale/db.sqlite</code>：备份即可迁移整个实例</li></ul></div>
+    </div>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>
