@@ -1,13 +1,15 @@
 const assert = require('node:assert/strict');
 const test = require('node:test');
 
-const { githubHref, renderItems, zreadHref } = require('../scripts/generate-nav.js');
+const { githubHref, renderItems, zreadHref, codewikiHref } = require('../scripts/generate-nav.js');
 
 test('generate-nav: GitHub owner/repo 可派生 GitHub 与 Zread 链接', () => {
   assert.equal(githubHref('astral-sh/uv'), 'https://github.com/astral-sh/uv');
   assert.equal(zreadHref('astral-sh/uv'), 'https://zread.ai/astral-sh/uv');
+  assert.equal(codewikiHref('astral-sh/uv'), 'https://codewiki.google/github.com/astral-sh/uv');
   assert.equal(githubHref('unknown'), '');
   assert.equal(zreadHref('unknown'), '');
+  assert.equal(codewikiHref('unknown'), '');
 });
 
 test('generate-nav: 卡片元信息展示 GitHub 与 Zread', () => {
@@ -27,4 +29,5 @@ test('generate-nav: 卡片元信息展示 GitHub 与 Zread', () => {
 
   assert.ok(html.includes('https://github.com/astral-sh/uv'));
   assert.ok(html.includes('https://zread.ai/astral-sh/uv'));
+  assert.ok(html.includes('https://codewiki.google/github.com/astral-sh/uv'));
 });

@@ -33,6 +33,12 @@ function zreadHref(value) {
   const github = String(value || '').trim();
   return isGithubOwnerRepo(github) ? `https://zread.ai/${github}` : '';
 }
+
+function codewikiHref(value) {
+  const github = String(value || '').trim();
+  return isGithubOwnerRepo(github) ? `https://codewiki.google/github.com/${github}` : '';
+}
+
 /**
  * 读取文件是否存在
  */
@@ -209,7 +215,8 @@ function renderItems(items, tagRenderer) {
     const githubText = github || '';
     const githubUrl = githubHref(githubText);
     const zreadUrl = zreadHref(githubText);
-    
+    const codewikiUrl = codewikiHref(githubText);
+
     // 渲染卡片底部的标签 HTML
     const tagsHtml = it.tags && it.tags.length > 0 
       ? `<div class="card-tags">${it.tags.map(t => tagRenderer(t, { variant: 'card', className: 'card-tag' })).join('')}</div>` 
@@ -225,6 +232,9 @@ function renderItems(items, tagRenderer) {
     }
     if (zreadUrl) {
       metaParts.push(`<span class="meta-chip"> <a class="meta-link" href="${zreadUrl}" target="_blank" rel="noopener">Zread</a></span>`);
+    }
+    if (codewikiUrl) {
+      metaParts.push(`<span class="meta-chip"> <a class="meta-link" href="${codewikiUrl}" target="_blank" rel="noopener">CodeWiki</a></span>`);
     }
     const metaHtml = metaParts.length ? `<div class="card-meta">${metaParts.join('')}</div>` : '';
 
@@ -308,4 +318,5 @@ module.exports = {
   githubHref,
   renderItems,
   zreadHref,
+  codewikiHref,
 };
