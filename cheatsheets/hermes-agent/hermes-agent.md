@@ -67,12 +67,15 @@ hermes config set terminal.backend ssh
 | GitHub Copilot | 订阅型接入 | OAuth / token |
 | Z.AI / GLM | 国内可用模型 | API key |
 | Kimi / Moonshot | 编程与长上下文 | API key |
-| MiniMax | 国际 / 中国区 | API key |
+| MiniMax | 国际 / 中国区（支持 OAuth）| API key |
 | Alibaba Cloud | Qwen 系列 | API key |
 | Hugging Face | 聚合开源模型 | HF token |
 | DeepSeek | 直接接入 | API key |
 | xAI (Grok) | 直接接入 | API key |
 | Vercel AI Gateway | 网关路由 | API key |
+| LM Studio | 本地模型推理 | local |
+| GMI Cloud | 云端推理 | API key |
+| Azure AI Foundry | 企业级模型服务 | Azure 凭证 |
 | Custom Endpoint | 自建 OpenAI-compatible API | base URL + key |
 
 ### 先把工具范围收口
@@ -83,7 +86,7 @@ hermes config set terminal.backend ssh
 | `file` | 读写、搜索、补丁编辑 |
 | `browser` | 浏览器自动化（含 Camofox 反检测） |
 | `vision` | 图片理解 |
-| `image_gen` | 图像生成 |
+| `image_gen` | 图像生成（含 ComfyUI v5）|
 | `tts` | 语音输出 |
 | `skills` | 技能搜索、查看、管理 |
 | `memory` | 记忆与用户画像 |
@@ -95,6 +98,11 @@ hermes config set terminal.backend ssh
 | `code_execution` | 沙箱 Python 执行 |
 | `todo` | 任务规划 |
 | `homeassistant` | 智能家居控制 |
+| `spotify` | Spotify 播放控制、搜索、队列、播放列表 |
+| `google_meet` | 加入会议、转录、发言 |
+| `comfyui` | ComfyUI v5 工作流（内置）|
+| `touchdesigner` | TouchDesigner 集成（内置）|
+| `humanizer` | 去除 AI 文本痕迹 |
 
 ## 高频场景
 
@@ -209,9 +217,13 @@ credential_pool_strategies:
 | `hermes config check` | 检查缺失配置 |
 | `hermes logs` | 查看集中日志 |
 | `hermes sessions list` | 浏览历史会话 |
+| `hermes -z <prompt>` | 非交互式单次执行模式 |
 | `hermes --continue` / `hermes -c` | 继续最近会话 |
 | `hermes -w` | Git worktree 隔离模式 |
 | `hermes -s skill1,skill2` | 启动时预装技能 |
+| `hermes update --check` | 更新预检 |
+| `hermes fallback` | 管理 fallback providers |
+| `hermes curator status` | 按使用率排名 skills |
 
 ### CLI 内命令
 | 命令 | 作用 |
@@ -229,6 +241,9 @@ credential_pool_strategies:
 | `/background <prompt>` | 后台任务 |
 | `/reasoning high` | 提高推理强度 |
 | `/reasoning show` | 显示推理过程 |
+| `/busy` | 忙碌输入模式 |
+| `/btw` | `/background` 的别名 |
+| `/reload-skills` | 无需重启重载 skills |
 | `/compress` | 手动压缩上下文 |
 | `/rollback` | 回滚文件快照 |
 | `/stop` | 中断当前 agent 运行 |
@@ -294,7 +309,15 @@ Hermes Agent 使用**统一的斜杠命令系统**，在所有消息平台上行
 | `credential_pool` | 同提供商多 API Key 轮转 |
 | `credential_pool_strategies` | 轮转策略：fill_first / round_robin / least_used |
 | `fallback_providers` | 有序回退提供商链 |
-| `security.redact_secrets` | 工具输出中自动脱敏密钥 |
+| `auxiliary.curator` | 配置自主 curator 模型 |
+| `prompt_caching.cache_ttl` | 缓存 TTL（默认 5m，可选 1h）|
+| `redaction.enabled` | 密钥脱敏（**默认关闭**）|
+| `strict_mention` | 防止线程自动参与（Slack）|
+| `channel_skill_bindings` | 绑定 skills 到特定 Slack 频道 |
+| `tts.providers.<name>` | 可插拔 TTS 提供者注册表 |
+| `context_from` | 链式 cron 任务输出 |
+| `pre_gateway_dispatch` | 分发前拦截 hook |
+| `security.redact_secrets` | 工具输出中自动脱敏密钥（默认关闭）|
 | `security.tirith_enabled` | 命令执行前安全扫描 |
 | `security.website_blocklist` | 阻止访问指定域名 |
 | `privacy.redact_pii` | 网关 PII 脱敏 |

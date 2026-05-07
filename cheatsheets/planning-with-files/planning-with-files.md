@@ -309,6 +309,401 @@ desc: 直接复制使用的模板集合。
 5. 如果完成，请输出最终交付摘要
 ```
 
+## 安装方式速记
+---
+emoji: 🔧
+desc: 记住最短安装命令，按需扩展。
+---
+
+| 平台 | 安装命令 |
+|---|---|
+| Claude Code | `/plugin marketplace add OthmanAdi/planning-with-files` |
+| 通用 Skill | `npx skills add OthmanAdi/planning-with-files --skill planning-with-files -g` |
+| 中文版 | `npx skills add OthmanAdi/planning-with-files --skill planning-with-files-zh -g` |
+| Codex Windows + Git Bash | 见下方「Codex Windows + Git Bash 安装脚本」章节 |
+
+### Claude Code 常用命令
+
+```text
+/planning-with-files:plan    → /plan
+/planning-with-files:status  → /plan:status
+/planning-with-files:start
+```
+
+### Codex Windows + Git Bash 安装脚本
+---
+emoji: 💾
+desc: 专门为 Windows Git Bash 场景写的安装脚本，处理嵌套目录、hooks 合并、feature flag 等问题。
+---
+
+#### 脚本功能
+
+1. 支持首次安装和更新（`--update`）
+2. 避免生成 `~/.codex/.codex/hooks` 这种错误嵌套结构
+3. 安装 skill 到 `~/.codex/skills/planning-with-files`，并同步到 `~/.agents/skills/planning-with-files`
+4. 如果已存在 `hooks.json`，先备份，再用 `jq` 合并（无 `jq` 时保守覆盖）
+5. 自动在 `~/.codex/config.toml` 中启用 `codex_hooks = true`
+
+#### 下载脚本
+
+保存为 `install-planning-with-files-codex.sh`：
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+# install-planning-with-files-codex.sh
+# For Windows Git Bash / macOS / Linux
+#
+# Usage:
+#   bash install-planning-with-files-codex.sh
+#   bash install-planning-with-files-codex.sh --update
+#   bash install-planning-with-files-codex.sh --branch master
+#   bash install-planning-with-files-codex.sh --branch ide/codex
+
+REPO_URL="https://github.com/OthmanAdi/planning-with-files.git"
+BRANCH="master"
+FORCE_UPDATE=0
+INSTALL_AGENTS_SKILL=1
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --update|-u)
+      FORCE_UPDATE=1
+      shift
+      ;;
+    --branch|-b)
+      BRANCH="${2:-}"
+      if [[ -z "$BRANCH" ]]; then
+        echo "ERROR: --branch requires a value."
+        exit 1
+      fi
+      shift 2
+      ;;
+    --no-agents-skill)
+      INSTALL_AGENTS_SKILL=0
+      shift
+      ;;
+    --help|-h)
+      sed -n '1,40p' "$0"
+      exit 0
+      ;;
+    *)
+      echo "ERROR: Unknown argument: $1"
+      exit 1
+      ;;
+  esac
+done
+
+timestamp() {
+  date +"%Y%m%d-%H%M%S"
+}
+
+require_cmd() {
+  if ! command -v "$1" >/dev/null 2>&1; then
+    echo "ERROR: Missing required command: $1"
+    exit 1
+  fi
+}
+
+backup_path() {
+  local path="$1"
+  if [[ -e "$path" ]]; then
+    local backup="${path}.bak.$(timestamp)"
+    echo "Backing up: $path -> $backup"
+    mv "$path" "$backup"
+  fi
+}
+
+copy_dir_replace() {
+  local src="$1"
+  local dst="$2"
+
+  if [[ ! -d "$src" ]]; then
+    echo "ERROR: Source directory not found: $src"
+    exit 1
+  fi
+
+  if [[ -e "$dst" ]]; then
+    backup_path "$dst"
+  fi
+
+  mkdir -p "$(dirname "$dst")"
+  cp -R "$src" "$dst"
+}
+
+copy_file_with_backup() {
+  local src="$1"
+  local dst="$2"
+
+  if [[ ! -f "$src" ]]; then
+    echo "ERROR: Source file not found: $src"
+    exit 1
+  fi
+
+  mkdir -p "$(dirname "$dst")"
+
+  if [[ -f "$dst" ]]; then
+    backup_path "$dst"
+  fi
+
+  cp "$src" "$dst"
+}
+
+ensure_codex_hooks_feature() {
+  local config_file="$1"
+
+  mkdir -p "$(dirname "$config_file")"
+
+  if [[ ! -f "$config_file" ]]; then
+    cat > "$config_file" <<'EOF'
+[features]
+codex_hooks = true
+EOF
+    echo "Created config: $config_file"
+    return
+  fi
+
+  cp "$config_file" "${config_file}.bak.$(timestamp)"
+
+  if grep -Eq '^[[:space:]]*codex_hooks[[:space:]]*=' "$config_file"; then
+    perl -0pi -e 's/^[ \t]*codex_hooks[ \t]*=[ \t]*(true|false)/codex_hooks = true/m' "$config_file"
+    echo "Updated codex_hooks = true in: $config_file"
+    return
+  fi
+
+  if grep -Eq '^[[:space:]]*\[features\][[:space:]]*$' "$config_file"; then
+    awk '
+      BEGIN { in_features=0; inserted=0 }
+      /^[[:space:]]*\[features\][[:space:]]*$/ {
+        print
+        print "codex_hooks = true"
+        in_features=1
+        inserted=1
+        next
+      }
+      { print }
+      END {
+        if (!inserted) {
+          print ""
+          print "[features]"
+          print "codex_hooks = true"
+        }
+      }
+    ' "$config_file" > "${config_file}.tmp"
+    mv "${config_file}.tmp" "$config_file"
+    echo "Inserted codex_hooks = true into existing [features]: $config_file"
+  else
+    cat >> "$config_file" <<'EOF'
+
+[features]
+codex_hooks = true
+EOF
+    echo "Appended [features] codex_hooks = true to: $config_file"
+  fi
+}
+
+merge_or_install_hooks_json() {
+  local src_hooks_json="$1"
+  local dst_hooks_json="$2"
+
+  mkdir -p "$(dirname "$dst_hooks_json")"
+
+  if [[ ! -f "$dst_hooks_json" ]]; then
+    cp "$src_hooks_json" "$dst_hooks_json"
+    echo "Installed hooks.json: $dst_hooks_json"
+    return
+  fi
+
+  local backup="${dst_hooks_json}.bak.$(timestamp)"
+  cp "$dst_hooks_json" "$backup"
+  echo "Existing hooks.json backed up: $backup"
+
+  if command -v jq >/dev/null 2>&1; then
+    jq -s '
+      def merge_hooks(a; b):
+        reduce (b | keys_unsorted[]) as $k (a;
+          .[$k] =
+            if (.[$k] | type) == "array" and (b[$k] | type) == "array" then
+              (.[$k] + b[$k])
+            elif (.[$k] | type) == "object" and (b[$k] | type) == "object" then
+              (.[$k] * b[$k])
+            else
+              b[$k]
+            end
+        );
+      merge_hooks(.[0]; .[1])
+    ' "$dst_hooks_json" "$src_hooks_json" > "${dst_hooks_json}.tmp"
+
+    mv "${dst_hooks_json}.tmp" "$dst_hooks_json"
+    echo "Merged planning-with-files hooks into: $dst_hooks_json"
+  else
+    echo "WARNING: jq not found. Cannot safely merge hooks.json."
+    echo "WARNING: Replacing hooks.json with planning-with-files version; backup exists at:"
+    echo "         $backup"
+    cp "$src_hooks_json" "$dst_hooks_json"
+  fi
+}
+
+verify_no_nested_codex() {
+  local codex_home="$1"
+
+  if [[ -d "$codex_home/.codex" ]]; then
+    echo "WARNING: Found nested directory: $codex_home/.codex"
+    echo "This usually means someone copied .codex into ~/.codex by mistake."
+    echo "The installer did not delete it. Review it manually:"
+    echo "  ls -la \"$codex_home/.codex\""
+  fi
+}
+
+main() {
+  require_cmd git
+  require_cmd cp
+  require_cmd mkdir
+  require_cmd rm
+
+  local codex_home="${CODEX_HOME:-$HOME/.codex}"
+  local agents_home="$HOME/.agents"
+  local tmp_root="${TMPDIR:-/tmp}"
+  local workdir="$tmp_root/planning-with-files-codex-install"
+
+  echo "Codex home:  $codex_home"
+  echo "Agents home: $agents_home"
+  echo "Repo:        $REPO_URL"
+  echo "Branch:      $BRANCH"
+
+  mkdir -p "$codex_home"
+
+  rm -rf "$workdir"
+  git clone --depth 1 --branch "$BRANCH" "$REPO_URL" "$workdir"
+
+  local src_codex="$workdir/.codex"
+  local src_skill="$src_codex/skills/planning-with-files"
+  local src_hooks_dir="$src_codex/hooks"
+  local src_hooks_json="$src_codex/hooks.json"
+
+  if [[ ! -d "$src_codex" ]]; then
+    echo "ERROR: Repo does not contain .codex directory on branch: $BRANCH"
+    echo "Try:"
+    echo "  bash $0 --branch master"
+    echo "  bash $0 --branch ide/codex"
+    exit 1
+  fi
+
+  if [[ ! -d "$src_skill" ]]; then
+    echo "ERROR: Missing Codex skill directory: $src_skill"
+    exit 1
+  fi
+
+  echo
+  echo "Installing skill to planning-with-files documented path..."
+  copy_dir_replace "$src_skill" "$codex_home/skills/planning-with-files"
+
+  if [[ "$INSTALL_AGENTS_SKILL" == "1" ]]; then
+    echo
+    echo "Installing compatibility copy to ~/.agents/skills..."
+    copy_dir_replace "$src_skill" "$agents_home/skills/planning-with-files"
+  fi
+
+  echo
+  echo "Installing hook scripts..."
+  mkdir -p "$codex_home/hooks"
+
+  if [[ -d "$src_hooks_dir" ]]; then
+    cp -R "$src_hooks_dir"/. "$codex_home/hooks/"
+    echo "Installed hook scripts to: $codex_home/hooks"
+  else
+    echo "WARNING: Source hooks directory not found: $src_hooks_dir"
+  fi
+
+  echo
+  echo "Installing or merging hooks.json..."
+  if [[ -f "$src_hooks_json" ]]; then
+    merge_or_install_hooks_json "$src_hooks_json" "$codex_home/hooks.json"
+  else
+    echo "WARNING: Source hooks.json not found: $src_hooks_json"
+  fi
+
+  echo
+  echo "Ensuring Codex hooks feature flag..."
+  ensure_codex_hooks_feature "$codex_home/config.toml"
+
+  echo
+  echo "Checking for accidental nested ~/.codex/.codex..."
+  verify_no_nested_codex "$codex_home"
+
+  echo
+  echo "Installed layout:"
+  echo "  $codex_home/config.toml"
+  echo "  $codex_home/hooks.json"
+  echo "  $codex_home/hooks/"
+  echo "  $codex_home/skills/planning-with-files/SKILL.md"
+  if [[ "$INSTALL_AGENTS_SKILL" == "1" ]]; then
+    echo "  $agents_home/skills/planning-with-files/SKILL.md"
+  fi
+
+  echo
+  echo "Verification commands:"
+  echo "  codex --version"
+  echo "  codex features list | grep '^codex_hooks'"
+  echo "  ls -la \"$codex_home/skills/planning-with-files/SKILL.md\""
+  echo "  ls -la \"$codex_home/hooks.json\" \"$codex_home/hooks\""
+
+  echo
+  echo "Done. Restart Codex after installation/update."
+}
+
+main "$@"
+```
+
+#### 使用方式
+
+```bash
+# 首次安装
+bash install-planning-with-files-codex.sh
+
+# 更新
+bash install-planning-with-files-codex.sh --update
+
+# 测试其他分支
+bash install-planning-with-files-codex.sh --branch ide/codex
+```
+
+#### 安装后目录结构
+
+```
+~/.codex/
+  config.toml        # 包含 [features] codex_hooks = true
+  hooks.json         # 已合并 planning-with-files hooks
+  hooks/
+    ...              # lifecycle hook 脚本
+  skills/
+    planning-with-files/
+      SKILL.md
+      examples.md
+      reference.md
+      templates/
+      scripts/
+
+~/.agents/
+  skills/
+    planning-with-files/
+      SKILL.md
+      ...
+```
+
+#### 注意事项
+
+- 如果发现 `~/.codex/.codex` 嵌套目录，先备份再处理：
+  ```bash
+  mv ~/.codex/.codex ~/.codex/.codex_backup
+  ```
+- 验证 Codex hooks 是否启用：
+  ```bash
+  codex features list | grep '^codex_hooks'
+  ```
+- 安装完成后需重启 Codex
+
 ## 目录管理建议
 ---
 emoji: 📁
