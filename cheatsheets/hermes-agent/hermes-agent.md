@@ -1,8 +1,8 @@
 ---
 title: Hermes Agent 速查
 lang: zh-CN
-version: "0.8.0"
-date: "2026-04-08"
+version: "0.12.0"
+date: "2026-04-30"
 github: nousresearch/hermes-agent
 colWidth: 420px
 desc: Hermes Agent 是 NousResearch 的多端 AI 智能体工具链，覆盖 CLI、模型与工具集配置、消息网关、技能、MCP、记忆、定时任务和安全控制。
@@ -186,12 +186,13 @@ credential_pool_strategies:
 | 命令 | 作用 |
 |---|---|
 | `hermes` | 启动交互式 CLI |
+| `hermes --version` | 查看当前版本 |
+| `hermes update` | 检查并更新到最新版本 |
 | `hermes chat -q "<prompt>"` | 单次非交互式查询 |
 | `hermes chat --model <model>` | 指定模型（CLI 层） |
 | `hermes chat --toolsets <toolsets>` | 指定工具集（CLI 层） |
 | `hermes setup` | 全量配置向导 |
 | `hermes doctor` | 排查问题 |
-| `hermes update` | 更新到最新版本 |
 | `hermes gateway` | 启动消息网关 |
 | `hermes gateway setup` | 配置消息平台 |
 | `hermes memory setup` | 配置外部记忆提供商 |
@@ -240,6 +241,30 @@ credential_pool_strategies:
 | `/title <name>` | 命名当前会话 |
 | `/usage` | 查看 token 用量明细 |
 | `/new` / `/reset` | 新建/重置会话 |
+
+### 消息网关平台（统一斜杠命令）
+
+Hermes Agent 使用**统一的斜杠命令系统**，在所有消息平台上行为一致：
+
+| 支持平台 | 说明 |
+|---|---|
+| Telegram | BotFather 创建的 Bot |
+| Discord | Bot 账号，支持 slash command |
+| Slack | Bot token + workspace OAuth |
+| WhatsApp | WhatsApp Business API bridge |
+| Signal | Signal 消息 |
+| Matrix | Matrix 协议（Element 等） |
+| Mattermost | 自托管 Mattermost |
+| Email | SMTP/IMAP 邮件集成 |
+| 飞书 (Feishu/Lark) | 字节跳动企业消息 |
+| 企业微信 (WeCom) | 腾讯企业微信 |
+| DingTalk | 阿里巴巴钉钉 |
+| Home Assistant | 智能家居集成 |
+| QQ | 腾讯 QQ |
+| BlueBubbles | iMessage bridge |
+| Signal | 支持 |
+
+> **注意**：斜杠命令在所有平台上统一，上述 `/model`、`/tools`、`/cron add` 等命令无需平台特定变体。
 
 ### 关键配置
 | 配置 | 作用 |

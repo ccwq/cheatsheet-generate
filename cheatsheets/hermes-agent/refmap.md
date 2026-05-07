@@ -43,7 +43,8 @@
 - [Tips & Best Practices](https://hermes-agent.nousresearch.com/docs/guides/tips/) - 实战建议
 
 ## 版本发布
-- [v0.11.0 (2026-04-23)](https://github.com/NousResearch/hermes-agent/releases/tag/v2026.4.23) - Latest release
+- [v0.12.0 (2026-04-30)](https://github.com/NousResearch/hermes-agent/releases/tag/v2026.4.30) - Latest release
+- [v0.11.0 (2026-04-23)](https://github.com/NousResearch/hermes-agent/releases/tag/v2026.4.23)
 - [v0.10.0 (2026-04-16)](https://github.com/NousResearch/hermes-agent/releases/tag/v2026.4.16)
 - [v0.9.0 (2026-04-13)](https://github.com/NousResearch/hermes-agent/releases/tag/v2026.4.13)
 - [v0.8.0 (2026-04-08)](https://github.com/NousResearch/hermes-agent/releases/tag/v2026.4.8) - The intelligence release
