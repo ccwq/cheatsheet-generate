@@ -177,7 +177,7 @@ description: 创建、整理、重建技术速查表（Cheatsheet）源文件的
 7. 若为混合风格，先给任务链，再嵌入速查卡，兼顾“抄命令”和“看套路”
 8. 补齐 `meta.yml` 与 `refmap.md`
 9. 处理 `tags` 时，读取并遵循 agentskill: tag-ci
-10. 需要图标时，读取并遵循 agentskill: icon-complete-skill
+10. 必须为每个新创建的 cheatsheet 生成图标：读取 agentskill: icon-complete-skill，遵循其选图优先级（官方品牌图标 > 官方仓库 logo > Iconify 语义图标），生成 260x260 透明底 PNG 写入 `cheatsheets/<topic>/icon.png`
 11. 需要 HTML 时，执行：
 
 ```bash
@@ -195,6 +195,6 @@ node cheatsheet-html-maker/index.js --input cheatsheets/<topic>/<topic>.md
 - 若命中普通 cheatsheet 风格，确认读者能快速扫描到命令、参数、语法、模块
 - 若命中 cookbook 风格，确认章节按场景 / workflow / recipe 组织，而不是平铺 API
 - 若命中混合风格，确认既有任务导向结构，也有可速查的命令 / 参数 / 决策卡
-- 确认用户要求“仅补缺”时，没有覆盖已有有效内容
+- 确认用户要求”仅补缺”时，没有覆盖已有有效内容
 - 标签若有变更，确认已按 agentskill: tag-ci 处理
-- 图标若有变更，确认已按 agentskill: icon-complete-skill 处理
+- 确认新创建的 cheatsheet 已包含 icon.png
