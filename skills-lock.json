@@ -1,6 +1,11 @@
 {
   "version": 1,
   "skills": {
+    "cheatsheet-compare": {
+      "source": "E:\\project\\self.project\\cheatsheet-generate\\cheatsheet-html-maker\\cheatsheet-compare",
+      "sourceType": "local",
+      "computedHash": "e4b850d9fb0191a2066bd2a4e7124e629ea91f7191d9084527649ad5815deaf2"
+    },
     "cheatsheet-maker": {
       "source": "E:\\project\\self.project\\cheatsheet-generate\\cheatsheet-html-maker\\cheatsheet-maker-skill",
       "sourceType": "local",
@@ -25,11 +30,6 @@
       "source": "E:\\project\\self.project\\cheatsheet-generate\\cheatsheet-html-maker\\tag-ci-skills",
       "sourceType": "local",
       "computedHash": "3afd01a5ef2fbd50bf5cfe9a189381c58c44b0f3094200f27aecc8a70849a444"
-    },
-    "cheatsheet-compare": {
-      "source": "E:\\project\\self.project\\cheatsheet-generate\\cheatsheet-html-maker\\cheatsheet-compare",
-      "sourceType": "local",
-      "computedHash": ""
     },
     "web-research": {
       "source": "langchain-ai/deepagents",
