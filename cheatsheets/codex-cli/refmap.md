@@ -24,15 +24,13 @@
 - `排障 / 收尾动作`：Local Config / CLI、Reference、npm 版本信息
 
 ## 版本说明
-- 本次 `version` 采用 rust-v0.128.0（SourceForge 二进制发布版）
-- 本次 `date` 采用 SourceForge 中 rust-v0.128.0 的发布时间 `2026-04-30`
-- 注：npm 包版本与 SourceForge 二进制版本号不同步，请以 SourceForge rust-v* 标签为准
+- 本次 `version` 采用 0.129.0（GitHub Releases，2026-05-08）
+- 本次 `date` 采用 GitHub Releases 中 0.129.0 的发布时间 `2026-05-08`
 
-## 0.128.0 主要变更（相比 0.118.0）
-- `codex exec` 支持 stdin 管道输入 + 单独 prompt（prompt-plus-stdin workflow）
-- App-server 新增 ChatGPT device code 登录流程
-- Windows sandbox 支持 OS 级出口规则代理联网
-- MCP 启动鲁棒性提升（更长启动窗口，失败警告正确显示）
-- TUI 修复：hook 通知回放、/copy、/resume \<name\>、/agent 线程、skills picker 滚动
-- 项目本地 .codex 文件首次创建也受保护
-- 0.119~0.128 期间持续优化多模型支持与联网稳定性
+## 0.129.0 主要变更（相比 rust-v0.128.0）
+- Modal Vim 编辑模式：`/vim` 命令、默认模式配置、Vim 专用键位上下文
+- TUI 工作流：resume/fork picker 重设计、raw scrollback、`/ide` 上下文注入、workspace-aware `/diff`
+- 状态栏：主题感知颜色、PR/分支变更摘要
+- 插件管理：工作区共享、访问控制、来源过滤、远程 bundle 同步
+- Hooks 浏览器：可从 `/hooks` 浏览切换、compaction 前后运行、`PreToolUse` 上下文支持
+- 实验性目标：可发现、跨 resume 保持暂停、更清晰的验证

@@ -3,6 +3,6 @@ tags:
   - AI / LLM
   - CLI 工具
   - 开发
-version: "2.1.122"
+version: "2.1.133"
 github: anthropics/claude-code
-date: "2026-04-28"
+date: "2026-05-08"

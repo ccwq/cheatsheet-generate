@@ -1,8 +1,8 @@
 # Claude CLI 参考文档
 
 ## 版本说明
-- meta.yml.version: v2.1.122（GitHub Releases，2026-04-28）
-- 注：v2.1.91~v2.1.122 之间各版本条目已归档至 changelog-history.md
+- meta.yml.version: v2.1.133（GitHub Releases，2026-05-08）
+- 注：v2.1.91~v2.1.133 之间各版本条目已归档至 changelog-history.md
 
 ## 官方文档链接
 

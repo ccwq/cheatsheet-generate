@@ -43,8 +43,8 @@
       <span class="title">@playwright/cli / playwright-cli</span>
       <!-- META_INFO_START -->
       <div class="meta-info">
-        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">0.1.7</span></span>
-        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-04-12</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">0.1.13</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-05-07</span></span>
         <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/microsoft/playwright-cli" target="_blank" rel="noopener">microsoft/playwright-cli</a></span></span>
         <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/microsoft/playwright-cli" target="_blank" rel="noopener">打开 Zread</a></span></span>
         <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://codewiki.google/github.com/microsoft/playwright-cli" target="_blank" rel="noopener">CodeWiki</a></span></span>
@@ -58,7 +58,7 @@
       <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
     </div>
     <div class="cheat-columns" id="columns">
-      <div class="card"><h2>快速定位</h2><ul><li>适合场景：让 agent 驱动真实浏览器、做页面交互、抓取状态、录屏、录 trace、管理会话</li><li><code>open</code> <code>snapshot</code> <code>click/fill</code> <code>screenshot</code> <code>pdf</code> <code>state-save</code>：安装 CLI -&gt; 页面 -&gt; 拿 ref -&gt; 操作 -&gt; / /</li><li><code>playwright-cli</code></li><li><code>0.1.7</code></li><li><code>2026-04-12</code></li><li><code>microsoft/playwright-cli</code></li></ul><pre><code class="language-bash"># 全局安装
+      <div class="card"><h2>快速定位</h2><ul><li>适合场景：让 agent 驱动真实浏览器、做页面交互、抓取状态、录屏、录 trace、管理会话</li><li><code>open</code> <code>snapshot</code> <code>click/fill</code> <code>screenshot</code> <code>pdf</code> <code>state-save</code>：安装 CLI -&gt; 页面 -&gt; 拿 ref -&gt; 操作 -&gt; / /</li><li><code>playwright-cli</code></li><li><code>0.1.13</code></li><li><code>2026-05-07</code></li><li><code>microsoft/playwright-cli</code></li></ul><pre><code class="language-bash"># 全局安装
 npm install -g @playwright/cli@latest
 
 # 看帮助
@@ -152,17 +152,25 @@ playwright-cli snapshot e34</code></pre><h3>核心交互</h3><pre><code class="l
 playwright-cli dblclick e15
 playwright-cli hover e15
 playwright-cli fill e22 &quot;user@example.com&quot;
+playwright-cli fill e22 &quot;user@example.com&quot; --submit
 playwright-cli type &quot;hello world&quot;
 playwright-cli select e31 value-a
 playwright-cli check e40
 playwright-cli uncheck e40
 playwright-cli drag e12 e33
-playwright-cli upload ./fixtures/demo.pdf</code></pre><h3>直接用 selector / locator</h3><pre><code class="language-bash"># CSS selector
+playwright-cli upload ./fixtures/demo.pdf</code></pre><h3>drop 拖放文件/数据</h3><pre><code class="language-bash"># 拖文件到目标元素
+playwright-cli drop e15 --path=./fixtures/demo.pdf
+
+# 拖 data 到目标元素
+playwright-cli drop e15 --data=&quot;text/plain=hello world&quot;</code></pre><h3>直接用 selector / locator</h3><pre><code class="language-bash"># CSS selector
 playwright-cli click &quot;#main &gt; button.submit&quot;
 
 # Playwright locator
 playwright-cli click &quot;getByRole(&#39;button&#39;, { name: &#39;Submit&#39; })&quot;
-playwright-cli click &quot;getByTestId(&#39;submit-button&#39;)&quot;</code></pre><ul><li><code>ref</code>：&gt; 语义 locator &gt; CSS selector</li><li><code>fill</code>：更像“清空后再填入”</li><li><code>type</code>：更像“往当前可编辑元素键入”</li></ul></div><div class="card"><h2>⌨️ 键盘、鼠标、标签页 <a href="https://github.com/microsoft/playwright-cli" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这一组适合处理复杂交互，例如键盘快捷键、拖动、滚轮、弹窗和多标签页切换。前端开发里可以把它类比成把 DevTools 的手工操作拆成一串可重复命令。</div><h3>键盘</h3><pre><code class="language-bash">playwright-cli press Enter
+playwright-cli click &quot;getByTestId(&#39;submit-button&#39;)&quot;
+
+# 根据已有 ref 生成 locator
+playwright-cli generate-locator e15</code></pre><ul><li><code>ref</code>：&gt; 语义 locator &gt; CSS selector</li><li><code>fill</code>：更像“清空后再填入”</li><li><code>type</code>：更像“往当前可编辑元素键入”</li></ul></div><div class="card"><h2>⌨️ 键盘、鼠标、标签页 <a href="https://github.com/microsoft/playwright-cli" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这一组适合处理复杂交互，例如键盘快捷键、拖动、滚轮、弹窗和多标签页切换。前端开发里可以把它类比成把 DevTools 的手工操作拆成一串可重复命令。</div><h3>键盘</h3><pre><code class="language-bash">playwright-cli press Enter
 playwright-cli press ArrowLeft
 playwright-cli keydown Shift
 playwright-cli keyup Shift</code></pre><h3>鼠标</h3><pre><code class="language-bash">playwright-cli mousemove 320 480
@@ -191,8 +199,17 @@ playwright-cli localstorage-clear
 playwright-cli sessionstorage-list
 playwright-cli sessionstorage-get draft
 playwright-cli sessionstorage-set draft hello
-playwright-cli sessionstorage-clear</code></pre><h3>网络控制</h3><pre><code class="language-bash"># 列出记录到的网络请求
-playwright-cli network
+playwright-cli sessionstorage-clear</code></pre><h3>网络控制（v0.1.10 起 network 拆分为多个子命令）</h3><pre><code class="language-bash"># 列出记录到的网络请求（v0.1.10+ 拆分为 requests）
+playwright-cli requests
+
+# 查看单条请求详情
+playwright-cli request 3
+
+# 提取请求/响应各部分（适合 pipe 到文件）
+playwright-cli request-headers 3 --filename=headers.txt
+playwright-cli request-body 3 --filename=body.json
+playwright-cli response-headers 3
+playwright-cli response-body 3
 
 # Mock / 解除 mock
 playwright-cli route &quot;**/api/**&quot;
@@ -206,10 +223,24 @@ playwright-cli screenshot e15
 playwright-cli pdf</code></pre><ul><li><code>state-save</code></li><li><code>network-state-set offline</code></li><li><code>screenshot [target]</code> <code>pdf</code></li></ul></div><div class="card"><h2>🔍 调试、监控与 DevTools <a href="https://github.com/microsoft/playwright-cli" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">当自动化看起来“像是卡住了”时，先用 `show` 看 session，再用 `console`、`network`、`eval`、`tracing-*` 缩小问题范围。排障顺序固定下来，效率会高很多。</div><h3>监控 session</h3><pre><code class="language-bash"># 打开 dashboard
 playwright-cli show</code></pre><h3>Console / JS / 请求</h3><pre><code class="language-bash">playwright-cli console
 playwright-cli console warning
-playwright-cli network
+# network 已拆分为编号命令（v0.1.10+）
+playwright-cli requests
+playwright-cli request 3
+playwright-cli request-headers 3 --filename=headers.txt
+playwright-cli request-body 3 --filename=body.json
+playwright-cli response-headers 3
+playwright-cli response-body 3
 playwright-cli eval &quot;() =&gt; document.title&quot;
 playwright-cli eval &quot;(el) =&gt; el.textContent&quot; e15
-playwright-cli run-code &quot;await page.goto(&#39;https://example.com&#39;)&quot;</code></pre><h3>Trace / Video</h3><pre><code class="language-bash">playwright-cli tracing-start
+playwright-cli run-code &quot;await page.goto(&#39;https://example.com&#39;)&quot;</code></pre><h3>Dashboard 与标注</h3><pre><code class="language-bash">playwright-cli show
+# 启动标注模式，用于 UI review / 设计反馈（v0.1.9+）
+playwright-cli show --annotate</code></pre><h3>高亮与 locator 生成</h3><pre><code class="language-bash"># 对元素显示持续高亮覆盖层
+playwright-cli highlight e15
+playwright-cli highlight e15 --style=&quot;background:yellow;border:2px solid red&quot;
+playwright-cli highlight e15 --hide
+playwright-cli highlight --hide
+# 根据已有 ref 生成 Playwright locator
+playwright-cli generate-locator e15</code></pre><h3>Trace / Video</h3><pre><code class="language-bash">playwright-cli tracing-start
 playwright-cli tracing-stop
 playwright-cli video-start
 playwright-cli video-chapter &quot;after-login&quot;
@@ -280,9 +311,12 @@ playwright-cli snapshot --filename=page.md
 playwright-cli snapshot --depth=4
 playwright-cli click &lt;target&gt;
 playwright-cli fill &lt;target&gt; &lt;text&gt;
+playwright-cli fill &lt;target&gt; &lt;text&gt; --submit
 playwright-cli type &lt;text&gt;
 playwright-cli hover &lt;target&gt;
 playwright-cli drag &lt;start&gt; &lt;end&gt;
+playwright-cli drop &lt;target&gt; --path=&lt;file&gt;
+playwright-cli drop &lt;target&gt; --data=&quot;k=v&quot;
 playwright-cli upload &lt;file&gt;</code></pre><h3>导航与标签页</h3><pre><code class="language-bash">playwright-cli goto &lt;url&gt;
 playwright-cli go-back
 playwright-cli go-forward
@@ -297,14 +331,18 @@ playwright-cli localstorage-list
 playwright-cli sessionstorage-list
 playwright-cli screenshot [target]
 playwright-cli pdf</code></pre><h3>调试与可视化</h3><pre><code class="language-bash">playwright-cli show
+playwright-cli show --annotate
 playwright-cli console [level]
-playwright-cli network
+playwright-cli requests
+playwright-cli request &lt;num&gt;
 playwright-cli eval &lt;func&gt; [element]
 playwright-cli run-code &lt;code&gt;
+playwright-cli highlight &lt;ref&gt; [--style=] [--hide]
+playwright-cli generate-locator &lt;ref&gt;
 playwright-cli tracing-start
 playwright-cli tracing-stop
 playwright-cli video-start [file]
-playwright-cli video-stop</code></pre></div><div class="card"><h2>🩹 决策点与常见坑 <a href="https://github.com/microsoft/playwright-cli" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">真正容易踩坑的地方，不是命令拼写，而是会话边界、ref 生命周期、持久化策略和工具混淆。先把这些规则立住，后面的命令基本都顺。</div><ul><li><code>playwright-cli</code> <code>npx playwright</code></li><li><code>snapshot</code></li><li><code>--persistent</code></li><li><code>run-code</code></li><li><code>state-save/state-load</code></li><li><code>-s=name</code></li><li><code>outputDir</code> <code>outputMode</code></li></ul></div><div class="card"><h2>不要混淆：playwright-cli vs agent-browser</h2><div class="table-wrap"><table class="cheat-table"><thead><tr><th></th><th>playwright-cli</th><th>agent-browser</th></tr></thead><tbody><tr><td>出品方</td><td>Microsoft</td><td>Vercel Labs</td></tr><tr><td>元素引用语法</td><td>e15（纯数字后缀）</td><td>@e1（at-e1）</td></tr><tr><td>连接已有浏览器</td><td>--cdp via 配置文件</td><td>--auto-connect（推荐）/ --cdp 9222（手动）</td></tr><tr><td>Provider 生态</td><td>传统 Playwright Provider</td><td>Browserbase、Browserless、Kernel、AgentCore、iOS 模拟器等</td></tr><tr><td>AI 集成</td><td>无</td><td>v0.25.0+ 内嵌 chat 命令</td></tr><tr><td>OAuth MCP</td><td>无</td><td>支持（v0.24.0+）</td></tr><tr><td>适用场景</td><td>测试驱动、session 状态管理、Playwright 生态深度用户</td><td>AI agent 驱动、需要会话复用、云端浏览器、多 Provider</td></tr></tbody></table></div><div class="desc">两者功能有较大重叠（open/snapshot/click/fill/screenshot 等），但定位不同：</div><ul><li>playwright-cli 更适合测试和 Playwright 生态深度用户，强调 session/profile 管理和传统测试工作流</li><li>agent-browser 更适合 AI agent 场景，强调会话复用、Provider 生态、OAuth MCP 和自然语言交互</li></ul></div>
+playwright-cli video-stop</code></pre></div><div class="card"><h2>🩹 决策点与常见坑 <a href="https://github.com/microsoft/playwright-cli" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">真正容易踩坑的地方，不是命令拼写，而是会话边界、ref 生命周期、持久化策略和工具混淆。先把这些规则立住，后面的命令基本都顺。</div><ul><li><code>playwright-cli</code> <code>npx playwright</code></li><li><code>snapshot</code></li><li><code>--persistent</code></li><li><code>run-code</code></li><li><code>state-save/state-load</code></li><li><code>-s=name</code></li><li><code>outputDir</code> <code>outputMode</code></li></ul></div><div class="card"><h2>不要混淆：playwright-cli vs agent-browser</h2><div class="table-wrap"><table class="cheat-table"><thead><tr><th></th><th>playwright-cli</th><th>agent-browser</th></tr></thead><tbody><tr><td>出品方</td><td>Microsoft</td><td>Vercel Labs</td></tr><tr><td>元素引用语法</td><td>e15（纯数字后缀）</td><td>@e1（at-e1）</td></tr><tr><td>连接已有浏览器</td><td>--cdp via 配置文件</td><td>--auto-connect（推荐）/ --cdp 9222（手动）</td></tr><tr><td>Provider 生态</td><td>传统 Playwright Provider</td><td>Browserbase、Browserless、Kernel、AgentCore、iOS 模拟器等</td></tr><tr><td>AI 集成</td><td>无</td><td>v0.25.0+ 内嵌 chat 命令</td></tr><tr><td>OAuth MCP</td><td>无</td><td>支持（v0.24.0+）</td></tr><tr><td>适用场景</td><td>测试驱动、session 状态管理、Playwright 生态深度用户</td><td>AI agent 驱动、需要会话复用、云端浏览器、多 Provider</td></tr></tbody></table></div><div class="desc">两者功能有较大重叠（open/snapshot/click/fill/screenshot 等），但定位不同：</div><ul><li>playwright-cli 更适合测试和 Playwright 生态深度用户，强调 session/profile 管理和传统测试工作流</li><li>agent-browser 更适合 AI agent 场景，强调会话复用、Provider 生态、OAuth MCP 和自然语言交互</li></ul></div><div class="card"><h2>🧾 版本变更 <a href="https://github.com/microsoft/playwright-cli/releases" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">按官方发布说明整理本次跨版本更新中对速查用户最重要的变化。</div><h3>v0.1.13</h3><ul><li><code>fix(mcp): forward browser-level CDP commands in extension mode</code> <code>cookie-list</code> <code>state-save</code></li></ul><h3>v0.1.12</h3><ul><li><code>tab-new</code> <code>tab-list</code></li><li>Dashboard 新增多截图 UI Review 功能，支持收集、标注、在一个 session 内提交多张截图，带侧边栏帧列表和逐条高亮</li></ul><h3>v0.1.11</h3><ul><li><code>fix(dashboard): handle null viewport in annotate screenshot</code> <code>viewport: null</code> <code>window.innerWidth/innerHeight</code></li></ul><h3>v0.1.10</h3><ul><li><code>network</code><ul><li><code>requests</code></li><li><code>request &lt;num&gt;</code></li><li><code>request-headers</code> <code>request-body</code> <code>response-headers</code> <code>response-body</code></li><li><code>--filename</code></li></ul></li></ul><h3>v0.1.9</h3><ul><li><code>show --annotate</code></li><li><code>drop</code></li></ul><h3>v0.1.8</h3><ul><li>新增远程调试模式，可连接本地已有 Chrome（带已有登录态），不再使用沙盒副本</li><li><code>playwright-cli attach --cdp=chrome</code> <code>msedge</code> <code>chrome-canary</code> <code>chrome://inspect/#remote-debugging</code><ul><li>支持 Chrome / Chrome Beta / Dev / Canary 和 Edge / Edge Beta / Dev / Canary（Linux、macOS、Windows）</li></ul></li></ul></div>
     </div>
   </div>
 

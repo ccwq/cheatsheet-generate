@@ -1,8 +1,8 @@
 ---
 title: Agent Browser 速查表
 lang: bash
-version: "v0.25.3"
-date: 2026-04-09
+version: "v0.27.0"
+date: 2026-05-07
 github: vercel-labs/agent-browser
 colWidth: 340px
 ---
@@ -19,7 +19,7 @@ desc: 面向 AI agent 的浏览器自动化 CLI。核心思路是先打开页面
 
 - 适合场景：网页测试、表单自动化、数据抓取、截图、录屏、CDP 连接现有浏览器
 - 核心链路：`open -> snapshot -i -> click/fill/get -> wait -> screenshot/pdf`
-- 最新核对版本：`v0.25.3`
+- 最新核对版本：`v0.27.0`
 - 官方仓库：`vercel-labs/agent-browser`
 
 ```bash
@@ -91,6 +91,7 @@ agent-browser back
 agent-browser forward
 agent-browser reload
 agent-browser close
+agent-browser pushstate <url>
 ```
 
 ### 快照选项
@@ -301,8 +302,9 @@ agent-browser close --all
 
 agent-browser tab
 agent-browser tab new https://example.com
-agent-browser tab 2
-agent-browser tab close
+agent-browser tab new --label mytab https://example.com
+agent-browser tab t1
+agent-browser tab close t1
 ```
 
 ### Chrome Profile 管理（v0.24.1+）
@@ -318,6 +320,7 @@ agent-browser --profile "Profile 5" open https://example.com
 ```bash
 agent-browser cookies
 agent-browser cookies set token abc123 --url https://example.com
+agent-browser cookies set --curl ./cookies.txt
 agent-browser cookies clear
 
 agent-browser storage local
@@ -342,6 +345,7 @@ agent-browser set media light reduced-motion
 ```bash
 agent-browser network route "**/api/*" --abort
 agent-browser network route "**/data.json" --body '{"mock":true}'
+agent-browser network route "**/analytics*" --resource-type script,fetch
 agent-browser network requests
 agent-browser network requests --filter "api"
 agent-browser network requests --type xhr
@@ -404,12 +408,109 @@ agent-browser screenshot
 - 结合 dashboard 可视化调试 AI 决策链路
 - 适合复杂多步操作，比单条命令链更灵活
 
+## React DevTools 集成（v0.27.0+）
+---
+lang: bash
+emoji: ⚛️
+link: https://github.com/vercel-labs/agent-browser
+desc: v0.27.0 新增 React 组件树检查、fiber 调试、渲染分析和 Suspense 边界诊断，是前端开发和调试的利器。
+---
+
+### 组件树与检查
+```bash
+agent-browser react tree
+agent-browser react inspect <fiberId>
+```
+
+### 渲染分析
+```bash
+agent-browser react renders start
+agent-browser react renders stop
+```
+
+### Suspense 边界诊断
+```bash
+agent-browser react suspense
+```
+
+- `react tree` 显示完整组件树，含 props/hooks/state
+- `react renders` 统计 mount/re-render 次数及变化详情
+- `react suspense` 分类 Suspense 边界，定位加载问题和根因
+
+## Web Vitals（v0.27.0+）
+---
+lang: bash
+emoji: 📊
+link: https://github.com/vercel-labs/agent-browser
+desc: v0.27.0 新增 Web Vitals 命令，报告 LCP/CLS/TTFB/FCP/INP 等核心指标及 React 水合阶段。
+---
+
+```bash
+agent-browser vitals
+agent-browser vitals https://example.com
+```
+
+## SPA 导航（v0.27.0+）
+---
+lang: bash
+emoji: 🔀
+link: https://github.com/vercel-labs/agent-browser
+desc: v0.27.0 新增 pushstate 命令，支持客户端路由跳转而不触发整页刷新。
+---
+
+```bash
+agent-browser pushstate /dashboard
+agent-browser pushstate /products/123
+```
+
+## 初始化脚本与特性开关（v0.27.0+）
+---
+lang: bash
+emoji: 🧩
+link: https://github.com/vercel-labs/agent-browser
+desc: v0.27.0 新增 --init-script 和 --enable 全局选项，用于首次导航前注册脚本和启用内置特性。
+---
+
+```bash
+# 初始化脚本（可重复）
+agent-browser --init-script ./setup.js open example.com
+agent-browser --init-script ./auth.js open example.com
+
+# 启用内置特性
+agent-browser --enable react-devtools open example.com
+```
+
+- `AGENT_BROWSER_INIT_SCRIPTS` 环境变量可替代命令行标志
+- `AGENT_BROWSER_ENABLE` 环境变量对应 `--enable`
+- 支持内置特性：`react-devtools` 等
+
+## doctor 命令（v0.26.0+）
+---
+lang: bash
+emoji: 🩺
+link: https://github.com/vercel-labs/agent-browser
+desc: v0.26.0 新增 doctor 命令，一键诊断环境、Chrome、守护进程、配置文件、安全和 providers 问题。
+---
+
+```bash
+agent-browser doctor
+agent-browser doctor --offline
+agent-browser doctor --quick
+agent-browser doctor --fix
+agent-browser doctor --json
+```
+
+- `--offline`：跳过网络探测
+- `--quick`：跳过启动测试
+- `--fix`：自动修复（安装 Chrome、关闭版本不匹配的守护进程、清理过期状态文件）
+- `--json`：结构化输出
+
 ## 调试、截图与录制
 ---
 lang: bash
 emoji: 🛠️
 link: https://github.com/vercel-labs/agent-browser
-desc: 这部分适合排查“为什么 agent 没点对”“为什么页面状态不对”。思路和前端排查问题很像，先看页面表现，再看控制台和 trace。
+desc: 这部分适合排查”为什么 agent 没点对””为什么页面状态不对”。思路和前端排查问题很像，先看页面表现，再看控制台和 trace。
 ---
 
 ### 截图与 PDF
@@ -575,3 +676,27 @@ agent-browser get text @e4
 两者功能有较大重叠（open/snapshot/click/fill/screenshot 等），但定位不同：
 - **agent-browser** 更适合 AI agent 场景，强调会话复用、Provider 生态、OAuth MCP 和自然语言交互
 - **playwright-cli** 更适合测试和 Playwright 生态深度用户，强调 session/profile 管理和传统测试工作流
+
+## 🧾 版本变更
+---
+link: https://github.com/vercel-labs/agent-browser/releases/tag/v0.27.0
+desc: 按官方发布说明整理本次跨版本更新中对速查用户最重要的变化。
+---
+
+### v0.27.0
+
+- **React DevTools 集成** — 新增 `react tree`、`react inspect <fiberId>`、`react renders start|stop`、`react suspense` 命令，支持组件树可视化、props/hooks/state 检查、渲染性能分析
+- **Web Vitals** — 新增 `vitals [url]` 命令，报告 LCP/CLS/TTFB/FCP/INP 等核心指标及 React 水合阶段
+- **SPA 导航** — 新增 `pushstate <url>` 命令，支持客户端路由跳转而不触发整页刷新
+- **初始化脚本** — 新增 `--init-script <path>` 全局选项（可重复），在首次导航前执行自定义脚本；`--enable <feature>` 支持内置特性如 `react-devtools`
+- **网络拦截增强** — `network route` 支持 `--resource-type <csv>` 按 CDP 资源类型过滤请求
+- **cURL Cookie 导入** — `cookies set --curl <file>` 自动识别 JSON/cURL/Cookie-header 格式批量导入
+- **Dashboard 代理支持** — 可观测仪表板现在支持反向代理部署
+
+### v0.26.0
+
+- **`doctor` 命令** — `agent-browser doctor` 一键诊断环境、Chrome、守护进程、配置文件、安全和 providers；支持 `--offline`、`--quick`、`--fix`、`--json`
+- **Tab 稳定 ID** — Tab ID 由数字改为 `t1`、`t2` 等稳定字符串标识，不随 tab 关闭而漂移；支持 `tab new --label <name>` 命名 tab
+- **`core` skill 重写** — 内置 skill 从 ~40 行 stub 扩展为 ~420 行完整用法指南，`agent-browser skills get core` 返回 agent 可直接使用的内容
+- **JSON Schema** — 新增 `agent-browser.schema.json`，支持 IDE 自动补全和配置验证
+- **状态加载修复** — `--state` / `AGENT_BROWSER_STATE` 终于真正加载保存的 cookies 和 localStorage

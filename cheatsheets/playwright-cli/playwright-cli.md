@@ -1,8 +1,8 @@
 ---
 title: "@playwright/cli / playwright-cli"
 lang: bash
-version: "0.1.7"
-date: 2026-04-12
+version: "0.1.13"
+date: 2026-05-07
 github: microsoft/playwright-cli
 colWidth: 340px
 ---
@@ -20,8 +20,8 @@ desc: `@playwright/cli` 安装后暴露的命令是 `playwright-cli`。它更像
 - 适合场景：让 agent 驱动真实浏览器、做页面交互、抓取状态、录屏、录 trace、管理会话
 - 最短路径：安装 CLI -> `open` 页面 -> `snapshot` 拿 ref -> `click/fill` 操作 -> `screenshot` / `pdf` / `state-save`
 - 默认命令名：`playwright-cli`
-- 当前核对版本：`0.1.7`
-- 版本发布时间：`2026-04-12`
+- 当前核对版本：`0.1.13`
+- 版本发布时间：`2026-05-07`
 - 官方仓库：`microsoft/playwright-cli`
 
 ```bash
@@ -226,12 +226,22 @@ playwright-cli click e15
 playwright-cli dblclick e15
 playwright-cli hover e15
 playwright-cli fill e22 "user@example.com"
+playwright-cli fill e22 "user@example.com" --submit
 playwright-cli type "hello world"
 playwright-cli select e31 value-a
 playwright-cli check e40
 playwright-cli uncheck e40
 playwright-cli drag e12 e33
 playwright-cli upload ./fixtures/demo.pdf
+```
+
+### drop 拖放文件/数据
+```bash
+# 拖文件到目标元素
+playwright-cli drop e15 --path=./fixtures/demo.pdf
+
+# 拖 data 到目标元素
+playwright-cli drop e15 --data="text/plain=hello world"
 ```
 
 ### 直接用 selector / locator
@@ -242,6 +252,9 @@ playwright-cli click "#main > button.submit"
 # Playwright locator
 playwright-cli click "getByRole('button', { name: 'Submit' })"
 playwright-cli click "getByTestId('submit-button')"
+
+# 根据已有 ref 生成 locator
+playwright-cli generate-locator e15
 ```
 
 - 优先级建议：`ref` > 语义 locator > CSS selector
@@ -333,10 +346,19 @@ playwright-cli sessionstorage-set draft hello
 playwright-cli sessionstorage-clear
 ```
 
-### 网络控制
+### 网络控制（v0.1.10 起 network 拆分为多个子命令）
 ```bash
-# 列出记录到的网络请求
-playwright-cli network
+# 列出记录到的网络请求（v0.1.10+ 拆分为 requests）
+playwright-cli requests
+
+# 查看单条请求详情
+playwright-cli request 3
+
+# 提取请求/响应各部分（适合 pipe 到文件）
+playwright-cli request-headers 3 --filename=headers.txt
+playwright-cli request-body 3 --filename=body.json
+playwright-cli response-headers 3
+playwright-cli response-body 3
 
 # Mock / 解除 mock
 playwright-cli route "**/api/**"
@@ -377,10 +399,34 @@ playwright-cli show
 ```bash
 playwright-cli console
 playwright-cli console warning
-playwright-cli network
+# network 已拆分为编号命令（v0.1.10+）
+playwright-cli requests
+playwright-cli request 3
+playwright-cli request-headers 3 --filename=headers.txt
+playwright-cli request-body 3 --filename=body.json
+playwright-cli response-headers 3
+playwright-cli response-body 3
 playwright-cli eval "() => document.title"
 playwright-cli eval "(el) => el.textContent" e15
 playwright-cli run-code "await page.goto('https://example.com')"
+```
+
+### Dashboard 与标注
+```bash
+playwright-cli show
+# 启动标注模式，用于 UI review / 设计反馈（v0.1.9+）
+playwright-cli show --annotate
+```
+
+### 高亮与 locator 生成
+```bash
+# 对元素显示持续高亮覆盖层
+playwright-cli highlight e15
+playwright-cli highlight e15 --style="background:yellow;border:2px solid red"
+playwright-cli highlight e15 --hide
+playwright-cli highlight --hide
+# 根据已有 ref 生成 Playwright locator
+playwright-cli generate-locator e15
 ```
 
 ### Trace / Video
@@ -579,9 +625,12 @@ playwright-cli snapshot --filename=page.md
 playwright-cli snapshot --depth=4
 playwright-cli click <target>
 playwright-cli fill <target> <text>
+playwright-cli fill <target> <text> --submit
 playwright-cli type <text>
 playwright-cli hover <target>
 playwright-cli drag <start> <end>
+playwright-cli drop <target> --path=<file>
+playwright-cli drop <target> --data="k=v"
 playwright-cli upload <file>
 ```
 
@@ -611,10 +660,14 @@ playwright-cli pdf
 ### 调试与可视化
 ```bash
 playwright-cli show
+playwright-cli show --annotate
 playwright-cli console [level]
-playwright-cli network
+playwright-cli requests
+playwright-cli request <num>
 playwright-cli eval <func> [element]
 playwright-cli run-code <code>
+playwright-cli highlight <ref> [--style=] [--hide]
+playwright-cli generate-locator <ref>
 playwright-cli tracing-start
 playwright-cli tracing-stop
 playwright-cli video-start [file]
@@ -652,3 +705,41 @@ desc: 真正容易踩坑的地方，不是命令拼写，而是会话边界、re
 两者功能有较大重叠（open/snapshot/click/fill/screenshot 等），但定位不同：
 - **playwright-cli** 更适合测试和 Playwright 生态深度用户，强调 session/profile 管理和传统测试工作流
 - **agent-browser** 更适合 AI agent 场景，强调会话复用、Provider 生态、OAuth MCP 和自然语言交互
+
+## 🧾 版本变更
+---
+link: https://github.com/microsoft/playwright-cli/releases
+desc: 按官方发布说明整理本次跨版本更新中对速查用户最重要的变化。
+---
+
+### v0.1.13
+
+- `fix(mcp): forward browser-level CDP commands in extension mode` — `cookie-list`、`state-save` 等 browser-scoped 命令现可在 Chrome extension attach 模式下正常工作
+
+### v0.1.12
+
+- Chrome extension 支持多标签页（`tab-new`、`tab-list` 等在 attach --extension 会话中可用）
+- Dashboard 新增多截图 UI Review 功能，支持收集、标注、在一个 session 内提交多张截图，带侧边栏帧列表和逐条高亮
+
+### v0.1.11
+
+- `fix(dashboard): handle null viewport in annotate screenshot` — 对 headed 浏览器使用 `viewport: null` 时annotate截图不再产生空图，dashboard 现已回退到 `window.innerWidth/innerHeight`
+
+### v0.1.10
+
+- `network` 命令拆分为多个编号子命令：
+  - `requests` — 带稳定索引的请求列表
+  - `request <num>` — 单条请求完整详情
+  - `request-headers` / `request-body` / `response-headers` / `response-body` — 适合 pipe 的部分提取器
+  - body 不再内联；使用 `--filename` 保存到文件
+
+### v0.1.9
+
+- `show --annotate` — 为 agent 提供视觉和结构化反馈，支持在开发或测试时标注
+- 新增 `drop` 命令（详细信息待补充）
+
+### v0.1.8
+
+- 新增远程调试模式，可连接本地已有 Chrome（带已有登录态），不再使用沙盒副本
+- `playwright-cli attach --cdp=chrome`（也支持 `msedge`、`chrome-canary` 等）通过 `chrome://inspect/#remote-debugging` 连接
+  - 支持 Chrome / Chrome Beta / Dev / Canary 和 Edge / Edge Beta / Dev / Canary（Linux、macOS、Windows）

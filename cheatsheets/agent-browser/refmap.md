@@ -1,11 +1,16 @@
 # Agent Browser 参考资源
 
 ## 版本记录
-- 当前版本: v0.25.3（2026-04-06）
-- v0.24.1: `profiles` 命令列出本机 Chrome profile
-- v0.25.0: AI chat 命令、`--urls` 快照标志、batch 内联参数、dashboard 集成进 CLI
-- v0.25.2: 修复 Linux 上 Chrome 空闲约10秒后被杀死的问题
+- 当前版本: v0.27.0（2026-05-07）
+- v0.27.0: React DevTools 集成（`react tree`、`react inspect`、`react renders`、`react suspense`）、Web Vitals 命令、`pushstate` SPA 导航、`--init-script` 初始化脚本、`--enable` 特性开关、网络拦截按资源类型过滤、cURL cookie 导入、dashboard 代理支持
+- v0.26.0: `doctor` 命令、`tab` 稳定 ID 与标签、`core` skill 重写、JSON Schema 配置
+- v0.25.5: `--auto-connect` CDP 发现修复、录制 viewport 修复、`get box/styles` 修复、tab 焦点保留
+- v0.25.4: `skills` 命令
 - v0.25.3: 修复 accessibility tree 快照遗漏隐藏单选/复选框问题
+- v0.25.2: 修复 Linux 上 Chrome 空闲约10秒后被杀死的问题
+- v0.25.1: 嵌入式 dashboard（无需 `dashboard install`）
+- v0.25.0: AI chat 命令、`--urls` 快照标志、batch 内联参数、dashboard 集成进 CLI
+- v0.24.1: `profiles` 命令列出本机 Chrome profile
 
 ## 官方入口
 - GitHub 仓库: https://github.com/vercel-labs/agent-browser

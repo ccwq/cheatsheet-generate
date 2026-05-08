@@ -1,8 +1,8 @@
 ---
 title: Codex CLI 速查
 lang: bash
-version: "rust-v0.128.0"
-date: 2026-04-30
+version: "0.129.0"
+date: 2026-05-08
 github: openai/codex
 colWidth: 340px
 ---
@@ -281,6 +281,8 @@ link: https://developers.openai.com/codex/cli/slash-commands/
 /logout        # 清除本地登录状态
 /quit          # 退出 CLI
 /exit          # 退出 CLI
+/vim           # Modal Vim 编辑模式（0.129.0+）
+/hooks         # 浏览 hooks 生命周期（0.129.0+）
 ```
 
 ### 官网补遗：会话命令
@@ -442,27 +444,21 @@ codex login
 
 ## 🧾 版本变更
 ---
-link: https://sourceforge.net/projects/openai-codex.mirror/files/
-desc: 按 SourceForge 二进制发布记录整理本次跨版本更新中对速查用户最重要的变化。
+link: https://github.com/openai/codex/releases
+desc: 按 GitHub Releases 整理本次跨版本更新中对速查用户最重要的变化。
 ---
+
+### 0.129.0（2026-05-08）
+
+- Modal Vim 编辑模式：`/vim` 进入 composer，支持默认模式配置和 Vim 专用键位上下文
+- 改进的 TUI 工作流：重新设计的 resume/fork picker、raw scrollback 模式、`/ide` 上下文注入、工作区感知的 `/diff`
+- 状态栏增强：主题感知颜色、可选 PR/分支变更摘要
+- 插件管理改进：工作区共享、分享访问控制、来源过滤、市场移除/升级、远程 bundle 同步
+- Hooks 浏览器：可从 `/hooks` 浏览和切换，compaction 前后运行，支持 `PreToolUse` 上下文
+- 实验性目标（Experimental goals）：可发现、跨 resume 保持暂停、更清晰的验证
 
 ### rust-v0.128.0（2026-04-30）
 
 - Windows sandbox OS 级出口规则代理联网正式支持
 - MCP 启动窗口进一步延长，启动鲁棒性持续改善
 - TUI 通知回放与滚动体验优化
-
-### rust-v0.125.0（2026-04-24）
-
-- 多模型并发调用稳定性修复
-- exec 输出格式在 NDJSON 模式下更完整
-
-### rust-v0.122.0（2026-04-20）
-
-- App-server ChatGPT device code 登录流程优化
-- 配置文件写入权限检查强化
-
-### rust-v0.118.0 → rust-v0.119.0（过渡版本）
-
-- `codex exec -`（stdin 管道输入）正式登场
-- 解决了 MCP 服务器在长 startup 时序下的竞态问题

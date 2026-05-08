@@ -1,8 +1,8 @@
 ---
 title: Claude CLI
 lang: zh-CN
-version: "2.1.122"
-date: "2026-04-28"
+version: "2.1.133"
+date: "2026-05-08"
 github: anthropics/claude-code
 colWidth: 420px
 desc: Anthropic Claude CLI 工具，提供代码生成、补全、重构、错误诊断与智能编程支持。
@@ -374,6 +374,10 @@ autoMemoryDirectory/   # 自定义自动记忆目录
 
 > v2.1.41 之后各版本的详细变更记录已归档至 `changelog-history.md`，本文仅保留版本跨度摘要。
 
+- **v2.1.133**（2026-05-08）：`worktree.baseRef` 设置、`sandbox.bwrapPath/socatPath` 托管设置、`parentSettingsBehavior` 管理级 key、Hooks effort 级别传递
+- **v2.1.132**（2026-05-07）：`CLAUDE_CODE_SESSION_ID` 环境变量、`CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN` 禁用选项、剪贴板粘贴提示
+- **v2.1.131**（2026-05-06）：VS Code 扩展激活修复、Mantle 端点认证修复
+- **v2.1.122**（2026-04-28）：OAuth 认证 401 重试循环修复
 - **v2.1.0**（2026-01）：Skills 热重载、Agent 上下文分叉、Hooks 生命周期、`/teleport`、语言设置等百项更新
 - **v2.1.50**（2026-02-20）：Worktree 隔离支持
 - **v2.1.59**（2026-02-26）：Auto Memory 自动记忆
@@ -426,6 +430,17 @@ autoMemoryDirectory/   # 自定义自动记忆目录
   "pre-edit": {
     "if": "file.endsWith('.js')",
     "script": "console.log('编辑 JS')"
+  }
+}
+```
+
+### Hooks 传递 Effort 级别（v2.1.133+）
+```json
+// hooks 现在通过 effort.level JSON 字段和 $CLAUDE_EFFORT 环境变量接收 effort 级别
+{
+  "PreToolUse": {
+    "if": "tool.name == 'Bash' && effort.level == 'high'",
+    "script": "console.log('高 effort 级别执行 Bash')"
   }
 }
 ```
@@ -507,6 +522,8 @@ claude mcp                    # MCP 配置
   "sandbox": {
     "enabled": true,
     "failIfUnavailable": true,
+    "bwrapPath": "/usr/bin/bwrap",     // Linux bwrap 路径（v2.1.133+）
+    "socatPath": "/usr/bin/socat",    // Linux socat 路径（v2.1.133+）
     "filesystem": {
       "allowWrite": ["/tmp/build"],
       "denyRead": ["~/.aws/credentials"]
@@ -516,6 +533,13 @@ claude mcp                    # MCP 配置
     }
   }
 }
+```
+
+### 新增环境变量（v2.1.132+）
+```bash
+CLAUDE_CODE_SESSION_ID        # 当前会话 ID
+CLAUDE_EFFORT                 # Hooks 传递的 effort 级别
+CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1  # 禁用 alternate screen 模式
 ```
 
 ---
@@ -562,7 +586,8 @@ claude --agents '{"reviewer":{"description":"..."}}'  # 动态定义
 {
   "worktree": {
     "symlinkDirectories": ["node_modules", ".cache"],
-    "sparsePaths": ["packages/my-app"]
+    "sparsePaths": ["packages/my-app"],
+    "baseRef": "origin/main"    // 新建 worktree 的基础分支（v2.1.133+，fresh|head，默认 origin/<default>）
   }
 }
 ```
@@ -770,41 +795,24 @@ agent: code-reviewer
 ## 🧾 版本变更
 ---
 link: https://github.com/anthropics/claude-code/releases
-desc: 按 GitHub Releases 整理本次跨版本更新中对速查用户最重要的变化，v2.1.91~v2.1.122 详细条目见 changelog-history.md。
+desc: 按 GitHub Releases 整理本次跨版本更新中对速查用户最重要的变化，v2.1.91~v2.1.133 详细条目见 changelog-history.md。
 ---
 
-### v2.1.122（2026-04-28）
+### v2.1.133（2026-05-08）
 
-- 修复了 OAuth 认证在 `CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS=1` 时的 401 重试循环问题
+- 新增 `worktree.baseRef` 设置（`fresh` | `head`），选择 worktree 基础分支，默认改为 `origin/<default>`
+- 新增 `sandbox.bwrapPath` 和 `sandbox.socatPath` 托管设置（Linux/WSL）
+- 新增 `parentSettingsBehavior` 管理级 key（`'first-wins' | 'merge'`）
+- Hooks 通过 `effort.level` JSON 字段和 `$CLAUDE_EFFORT` 环境变量接收 effort 级别
+- Focus mode 行为改进、内存使用优化
 
-### v2.1.121（2026-04-28）
+### v2.1.132（2026-05-07）
 
-- 紧急修复 Windows 版 VS Code 插件启动失败问题
+- 新增 `CLAUDE_CODE_SESSION_ID` 环境变量
+- 新增 `CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1` 可选禁用 alternate screen
+- 剪贴板粘贴提示改进
+
+### v2.1.131（2026-05-06）
+
+- 修复 Windows VS Code 扩展激活问题
 - 修复 Mantle 终端认证错误
-
-### v2.1.118（2026-04-23）
-
-- 沙箱安全强化：新增域名黑名单功能
-- 修复 Bash 命令绕过高危漏洞
-- 终端 URL 显示优化、多行编辑快捷键
-- subagent 超时明确报错
-
-### v2.1.114（2026-04-20）
-
-- `sandbox` 安全配置增强
-- 多项目并行加载效率改进
-- Bash 工具链权限提示修复
-
-### v2.1.91 ~ v2.1.113（2026-04）
-
-> 注：这些版本的具体变更条目未能逐一枚举，完整历史已归档至 `changelog-history.md`。主要更新方向包括：
-- 安全沙箱控制强化
-- 交互体验持续优化
-- 多代理系统稳定性提升
-- 大型代码库处理性能改进
-
-### v2.1.90 → v2.1.91 关键变化
-
-- `/powerup` 正式登场，成为新增交互教程入口
-- PowerShell 工具安全性全面强化
-- 离线环境插件市场缓存保留机制完善

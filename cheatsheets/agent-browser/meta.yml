@@ -7,6 +7,6 @@ tags:
   - 测试
   - 命令行
   - 开发
-version: "v0.25.3"
+version: "v0.27.0"
 github: vercel-labs/agent-browser
-date: "2026-04-09"
+date: "2026-05-07"

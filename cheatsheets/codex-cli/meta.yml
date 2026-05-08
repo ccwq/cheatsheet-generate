@@ -5,6 +5,6 @@ tags:
   - CLI 工具
   - CLI / Terminal
   - 开发
-version: "rust-v0.128.0"
+version: "0.129.0"
 github: openai/codex
-date: "2026-04-30"
+date: "2026-05-08"

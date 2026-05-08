@@ -7,6 +7,6 @@ tags:
   - 测试
   - 命令行
   - 开发
-version: "0.1.7"
+version: "0.1.13"
 github: microsoft/playwright-cli
-date: "2026-04-12"
+date: "2026-05-07"
