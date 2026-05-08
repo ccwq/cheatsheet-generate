@@ -24,13 +24,15 @@
 - `排障 / 收尾动作`：Local Config / CLI、Reference、npm 版本信息
 
 ## 版本说明
-- 本次 `version` 采用 npm 最新稳定版 `0.118.0`
-- 本次 `date` 采用 npm registry 中 `0.118.0` 的发布时间 `2026-04-09`
+- 本次 `version` 采用 rust-v0.128.0（SourceForge 二进制发布版）
+- 本次 `date` 采用 SourceForge 中 rust-v0.128.0 的发布时间 `2026-04-30`
+- 注：npm 包版本与 SourceForge 二进制版本号不同步，请以 SourceForge rust-v* 标签为准
 
-## 0.118.0 主要变更（相比 0.117.0）
+## 0.128.0 主要变更（相比 0.118.0）
 - `codex exec` 支持 stdin 管道输入 + 单独 prompt（prompt-plus-stdin workflow）
 - App-server 新增 ChatGPT device code 登录流程
 - Windows sandbox 支持 OS 级出口规则代理联网
 - MCP 启动鲁棒性提升（更长启动窗口，失败警告正确显示）
 - TUI 修复：hook 通知回放、/copy、/resume \<name\>、/agent 线程、skills picker 滚动
 - 项目本地 .codex 文件首次创建也受保护
+- 0.119~0.128 期间持续优化多模型支持与联网稳定性

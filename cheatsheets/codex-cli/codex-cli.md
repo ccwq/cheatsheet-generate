@@ -1,8 +1,8 @@
 ---
 title: Codex CLI 速查
 lang: bash
-version: "0.118.0"
-date: 2026-04-09
+version: "rust-v0.128.0"
+date: 2026-04-30
 github: openai/codex
 colWidth: 340px
 ---
@@ -439,3 +439,30 @@ codex apply
 codex logout
 codex login
 ```
+
+## 🧾 版本变更
+---
+link: https://sourceforge.net/projects/openai-codex.mirror/files/
+desc: 按 SourceForge 二进制发布记录整理本次跨版本更新中对速查用户最重要的变化。
+---
+
+### rust-v0.128.0（2026-04-30）
+
+- Windows sandbox OS 级出口规则代理联网正式支持
+- MCP 启动窗口进一步延长，启动鲁棒性持续改善
+- TUI 通知回放与滚动体验优化
+
+### rust-v0.125.0（2026-04-24）
+
+- 多模型并发调用稳定性修复
+- exec 输出格式在 NDJSON 模式下更完整
+
+### rust-v0.122.0（2026-04-20）
+
+- App-server ChatGPT device code 登录流程优化
+- 配置文件写入权限检查强化
+
+### rust-v0.118.0 → rust-v0.119.0（过渡版本）
+
+- `codex exec -`（stdin 管道输入）正式登场
+- 解决了 MCP 服务器在长 startup 时序下的竞态问题
