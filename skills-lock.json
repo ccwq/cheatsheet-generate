@@ -4,12 +4,17 @@
     "cheatsheet-maker": {
       "source": "E:\\project\\self.project\\cheatsheet-generate\\cheatsheet-html-maker\\cheatsheet-maker-skill",
       "sourceType": "local",
-      "computedHash": "0c9b87b127bdc1872bae7ded2e450e62caaffbbb42a58aee24cf7933311deca6"
+      "computedHash": "0b981779505808742337d08eb868b315fe4505790330603f13a310c1323648f8"
     },
     "cheatsheet-review-skill": {
       "source": "E:\\project\\self.project\\cheatsheet-generate\\cheatsheet-html-maker\\cheatsheet-review-skill",
       "sourceType": "local",
       "computedHash": "d080a3ed002a5f4b53b53ae67fa509b3fc266972c258685da38c23fccbd457b3"
+    },
+    "cheatsheet-update": {
+      "source": "E:\\project\\self.project\\cheatsheet-generate\\cheatsheet-html-maker\\cheatsheet-update-skill",
+      "sourceType": "local",
+      "computedHash": "a22f7ac8eda76669d6f133c4ee071d40a077ba612ac06e97fb75d0bb20e39035"
     },
     "icon-complete-skill": {
       "source": "E:\\project\\self.project\\cheatsheet-generate\\cheatsheet-html-maker\\icon-complete-skill",

@@ -1,6 +1,6 @@
 ---
 name: cheatsheet-maker
-description: 创建、整理、重建技术速查表（Cheatsheet）源文件的技能。用于从主题、正文或网址采集资料并生成或改进 cheatsheets/主题目录下的主题.md、meta.yml、refmap.md，补全元数据，并在需要时联动标签技能、图标技能与 HTML 生成器；不直接把“手写 HTML 页面”当作主路径。支持三种正文组织模式：默认 cheatsheet、cookbook、cookbook+cheatsheet 混合风格；当用户明确指定风格，或资料明显偏向命令检索、workflow/recipe、以及“既要快速查命令又要看场景套路”时，按对应模式成稿。
+description: 创建、整理、重建技术速查表（Cheatsheet）源文件的技能。用于从主题、正文或网址采集资料并生成或改进 cheatsheets/主题目录下的主题.md、meta.yml、refmap.md，补全元数据，并在需要时联动标签技能、图标技能与 HTML 生成器；不直接把“手写 HTML 页面”当作主路径。支持三种正文组织模式：默认 cheatsheet、cookbook、cookbook+cheatsheet 混合风格；当用户明确指定风格，或资料明显偏向命令检索、workflow/recipe、以及“既要快速查命令又要看场景套路”时，按对应模式成稿。若用户要求更新已有 topic、跨版本升级、release notes 或 changelog，必须转交 cheatsheet-update。
 ---
 
 # cheatsheet-maker
@@ -21,6 +21,8 @@ description: 创建、整理、重建技术速查表（Cheatsheet）源文件的
 - 不把“直接手写 HTML 页面”当作本技能主路径
 - 用户只要求补图标时，转交 agentskill: icon-complete-skill
 - 用户只要求补标签时，转交 agentskill: tag-ci；若同时补元数据，只改对应文件，不重写正文
+- 用户要求更新已有 cheatsheet、同步新版、跨版本升级、release notes 摘要或维护 changelog 时，转交 agentskill: cheatsheet-update
+- 本技能只维护 `version`、`date`、`github` 等基础元数据；不直接生成或维护正文末尾的 `版本变更` / `Changelog` 模块
 - 用户要求“仅处理缺失部分”时，只补缺，不覆盖已有内容
 
 ## 资料采集
@@ -168,7 +170,7 @@ description: 创建、整理、重建技术速查表（Cheatsheet）源文件的
 
 ## 执行流程
 
-1. 识别任务类型：新建、重建、补元数据、补标签、补图标、整理 `refmap`
+1. 识别任务类型：新建、重建、补元数据、补标签、补图标、整理 `refmap`；若是更新已有 topic 或 changelog，转交 cheatsheet-update
 2. 读取现有目录与文件，判断哪些文件缺失，哪些内容应保留
 3. 判断正文应采用哪一种模式：普通 cheatsheet、cookbook、还是 cookbook+cheatsheet 混合风格
 4. 需要写正文时，按规范生成或改进 `<topic>.md`
@@ -177,7 +179,7 @@ description: 创建、整理、重建技术速查表（Cheatsheet）源文件的
 7. 若为混合风格，先给任务链，再嵌入速查卡，兼顾“抄命令”和“看套路”
 8. 补齐 `meta.yml` 与 `refmap.md`
 9. 处理 `tags` 时，读取并遵循 agentskill: tag-ci
-10. 必须为每个新创建的 cheatsheet 生成图标：读取 agentskill: icon-complete-skill，遵循其选图优先级（官方品牌图标 > 官方仓库 logo > Iconify 语义图标），生成 260x260 透明底 PNG 写入 `cheatsheets/<topic>/icon.png`
+10. 需要图标时，读取并遵循 agentskill: icon-complete-skill
 11. 需要 HTML 时，执行：
 
 ```bash
@@ -195,6 +197,6 @@ node cheatsheet-html-maker/index.js --input cheatsheets/<topic>/<topic>.md
 - 若命中普通 cheatsheet 风格，确认读者能快速扫描到命令、参数、语法、模块
 - 若命中 cookbook 风格，确认章节按场景 / workflow / recipe 组织，而不是平铺 API
 - 若命中混合风格，确认既有任务导向结构，也有可速查的命令 / 参数 / 决策卡
-- 确认用户要求”仅补缺”时，没有覆盖已有有效内容
+- 确认用户要求“仅补缺”时，没有覆盖已有有效内容
 - 标签若有变更，确认已按 agentskill: tag-ci 处理
-- 确认新创建的 cheatsheet 已包含 icon.png
+- 图标若有变更，确认已按 agentskill: icon-complete-skill 处理

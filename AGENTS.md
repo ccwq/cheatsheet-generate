@@ -6,6 +6,7 @@
 首先识别用户意图, 如果用户给出主题或者生成之类的要求, 就要创建cheatsheet
 此时直接调用skill: cheatsheet-maker来完成后续工作
 如果用户要求补标签、核查标签、统一标签体系或新增标签, 直接调用skill: tag-ci
+如果用户要求更新已有 cheatsheet、同步新版、跨版本升级、补 changelog、整理 release notes 或版本变更, 直接调用skill: cheatsheet-update
 
 ## 工程约定
 
@@ -13,6 +14,11 @@
 - 用户主语为中文，注释与文档优先中文
 - 适度注释关键分支与逻辑，模板中可用简短行内注释
 - 避免引入重量级依赖；以原生能力为先
+
+### 技能维护
+- 技能开发只修改 `cheatsheet-html-maker/*-skill` / `cheatsheet-html-maker/*-skills` 这类项目内技能源目录
+- 不直接修改 `.agents/skills`、`.claude/skills` 等已安装 / 镜像技能副本
+- 技能源文件修改完成后，运行 `npm run update-skills` 同步技能副本
 
 
 ## 运行与发布

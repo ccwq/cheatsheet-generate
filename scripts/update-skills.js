@@ -3,6 +3,7 @@ const path = require("node:path");
 
 const sources = [
   "./cheatsheet-html-maker/cheatsheet-maker-skill",
+  "./cheatsheet-html-maker/cheatsheet-update-skill",
   "./cheatsheet-html-maker/icon-complete-skill",
   "./cheatsheet-html-maker/tag-ci-skills",
   "./cheatsheet-html-maker/cheatsheet-review-skill",
