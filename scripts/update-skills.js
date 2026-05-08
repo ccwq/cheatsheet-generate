@@ -7,6 +7,7 @@ const sources = [
   "./cheatsheet-html-maker/icon-complete-skill",
   "./cheatsheet-html-maker/tag-ci-skills",
   "./cheatsheet-html-maker/cheatsheet-review-skill",
+  "./cheatsheet-html-maker/cheatsheet-compare",
 ];
 
 const agents = [
