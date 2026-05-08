@@ -1,4 +1,4 @@
-desc: Matt Pocock Skills — 工程导向的 agent skills 合集，21 个 skills 分为 Planning & Design、Development & Refactoring、Engineering & Security、Writing & Knowledge 四类，系统解决 AI 编码代理的四大失败模式：Misalignment、Verbose Output、Broken Code、Software Entropy
+desc: Matt Pocock Skills — Matt Pocock 日常使用的 agent skills 合集，强调 small、composable、model-agnostic，用于通过对齐、共享项目语言、反馈环和架构改进来修正常见 AI 编码代理失败模式
 tags:
   - agent
   - skills
@@ -8,6 +8,6 @@ tags:
   - debugging
   - AI / LLM
   - workflow
-version: 1.0.0
+version: main@733d312
 github: mattpocock/skills
 date: "2026-05-08"
