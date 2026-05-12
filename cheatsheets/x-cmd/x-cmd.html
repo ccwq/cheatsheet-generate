@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>x-cmd 命令行增强工具</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="apple-touch-icon" href="icon.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 340px; 
+      --gap: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+        </svg>
+        <span>首页</span>
+      </a>
+      <span class="title">x-cmd 命令行增强工具</span>
+      <!-- META_INFO_START -->
+      <div class="meta-info">
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">v0.9.4</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-05-11</span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/x-cmd/x-cmd" target="_blank" rel="noopener">x-cmd/x-cmd</a></span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/x-cmd/x-cmd" target="_blank" rel="noopener">打开 Zread</a></span></span>
+        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://codewiki.google/github.com/x-cmd/x-cmd" target="_blank" rel="noopener">CodeWiki</a></span></span>
+      </div>
+      <div class="meta-tags"><tag-chip class="tag tag-group-2 detail-tag" data-name="CLI 工具" data-group="2" label="CLI 工具" group="2" variant="detail" icon="mdi:console-network-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M15 20a1 1 0 0 0-1-1h-1v-2h4a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4v2h-1a1 1 0 0 0-1 1H2v2h7a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1h7v-2zm-8-5V5h10v10zm1-8.11l3.56 3.56L8 14h2.53l2.92-2.92c.33-.34.33-.9 0-1.26L10.5 6.89zm8 5.33h-2.67V14H16z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-4 detail-tag" data-name="命令行" data-group="4" label="命令行" group="4" variant="detail" icon="mdi:console" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M20 19V7H4v12zm0-16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-7 14v-2h5v2zm-3.42-4L5.57 9H8.4l3.3 3.3c.39.39.39 1.03 0 1.42L8.42 17H5.59z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="Shell 工具" data-group="0" label="Shell 工具" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="效率工具" data-group="0" label="效率工具" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <!-- META_INFO_END -->
+      <label for="columnWidth">🔧 调整每列宽度：</label>
+      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+      <span id="widthVal" class="slider-val">340px</span>
+      <span class="sep"></span>
+      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>一眼入口</h2><div class="desc">x-cmd 是一个统一的命令行工具调用层，通过 x &lt;module&gt; [子命令] 访问 370+ 预置工具模块。</div><pre><code class="language-bash"># 安装
+npm install -g x-cmd
+
+# 基本用法
+x &lt;模块&gt; [子命令] [参数]
+
+# 查看帮助
+x help &lt;模块&gt;
+
+# 离线文档
+x --help
+x &lt;模块&gt; -h</code></pre></div><div class="card"><h2>核心模块速查</h2><h3>Git 相关</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>模块</th><th>用途</th><th>常用子命令</th></tr></thead><tbody><tr><td>git</td><td>Git 仓库操作</td><td>clone, pull, push, branch, stash, log, diff, commit</td></tr><tr><td>gh</td><td>GitHub CLI</td><td>repo, issue, pr, workflow, release</td></tr><tr><td>gitb</td><td>Git 浏览器</td><td>browse, search, explore</td></tr></tbody></table></div><h3>包管理</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>模块</th><th>用途</th><th>常用子命令</th></tr></thead><tbody><tr><td>npm</td><td>Node.js 包管理</td><td>install, update, audit, publish, outdated</td></tr><tr><td>yarn</td><td>Yarn 包管理</td><td>add, remove, upgrade, why</td></tr><tr><td>pnpm</td><td>PNPM 包管理</td><td>add, remove, update, why</td></tr><tr><td>pip</td><td>Python 包管理</td><td>install, list, show, freeze</td></tr><tr><td>apt</td><td>Debian 包管理</td><td>install, remove, update, search</td></tr><tr><td>brew</td><td>macOS 包管理</td><td>install, update, search, info</td></tr><tr><td>apk</td><td>Alpine 包管理</td><td>add, del, update, info</td></tr></tbody></table></div><h3>文件操作</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>模块</th><th>用途</th><th>常用子命令</th></tr></thead><tbody><tr><td>fs</td><td>文件批量操作</td><td>copy, move, rm, mkdir, touch, find, stats</td></tr><tr><td>cp</td><td>复制</td><td>cp, mv, scp, sync</td></tr><tr><td>find</td><td>文件查找</td><td>find, locate, which, whereis</td></tr></tbody></table></div><h3>网络 &amp; HTTP</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>模块</th><th>用途</th><th>常用子命令</th></tr></thead><tbody><tr><td>http</td><td>HTTP 请求</td><td>get, post, put, delete, download</td></tr><tr><td>httpget</td><td>文件下载</td><td>get, post, put</td></tr><tr><td>curl</td><td>curl 封装</td><td>get, post, upload, header</td></tr><tr><td>wget</td><td>文件下载</td><td>get, mirror, recursive</td></tr><tr><td>dns</td><td>DNS 查询</td><td>lookup, trace, dig, nslookup</td></tr></tbody></table></div><h3>JSON &amp; 数据处理</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>模块</th><th>用途</th><th>常用子命令</th></tr></thead><tbody><tr><td>jq</td><td>JSON 处理（调用 jq 二进制）</td><td>open, repl, schema</td></tr><tr><td>json</td><td>JSON 文件操作</td><td>parse, pretty, validate</td></tr><tr><td>csv</td><td>CSV 处理</td><td>parse, convert, filter, join</td></tr><tr><td>xml</td><td>XML 处理</td><td>parse, convert, query</td></tr><tr><td>yaml</td><td>YAML 处理</td><td>parse, dump, validate, convert</td></tr><tr><td>regex</td><td>正则查找替换</td><td>match, replace, extract, split</td></tr></tbody></table></div><h3>Shell &amp; 脚本</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>模块</th><th>用途</th><th>常用子命令</th></tr></thead><tbody><tr><td>shell</td><td>执行 Shell 脚本</td><td>run, exec, source, pipe</td></tr><tr><td>bash</td><td>Bash 执行</td><td>-i, -c, -v</td></tr><tr><td>awk</td><td>文本处理</td><td>-f, -v, print, if, while</td></tr><tr><td>sed</td><td>流编辑器</td><td>-i, -e, substitute</td></tr></tbody></table></div><h3>容器 &amp; 云</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>模块</th><th>用途</th><th>常用子命令</th></tr></thead><tbody><tr><td>docker</td><td>Docker 容器</td><td>run, images, container, ps, exec, logs, network, info</td></tr><tr><td>podman</td><td>Podman 容器</td><td>run, build, push, ps</td></tr></tbody></table></div><h3>数据库</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>模块</th><th>用途</th><th>常用子命令</th></tr></thead><tbody><tr><td>redis</td><td>Redis 客户端</td><td>get, set, hget, hset, keys, expire</td></tr><tr><td>sqlite</td><td>SQLite</td><td>query, import, export, backup</td></tr><tr><td>mysql</td><td>MySQL 客户端</td><td>query, backup, import</td></tr><tr><td>pg</td><td>PostgreSQL</td><td>query, backup, import</td></tr></tbody></table></div><h3>AI &amp; LLM</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>模块</th><th>用途</th><th>常用子命令</th></tr></thead><tbody><tr><td>openai</td><td>OpenAI API</td><td>chat, completion, embed, image</td></tr><tr><td>claude</td><td>Claude API</td><td>chat, completion, embed</td></tr><tr><td>gemini</td><td>Gemini API</td><td>chat, completion, embed</td></tr><tr><td>deepseek</td><td>DeepSeek API</td><td>chat, completion</td></tr><tr><td>grok</td><td>Grok API</td><td>chat, completion</td></tr><tr><td>aider</td><td>Aider AI 编程</td><td>chat, edit, diff</td></tr><tr><td>codex</td><td>Codex AI</td><td>chat, edit</td></tr><tr><td>jina</td><td>Jina AI</td><td>embed, classify, search</td></tr></tbody></table></div><h3>开发工具</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>模块</th><th>用途</th><th>常用子命令</th></tr></thead><tbody><tr><td>code</td><td>代码编辑</td><td>open, edit, diff, search</td></tr><tr><td>vscode</td><td>VS Code</td><td>open, extension, settings</td></tr><tr><td>go</td><td>Go 工具链</td><td>build, test, run, get, mod</td></tr><tr><td>rust</td><td>Rust 工具链</td><td>build, test, run, cargo</td></tr><tr><td>node</td><td>Node.js</td><td>run, eval, install, nvm</td></tr><tr><td>deno</td><td>Deno</td><td>run, eval, install</td></tr><tr><td>bun</td><td>Bun</td><td>run, add, dev, test</td></tr></tbody></table></div><h3>系统工具</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>模块</th><th>用途</th><th>常用子命令</th></tr></thead><tbody><tr><td>env</td><td>环境变量</td><td>get, set, list, export</td></tr><tr><td>cron</td><td>定时任务</td><td>list, add, remove, edit</td></tr><tr><td>ssh</td><td>SSH 客户端</td><td>connect, key, copy, tunnel</td></tr><tr><td>tmux</td><td>终端复用</td><td>new, attach, split, kill</td></tr><tr><td>htop</td><td>系统监控</td><td>top, cpu, mem, process</td></tr><tr><td>top</td><td>进程监控</td><td>ps, kill, priority</td></tr><tr><td>free</td><td>内存查看</td><td>-h, -m, -g</td></tr><tr><td>df</td><td>磁盘查看</td><td>-h, -T, -i</td></tr></tbody></table></div><h3>压缩 &amp; 归档</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>模块</th><th>用途</th><th>常用子命令</th></tr></thead><tbody><tr><td>zip</td><td>ZIP 压缩</td><td>compress, extract, list</td></tr><tr><td>tar</td><td>TAR 归档</td><td>create, extract, list</td></tr><tr><td>unzip</td><td>解压</td><td>-o, -d, -l</td></tr><tr><td>unarc</td><td>通用解压</td><td>extract, list, info</td></tr></tbody></table></div><h3>编码 &amp; 转换</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>模块</th><th>用途</th><th>常用子命令</th></tr></thead><tbody><tr><td>base64</td><td>Base64 编解码</td><td>encode, decode</td></tr><tr><td>hash</td><td>哈希计算</td><td>md5, sha1, sha256, sha512</td></tr><tr><td>uuid</td><td>UUID 生成</td><td>v1, v4, generate</td></tr><tr><td>iconv</td><td>编码转换</td><td>-f, -t, convert</td></tr></tbody></table></div><h3>日期 &amp; 时间</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>模块</th><th>用途</th><th>常用子命令</th></tr></thead><tbody><tr><td>date</td><td>日期时间</td><td>now, format, parse, diff</td></tr><tr><td>epoch</td><td>Unix 时间戳</td><td>now, convert, parse</td></tr></tbody></table></div></div><div class="card"><h2>通用选项</h2><div class="table-wrap"><table class="cheat-table"><thead><tr><th>选项</th><th>说明</th></tr></thead><tbody><tr><td>-h, --help</td><td>显示帮助</td></tr><tr><td>-v, --version</td><td>显示版本</td></tr><tr><td>--dry-run</td><td>预览执行（不实际运行）</td></tr><tr><td>-q, --quiet</td><td>静默输出</td></tr><tr><td>-d 变量=值1,值2</td><td>批量展开</td></tr><tr><td>--concurrency N</td><td>并发数</td></tr><tr><td>--timeout N</td><td>超时（秒）</td></tr><tr><td>--verbose</td><td>详细输出</td></tr><tr><td>--json</td><td>JSON 输出</td></tr><tr><td>--table</td><td>表格输出</td></tr></tbody></table></div></div><div class="card"><h2>高级功能</h2><h3>管道操作</h3><pre><code class="language-bash">x cmd1 | x cmd2
+x git stat | x json pretty</code></pre><h3>变量嵌套</h3><pre><code class="language-bash">x cp {src}/{file} {dest}/
+x git clone {repo} --path={path}</code></pre><h3>批量操作</h3><pre><code class="language-bash">x fs find . -name &quot;*.log&quot; -exec x rm {}
+x -d file=file1.txt,file2.txt x fs copy {file} {dest}</code></pre><h3>条件执行</h3><pre><code class="language-bash">x build --then &quot;x deploy&quot;
+x test --else &quot;x notify&quot;</code></pre><h3>配置文件</h3><ul><li><code>~/.xcmddrc</code></li><li><code>.xcmddrc</code></li><li>支持别名、默认值、环境变量</li></ul></div><div class="card"><h2>完整模块列表（370+）</h2><h3>A</h3><div class="desc">abox, advise, agent, aider, alias, api, apk, apt, arg, arp, ascii, asdf, assert, aur, awk</div><h3>B</h3><div class="desc">bakman, bfind, boot, brew, browse, btop, build, bun, buse, busybox, bwh</div><h3>C</h3><div class="desc">cacert, caddy, cal, cat, cawk, cb, ccal, ccmd, cd, cf, cfgy, chat, choco, cht, claude, claw, clawhub, cleanup, clear, co, coco, code, codex, codi, coin, coincap, colr, cosmo, cowrie, cowsay, cp, cpu, cron, crush, csh, csv, curl, cutt</div><h3>D</h3><div class="desc">daemon, date, ddgo, deepseek, demo, deno, depend, df, dict, dingtalk, discord, disk, display, dnf, dns, docker, dos2unix, doubao, dregistry</div><h3>E</h3><div class="desc">eclist, elv, emacs, emoji, endlessh, env, envy, epoch</div><h3>F</h3><div class="desc">facl, feishu, ff, ffmpeg, fifo, fileage, find, fish, fjo, fkill, font, free, fsiter, fskv, fslock, functor, fzf</div><h3>G</h3><div class="desc">gawk, gcal, gcode, gddy, gemini, gg, gh, git, gitb, gitconfig, githook, gl, gm, go, gop, gpg, gpu, gram, grep, grok, groovy, gt, gtb, gx</div><h3>H</h3><div class="desc">hash, hashdir, helpapp, hima, history, hn, hok, home, host, hostname, hotkey, htag, html, htop, http, httpget, hua, hub, huggingface, humantime, hw</div><h3>I</h3><div class="desc">icmd, iconv, id, ifconfig, install, ip, is, ish</div><h3>J</h3><div class="desc">ja, jar, java, jina, jj, jo, jobs, joern, join, jql, json, jsonx, jv, jvm</div><h3>K</h3><div class="desc">kafka, kev, keyword, kill, kmod, kube</div><h3>L</h3><div class="desc">labs, lambda, last, leet, link, lint, list, llm, lm, lock, log, lookup, lua</div><h3>M</h3><div class="desc">mac, mach, mail, man, manja, md, media, meta, miner, ming, mix, mkdir, mkfifo, mm, mod, msg, mterm, mult, mux, mv, mx, mycli</div><h3>N</h3><div class="desc">nano, nats, nav, neofetch, net, new, next, nginx, nix, nmap, node, noti, npm, npx, ntfy, num</div><h3>O</h3><div class="desc">od, odo, onepassword, open, openai, opencode, openssl, opm, ora, os, osm, otel</div><h3>P</h3><div class="desc">pair, pandoc, paste, patch, php, ping, pip, pipx, pki, plan, plank, pm, png, podman, pom, portal, posthog, pov, pq, prom, ps, pt, pty, pulse, pwd, pyenv</div><h3>Q</h3><div class="desc">qemu, qing, qr, quantum, query</div><h3>R</h3><div class="desc">raku, rand, rbash, rclone, rd, read, redis, reg, release, report, rg, ri, rime, rm, ro, rocket, rss, run, rust, rustup, ryo</div><h3>S</h3><div class="desc">scan, sci, scrip, sd, search, semver, seq, ser, sf, sha, share, shell, shift, shuf, sig, signal, size, skip, sleep, sm, smtp, snap, snmp, so, socat, space, split, spot, sql, sqlite, srv, ssh, ssl, stack, start, stat, status, stop, storage, su, sudo, sup, suz, sw, sync, sys</div><h3>T</h3><div class="desc">t7, ta, tag, tail, talk, task, tcli, tcp, tdsl, template, term, test, this, th, theme, tidi, time, timeout, tip, title, tl, tldr, tm, tmp, to, tool, top, trace, tracker, trap, trz, tube, tunnel, tv, tw, txt, type, tyyp</div><h3>U</h3><div class="desc">ufw, uhy, unarc, uname, uni, update, upty, url, user, uuid</div><h3>V</h3><div class="desc">v, var, vbox, vc, vcs, vec, verb, verify, verup, vi, vim, vlm, vpn, vs, vscode, vscodium</div><h3>W</h3><div class="desc">w, w3m, wait, wallpaper, watch, wc, web, webtop, wget, wifi, win, wind, wm, wpath, write, ww</div><h3>X</h3><div class="desc">x, xbin, xdg, xhttp, xi, xls, xml, xpkg, xq, xray, xselectx, xtrace, xxx</div><h3>Y</h3><div class="desc">yaml, yazi, ye, yield, yq</div><h3>Z</h3><div class="desc">z, zellij, zfs, zip, zoxide, zplug, zpy, zsh</div></div><div class="card"><h2>版本变更</h2></div><div class="card"><h2>link: https://github.com/x-cmd/x-cmd/releases
+desc: 按官方发布说明整理本次跨版本更新中对速查用户最重要的变化。</h2><h3>v0.9.4 (2026-05-11)</h3><ul><li>新增多个 AI 相关模块（doubao, jina, huggingface）</li><li>完善 Kubernetes 相关功能</li><li>增强 JSON/YAML 处理能力</li><li>修复多个稳定性问题</li></ul><h3>v0.9.0</h3><ul><li>370+ 预置模块</li><li>统一命令行接口</li><li>跨平台支持（Windows、Linux、macOS）</li><li>批量操作与并发支持</li></ul></div>
+    </div>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>

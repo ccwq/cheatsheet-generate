@@ -28,6 +28,7 @@
 
 ## 代码仓库
 - [GitHub 仓库](https://github.com/x-cmd/x-cmd) - 源代码、问题跟踪、贡献
+- [GitHub Releases](https://github.com/x-cmd/x-cmd/releases) - 版本发布说明
 - [NPM 包](https://www.npmjs.com/package/x-cmd) - 包信息、版本历史、下载统计
 - [包仓库镜像](https://unpkg.com/x-cmd/) - CDN访问、快速浏览
 
