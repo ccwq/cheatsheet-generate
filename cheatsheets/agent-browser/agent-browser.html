@@ -283,7 +283,15 @@ AGENTCORE_PROFILE_ID=&lt;profile-id&gt;
 AGENTCORE_BROWSER_ID=&lt;browser-id&gt;
 # 状态加密（可选）
 AGENT_BROWSER_ENCRYPTION_KEY=&lt;64-char-hex-key&gt;
-AGENT_BROWSER_STATE_EXPIRE_DAYS=30</code></pre></div><div class="card"><h2>🧪 高频 Recipes <a href="https://github.com/vercel-labs/agent-browser" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">下面这些组合更接近真实使用。不要把命令拆开死记，记“套路”更高效，就像前端里你记的是调试链路，不是单个 API 名字。</div><h3>登录后复用状态</h3><pre><code class="language-bash"># 首次登录
+AGENT_BROWSER_STATE_EXPIRE_DAYS=30</code></pre></div><div class="card"><h2>📄 配置文件 <a href="https://agent-browser.dev/configuration" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">agent-browser 查找 agent-browser.json 在多个位置，按优先级覆盖。配置文件 + 环境变量 + CLI 标志三者配合，实现灵活的本地固定 CDP 服务配置。</div><h3>配置位置与优先级</h3><div class="desc">agent-browser 按以下顺序查找配置文件（从低到高优先级，后面的覆盖前面的）：</div><h3>配置示例</h3><pre><code class="language-json">// ~/.agent-browser/config.json
+{
+  &quot;headed&quot;: true,
+  &quot;proxy&quot;: &quot;http://localhost:8080&quot;,
+  &quot;profile&quot;: &quot;./browser-data&quot;,
+  &quot;cdp&quot;: &quot;9222&quot;,
+  &quot;sessionName&quot;: &quot;default-session&quot;
+}</code></pre><h3>布尔标志</h3><div class="desc">布尔标志接受可选的 true/false 值来覆盖配置：</div><pre><code class="language-bash">--headed           # 启用 headed 模式
+--headed false     # 禁用 headed，即使配置文件中设为 true</code></pre></div><div class="card"><h2>🧪 高频 Recipes <a href="https://github.com/vercel-labs/agent-browser" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">下面这些组合更接近真实使用。不要把命令拆开死记，记“套路”更高效，就像前端里你记的是调试链路，不是单个 API 名字。</div><h3>登录后复用状态</h3><pre><code class="language-bash"># 首次登录
 agent-browser open https://app.example.com/login
 agent-browser snapshot -i
 agent-browser fill @e1 &quot;username&quot;
@@ -298,7 +306,7 @@ chrome.exe --remote-debugging-port=9222
 # 再由 agent-browser 接管
 agent-browser --cdp 9222 snapshot -i
 agent-browser click @e1
-agent-browser screenshot attached.png</code></pre><h3>抓取列表页文本</h3><pre><code class="language-bash">agent-browser open https://example.com/list
+agent-browser screenshot attached.png</code></pre><h3>设置本地固定 CDP 服务作为默认连接器</h3><div class="desc">不想每次下载浏览器？想复用本地 Chrome 的配置和扩展？设置固定 CDP 服务：</div><h3>抓取列表页文本</h3><pre><code class="language-bash">agent-browser open https://example.com/list
 agent-browser wait --load networkidle
 agent-browser snapshot -i -c
 agent-browser get count &quot;.item&quot;

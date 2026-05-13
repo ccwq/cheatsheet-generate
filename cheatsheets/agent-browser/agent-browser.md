@@ -589,34 +589,114 @@ agent-browser -p ios --device "iPhone 15 Pro" open example.com
 
 ### 环境变量
 ```bash
-AGENT_BROWSER_SESSION=qa
-AGENT_BROWSER_PROFILE=./.browser-profile
-AGENT_BROWSER_STATE=./auth.json
-AGENT_BROWSER_SESSION_NAME=myapp
-AGENT_BROWSER_EXECUTABLE_PATH=/path/to/chrome
-AGENT_BROWSER_PROVIDER=browserbase
-AGENT_BROWSER_STREAM_PORT=9223
-AGENT_BROWSER_IOS_DEVICE="iPhone 15 Pro"
-AGENT_BROWSER_IOS_UDID=<simulator-udid>
-AGENT_BROWSER_NO_AUTO_DIALOG=1
-AGENT_BROWSER_AUTO_CONNECT=1
-AGENT_BROWSER_IDLE_TIMEOUT_MS=60000
-AGENT_BROWSER_DEFAULT_TIMEOUT=25000
-AGENT_BROWSER_COLOR_SCHEME=dark
-AGENT_BROWSER_DOWNLOAD_PATH=~/Downloads
-AGENT_BROWSER_ENGINE=chrome
-AGENT_BROWSER_DEBUG=1
-# 标准代理环境变量（v0.22.2+）
-HTTP_PROXY=http://127.0.0.1:7890
-HTTPS_PROXY=http://127.0.0.1:7890
-ALL_PROXY=socks5://127.0.0.1:7890
+# 配置文件与会话
+AGENT_BROWSER_CONFIG=~/.agent-browser/config.json  # 配置文件路径（--config）
+AGENT_BROWSER_SESSION=qa                             # 默认会话名称
+AGENT_BROWSER_SESSION_NAME=myapp                     # 自动保存/恢复状态名称
+AGENT_BROWSER_STATE=./auth.json                      # 加载保存的认证状态文件
+
+# 浏览器来源与模式
+AGENT_BROWSER_EXECUTABLE_PATH=/path/to/chrome        # 自定义浏览器路径
+AGENT_BROWSER_HEADED=1                               # 显示浏览器窗口（非 headless）
+AGENT_BROWSER_ENGINE=chrome                          # 浏览器引擎：chrome / lightpanda
+AGENT_BROWSER_AUTO_CONNECT=1                         # 自动发现并连接运行中的 Chrome
+
+# 输出与调试
+AGENT_BROWSER_JSON=1                                 # JSON 输出
+AGENT_BROWSER_ANNOTATE=1                             # 带编号标签的截图
+AGENT_BROWSER_DEBUG=1                                # 调试输出
+AGENT_BROWSER_SCREENSHOT_DIR=~/screenshots           # 默认截图目录
+AGENT_BROWSER_SCREENSHOT_QUALITY=85                  # JPEG 质量 0-100
+AGENT_BROWSER_SCREENSHOT_FORMAT=png                  # 截图格式：png / jpeg
+AGENT_BROWSER_CONTENT_BOUNDARIES=1                   # 页面输出边界标记（LLM 安全）
+AGENT_BROWSER_MAX_OUTPUT=5000                        # 页面输出最大字符数
+
+# 安全与权限
+AGENT_BROWSER_IGNORE_HTTPS_ERRORS=1                  # 忽略 HTTPS 证书错误
+AGENT_BROWSER_ALLOW_FILE_ACCESS=1                   # 允许 file:// URLs 访问本地文件
+AGENT_BROWSER_ALLOWED_DOMAINS=*.example.com          # 逗号分隔的允许域名模式
+
+# 动作策略与确认
+AGENT_BROWSER_ACTION_POLICY=./policy.json            # 动作策略 JSON 文件路径
+AGENT_BROWSER_CONFIRM_ACTIONS=delete,exec           # 需要确认的动作类别
+AGENT_BROWSER_CONFIRM_INTERACTIVE=1                 # 启用交互式确认提示
+AGENT_BROWSER_NO_AUTO_DIALOG=1                      # 禁用自动关闭 alert/beforeunload
+
+# 代理与网络
+AGENT_BROWSER_PROXY=http://127.0.0.1:7890            # 代理服务器 URL
+AGENT_BROWSER_PROXY_BYPASS=localhost,*.internal.com  # 跳过代理的主机
+HTTP_PROXY=http://127.0.0.1:7890                     # 标准代理环境变量
+HTTPS_PROXY=http://127.0.0.1:7890                    # 标准代理环境变量
+ALL_PROXY=socks5://127.0.0.1:7890                    # SOCKS 代理
+NO_PROXY=localhost,127.0.0.1                         # 跳过代理的主机
+
+# 扩展与自定义
+AGENT_BROWSER_EXTENSIONS=/ext1,/ext2                  # 逗号分隔的扩展路径
+AGENT_BROWSER_USER_AGENT="Custom UA"                 # 自定义 User-Agent
+AGENT_BROWSER_ARGS=--no-sandbox,--disable-blink-features=AutomationControlled  # 浏览器启动参数
+
+# 流与性能
+AGENT_BROWSER_STREAM_PORT=9223                       # WebSocket 流式传输端口覆盖
+AGENT_BROWSER_IDLE_TIMEOUT_MS=60000                  # 空闲后自动关闭（毫秒）
+
+# iOS 模拟器
+AGENT_BROWSER_IOS_DEVICE="iPhone 15 Pro"             # 默认 iOS 设备名称
+AGENT_BROWSER_IOS_UDID=<simulator-udid>              # iOS 设备 UDID
+
+# 时间与超时
+AGENT_BROWSER_DEFAULT_TIMEOUT=25000                  # 默认超时毫秒
+
+# Provider（云浏览器）
+AGENT_BROWSER_PROVIDER=browserbase                   # 云浏览器提供商
+
+# 状态加密（可选）
+AGENT_BROWSER_ENCRYPTION_KEY=<64-char-hex-key>       # AES-256-GCM 加密密钥
+AGENT_BROWSER_STATE_EXPIRE_DAYS=30                   # 自动删除旧状态的天数
+
 # AgentCore provider（v0.24.0+）
 AGENTCORE_REGION=us-west-2
 AGENTCORE_PROFILE_ID=<profile-id>
 AGENTCORE_BROWSER_ID=<browser-id>
-# 状态加密（可选）
-AGENT_BROWSER_ENCRYPTION_KEY=<64-char-hex-key>
-AGENT_BROWSER_STATE_EXPIRE_DAYS=30
+```
+
+## 配置文件
+---
+lang: bash
+emoji: 📄
+link: https://agent-browser.dev/configuration
+desc: agent-browser 查找 agent-browser.json 在多个位置，按优先级覆盖。配置文件 + 环境变量 + CLI 标志三者配合，实现灵活的本地固定 CDP 服务配置。
+---
+
+### 配置位置与优先级
+
+agent-browser 按以下顺序查找配置文件（从低到高优先级，后面的覆盖前面的）：
+
+1. `~/.agent-browser/config.json` — 用户级默认配置（Linux/macOS）
+   - Windows: `%USERPROFILE%\.agent-browser\config.json`
+2. `./agent-browser.json` — 项目级覆盖
+3. 环境变量
+4. CLI 标志
+
+### 配置示例
+
+```json
+// ~/.agent-browser/config.json
+{
+  "headed": true,
+  "proxy": "http://localhost:8080",
+  "profile": "./browser-data",
+  "cdp": "9222",
+  "sessionName": "default-session"
+}
+```
+
+### 布尔标志
+
+布尔标志接受可选的 `true`/`false` 值来覆盖配置：
+
+```bash
+--headed           # 启用 headed 模式
+--headed false     # 禁用 headed，即使配置文件中设为 true
 ```
 
 ## 高频 Recipes
@@ -651,6 +731,47 @@ agent-browser --cdp 9222 snapshot -i
 agent-browser click @e1
 agent-browser screenshot attached.png
 ```
+
+### 设置本地固定 CDP 服务作为默认连接器
+
+不想每次下载浏览器？想复用本地 Chrome 的配置和扩展？设置固定 CDP 服务：
+
+1. **启动 Chrome 并启用远程调试端口**：
+   ```bash
+   # Windows
+   "C:\Program Files\Google\Chrome\Application\chrome.exe" --remote-debugging-port=9222 --user-data-dir="C:\Users\Administrator\chrome-debug"
+
+   # Linux/macOS
+   google-chrome --remote-debugging-port=9222 --user-data-dir=~/chrome-debug
+   ```
+
+2. **在配置文件中设置默认 CDP**：
+   ```json
+   // ~/.agent-browser/config.json
+   {
+     "cdp": "9222"
+   }
+   ```
+
+   或通过环境变量：
+   ```bash
+   export AGENT_BROWSER_CDP=9222
+   ```
+
+3. **验证连接**：
+   ```bash
+   agent-browser get cdp-url
+   # 输出类似: ws://127.0.0.1:9222/devtools/browser/xxx
+   ```
+
+4. **持久化会话状态**：
+   ```bash
+   # 保存当前 CDP 会话状态
+   agent-browser state save ./cdp-session.json
+
+   # 后续恢复时
+   agent-browser --cdp 9222 state load ./cdp-session.json
+   ```
 
 ### 抓取列表页文本
 ```bash
