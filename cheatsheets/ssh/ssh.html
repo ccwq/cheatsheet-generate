@@ -29,33 +29,224 @@
       --col-width: 360px; 
       --gap: 16px;
     }
+
+    .panel {
+      align-items: stretch;
+      flex-direction: column;
+      gap: 8px;
+      padding: 10px 12px;
+      overflow: hidden;
+    }
+
+    .panel-main-row,
+    .panel-flow-row,
+    .panel-title-group,
+    .panel-actions,
+    .panel-tools {
+      display: flex;
+      align-items: center;
+    }
+
+    .panel-main-row {
+      justify-content: space-between;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .panel-title-group {
+      gap: 10px;
+      min-width: 0;
+      flex: 0 1 auto;
+    }
+
+    .panel .title {
+      margin-right: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .panel-actions {
+      gap: 8px;
+      flex: 0 0 auto;
+      min-width: 0;
+    }
+
+    .panel-tools {
+      gap: 8px;
+      margin-left: 2px;
+      padding-left: 10px;
+      border-left: 1px solid var(--panel-border);
+      white-space: nowrap;
+    }
+
+    .panel-flow-row {
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .panel .meta-info,
+    .panel .meta-tags {
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .panel .meta-info::-webkit-scrollbar,
+    .panel .meta-tags::-webkit-scrollbar {
+      display: none;
+    }
+
+    .panel .meta-info {
+      flex: 1 1 auto;
+      margin-top: 0;
+      min-width: 0;
+      flex-wrap: nowrap;
+      gap: 6px;
+    }
+
+    .panel .meta-tags {
+      flex: 1 1 auto;
+      min-width: 0;
+      flex-wrap: nowrap;
+      padding-bottom: 1px;
+    }
+
+    .panel .meta-item,
+    .panel .detail-tag,
+    .panel .meta-link,
+    .panel label,
+    .panel .slider-val,
+    .panel .btn {
+      white-space: nowrap;
+    }
+
+    .panel .meta-action {
+      padding: 4px 8px;
+    }
+
+    .panel .slider-bar {
+      min-width: 118px;
+      width: 130px;
+      margin-right: 0;
+    }
+
+    .panel .slider-val {
+      min-width: 38px;
+      margin-left: 0;
+    }
+
+    @media (max-width: 1199px) {
+      .panel-main-row {
+        align-items: flex-start;
+      }
+
+      .panel-title-group {
+        padding-top: 2px;
+      }
+
+      .panel-actions {
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .panel-tools {
+        order: 10;
+        width: 100%;
+        justify-content: flex-end;
+        padding-left: 0;
+        border-left: 0;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .panel {
+        padding: 8px;
+      }
+
+      .panel-main-row {
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .panel-title-group {
+        flex: 1 1 100%;
+        padding-top: 0;
+      }
+
+      .home-link span {
+        display: none;
+      }
+
+      .panel-actions {
+        gap: 6px;
+        justify-content: flex-start;
+        flex: 1 1 100%;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+
+      .panel-actions::-webkit-scrollbar {
+        display: none;
+      }
+
+      .panel .meta-action {
+        padding: 3px 6px;
+      }
+
+      .panel-tools {
+        flex: 0 0 auto;
+        order: initial;
+        width: auto;
+        gap: 6px;
+      }
+    }
+
+    @media (max-width: 660px) {
+      .panel-tools {
+        width: auto;
+        margin-left: 0;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="panel">
-      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
-        </svg>
-        <span>首页</span>
-      </a>
-      <span class="title">ssh 命令速查表</span>
+      <div class="panel-main-row">
+        <div class="panel-title-group">
+          <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+            </svg>
+            <span>首页</span>
+          </a>
+          <span class="title">ssh 命令速查表</span>
+        </div>
       <!-- META_INFO_START -->
-      <div class="meta-info">
-        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">OpenSSH_for_Windows_9.5p2</span></span>
-        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-03-30</span></span>
-        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/openssh/openssh-portable" target="_blank" rel="noopener">openssh/openssh-portable</a></span></span>
-        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/openssh/openssh-portable" target="_blank" rel="noopener">打开 Zread</a></span></span>
-        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://codewiki.google/github.com/openssh/openssh-portable" target="_blank" rel="noopener">CodeWiki</a></span></span>
+        <div class="meta-info">
+          <span class="meta-item"><span class="meta-label"></span><span class="meta-value">OpenSSH_for_Windows_9.5p2</span></span>
+          <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-03-30</span></span>
+          <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/openssh/openssh-portable" target="_blank" rel="noopener">openssh/openssh-portable</a></span></span>
+        </div>
+        <div class="panel-actions">
+          <span class="meta-item meta-action"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/openssh/openssh-portable" target="_blank" rel="noopener">打开 Zread</a></span></span>
+          <span class="meta-item meta-action"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://codewiki.google/github.com/openssh/openssh-portable" target="_blank" rel="noopener">CodeWiki</a></span></span>
+          <div class="panel-tools">
+            <label for="columnWidth">🔧 调整每列宽度：</label>
+            <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+            <span id="widthVal" class="slider-val">340px</span>
+            <span class="sep"></span>
+            <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+          </div>
+        </div>
       </div>
-      <div class="meta-tags"><tag-chip class="tag tag-group-1 detail-tag" data-name="CLI / Terminal" data-group="1" label="CLI / Terminal" group="1" variant="detail" icon="mdi:console" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M20 19V7H4v12zm0-16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-7 14v-2h5v2zm-3.42-4L5.57 9H8.4l3.3 3.3c.39.39.39 1.03 0 1.42L8.42 17H5.59z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="CLI 工具" data-group="2" label="CLI 工具" group="2" variant="detail" icon="mdi:console-network-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M15 20a1 1 0 0 0-1-1h-1v-2h4a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4v2h-1a1 1 0 0 0-1 1H2v2h7a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1h7v-2zm-8-5V5h10v10zm1-8.11l3.56 3.56L8 14h2.53l2.92-2.92c.33-.34.33-.9 0-1.26L10.5 6.89zm8 5.33h-2.67V14H16z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="网络工具" data-group="2" label="网络工具" group="2" variant="detail" icon="mdi:lan-connect" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M4 1c-1.11 0-2 .89-2 2v4c0 1.11.89 2 2 2H1v2h12V9h-3c1.11 0 2-.89 2-2V3c0-1.11-.89-2-2-2zm0 2h6v4H4zM3 13v7h7v-2H5v-5zm11 0c-1.11 0-2 .89-2 2v4c0 1.11.89 2 2 2h-3v2h12v-2h-3c1.11 0 2-.89 2-2v-4c0-1.11-.89-2-2-2zm0 2h6v4h-6z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="Shell" data-group="0" label="Shell" group="0" variant="detail" icon="mdi:console-line" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M13 19v-3h8v3zm-4.5-6L2.47 7h4.24l4.96 4.95c.58.59.58 1.55 0 2.12L6.74 19H2.5z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-3 detail-tag" data-name="运维" data-group="3" label="运维" group="3" variant="detail" icon="mdi:server" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M4 1h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1m0 8h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1m0 8h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1M9 5h1V3H9zm0 8h1v-2H9zm0 8h1v-2H9zM5 3v2h2V3zm0 8v2h2v-2zm0 8v2h2v-2z&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <div class="panel-flow-row">
+        <div class="meta-tags"><tag-chip class="tag tag-group-1 detail-tag" data-name="CLI / Terminal" data-group="1" label="CLI / Terminal" group="1" variant="detail" icon="mdi:console" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M20 19V7H4v12zm0-16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-7 14v-2h5v2zm-3.42-4L5.57 9H8.4l3.3 3.3c.39.39.39 1.03 0 1.42L8.42 17H5.59z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="CLI 工具" data-group="2" label="CLI 工具" group="2" variant="detail" icon="mdi:console-network-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M15 20a1 1 0 0 0-1-1h-1v-2h4a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4v2h-1a1 1 0 0 0-1 1H2v2h7a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1h7v-2zm-8-5V5h10v10zm1-8.11l3.56 3.56L8 14h2.53l2.92-2.92c.33-.34.33-.9 0-1.26L10.5 6.89zm8 5.33h-2.67V14H16z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="网络工具" data-group="2" label="网络工具" group="2" variant="detail" icon="mdi:lan-connect" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M4 1c-1.11 0-2 .89-2 2v4c0 1.11.89 2 2 2H1v2h12V9h-3c1.11 0 2-.89 2-2V3c0-1.11-.89-2-2-2zm0 2h6v4H4zM3 13v7h7v-2H5v-5zm11 0c-1.11 0-2 .89-2 2v4c0 1.11.89 2 2 2h-3v2h12v-2h-3c1.11 0 2-.89 2-2v-4c0-1.11-.89-2-2-2zm0 2h6v4h-6z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="Shell" data-group="0" label="Shell" group="0" variant="detail" icon="mdi:console-line" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M13 19v-3h8v3zm-4.5-6L2.47 7h4.24l4.96 4.95c.58.59.58 1.55 0 2.12L6.74 19H2.5z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-3 detail-tag" data-name="运维" data-group="3" label="运维" group="3" variant="detail" icon="mdi:server" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M4 1h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1m0 8h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1m0 8h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1M9 5h1V3H9zm0 8h1v-2H9zm0 8h1v-2H9zM5 3v2h2V3zm0 8v2h2v-2zm0 8v2h2v-2z&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      </div>
       <!-- META_INFO_END -->
-      <label for="columnWidth">🔧 调整每列宽度：</label>
-      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
-      <span id="widthVal" class="slider-val">340px</span>
-      <span class="sep"></span>
-      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
     </div>
     <div class="cheat-columns" id="columns">
       <div class="card"><h2>一眼入门</h2><ul><li><code>ssh user@host</code>：默认端口 22，使用当前私钥集合尝试登录</li><li><code>ssh -p 2222 user@host</code>：指定端口</li><li><code>ssh -i ~/.ssh/id_ed25519 user@host</code>：指定身份文件</li><li><code>ssh -l user host</code>：单独指定登录用户</li><li><code>ssh host &quot;uname -a&quot;</code>：登录后执行单条命令</li><li><code>ssh -t host &quot;sudo systemctl restart app&quot;</code>：强制分配 TTY，适合需要交互的远端命令</li><li><code>ssh -N host</code>：只建立连接，不执行远端命令</li><li><code>ssh -T host</code>：禁止分配 TTY，适合转发与管道任务</li><li><code>ssh -v/-vv/-vvv host</code>：递增调试输出</li><li><code>ssh -o Option=Value host</code>：临时覆盖配置</li></ul><pre><code class="language-bash">ssh user@prod.example.com

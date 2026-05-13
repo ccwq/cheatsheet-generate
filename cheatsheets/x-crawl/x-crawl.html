@@ -29,33 +29,224 @@
       --col-width: 433px; 
       --gap: 16px;
     }
+
+    .panel {
+      align-items: stretch;
+      flex-direction: column;
+      gap: 8px;
+      padding: 10px 12px;
+      overflow: hidden;
+    }
+
+    .panel-main-row,
+    .panel-flow-row,
+    .panel-title-group,
+    .panel-actions,
+    .panel-tools {
+      display: flex;
+      align-items: center;
+    }
+
+    .panel-main-row {
+      justify-content: space-between;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .panel-title-group {
+      gap: 10px;
+      min-width: 0;
+      flex: 0 1 auto;
+    }
+
+    .panel .title {
+      margin-right: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .panel-actions {
+      gap: 8px;
+      flex: 0 0 auto;
+      min-width: 0;
+    }
+
+    .panel-tools {
+      gap: 8px;
+      margin-left: 2px;
+      padding-left: 10px;
+      border-left: 1px solid var(--panel-border);
+      white-space: nowrap;
+    }
+
+    .panel-flow-row {
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .panel .meta-info,
+    .panel .meta-tags {
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .panel .meta-info::-webkit-scrollbar,
+    .panel .meta-tags::-webkit-scrollbar {
+      display: none;
+    }
+
+    .panel .meta-info {
+      flex: 1 1 auto;
+      margin-top: 0;
+      min-width: 0;
+      flex-wrap: nowrap;
+      gap: 6px;
+    }
+
+    .panel .meta-tags {
+      flex: 1 1 auto;
+      min-width: 0;
+      flex-wrap: nowrap;
+      padding-bottom: 1px;
+    }
+
+    .panel .meta-item,
+    .panel .detail-tag,
+    .panel .meta-link,
+    .panel label,
+    .panel .slider-val,
+    .panel .btn {
+      white-space: nowrap;
+    }
+
+    .panel .meta-action {
+      padding: 4px 8px;
+    }
+
+    .panel .slider-bar {
+      min-width: 118px;
+      width: 130px;
+      margin-right: 0;
+    }
+
+    .panel .slider-val {
+      min-width: 38px;
+      margin-left: 0;
+    }
+
+    @media (max-width: 1199px) {
+      .panel-main-row {
+        align-items: flex-start;
+      }
+
+      .panel-title-group {
+        padding-top: 2px;
+      }
+
+      .panel-actions {
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .panel-tools {
+        order: 10;
+        width: 100%;
+        justify-content: flex-end;
+        padding-left: 0;
+        border-left: 0;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .panel {
+        padding: 8px;
+      }
+
+      .panel-main-row {
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .panel-title-group {
+        flex: 1 1 100%;
+        padding-top: 0;
+      }
+
+      .home-link span {
+        display: none;
+      }
+
+      .panel-actions {
+        gap: 6px;
+        justify-content: flex-start;
+        flex: 1 1 100%;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+
+      .panel-actions::-webkit-scrollbar {
+        display: none;
+      }
+
+      .panel .meta-action {
+        padding: 3px 6px;
+      }
+
+      .panel-tools {
+        flex: 0 0 auto;
+        order: initial;
+        width: auto;
+        gap: 6px;
+      }
+    }
+
+    @media (max-width: 660px) {
+      .panel-tools {
+        width: auto;
+        margin-left: 0;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="panel">
-      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
-        </svg>
-        <span>首页</span>
-      </a>
-      <span class="title">x-crawl AI 辅助爬虫库</span>
+      <div class="panel-main-row">
+        <div class="panel-title-group">
+          <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+            </svg>
+            <span>首页</span>
+          </a>
+          <span class="title">x-crawl AI 辅助爬虫库</span>
+        </div>
       <!-- META_INFO_START -->
-      <div class="meta-info">
-        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">10.1.0</span></span>
-        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2025-04-06</span></span>
-        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/coder-hxl/x-crawl" target="_blank" rel="noopener">coder-hxl/x-crawl</a></span></span>
-        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/coder-hxl/x-crawl" target="_blank" rel="noopener">打开 Zread</a></span></span>
-        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://codewiki.google/github.com/coder-hxl/x-crawl" target="_blank" rel="noopener">CodeWiki</a></span></span>
+        <div class="meta-info">
+          <span class="meta-item"><span class="meta-label"></span><span class="meta-value">10.1.0</span></span>
+          <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2025-04-06</span></span>
+          <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/coder-hxl/x-crawl" target="_blank" rel="noopener">coder-hxl/x-crawl</a></span></span>
+        </div>
+        <div class="panel-actions">
+          <span class="meta-item meta-action"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/coder-hxl/x-crawl" target="_blank" rel="noopener">打开 Zread</a></span></span>
+          <span class="meta-item meta-action"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://codewiki.google/github.com/coder-hxl/x-crawl" target="_blank" rel="noopener">CodeWiki</a></span></span>
+          <div class="panel-tools">
+            <label for="columnWidth">🔧 调整每列宽度：</label>
+            <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+            <span id="widthVal" class="slider-val">340px</span>
+            <span class="sep"></span>
+            <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+          </div>
+        </div>
       </div>
-      <div class="meta-tags"><tag-chip class="tag tag-group-1 detail-tag" data-name="Node.js" data-group="1" label="Node.js" group="1" variant="detail" icon="mdi:nodejs" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M12 1.85c-.27 0-.55.07-.78.2l-7.44 4.3c-.48.28-.78.8-.78 1.36v8.58c0 .56.3 1.08.78 1.36l1.95 1.12c.95.46 1.27.47 1.71.47c1.4 0 2.21-.85 2.21-2.33V8.44c0-.12-.1-.22-.22-.22H8.5c-.13 0-.23.1-.23.22v8.47c0 .66-.68 1.31-1.77.76L4.45 16.5a.26.26 0 0 1-.11-.21V7.71c0-.09.04-.17.11-.21l7.44-4.29c.06-.04.16-.04.22 0l7.44 4.29c.07.04.11.12.11.21v8.58c0 .08-.04.16-.11.21l-7.44 4.29c-.06.04-.16.04-.23 0L10 19.65c-.08-.03-.16-.04-.21-.01c-.53.3-.63.36-1.12.51c-.12.04-.31.11.07.32l2.48 1.47q.36.21.78.21t.78-.21l7.44-4.29c.48-.28.78-.8.78-1.36V7.71c0-.56-.3-1.08-.78-1.36l-7.44-4.3c-.23-.13-.5-.2-.78-.2M14 8c-2.12 0-3.39.89-3.39 2.39c0 1.61 1.26 2.08 3.3 2.28c2.43.24 2.62.6 2.62 1.08c0 .83-.67 1.18-2.23 1.18c-1.98 0-2.4-.49-2.55-1.47a.226.226 0 0 0-.22-.18h-.96c-.12 0-.21.09-.21.22c0 1.24.68 2.74 3.94 2.74c2.35 0 3.7-.93 3.7-2.55c0-1.61-1.08-2.03-3.37-2.34c-2.31-.3-2.54-.46-2.54-1c0-.45.2-1.05 1.91-1.05c1.5 0 2.09.33 2.32 1.36c.02.1.11.17.21.17h.97c.05 0 .11-.02.15-.07c.04-.04.07-.1.05-.16C17.56 8.82 16.38 8 14 8&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-1 detail-tag" data-name="JavaScript" data-group="1" label="JavaScript" group="1" variant="detail" icon="mdi:language-javascript" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M3 3h18v18H3zm4.73 15.04c.4.85 1.19 1.55 2.54 1.55c1.5 0 2.53-.8 2.53-2.55v-5.78h-1.7V17c0 .86-.35 1.08-.9 1.08c-.58 0-.82-.4-1.09-.87zm5.98-.18c.5.98 1.51 1.73 3.09 1.73c1.6 0 2.8-.83 2.8-2.36c0-1.41-.81-2.04-2.25-2.66l-.42-.18c-.73-.31-1.04-.52-1.04-1.02c0-.41.31-.73.81-.73c.48 0 .8.21 1.09.73l1.31-.87c-.55-.96-1.33-1.33-2.4-1.33c-1.51 0-2.48.96-2.48 2.23c0 1.38.81 2.03 2.03 2.55l.42.18c.78.34 1.24.55 1.24 1.13c0 .48-.45.83-1.15.83c-.83 0-1.31-.43-1.67-1.03z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-1 detail-tag" data-name="TypeScript" data-group="1" label="TypeScript" group="1" variant="detail" icon="mdi:language-typescript" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M3 3h18v18H3zm10.71 14.86c.5.98 1.51 1.73 3.09 1.73c1.6 0 2.8-.83 2.8-2.36c0-1.41-.81-2.04-2.25-2.66l-.42-.18c-.73-.31-1.04-.52-1.04-1.02c0-.41.31-.73.81-.73c.48 0 .8.21 1.09.73l1.31-.87c-.55-.96-1.33-1.33-2.4-1.33c-1.51 0-2.48.96-2.48 2.23c0 1.38.81 2.03 2.03 2.55l.42.18c.78.34 1.24.55 1.24 1.13c0 .48-.45.83-1.15.83c-.83 0-1.31-.43-1.67-1.03zM13 11.25H8v1.5h1.5V20h1.75v-7.25H13z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="自动化工具" data-group="2" label="自动化工具" group="2" variant="detail" icon="mdi:robot" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5A2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5a2.5 2.5 0 0 0 2.5 2.5a2.5 2.5 0 0 0 2.5-2.5a2.5 2.5 0 0 0-2.5-2.5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="爬虫" data-group="0" label="爬虫" group="0" variant="detail" icon="mdi:spider-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M20 22h-2v-4.54l-1.56-1.34c-.12.71-.4 1.38-.82 1.94c-.2.28-.44.53-.71.76c-.81.68-1.84 1.07-2.91 1.07s-2.1-.39-2.91-1.07c-.27-.23-.51-.48-.71-.76a4.5 4.5 0 0 1-.82-1.94L6 17.46V22H4v-5.46l3.87-3.32l-2.37.67l-2.79 2.82l-1.42-1.42l3.17-3.13l3-.85L5.6 11L1.4 7.8l1.2-1.6l3.8 2.85l2.69.45l-3.2-3.19L7 1.76l2 .48l-.89 3.45l1.13 1.14c.12-.27.26-.51.45-.73c.15-.18.31-.35.51-.49c.05-.04.1-.07.15-.11c.08-.05.15-.1.24-.14c.44-.23.91-.36 1.41-.36s.97.13 1.4.36c.1.04.17.09.25.14l.12.09c.2.14.38.31.53.49c.2.22.34.48.46.75l1.1-1.14L15 2.24l2-.48l1.11 4.55l-3.2 3.19l2.68-.45L21.4 6.2l1.2 1.6l-4.19 3.2l-1.91.26l3 .85l3.21 3.18l-1.42 1.42l-2.79-2.82l-2.37-.67L20 16.54zm-5.53-6.21L15 12.5l-3-.5l-3 .5l.53 3.29c.1.59.4 1.12.85 1.5c.45.39 1.03.6 1.62.6s1.17-.21 1.62-.6c.45-.38.75-.91.85-1.5M12 9.58l1.23-1.23l-.31-.74a1 1 0 0 0-.37-.44A.97.97 0 0 0 12 7c-.2 0-.39.06-.55.17s-.29.26-.37.44l-.31.74z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="AI 辅助工具" data-group="2" label="AI 辅助工具" group="2" variant="detail" icon="mdi:robot-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M17.5 15.5c0 1.11-.89 2-2 2s-2-.89-2-2s.9-2 2-2s2 .9 2 2m-9-2c-1.1 0-2 .9-2 2s.9 2 2 2s2-.89 2-2s-.89-2-2-2M23 15v3c0 .55-.45 1-1 1h-1v1c0 1.11-.89 2-2 2H5a2 2 0 0 1-2-2v-1H2c-.55 0-1-.45-1-1v-3c0-.55.45-1 1-1h1c0-3.87 3.13-7 7-7h1V5.73c-.6-.34-1-.99-1-1.73c0-1.1.9-2 2-2s2 .9 2 2c0 .74-.4 1.39-1 1.73V7h1c3.87 0 7 3.13 7 7h1c.55 0 1 .45 1 1m-2 1h-2v-2c0-2.76-2.24-5-5-5h-4c-2.76 0-5 2.24-5 5v2H3v1h2v3h14v-3h2z&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <div class="panel-flow-row">
+        <div class="meta-tags"><tag-chip class="tag tag-group-1 detail-tag" data-name="Node.js" data-group="1" label="Node.js" group="1" variant="detail" icon="mdi:nodejs" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M12 1.85c-.27 0-.55.07-.78.2l-7.44 4.3c-.48.28-.78.8-.78 1.36v8.58c0 .56.3 1.08.78 1.36l1.95 1.12c.95.46 1.27.47 1.71.47c1.4 0 2.21-.85 2.21-2.33V8.44c0-.12-.1-.22-.22-.22H8.5c-.13 0-.23.1-.23.22v8.47c0 .66-.68 1.31-1.77.76L4.45 16.5a.26.26 0 0 1-.11-.21V7.71c0-.09.04-.17.11-.21l7.44-4.29c.06-.04.16-.04.22 0l7.44 4.29c.07.04.11.12.11.21v8.58c0 .08-.04.16-.11.21l-7.44 4.29c-.06.04-.16.04-.23 0L10 19.65c-.08-.03-.16-.04-.21-.01c-.53.3-.63.36-1.12.51c-.12.04-.31.11.07.32l2.48 1.47q.36.21.78.21t.78-.21l7.44-4.29c.48-.28.78-.8.78-1.36V7.71c0-.56-.3-1.08-.78-1.36l-7.44-4.3c-.23-.13-.5-.2-.78-.2M14 8c-2.12 0-3.39.89-3.39 2.39c0 1.61 1.26 2.08 3.3 2.28c2.43.24 2.62.6 2.62 1.08c0 .83-.67 1.18-2.23 1.18c-1.98 0-2.4-.49-2.55-1.47a.226.226 0 0 0-.22-.18h-.96c-.12 0-.21.09-.21.22c0 1.24.68 2.74 3.94 2.74c2.35 0 3.7-.93 3.7-2.55c0-1.61-1.08-2.03-3.37-2.34c-2.31-.3-2.54-.46-2.54-1c0-.45.2-1.05 1.91-1.05c1.5 0 2.09.33 2.32 1.36c.02.1.11.17.21.17h.97c.05 0 .11-.02.15-.07c.04-.04.07-.1.05-.16C17.56 8.82 16.38 8 14 8&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-1 detail-tag" data-name="JavaScript" data-group="1" label="JavaScript" group="1" variant="detail" icon="mdi:language-javascript" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M3 3h18v18H3zm4.73 15.04c.4.85 1.19 1.55 2.54 1.55c1.5 0 2.53-.8 2.53-2.55v-5.78h-1.7V17c0 .86-.35 1.08-.9 1.08c-.58 0-.82-.4-1.09-.87zm5.98-.18c.5.98 1.51 1.73 3.09 1.73c1.6 0 2.8-.83 2.8-2.36c0-1.41-.81-2.04-2.25-2.66l-.42-.18c-.73-.31-1.04-.52-1.04-1.02c0-.41.31-.73.81-.73c.48 0 .8.21 1.09.73l1.31-.87c-.55-.96-1.33-1.33-2.4-1.33c-1.51 0-2.48.96-2.48 2.23c0 1.38.81 2.03 2.03 2.55l.42.18c.78.34 1.24.55 1.24 1.13c0 .48-.45.83-1.15.83c-.83 0-1.31-.43-1.67-1.03z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-1 detail-tag" data-name="TypeScript" data-group="1" label="TypeScript" group="1" variant="detail" icon="mdi:language-typescript" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M3 3h18v18H3zm10.71 14.86c.5.98 1.51 1.73 3.09 1.73c1.6 0 2.8-.83 2.8-2.36c0-1.41-.81-2.04-2.25-2.66l-.42-.18c-.73-.31-1.04-.52-1.04-1.02c0-.41.31-.73.81-.73c.48 0 .8.21 1.09.73l1.31-.87c-.55-.96-1.33-1.33-2.4-1.33c-1.51 0-2.48.96-2.48 2.23c0 1.38.81 2.03 2.03 2.55l.42.18c.78.34 1.24.55 1.24 1.13c0 .48-.45.83-1.15.83c-.83 0-1.31-.43-1.67-1.03zM13 11.25H8v1.5h1.5V20h1.75v-7.25H13z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="自动化工具" data-group="2" label="自动化工具" group="2" variant="detail" icon="mdi:robot" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5A2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5a2.5 2.5 0 0 0 2.5 2.5a2.5 2.5 0 0 0 2.5-2.5a2.5 2.5 0 0 0-2.5-2.5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="爬虫" data-group="0" label="爬虫" group="0" variant="detail" icon="mdi:spider-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M20 22h-2v-4.54l-1.56-1.34c-.12.71-.4 1.38-.82 1.94c-.2.28-.44.53-.71.76c-.81.68-1.84 1.07-2.91 1.07s-2.1-.39-2.91-1.07c-.27-.23-.51-.48-.71-.76a4.5 4.5 0 0 1-.82-1.94L6 17.46V22H4v-5.46l3.87-3.32l-2.37.67l-2.79 2.82l-1.42-1.42l3.17-3.13l3-.85L5.6 11L1.4 7.8l1.2-1.6l3.8 2.85l2.69.45l-3.2-3.19L7 1.76l2 .48l-.89 3.45l1.13 1.14c.12-.27.26-.51.45-.73c.15-.18.31-.35.51-.49c.05-.04.1-.07.15-.11c.08-.05.15-.1.24-.14c.44-.23.91-.36 1.41-.36s.97.13 1.4.36c.1.04.17.09.25.14l.12.09c.2.14.38.31.53.49c.2.22.34.48.46.75l1.1-1.14L15 2.24l2-.48l1.11 4.55l-3.2 3.19l2.68-.45L21.4 6.2l1.2 1.6l-4.19 3.2l-1.91.26l3 .85l3.21 3.18l-1.42 1.42l-2.79-2.82l-2.37-.67L20 16.54zm-5.53-6.21L15 12.5l-3-.5l-3 .5l.53 3.29c.1.59.4 1.12.85 1.5c.45.39 1.03.6 1.62.6s1.17-.21 1.62-.6c.45-.38.75-.91.85-1.5M12 9.58l1.23-1.23l-.31-.74a1 1 0 0 0-.37-.44A.97.97 0 0 0 12 7c-.2 0-.39.06-.55.17s-.29.26-.37.44l-.31.74z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="AI 辅助工具" data-group="2" label="AI 辅助工具" group="2" variant="detail" icon="mdi:robot-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M17.5 15.5c0 1.11-.89 2-2 2s-2-.89-2-2s.9-2 2-2s2 .9 2 2m-9-2c-1.1 0-2 .9-2 2s.9 2 2 2s2-.89 2-2s-.89-2-2-2M23 15v3c0 .55-.45 1-1 1h-1v1c0 1.11-.89 2-2 2H5a2 2 0 0 1-2-2v-1H2c-.55 0-1-.45-1-1v-3c0-.55.45-1 1-1h1c0-3.87 3.13-7 7-7h1V5.73c-.6-.34-1-.99-1-1.73c0-1.1.9-2 2-2s2 .9 2 2c0 .74-.4 1.39-1 1.73V7h1c3.87 0 7 3.13 7 7h1c.55 0 1 .45 1 1m-2 1h-2v-2c0-2.76-2.24-5-5-5h-4c-2.76 0-5 2.24-5 5v2H3v1h2v3h14v-3h2z&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      </div>
       <!-- META_INFO_END -->
-      <label for="columnWidth">🔧 调整每列宽度：</label>
-      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
-      <span id="widthVal" class="slider-val">340px</span>
-      <span class="sep"></span>
-      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
     </div>
     <div class="cheat-columns" id="columns">
       <div class="card"><h2>⚡ 入口与定位 <a href="https://coder-hxl.github.io/x-crawl/cn/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">x-crawl 是 Node.js AI 辅助爬虫库。它既能单独使用 crawler API 抓动态页、静态 HTML、JSON API 和文件资源，也能接入 Ollama / OpenAI 做元素分析、选择器生成和问答。</div><div class="desc">x-crawl 的核心思路很直接：先用爬虫 API 完成抓取，再在需要时叠加 AI 做结构理解和提取。</div><ul><li><code>Crawler</code></li><li><code>AI</code></li><li><code>string</code></li></ul><pre><code class="language-javascript">import { createCrawl, createCrawlOpenAI } from &#39;x-crawl&#39;;

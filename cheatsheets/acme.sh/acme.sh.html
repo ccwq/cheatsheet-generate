@@ -29,33 +29,224 @@
       --col-width: 400px; 
       --gap: 16px;
     }
+
+    .panel {
+      align-items: stretch;
+      flex-direction: column;
+      gap: 8px;
+      padding: 10px 12px;
+      overflow: hidden;
+    }
+
+    .panel-main-row,
+    .panel-flow-row,
+    .panel-title-group,
+    .panel-actions,
+    .panel-tools {
+      display: flex;
+      align-items: center;
+    }
+
+    .panel-main-row {
+      justify-content: space-between;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .panel-title-group {
+      gap: 10px;
+      min-width: 0;
+      flex: 0 1 auto;
+    }
+
+    .panel .title {
+      margin-right: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .panel-actions {
+      gap: 8px;
+      flex: 0 0 auto;
+      min-width: 0;
+    }
+
+    .panel-tools {
+      gap: 8px;
+      margin-left: 2px;
+      padding-left: 10px;
+      border-left: 1px solid var(--panel-border);
+      white-space: nowrap;
+    }
+
+    .panel-flow-row {
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .panel .meta-info,
+    .panel .meta-tags {
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .panel .meta-info::-webkit-scrollbar,
+    .panel .meta-tags::-webkit-scrollbar {
+      display: none;
+    }
+
+    .panel .meta-info {
+      flex: 1 1 auto;
+      margin-top: 0;
+      min-width: 0;
+      flex-wrap: nowrap;
+      gap: 6px;
+    }
+
+    .panel .meta-tags {
+      flex: 1 1 auto;
+      min-width: 0;
+      flex-wrap: nowrap;
+      padding-bottom: 1px;
+    }
+
+    .panel .meta-item,
+    .panel .detail-tag,
+    .panel .meta-link,
+    .panel label,
+    .panel .slider-val,
+    .panel .btn {
+      white-space: nowrap;
+    }
+
+    .panel .meta-action {
+      padding: 4px 8px;
+    }
+
+    .panel .slider-bar {
+      min-width: 118px;
+      width: 130px;
+      margin-right: 0;
+    }
+
+    .panel .slider-val {
+      min-width: 38px;
+      margin-left: 0;
+    }
+
+    @media (max-width: 1199px) {
+      .panel-main-row {
+        align-items: flex-start;
+      }
+
+      .panel-title-group {
+        padding-top: 2px;
+      }
+
+      .panel-actions {
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .panel-tools {
+        order: 10;
+        width: 100%;
+        justify-content: flex-end;
+        padding-left: 0;
+        border-left: 0;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .panel {
+        padding: 8px;
+      }
+
+      .panel-main-row {
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .panel-title-group {
+        flex: 1 1 100%;
+        padding-top: 0;
+      }
+
+      .home-link span {
+        display: none;
+      }
+
+      .panel-actions {
+        gap: 6px;
+        justify-content: flex-start;
+        flex: 1 1 100%;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+
+      .panel-actions::-webkit-scrollbar {
+        display: none;
+      }
+
+      .panel .meta-action {
+        padding: 3px 6px;
+      }
+
+      .panel-tools {
+        flex: 0 0 auto;
+        order: initial;
+        width: auto;
+        gap: 6px;
+      }
+    }
+
+    @media (max-width: 660px) {
+      .panel-tools {
+        width: auto;
+        margin-left: 0;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="panel">
-      <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
-        </svg>
-        <span>首页</span>
-      </a>
-      <span class="title">acme.sh Cookbook</span>
+      <div class="panel-main-row">
+        <div class="panel-title-group">
+          <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+            </svg>
+            <span>首页</span>
+          </a>
+          <span class="title">acme.sh Cookbook</span>
+        </div>
       <!-- META_INFO_START -->
-      <div class="meta-info">
-        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">3.0.9</span></span>
-        <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-03-17</span></span>
-        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/acmesh-official/acme.sh" target="_blank" rel="noopener">acmesh-official/acme.sh</a></span></span>
-        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/acmesh-official/acme.sh" target="_blank" rel="noopener">打开 Zread</a></span></span>
-        <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://codewiki.google/github.com/acmesh-official/acme.sh" target="_blank" rel="noopener">CodeWiki</a></span></span>
+        <div class="meta-info">
+          <span class="meta-item"><span class="meta-label"></span><span class="meta-value">3.0.9</span></span>
+          <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-03-17</span></span>
+          <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/acmesh-official/acme.sh" target="_blank" rel="noopener">acmesh-official/acme.sh</a></span></span>
+        </div>
+        <div class="panel-actions">
+          <span class="meta-item meta-action"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/acmesh-official/acme.sh" target="_blank" rel="noopener">打开 Zread</a></span></span>
+          <span class="meta-item meta-action"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://codewiki.google/github.com/acmesh-official/acme.sh" target="_blank" rel="noopener">CodeWiki</a></span></span>
+          <div class="panel-tools">
+            <label for="columnWidth">🔧 调整每列宽度：</label>
+            <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+            <span id="widthVal" class="slider-val">340px</span>
+            <span class="sep"></span>
+            <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+          </div>
+        </div>
       </div>
-      <div class="meta-tags"><tag-chip class="tag tag-group-1 detail-tag" data-name="CLI / Terminal" data-group="1" label="CLI / Terminal" group="1" variant="detail" icon="mdi:console" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M20 19V7H4v12zm0-16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-7 14v-2h5v2zm-3.42-4L5.57 9H8.4l3.3 3.3c.39.39.39 1.03 0 1.42L8.42 17H5.59z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="SSL / TLS" data-group="0" label="SSL / TLS" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="自动化工具" data-group="2" label="自动化工具" group="2" variant="detail" icon="mdi:robot" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5A2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5a2.5 2.5 0 0 0 2.5 2.5a2.5 2.5 0 0 0 2.5-2.5a2.5 2.5 0 0 0-2.5-2.5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="安全" data-group="0" label="安全" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-3 detail-tag" data-name="运维" data-group="3" label="运维" group="3" variant="detail" icon="mdi:server" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M4 1h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1m0 8h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1m0 8h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1M9 5h1V3H9zm0 8h1v-2H9zm0 8h1v-2H9zM5 3v2h2V3zm0 8v2h2v-2zm0 8v2h2v-2z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="网络" data-group="0" label="网络" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      <div class="panel-flow-row">
+        <div class="meta-tags"><tag-chip class="tag tag-group-1 detail-tag" data-name="CLI / Terminal" data-group="1" label="CLI / Terminal" group="1" variant="detail" icon="mdi:console" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M20 19V7H4v12zm0-16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-7 14v-2h5v2zm-3.42-4L5.57 9H8.4l3.3 3.3c.39.39.39 1.03 0 1.42L8.42 17H5.59z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="SSL / TLS" data-group="0" label="SSL / TLS" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="自动化工具" data-group="2" label="自动化工具" group="2" variant="detail" icon="mdi:robot" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5A2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5a2.5 2.5 0 0 0 2.5 2.5a2.5 2.5 0 0 0 2.5-2.5a2.5 2.5 0 0 0-2.5-2.5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="安全" data-group="0" label="安全" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-3 detail-tag" data-name="运维" data-group="3" label="运维" group="3" variant="detail" icon="mdi:server" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M4 1h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1m0 8h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1m0 8h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1M9 5h1V3H9zm0 8h1v-2H9zm0 8h1v-2H9zM5 3v2h2V3zm0 8v2h2v-2zm0 8v2h2v-2z&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="网络" data-group="0" label="网络" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      </div>
       <!-- META_INFO_END -->
-      <label for="columnWidth">🔧 调整每列宽度：</label>
-      <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
-      <span id="widthVal" class="slider-val">340px</span>
-      <span class="sep"></span>
-      <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
     </div>
     <div class="cheat-columns" id="columns">
       <div class="card" style="grid-column: 1 / span 3"><h2>入口与定位 <a href="https://github.com/acmesh-official/acme.sh" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">纯 Shell 编写的 ACME 客户端，用于自动化获取、续期、安装 SSL/TLS 证书。无需 Python，兼容 Bash/dash/sh，支持 ECDSA 证书和通配符。</div><ul><li>解决的问题：自动化管理 Let&#39;s Encrypt、ZeroSSL 等 CA 的证书生命周期</li><li>核心优势：<ul><li>纯 Shell，无依赖</li><li>支持 80+ DNS Provider API 自动验证</li><li>默认 ECC 证书，可选 RSA</li><li>自动续期（默认 60 天）</li><li>不需要 root 权限</li></ul></li></ul></div><div class="card"><h2>安装与初始化</h2><div class="desc">安装只有 3 步：下载、安装、验证。安装后会自动创建 cron job 用于续期。</div><pre><code class="language-bash"># 方式一：一键安装（推荐）
