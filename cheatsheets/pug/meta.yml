@@ -1,0 +1,10 @@
+desc: Pug（原 Jade）模板引擎语法速查，涵盖标签、属性、文本、循环、条件、Mixin、模板继承等核心特性
+tags:
+  - pug
+  - template
+  - jade
+  - html
+  - nodejs
+version: "3.0.4"
+github: pugjs/pug
+date: "2026-03-13"

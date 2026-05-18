@@ -1,0 +1,11 @@
+title: Less.js
+lang: zh
+version: "4.6.3"
+date: 2026-03-11
+github: less/less.js
+desc: Less.js 是 CSS 预处理器，让样式表更易维护、更简洁。支持变量、混入、嵌套、运算、函数等特性，编译为标准 CSS。
+tags:
+  - css
+  - preprocessor
+  - stylesheet
+  - less
