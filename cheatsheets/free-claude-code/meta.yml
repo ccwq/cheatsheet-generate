@@ -1,0 +1,10 @@
+desc: 把 Claude Code 的 Anthropic API 请求路由到免费或本地模型，支持 NVIDIA NIM、Kimi、OpenRouter、DeepSeek、LM Studio、Ollama 等 11 个 provider 后端。
+tags:
+  - CLI 工具
+  - 代理
+  - AI
+  - Python
+  - 开发工具
+version: "2026-05-21"
+github: Alishahryar1/free-claude-code
+date: "2026-05-21"

@@ -1,0 +1,11 @@
+desc: mihomo（MetaCubeX）代理引擎的配置速查，涵盖 DNS、入站、出站代理、代理组、路由规则与规则集合。
+tags:
+  - proxy
+  - mihomo
+  - metacubex
+  - clash
+  - vpn
+  - network
+version: v1.19.25
+github: MetaCubeX/mihomo
+date: 2026-05-16
