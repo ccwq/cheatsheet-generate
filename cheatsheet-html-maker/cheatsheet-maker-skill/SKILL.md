@@ -180,13 +180,19 @@ description: 创建、整理、重建技术速查表（Cheatsheet）源文件的
 8. 补齐 `meta.yml` 与 `refmap.md`
 9. 处理 `tags` 时，读取并遵循 agentskill: tag-ci
 10. 需要图标时，读取并遵循 agentskill: icon-complete-skill
-11. 需要 HTML 时，执行：
+11. 所有新建 cheatsheet 必须在 HTML 生成后执行图标检查与补全：
+    - 检查 `cheatsheets/<topic>/icon.png` 是否存在
+    - 若缺失，调用 agentskill: icon-complete-skill 生成
+    - 图标来源优先级：官方品牌图标 → 官方仓库 logo → Iconify/简单图标 → 语义缩写图标
+    - 图标要求：260x260 透明底 PNG，品牌原色优先，适合导览页小尺寸展示
+    - 图标完成后执行 `npm run build:nav` 重建导览页
+12. 需要 HTML 时，执行：
 
 ```bash
 node cheatsheet-html-maker/index.js --input cheatsheets/<topic>/<topic>.md
 ```
 
-12. 若改动影响导览页，再执行导航页重建
+13. 若改动影响导览页，再执行导航页重建
 
 ## 自检
 
