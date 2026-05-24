@@ -1,5 +1,5 @@
 ---
-title: Subagent-Driven Development 速查表
+title: sdd-agent · Subagent-Driven Development 速查表
 lang: zh
 version: "v1.0.1"
 date: 2026-05-25
