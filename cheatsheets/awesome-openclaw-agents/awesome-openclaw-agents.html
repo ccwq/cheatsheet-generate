@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>Cheatsheet</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png">
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 340px; 
+      --gap: 16px;
+    }
+
+    .panel {
+      align-items: stretch;
+      flex-direction: column;
+      gap: 8px;
+      padding: 10px 12px;
+      overflow: hidden;
+    }
+
+    .panel-main-row,
+    .panel-flow-row,
+    .panel-title-group,
+    .panel-actions,
+    .panel-tools {
+      display: flex;
+      align-items: center;
+    }
+
+    .panel-main-row {
+      justify-content: space-between;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .panel-title-group {
+      gap: 10px;
+      min-width: 0;
+      flex: 0 1 auto;
+    }
+
+    .panel .title {
+      margin-right: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .panel-actions {
+      gap: 8px;
+      flex: 0 0 auto;
+      min-width: 0;
+    }
+
+    .panel-tools {
+      gap: 8px;
+      margin-left: 2px;
+      padding-left: 10px;
+      border-left: 1px solid var(--panel-border);
+      white-space: nowrap;
+    }
+
+    .panel-flow-row {
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .panel .meta-info,
+    .panel .meta-tags {
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .panel .meta-info::-webkit-scrollbar,
+    .panel .meta-tags::-webkit-scrollbar {
+      display: none;
+    }
+
+    .panel .meta-info {
+      flex: 1 1 auto;
+      margin-top: 0;
+      min-width: 0;
+      flex-wrap: nowrap;
+      gap: 6px;
+    }
+
+    .panel .meta-tags {
+      flex: 1 1 auto;
+      min-width: 0;
+      flex-wrap: nowrap;
+      padding-bottom: 1px;
+    }
+
+    .panel .meta-item,
+    .panel .detail-tag,
+    .panel .meta-link,
+    .panel label,
+    .panel .slider-val,
+    .panel .btn {
+      white-space: nowrap;
+    }
+
+    .panel .meta-action {
+      padding: 4px 8px;
+    }
+
+    .panel .slider-bar {
+      min-width: 118px;
+      width: 130px;
+      margin-right: 0;
+    }
+
+    .panel .slider-val {
+      min-width: 38px;
+      margin-left: 0;
+    }
+
+    @media (max-width: 1199px) {
+      .panel-main-row {
+        align-items: flex-start;
+      }
+
+      .panel-title-group {
+        padding-top: 2px;
+      }
+
+      .panel-actions {
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .panel-tools {
+        order: 10;
+        width: 100%;
+        justify-content: flex-end;
+        padding-left: 0;
+        border-left: 0;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .panel {
+        padding: 8px;
+      }
+
+      .panel-main-row {
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .panel-title-group {
+        flex: 1 1 100%;
+        padding-top: 0;
+      }
+
+      .home-link span {
+        display: none;
+      }
+
+      .panel-actions {
+        gap: 6px;
+        justify-content: flex-start;
+        flex: 1 1 100%;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+
+      .panel-actions::-webkit-scrollbar {
+        display: none;
+      }
+
+      .panel .meta-action {
+        padding: 3px 6px;
+      }
+
+      .panel-tools {
+        flex: 0 0 auto;
+        order: initial;
+        width: auto;
+        gap: 6px;
+      }
+    }
+
+    @media (max-width: 660px) {
+      .panel-tools {
+        width: auto;
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <div class="panel-main-row">
+        <div class="panel-title-group">
+          <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+            </svg>
+            <span>首页</span>
+          </a>
+          <span class="title">Cheatsheet</span>
+        </div>
+      <!-- META_INFO_START -->
+        <div class="meta-info">
+          <span class="meta-item"><span class="meta-label"></span><span class="meta-value">main (2026-05)</span></span>
+          <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-05-25</span></span>
+          <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/mergisi/awesome-openclaw-agents" target="_blank" rel="noopener">mergisi/awesome-openclaw-agents</a></span></span>
+        </div>
+        <div class="panel-actions">
+          <span class="meta-item meta-action"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/mergisi/awesome-openclaw-agents" target="_blank" rel="noopener">打开 Zread</a></span></span>
+          <span class="meta-item meta-action"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://codewiki.google/github.com/mergisi/awesome-openclaw-agents" target="_blank" rel="noopener">CodeWiki</a></span></span>
+          <div class="panel-tools">
+            <label for="columnWidth">🔧 调整每列宽度：</label>
+            <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+            <span id="widthVal" class="slider-val">340px</span>
+            <span class="sep"></span>
+            <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+          </div>
+        </div>
+      </div>
+      <div class="panel-flow-row">
+        <div class="meta-tags"><tag-chip class="tag tag-group-0 detail-tag" data-name="ai-agent" data-group="0" label="ai-agent" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="openclaw" data-group="0" label="openclaw" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="soul.md" data-group="0" label="soul.md" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="agent-template" data-group="0" label="agent-template" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="python" data-group="0" label="python" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="productivity" data-group="0" label="productivity" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="development" data-group="0" label="development" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="marketing" data-group="0" label="marketing" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      </div>
+      <!-- META_INFO_END -->
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>🚀 一句话定位 <a href="https://github.com/mergisi/awesome-openclaw-agents" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">205 个生产级 AI Agent SOUL.md 模板，覆盖 24 个领域，拿来即用，MIT 协议开源。</div><div class="desc">核心价值： Skip the setup. Get a full deploy package. 选角色 → 复制 SOUL.md → 注册运行，三步搞定一个 Agent。</div></div><div class="card"><h2>⚡ 快速上手 <a href="https://github.com/mergisi/awesome-openclaw-agents" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">克隆仓库 → 选模板 → 启动，最快 3 分钟跑起来。</div><h3>方式一：Quickstart（推荐）</h3><pre><code class="language-bash">git clone https://github.com/mergisi/awesome-openclaw-agents.git
+cd awesome-openclaw-agents/quickstart
+npm install
+
+# 复制任意 Agent 的 SOUL.md 作为起点
+cp ../agents/productivity/orion/SOUL.md ./
+
+# 启动
+node bot.js</code></pre><h3>方式二：openclaw agents add</h3><pre><code class="language-bash"># 在 ~/.openclaw/agents/ 下安装指定 Agent
+mkdir -p ~/.openclaw/agents/inventory-forecaster/agentcp
+cp awesome-openclaw-agents/agents/supply-chain/inventory-forecaster/SOUL.md \
+   ~/.openclaw/agents/inventory-forecaster/agent/
+
+openclaw agents add inventory-forecaster \
+  --workspace ~/.openclaw/agents/inventory-forecaster</code></pre><h3>方式三：CrewClaw 一键部署</h3><pre><code class="language-bash"># 访问 https://crewclaw.com/agents
+# 选模板 → 下载完整包（Dockerfile + docker-compose + bot + README）
+# 解压后直接 docker compose up</code></pre></div><div class="card"><h2>🗂️ 七大配置文件（OpenClaw 灵魂体系） <a href="https://github.com/mergisi/awesome-openclaw-agents" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">OpenClaw 用纯 Markdown 文件定义 Agent，每次会话注入&quot;灵魂&quot;，不需要写代码。</div><div class="table-wrap"><table class="cheat-table"><thead><tr><th>文件</th><th>回答的问题</th><th>类比</th><th>加载时机</th></tr></thead><tbody><tr><td>SOUL.md</td><td>它是谁？性格/价值观/行为准则</td><td>Agent 的&quot;灵魂&quot;，定义人格</td><td>每次会话</td></tr><tr><td>USER.md</td><td>为谁服务？用户画像/偏好</td><td>用户的使用说明书</td><td>每次会话</td></tr><tr><td>AGENTS.md</td><td>怎么干活？决策规则/工作流程</td><td>岗位 SOP</td><td>每次会话</td></tr><tr><td>IDENTITY.md</td><td>叫什么？名字/头像/角色描述</td><td>名片/简历</td><td>每次会话</td></tr><tr><td>TOOLS.md</td><td>用什么工具？API/插件/能力</td><td>工具操作手册</td><td>按需加载</td></tr><tr><td>HEARTBEAT.md</td><td>定期做什么？心跳任务/定时检查</td><td>巡检清单</td><td>心跳轮询时</td></tr><tr><td>BOOTSTRAP.md</td><td>首次怎么初始化？</td><td>入职引导手册</td><td>仅首次运行</td></tr><tr><td>MEMORY.md</td><td>长期记住什么？事实/经验/偏好</td><td>持久记忆</td><td>持续累积</td></tr></tbody></table></div><h3>SOUL.md 三要素（Agent 人格核心）</h3><pre><code class="language-markdown"># SOUL.md 模板结构
+## 身份 (Identity)
+- 角色名称、专业背景、核心价值观
+
+## 行为准则 (Behavioral Guidelines)
+- 说话风格、拒绝场景、边界约束
+
+## 专业能力 (Expertise)
+- 擅长的领域、可输出的价值</code></pre></div><div class="card"><h2>📦 205 个模板 · 24 大类速查</h2><h3>💼 开发（Development）— 16 个</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>Agent</th><th>场景</th></tr></thead><tbody><tr><td>🔎 Lens</td><td>PR 代码审查、安全扫描</td></tr><tr><td>📖 Scribe</td><td>README / API 文档生成</td></tr><tr><td>🐛 Trace</td><td>错误分析、根因调查</td></tr><tr><td>🧪 Probe</td><td>API 测试、健康检查</td></tr><tr><td>📋 Log</td><td>自动 Changelog / Release Notes</td></tr><tr><td>🔗 Dependency Scanner</td><td>CVE 扫描 / 许可证检查</td></tr><tr><td>🔀 PR Merger</td><td>自动合并 / 冲突检测</td></tr><tr><td>🗄️ Migration Helper</td><td>数据库迁移 / 回滚辅助</td></tr><tr><td>🛡️ Sentinel</td><td>TypeScript / Next.js 边界审查</td></tr><tr><td>🔍 Whisper</td><td>吞没错误 / 缺失事件检测</td></tr><tr><td>🚨 Beacon</td><td>SEO 博客部署检查清单</td></tr><tr><td>⚒️ Forge</td><td>Next.js / Vercel 构建失败诊断</td></tr><tr><td>⚖️ Verdict</td><td>PR 合并就绪性分析</td></tr></tbody></table></div><h3>📣 营销（Marketing）— 20 个</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>Agent</th><th>场景</th></tr></thead><tbody><tr><td>✍️ Echo</td><td>博客 / 社媒 / 邮件内容生成</td></tr><tr><td>📱 Buzz</td><td>Twitter / LinkedIn 多平台管理</td></tr><tr><td>🔍 Rank</td><td>SEO 内容 / 关键词研究</td></tr><tr><td>📬 Digest</td><td>新闻周刊自动编排</td></tr><tr><td>🔭 Scout</td><td>竞品监控 / 定价情报</td></tr><tr><td>👁️ Brand Monitor</td><td>品牌提及监控 / 舆情预警</td></tr><tr><td>♻️ Content Repurposer</td><td>一篇内容 → 多平台分发</td></tr><tr><td>📖 Book Writer</td><td>整本书流水线（6阶段）</td></tr><tr><td>🎥 UGC Video</td><td>AI 影响者风格视频脚本</td></tr><tr><td>📸 Instagram Reels</td><td>Reels 脚本 + 探索优化</td></tr></tbody></table></div><h3>💼 商务（Business）— 12 个</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>Agent</th><th>场景</th></tr></thead><tbody><tr><td>🎧 Compass</td><td>工单分流 / 响应起草 / 升级</td></tr><tr><td>💼 Pipeline</td><td>线索评分 / 外联 / 漏斗报告</td></tr><tr><td>💰 Ledger</td><td>支付监控 / 发票追踪 / MRR</td></tr><tr><td>🔮 Sentinel</td><td>流失风险评分 / 留存动作</td></tr><tr><td>🤝 Personal CRM</td><td>联系人追踪 / 跟进提醒</td></tr><tr><td>🎯 Deal Forecaster</td><td>交易关闭概率预测</td></tr><tr><td>💲 Competitor Pricing</td><td>竞品定价每日跟踪</td></tr></tbody></table></div><h3>🚀 DevOps — 10 个</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>Agent</th><th>场景</th></tr></thead><tbody><tr><td>🚨 Incident Responder</td><td>告警分流 / 事件协调</td></tr><tr><td>🚀 Deploy Guardian</td><td>CI/CD 监控 / 回滚告警</td></tr><tr><td>🖥️ Infra Monitor</td><td>服务器健康 / 磁盘/CPU</td></tr><tr><td>💸 Cost Optimizer</td><td>云成本监控 / 节省建议</td></tr><tr><td>🔧 Self-Healing Server</td><td>自动重启 / 磁盘清理</td></tr><tr><td>📜 Log Analyzer</td><td>日志解析 / 异常检测</td></tr></tbody></table></div><h3>💰 金融（Finance）— 10 个</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>Agent</th><th>场景</th></tr></thead><tbody><tr><td>🧾 Expense Tracker</td><td>费用分类 / 预算告警</td></tr><tr><td>📈 Revenue Analyst</td><td>MRR 分析 / 流失预测</td></tr><tr><td>📉 Trading Bot</td><td>投资组合跟踪 / 价格预警</td></tr><tr><td>🔍 Fraud Detector</td><td>交易异常检测</td></tr><tr><td>📊 Financial Forecaster</td><td>收入/支出预测</td></tr></tbody></table></div><h3>🏥 医疗（Healthcare）— 7 个</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>Agent</th><th>场景</th></tr></thead><tbody><tr><td>🧘 Wellness Coach</td><td>每日健康检查 / 情绪追踪</td></tr><tr><td>🥗 Meal Planner</td><td>周餐计划 / 营养追踪</td></tr><tr><td>🩺 Symptom Triage</td><td>结构化症状评估 / 紧急度判断</td></tr><tr><td>💊 Medication Checker</td><td>药物相互作用 / 剂量告警</td></tr><tr><td>📋 Clinical Notes</td><td>SOAP 格式临床文档</td></tr></tbody></table></div><h3>⚖️ 法律（Legal）— 6 个</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>Agent</th><th>场景</th></tr></thead><tbody><tr><td>📜 Contract Reviewer</td><td>合同审查 / 风险条款检测</td></tr><tr><td>✅ Compliance Checker</td><td>合规监控 / 截止日期跟踪</td></tr><tr><td>📋 Policy Writer</td><td>内部政策 / 服务条款起草</td></tr><tr><td>🔬 Patent Analyzer</td><td>专利分析 / 侵权风险</td></tr></tbody></table></div><h3>👥 人力资源（HR）— 7 个</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>Agent</th><th>场景</th></tr></thead><tbody><tr><td>🤝 Recruiter</td><td>简历筛选 / 面试安排</td></tr><tr><td>🎒 Onboarding</td><td>新员工入职引导</td></tr><tr><td>📊 Performance Reviewer</td><td>绩效反馈收集 / 总结</td></tr><tr><td>📄 Resume Screener</td><td>简历评分 / 候选人排名</td></tr><tr><td>🚪 Exit Interview</td><td>离职面谈 / 留存洞察</td></tr></tbody></table></div><h3>🧘 个人（Personal）— 7 个</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>Agent</th><th>场景</th></tr></thead><tbody><tr><td>📅 Atlas</td><td>日程优化 / 早晚复盘</td></tr><tr><td>💪 Iron</td><td>健身计划 / 营养追踪</td></tr><tr><td>✈️ Travel Planner</td><td>行程规划 / 预算管理</td></tr><tr><td>👨‍👩‍👧‍👦 Family Coordinator</td><td>共享日历 / 餐食规划</td></tr><tr><td>🏠 Home Automation</td><td>通过 Telegram 控制智能家居</td></tr></tbody></table></div><h3>🎓 教育（Education）— 8 个</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>Agent</th><th>场景</th></tr></thead><tbody><tr><td>🎓 Tutor</td><td>概念讲解 / 练习题</td></tr><tr><td>❓ Quiz Maker</td><td>从学习材料自动生成测验</td></tr><tr><td>🔬 Research Assistant</td><td>论文搜索 / 摘要 / 引用</td></tr><tr><td>🃏 Flashcard Generator</td><td>间隔重复记忆卡生成</td></tr></tbody></table></div><h3>其他类别</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>类别</th><th>Agent 数</th><th>典型场景</th></tr></thead><tbody><tr><td>Productivity</td><td>7</td><td>任务协调 / 邮件分类 / 会议记录</td></tr><tr><td>E-Commerce</td><td>6</td><td>库存预测 / 竞品监控</td></tr><tr><td>Supply Chain</td><td>5</td><td>需求预测 / 补货推荐</td></tr><tr><td>Compliance</td><td>4</td><td>监管合规监控</td></tr><tr><td>Creative</td><td>12</td><td>品牌设计 / 视频脚本</td></tr><tr><td>Security</td><td>3</td><td>漏洞扫描 / 威胁监控</td></tr><tr><td>SaaS</td><td>5</td><td>订阅管理 / 功能分析</td></tr><tr><td>Moltbook</td><td>9</td><td>跨知识库问答</td></tr></tbody></table></div></div><div class="card"><h2>🔧 核心概念</h2><h3>SubAgent 机制</h3><div class="desc">父 Agent 把子任务打包成 SpawnSubagentParams，扔给注册中心 → 注册中心拉起独立会话执行 → 通过 announce 队列把结果返回给父 Agent。</div><pre><code class="language-bash">关键特性：
+- 超时控制（防止任务卡死）
+- 孤儿恢复（子进程意外退出后重启）
+- 上下文隔离（fork 继承 / isolated 不继承父对话）</code></pre><h3>工具过滤管道（Tool Pipeline）</h3><pre><code class="language-bash">用户请求
+  ↓
+全局工具 → 用户白名单 → Agent 类型过滤 → 最终工具列表</code></pre><div class="desc">每个 Agent 只拿到自己需要的工具，不是全量工具暴露。</div><h3>Sandbox 隔离层</h3><div class="desc">Docker 容器执行 Agent 的工具操作（exec/read/write/edit），而非直接在主机上跑，确保安全边界。</div></div><div class="card"><h2>⚙️ 模型配置（Model Configs）</h2><h3>多 Provider 混用示例</h3><pre><code class="language-bash"># configs/ 下有多种模型配置
+# 可按任务类型分配不同模型（高成本任务用强模型，简单任务用轻模型）
+cp configs/glm-5.1/openai.yaml ~/.openclaw/agents/&lt;agent&gt;/agent/openai.yaml</code></pre><h3>成本优化策略</h3><ul><li>简单任务（分类/格式化）→ 轻量模型（GPT-4o-mini / GLM-Flash）</li><li>复杂任务（推理/代码）→ 强模型（GPT-4 / Claude）</li><li>定时心跳任务 → 最低成本模型</li></ul></div><div class="card"><h2>📦 评分条速查 <a href="https://github.com/mergisi/awesome-openclaw-agents" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">按领域分类，可按场景直接检索，每类都有多个子模板。</div><div class="table-wrap"><table class="cheat-table"><thead><tr><th>维度</th><th>评分</th><th>说明</th></tr></thead><tbody><tr><td>模板数量</td><td>⬛⬛⬛⬛⬛ 5/5</td><td>205 个，覆盖 24 个领域</td></tr><tr><td>上手难度</td><td>⬛⬛⬛⬛⬜ 4/5</td><td>Quickstart 3 分钟可跑通</td></tr><tr><td>分类深度</td><td>⬛⬛⬛⬛⬛ 5/5</td><td>从开发到医疗到法律，细分精准</td></tr><tr><td>开源质量</td><td>⬛⬛⬛⬛⬜ 4/5</td><td>MIT，49 次 commit，维护活跃</td></tr><tr><td>部署便利</td><td>⬛⬛⬛⬛⬛ 5/5</td><td>CrewClaw 一键部署完整包</td></tr></tbody></table></div></div><div class="card"><h2>🔧 关键资源 <a href="https://github.com/mergisi/awesome-openclaw-agents" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">理解 OpenClaw 的关键架构概念：SubAgent、工具过滤管道、Sandbox 隔离层。</div><ul><li>GitHub：https://github.com/mergisi/awesome-openclaw-agents</li><li>全部模板：https://crewclaw.com/agents</li><li>Quickstart：https://github.com/mergisi/awesome-openclaw-agents/tree/main/quickstart</li><li>agents.json：机器可读的 205 个模板索引</li></ul></div>
+    </div>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>
