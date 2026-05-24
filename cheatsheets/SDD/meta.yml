@@ -1,0 +1,9 @@
+desc: Subagent-Driven Development 速查表 — 用 delegate_task 派生子 agent 执行复杂任务的流水线方法，含两阶段审查规范、并行/链式模式、结果验证与常见坑速查。
+tags:
+  - Hermes Agent
+  - AI
+  - workflow
+  - 开发
+version: "v1.0.1"
+github: nousresearch/hermes-agent
+date: "2026-05-25"
