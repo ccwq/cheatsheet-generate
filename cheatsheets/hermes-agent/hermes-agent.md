@@ -61,6 +61,70 @@ hermes chat --model <model>         # 指定模型
 hermes setup                        # 全量配置向导
 ```
 
+## 子代理与分工
+### 一句话理解
+子代理是 Hermes 把复杂任务拆成独立小任务后，交给另一个带独立上下文和独立 terminal session 的 agent 去执行的机制。
+
+### 适用边界
+| 场景 | 是否适合 |
+|---|---|
+| 需要判断、对比、调研、复杂修复 | 适合 |
+| 单次工具调用 | 不适合 |
+| 机械流水线、固定步骤脚本 | 不适合 |
+| 需要用户交互的任务 | 不适合 |
+
+### 核心规则
+| 规则 | 说明 |
+|---|---|
+| `delegate_task` | 同步执行，不是后台队列 |
+| 上下文 | 子代理看不到父会话历史，只看 `goal` / `context` / `toolsets` |
+| 资源继承 | 子代理继承父代理的 API key、provider 配置和 credential pool |
+| 并发 | 默认 3 个并发子代理，可在 `delegation.max_concurrent_children` 调整 |
+| 深度 | 默认 `delegation.max_spawn_depth = 1`，也就是平铺模式 |
+| 嵌套 | 只有 `role="orchestrator"` 的子代理才能继续派生 |
+| 叶子模式 | 默认 `role="leaf"`，不能再调用 `delegate_task`、`clarify`、`memory`、`send_message`、`execute_code` |
+| 终止 | 父任务被中断时，所有活跃子代理也会被取消 |
+| 监控 | TUI 里用 `/agents` 查看运行中的子代理树，`/tasks` 是别名 |
+
+### 最短入口
+```bash
+/agents
+/tasks
+```
+
+### 常用调用
+```bash
+delegate_task(
+  goal="Review the authentication module for security issues and fix any found",
+  context="Project at /home/user/webapp. Focus on SQL injection, JWT validation, password handling, and session management.",
+  toolsets=["terminal", "file"]
+)
+```
+
+```bash
+delegate_task(
+  goal="Survey three code review approaches and recommend one",
+  role="orchestrator",
+  context="...",
+  toolsets=["web"]
+)
+```
+
+### 并行批处理
+```bash
+delegate_task(tasks=[
+  {"goal": "Research topic A", "toolsets": ["web"]},
+  {"goal": "Research topic B", "toolsets": ["web"]},
+  {"goal": "Fix the build", "toolsets": ["terminal", "file"]}
+])
+```
+
+### 和 `execute_code` 的区别
+| 场景 | 更适合 |
+|---|---|
+| 需要推理、判断、研究 | `delegate_task` |
+| 需要机械式脚本处理、固定步骤流水线 | `execute_code` |
+
 ## 起步流
 
 ### 先把运行后端定下来
@@ -172,55 +236,7 @@ pip install faster-whisper
 ```
 
 ### 7. 先用子代理拆任务
-子代理适合做调研、审查、修复这类需要独立判断的工作。它会拿到自己的上下文、自己的 terminal session 和受限 toolset，父上下文只接收最终摘要。
-
-**常用规则**
-| 规则 | 说明 |
-|---|---|
-| `delegate_task` | 同步执行，不是后台队列 |
-| 上下文 | 子代理看不到父会话历史，只看 `goal` / `context` / `toolsets` |
-| 资源继承 | 子代理继承父代理的 API key、provider 配置和 credential pool |
-| 并发 | 默认 3 个并发子代理，可在 `delegation.max_concurrent_children` 调整 |
-| 深度 | 默认 `delegation.max_spawn_depth = 1`，也就是平铺模式 |
-| 嵌套 | 只有 `role="orchestrator"` 的子代理才能继续派生 |
-| 叶子模式 | 默认 `role="leaf"`，不能再调用 `delegate_task`、`clarify`、`memory`、`send_message`、`execute_code` |
-| 终止 | 父任务被中断时，所有活跃子代理也会被取消 |
-| 监控 | TUI 里用 `/agents` 查看运行中的子代理树，`/tasks` 是别名 |
-| 适用 | 需要判断、对比、调研、复杂修复 |
-| 不适用 | 单次工具调用、机械流水线、需要用户交互的任务 |
-
-**用法示例**
-```bash
-delegate_task(
-  goal="Review the authentication module for security issues and fix any found",
-  context="Project at /home/user/webapp. Focus on SQL injection, JWT validation, password handling, and session management.",
-  toolsets=["terminal", "file"]
-)
-```
-
-```bash
-delegate_task(
-  goal="Survey three code review approaches and recommend one",
-  role="orchestrator",
-  context="...",
-  toolsets=["web"]
-)
-```
-
-**并行批处理**
-```bash
-delegate_task(tasks=[
-  {"goal": "Research topic A", "toolsets": ["web"]},
-  {"goal": "Research topic B", "toolsets": ["web"]},
-  {"goal": "Fix the build", "toolsets": ["terminal", "file"]}
-])
-```
-
-**和 `execute_code` 的区别**
-| 场景 | 更适合 |
-|---|---|
-| 需要推理、判断、研究 | `delegate_task` |
-| 需要机械式脚本处理、固定步骤流水线 | `execute_code` |
+子代理完整说明见上方「子代理与分工」卡片，这里保留入口以便快速定位：`/agents`、`/tasks`。
 
 ### 8. 先接 MCP
 ```yaml
