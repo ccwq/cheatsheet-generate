@@ -1,0 +1,12 @@
+desc: MetaGPT 是一个将 SOP（标准化操作程序）编码进 prompt 的 multi-agent 软件开发框架，输入一行需求，输出 PRD + 架构图 + 代码 + 测试报告，核心理念是 Code = SOP(Team)。
+tags:
+  - ai-agent
+  - multi-agent
+  - python
+  - metagpt
+  - sop
+  - software-engineering
+  - framework
+version: "0.10.0"
+github: geekan/MetaGPT
+date: "2026-05-25"
