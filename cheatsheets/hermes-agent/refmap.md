@@ -9,6 +9,8 @@
 ## CLI 与配置
 - [CLI Guide](https://hermes-agent.nousresearch.com/docs/user-guide/chat/) - 终端交互与命令参考
 - [Configuration](https://hermes-agent.nousresearch.com/docs/user-guide/configuration/) - `config.yaml`、`.env`、后端、审批、上下文与辅助任务
+- [Sessions](https://hermes-agent.nousresearch.com/docs/user-guide/sessions/) - 会话、标题、恢复与历史检索
+- [Profiles](https://hermes-agent.nousresearch.com/docs/user-guide/profiles/) - 多实例隔离与独立状态
 - [Environment Variables](https://hermes-agent.nousresearch.com/docs/reference/environment-variables/) - 环境变量参考
 
 ## 核心能力
@@ -20,15 +22,17 @@
 - [Personality & SOUL.md](https://hermes-agent.nousresearch.com/docs/user-guide/features/personality/) - 人格与语气控制
 - [Scheduled Tasks (Cron)](https://hermes-agent.nousresearch.com/docs/user-guide/features/cron/) - 定时任务
 - [Subagent Delegation](https://hermes-agent.nousresearch.com/docs/user-guide/features/delegation/) - 子代理与分工
+- [Delegation & Parallel Work](https://hermes-agent.nousresearch.com/docs/zh-Hans/guides/delegation-patterns) - 并行拆分、上下文边界与子代理模式
+- [Credential Pools](https://hermes-agent.nousresearch.com/docs/user-guide/configuration/) - 子代理与主代理的多 Key 轮转
 - [Browser Automation](https://hermes-agent.nousresearch.com/docs/user-guide/features/browser/) - 浏览器自动化（含 Camofox）
 - [Voice Mode](https://hermes-agent.nousresearch.com/docs/user-guide/features/voice-mode) - 语音交互
 - [Voice & TTS](https://hermes-agent.nousresearch.com/docs/user-guide/features/tts/) - 语音播报与转写
 - [Checkpoints & Rollback](https://hermes-agent.nousresearch.com/docs/user-guide/features/checkpoints/) - 文件快照与回滚
 - [Context Compression](https://hermes-agent.nousresearch.com/docs/user-guide/configuration/) - 上下文压缩与摘要
-- [Credential Pools](https://hermes-agent.nousresearch.com/docs/user-guide/configuration/) - 同提供商多 Key 轮转
 - [Fallback Providers](https://hermes-agent.nousresearch.com/docs/user-guide/configuration/) - 有序回退提供商链
 
 ## 集成与安全
+- [Messaging Gateway](https://hermes-agent.nousresearch.com/docs/user-guide/messaging/) - 消息平台接入、通道路由与会话存储
 - [Messaging Platforms](https://hermes-agent.nousresearch.com/docs/user-guide/messaging-platforms/) - Telegram、Discord、Slack、WhatsApp、Signal、Email、Home Assistant、飞书、企业微信、Matrix、Mattermost、DingTalk
 - [MCP Integration](https://hermes-agent.nousresearch.com/docs/user-guide/integrations/mcp/) - 外部工具接入
 - [MCP Server Mode](https://hermes-agent.nousresearch.com/docs/user-guide/integrations/mcp/) - `hermes mcp serve` 暴露会话给 MCP 客户端

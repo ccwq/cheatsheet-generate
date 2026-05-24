@@ -32,6 +32,27 @@ tags:
 | 切换模型 | `/model` | 会话中实时切换，支持所有网关平台 |
 | 后台任务 | `/background <prompt>` | 不阻塞当前会话 |
 
+## 基础概念
+| 概念 | 一句话理解 | 你要记住什么 |
+|---|---|---|
+| `profile` | 一个独立的 Hermes 运行实例 | 配置、API key、`memory`、`sessions`、`skills`、`gateway` 状态彼此隔离 |
+| `gateway` | 连接消息平台的常驻进程 | 负责收消息、发消息、路由会话、回传后台任务结果 |
+| `channel` | 消息平台里的聊天入口或房间维度 | 在 Telegram / Discord / Slack / WhatsApp 等平台上，Hermes 会按 channel 维度接入和路由会话 |
+| `session` | 一段可恢复的对话记录 | CLI、DM、群聊、频道都会落到 session；支持 `--continue`、标题、历史检索 |
+| `group_sessions_per_user` | 群/频道是否按用户拆分 session | `true` 时同一房间不同人不共享 transcript/history，默认更安全 |
+| `memory` | 跨 session 的长期记忆 | `MEMORY.md` / `USER.md` 存偏好和稳定事实，不等于 session 历史 |
+| `toolset` | 本轮可用的工具集合 | 决定这一轮能不能用 `web`、`terminal`、`file`、`browser` 等能力 |
+| `skill` | 可复用的任务知识包 | 复杂任务先找 skill，再执行命令，减少重复摸索 |
+
+### 关系速记
+| 关系 | 说明 |
+|---|---|
+| `profile` | 最大的隔离边界。 |
+| `gateway` | 负责把外部平台接进 Hermes。 |
+| `channel` / `session` | `channel` 是外部平台里的入口，`session` 是这个入口下可恢复的会话。 |
+| `memory` | 跨 session 保留偏好和事实，不会替代 session 历史。 |
+| `group_sessions_per_user: true` | 当前默认值，适合多人共用同一 channel 时避免上下文互相污染。 |
+
 ### 最短路径
 ```bash
 hermes chat -q "Hello"           # 单次查询
@@ -150,7 +171,58 @@ pip install faster-whisper
 /cron add "every 1h" "汇总新的信息流" --skill blogwatcher
 ```
 
-### 7. 先接 MCP
+### 7. 先用子代理拆任务
+子代理适合做调研、审查、修复这类需要独立判断的工作。它会拿到自己的上下文、自己的 terminal session 和受限 toolset，父上下文只接收最终摘要。
+
+**常用规则**
+| 规则 | 说明 |
+|---|---|
+| `delegate_task` | 同步执行，不是后台队列 |
+| 上下文 | 子代理看不到父会话历史，只看 `goal` / `context` / `toolsets` |
+| 资源继承 | 子代理继承父代理的 API key、provider 配置和 credential pool |
+| 并发 | 默认 3 个并发子代理，可在 `delegation.max_concurrent_children` 调整 |
+| 深度 | 默认 `delegation.max_spawn_depth = 1`，也就是平铺模式 |
+| 嵌套 | 只有 `role="orchestrator"` 的子代理才能继续派生 |
+| 叶子模式 | 默认 `role="leaf"`，不能再调用 `delegate_task`、`clarify`、`memory`、`send_message`、`execute_code` |
+| 终止 | 父任务被中断时，所有活跃子代理也会被取消 |
+| 监控 | TUI 里用 `/agents` 查看运行中的子代理树，`/tasks` 是别名 |
+| 适用 | 需要判断、对比、调研、复杂修复 |
+| 不适用 | 单次工具调用、机械流水线、需要用户交互的任务 |
+
+**用法示例**
+```bash
+delegate_task(
+  goal="Review the authentication module for security issues and fix any found",
+  context="Project at /home/user/webapp. Focus on SQL injection, JWT validation, password handling, and session management.",
+  toolsets=["terminal", "file"]
+)
+```
+
+```bash
+delegate_task(
+  goal="Survey three code review approaches and recommend one",
+  role="orchestrator",
+  context="...",
+  toolsets=["web"]
+)
+```
+
+**并行批处理**
+```bash
+delegate_task(tasks=[
+  {"goal": "Research topic A", "toolsets": ["web"]},
+  {"goal": "Research topic B", "toolsets": ["web"]},
+  {"goal": "Fix the build", "toolsets": ["terminal", "file"]}
+])
+```
+
+**和 `execute_code` 的区别**
+| 场景 | 更适合 |
+|---|---|
+| 需要推理、判断、研究 | `delegate_task` |
+| 需要机械式脚本处理、固定步骤流水线 | `execute_code` |
+
+### 8. 先接 MCP
 ```yaml
 mcp_servers:
   github:
@@ -160,25 +232,25 @@ mcp_servers:
       GITHUB_PERSONAL_ACCESS_TOKEN: "ghp_xxx"
 ```
 
-### 8. 先接编辑器
+### 9. 先接编辑器
 ```bash
 pip install -e '.[acp]'
 hermes acp
 ```
 
-### 9. 先用后台任务
+### 10. 先用后台任务
 ```bash
 /background 分析 /var/log 下今天的错误日志
 ```
 
-### 10. 先用 Profile 隔离多实例
+### 11. 先用 Profile 隔离多实例
 ```bash
 hermes profile create work
 hermes -p work
 hermes profile list
 ```
 
-### 11. 先配凭证池轮转
+### 12. 先配凭证池轮转
 ```yaml
 credential_pool:
   openrouter:
@@ -293,6 +365,14 @@ Hermes Agent 使用**统一的斜杠命令系统**，在所有消息平台上行
 | `compression.threshold` | 压缩触发阈值（默认 0.50） |
 | `compression.summary_model` | 压缩用的摘要模型 |
 | `delegation.provider` | 子代理用什么提供商 |
+| `delegation.model` | 子代理默认模型 |
+| `delegation.base_url` | 子代理专用 API 地址 |
+| `delegation.api_key` | 子代理专用密钥 |
+| `delegation.api_mode` | 自动推断或手动指定 API 模式 |
+| `delegation.child_timeout_seconds` | 子代理空闲超时，默认 600 秒 |
+| `delegation.max_concurrent_children` | 默认并发 3 个子代理，可调且没有硬上限 |
+| `delegation.max_spawn_depth` | 默认 1，控制是否允许嵌套派生 |
+| `delegation.orchestrator_enabled` | 是否允许 orchestrator 继续派生 |
 | `clarify.timeout` | 追问等待时长 |
 | `timezone` | 日志与定时任务时区 |
 | `mcp_servers` | 外部工具服务 |
