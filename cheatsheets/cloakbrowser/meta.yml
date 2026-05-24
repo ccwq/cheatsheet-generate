@@ -1,0 +1,10 @@
+desc: CloakBrowser 是首个 C++ 源码级反检测浏览器，通过修改 Chromium 底层指纹实现 30/30 检测全过，无 JS 注入，一行代码替换 Playwright。
+tags:
+  - AI / LLM
+  - AI 辅助工具
+  - 自动化工具
+  - 爬虫
+  - 反爬虫
+version: "0.3.29"
+github: CloakHQ/CloakBrowser
+date: "2026-05-24"
