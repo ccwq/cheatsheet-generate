@@ -1,0 +1,12 @@
+desc: CodeGraph 是 AI Agent 的预索引代码知识图谱，用 tree-sitter 解析 + SQLite 存储，100% 本地运行，无需 API Key。
+tags:
+  - codegraph
+  - mcp
+  - ai-agent
+  - typescript
+  - rust
+  - tree-sitter
+  - sqlite
+version: "1.0.0"
+github: colbymchenry/codegraph
+date: "2026-05-26"
