@@ -1,11 +1,13 @@
-desc: CrewAI 是一个 role-based 多 Agent 协作编排框架，核心通过 role + goal + backstory 三要素定义人格，支持 Sequential/Hierarchical/Competitive 三种协作流程，三层记忆系统，38k GitHub ⭐。
+desc: CrewAI 是一个 Python 多 Agent 自动化框架，当前核心心智模型不是只看 Crew，而是同时理解 Crews 和 Flows 两套编排层。
 tags:
   - ai-agent
   - multi-agent
   - python
   - crewai
   - orchestration
-  - framework
-version: "0.88.0"
+  - workflow
+  - flows
+  - automation
+version: "1.14.5"
 github: crewAIInc/crewAI
-date: "2026-05-25"
+date: "2026-05-27"

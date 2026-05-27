@@ -1,8 +1,8 @@
 ---
-title:Awesome OpenClaw Agents 速查表
-lang:bash
+title: Awesome OpenClaw Agents 速查表
+lang: bash
 version: "main (2026-05)"
-date: 2026-05-25
+date: 2026-05-27
 github: mergisi/awesome-openclaw-agents
 colWidth: 460px
 ---
@@ -11,282 +11,237 @@ colWidth: 460px
 ---
 emoji: 🚀
 link: https://github.com/mergisi/awesome-openclaw-agents
-desc: 205 个生产级 AI Agent SOUL.md 模板，覆盖 24 个领域，拿来即用，MIT 协议开源。
+desc: 这是 OpenClaw 生态的超大模板仓库，当前主打 205 个生产级 `SOUL.md` 模板、24 个分类，以及从模板到部署包的完整落地链路。
 ---
 
-**核心价值：** Skip the setup. Get a full deploy package. 选角色 → 复制 SOUL.md → 注册运行，三步搞定一个 Agent。
+**核心价值：** 不是教你“如何设计一个 agent”，而是直接给你一大批可拷贝、可部署、可二改的现成 agent 起点。
 
 ---
 
 ## ⚡ 快速上手
 ---
 emoji: ⚡
-link: https://github.com/mergisi/awesome-openclaw-agents
-desc: 克隆仓库 → 选模板 → 启动，最快 3 分钟跑起来。
+link: https://github.com/mergisi/awesome-openclaw-agents/tree/main/quickstart
+desc: 这个仓库保留了 `quickstart/`，仍然是最快验证模板价值的入口。
 ---
 
-### 方式一：Quickstart（推荐）
+### 本地 quickstart
 
 ```bash
 git clone https://github.com/mergisi/awesome-openclaw-agents.git
 cd awesome-openclaw-agents/quickstart
 npm install
 
-# 复制任意 Agent 的 SOUL.md 作为起点
-cp ../agents/productivity/orion/SOUL.md ./
+# 拿一个模板作为起点
+cp ../agents/productivity/orion/SOUL.md ./SOUL.md
 
-# 启动
 node bot.js
 ```
 
-### 方式二：openclaw agents add
+### `openclaw agents add` 路径
 
 ```bash
-# 在 ~/.openclaw/agents/ 下安装指定 Agent
-mkdir -p ~/.openclaw/agents/inventory-forecaster/agentcp
+mkdir -p ~/.openclaw/agents/inventory-forecaster/agent
 cp awesome-openclaw-agents/agents/supply-chain/inventory-forecaster/SOUL.md \
-   ~/.openclaw/agents/inventory-forecaster/agent/
+  ~/.openclaw/agents/inventory-forecaster/agent/
 
 openclaw agents add inventory-forecaster \
   --workspace ~/.openclaw/agents/inventory-forecaster
 ```
 
-### 方式三：CrewClaw 一键部署
+### CrewClaw 部署路径
 
-```bash
-# 访问 https://crewclaw.com/agents
-# 选模板 → 下载完整包（Dockerfile + docker-compose + bot + README）
-# 解压后直接 docker compose up
-```
+- 仓库 README 强调可以把模板交给 CrewClaw 生成完整部署包
+- 这个包不止 `SOUL.md`，还会带 Dockerfile、docker-compose、bot、README
+- 所以它既是“模板仓库”，也是一个部署入口索引
 
 ---
 
-## 🗂️ 七大配置文件（OpenClaw 灵魂体系）
----
-emoji: 🗂️
-link: https://github.com/mergisi/awesome-openclaw-agents
-desc: OpenClaw 用纯 Markdown 文件定义 Agent，每次会话注入"灵魂"，不需要写代码。
----
-
-| 文件 | 回答的问题 | 类比 | 加载时机 |
-|------|-----------|------|---------|
-| **SOUL.md** | 它是谁？性格/价值观/行为准则 | Agent 的"灵魂"，定义人格 | 每次会话 |
-| **USER.md** | 为谁服务？用户画像/偏好 | 用户的使用说明书 | 每次会话 |
-| **AGENTS.md** | 怎么干活？决策规则/工作流程 | 岗位 SOP | 每次会话 |
-| **IDENTITY.md** | 叫什么？名字/头像/角色描述 | 名片/简历 | 每次会话 |
-| **TOOLS.md** | 用什么工具？API/插件/能力 | 工具操作手册 | 按需加载 |
-| **HEARTBEAT.md** | 定期做什么？心跳任务/定时检查 | 巡检清单 | 心跳轮询时 |
-| **BOOTSTRAP.md** | 首次怎么初始化？ | 入职引导手册 | 仅首次运行 |
-| **MEMORY.md** | 长期记住什么？事实/经验/偏好 | 持久记忆 | 持续累积 |
-
-### SOUL.md 三要素（Agent 人格核心）
-
-```markdown
-# SOUL.md 模板结构
-## 身份 (Identity)
-- 角色名称、专业背景、核心价值观
-
-## 行为准则 (Behavioral Guidelines)
-- 说话风格、拒绝场景、边界约束
-
-## 专业能力 (Expertise)
-- 擅长的领域、可输出的价值
-```
-
-> 一句话：SOUL.md 定风格，USER.md 定对象，AGENTS.md 定流程。少一个都容易翻车。
-
----
-
-## 📦 205 个模板 · 24 大类速查
+## 📦 当前仓库规模
 ---
 emoji: 📦
 link: https://github.com/mergisi/awesome-openclaw-agents
-desc: 按领域分类，可按场景直接检索，每类都有多个子模板。
+desc: 本地旧 cheatsheet 的核心数字没有完全错，但结构已经明显落后于上游 README，需要一起更新。
 ---
 
-### 💼 开发（Development）— 16 个
+### 当前已核验数据
 
-| Agent | 场景 |
-|-------|------|
-| 🔎 **Lens** | PR 代码审查、安全扫描 |
-| 📖 **Scribe** | README / API 文档生成 |
-| 🐛 **Trace** | 错误分析、根因调查 |
-| 🧪 **Probe** | API 测试、健康检查 |
-| 📋 **Log** | 自动 Changelog / Release Notes |
-| 🔗 **Dependency Scanner** | CVE 扫描 / 许可证检查 |
-| 🔀 **PR Merger** | 自动合并 / 冲突检测 |
-| 🗄️ **Migration Helper** | 数据库迁移 / 回滚辅助 |
-| 🛡️ **Sentinel** | TypeScript / Next.js 边界审查 |
-| 🔍 **Whisper** | 吞没错误 / 缺失事件检测 |
-| 🚨 **Beacon** | SEO 博客部署检查清单 |
-| ⚒️ **Forge** | Next.js / Vercel 构建失败诊断 |
-| ⚖️ **Verdict** | PR 合并就绪性分析 |
+- `205` 个 agent templates
+- `24` 个 categories
+- `132` 个 use cases
+- 新增 `skills/`、`configs/`、`memory-wiki/`、`TROUBLESHOOTING.md`
 
-### 📣 营销（Marketing）— 20 个
+### 你应该怎么理解它
 
-| Agent | 场景 |
-|-------|------|
-| ✍️ **Echo** | 博客 / 社媒 / 邮件内容生成 |
-| 📱 **Buzz** | Twitter / LinkedIn 多平台管理 |
-| 🔍 **Rank** | SEO 内容 / 关键词研究 |
-| 📬 **Digest** | 新闻周刊自动编排 |
-| 🔭 **Scout** | 竞品监控 / 定价情报 |
-| 👁️ **Brand Monitor** | 品牌提及监控 / 舆情预警 |
-| ♻️ **Content Repurposer** | 一篇内容 → 多平台分发 |
-| 📖 **Book Writer** | 整本书流水线（6阶段） |
-| 🎥 **UGC Video** | AI 影响者风格视频脚本 |
-| 📸 **Instagram Reels** | Reels 脚本 + 探索优化 |
-
-### 💼 商务（Business）— 12 个
-
-| Agent | 场景 |
-|-------|------|
-| 🎧 **Compass** | 工单分流 / 响应起草 / 升级 |
-| 💼 **Pipeline** | 线索评分 / 外联 / 漏斗报告 |
-| 💰 **Ledger** | 支付监控 / 发票追踪 / MRR |
-| 🔮 **Sentinel** | 流失风险评分 / 留存动作 |
-| 🤝 **Personal CRM** | 联系人追踪 / 跟进提醒 |
-| 🎯 **Deal Forecaster** | 交易关闭概率预测 |
-| 💲 **Competitor Pricing** | 竞品定价每日跟踪 |
-
-### 🚀 DevOps — 10 个
-
-| Agent | 场景 |
-|-------|------|
-| 🚨 **Incident Responder** | 告警分流 / 事件协调 |
-| 🚀 **Deploy Guardian** | CI/CD 监控 / 回滚告警 |
-| 🖥️ **Infra Monitor** | 服务器健康 / 磁盘/CPU |
-| 💸 **Cost Optimizer** | 云成本监控 / 节省建议 |
-| 🔧 **Self-Healing Server** | 自动重启 / 磁盘清理 |
-| 📜 **Log Analyzer** | 日志解析 / 异常检测 |
-
-### 💰 金融（Finance）— 10 个
-
-| Agent | 场景 |
-|-------|------|
-| 🧾 **Expense Tracker** | 费用分类 / 预算告警 |
-| 📈 **Revenue Analyst** | MRR 分析 / 流失预测 |
-| 📉 **Trading Bot** | 投资组合跟踪 / 价格预警 |
-| 🔍 **Fraud Detector** | 交易异常检测 |
-| 📊 **Financial Forecaster** | 收入/支出预测 |
-
-### 🏥 医疗（Healthcare）— 7 个
-
-| Agent | 场景 |
-|-------|------|
-| 🧘 **Wellness Coach** | 每日健康检查 / 情绪追踪 |
-| 🥗 **Meal Planner** | 周餐计划 / 营养追踪 |
-| 🩺 **Symptom Triage** | 结构化症状评估 / 紧急度判断 |
-| 💊 **Medication Checker** | 药物相互作用 / 剂量告警 |
-| 📋 **Clinical Notes** | SOAP 格式临床文档 |
-
-### ⚖️ 法律（Legal）— 6 个
-
-| Agent | 场景 |
-|-------|------|
-| 📜 **Contract Reviewer** | 合同审查 / 风险条款检测 |
-| ✅ **Compliance Checker** | 合规监控 / 截止日期跟踪 |
-| 📋 **Policy Writer** | 内部政策 / 服务条款起草 |
-| 🔬 **Patent Analyzer** | 专利分析 / 侵权风险 |
-
-### 👥 人力资源（HR）— 7 个
-
-| Agent | 场景 |
-|-------|------|
-| 🤝 **Recruiter** | 简历筛选 / 面试安排 |
-| 🎒 **Onboarding** | 新员工入职引导 |
-| 📊 **Performance Reviewer** | 绩效反馈收集 / 总结 |
-| 📄 **Resume Screener** | 简历评分 / 候选人排名 |
-| 🚪 **Exit Interview** | 离职面谈 / 留存洞察 |
-
-### 🧘 个人（Personal）— 7 个
-
-| Agent | 场景 |
-|-------|------|
-| 📅 **Atlas** | 日程优化 / 早晚复盘 |
-| 💪 **Iron** | 健身计划 / 营养追踪 |
-| ✈️ **Travel Planner** | 行程规划 / 预算管理 |
-| 👨‍👩‍👧‍👦 **Family Coordinator** | 共享日历 / 餐食规划 |
-| 🏠 **Home Automation** | 通过 Telegram 控制智能家居 |
-
-### 🎓 教育（Education）— 8 个
-
-| Agent | 场景 |
-|-------|------|
-| 🎓 **Tutor** | 概念讲解 / 练习题 |
-| ❓ **Quiz Maker** | 从学习材料自动生成测验 |
-| 🔬 **Research Assistant** | 论文搜索 / 摘要 / 引用 |
-| 🃏 **Flashcard Generator** | 间隔重复记忆卡生成 |
-
-### 其他类别
-
-| 类别 | Agent 数 | 典型场景 |
-|------|---------|---------|
-| **Productivity** | 7 | 任务协调 / 邮件分类 / 会议记录 |
-| **E-Commerce** | 6 | 库存预测 / 竞品监控 |
-| **Supply Chain** | 5 | 需求预测 / 补货推荐 |
-| **Compliance** | 4 | 监管合规监控 |
-| **Creative** | 12 | 品牌设计 / 视频脚本 |
-| **Security** | 3 | 漏洞扫描 / 威胁监控 |
-| **SaaS** | 5 | 订阅管理 / 功能分析 |
-| **Moltbook** | 9 | 跨知识库问答 |
+- 这不只是“一个 awesome list”
+- 它更像 OpenClaw 生态的模板市场 + 起步模板库 + 部署转化入口
+- README 现在比以前明显更产品化，也更接近“带增长漏斗的开源仓库”
 
 ---
 
-## 🔧 核心概念
+## 🗂️ 内容结构
 ---
-emoji: 🔧
+emoji: 🗂️
 link: https://github.com/mergisi/awesome-openclaw-agents
-desc: 理解 OpenClaw 的关键架构概念：SubAgent、工具过滤管道、Sandbox 隔离层。
+desc: 这份仓库现在已经不是单一 `agents/` 目录，而是围绕模板、技能、模型配置和 memory 建了一整套辅料。
 ---
 
-### SubAgent 机制
-
-父 Agent 把子任务打包成 `SpawnSubagentParams`，扔给注册中心 → 注册中心拉起独立会话执行 → 通过 `announce` 队列把结果返回给父 Agent。
-
-```
-关键特性：
-- 超时控制（防止任务卡死）
-- 孤儿恢复（子进程意外退出后重启）
-- 上下文隔离（fork 继承 / isolated 不继承父对话）
-```
-
-### 工具过滤管道（Tool Pipeline）
-
-```
-用户请求
-  ↓
-全局工具 → 用户白名单 → Agent 类型过滤 → 最终工具列表
-```
-
-每个 Agent 只拿到自己需要的工具，不是全量工具暴露。
-
-### Sandbox 隔离层
-
-Docker 容器执行 Agent 的工具操作（exec/read/write/edit），而非直接在主机上跑，确保安全边界。
+| 目录 / 文件 | 作用 |
+|---|---|
+| `agents/` | 205 个模板主体 |
+| `agents.json` | 机器可读索引 |
+| `quickstart/` | 最快跑通样例 |
+| `skills/` | 本地可复用 skills，覆盖 Gemma / Claude Code 等 |
+| `configs/` | 多模型配置包，如 GLM-5.1、Minimax M2.7、GPT-5.4 |
+| `memory-wiki/` | 预编译 memory 模板与引导脚本 |
+| `USE-CASES.md` | 真实场景清单 |
+| `TROUBLESHOOTING.md` | 模型、部署、已知问题排查 |
 
 ---
 
-## ⚙️ 模型配置（Model Configs）
+## 🧠 OpenClaw 灵魂文件体系
 ---
-emoji: ⚙️
-link: https://github.com/mergisi/awesome-openclaw-agents/tree/main/configs
-desc: 开箱即用的 GLM-5.1、Minimax M2.7、GPT-5.4 模型配置，支持成本优化和多 Provider 混用。
+emoji: 🧠
+link: https://github.com/mergisi/awesome-openclaw-agents
+desc: 这个仓库仍然把 `SOUL.md` 当核心，但已经不是“只有 SOUL.md 就够了”的叙事。
 ---
 
-### 多 Provider 混用示例
+| 文件 | 作用 | 类比 |
+|---|---|---|
+| `SOUL.md` | 角色身份、原则、风格 | Agent 的核心人格/策略文件 |
+| `USER.md` | 用户画像与偏好 | 用户配置说明书 |
+| `AGENTS.md` | 工作规则和流程 | 团队 SOP |
+| `IDENTITY.md` | 名字、人设、展示信息 | 名片 |
+| `TOOLS.md` | 工具边界与说明 | 工具接线文档 |
+| `HEARTBEAT.md` | 定时巡检动作 | 定时任务清单 |
+| `BOOTSTRAP.md` | 首次初始化步骤 | 安装向导 |
+| `MEMORY.md` | 持久记忆 | 项目级 memory 存储 |
 
-```bash
-# configs/ 下有多种模型配置
-# 可按任务类型分配不同模型（高成本任务用强模型，简单任务用轻模型）
-cp configs/glm-5.1/openai.yaml ~/.openclaw/agents/<agent>/agent/openai.yaml
-```
+### 实际理解方式
 
-### 成本优化策略
+- `SOUL.md` 决定它是谁
+- `AGENTS.md` 决定它怎么干活
+- `TOOLS.md` 决定它能干什么
+- `MEMORY.md` 决定它长期记住什么
 
-- 简单任务（分类/格式化）→ 轻量模型（GPT-4o-mini / GLM-Flash）
-- 复杂任务（推理/代码）→ 强模型（GPT-4 / Claude）
-- 定时心跳任务 → 最低成本模型
+这比“只写一个 prompt”更像把一个 agent 当成长期运行的软件组件。
+
+---
+
+## 🏷️ 分类速查
+---
+emoji: 🏷️
+link: https://github.com/mergisi/awesome-openclaw-agents
+desc: 分类比旧版更全，除了开发/营销/商务，也补进了 Voice、Customer Success、Automation 等更新板块。
+---
+
+### 高价值类别
+
+| 类别 | 特点 |
+|---|---|
+| Development | 代码审查、文档生成、排障、发布说明 |
+| Marketing | SEO、内容分发、品牌监控、视频脚本 |
+| Business | 线索、客服、漏斗、CRM |
+| DevOps | 事件响应、部署守护、成本优化 |
+| Finance | 收入分析、支出跟踪、价格预警 |
+| Productivity | standup、会议纪要、邮件分类、任务管理 |
+
+### 新增/易忽略类别
+
+- Data
+- Real Estate
+- Freelance
+- Voice
+- Customer Success
+- Automation
+- Moltbook
+
+如果你只按旧 cheatsheet 的几大类去理解，会低估这个仓库现在的覆盖面。
+
+---
+
+## 🧰 新增能力面
+---
+emoji: 🧰
+link: https://github.com/mergisi/awesome-openclaw-agents
+desc: 这份仓库的增量不只是模板数量，还包括模型切换、skills、本地 memory 和问题排查配套。
+---
+
+### Skills
+
+- `skills/gemma/`：面向 Google AI Edge / Gemma 的本地技能
+- `skills/claude/`：面向 Claude Code 的技能
+- README 已把“skills”提升为一级能力，不再是附带目录
+
+### Model Configs
+
+仓库当前提供的重点配置方向：
+
+- `configs/glm-5.1/`
+- `configs/minimax-m2.7/`
+- `configs/gpt-5.4/`
+- `configs/advisor-hybrid/`
+- `configs/ollama/`
+
+这意味着它已经不只是 OpenClaw 模板仓，也在主动给“如何换模型、如何省钱”提供落地包。
+
+### Memory Wiki
+
+- `memory-wiki/` 提供预编译 memory 模板
+- README 把它描述为 Karpathy-style pre-compiled agent memory
+- 这是一个高价值补充，因为很多 agent 真正贵的是重复探索成本
+
+---
+
+## 💸 成本与多模型策略
+---
+emoji: 💸
+link: https://github.com/mergisi/awesome-openclaw-agents
+desc: README 已明显把“模型成本”和“多 provider 切换”变成主叙事，而不只是顺手提一下。
+---
+
+### 当前强调的方向
+
+- Anthropic 定价变化后，鼓励切换到更低成本或本地方案
+- 仓库给了 Ollama、本地模型、GLM、Minimax、GPT-5.4 等替代方案
+- 适合把强模型留给复杂任务，把便宜模型交给 routine / heartbeat / formatting 类任务
+
+### 简化策略
+
+- 复杂推理 / 代码生成：强模型
+- 格式化 / 分类 / 心跳巡检：轻模型
+- 长期运行、低预算：Ollama / 本地方案优先
+
+---
+
+## ⚠️ 常见坑
+---
+emoji: ⚠️
+link: https://github.com/mergisi/awesome-openclaw-agents/blob/main/TROUBLESHOOTING.md
+desc: 这个仓库现在已经自带 troublehooting 文档，说明项目方也意识到模板落地时的环境差异很重。
+---
+
+### 1. 只复制 `SOUL.md`，没配工作目录结构
+
+很多模板实际上默认你还有对应的 workspace、工具、环境变量和部署方式。
+
+### 2. 误以为它只是“模板列表”
+
+实际上现在还包括：
+
+- models config
+- local skills
+- memory wiki
+- deployment path
+- troubleshooting
+
+### 3. 忽略 `agents.json`
+
+如果你要做脚本化索引、筛选或生成 UI，`agents.json` 比直接 scrape README 稳得多。
+
+### 4. 模型切换只改 prompt，不改 config bundle
+
+README 已把 `configs/` 提升成一级入口，说明模型迁移最好走整套配置包，不只是改模型名。
 
 ---
 
@@ -294,17 +249,18 @@ cp configs/glm-5.1/openai.yaml ~/.openclaw/agents/<agent>/agent/openai.yaml
 
 | 维度 | 评分 | 说明 |
 |------|------|------|
-| 模板数量 | ⬛⬛⬛⬛⬛ 5/5 | 205 个，覆盖 24 个领域 |
-| 上手难度 | ⬛⬛⬛⬛⬜ 4/5 | Quickstart 3 分钟可跑通 |
-| 分类深度 | ⬛⬛⬛⬛⬛ 5/5 | 从开发到医疗到法律，细分精准 |
-| 开源质量 | ⬛⬛⬛⬛⬜ 4/5 | MIT，49 次 commit，维护活跃 |
-| 部署便利 | ⬛⬛⬛⬛⬛ 5/5 | CrewClaw 一键部署完整包 |
+| 模板覆盖面 | ⬛⬛⬛⬛⬛ 5/5 | 205 个模板、24 个分类，覆盖面很广 |
+| 上手速度 | ⬛⬛⬛⬛⬜ 4/5 | `quickstart/` 和 CrewClaw 都降低了门槛 |
+| 配套完整度 | ⬛⬛⬛⬛⬛ 5/5 | skills、configs、memory wiki、troubleshooting 都补齐了 |
+| 工程严谨度 | ⬛⬛⬛⬛⬜ 4/5 | 适合作为模板库，但最终生产质量仍取决于你二次收敛 |
+| 内容漂移风险 | ⬛⬛⬛⬜⬜ 3/5 | README 演进很快，数字和目录结构需要定期同步 |
 
 ---
 
 ## 🔗 关键资源
 
 - GitHub：https://github.com/mergisi/awesome-openclaw-agents
-- 全部模板：https://crewclaw.com/agents
 - Quickstart：https://github.com/mergisi/awesome-openclaw-agents/tree/main/quickstart
-- agents.json：机器可读的 205 个模板索引
+- Use Cases：https://github.com/mergisi/awesome-openclaw-agents/blob/main/USE-CASES.md
+- Troubleshooting：https://github.com/mergisi/awesome-openclaw-agents/blob/main/TROUBLESHOOTING.md
+- CrewClaw：https://crewclaw.com/

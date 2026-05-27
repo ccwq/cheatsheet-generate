@@ -1,12 +1,13 @@
-desc: CodeGraph 是 AI Agent 的预索引代码知识图谱，用 tree-sitter 解析 + SQLite 存储，100% 本地运行，无需 API Key。
+desc: CodeGraph 是面向 Claude Code、Codex CLI、Cursor、Hermes Agent 等编码代理的本地代码知识图谱，用预索引替代大范围 grep/read。
 tags:
   - codegraph
   - mcp
   - ai-agent
-  - typescript
-  - rust
+  - code-search
   - tree-sitter
   - sqlite
-version: "1.0.0"
+  - codex
+  - claude-code
+version: "0.9.6"
 github: colbymchenry/codegraph
-date: "2026-05-26"
+date: "2026-05-27"

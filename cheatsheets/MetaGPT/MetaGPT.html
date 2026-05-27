@@ -13,7 +13,7 @@
       document.documentElement.setAttribute('data-theme', resolved);
     })();
   </script>
-  <title>Cheatsheet</title>
+  <title>MetaGPT 速查表</title>
   <link rel="stylesheet" href="../../assets/variables.css">
   <link rel="stylesheet" href="../../assets/global.css">
   <link rel="stylesheet" href="../../assets/cheatsheet.css">
@@ -21,12 +21,12 @@
   <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
-  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png">
-  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png">
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="apple-touch-icon" href="icon.png">
   <style>
     :root {
       /*默认列宽*/
-      --col-width: 340px; 
+      --col-width: 460px; 
       --gap: 16px;
     }
 
@@ -223,17 +223,17 @@
             </svg>
             <span>首页</span>
           </a>
-          <span class="title">Cheatsheet</span>
+          <span class="title">MetaGPT 速查表</span>
         </div>
       <!-- META_INFO_START -->
         <div class="meta-info">
-          <span class="meta-item"><span class="meta-label"></span><span class="meta-value">0.10.0</span></span>
-          <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-05-25</span></span>
-          <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/geekan/MetaGPT" target="_blank" rel="noopener">geekan/MetaGPT</a></span></span>
+          <span class="meta-item"><span class="meta-label"></span><span class="meta-value">0.8.2 / main (2026-05)</span></span>
+          <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-05-27</span></span>
+          <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/FoundationAgents/MetaGPT" target="_blank" rel="noopener">FoundationAgents/MetaGPT</a></span></span>
         </div>
         <div class="panel-actions">
-          <span class="meta-item meta-action"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/geekan/MetaGPT" target="_blank" rel="noopener">打开 Zread</a></span></span>
-          <span class="meta-item meta-action"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://codewiki.google/github.com/geekan/MetaGPT" target="_blank" rel="noopener">CodeWiki</a></span></span>
+          <span class="meta-item meta-action"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/FoundationAgents/MetaGPT" target="_blank" rel="noopener">打开 Zread</a></span></span>
+          <span class="meta-item meta-action"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://codewiki.google/github.com/FoundationAgents/MetaGPT" target="_blank" rel="noopener">CodeWiki</a></span></span>
           <div class="panel-tools">
             <label for="columnWidth">🔧 调整每列宽度：</label>
             <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
@@ -244,179 +244,43 @@
         </div>
       </div>
       <div class="panel-flow-row">
-        <div class="meta-tags"><tag-chip class="tag tag-group-0 detail-tag" data-name="ai-agent" data-group="0" label="ai-agent" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="multi-agent" data-group="0" label="multi-agent" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="python" data-group="0" label="python" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="metagpt" data-group="0" label="metagpt" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="sop" data-group="0" label="sop" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="software-engineering" data-group="0" label="software-engineering" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="framework" data-group="0" label="framework" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+        <div class="meta-tags"><tag-chip class="tag tag-group-0 detail-tag" data-name="ai-agent" data-group="0" label="ai-agent" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="multi-agent" data-group="0" label="multi-agent" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="python" data-group="0" label="python" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="metagpt" data-group="0" label="metagpt" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="sop" data-group="0" label="sop" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="software-engineering" data-group="0" label="software-engineering" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="workflow" data-group="0" label="workflow" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="structured-output" data-group="0" label="structured-output" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
       </div>
       <!-- META_INFO_END -->
     </div>
     <div class="cheat-columns" id="columns">
-      <div class="card"><h2>🚀 安装与入口 <a href="https://docs.deepwisdom.ai/main/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">MetaGPT 是一个将 SOP 编码进 prompt 的 multi-agent 软件开发框架，输入一行需求，输出完整软件工程产出物。</div><h3>安装</h3><pre><code class="language-bash">pip install metagpt                    # 核心包
-pip install metagpt[tools]            # 含工具集
-# 或
-conda install metagpt -c conda-forge</code></pre><h3>环境配置</h3><pre><code class="language-bash">export OPENAI_API_KEY=your_key_here
-export OPENAI_API_MODEL=gpt-4         # 可选，默认 gpt-4
-# 或配置文件 ~/.metagpt/config.yml</code></pre></div><div class="card"><h2>💡 核心理念：Code = SOP(Team) <a href="https://arxiv.org/abs/2308.00352" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">把真实软件公司的标准化操作程序（SOP）编码进 prompt，用装配线模式让多个 Agent 像真实团队一样协作。</div><h3>与 CrewAI 的核心区别</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>维度</th><th>CrewAI</th><th>MetaGPT</th></tr></thead><tbody><tr><td>人格定义</td><td>role + goal + backstory</td><td>profile + goal + constraints（职位标准化）</td></tr><tr><td>输出风格</td><td>自由文本</td><td>强制结构化文档（JSON/PRD/代码）</td></tr><tr><td>协作模式</td><td>Agent 自由协商</td><td>装配线模式，强制顺序依赖</td></tr><tr><td>人格稳定性</td><td>靠 backstory 驱动，可能漂移</td><td>靠 SOP 强制约束，极稳定</td></tr><tr><td>适用场景</td><td>灵活探索</td><td>标准化质量流程</td></tr></tbody></table></div></div><div class="card"><h2>🏗️ 核心组件 <a href="https://docs.deepwisdom.ai/main/en/guide/get_started/introduction" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">MetaGPT 的核心组件：Role（角色）、Action（动作）、Memory（记忆）、Message（消息队列）。</div><h3>Role：职位人格定义</h3><pre><code class="language-python">from metagpt.roles import Role
-from metagpt.actions import Action
+      <div class="card"><h2>🚀 一句话定位 <a href="https://docs.deepwisdom.ai/main/en/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">MetaGPT 是把 SOP 编进多 Agent 协作流程的软件工程框架，强调“像软件公司一样分工”，而不是纯角色聊天。</div><div class="desc">核心价值： 不是“多个 Agent 一起聊”，而是把产品、架构、研发、测试这类职责链显式化，让输出更像工程流水线。</div></div><div class="card"><h2>⚡ 安装与前提 <a href="https://docs.deepwisdom.ai/main/en/guide/get_started/installation.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">当前官方 README 和 PyPI 信息能对齐到安装、Python 版本和配置文件路径，但 release 节奏不连续，版本判断要保守。</div><h3>安装</h3><pre><code class="language-bash">pip install --upgrade metagpt
+
+# 或直接装主仓
+pip install --upgrade git+https://github.com/FoundationAgents/MetaGPT.git</code></pre><h3>环境要求</h3><ul><li><code>&gt;=3.9,&lt;3.12</code></li><li><code>pnpm</code></li><li>这是一个偏“工程工作流”的框架，不是只装一个 Python 包就万事大吉</li></ul><h3>配置初始化</h3><pre><code class="language-bash">metagpt --init-config</code></pre><div class="desc">配置文件路径是：</div><pre><code class="language-bash">~/.metagpt/config2.yaml</code></pre><div class="desc">这一点要特别注意，本地旧 cheatsheet 写成 config.yml 是错误的。</div></div><div class="card"><h2>💡 核心理念：Code = SOP(Team) <a href="https://openreview.net/forum?id=VtmBAGCN7o" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">MetaGPT 的关键不是人格，而是把团队 SOP 显式编码进角色和动作链路。</div><h3>怎么理解这句话</h3><ul><li><code>Code</code></li><li><code>SOP</code></li><li><code>Team</code></li></ul><h3>和常见多 Agent 框架的区别</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>维度</th><th>MetaGPT</th><th>常见 role-play 框架</th></tr></thead><tbody><tr><td>核心抽象</td><td>SOP + Role + Action</td><td>Persona + Tool + Chat</td></tr><tr><td>输出风格</td><td>文档化、流程化、工程化</td><td>对话化、灵活但更容易漂</td></tr><tr><td>强项</td><td>软件工程、结构化交付</td><td>开放场景、探索型任务</td></tr><tr><td>代价</td><td>灵活性稍低，约束更强</td><td>更自由，但工程一致性差</td></tr></tbody></table></div></div><div class="card"><h2>🏗️ 核心对象 <a href="https://docs.deepwisdom.ai/main/en/guide/get_started/introduction.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">读 MetaGPT 文档时，最值得先抓住的是 Role、Action、Message、Memory、Team 这几个对象。</div><h3>Role</h3><pre><code class="language-python">from metagpt.roles import Role
 
 class MyRole(Role):
-    name: str = &quot;角色名&quot;        # Agent 名称
-    profile: str = &quot;职位&quot;      # 角色类型，如 ProductManager
-    goal: str = &quot;目标&quot;         # 主要目标
-    constraints: str = &quot;约束&quot;  # 操作约束
-
-    async def _observe(self) -&gt; None:
-        # 观察环境消息
-        ...
-
-    async def _think(self) -&gt; None:
-        # 决策下一步 Action
-        ...
-
-    async def _act(self) -&gt; None:
-        # 执行当前 Action
-        ...</code></pre><h3>内置角色（开箱即用）</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>角色</th><th>职责</th><th>输出</th></tr></thead><tbody><tr><td>ProductManager</td><td>需求分析 → 写 PRD</td><td>用户故事、需求文档</td></tr><tr><td>Architect</td><td>系统设计 → 输出架构图</td><td>数据结构、API 设计</td></tr><tr><td>ProjectManager</td><td>任务拆分 → 分配任务</td><td>任务列表、工单</td></tr><tr><td>Engineer</td><td>编写代码 → 实现功能</td><td>可运行代码</td></tr><tr><td>QAEngineer</td><td>测试 → 缺陷报告</td><td>测试用例、问题列表</td></tr></tbody></table></div><h3>Action：动作模块</h3><pre><code class="language-python">from metagpt.actions import Action
+    name: str = &quot;MyRole&quot;
+    profile: str = &quot;领域角色&quot;
+    goal: str = &quot;完成具体目标&quot;
+    constraints: str = &quot;遵守给定约束&quot;</code></pre><div class="desc">Role 更像“岗位”，不是单纯人格。你可以把它类比成前端项目里的“组件接口定义”，重点是职责边界清不清楚。</div><h3>Action</h3><pre><code class="language-python">from metagpt.actions import Action
 
 class MyAction(Action):
     name: str = &quot;动作名&quot;
+
     async def run(self, *args, **kwargs) -&gt; str:
-        # 业务逻辑
-        return result</code></pre><h3>内置 Action</h3><pre><code class="language-python">from metagpt.actions import (
-    WritePRD,         # 写需求文档
-    WriteDesign,      # 写设计文档
-    WriteCode,        # 写代码
-    WriteReview,      # 代码审查
-    WriteTest,        # 写测试用例
-)</code></pre></div><div class="card"><h2>📋 SOP 装配线：从需求到代码 <a href="https://arxiv.org/abs/2308.00352" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">MetaGPT 的核心流程：一行需求 → PRD → 架构设计 → 任务拆分 → 代码 → 测试。</div><h3>默认流水线</h3><pre><code class="language-bash">用户输入（一行需求）
-    ↓
-ProductManager  →  写 PRD（用户故事、竞品分析）
-    ↓
-Architect      →  系统设计（数据结构、API、模块划分）
-    ↓
-ProjectManager →  任务拆分（子任务分配给 Engineer）
-    ↓
-Engineer       →  编写代码（各自实现模块）
-    ↓
-QAEngineer     →  测试验证（生成测试用例、发现缺陷）</code></pre><h3>触发方式</h3><pre><code class="language-python">import asyncio
-from metagpt.roles import ProductManager, Architect, Engineer
-from metagpt.const import MAX_TOKENS
+        return &quot;result&quot;</code></pre><div class="desc">Action 更像“岗位里的某一步标准动作”。</div><h3>Message / Memory / Team</h3><ul><li><code>Message</code></li><li><code>memory</code></li><li><code>working_memory</code></li><li><code>Team</code></li></ul></div><div class="card"><h2>👥 内置软件公司角色 <a href="https://docs.deepwisdom.ai/main/en/" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">MetaGPT 的默认角色链本质上就是一个“软件公司最小组织模型”。</div><div class="table-wrap"><table class="cheat-table"><thead><tr><th>角色</th><th>职责</th><th>常见产物</th></tr></thead><tbody><tr><td>ProductManager</td><td>需求分析</td><td>用户故事、PRD</td></tr><tr><td>Architect</td><td>架构设计</td><td>设计文档、模块划分、API 草案</td></tr><tr><td>ProjectManager</td><td>任务拆分</td><td>子任务、里程碑</td></tr><tr><td>Engineer</td><td>编码实现</td><td>代码、实现细节</td></tr><tr><td>QAEngineer</td><td>测试验证</td><td>测试报告、缺陷反馈</td></tr></tbody></table></div><div class="desc">这种设计的优点是稳定，缺点是如果你的任务不是“做软件”，就会显得有点重。</div></div><div class="card"><h2>🛠️ 快速使用 <a href="https://docs.deepwisdom.ai/main/en/guide/get_started/quickstart.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">MetaGPT 同时支持 CLI 用法和库用法，但真正高频的还是“给一个需求，生成完整工程产物”。</div><h3>CLI</h3><pre><code class="language-bash">metagpt &quot;Create a 2048 game&quot;</code></pre><div class="desc">这类调用会在工作目录里生成产物仓库或工作空间。</div><h3>作为库调用</h3><pre><code class="language-python">from metagpt.software_company import generate_repo
+from metagpt.utils.project_repo import ProjectRepo
+
+repo: ProjectRepo = generate_repo(&quot;Create a 2048 game&quot;)
+print(repo)</code></pre><h3>Data Interpreter</h3><pre><code class="language-python">import asyncio
+from metagpt.roles.di.data_interpreter import DataInterpreter
 
 async def main():
-    idea = &quot;开发一个电商平台的商品推荐系统&quot;
+    di = DataInterpreter()
+    await di.run(&quot;Run data analysis on sklearn Iris dataset, include a plot&quot;)
 
-    # 方式一：调用内置角色链
-    await ProductManager().run(idea)
-    await Architect().run()
-    await Engineer().run()
-
-    # 方式二：自定义角色链
-    team = Team()
-    team.hire([ProductManager(), Architect(), Engineer()])
-    team.run_project(idea)
-
-asyncio.run(main())</code></pre><h3>最小示例</h3><pre><code class="language-python">import asyncio
-from metagpt.roles import ProductManager, Architect, Engineer
-
-async def main():
-    result = await ProductManager().run(
-        &quot;做一个Todo列表应用&quot;
-    )
-    print(result)
-
-asyncio.run(main())</code></pre></div><div class="card"><h2>🧠 Memory：双层记忆架构 <a href="https://docs.deepwisdom.ai/main/en/guide/tutorials/galaxy_archive" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">MetaGPT 使用 memory（团队共享）+ working_memory（个体工作）双层结构。</div><h3>记忆层级</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>层</th><th>类型</th><th>说明</th></tr></thead><tbody><tr><td>memory</td><td>团队共享记忆</td><td>所有 Agent 可访问的消息历史</td></tr><tr><td>working_memory</td><td>个体工作记忆</td><td>当前 Agent 的状态和待处理任务</td></tr></tbody></table></div><h3>记忆操作</h3><pre><code class="language-python">class MyRole(Role):
-    async def _observe(self):
-        &quot;&quot;&quot;观察并更新记忆&quot;&quot;&quot;
-        self.memory.add(message)      # 添加消息
-        self.working_memory.add(task) # 添加工作任务
-
-    def recall(self, query: str) -&gt; list:
-        &quot;&quot;&quot;检索记忆&quot;&quot;&quot;
-        return self.memory.search(query)</code></pre></div><div class="card"><h2>💬 Message：结构化消息传递 <a href="https://docs.deepwisdom.ai/main/en/guide/get_started/concepts" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">Agent 之间通过 MessageQueue 结构化传递消息，强制格式减少幻觉。</div><h3>消息格式</h3><pre><code class="language-python">from metagpt.schema import Message
-
-msg = Message(
-    content=&quot;需求文档已完成，详见 PRD.md&quot;,
-    role=&quot;assistant&quot;,
-    cause_by=WritePRD,          # 由哪个 Action 产生
-    sent_from=&quot;Alice&quot;,         # 发送者
-    send_to=[&quot;Bob&quot;, &quot;Charlie&quot;] # 接收者列表
-)</code></pre><h3>消息队列</h3><pre><code class="language-python">class Role:
-    msg_buffer: MessageQueue  # 消息缓冲区
-
-    async def _observe(self):
-        &quot;&quot;&quot;从队列中获取新消息&quot;&quot;&quot;
-        new_messages = self.msg_buffer.get_new()
-
-    def _send(self, msg: Message):
-        &quot;&quot;&quot;发送消息给其他 Agent&quot;&quot;&quot;
-        self.msg_buffer.put(msg)</code></pre></div><div class="card"><h2>🎯 ActionNode：结构化输出模板 <a href="https://docs.deepwisdom.ai/main/en/guide/tutorials/galaxy_archive" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">ActionNode 强制 Agent 输出 JSON 结构化数据，减少自由文本的幻觉。</div><h3>定义 ActionNode</h3><pre><code class="language-python">from metagpt.actions.action_node import ActionNode
-
-STRUCT_WRITE = ActionNode(
-    key=&quot;小说结构&quot;,
-    expected_type=str,
-    instruction=&quot;&quot;&quot;
-    按以下结构输出小说基本信息：
-    标题: ...
-    主角: ...
-    设定: ...
-    冲突: ...
-    &quot;&quot;&quot;,
-    example=&quot;标题: xxx\n主角: xxx\n...&quot;
-)
-
-result = await STRUCT_WRITE.run(context=&quot;科幻题材&quot;)
-print(result)  # 结构化 JSON 输出</code></pre><h3>使用场景</h3><ul><li>PRD 模板强制字段</li><li>代码审查清单</li><li>测试用例结构</li><li>任何需要强制格式的场景</li></ul></div><div class="card"><h2>🔧 自定义扩展 <a href="https://docs.deepwisdom.ai/main/en/guide/advanced_tutorials/customized_actions" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">通过继承 Role 和 Action 基类，可以构建领域专家系统。</div><h3>自定义 Role 模板</h3><pre><code class="language-python">from metagpt.roles import Role
-from metagpt.actions import Action
-
-class MedicalDoctor(Role):
-    name: str = &quot;MedicalDoctor&quot;
-    profile: str = &quot;医疗诊断专家&quot;
-    goal: str = &quot;提供准确的医疗诊断建议&quot;
-    constraints: str = &quot;遵守医疗伦理，只提供参考信息&quot;
-
-    async def _think(self):
-        # 决策逻辑
-        ...
-
-    async def _act(self):
-        # 诊断动作
-        ...</code></pre><h3>自定义 Action</h3><pre><code class="language-python">class DiagnoseAction(Action):
-    name: str = &quot;医疗诊断&quot;
-
-    async def run(self, symptoms: str, history: str) -&gt; str:
-        # 诊断逻辑
-        return diagnosis_result</code></pre><h3>领域 SOP 示例</h3><pre><code class="language-python"># 医疗领域 SOP
-class MedicalTeam(Team):
-    def __init__(self):
-        self.hire([
-            MedicalDoctor(),    # 诊断
-            Pharmacist(),       # 开药
-            Nurse(),           # 护理
-        ])
-        self.setup_sop([
-            &quot;收集症状&quot;,
-            &quot;初步诊断&quot;,
-            &quot;开药建议&quot;,
-            &quot;护理计划&quot;
-        ])</code></pre></div><div class="card"><h2>⚠️ 常见陷阱 <a href="https://docs.deepwisordom.ai/main/en/guide/get_started/faq" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">MetaGPT 开发中的高频踩坑点。</div><h3>1. 缺少 OPENAI_API_KEY</h3><pre><code class="language-bash"># ❌ 直接运行报错
-python main.py
-
-# ✅ 先配置环境变量
-export OPENAI_API_KEY=sk-xxxx
-python main.py</code></pre><h3>2. 消息循环死锁</h3><pre><code class="language-python"># ❌ Agent 互相等待对方消息，形成死锁
-# 解决：设置消息超时，手动终止长时间等待
-
-role.set_timeout(seconds=300)</code></pre><h3>3. 输出格式不稳定</h3><pre><code class="language-python"># ❌ 缺少 ActionNode 约束，输出格式乱
-# 解决：使用 ActionNode 强制 JSON 结构
-
-design_node = ActionNode(
-    key=&quot;系统设计&quot;,
-    expected_type=str,
-    instruction=&quot;输出 JSON：{\&quot;模块\&quot;:[], \&quot;接口\&quot;:[]}&quot;
-)</code></pre><h3>4. 长任务上下文截断</h3><pre><code class="language-python"># 解决：设置 MAX_TOKENS，或分阶段处理
-from metagpt.const import MAX_TOKENS
-MAX_TOKENS = 32000  # 增大上下文窗口</code></pre><h3>5. 角色职责重叠</h3><pre><code class="language-python"># ❌ 两个角色做同样的事
-# 解决：明确 constraints，每个角色只做一件事
-
-architect = Architect(constraints=&quot;只做系统设计，不写代码&quot;)
-engineer = Engineer(constraints=&quot;只写代码，不做设计&quot;)</code></pre></div><div class="card"><h2>📊 评分条速查</h2><div class="table-wrap"><table class="cheat-table"><thead><tr><th>维度</th><th>评分</th><th>说明</th></tr></thead><tbody><tr><td>上手难度</td><td>⬛⬛⬛⬜⬜ 3/5</td><td>概念清晰，跟着 SOP 走就行</td></tr><tr><td>人格稳定性</td><td>⬛⬛⬛⬛⬜ 4/5</td><td>SOP 强制约束，不会漂移</td></tr><tr><td>输出结构化</td><td>⬛⬛⬛⬛⬛ 5/5</td><td>强制 JSON/文档，减少幻觉</td></tr><tr><td>软件工程</td><td>⬛⬛⬛⬛⬛ 5/5</td><td>开箱即用的完整开发流程</td></tr><tr><td>灵活性</td><td>⬛⬛⬛⬜⬜ 3/5</td><td>主要针对软件工程，其他场景弱</td></tr></tbody></table></div></div><div class="card"><h2>🔗 关键资源</h2><ul><li>官方文档：https://docs.deepwisdom.ai/main/en/</li><li>GitHub：https://github.com/geekan/MetaGPT</li><li>论文：arXiv:2308.00352</li></ul></div>
+asyncio.run(main())</code></pre><div class="desc">这说明 MetaGPT 不只是“软件公司模拟器”，也在扩展到更广的 agent / tool use 场景。</div></div><div class="card"><h2>🔄 默认流水线 <a href="https://docs.deepwisdom.ai/main/en/guide/get_started/introduction.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">默认链路就是把一行需求依次喂给产品、架构、项目管理、工程和测试角色。</div><pre><code class="language-text">需求
+  -&gt; ProductManager
+  -&gt; Architect
+  -&gt; ProjectManager
+  -&gt; Engineer
+  -&gt; QAEngineer</code></pre><div class="desc">这种流水线的好处是：</div><ul><li>产物结构稳定</li><li>角色职责清晰</li><li>比纯对话式多 Agent 更容易复盘和审查</li></ul><div class="desc">代价是：</div><ul><li>对临时探索任务偏重</li><li>你需要接受 SOP 约束带来的固定感</li></ul></div><div class="card"><h2>🧠 记忆与结构化输出 <a href="https://docs.deepwisdom.ai/main/en/guide/get_started/concepts" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">MetaGPT 的稳定性很大程度来自记忆分层和结构化消息，不只是 prompt 写得好。</div><h3>记忆层级</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>层</th><th>说明</th></tr></thead><tbody><tr><td>memory</td><td>团队共享记忆</td></tr><tr><td>working_memory</td><td>单角色工作记忆</td></tr></tbody></table></div><h3>ActionNode</h3><div class="desc">ActionNode 用来强制结构化输出，适合：</div><ul><li>PRD 字段模板</li><li>设计文档骨架</li><li>测试用例格式约束</li><li>JSON / 表格输出规范</li></ul><div class="desc">如果你把它类比成前端里的 schema 或表单校验器，会比较好理解：不是让模型自由发挥，而是先把输出接口定下来。</div></div><div class="card"><h2>🚧 当前状态判断 <a href="https://github.com/FoundationAgents/MetaGPT" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">这个项目仓库活跃度、官网叙事和 PyPI 版本节奏并不完全同步，更新时必须保守处理版本口径。</div><h3>这次 review 后的判断</h3><ul><li><code>FoundationAgents/MetaGPT</code></li><li><code>MGX (MetaGPT X)</code></li><li><code>v0.8.1</code></li><li><code>0.8.2</code></li></ul><div class="desc">因此这里不再沿用本地旧的 0.10.0，改为：</div><pre><code class="language-text">0.8.2 / main (2026-05)</code></pre><div class="desc">这比伪造一个“看起来更新”的版本更严谨。</div></div><div class="card"><h2>⚠️ 常见坑 <a href="https://docs.deepwisdom.ai/main/en/guide/faq.html" title="官方文档" target="_blank" style="color:#93cdfc;">&gt;&gt;&gt;</a></h2><div class="desc">MetaGPT 的问题大多不是“API 不会调”，而是环境、角色边界和长流程稳定性没收好。</div><h3>1. 配错配置文件路径</h3><div class="desc">正确是：</div><pre><code class="language-bash">~/.metagpt/config2.yaml</code></pre><h3>2. 只配 Python，不装 Node / pnpm</h3><div class="desc">官方 README 已明确要求实际使用前安装它们。</div><h3>3. 角色职责重叠</h3><div class="desc">如果 Architect 和 Engineer 都在做设计决策，最后产物会互相打架。</div><h3>4. 长任务上下文过重</h3><div class="desc">多角色、多文档流水线天然容易膨胀，适合拆阶段，不适合无边界一把跑到底。</div><h3>5. 版本信息误判</h3><ul><li><code>geekan/MetaGPT</code></li><li>GitHub Release、PyPI、README 三者节奏不同，更新时必须交叉验证</li></ul></div><div class="card"><h2>📊 评分条速查</h2><div class="table-wrap"><table class="cheat-table"><thead><tr><th>维度</th><th>评分</th><th>说明</th></tr></thead><tbody><tr><td>软件工程表达力</td><td>⬛⬛⬛⬛⬛ 5/5</td><td>SOP 化表达很强，产物链也清晰</td></tr><tr><td>结构化输出</td><td>⬛⬛⬛⬛⬜ 4/5</td><td>Role/Action/ActionNode 组合很适合文档和工程产物</td></tr><tr><td>上手成本</td><td>⬛⬛⬛⬜⬜ 3/5</td><td>环境、角色链和配置文件都比轻量框架重</td></tr><tr><td>通用场景灵活性</td><td>⬛⬛⬛⬜⬜ 3/5</td><td>偏软件工程，不是所有 agent 场景都天然适配</td></tr><tr><td>版本清晰度</td><td>⬛⬛⬜⬜⬜ 2/5</td><td>GitHub / PyPI / 官网节奏不完全同步，需谨慎核验</td></tr></tbody></table></div></div><div class="card"><h2>🔗 关键资源</h2><ul><li>官方文档：https://docs.deepwisdom.ai/main/en/</li><li>GitHub：https://github.com/FoundationAgents/MetaGPT</li><li>PyPI：https://pypi.org/project/metagpt/</li><li>论文：https://openreview.net/forum?id=VtmBAGCN7o</li><li>MGX：https://mgx.dev/</li></ul></div>
     </div>
   </div>
 

@@ -1,411 +1,301 @@
 ---
-title:MetaGPT 速查表
-lang:python
-version: "0.10.0"
-date: 2026-05-25
-github: geekan/MetaGPT
+title: MetaGPT 速查表
+lang: python
+version: "0.8.2 / main (2026-05)"
+date: 2026-05-27
+github: FoundationAgents/MetaGPT
 colWidth: 460px
 ---
 
-## 🚀 安装与入口
+## 🚀 一句话定位
 ---
 emoji: 🚀
-link: https://docs.deepwisdom.ai/main/
-desc: MetaGPT 是一个将 SOP 编码进 prompt 的 multi-agent 软件开发框架，输入一行需求，输出完整软件工程产出物。
+link: https://docs.deepwisdom.ai/main/en/
+desc: MetaGPT 是把 SOP 编进多 Agent 协作流程的软件工程框架，强调“像软件公司一样分工”，而不是纯角色聊天。
+---
+
+**核心价值：** 不是“多个 Agent 一起聊”，而是把产品、架构、研发、测试这类职责链显式化，让输出更像工程流水线。
+
+---
+
+## ⚡ 安装与前提
+---
+emoji: ⚡
+link: https://docs.deepwisdom.ai/main/en/guide/get_started/installation.html
+desc: 当前官方 README 和 PyPI 信息能对齐到安装、Python 版本和配置文件路径，但 release 节奏不连续，版本判断要保守。
 ---
 
 ### 安装
 
 ```bash
-pip install metagpt                    # 核心包
-pip install metagpt[tools]            # 含工具集
-# 或
-conda install metagpt -c conda-forge
+pip install --upgrade metagpt
+
+# 或直接装主仓
+pip install --upgrade git+https://github.com/FoundationAgents/MetaGPT.git
 ```
 
-### 环境配置
+### 环境要求
+
+- Python `>=3.9,<3.12`
+- 官方 README 明确要求实际使用前安装 Node 和 `pnpm`
+- 这是一个偏“工程工作流”的框架，不是只装一个 Python 包就万事大吉
+
+### 配置初始化
 
 ```bash
-export OPENAI_API_KEY=your_key_here
-export OPENAI_API_MODEL=gpt-4         # 可选，默认 gpt-4
-# 或配置文件 ~/.metagpt/config.yml
+metagpt --init-config
 ```
+
+配置文件路径是：
+
+```bash
+~/.metagpt/config2.yaml
+```
+
+这一点要特别注意，本地旧 cheatsheet 写成 `config.yml` 是错误的。
 
 ---
 
 ## 💡 核心理念：Code = SOP(Team)
 ---
 emoji: 💡
-link: https://arxiv.org/abs/2308.00352
-desc: 把真实软件公司的标准化操作程序（SOP）编码进 prompt，用装配线模式让多个 Agent 像真实团队一样协作。
+link: https://openreview.net/forum?id=VtmBAGCN7o
+desc: MetaGPT 的关键不是人格，而是把团队 SOP 显式编码进角色和动作链路。
 ---
 
-### 与 CrewAI 的核心区别
+### 怎么理解这句话
 
-| 维度 | CrewAI | MetaGPT |
-|------|--------|---------|
-| 人格定义 | role + goal + backstory | profile + goal + constraints（职位标准化） |
-| 输出风格 | 自由文本 | 强制结构化文档（JSON/PRD/代码） |
-| 协作模式 | Agent 自由协商 | 装配线模式，强制顺序依赖 |
-| 人格稳定性 | 靠 backstory 驱动，可能漂移 | 靠 SOP 强制约束，极稳定 |
-| 适用场景 | 灵活探索 | 标准化质量流程 |
+- `Code` 不只是最终代码文件
+- `SOP` 代表需求、设计、实现、测试等步骤被拆成规范动作
+- `Team` 代表多个角色按固定职责协作，而不是自由聊天
+
+### 和常见多 Agent 框架的区别
+
+| 维度 | MetaGPT | 常见 role-play 框架 |
+|---|---|---|
+| 核心抽象 | SOP + Role + Action | Persona + Tool + Chat |
+| 输出风格 | 文档化、流程化、工程化 | 对话化、灵活但更容易漂 |
+| 强项 | 软件工程、结构化交付 | 开放场景、探索型任务 |
+| 代价 | 灵活性稍低，约束更强 | 更自由，但工程一致性差 |
 
 ---
 
-## 🏗️ 核心组件
+## 🏗️ 核心对象
 ---
 emoji: 🏗️
-link: https://docs.deepwisdom.ai/main/en/guide/get_started/introduction
-desc: MetaGPT 的核心组件：Role（角色）、Action（动作）、Memory（记忆）、Message（消息队列）。
+link: https://docs.deepwisdom.ai/main/en/guide/get_started/introduction.html
+desc: 读 MetaGPT 文档时，最值得先抓住的是 Role、Action、Message、Memory、Team 这几个对象。
 ---
 
-### Role：职位人格定义
+### Role
 
 ```python
 from metagpt.roles import Role
-from metagpt.actions import Action
 
 class MyRole(Role):
-    name: str = "角色名"        # Agent 名称
-    profile: str = "职位"      # 角色类型，如 ProductManager
-    goal: str = "目标"         # 主要目标
-    constraints: str = "约束"  # 操作约束
-
-    async def _observe(self) -> None:
-        # 观察环境消息
-        ...
-
-    async def _think(self) -> None:
-        # 决策下一步 Action
-        ...
-
-    async def _act(self) -> None:
-        # 执行当前 Action
-        ...
+    name: str = "MyRole"
+    profile: str = "领域角色"
+    goal: str = "完成具体目标"
+    constraints: str = "遵守给定约束"
 ```
 
-### 内置角色（开箱即用）
+`Role` 更像“岗位”，不是单纯人格。你可以把它类比成前端项目里的“组件接口定义”，重点是职责边界清不清楚。
 
-| 角色 | 职责 | 输出 |
-|------|------|------|
-| **ProductManager** | 需求分析 → 写 PRD | 用户故事、需求文档 |
-| **Architect** | 系统设计 → 输出架构图 | 数据结构、API 设计 |
-| **ProjectManager** | 任务拆分 → 分配任务 | 任务列表、工单 |
-| **Engineer** | 编写代码 → 实现功能 | 可运行代码 |
-| **QAEngineer** | 测试 → 缺陷报告 | 测试用例、问题列表 |
-
-### Action：动作模块
+### Action
 
 ```python
 from metagpt.actions import Action
 
 class MyAction(Action):
     name: str = "动作名"
+
     async def run(self, *args, **kwargs) -> str:
-        # 业务逻辑
-        return result
+        return "result"
 ```
 
-### 内置 Action
+`Action` 更像“岗位里的某一步标准动作”。
+
+### Message / Memory / Team
+
+- `Message` 负责角色之间的结构化消息传递
+- `memory` 负责共享记忆
+- `working_memory` 负责个体工作记忆
+- `Team` 负责把多个角色组织成一个执行单元
+
+---
+
+## 👥 内置软件公司角色
+---
+emoji: 👥
+link: https://docs.deepwisdom.ai/main/en/
+desc: MetaGPT 的默认角色链本质上就是一个“软件公司最小组织模型”。
+---
+
+| 角色 | 职责 | 常见产物 |
+|---|---|---|
+| `ProductManager` | 需求分析 | 用户故事、PRD |
+| `Architect` | 架构设计 | 设计文档、模块划分、API 草案 |
+| `ProjectManager` | 任务拆分 | 子任务、里程碑 |
+| `Engineer` | 编码实现 | 代码、实现细节 |
+| `QAEngineer` | 测试验证 | 测试报告、缺陷反馈 |
+
+这种设计的优点是稳定，缺点是如果你的任务不是“做软件”，就会显得有点重。
+
+---
+
+## 🛠️ 快速使用
+---
+emoji: 🛠️
+link: https://docs.deepwisdom.ai/main/en/guide/get_started/quickstart.html
+desc: MetaGPT 同时支持 CLI 用法和库用法，但真正高频的还是“给一个需求，生成完整工程产物”。
+---
+
+### CLI
+
+```bash
+metagpt "Create a 2048 game"
+```
+
+这类调用会在工作目录里生成产物仓库或工作空间。
+
+### 作为库调用
 
 ```python
-from metagpt.actions import (
-    WritePRD,         # 写需求文档
-    WriteDesign,      # 写设计文档
-    WriteCode,        # 写代码
-    WriteReview,      # 代码审查
-    WriteTest,        # 写测试用例
-)
+from metagpt.software_company import generate_repo
+from metagpt.utils.project_repo import ProjectRepo
+
+repo: ProjectRepo = generate_repo("Create a 2048 game")
+print(repo)
 ```
 
----
-
-## 📋 SOP 装配线：从需求到代码
----
-emoji: 📋
-link: https://arxiv.org/abs/2308.00352
-desc: MetaGPT 的核心流程：一行需求 → PRD → 架构设计 → 任务拆分 → 代码 → 测试。
----
-
-### 默认流水线
-
-```
-用户输入（一行需求）
-    ↓
-ProductManager  →  写 PRD（用户故事、竞品分析）
-    ↓
-Architect      →  系统设计（数据结构、API、模块划分）
-    ↓
-ProjectManager →  任务拆分（子任务分配给 Engineer）
-    ↓
-Engineer       →  编写代码（各自实现模块）
-    ↓
-QAEngineer     →  测试验证（生成测试用例、发现缺陷）
-```
-
-### 触发方式
+### Data Interpreter
 
 ```python
 import asyncio
-from metagpt.roles import ProductManager, Architect, Engineer
-from metagpt.const import MAX_TOKENS
+from metagpt.roles.di.data_interpreter import DataInterpreter
 
 async def main():
-    idea = "开发一个电商平台的商品推荐系统"
-
-    # 方式一：调用内置角色链
-    await ProductManager().run(idea)
-    await Architect().run()
-    await Engineer().run()
-
-    # 方式二：自定义角色链
-    team = Team()
-    team.hire([ProductManager(), Architect(), Engineer()])
-    team.run_project(idea)
+    di = DataInterpreter()
+    await di.run("Run data analysis on sklearn Iris dataset, include a plot")
 
 asyncio.run(main())
 ```
 
-### 最小示例
-
-```python
-import asyncio
-from metagpt.roles import ProductManager, Architect, Engineer
-
-async def main():
-    result = await ProductManager().run(
-        "做一个Todo列表应用"
-    )
-    print(result)
-
-asyncio.run(main())
-```
+这说明 MetaGPT 不只是“软件公司模拟器”，也在扩展到更广的 agent / tool use 场景。
 
 ---
 
-## 🧠 Memory：双层记忆架构
+## 🔄 默认流水线
+---
+emoji: 🔄
+link: https://docs.deepwisdom.ai/main/en/guide/get_started/introduction.html
+desc: 默认链路就是把一行需求依次喂给产品、架构、项目管理、工程和测试角色。
+---
+
+```text
+需求
+  -> ProductManager
+  -> Architect
+  -> ProjectManager
+  -> Engineer
+  -> QAEngineer
+```
+
+这种流水线的好处是：
+
+- 产物结构稳定
+- 角色职责清晰
+- 比纯对话式多 Agent 更容易复盘和审查
+
+代价是：
+
+- 对临时探索任务偏重
+- 你需要接受 SOP 约束带来的固定感
+
+---
+
+## 🧠 记忆与结构化输出
 ---
 emoji: 🧠
-link: https://docs.deepwisdom.ai/main/en/guide/tutorials/galaxy_archive
-desc: MetaGPT 使用 memory（团队共享）+ working_memory（个体工作）双层结构。
+link: https://docs.deepwisdom.ai/main/en/guide/get_started/concepts
+desc: MetaGPT 的稳定性很大程度来自记忆分层和结构化消息，不只是 prompt 写得好。
 ---
 
 ### 记忆层级
 
-| 层 | 类型 | 说明 |
-|----|------|------|
-| **memory** | 团队共享记忆 | 所有 Agent 可访问的消息历史 |
-| **working_memory** | 个体工作记忆 | 当前 Agent 的状态和待处理任务 |
+| 层 | 说明 |
+|---|---|
+| `memory` | 团队共享记忆 |
+| `working_memory` | 单角色工作记忆 |
 
-### 记忆操作
+### ActionNode
 
-```python
-class MyRole(Role):
-    async def _observe(self):
-        """观察并更新记忆"""
-        self.memory.add(message)      # 添加消息
-        self.working_memory.add(task) # 添加工作任务
+`ActionNode` 用来强制结构化输出，适合：
 
-    def recall(self, query: str) -> list:
-        """检索记忆"""
-        return self.memory.search(query)
+- PRD 字段模板
+- 设计文档骨架
+- 测试用例格式约束
+- JSON / 表格输出规范
+
+如果你把它类比成前端里的 schema 或表单校验器，会比较好理解：不是让模型自由发挥，而是先把输出接口定下来。
+
+---
+
+## 🚧 当前状态判断
+---
+emoji: 🚧
+link: https://github.com/FoundationAgents/MetaGPT
+desc: 这个项目仓库活跃度、官网叙事和 PyPI 版本节奏并不完全同步，更新时必须保守处理版本口径。
+---
+
+### 这次 review 后的判断
+
+- GitHub 主仓已是 `FoundationAgents/MetaGPT`
+- README 仍持续更新，并引出 `MGX (MetaGPT X)` 等新叙事
+- GitHub Releases 最新公开 tag 仍停在 `v0.8.1`
+- PyPI 已有 `0.8.2`
+
+因此这里不再沿用本地旧的 `0.10.0`，改为：
+
+```text
+0.8.2 / main (2026-05)
 ```
 
----
-
-## 💬 Message：结构化消息传递
----
-emoji: 💬
-link: https://docs.deepwisdom.ai/main/en/guide/get_started/concepts
-desc: Agent 之间通过 MessageQueue 结构化传递消息，强制格式减少幻觉。
----
-
-### 消息格式
-
-```python
-from metagpt.schema import Message
-
-msg = Message(
-    content="需求文档已完成，详见 PRD.md",
-    role="assistant",
-    cause_by=WritePRD,          # 由哪个 Action 产生
-    sent_from="Alice",         # 发送者
-    send_to=["Bob", "Charlie"] # 接收者列表
-)
-```
-
-### 消息队列
-
-```python
-class Role:
-    msg_buffer: MessageQueue  # 消息缓冲区
-
-    async def _observe(self):
-        """从队列中获取新消息"""
-        new_messages = self.msg_buffer.get_new()
-
-    def _send(self, msg: Message):
-        """发送消息给其他 Agent"""
-        self.msg_buffer.put(msg)
-```
+这比伪造一个“看起来更新”的版本更严谨。
 
 ---
 
-## 🎯 ActionNode：结构化输出模板
----
-emoji: 🎯
-link: https://docs.deepwisdom.ai/main/en/guide/tutorials/galaxy_archive
-desc: ActionNode 强制 Agent 输出 JSON 结构化数据，减少自由文本的幻觉。
----
-
-### 定义 ActionNode
-
-```python
-from metagpt.actions.action_node import ActionNode
-
-STRUCT_WRITE = ActionNode(
-    key="小说结构",
-    expected_type=str,
-    instruction="""
-    按以下结构输出小说基本信息：
-    标题: ...
-    主角: ...
-    设定: ...
-    冲突: ...
-    """,
-    example="标题: xxx\n主角: xxx\n..."
-)
-
-result = await STRUCT_WRITE.run(context="科幻题材")
-print(result)  # 结构化 JSON 输出
-```
-
-### 使用场景
-
-- PRD 模板强制字段
-- 代码审查清单
-- 测试用例结构
-- 任何需要强制格式的场景
-
----
-
-## 🔧 自定义扩展
----
-emoji: 🔧
-link: https://docs.deepwisdom.ai/main/en/guide/advanced_tutorials/customized_actions
-desc: 通过继承 Role 和 Action 基类，可以构建领域专家系统。
----
-
-### 自定义 Role 模板
-
-```python
-from metagpt.roles import Role
-from metagpt.actions import Action
-
-class MedicalDoctor(Role):
-    name: str = "MedicalDoctor"
-    profile: str = "医疗诊断专家"
-    goal: str = "提供准确的医疗诊断建议"
-    constraints: str = "遵守医疗伦理，只提供参考信息"
-
-    async def _think(self):
-        # 决策逻辑
-        ...
-
-    async def _act(self):
-        # 诊断动作
-        ...
-```
-
-### 自定义 Action
-
-```python
-class DiagnoseAction(Action):
-    name: str = "医疗诊断"
-
-    async def run(self, symptoms: str, history: str) -> str:
-        # 诊断逻辑
-        return diagnosis_result
-```
-
-### 领域 SOP 示例
-
-```python
-# 医疗领域 SOP
-class MedicalTeam(Team):
-    def __init__(self):
-        self.hire([
-            MedicalDoctor(),    # 诊断
-            Pharmacist(),       # 开药
-            Nurse(),           # 护理
-        ])
-        self.setup_sop([
-            "收集症状",
-            "初步诊断",
-            "开药建议",
-            "护理计划"
-        ])
-```
-
----
-
-## ⚠️ 常见陷阱
+## ⚠️ 常见坑
 ---
 emoji: ⚠️
-link: https://docs.deepwisordom.ai/main/en/guide/get_started/faq
-desc: MetaGPT 开发中的高频踩坑点。
+link: https://docs.deepwisdom.ai/main/en/guide/faq.html
+desc: MetaGPT 的问题大多不是“API 不会调”，而是环境、角色边界和长流程稳定性没收好。
 ---
 
-### 1. 缺少 OPENAI_API_KEY
+### 1. 配错配置文件路径
+
+正确是：
 
 ```bash
-# ❌ 直接运行报错
-python main.py
-
-# ✅ 先配置环境变量
-export OPENAI_API_KEY=sk-xxxx
-python main.py
+~/.metagpt/config2.yaml
 ```
 
-### 2. 消息循环死锁
+### 2. 只配 Python，不装 Node / pnpm
 
-```python
-# ❌ Agent 互相等待对方消息，形成死锁
-# 解决：设置消息超时，手动终止长时间等待
+官方 README 已明确要求实际使用前安装它们。
 
-role.set_timeout(seconds=300)
-```
+### 3. 角色职责重叠
 
-### 3. 输出格式不稳定
+如果 `Architect` 和 `Engineer` 都在做设计决策，最后产物会互相打架。
 
-```python
-# ❌ 缺少 ActionNode 约束，输出格式乱
-# 解决：使用 ActionNode 强制 JSON 结构
+### 4. 长任务上下文过重
 
-design_node = ActionNode(
-    key="系统设计",
-    expected_type=str,
-    instruction="输出 JSON：{\"模块\":[], \"接口\":[]}"
-)
-```
+多角色、多文档流水线天然容易膨胀，适合拆阶段，不适合无边界一把跑到底。
 
-### 4. 长任务上下文截断
+### 5. 版本信息误判
 
-```python
-# 解决：设置 MAX_TOKENS，或分阶段处理
-from metagpt.const import MAX_TOKENS
-MAX_TOKENS = 32000  # 增大上下文窗口
-```
-
-### 5. 角色职责重叠
-
-```python
-# ❌ 两个角色做同样的事
-# 解决：明确 constraints，每个角色只做一件事
-
-architect = Architect(constraints="只做系统设计，不写代码")
-engineer = Engineer(constraints="只写代码，不做设计")
-```
+- 旧仓库地址 `geekan/MetaGPT` 已不该再作为主引用
+- GitHub Release、PyPI、README 三者节奏不同，更新时必须交叉验证
 
 ---
 
@@ -413,16 +303,18 @@ engineer = Engineer(constraints="只写代码，不做设计")
 
 | 维度 | 评分 | 说明 |
 |------|------|------|
-| 上手难度 | ⬛⬛⬛⬜⬜ 3/5 | 概念清晰，跟着 SOP 走就行 |
-| 人格稳定性 | ⬛⬛⬛⬛⬜ 4/5 | SOP 强制约束，不会漂移 |
-| 输出结构化 | ⬛⬛⬛⬛⬛ 5/5 | 强制 JSON/文档，减少幻觉 |
-| 软件工程 | ⬛⬛⬛⬛⬛ 5/5 | 开箱即用的完整开发流程 |
-| 灵活性 | ⬛⬛⬛⬜⬜ 3/5 | 主要针对软件工程，其他场景弱 |
+| 软件工程表达力 | ⬛⬛⬛⬛⬛ 5/5 | SOP 化表达很强，产物链也清晰 |
+| 结构化输出 | ⬛⬛⬛⬛⬜ 4/5 | Role/Action/ActionNode 组合很适合文档和工程产物 |
+| 上手成本 | ⬛⬛⬛⬜⬜ 3/5 | 环境、角色链和配置文件都比轻量框架重 |
+| 通用场景灵活性 | ⬛⬛⬛⬜⬜ 3/5 | 偏软件工程，不是所有 agent 场景都天然适配 |
+| 版本清晰度 | ⬛⬛⬜⬜⬜ 2/5 | GitHub / PyPI / 官网节奏不完全同步，需谨慎核验 |
 
 ---
 
 ## 🔗 关键资源
 
 - 官方文档：https://docs.deepwisdom.ai/main/en/
-- GitHub：https://github.com/geekan/MetaGPT
-- 论文：arXiv:2308.00352
+- GitHub：https://github.com/FoundationAgents/MetaGPT
+- PyPI：https://pypi.org/project/metagpt/
+- 论文：https://openreview.net/forum?id=VtmBAGCN7o
+- MGX：https://mgx.dev/
