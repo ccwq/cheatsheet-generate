@@ -1,0 +1,10 @@
+desc: Hermes Holographic fact_store 是 SQLite + FTS5 的外挂记忆系统，支持 9 种检索动作、trust score、实体召回、组合推理与冲突检测，三条写入路径（手动 + 自动镜像 + auto_extract）。
+tags:
+  - AI / LLM
+  - AI 辅助工具
+  - 自动化工具
+  - CLI / Terminal
+  - 知识管理
+version: "1.0.0"
+github: NousResearch/hermes-agent
+date: "2026-06-05"

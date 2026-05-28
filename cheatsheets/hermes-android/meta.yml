@@ -1,0 +1,11 @@
+desc: 给 Hermes Agent 装上"手机之手"——38 个工具远程控制 Android 设备
+tags:
+  - AI / LLM
+  - AI 辅助工具
+  - 自动化工具
+  - CLI 工具
+  - Python
+  - 终端工具
+version: "0.1.0"
+github: raulvidis/hermes-android
+date: "2026-05-28"
