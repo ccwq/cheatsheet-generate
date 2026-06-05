@@ -1,11 +1,11 @@
 ---
 title: fact_store · Holographic Memory 速查
 lang: zh-CN
-version: "1.0.0"
-date: "2026-06-05"
+version: v0.14.0
+date: "2026-05-16"
 github: NousResearch/hermes-agent
 colWidth: 420px
-desc: Hermes Holographic fact_store 是 SQLite + FTS5 的外挂记忆系统，支持 9 种检索动作、trust score、实体召回、组合推理与冲突检测，三条写入路径（手动 + 自动镜像 + auto_extract）。
+desc: Hermes Agent 的 Holographic memory provider：本地 SQLite + FTS5 的事实库，支持 fact_store / fact_feedback、trust score、实体关联与组合检索，并与内置 MEMORY/USER profile 并行工作。
 tags:
   - AI / LLM
   - AI 辅助工具
@@ -16,191 +16,163 @@ tags:
 
 # fact_store · Holographic Memory 速查
 
-## 一句话结论
-
-> 你现在已经在用 Holographic fact_store 了。外部 provider = holographic，数据库 = 本地 SQLite（`$HERMES_HOME/memory_store.db`），built-in memory 仍同时启用。双层并行，不是二选一。
-
 ## 快速定位
 
-| 目标 | 最短入口 | 备注 |
+> `fact_store` 不是单独产品，而是 Hermes Agent 的 **Holographic memory provider** 暴露出来的事实存储 / 检索工具层。它与内置 `MEMORY.md` / `USER.md` **并行工作**，不是替代关系。
+
+| 目标 | 最短入口 | 说明 |
 |---|---|---|
-| 查当前配置 | `config.yaml` 的 `memory.provider` 字段 | holographic = 已启用 |
-| 确认状态 | `hermes memory status` | 输出 holographic: active 即正常 |
-| 查数据库路径 | `config.yaml` 的 `plugins.hermes-memory-store.db_path` | 默认 `$HERMES_HOME/memory_store.db` |
-| 查库内容 | `fact_store(action='list')` | 列出所有已存事实 |
-| 查索引入口 | `https://ccwq.github.io/infocard-pub/docs/20260605-fact-store-v2.html` | 完整使用手册 v3.0 |
+| 看 provider 是否启用 | `config.yaml` → `memory.provider` | 设为 `holographic` 即启用外部 provider |
+| 看内置 memory 是否并行开启 | `memory_enabled` / `user_profile_enabled` | 文档明确可与外部 provider 同时开启 |
+| 查数据库路径 | `plugins.hermes-memory-store.db_path` | Holographic 的 SQLite 文件路径 |
+| 查可用工具 | `fact_store` / `fact_feedback` | 用于增删改查、反馈 trust |
+| 查官方说明 | Memory Providers / Persistent Memory 文档 | 先看能力边界，再配参数 |
 
-## 两层记忆怎么分工
+## 它解决什么问题
 
-| Layer | 定位 | 特点 |
+| 层 | 定位 | 特点 |
 |---|---|---|
-| **内置 Memory**（MEMORY.md / USER.md） | 必须常驻 prompt 的高价值摘要 | 小容量、会话启动时冻结注入 |
-| **fact_store / Holographic** | 按需调用的深层事实库 | 本地 SQLite、FTS5、实体召回、组合推理、trust 管理 |
+| **内置 Persistent Memory** | 启动时要带进上下文的高价值摘要 | `MEMORY.md` / `USER.md`，容量受字符上限控制 |
+| **Holographic / fact_store** | 按需检索的长期事实库 | SQLite、FTS5、trust score、实体关联、组合检索 |
 
-**分工原则**：内置 memory 放"必须时刻带着"的事实；fact_store 放"需要反复检索、可推理、可纠错"的长期知识。
+**经验法则**：
+- 必须长期常驻 prompt 的少量关键信息 → 放内置 memory
+- 需要长期积累、按需搜索、可逐步修订的事实 → 放 `fact_store`
 
-## 三条写入路径
+## 核心能力
 
-### 路径 1 · 手动调用（默认开启）
-
-直接调用 `fact_store` 工具，9 个 actions：
-
-| 动作 | 作用 | 典型用法 |
-|---|---|---|
-| `add` | 新增事实 | `fact_store(action='add', content='...', category='user_pref', tags='python,tool')` |
-| `search` | 关键词检索 | `fact_store(action='search', query='chrome cdp', limit=5)` |
-| `probe` | 实体召回 | `fact_store(action='probe', entity='chrome', limit=10)` |
-| `related` | 结构关联 | `fact_store(action='related', entity='SQLite', limit=10)` |
-| `reason` | 多实体组合检索 | `fact_store(action='reason', entities=['Hermes','SQLite'], limit=10)` |
-| `contradict` | 冲突检测 | `fact_store(action='contradict', limit=10)` |
-| `update` | 修订事实 | `fact_store(action='update', fact_id=123, trust_delta=0.2)` |
-| `remove` | 删除事实 | `fact_store(action='remove', fact_id=123)` |
-| `list` | 盘点现有事实 | `fact_store(action='list', category='user_pref', limit=20)` |
-
-另有独立工具：
-
-| 工具 | 作用 |
+| 能力 | 说明 |
 |---|---|
-| `fact_feedback(action='helpful', fact_id=123)` | helpful → trust +0.05；unhelpful → -0.10 |
-| `fact_feedback(action='unhelpful', fact_id=123)` | 降低可信度或直接 remove |
+| 本地事实库 | 官方文档明确为 local SQLite fact store |
+| 全文检索 | 依赖 SQLite FTS5 |
+| trust score | 新事实有默认信任分，后续可反馈或修订 |
+| 实体 / 关系检索 | 可按 entity 找相关事实 |
+| 组合检索 | 支持基于多实体的 compositional retrieval / reasoning |
+| 内置记忆并行 | 外部 provider 是 additive，不替换内置 memory |
 
-### 路径 2 · 自动镜像（默认开启）
+## 常用工具
 
-用内置 `memory` 工具 `add` 时，自动触发 `on_memory_write()` 同步写入 fact_store。
+### `fact_store`
 
-映射规则：
-- `memory(target='user')` → `category='user_pref'`
-- `memory(target='memory')` → `category='general'`
+| action | 用途 | 适合什么时候用 |
+|---|---|---|
+| `add` | 新增事实 | 记录已确认、可复用的信息 |
+| `search` | 关键词检索 | 先用关键词捞主题 |
+| `probe` | 按实体召回 | 想看某对象相关事实 |
+| `related` | 查关联事实 | 想沿实体关系继续扩展 |
+| `reason` | 多实体组合检索 | 想找 A / B / C 的交集事实 |
+| `contradict` | 查潜在冲突 | 做知识库体检 |
+| `update` | 修订事实 / trust | 事实有新证据或需纠偏 |
+| `remove` | 删除事实 | 过时、错误、噪音 |
+| `list` | 列出现有事实 | 盘点某个分类或全库 |
 
-**实战含义**：你说"记住我偏好 uv" → 自动镜像进 fact_store，不需要额外操作。
+> 上表 action 名称来自官方 Holographic 文档与源码实现；如果你的本地封装额外限制了参数，以本机实际工具签名为准。
 
-### 路径 3 · auto_extract（默认关闭）
+### `fact_feedback`
 
-配置 `auto_extract: true` 后，会话结束时自动扫描用户消息，正则匹配偏好/决策模式：
+| action | 作用 |
+|---|---|
+| `helpful` | 对有用事实做正反馈，提升后续保留 / 检索价值 |
+| `unhelpful` | 对低价值或误导事实做负反馈，降低 trust 或推动清理 |
 
-```
-I prefer / I like / I use / I want / I need...      → user_pref
-my favorite / my default X is...                     → user_pref
-we decided / we agreed / the project uses...          → project
-```
+## 最小工作流
 
-**当前推荐**：维持关闭。你偏好高密度、可控、低噪音，auto_extract 容易污染知识库。
-
-## 当前配置（已实机核对）
+### 1. 启用 provider
 
 ```yaml
 memory:
-  provider: holographic         # 已启用
-  memory_enabled: true          # 内置 MEMORY 开启
-  user_profile_enabled: true    # 内置 USER PROFILE 开启
-  memory_char_limit: 2200      # MEMORY 容量上限
-  user_char_limit: 1375        # USER PROFILE 容量上限
+  provider: holographic
+  memory_enabled: true
+  user_profile_enabled: true
 
 plugins:
   hermes-memory-store:
-    db_path: /home/ccwq/hehome/hermes-data/memory_store.db  # 数据库路径
-    auto_extract: false        # 默认关闭
-    default_trust: 0.5        # 新事实默认半可信
-    min_trust_threshold: 0.3   # 检索时最低门槛
-    temporal_decay_half_life: 0 # 时间衰减：0 = 不衰减
-    hrr_dim: 1024             # HRR 向量维度
-    hrr_weight: 0.3           # 检索时 HRR 权重
+    db_path: /path/to/memory_store.db
+    auto_extract: false
+    default_trust: 0.5
 ```
 
-## 数据库实况（已核对）
+### 2. 写入一条稳定事实
 
-| 对象 | 当前数量 | 说明 |
+```python
+fact_store(action="add", content="项目默认包管理器是 pnpm", category="project")
+```
+
+### 3. 之后按需检索
+
+```python
+fact_store(action="search", query="包管理器", limit=5)
+fact_store(action="probe", entity="pnpm", limit=10)
+```
+
+### 4. 发现信息过时就修订
+
+```python
+fact_store(action="update", fact_id=123, content="项目默认包管理器已切换为 uv")
+# 或
+fact_store(action="remove", fact_id=123)
+```
+
+## 三种写入路径
+
+| 路径 | 说明 | 适用场景 |
 |---|---|---|
-| `facts` | **4** | 已有 4 条事实写入 SQLite |
-| `entities` | **0** | 当前事实未抽出结构化实体 |
-| `memory_banks` | **0** | 尚未形成有实体支撑的组合记忆银行 |
+| 手动 `fact_store(action="add")` | 最直接、最可控 | 重要事实、专题知识 |
+| 内置 memory 写入后的镜像 | 文档与源码都说明会与内置 memory 协同 | 已经确认应进入长期记忆的用户 / 项目信息 |
+| `auto_extract` | 从消息中自动抽取事实 | 只适合噪音可控、表达模式稳定的环境 |
 
-`entities=0` 与 `memory_banks=0` 不表示 provider 未工作，只表示当前更多在用"事实存储 + FTS5 检索"，还没把实体/HRR 结构层喂活。
+**建议**：默认先用前两种；`auto_extract` 虽然省事，但更容易把临时表达或未确认信息写进库里。
 
-## 库里已有的事实（当前快照）
+## 关键配置项
 
-**general（3条）**
-- `Holographic memory provider is now active and operational on this machine.`
-- `test fact`
-- `通知策略：重要/异常情况才发通知；默认通道是 Telegram，不主动发企业微信`
-
-**user_pref（1条）**
-- `用户要求发布信息卡的标准流程：将卡片放入 infocard-pub，加入 infocard-list 索引，并在发布成功后返回 GitHub Pages 可访问地址。`
-
-**project（0条）**
-
-## 推荐工作流
-
-### 日常写入
-
-| 场景 | 写哪里 |
+| 配置 | 作用 |
 |---|---|
-| 最关键、必须常驻的事实 | 内置 `memory`（同时自动镜像进 fact_store） |
-| 深层、专题、要反复检索的事实 | `fact_store(action='add')` |
-| 验证过的长期约定 | 单独一条只表达一件稳定结论 |
+| `memory.provider` | 选择外部 provider，设为 `holographic` |
+| `memory_enabled` | 是否启用内置 `MEMORY.md` |
+| `user_profile_enabled` | 是否启用内置 `USER.md` / 用户画像 |
+| `memory_char_limit` | 内置 MEMORY 的字符上限 |
+| `user_char_limit` | 内置 USER profile 的字符上限 |
+| `plugins.hermes-memory-store.db_path` | SQLite 文件路径 |
+| `plugins.hermes-memory-store.auto_extract` | 是否自动抽取事实 |
+| `plugins.hermes-memory-store.default_trust` | 新事实默认信任分 |
 
-### 查询顺序
+## 查询顺序建议
 
-```
-search(query='关键词')       →  1. 主题找回
-probe(entity='对象')         →  2. 查对象全貌
-related(entity='对象')       →  3. 看周边关系
-reason(entities=[A,B,C])      →  4. 找交集事实
-contradict() / update / remove  →  5. 做记忆清洁
+```text
+search(query="关键词")
+  -> probe(entity="对象")
+  -> related(entity="对象")
+  -> reason(entities=[A, B])
+  -> contradict() / update / remove
 ```
 
-### 维护节奏
+- 先 `search`：成本最低，适合找入口
+- 再 `probe` / `related`：把单个对象的上下文补全
+- 最后 `reason`：当你已经知道几个关键实体，想挖交集结论
 
-| 频率 | 动作 |
+## 什么时候适合 / 不适合写入
+
+| 适合写入 | 不适合直接写入 |
 |---|---|
-| 每次确认事实有用 | `fact_feedback(helpful)` |
-| 发现过时/错误 | 立即 `update` 或 `remove` |
-| 想增强组合推理 | 把事实写得更结构化，给实体统一命名 |
-| 季度体检 | `list` 全库，清理噪音和冲突 |
+| 已验证的用户偏好 | 临时闲聊 |
+| 稳定的项目约定 | 未确认猜测 |
+| 反复要查的工具结论 | 一次性日志 |
+| 需要跨会话复用的事实 | 大段原文搬运 |
+| 需要后续修订和追踪的知识 | 瞬时上下文碎片 |
 
-## 源码核对出的真实细节
+## 使用注意
 
-| 细节 | 说明 |
-|---|---|
-| `on_memory_write()` 存在 | built-in memory add/replace → 自动镜像进 fact_store |
-| `sync_turn()` 是空实现 | Holographic 不每轮自动塞对话，更偏向"显式事实存储" |
-| `contradict` 当前实现 | 全库冲突巡检，不是严格按 entity 过滤 |
-| HRR/compositional retrieval | 依赖更结构化的事实与实体，不是开了 provider 就自动变强 |
-| 实体抽取规则 | 大写专名 / 双引号 / 单引号 / `aka` 模式；中文句子目前抽不出实体 |
-
-## 什么时候不用 fact_store
-
-| 适合 | 不适合 |
-|---|---|
-| 长期偏好 | 临时聊天 |
-| 项目规则 | 未确认猜测 |
-| 工具 workaround | 一次性日志 |
-| 已验证事实 | 长原文复制 |
-| 跨会话复用知识 | 短期上下文碎片 |
-
-**禁止行为**：把 fact_store 当"聊天备忘录"、让冲突版本长期共存、把低置信信息直接给 trust=1.0。
-
-## 信息卡（完整使用手册）
-
-- **URL**：https://ccwq.github.io/infocard-pub/docs/20260605-fact-store-v2.html
-- **标题**：fact_store · Holographic 外挂记忆完整使用与配置实录 v3.0
-- **内容**：三层记忆架构 / 三条写入路径 / 实机配置 / SQLite 实况 / 推荐工作流 / 源码核查
+- 不要把 `fact_store` 当聊天历史；它更适合**事实**，不适合原样堆对话。
+- `trust` 不是“越高越好”；低证据信息应保守写入，后续再通过反馈提高。
+- 实体与组合检索想要效果稳定，事实内容要尽量单一、明确、可拆分。
+- 中文内容能否抽出理想实体，取决于当前实现与命名方式；对关键对象可保持统一命名，减少检索漂移。
 
 ## 排错顺序
 
+```text
+1. 确认 memory.provider 是否为 holographic
+2. 确认 plugins.hermes-memory-store 下的 db_path / default_trust 等配置已生效
+3. 先用 add + search 验证最小闭环
+4. 再看 probe / related / reason 是否符合你的事实写法
+5. 发现噪音或冲突时，优先 update / remove / fact_feedback 清理
 ```
-1. memory.provider: holographic  是否写对
-2. hermes memory status         是否 active
-3. 数据库路径是否落在当前 Hermes Home
-4. 实体名和 category 是否一致
-5. trust 门槛与检索词是否合理
-```
-
-## 常用配置变更
-
-| 目标 | 操作 |
-|---|---|
-| 开启 auto_extract | 在 `config.yaml` 的 `plugins.hermes-memory-store` 下加 `auto_extract: true` |
-| 调整默认 trust | `default_trust: 0.7`（更高置信）或 `0.3`（更保守） |
-| 开启时间衰减 | `temporal_decay_half_life: 90`（天） |
-| 换数据库路径 | `db_path: /path/to/other.db` |

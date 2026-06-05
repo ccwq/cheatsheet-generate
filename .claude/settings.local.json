@@ -55,7 +55,8 @@
       "mcp__MiniMax__web_search",
       "PowerShell(Get-Command *)",
       "PowerShell(codex *)",
-      "PowerShell(codex exec -C \"E:\\\\project\\\\self.project\\\\cheatsheet-generate\" --skip-git-repo-check --json -i \"E:\\\\project\\\\self.project\\\\cheatsheet-generate\\\\cheatsheets\\\\CrewAI\\\\icon.png\" -i \"E:\\\\project\\\\self.project\\\\cheatsheet-generate\\\\cheatsheets\\\\MetaGPT\\\\icon.png\" -i \"E:\\\\project\\\\self.project\\\\cheatsheet-generate\\\\cheatsheets\\\\awesome-openclaw-agents\\\\icon.png\" -i \"E:\\\\project\\\\self.project\\\\cheatsheet-generate\\\\cheatsheets\\\\codegraph\\\\icon.png\" $prompt)"
+      "PowerShell(codex exec -C \"E:\\\\project\\\\self.project\\\\cheatsheet-generate\" --skip-git-repo-check --json -i \"E:\\\\project\\\\self.project\\\\cheatsheet-generate\\\\cheatsheets\\\\CrewAI\\\\icon.png\" -i \"E:\\\\project\\\\self.project\\\\cheatsheet-generate\\\\cheatsheets\\\\MetaGPT\\\\icon.png\" -i \"E:\\\\project\\\\self.project\\\\cheatsheet-generate\\\\cheatsheets\\\\awesome-openclaw-agents\\\\icon.png\" -i \"E:\\\\project\\\\self.project\\\\cheatsheet-generate\\\\cheatsheets\\\\codegraph\\\\icon.png\" $prompt)",
+      "WebFetch(domain:hermes-agent.nousresearch.com)"
     ],
     "deny": [],
     "ask": []
