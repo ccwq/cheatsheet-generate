@@ -1,0 +1,10 @@
+desc: Hermes WebUI 是一个轻量级 Python + 纯前端的 Hermes Agent Web 界面，支持聊天、会话、工作区浏览、语音、主题、配置、Docker 部署和远程访问。
+tags:
+  - Python
+  - Web 前端
+  - CLI / Terminal
+  - 自动化工具
+  - 库 / SDK
+version: master
+github: nesquena/hermes-webui
+date: "2026-06-02"

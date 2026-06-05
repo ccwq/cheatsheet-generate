@@ -1,245 +1,112 @@
 ---
-title: Scrapling
-lang: python
-version: "0.4.2"
-date: "2026-03-13"
+title: Scrapling 速查表
+lang: zh-CN
+version: "0.4.8"
+date: "2026-05-30"
 github: D4Vinci/Scrapling
-colWidth: 433px
+colWidth: 420px
+desc: Scrapling 是完整的 Python Web Scraping 框架，覆盖 parser、HTTP fetchers、动态浏览器抓取、spiders、CLI 和 MCP，适合从单次请求扩展到全量爬取。
+tags:
+  - Python
+  - Web Scraping
+  - Browser Automation
+  - MCP
+  - Docker
 ---
 
-# Scrapling
+# Scrapling 速查表
 
-## ⚡ Fetcher 快速抓取
----
-lang: python
-emoji: ⚡
-link: https://scrapling.readthedocs.io/
-desc: `Fetcher` 适合静态页面或轻量 HTTP 抓取，是 Scrapling 最低成本的入口。
----
+## 一句话结论
 
-### 常见入口
+> Scrapling 不是“一个选择器库”，而是一个 **Python 抓取框架**：解析、请求、动态浏览器、反检测、爬虫调度、CLI、MCP 一套打通。
 
-- `Fetcher.get(url)` : 单次请求
-- `FetcherSession(...)` : 复用会话、Cookie 与伪装参数
-- `impersonate='chrome'` : 模拟浏览器请求头
-- `stealthy_headers=True` : 追加更像真实浏览器的头信息
+## 快速定位
 
-```python
-from scrapling.fetchers import Fetcher, FetcherSession
+- 适合：想从轻量抓取一路扩展到浏览器级抓取 / 多会话 crawl / MCP 服务化
+- 不适合：只想要一个极简 HTML 解析器，且不想带额外框架语义
+- 当前推荐：**先直装，再按需启用 fetchers / MCP / 容器化**
 
-page = Fetcher.get("https://quotes.toscrape.com/")
-quotes = page.css(".quote .text::text").getall()
+## 架构一眼看懂
 
-with FetcherSession(impersonate="chrome") as session:
-    page = session.get(
-        "https://quotes.toscrape.com/",
-        stealthy_headers=True,
-    )
-```
+- `scrapling.parser`：`Selector` / `Selectors`
+- `scrapling.fetchers`：`Fetcher` / `DynamicFetcher` / `StealthyFetcher`
+- `scrapling.spiders`：`Spider` / `Request` / `Response` / `Scheduler`
+- `scrapling.cli`：`scrapling get/post/put/delete/fetch/stealthy_fetch/mcp`
+- `server.json`：MCP server 元数据（stdio）
+- `Dockerfile`：官方容器化方案
 
-## 🥷 StealthyFetcher 反爬绕过
----
-lang: python
-emoji: 🥷
-link: https://scrapling.readthedocs.io/
-desc: 目标站点有 Cloudflare、浏览器指纹或强校验时，再上 `StealthyFetcher`，别一开始就用最重方案。
----
-
-### 适用场景
-
-- 页面需要真实浏览器环境
-- 站点依赖 JS 挑战或人机校验
-- 想在同一会话中连续访问多页
-
-### 常用参数
-
-- `headless=True` : 无头浏览器模式
-- `network_idle=True` : 等待网络空闲后再取 DOM
-- `solve_cloudflare=True` : 启用 Cloudflare 处理
-- `adaptive=True` : 元素结构变化后尝试重新定位
-
-```python
-from scrapling.fetchers import StealthyFetcher, StealthySession
-
-page = StealthyFetcher.fetch(
-    "https://example.com",
-    headless=True,
-    network_idle=True,
-)
-
-with StealthySession(headless=True, solve_cloudflare=True) as session:
-    page = session.fetch("https://nopecha.com/demo/cloudflare")
-```
-
-## 🌐 DynamicFetcher 动态渲染
----
-lang: python
-emoji: 🌐
-link: https://scrapling.readthedocs.io/
-desc: 遇到前端渲染页面，但不一定需要完整反爬能力时，`DynamicFetcher` 往往比 `StealthyFetcher` 更轻。
----
-
-- `DynamicFetcher.fetch(url)` : 单次动态加载
-- `DynamicSession(...)` : 连续抓多个动态页面
-- `load_dom=False` : 某些场景下跳过完整 DOM 等待，减少耗时
-
-```python
-from scrapling.fetchers import DynamicFetcher, DynamicSession
-
-page = DynamicFetcher.fetch("https://quotes.toscrape.com/")
-
-with DynamicSession(headless=True, network_idle=True) as session:
-    detail = session.fetch("https://quotes.toscrape.com/", load_dom=False)
-```
-
-## 🔎 选择器与节点遍历
----
-lang: python
-emoji: 🔎
-link: https://scrapling.readthedocs.io/
-desc: Scrapling 同时支持 CSS、XPath 和类 BeautifulSoup 风格 API，速查时重点看“怎么取到目标节点”。
----
-
-### 选择方式
-
-- `page.css(".quote")` : CSS 选择器
-- `page.xpath('//div[@class="quote"]')` : XPath
-- `page.find_all("div", {"class": "quote"})` : 类 BeautifulSoup 风格
-- `page.find_by_text("quote", tag="div")` : 按文本内容定位
-
-### 节点关系
-
-- `node.parent` : 父节点
-- `node.next_sibling` : 相邻节点
-- `node.find_similar()` : 查找相似结构节点
-- `node.below_elements()` : 获取视图下方元素
-
-```python
-page = Fetcher.get("https://quotes.toscrape.com/")
-first_quote = page.css(".quote")[0]
-
-text = first_quote.css(".text::text").get()
-author = first_quote.css(".author::text").get()
-siblings = first_quote.find_similar()
-```
-
-## 🕷️ Spider 爬虫工作流
----
-lang: python
-emoji: 🕷️
-link: https://scrapling.readthedocs.io/
-desc: 当你要做分页、并发和结果聚合时，再从 Fetcher 升级到 `Spider`。
----
-
-### 核心对象
-
-- `Spider` : 爬虫入口与生命周期管理
-- `Request` : 自定义后续请求
-- `Response` : 回调里读取页面与上下文
-- `start_urls` : 初始抓取列表
-- `concurrent_requests` : 并发请求数
-
-```python
-from scrapling.spiders import Spider, Response
-
-class QuotesSpider(Spider):
-    name = "quotes"
-    start_urls = ["https://quotes.toscrape.com/"]
-    concurrent_requests = 10
-
-    async def parse(self, response: Response):
-        for quote in response.css(".quote"):
-            yield {
-                "text": quote.css(".text::text").get(),
-                "author": quote.css(".author::text").get(),
-            }
-```
-
-## 🔀 多会话与异步并发
----
-lang: python
-emoji: 🔀
-link: https://scrapling.readthedocs.io/
-desc: 同一个爬虫里可以给不同请求分配不同会话，既兼顾性能，也能把高风险页面切到更强的抓取模式。
----
-
-### 多会话
-
-- `manager.add("fast", FetcherSession(...))` : 给普通页面走轻量会话
-- `manager.add("stealth", AsyncStealthySession(...), lazy=True)` : 高风险页面按需初始化
-- `Request(..., sid="stealth")` : 为单个请求指定会话
-
-### 异步抓取
-
-- `async with AsyncStealthySession(...)` : 异步浏览器会话
-- `asyncio.gather(*tasks)` : 并发执行多个抓取任务
-
-```python
-import asyncio
-from scrapling.fetchers import AsyncStealthySession
-
-async def main():
-    async with AsyncStealthySession(max_pages=2) as session:
-        urls = ["https://example.com/1", "https://example.com/2"]
-        results = await asyncio.gather(*(session.fetch(url) for url in urls))
-        return results
-```
-
-## 💾 暂停恢复与代理轮换
----
-lang: python
-emoji: 💾
-link: https://scrapling.readthedocs.io/
-desc: 长任务最怕中断。`crawldir` 和代理轮换是 Scrapling 里最值得先配上的稳定性能力。
----
-
-### 暂停恢复
-
-- `Spider(crawldir="./crawl_data").start()` : 开启检查点目录
-- `Ctrl+C` : 可优雅暂停
-- 再次运行同一 `crawldir` : 自动尝试恢复
-
-### 代理轮换
-
-- `ProxyRotator([...])` : 定义代理池
-- `proxy_rotator=rotator` : 全局轮换代理
-- `proxy="http://..."` : 单次请求覆盖
-
-```python
-from scrapling import ProxyRotator
-from scrapling.fetchers import Fetcher
-
-rotator = ProxyRotator([
-    "http://proxy1:8080",
-    "http://proxy2:8080",
-])
-
-page = Fetcher.get("https://example.com", proxy_rotator=rotator)
-```
-
-## 🧪 流式结果与 CLI
----
-lang: bash
-emoji: 🧪
-link: https://scrapling.readthedocs.io/
-desc: 开发期先用 CLI 和流式接口快速验证页面，再把逻辑固化到 Spider 里，效率通常最高。
----
-
-### 流式输出
-
-- `async for item in QuotesSpider().stream()` : 一边抓一边消费结果
-
-### CLI 常用命令
-
-- `scrapling shell` : 进入交互式抓取环境
-- `scrapling extract get <url> output.md` : 直接提取页面内容
-- `--css-selector '#product'` : 指定提取区域
-- `scrapling extract stealthy-fetch ... --solve-cloudflare` : 用隐身模式抓取
-- `scrapling install` : 安装浏览器依赖
+## 安装速查
 
 ```bash
-pip install "scrapling[fetchers]"
-scrapling install
-scrapling shell
-scrapling extract get "https://example.com" content.md --css-selector "#main"
+# 基础安装
+pip install scrapling
+
+# 开发态安装
+pip install -e /path/to/Scrapling
+
+# 浏览器 / 反检测能力
+pip install -e '/path/to/Scrapling[fetchers]'
+
+# MCP / markdownify 相关
+pip install -e '/path/to/Scrapling[ai]'
 ```
+
+**Python 要求：** `>= 3.10`
+
+## 最小用法
+
+```python
+from scrapling.parser import Selector
+
+html = '<div class="product"><h2>Demo</h2><span class="price">$9</span></div>'
+sel = Selector(html)
+print(sel.css('.product h2::text').get())
+print(sel.css('.price::text').get())
+```
+
+## 何时选“直接安装”
+
+- 只用 `Selector` / `Fetcher`
+- 想最快跑通
+- 想嵌入现有 Python 项目
+- 不想先处理容器 runtime / Chromium 依赖
+
+**本机实测结论：** 直接安装可用，且核心 HTML 解析通过。
+
+## 何时选“容器化”
+
+- 要跑 `DynamicFetcher` / `StealthyFetcher`
+- 要把 Chromium、Playwright、系统依赖一起封装
+- 要给 MCP / 服务化交付一个可复现镜像
+
+**注意：** 本机 Podman 这次 build 因存储配置冲突失败，不是 Scrapling 本身的问题。
+
+## 官方发布信号
+
+- GitHub：`D4Vinci/Scrapling`
+- Release：`v0.4.8`
+- PyPI：`scrapling==0.4.8`
+- License：BSD-3-Clause
+- README 明确定位为 “from a single request to a full-scale crawl”
+
+## 常见坑
+
+- `Adaptor` 不是当前对外导出主接口，别把旧写法当成当前 API。
+- `fetchers` 需要额外依赖，别只装基础包就期待浏览器能力。
+- 如果本机容器 build 报 storage mismatch，先修容器 runtime，再判断 Scrapling。
+
+## 工作流建议
+
+1. 先 `pip install scrapling`
+2. 用 `Selector` 跑通最小解析
+3. 需要浏览器能力再加 `[fetchers]`
+4. 需要服务化再用 Docker / MCP
+5. 最终在真实目标站点验证反爬和会话策略
+
+## 参考链接
+
+- GitHub：<https://github.com/D4Vinci/Scrapling>
+- Docs：<https://scrapling.readthedocs.io/en/latest/>
+- PyPI：<https://pypi.org/project/scrapling/>
+- Dockerfile：仓库根目录 `Dockerfile`
+- MCP server：仓库根目录 `server.json`

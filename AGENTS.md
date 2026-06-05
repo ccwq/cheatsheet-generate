@@ -8,6 +8,11 @@
 如果用户要求补标签、核查标签、统一标签体系或新增标签, 直接调用skill: tag-ci
 如果用户要求更新已有 cheatsheet、同步新版、跨版本升级、补 changelog、整理 release notes 或版本变更, 直接调用skill: cheatsheet-update
 
+### 默认交付规则
+- 用户只要发起「创建 cheatsheet」类需求，默认直接完成：写入文件、生成 HTML、重建导览页、提交并推送，不再额外追问是否 push
+- 新增 cheatsheet 时，`icon.png` 视为必备文件；优先从现有 cheatsheet 复用同风格 icon，不要省略
+- 若用户明确要求“不推送”或“仅本地草稿”，才暂停在提交前
+
 ## 工程约定
 
 ### 代码风格与注释

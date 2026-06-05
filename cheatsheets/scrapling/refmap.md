@@ -1,26 +1,25 @@
-# 参考资料
+# Scrapling 参考映射
 
-## 官方资源
+## 官方入口
+- [GitHub 仓库](https://github.com/D4Vinci/Scrapling) - 源码、README、Dockerfile、tests
+- [GitHub Releases](https://github.com/D4Vinci/Scrapling/releases) - 版本与变更记录
+- [PyPI](https://pypi.org/project/scrapling/) - 安装包与依赖信息
+- [ReadTheDocs](https://scrapling.readthedocs.io/en/latest/) - 官方文档
 
-- [Scrapling GitHub 仓库](https://github.com/D4Vinci/Scrapling) - 源代码和问题追踪
-- [Scrapling 官方网站](https://scrapling.github.io/) - 官方文档主页
-- [Scrapling PyPI 页面](https://pypi.org/project/scrapling/) - Python 包管理
+## 核心文档与元数据
+- [README.md](https://github.com/D4Vinci/Scrapling/blob/main/README.md) - 功能总览与示例
+- [pyproject.toml](https://github.com/D4Vinci/Scrapling/blob/main/pyproject.toml) - 依赖、extras、CLI entrypoint
+- [Dockerfile](https://github.com/D4Vinci/Scrapling/blob/main/Dockerfile) - 官方容器化路径
+- [server.json](https://github.com/D4Vinci/Scrapling/blob/main/server.json) - MCP server 元数据
 
-## 核心功能文档
+## 代码入口
+- [scrapling/__init__.py](https://github.com/D4Vinci/Scrapling/blob/main/scrapling/__init__.py) - 对外导出
+- [scrapling/parser.py](https://github.com/D4Vinci/Scrapling/blob/main/scrapling/parser.py) - Selector / 解析核心
+- [scrapling/fetchers/__init__.py](https://github.com/D4Vinci/Scrapling/blob/main/scrapling/fetchers/__init__.py) - Fetcher / DynamicFetcher / StealthyFetcher
+- [scrapling/spiders/__init__.py](https://github.com/D4Vinci/Scrapling/blob/main/scrapling/spiders/__init__.py) - Spider / Request / Response
+- [scrapling/cli.py](https://github.com/D4Vinci/Scrapling/blob/main/scrapling/cli.py) - CLI 命令
 
-- [Fetcher 文档](https://scrapling.github.io/docs/fetchers/) - HTTP 请求和浏览器获取
-- [Spider 文档](https://scrapling.github.io/docs/spiders/) - 爬虫框架
-- [代理轮换](https://scrapling.github.io/docs/proxy-rotation/) - ProxyRotator 使用指南
-- [CLI 使用](https://scrapling.github.io/docs/cli/) - 命令行工具
-- [MCP 服务器](https://scrapling.github.io/docs/mcp/) - AI 集成
-
-## 相关项目
-
-- [Parsel](https://github.com/scrapy/parsel) - Scrapling 底层解析器（BSD License）
-- [Playwright](https://github.com/microsoft/playwright) - DynamicFetcher 浏览器自动化
-- [BrowserForge](https://github.com/B-U-N-N-Y/browserforge) - 浏览器指纹库
-
-## 版本发布
-
-- [Release v0.4.2](https://github.com/D4Vinci/Scrapling/releases/tag/v0.4.2) - 最新稳定版（2026-03-23）
-- [Release v0.4](https://github.com/D4Vinci/Scrapling/releases/tag/v0.4) - Spider 框架发布版
+## 相关依赖
+- [Playwright](https://playwright.dev/python/) - 动态抓取浏览器能力
+- [Patchright](https://github.com/microsoft/playwright-python) - 反检测 / 浏览器变体
+- [uv](https://github.com/astral-sh/uv) - 官方 Dockerfile 使用的依赖安装工具
