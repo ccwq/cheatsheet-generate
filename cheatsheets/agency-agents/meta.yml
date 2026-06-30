@@ -1,0 +1,10 @@
+desc: Agency Agents 是一个“角色库 + 安装器 + 桌面 app”的 AI 代理速查仓库，按 division 和工具把专家型 agents 安装到 Claude Code、Cursor、Codex、Gemini、OpenCode、Qwen、Osaurus、Hermes 等环境。
+tags:
+  - AI / LLM
+  - AI 辅助工具
+  - CLI 工具
+  - 自动化工具
+  - 库 / SDK
+version: "2.3.4"
+github: msitarzewski/agency-agents
+date: "2026-06-30"
