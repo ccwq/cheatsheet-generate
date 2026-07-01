@@ -1,0 +1,10 @@
+desc: Starship 跨 shell 提示符的 cookbook + cheatsheet 速查：先给最短上手，再覆盖配置文件、常用模块、快捷模板和常见坑。
+tags:
+  - CLI 工具
+  - CLI / Terminal
+  - 开发
+  - Rust
+  - 命令行
+version: "1.26.0"
+github: starship/starship
+date: "2026-07-01"
