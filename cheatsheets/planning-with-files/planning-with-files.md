@@ -1,10 +1,17 @@
 ---
 title: planning-with-files 速查 + Cookbook
 lang: markdown
-version: main@latest
-date: "2026-04-26"
+version: "3.1.3"
+date: "2026-07-03"
 github: OthmanAdi/planning-with-files
 colWidth: 520px
+desc: Manus 风格 AI Agent 工作流 Skill，通过 3-file pattern 把任务目标、研究发现、执行进度写入磁盘，v3 支持 autonomous / gated 两种长时运行模式，跨越 17+ 平台。
+tags:
+  - AI / LLM
+  - CLI 工具
+  - 自动化工具
+  - 效率工具
+  - 工作流
 ---
 
 # planning-with-files 速查 + Cookbook
@@ -13,53 +20,94 @@ colWidth: 520px
 ---
 emoji: 🗂️
 link: https://github.com/OthmanAdi/planning-with-files
-desc: 面向 AI Coding Agent 的工作流 Skill，通过 3-file pattern 把任务目标、研究发现、执行进度写入项目目录，形成可持久化的"外部工作记忆"。核心思想是"把 AI 上下文窗口当成 RAM，把文件系统当成 Disk"。
+desc: 面向 AI Coding Agent 的持久化工作流 Skill。v3 支持 autonomous（减少重复注入）和 gated（完成门控）两种长时运行模式，benchmark 96.7% 通过率（A/B 验证 3/3 胜出），支持 17+ 平台。
 ---
 
-- **一句话理解**：不是"自动生成计划"，而是把 AI 的临时上下文变成可恢复的文件化流程。
-- **适合场景**：多步骤开发、调研、项目搭建、长链路修复。
-- **不适合**：简单问答、单文件小改动、快速查询。
-- **最短路径**：`/plan <任务描述>` → 创建三个核心文件 → 按阶段执行
+- **一句话理解**：不是"自动生成计划"，而是把 AI 的临时上下文变成可恢复的文件化流程，v3 增加了 autonomous/gated 两种运行模式。
+- **核心指标**：⭐ 24,374 | Benchmark 96.7%（v2.21.0, claude-sonnet-4-6）| A/B 3/3 胜出 | SkillCheck 验证通过 | 安全审计通过
+- **最短路径**：`npx skills add ...` → `/plan <任务>` → 按三个文件工作
+- **v3 最短上手**：无 mode 标记 = 原样 v2.43 行为，新增 `--autonomous` / `--gated` 才激活新模式
 
-## 安装与初始化
+## 安装
 ---
 emoji: 🚀
-desc: 支持 17+ AI Coding Agent，按平台选择安装方式。
+desc: 支持 17+ 平台，最简命令一行搞定。
 ---
+
+### 一行安装（通用，适用 Claude Code / Codex / Cursor 等）
+
+```bash
+npx skills add OthmanAdi/planning-with-files --skill planning-with-files -g
+```
+
+### Claude Code 完整插件（含 /plan 命令）
+
+```bash
+/plugin marketplace add OthmanAdi/planning-with-files
+/plugin install planning-with-files@planning-with-files
+```
+
+### 平台快速对照
 
 | 平台 | 安装命令 |
 |---|---|
-| Claude Code (完整插件) | `/plugin marketplace add OthmanAdi/planning-with-files` + `/plugin install planning-with-files@planning-with-files` |
-| 通用 (Agent Skills) | `npx skills add OthmanAdi/planning-with-files --skill planning-with-files -g` |
-| Cursor | `cp -r planning-with-files/.cursor .cursor` |
-| Codex | `cp -r planning-with-files/.codex ~/.codex/` + `codex_hooks = true` in `~/.codex/config.toml` |
-| Gemini CLI | `gemini skills install https://github.com/OthmanAdi/planning-with-files --path .gemini/skills/planning-with-files` |
+| Claude Code（完整插件） | `/plugin marketplace add OthmanAdi/planning-with-files` |
+| Claude Code（Skill-only） | `npx skills add OthmanAdi/planning-with-files --skill planning-with-files -g` |
+| Codex | `npx skills add OthmanAdi/planning-with-files --skill planning-with-files -g` |
+| Cursor | `npx skills add OthmanAdi/planning-with-files --skill planning-with-files -g` |
+| Gemini CLI | `npx skills add OthmanAdi/planning-with-files --skill planning-with-files -g` |
+| OpenCode | `npx skills add OthmanAdi/planning-with-files --skill planning-with-files -g` |
 | Hermes Agent | `HERMES_ENABLE_PROJECT_PLUGINS=1` + 添加 `.hermes/skills` 到 profile |
-| Mastra Code | `cp -r planning-with-files/.mastracode .mastracode` |
-| OpenClaw | `claw install othmanadi/planning-with-files` |
-| Pi Agent | `pi install npm:pi-planning-with-files` |
-| Factory / Continue / Kiro | `cp -r planning-with-files/.<platform> .<platform>` (见各平台文档) |
+| Mastra Code / Continue / Pi / OpenClaw / Kiro | `npx skills add OthmanAdi/planning-with-files --skill planning-with-files -g` |
 
-> **多语言版**: `--skill planning-with-files-zh` (中文) / `-zht` (正體) / `-ar` / `-de` / `-es`
+### 多语言版本
+
+```bash
+npx skills add OthmanAdi/planning-with-files --skill planning-with-files-zh -g   # 简体中文
+npx skills add OthmanAdi/planning-with-files --skill planning-with-files-zht -g  # 正體中文
+npx skills add OthmanAdi/planning-with-files --skill planning-with-files-ar -g   # العربية
+npx skills add OthmanAdi/planning-with-files --skill planning-with-files-de -g   # Deutsch
+npx skills add OthmanAdi/planning-with-files --skill planning-with-files-es -g   # Español
+```
 
 ### 验证安装
 
-启动新会话后输入 `/planning-with-files:plan`，看到 `[planning-with-files] Ready.` 即表示成功。
+```text
+/planning-with-files:plan
+```
+看到文件创建提示即成功。
 
 ## 核心心智模型
 ---
 emoji: 💾
-desc: Context Window = 临时内存（RAM），Filesystem = 持久化硬盘（Disk）。重要信息不要只放在对话上下文里，要写进文件。
+desc: Context Window = RAM（易失，有限）；Filesystem = Disk（持久，无限）。把重要信息写进文件而不是只放在上下文里。
 ---
 
-### 问题与处理对照
+### v3 三种运行模式（新增）
 
-| 问题 | 表现 | planning-with-files 处理方式 |
+| 模式 | 触发方式 | 适用场景 | Stop Hook 行为 |
+|---|---|---|---|
+| **Plain v2 模式** | 无 `.mode` 文件 | 日常开发、简单任务 | 纯提示，不阻塞 |
+| **Autonomous 模式** | `init-session.sh --autonomous` | 长时运行、强模型 | 同上，无额外门控 |
+| **Gated 模式** | `init-session.sh --gated` | 关键任务、必须完成的流程 | 有条件阻塞（见下方） |
+
+### Gated 模式门控条件（5 个同时满足才阻塞）
+
+1. gated 模式已激活（`.planning/<id>/.mode = gated`）
+2. 存在 `in_progress` 阶段
+3. `stop_hook_active = false`
+4. 阻塞次数未超上限（默认 20 次）
+5. 自上次阻塞后账本有进展
+
+### Host 能力分级
+
+| Tier | 机制 | 平台 |
 |---|---|---|
-| 上下文丢失 | `/clear`、压缩上下文后忘记目标 | 任务计划写入 `task_plan.md` |
-| 目标漂移 | 做了几十步后偏离原始需求 | 每次关键操作前重读计划 |
-| 错误重复 | 同样的失败尝试反复发生 | 错误写入计划和进度文件 |
-| 发现丢失 | 调研结论散落在上下文里 | 统一写入 `findings.md` |
+| Hard block | `decision:block` / exit 2 | Claude Code, Codex CLI, OpenAI Codex API, Continue.dev |
+| Follow-up inject | 注入 follow-up message + 计数器 | Cursor, Pi, Kiro |
+| Notify only | 系统消息，无强制 | OpenCode, Gemini CLI, 其余 |
+
+> OpenCode 暂不支持 Stop-hook 重激活，gated 模式仅作通知。
 
 ## 三个核心文件
 ---
@@ -67,7 +115,7 @@ emoji: 📄
 desc: task_plan.md（任务总控）、findings.md（研究发现）、progress.md（执行日志），各司其职。
 ---
 
-### task_plan.md — 任务总控文件
+### task_plan.md — 任务总控
 
 ```markdown
 # Task Plan
@@ -124,10 +172,10 @@ desc: task_plan.md（任务总控）、findings.md（研究发现）、progress.
 
 **实操理解**：
 ```
-读了两个文件 → 更新 findings.md
-查了两个网页 → 更新 findings.md
+读了两个文件     → 更新 findings.md
+查了两个网页     → 更新 findings.md
 看了两个错误日志 → 更新 findings.md
-比较了两个方案 → 更新 findings.md
+比较了两个方案   → 更新 findings.md
 ```
 
 ### progress.md — 执行日志和恢复入口
@@ -162,7 +210,19 @@ desc: task_plan.md（任务总控）、findings.md（研究发现）、progress.
 - `findings.md` 关注"发现了什么"
 - `task_plan.md` 关注"目标和阶段是否完成"
 
-## 标准工作流
+## v3 新增字段（Autonomous / Gated 模式）
+
+`task_plan_autonomous.md` 模板新增三个可选字段：
+
+```markdown
+### Phase 2: 实现
+- **Status:** in_progress
+- **DependsOn:** Phase 1
+- **Owner:** agent-frontend
+- **AcceptanceCheck:** npm test -- --grep "login"
+```
+
+## 最短工作流
 ---
 emoji: 🔄
 desc: 从启动计划到完成的完整循环。
@@ -240,6 +300,22 @@ ls -la task_plan.md findings.md progress.md
 
 检查：`task_plan.md` 中所有阶段都是 `complete`，`progress.md` 中所有阶段都有动作记录。
 
+## v3 Attestation（计划完整性哈希）
+---
+emoji: 🔐
+desc: v3 autonomous / gated 模式下，计划文件默认加哈希锁定，篡改后注入被拒绝。
+---
+
+```bash
+# 手动重新哈希（修改计划后必须）
+./scripts/attest-plan.sh
+
+# 查看当前哈希
+./scripts/attest-plan.sh --check
+```
+
+> SHA 缓存位置：v3 移至 `$XDG_CACHE_HOME/pwf-sha`（即 `~/.cache/pwf-sha`），不再使用 `/tmp/pwf-sha`。
+
 ## 常用提示词模板
 ---
 emoji: 📝
@@ -309,721 +385,84 @@ desc: 直接复制使用的模板集合。
 5. 如果完成，请输出最终交付摘要
 ```
 
-## 安装方式速记
+## Benchmark 数据
 ---
-emoji: 🔧
-desc: 记住最短安装命令，按需扩展。
----
-
-| 平台 | 安装命令 |
-|---|---|
-| Claude Code | `/plugin marketplace add OthmanAdi/planning-with-files` |
-| 通用 Skill | `npx skills add OthmanAdi/planning-with-files --skill planning-with-files -g` |
-| 中文版 | `npx skills add OthmanAdi/planning-with-files --skill planning-with-files-zh -g` |
-| Codex Windows + Git Bash | 见下方「Codex Windows + Git Bash 安装脚本」章节 |
-
-### Claude Code 常用命令
-
-```text
-/planning-with-files:plan    → /plan
-/planning-with-files:status  → /plan:status
-/planning-with-files:start
-```
-
-### Codex Windows + Git Bash 安装脚本
----
-emoji: 💾
-desc: 专门为 Windows Git Bash 场景写的安装脚本，处理嵌套目录、hooks 合并、feature flag 等问题。
+emoji: 📊
+desc: 官方评测结果（v2.21.0，claude-sonnet-4-6）。
 ---
 
-#### 脚本功能
-
-1. 支持首次安装和更新（`--update`）
-2. 避免生成 `~/.codex/.codex/hooks` 这种错误嵌套结构
-3. 安装 skill 到 `~/.codex/skills/planning-with-files`，并同步到 `~/.agents/skills/planning-with-files`
-4. 如果已存在 `hooks.json`，先备份，再用 `jq` 合并（无 `jq` 时保守覆盖）
-5. 自动在 `~/.codex/config.toml` 中启用 `codex_hooks = true`
-
-#### 下载脚本
-
-保存为 `install-planning-with-files-codex.sh`：
-
-```bash
-#!/usr/bin/env bash
-set -euo pipefail
-
-# install-planning-with-files-codex.sh
-# For Windows Git Bash / macOS / Linux
-#
-# Usage:
-#   bash install-planning-with-files-codex.sh
-#   bash install-planning-with-files-codex.sh --update
-#   bash install-planning-with-files-codex.sh --branch master
-#   bash install-planning-with-files-codex.sh --branch ide/codex
-
-REPO_URL="https://github.com/OthmanAdi/planning-with-files.git"
-BRANCH="master"
-FORCE_UPDATE=0
-INSTALL_AGENTS_SKILL=1
-
-while [[ $# -gt 0 ]]; do
-  case "$1" in
-    --update|-u)
-      FORCE_UPDATE=1
-      shift
-      ;;
-    --branch|-b)
-      BRANCH="${2:-}"
-      if [[ -z "$BRANCH" ]]; then
-        echo "ERROR: --branch requires a value."
-        exit 1
-      fi
-      shift 2
-      ;;
-    --no-agents-skill)
-      INSTALL_AGENTS_SKILL=0
-      shift
-      ;;
-    --help|-h)
-      sed -n '1,40p' "$0"
-      exit 0
-      ;;
-    *)
-      echo "ERROR: Unknown argument: $1"
-      exit 1
-      ;;
-  esac
-done
-
-timestamp() {
-  date +"%Y%m%d-%H%M%S"
-}
-
-require_cmd() {
-  if ! command -v "$1" >/dev/null 2>&1; then
-    echo "ERROR: Missing required command: $1"
-    exit 1
-  fi
-}
-
-backup_path() {
-  local path="$1"
-  if [[ -e "$path" ]]; then
-    local backup="${path}.bak.$(timestamp)"
-    echo "Backing up: $path -> $backup"
-    mv "$path" "$backup"
-  fi
-}
-
-copy_dir_replace() {
-  local src="$1"
-  local dst="$2"
-
-  if [[ ! -d "$src" ]]; then
-    echo "ERROR: Source directory not found: $src"
-    exit 1
-  fi
-
-  if [[ -e "$dst" ]]; then
-    backup_path "$dst"
-  fi
-
-  mkdir -p "$(dirname "$dst")"
-  cp -R "$src" "$dst"
-}
-
-copy_file_with_backup() {
-  local src="$1"
-  local dst="$2"
-
-  if [[ ! -f "$src" ]]; then
-    echo "ERROR: Source file not found: $src"
-    exit 1
-  fi
-
-  mkdir -p "$(dirname "$dst")"
-
-  if [[ -f "$dst" ]]; then
-    backup_path "$dst"
-  fi
-
-  cp "$src" "$dst"
-}
-
-ensure_codex_hooks_feature() {
-  local config_file="$1"
-
-  mkdir -p "$(dirname "$config_file")"
-
-  if [[ ! -f "$config_file" ]]; then
-    cat > "$config_file" <<'EOF'
-[features]
-codex_hooks = true
-EOF
-    echo "Created config: $config_file"
-    return
-  fi
-
-  cp "$config_file" "${config_file}.bak.$(timestamp)"
-
-  if grep -Eq '^[[:space:]]*codex_hooks[[:space:]]*=' "$config_file"; then
-    perl -0pi -e 's/^[ \t]*codex_hooks[ \t]*=[ \t]*(true|false)/codex_hooks = true/m' "$config_file"
-    echo "Updated codex_hooks = true in: $config_file"
-    return
-  fi
-
-  if grep -Eq '^[[:space:]]*\[features\][[:space:]]*$' "$config_file"; then
-    awk '
-      BEGIN { in_features=0; inserted=0 }
-      /^[[:space:]]*\[features\][[:space:]]*$/ {
-        print
-        print "codex_hooks = true"
-        in_features=1
-        inserted=1
-        next
-      }
-      { print }
-      END {
-        if (!inserted) {
-          print ""
-          print "[features]"
-          print "codex_hooks = true"
-        }
-      }
-    ' "$config_file" > "${config_file}.tmp"
-    mv "${config_file}.tmp" "$config_file"
-    echo "Inserted codex_hooks = true into existing [features]: $config_file"
-  else
-    cat >> "$config_file" <<'EOF'
-
-[features]
-codex_hooks = true
-EOF
-    echo "Appended [features] codex_hooks = true to: $config_file"
-  fi
-}
-
-merge_or_install_hooks_json() {
-  local src_hooks_json="$1"
-  local dst_hooks_json="$2"
-
-  mkdir -p "$(dirname "$dst_hooks_json")"
-
-  if [[ ! -f "$dst_hooks_json" ]]; then
-    cp "$src_hooks_json" "$dst_hooks_json"
-    echo "Installed hooks.json: $dst_hooks_json"
-    return
-  fi
-
-  local backup="${dst_hooks_json}.bak.$(timestamp)"
-  cp "$dst_hooks_json" "$backup"
-  echo "Existing hooks.json backed up: $backup"
-
-  if command -v jq >/dev/null 2>&1; then
-    jq -s '
-      def merge_hooks(a; b):
-        reduce (b | keys_unsorted[]) as $k (a;
-          .[$k] =
-            if (.[$k] | type) == "array" and (b[$k] | type) == "array" then
-              (.[$k] + b[$k])
-            elif (.[$k] | type) == "object" and (b[$k] | type) == "object" then
-              (.[$k] * b[$k])
-            else
-              b[$k]
-            end
-        );
-      merge_hooks(.[0]; .[1])
-    ' "$dst_hooks_json" "$src_hooks_json" > "${dst_hooks_json}.tmp"
-
-    mv "${dst_hooks_json}.tmp" "$dst_hooks_json"
-    echo "Merged planning-with-files hooks into: $dst_hooks_json"
-  else
-    echo "WARNING: jq not found. Cannot safely merge hooks.json."
-    echo "WARNING: Replacing hooks.json with planning-with-files version; backup exists at:"
-    echo "         $backup"
-    cp "$src_hooks_json" "$dst_hooks_json"
-  fi
-}
-
-verify_no_nested_codex() {
-  local codex_home="$1"
-
-  if [[ -d "$codex_home/.codex" ]]; then
-    echo "WARNING: Found nested directory: $codex_home/.codex"
-    echo "This usually means someone copied .codex into ~/.codex by mistake."
-    echo "The installer did not delete it. Review it manually:"
-    echo "  ls -la \"$codex_home/.codex\""
-  fi
-}
-
-main() {
-  require_cmd git
-  require_cmd cp
-  require_cmd mkdir
-  require_cmd rm
-
-  local codex_home="${CODEX_HOME:-$HOME/.codex}"
-  local agents_home="$HOME/.agents"
-  local tmp_root="${TMPDIR:-/tmp}"
-  local workdir="$tmp_root/planning-with-files-codex-install"
-
-  echo "Codex home:  $codex_home"
-  echo "Agents home: $agents_home"
-  echo "Repo:        $REPO_URL"
-  echo "Branch:      $BRANCH"
-
-  mkdir -p "$codex_home"
-
-  rm -rf "$workdir"
-  git clone --depth 1 --branch "$BRANCH" "$REPO_URL" "$workdir"
-
-  local src_codex="$workdir/.codex"
-  local src_skill="$src_codex/skills/planning-with-files"
-  local src_hooks_dir="$src_codex/hooks"
-  local src_hooks_json="$src_codex/hooks.json"
-
-  if [[ ! -d "$src_codex" ]]; then
-    echo "ERROR: Repo does not contain .codex directory on branch: $BRANCH"
-    echo "Try:"
-    echo "  bash $0 --branch master"
-    echo "  bash $0 --branch ide/codex"
-    exit 1
-  fi
-
-  if [[ ! -d "$src_skill" ]]; then
-    echo "ERROR: Missing Codex skill directory: $src_skill"
-    exit 1
-  fi
-
-  echo
-  echo "Installing skill to planning-with-files documented path..."
-  copy_dir_replace "$src_skill" "$codex_home/skills/planning-with-files"
-
-  if [[ "$INSTALL_AGENTS_SKILL" == "1" ]]; then
-    echo
-    echo "Installing compatibility copy to ~/.agents/skills..."
-    copy_dir_replace "$src_skill" "$agents_home/skills/planning-with-files"
-  fi
-
-  echo
-  echo "Installing hook scripts..."
-  mkdir -p "$codex_home/hooks"
-
-  if [[ -d "$src_hooks_dir" ]]; then
-    cp -R "$src_hooks_dir"/. "$codex_home/hooks/"
-    echo "Installed hook scripts to: $codex_home/hooks"
-  else
-    echo "WARNING: Source hooks directory not found: $src_hooks_dir"
-  fi
-
-  echo
-  echo "Installing or merging hooks.json..."
-  if [[ -f "$src_hooks_json" ]]; then
-    merge_or_install_hooks_json "$src_hooks_json" "$codex_home/hooks.json"
-  else
-    echo "WARNING: Source hooks.json not found: $src_hooks_json"
-  fi
-
-  echo
-  echo "Ensuring Codex hooks feature flag..."
-  ensure_codex_hooks_feature "$codex_home/config.toml"
-
-  echo
-  echo "Checking for accidental nested ~/.codex/.codex..."
-  verify_no_nested_codex "$codex_home"
-
-  echo
-  echo "Installed layout:"
-  echo "  $codex_home/config.toml"
-  echo "  $codex_home/hooks.json"
-  echo "  $codex_home/hooks/"
-  echo "  $codex_home/skills/planning-with-files/SKILL.md"
-  if [[ "$INSTALL_AGENTS_SKILL" == "1" ]]; then
-    echo "  $agents_home/skills/planning-with-files/SKILL.md"
-  fi
-
-  echo
-  echo "Verification commands:"
-  echo "  codex --version"
-  echo "  codex features list | grep '^codex_hooks'"
-  echo "  ls -la \"$codex_home/skills/planning-with-files/SKILL.md\""
-  echo "  ls -la \"$codex_home/hooks.json\" \"$codex_home/hooks\""
-
-  echo
-  echo "Done. Restart Codex after installation/update."
-}
-
-main "$@"
-```
-
-#### 使用方式
-
-```bash
-# 首次安装
-bash install-planning-with-files-codex.sh
-
-# 更新
-bash install-planning-with-files-codex.sh --update
-
-# 测试其他分支
-bash install-planning-with-files-codex.sh --branch ide/codex
-```
-
-#### 安装后目录结构
-
-```
-~/.codex/
-  config.toml        # 包含 [features] codex_hooks = true
-  hooks.json         # 已合并 planning-with-files hooks
-  hooks/
-    ...              # lifecycle hook 脚本
-  skills/
-    planning-with-files/
-      SKILL.md
-      examples.md
-      reference.md
-      templates/
-      scripts/
-
-~/.agents/
-  skills/
-    planning-with-files/
-      SKILL.md
-      ...
-```
-
-#### 注意事项
-
-- 如果发现 `~/.codex/.codex` 嵌套目录，先备份再处理：
-  ```bash
-  mv ~/.codex/.codex ~/.codex/.codex_backup
-  ```
-- 验证 Codex hooks 是否启用：
-  ```bash
-  codex features list | grep '^codex_hooks'
-  ```
-- 安装完成后需重启 Codex
-
-## 目录管理建议
----
-emoji: 📁
-desc: 三文件放哪，怎么管。
----
-
-### 默认模式（项目根目录）
-
-```gitignore
-!task_plan.md
-!findings.md
-!progress.md
-```
-
-### 可选：统一放到 `.planning/`
-
-```text
-.planning/
-  task_plan.md
-  findings.md
-  progress.md
-```
-
-或按任务隔离：
-
-```text
-.planning/
-  2026-04-login-page/
-    task_plan.md
-    findings.md
-    progress.md
-```
-
-### 适合提交的场景
-
-- 开源项目开发计划
-- 团队协作任务
-- 长期重构任务
-- 复杂调研结论
-- 可复盘的问题排查记录
-
-### 不适合提交的场景
-
-- 包含敏感路径、账号、token
-- 个人临时思考
-- 客户私密信息
-
-## 常见问题与处理
+| 测试维度 | 有 Skill | 无 Skill |
+|---|---|---|
+| 通过率（30 条断言） | **96.7%（29/30）** | 6.7%（2/30） |
+| 3-file 模式遵循 | **5/5** | 0/5 |
+| A/B 盲测胜出 | **3/3（100%）** | 0/3 |
+| 平均评分 | **10.0/10** | 6.8/10 |
+
+> 评测方法：Anthropic skill-creator framework (v2.22.0)，10 并行子 agent，5 种任务类型，30 条可客观验证断言，3 轮盲测 A/B 对比。数据来源：[docs/evals.md](https://github.com/OthmanAdi/planning-with-files/blob/master/docs/evals.md)
+
+## 常见坑点
 ---
 emoji: ⚠️
-desc: 问题先行，解法紧随。
+desc: 高频踩坑与解决方案。
 ---
 
-### 文件创建到了错误目录
+### 改了 task_plan.md 但注入内容不变
 
-```text
-/planning-with-files - I'm working in /path/to/my-project/, create all files there
-```
-
-或在项目根目录加 `CLAUDE.md`：
-
-```markdown
-# Project Context
-All planning files should be created in this directory.
-```
-
-### Hooks 没有触发
-
+v3 autonomous / gated 模式下，计划文件有 SHA 哈希锁定。修改后必须重新哈希：
 ```bash
-claude --version  # 需要 v2.1.0 或更高
+./scripts/attest-plan.sh
 ```
 
-Codex 检查：
+### Stop Hook 不生效（Claude Code 正常，但其他平台无反应）
 
+检查平台能力分级：OpenCode / Gemini CLI 等 notify-only 平台 Stop Hook 只能显示消息，无法强制阻塞。Gated 模式在这些平台上仅作通知，不保证完成门控。
+
+### 上下文压缩后丢失计划
+
+关闭自动压缩以延长上下文寿命：
+```json
+{ "autoCompact": false }
+```
+
+### v2 → v3 迁移后旧文件不能用
+
+**无影响**。v3 默认路径完全兼容 v2.43，`task_plan.md`/`findings.md`/`progress.md` 无需任何改动。autonomous / gated 模式是纯新增 opt-in。
+
+### Windows Git Bash 安装失败（hooks 脚本无执行权限）
+
+手动赋予执行权限：
 ```bash
-codex features list | rg '^codex_hooks\s'
+chmod +x .claude/hooks/planning-with-files/*.sh
 ```
 
-确认 `~/.codex/config.toml` 中 `codex_hooks = true`
-
-### Stop Hook 阻止结束
-
-原因通常是 `task_plan.md` 里还有阶段没有标记为 `complete`。
-
-```text
-请检查 task_plan.md 中未完成的 Phase。
-如果实际已完成，请更新状态为 complete。
-如果未完成，请列出 remaining tasks。
-```
-
-### 更新后模板找不到
-
-```bash
-/plugin uninstall planning-with-files@planning-with-files
-/plugin marketplace add OthmanAdi/planning-with-files
-/plugin install planning-with-files@planning-with-files
-```
-
-## 最佳实践
+## 社区 Fork 与扩展
 ---
-emoji: ✅
-desc: 区别于"不要做什么"和"应该怎么做"。
+emoji: 🌟
+desc: 社区基于 planning-with-files 的重要分支项目。
 ---
 
-### 不要把它当 TODO 工具
+| Fork | 作者 | 扩展内容 |
+|---|---|---|
+| [devis](https://github.com/st01cs/devis) | @st01cs | 面试优先工作流，`/devis:intv` 和 `/devis:impl` 命令 |
+| [multi-manus-planning](https://github.com/kmichels/multi-manus-planning) | @kmichels | 多项目支持，SessionStart git 同步 |
+| [plan-cascade](https://github.com/Taoidle/plan-cascade) | @Taoidle | 多级任务编排，并行执行，多 Agent 协作 |
+| [openclaw-github-repo-commander](https://github.com/wd041216-bit/openclaw-github-repo-commander) | @wd041216-bit | 7 阶段 GitHub 仓库审计与优化工作流 |
 
-**错误用法**：
-```markdown
-- [ ] 写代码
-- [ ] 测试
-- [ ] 完成
-```
-
-**正确用法**：
-```markdown
-### Phase 2: 实现动态字段渲染
-- [x] 阅读现有 FormRenderer
-- [x] 确认 schema 字段协议
-- [ ] 实现 input/select/date 三类字段
-- **Status:** in_progress
-
-## Decisions
-| Decision | Reason |
-|---|---|
-| 使用 schema.children 支持嵌套字段 | 后续支持分组和布局更自然 |
-```
-
-### 每次失败都写下来
-
-```markdown
-| Time | Error | Attempted Fix | Resolution |
-|---|---|---|---|
-| 2026-04-26 10:20 | pnpm install 失败 | 删除 node_modules | 未解决，继续检查 lockfile |
-```
-
-### findings 不要写废话
-
-**差的 findings.md**：
-```markdown
-看了一些文件，发现项目比较复杂。
-```
-
-**好的 findings.md**：
-```markdown
-## Research Findings
-
-- `src/components/FormRenderer.vue` 当前只支持 input/select，未支持 date/radio
-- `src/types/schema.ts` 中 FieldSchema 没有 `visibleWhen` 字段
-- ElementPlus FormItem 的 prop 需要和 model path 对齐，否则校验不会触发
-```
-
-### progress 要能让人接手
-
-```markdown
-## Current Status
-
-Phase 2 in_progress。已完成 schema 类型扩展，正在实现 FormRenderer 的条件显示。
-
-## Modified Files
-
-- src/types/schema.ts
-- src/components/FormRenderer.vue
-
-## Next Action
-
-实现 visibleWhen 的表达式解析，并补充单元测试。
-```
-
-## 什么时候不要用
+## v2 → v3 迁移速查
 ---
-emoji: ❌
-desc: 不要为了形式主义滥用。
+emoji: 🔄
+desc: 从 v2.x 升级到 v3 的关键变化，无需修改现有计划文件。
 ---
 
-**不建议使用**：
-```
-解释一个概念
-改一个 CSS 样式
-修一个明显 typo
-写一个很短的函数
-查询一个命令用法
-```
+| 变化 | v2 | v3 |
+|---|---|---|
+| 默认行为 | 纯 advisory | **无变化**，默认 = v2.43 |
+| Autonomous 模式 | 不存在 | `init-session.sh --autonomous` |
+| Gated 模式 | 不存在 | `init-session.sh --gated` |
+| Stop Hook 阻塞 | 从不 | 只在 gated 模式 + 5 个条件同时满足 |
+| 计划哈希锁定 | 可选 | autonomous/gated 模式默认开启 |
+| SHA 缓存位置 | `/tmp/pwf-sha` | `~/.cache/pwf-sha`（`$XDG_CACHE_HOME/pwf-sha`） |
+| Run Ledger | 无 | autonomous/gated 模式追加 JSONL 账本 |
+| Phase 协调字段 | 无 | `DependsOn` / `Owner` / `AcceptanceCheck` |
 
-**建议使用**：
-```
-重构模块
-排查复杂构建错误
-调研多个技术方案
-实现新功能并补测试
-跨多文件修改
-需要中断后继续的任务
-```
-
-## 项目规范模板
----
-emoji: 📋
-desc: 可直接复制到 CLAUDE.md / AGENTS.md 的规范。
----
-
-```markdown
-# planning-with-files Project Rule
-
-For any complex task expected to require more than 5 tool calls, use the planning-with-files workflow.
-
-Required files:
-- task_plan.md: goal, phases, decisions, errors
-- findings.md: research findings, technical decisions, resources
-- progress.md: session log, test results, modified files
-
-Rules:
-1. Create task_plan.md before implementation
-2. Split work into 3-7 phases
-3. After every 2 file reads, searches, or browser operations, update findings.md
-4. Before major implementation decisions, re-read task_plan.md
-5. When a phase is complete, update both task_plan.md and progress.md
-6. Log all errors, even if immediately resolved
-7. Never repeat the same failed action without changing the approach
-8. Before final response, verify all phases are complete or list remaining work
-```
-
-## 横向对比
----
-emoji: ⚖️
-desc: planning-with-files、Superpowers、GSD 三者的定位区别与选型建议。
----
-
-### 一句话区分
-
-```
-planning-with-files = 轻量持久化记忆模式
-Superpowers        = 软件工程方法论 + Skill 集合
-GSD                = 上下文工程 + Spec-driven + 多阶段 Agent 编排系统
-```
-
-### 对比总览
-
-| 维度 | planning-with-files | Superpowers | GSD |
-|---|---|---|---|
-| 核心定位 | 用文件保存计划、发现、进度，防止上下文丢失 | 给编码 Agent 加一套完整开发方法论 | 面向长任务的上下文工程、规格驱动开发和阶段式执行系统 |
-| 复杂度 | 低 | 中 | 高 |
-| 主要文件 | `task_plan.md`、`findings.md`、`progress.md` | brainstorming、writing-plans、TDD、code review 等 composable skills | `.planning/`、阶段文档、配置、命令、hooks、agents |
-| 解决的核心问题 | 上下文丢失、目标漂移、错误重复 | Agent 不按工程流程走、跳过测试、缺少设计审查 | 长任务 context rot、多阶段交接、多 Agent 执行、质量门禁 |
-| 工程流程强制程度 | 不强，主要是记录与提醒 | 强，强调设计、计划、TDD、review | 很强，强调 spec、phase、orchestrator、verification |
-| 自动化程度 | 低到中，靠 hooks 提醒和检查 | 中到高，靠 skills 引导流程 | 高，命令、阶段、agent、上下文切分更完整 |
-| 学习成本 | 最低 | 中等 | 最高 |
-| 最适合场景 | 给任何 Agent 加一个简单可靠的"文件记忆" | 希望 Agent 像工程师一样先设计、写测试、审查 | 多文件、多阶段、多天的大型实现 |
-
-### planning-with-files 的本质
-
-重点不是"帮你写代码"，而是把 Agent 的工作记忆外置到文件系统。
-
-针对的问题：volatile memory、goal drift、hidden errors、context stuffing。
-解决方式：每个复杂任务创建三个文件，形成**通用的 Agent 工作记忆协议**。
-
-**优点**：很轻，不绑死具体开发方法，可在 Claude Code、Codex、Hermes 等多种 Agent 里套用。
-
-**不足**：不负责强制 TDD，不负责复杂多 Agent 编排，不提供项目级 spec-driven pipeline。它更多是"文件化工作流骨架"。
-
-### 层级关系
-
-```
-planning-with-files  → 最小可用的持久化工作记忆（让 Agent 不忘事）
-Superpowers          → 工程方法论 + Skill 驱动开发流程（让 Agent 像工程师一样工作）
-GSD                  → 上下文工程 + Spec-driven + 多阶段 Agent 编排（让 Agent 像分阶段执行团队一样推进项目）
-```
-
-### 选型建议
-
-**只想提升 Agent 稳定性** → planning-with-files
-```
-调研一个工具
-排查一个 bug
-写一篇技术博客
-整理复杂配置
-做多轮 prompt 优化
-让 Agent 记住自己做过什么
-```
-
-**想让 AI 编码更像正规工程流程** → Superpowers
-```
-功能开发
-重构
-测试驱动开发
-需要 code review
-需要先设计再实现
-不希望 Agent 直接乱写代码
-```
-
-**想让 Agent 长时间自主开发一个项目** → GSD
-```
-从 0 到 1 搭项目
-大型功能实现
-多阶段开发
-多 Agent 分工
-需要 phase handoff
-需要 rollback/recovery
-需要 ship / PR 流程
-```
-
-### 组合使用
-
-```
-轻量日常任务        → planning-with-files
-中等复杂代码任务    → Superpowers + planning-with-files
-大型项目级开发      → GSD
-```
-
-## 一句话掌握
----
-emoji: 🎯
-desc: 核心价值总结。
----
-
-```
-计划写进 task_plan.md
-发现写进 findings.md
-执行写进 progress.md
-错误必须持久化
-关键操作前重读目标
-完成前检查所有阶段
-```
-
-这就是 planning-with-files 的核心。
+> 迁移指南完整版：[MIGRATION.md](https://github.com/OthmanAdi/planning-with-files/blob/master/MIGRATION.md)
