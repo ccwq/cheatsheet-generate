@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>Codex 动态工作流速查表</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="../../assets/brand/cheatsheet.png">
+  <link rel="apple-touch-icon" href="../../assets/brand/cheatsheet.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 340px; 
+      --gap: 16px;
+    }
+
+    .panel {
+      align-items: stretch;
+      flex-direction: column;
+      gap: 8px;
+      padding: 10px 12px;
+      overflow: hidden;
+    }
+
+    .panel-main-row,
+    .panel-flow-row,
+    .panel-title-group,
+    .panel-actions,
+    .panel-tools {
+      display: flex;
+      align-items: center;
+    }
+
+    .panel-main-row {
+      justify-content: space-between;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .panel-title-group {
+      gap: 10px;
+      min-width: 0;
+      flex: 0 1 auto;
+    }
+
+    .panel .title {
+      margin-right: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .panel-actions {
+      gap: 8px;
+      flex: 0 0 auto;
+      min-width: 0;
+    }
+
+    .panel-tools {
+      gap: 8px;
+      margin-left: 2px;
+      padding-left: 10px;
+      border-left: 1px solid var(--panel-border);
+      white-space: nowrap;
+    }
+
+    .panel-flow-row {
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .panel .meta-info,
+    .panel .meta-tags {
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .panel .meta-info::-webkit-scrollbar,
+    .panel .meta-tags::-webkit-scrollbar {
+      display: none;
+    }
+
+    .panel .meta-info {
+      flex: 1 1 auto;
+      margin-top: 0;
+      min-width: 0;
+      flex-wrap: nowrap;
+      gap: 6px;
+    }
+
+    .panel .meta-tags {
+      flex: 1 1 auto;
+      min-width: 0;
+      flex-wrap: nowrap;
+      padding-bottom: 1px;
+    }
+
+    .panel .meta-item,
+    .panel .detail-tag,
+    .panel .meta-link,
+    .panel label,
+    .panel .slider-val,
+    .panel .btn {
+      white-space: nowrap;
+    }
+
+    .panel .meta-action {
+      padding: 4px 8px;
+    }
+
+    .panel .slider-bar {
+      min-width: 118px;
+      width: 130px;
+      margin-right: 0;
+    }
+
+    .panel .slider-val {
+      min-width: 38px;
+      margin-left: 0;
+    }
+
+    @media (max-width: 1199px) {
+      .panel-main-row {
+        align-items: flex-start;
+      }
+
+      .panel-title-group {
+        padding-top: 2px;
+      }
+
+      .panel-actions {
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .panel-tools {
+        order: 10;
+        width: 100%;
+        justify-content: flex-end;
+        padding-left: 0;
+        border-left: 0;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .panel {
+        padding: 8px;
+      }
+
+      .panel-main-row {
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .panel-title-group {
+        flex: 1 1 100%;
+        padding-top: 0;
+      }
+
+      .home-link span {
+        display: none;
+      }
+
+      .panel-actions {
+        gap: 6px;
+        justify-content: flex-start;
+        flex: 1 1 100%;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+
+      .panel-actions::-webkit-scrollbar {
+        display: none;
+      }
+
+      .panel .meta-action {
+        padding: 3px 6px;
+      }
+
+      .panel-tools {
+        flex: 0 0 auto;
+        order: initial;
+        width: auto;
+        gap: 6px;
+      }
+    }
+
+    @media (max-width: 660px) {
+      .panel-tools {
+        width: auto;
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <div class="panel-main-row">
+        <div class="panel-title-group">
+          <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+            </svg>
+            <span>首页</span>
+          </a>
+          <span class="title">Codex 动态工作流速查表</span>
+        </div>
+      <!-- META_INFO_START -->
+        <div class="meta-info">
+          <span class="meta-item"><span class="meta-label"></span><span class="meta-value">1.0.0</span></span>
+          <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-07-08</span></span>
+          <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/scasella/claude-dynamic-workflows-codex" target="_blank" rel="noopener">scasella/claude-dynamic-workflows-codex</a></span></span>
+        </div>
+        <div class="panel-actions">
+          <span class="meta-item meta-action"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/scasella/claude-dynamic-workflows-codex" target="_blank" rel="noopener">打开 Zread</a></span></span>
+          <span class="meta-item meta-action"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://codewiki.google/github.com/scasella/claude-dynamic-workflows-codex" target="_blank" rel="noopener">CodeWiki</a></span></span>
+          <div class="panel-tools">
+            <label for="columnWidth">🔧 调整每列宽度：</label>
+            <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+            <span id="widthVal" class="slider-val">340px</span>
+            <span class="sep"></span>
+            <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+          </div>
+        </div>
+      </div>
+      <div class="panel-flow-row">
+        <div class="meta-tags"><tag-chip class="tag tag-group-0 detail-tag" data-name="Codex" data-group="0" label="Codex" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="Claude Code" data-group="0" label="Claude Code" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="Dynamic Workflow" data-group="0" label="Dynamic Workflow" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="Multi-Agent" data-group="0" label="Multi-Agent" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="编排" data-group="0" label="编排" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="自动化" data-group="0" label="自动化" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="token优化" data-group="0" label="token优化" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="开源工具" data-group="0" label="开源工具" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="AI编程" data-group="0" label="AI编程" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="Claude Code Dynamic Workflows" data-group="0" label="Claude Code Dynamic Workflows" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      </div>
+      <!-- META_INFO_END -->
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>一句话定位</h2><div class="table-wrap"><table class="cheat-table"><thead><tr><th>属性</th><th>内容</th></tr></thead><tbody><tr><td>类型</td><td>Claude Code → Codex 移植技能（Open Source Skill）</td></tr><tr><td>核心价值</td><td>LLM 生成 JS 编排脚本驱动多 Subagent，主 Agent 只看最终答案，省 token</td></tr><tr><td>开源地址</td><td>scasella / claude-dynamic-workflows-codex</td></tr><tr><td>License</td><td>开源（见仓库）</td></tr><tr><td>相关生态</td><td>Claude Code Dynamic Workflows、awesome-claude-dynamic-workflows、Claude Code Skills 合集</td></tr></tbody></table></div></div><div class="card"><h2>核心指标</h2><div class="table-wrap"><table class="cheat-table"><thead><tr><th>指标</th><th>值</th></tr></thead><tbody><tr><td>节省 token</td><td>比 Claude Code 原生版更少</td></tr><tr><td>信息隔离</td><td>JS 变量存中间结果，主 Agent 上下文不膨胀</td></tr><tr><td>断点恢复</td><td>进度实时保存，可从中断处继续</td></tr><tr><td>对抗性验证</td><td>子代理互相找漏洞、反驳，提升质量</td></tr><tr><td>三种运行模式</td><td>目标模式 / 子代理模式 / 工作包模拟模式</td></tr></tbody></table></div></div><div class="card"><h2>二、安装 SOP</h2><h3>2.1 Codex CLI 安装</h3><pre><code class="language-bash"># 方式一：一键安装脚本（推荐）
+curl -fsSL https://raw.githubusercontent.com/openai/codex-cli/main/install.sh | sh
+
+# 方式二：Homebrew
+brew install openai/codex/codex
+
+# 方式三：npm 全局安装
+npm install -g @openai/codex
+codex --version</code></pre><pre><code class="language-bash"># 一键安装脚本
+curl -fsSL https://raw.githubusercontent.com/openai/codex-cli/main/install.sh | sh
+
+# npm
+npm install -g @openai/codex</code></pre><pre><code class="language-powershell"># 方式一：PowerShell 一键安装（推荐）
+irm https://raw.githubusercontent.com/openai/codex-cli/main/install.ps1 | iex
+
+# 方式二：npm
+npm install -g @openai/codex</code></pre><pre><code class="language-bash">codex --version
+# codex-cli 0.87.0+（2026年最新）</code></pre><h3>2.2 Codex CLI 登录认证</h3><pre><code class="language-bash"># 方式一：ChatGPT 订阅登录（需要 Plus/Team 账号）
+codex
+# 选择 1 → 网页验证 → 提示 &quot;Signed in to Codex&quot;
+
+# 方式二：API Key 登录（国内用户推荐）
+# Linux/macOS
+export OPENAI_API_KEY=sk-xxxx
+
+# Windows PowerShell
+$env:OPENAI_API_KEY=&quot;sk-xxxx&quot;
+
+# 方式三：国内代理（修改 base_url）
+# ~/.codex/config.toml
+model_provider = &quot;openai&quot;
+[model_providers.openai]
+name = &quot;openai&quot;
+base_url = &quot;https://your-proxy.com/v1&quot;   # 国内兼容 API 端点
+requires_openai_auth = true</code></pre><h3>2.3 Claude Code Dynamic Workflows 技能安装</h3><pre><code class="language-bash"># 在 Claude Code 或 Codex 中直接说：
+&quot;/dynamic&quot;           # 激活动态工作流模式
+# 或在 Claude Code Desktop：
+/skills              # 查看已注册技能列表
+# 找到 &quot;dynamic-workflow&quot; 确认已激活</code></pre><div class="desc">快速上手 3 步：</div><pre><code class="language-bash">1. 安装 Skill   → 跟 Codex 说&quot;安装这个 skill&quot;，Skill 自动注入工具链
+2. 调用指令     → 在对话框输入 /dynamic
+3. 描述任务     → 描述目标，LLM 自动生成编排脚本、启动子代理、进入 /goal 模式执行</code></pre></div><div class="card"><h2>三、Codex CLI 配置速查</h2><h3>3.1 config.toml 结构</h3><pre><code class="language-toml"># ~/.codex/config.toml
+# 配置文件位置：CLI 和 IDE 扩展共用同一份
+
+model_provider = &quot;openai&quot;        # 模型供应商
+model = &quot;gpt-5-codex&quot;           # 模型选择
+model_reasoning_effort = &quot;high&quot; # 推理强度
+
+disable_response_storage = true  # 禁用响应存储（节省空间）
+
+[model_providers.openai]
+name = &quot;openai&quot;
+base_url = &quot;https://api.openai.com/v1&quot;
+wire_api = &quot;responses&quot;         # 使用 Responses API
+requires_openai_auth = true
+
+# approval_policy = &quot;manual&quot;   # manual / auto（高风险操作需审批）
+# sandbox_mode = true           # 沙盒模式，隔离危险操作</code></pre><h3>3.2 AGENTS.md 多层级配置（洋葱模型）</h3><pre><code class="language-bash">~/.codex/AGENTS.md          # 用户级（最外层）
+/project/AGENTS.md          # 项目级（中间层）
+/project/src/AGENTS.md      # 模块级（最内层）</code></pre><div class="desc">Codex 从外向内逐层解析，内层覆盖外层同名配置。</div><pre><code class="language-markdown">&lt;!-- ~/.codex/AGENTS.md（全局默认） --&gt;
+## 全局默认配置
+- 代码缩进：2 个空格
+- 字符串引号：单引号
+- 测试文件后缀：*.spec.js</code></pre><pre><code class="language-markdown">&lt;!-- /project/AGENTS.md（项目特殊要求） --&gt;
+## 项目特殊要求
+- 必须使用 TypeScript 4.8+
+- API 响应必须包含 `status` 字段
+- 禁止使用 `any` 类型</code></pre><h3>3.3 权限配置</h3><pre><code class="language-toml"># approval_policy 控制高风险操作
+approval_policy = &quot;manual&quot;   # 建议 / 自动编辑 / 全自动
+
+# sandbox_mode 沙盒隔离
+sandbox_mode = true          # 隔离文件系统、shell、网络操作</code></pre><h3>3.4 IDE 集成</h3><pre><code class="language-bash"># JetBrains IDE：搜索 &quot;Codex&quot; 插件，安装后即可使用
+# VS Code：搜索 &quot;Codex&quot; 插件
+# GitHub 网页端：Copilot Pro+ / Enterprise 订阅可直接用 Claude + Codex</code></pre></div><div class="card"><h2>四、Codex 动态工作流技能使用</h2><h3>4.1 核心指令</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>指令</th><th>作用</th></tr></thead><tbody><tr><td>/dynamic</td><td>调用动态工作流模式</td></tr><tr><td>/goal</td><td>描述最终目标，LLM 自动生成编排脚本并执行</td></tr><tr><td>/skills</td><td>查看已注册的技能列表</td></tr><tr><td>/deep-research</td><td>内置深度研究工作流（Claude Code Desktop）</td></tr></tbody></table></div><h3>4.2 三种运行模式详解</h3><div class="desc">适用场景：大任务、多文件、容易遗漏的长链路工作。</div><pre><code class="language-bash">「使用 Codex 动态工作流的目标模式，
+帮我把当前项目从 Vue2 迁移到 Vue3，并保持所有测试通过。」</code></pre><div class="desc">适用场景：架构评审 → 编码实现 → 测试验证的分阶段工作。</div><pre><code class="language-bash">「用 Codex 动态工作流创建一个架构子代理和一个编码子代理，
+让架构代理先输出迁移计划，再让编码代理按计划实现。」</code></pre><div class="desc">适用场景：预算评估、风险预判、人工审批前预览。</div><pre><code class="language-bash">「先用工作包模拟模式生成完整任务拆解和执行计划，
+不要修改任何文件，只给我看计划。」</code></pre><h3>4.3 工作原理</h3><pre><code class="language-bash">STEP 1  你描述任务目标（自然语言）
+  ↓
+STEP 2  LLM 自动生成 JavaScript 编排脚本
+        包含：任务拆分、并行/串行逻辑、验证机制、收敛条件、错误处理
+  ↓
+STEP 3  JS 脚本自动调度执行
+        子代理结果只存在 JS 变量里
+        主 Agent 只接收最终答案（主上下文不膨胀）</code></pre></div><div class="card"><h2>五、Claude Code Dynamic Workflows 完整使用</h2><h3>5.1 Claude Code Desktop 快速上手</h3><pre><code class="language-bash"># Claude Code Desktop 中直接使用：
+/dynamic              # 激活动态工作流
+/deep-research        # 内置深度研究工作流（仓库分析、技术债扫描）</code></pre><h3>5.2 Claude Code Dynamic Workflows 的关键限制</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>限制项</th><th>值</th></tr></thead><tbody><tr><td>最大并发 Subagent</td><td>16</td></tr><tr><td>最大任务数上限</td><td>1000</td></tr><tr><td>fs + shell 工具</td><td>默认不可用（需配置权限）</td></tr><tr><td>双层 Gate</td><td>CLAUDE_CODE_WORKFLOWS=1 环境变量 + 服务端开关</td></tr><tr><td>Workflow 格式</td><td>.mjs ES Module，Workflow({name, scriptPath, args})</td></tr></tbody></table></div><h3>5.3 Claude Code Dynamic Workflows 适用场景</h3><div class="desc">适合：大文件、多步骤、易遗漏的长链路任务。</div><pre><code class="language-bash">✓ 仓库级 Bug 排查
+✓ 全局代码迁移（Vue2 → Vue3 等）
+✓ 安全审计
+✓ 技术债扫描
+✓ 多方案交叉研究
+✗ 改一个函数、修一个接口（过于简单）</code></pre><h3>5.4 Claude Code Skills 安装（中文技能合集）</h3><pre><code class="language-bash"># 查看合集文档
+# https://github.com/laolaoshiren/claude-code-skills-zh
+# 精选 18 个原创可安装技能，复制即装</code></pre></div><div class="card"><h2>六、Claude Code + Codex 协作生态</h2><h3>6.1 Claude Code + Codex 并行使用</h3><pre><code class="language-bash"># 在 Claude Code Desktop 中调用 Codex：
+# 安装 OpenAI Codex Plugin CC（官方开源）
+# Claude Code 用户可直接在工作流中调用 Codex
+# 用 AI 自动审查和修复代码</code></pre><h3>6.2 Claude Code Dynamic Workflows 社区资源</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>资源</th><th>地址</th></tr></thead><tbody><tr><td>真实工作流收集</td><td>lxcong/awesome-claude-dynamic-workflows</td></tr><tr><td>Claude Code Skills 合集</td><td>laolaoshiren/claude-code-skills-zh</td></tr><tr><td>Claude Code GitHub Actions</td><td>alirezarezvani/claude-code-github-workflow</td></tr><tr><td>CCG Workflow（Claude+Codex+Gemini）</td><td>fengshao1227/ccg-workflow</td></tr></tbody></table></div><h3>6.3 GitHub 平台集成</h3><pre><code class="language-bash">GitHub Copilot Pro+ / Enterprise：
+→ 网页端 / 移动版 / VS Code / JetBrains
+→ 可同时使用 Claude 和 Codex
+→ 多模型协同开发</code></pre><h3>6.4 OpenAI Codex macOS 应用（2026年2月）</h3><pre><code class="language-bash">OpenAI Codex 新版 macOS 应用特性：
+✓ 多智能体并行作业
+✓ 工作树隔离（各 agent 修改操作互不干扰）
+✓ 技能系统（工具 + 规范打包为可复用模块）
+✓ 后台定时工作流（自动化重复性工作）</code></pre></div><div class="card"><h2>七、与 Claude Code 原生 Dynamic Workflows 对比</h2><div class="table-wrap"><table class="cheat-table"><thead><tr><th>对比项</th><th>Claude Code 原生版</th><th>Codex 动态工作流技能版</th></tr></thead><tbody><tr><td>基础模型</td><td>Claude</td><td>GPT-5 / o3 / o4-mini</td></tr><tr><td>token 节省</td><td>中间结果隔离</td><td>JS 变量存结果，主 Agent 只看最终答案</td></tr><tr><td>信息隔离</td><td>Runtime 内存</td><td>JS 脚本变量</td></tr><tr><td>对抗性验证</td><td>支持</td><td>支持</td></tr><tr><td>断点恢复</td><td>支持</td><td>支持</td></tr><tr><td>/deep-research</td><td>内置</td><td>需技能</td></tr><tr><td>适用场景</td><td>Claude Code 用户</td><td>Codex 用户 + Claude Code 迁移者</td></tr></tbody></table></div><h3>传统方案 vs 动态工作流</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>模式</th><th>特点</th><th>问题</th></tr></thead><tbody><tr><td>传统 Subagent</td><td>子代理靠主 Agent 中转通信</td><td>上下文爆炸，token 消耗大</td></tr><tr><td>Agent Team</td><td>子代理之间可直接通信</td><td>3-5 个实例后开始混乱；会话中断状态全丢</td></tr><tr><td>动态工作流</td><td>JS 变量存中间结果，主 Agent 只看最终答案</td><td>—</td></tr></tbody></table></div></div><div class="card"><h2>八、自建动态工作流系统思路</h2><h3>四部分架构</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>模块</th><th>职责</th></tr></thead><tbody><tr><td>主 Agent</td><td>接收目标 → 调用工作流模块 → 展示进度</td></tr><tr><td>工作流引擎</td><td>目标拆解 → 任务状态跟踪 → 子代理调度</td></tr><tr><td>子代理体系</td><td>各自有输入输出协议 / 模型配置 / 工具权限</td></tr><tr><td>观察/审批/回滚</td><td>人类随时插手调整；出错时回滚步骤</td></tr></tbody></table></div><h3>两条落地路径</h3><pre><code class="language-bash">🚀 路径 A：直接用现成技能
+   安装 → /skills 确认激活 → /dynamic → 选运行模式 → 描述目标
+
+⚙️ 路径 B：自建动态工作流系统
+   Codex CLI 插件 / 任意语言多 Agent 控制器
+   → 接入 Codex / GPT-5
+   → 自定义调度逻辑</code></pre></div><div class="card"><h2>九、踩坑与排障</h2><div class="table-wrap"><table class="cheat-table"><thead><tr><th>问题</th><th>解决方案</th></tr></thead><tbody><tr><td>Codex 进程不退出</td><td>修改 config.go 添加超时自动终止机制</td></tr><tr><td>权限 denied</td><td>检查 approval_policy 和 sandbox_mode 配置</td></tr><tr><td>API Key 失效</td><td>国内用户改为设置 base_url 指向兼容 API 端点</td></tr><tr><td>Workflow 静默失败</td><td>确认 CLAUDE_CODE_WORKFLOWS=1 环境变量已设置</td></tr><tr><td>token 消耗大</td><td>确认使用目标模式 / 工作包模拟模式，避免全量中间结果返回</td></tr><tr><td>Claude Code Workflow 不生效</td><td>确认双层 Gate：环境变量 + 服务端 GrowthBook 开关均开启</td></tr><tr><td>Codex config.toml 路径错误</td><td>Windows：C:\Users\&lt;用户名&gt;\.codex\config.toml</td></tr><tr><td>中文乱码（Windows）</td><td>安装 PowerShell 7 替代默认 PowerShell 5</td></tr></tbody></table></div></div><div class="card"><h2>十、相关链接</h2><div class="table-wrap"><table class="cheat-table"><thead><tr><th>资源</th><th>地址</th></tr></thead><tbody><tr><td>动态工作流技能</td><td>scasella/claude-dynamic-workflows-codex</td></tr><tr><td>Codex CLI 源码</td><td>openai/codex-cli（83,200+ ⭐）</td></tr><tr><td>Claude Code 官方文档</td><td>code.claude.com/docs/en/workflows</td></tr><tr><td>真实工作流收集</td><td>lxcong/awesome-claude-dynamic-workflows</td></tr><tr><td>Claude Code Skills 合集</td><td>laolaoshiren/claude-code-skills-zh</td></tr><tr><td>CCG Workflow</td><td>fengshao1227/ccg-workflow（Claude+Codex+Gemini）</td></tr><tr><td>Claude Code GitHub Actions</td><td>alirezarezvani/claude-code-github-workflow</td></tr><tr><td>Codex CLI 国内教程</td><td>SegmentFault 思否</td></tr><tr><td>Claude Code Dynamic Workflows 深度解析</td><td>CSDN 博客</td></tr><tr><td>Codex config.toml 配置详解</td><td>CSDN 博客</td></tr><tr><td>Claude Code 动态工作流来了</td><td>腾讯新闻</td></tr><tr><td>GitHub 集成 Claude+Codex</td><td>IT之家</td></tr><tr><td>OpenAI Codex macOS 应用</td><td>腾讯新闻</td></tr></tbody></table></div></div>
+    </div>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>
