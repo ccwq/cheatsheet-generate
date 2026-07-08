@@ -1,0 +1,11 @@
+desc: "纯 C 代码知识图谱引擎：毫秒级索引，Linux 内核 3 分钟完成，14 MCP 工具，支持 Claude Code / Codex CLI / Gemini CLI 等 11 种 Coding Agent"
+tags:
+  - AI / LLM
+  - AI 辅助工具
+  - CLI 工具
+  - MCP
+  - Python
+  - 开发
+version: "1.0.0"
+github: DeusData/codebase-memory-mcp
+date: "2026-07-08"
