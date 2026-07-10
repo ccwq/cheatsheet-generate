@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var key = 'theme-mode';
+      var saved = localStorage.getItem(key);
+      var resolved = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', resolved);
+    })();
+  </script>
+  <title>js-avo-inspector 速查</title>
+  <link rel="stylesheet" href="../../assets/variables.css">
+  <link rel="stylesheet" href="../../assets/global.css">
+  <link rel="stylesheet" href="../../assets/cheatsheet.css">
+  <link rel="stylesheet" href="../../assets/tags.css">
+  <link id="prism-theme" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="apple-touch-icon" href="icon.png">
+  <style>
+    :root {
+      /*默认列宽*/
+      --col-width: 400px; 
+      --gap: 16px;
+    }
+
+    .panel {
+      align-items: stretch;
+      flex-direction: column;
+      gap: 8px;
+      padding: 10px 12px;
+      overflow: hidden;
+    }
+
+    .panel-main-row,
+    .panel-flow-row,
+    .panel-title-group,
+    .panel-actions,
+    .panel-tools {
+      display: flex;
+      align-items: center;
+    }
+
+    .panel-main-row {
+      justify-content: space-between;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .panel-title-group {
+      gap: 10px;
+      min-width: 0;
+      flex: 0 1 auto;
+    }
+
+    .panel .title {
+      margin-right: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .panel-actions {
+      gap: 8px;
+      flex: 0 0 auto;
+      min-width: 0;
+    }
+
+    .panel-tools {
+      gap: 8px;
+      margin-left: 2px;
+      padding-left: 10px;
+      border-left: 1px solid var(--panel-border);
+      white-space: nowrap;
+    }
+
+    .panel-flow-row {
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .panel .meta-info,
+    .panel .meta-tags {
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .panel .meta-info::-webkit-scrollbar,
+    .panel .meta-tags::-webkit-scrollbar {
+      display: none;
+    }
+
+    .panel .meta-info {
+      flex: 1 1 auto;
+      margin-top: 0;
+      min-width: 0;
+      flex-wrap: nowrap;
+      gap: 6px;
+    }
+
+    .panel .meta-tags {
+      flex: 1 1 auto;
+      min-width: 0;
+      flex-wrap: nowrap;
+      padding-bottom: 1px;
+    }
+
+    .panel .meta-item,
+    .panel .detail-tag,
+    .panel .meta-link,
+    .panel label,
+    .panel .slider-val,
+    .panel .btn {
+      white-space: nowrap;
+    }
+
+    .panel .meta-action {
+      padding: 4px 8px;
+    }
+
+    .panel .slider-bar {
+      min-width: 118px;
+      width: 130px;
+      margin-right: 0;
+    }
+
+    .panel .slider-val {
+      min-width: 38px;
+      margin-left: 0;
+    }
+
+    @media (max-width: 1199px) {
+      .panel-main-row {
+        align-items: flex-start;
+      }
+
+      .panel-title-group {
+        padding-top: 2px;
+      }
+
+      .panel-actions {
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .panel-tools {
+        order: 10;
+        width: 100%;
+        justify-content: flex-end;
+        padding-left: 0;
+        border-left: 0;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .panel {
+        padding: 8px;
+      }
+
+      .panel-main-row {
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .panel-title-group {
+        flex: 1 1 100%;
+        padding-top: 0;
+      }
+
+      .home-link span {
+        display: none;
+      }
+
+      .panel-actions {
+        gap: 6px;
+        justify-content: flex-start;
+        flex: 1 1 100%;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+
+      .panel-actions::-webkit-scrollbar {
+        display: none;
+      }
+
+      .panel .meta-action {
+        padding: 3px 6px;
+      }
+
+      .panel-tools {
+        flex: 0 0 auto;
+        order: initial;
+        width: auto;
+        gap: 6px;
+      }
+    }
+
+    @media (max-width: 660px) {
+      .panel-tools {
+        width: auto;
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="panel">
+      <div class="panel-main-row">
+        <div class="panel-title-group">
+          <a class="home-link" href="../../index.html" aria-label="返回首页" title="返回首页">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path fill="currentColor" d="M10 19v-4h4v4h5v-8h3L12 2 2 11h3v8z"/>
+            </svg>
+            <span>首页</span>
+          </a>
+          <span class="title">js-avo-inspector 速查</span>
+        </div>
+      <!-- META_INFO_START -->
+        <div class="meta-info">
+          <span class="meta-item"><span class="meta-label"></span><span class="meta-value">3.2.0</span></span>
+          <span class="meta-item"><span class="meta-label"></span><span class="meta-value">2026-07-10</span></span>
+          <span class="meta-item"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://github.com/avohq/js-avo-inspector" target="_blank" rel="noopener">avohq/js-avo-inspector</a></span></span>
+        </div>
+        <div class="panel-actions">
+          <span class="meta-item meta-action"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://zread.ai/avohq/js-avo-inspector" target="_blank" rel="noopener">打开 Zread</a></span></span>
+          <span class="meta-item meta-action"><span class="meta-label"></span><span class="meta-value"><a class="meta-link" href="https://codewiki.google/github.com/avohq/js-avo-inspector" target="_blank" rel="noopener">CodeWiki</a></span></span>
+          <div class="panel-tools">
+            <label for="columnWidth">🔧 调整每列宽度：</label>
+            <input id="columnWidth" class="slider-bar" type="range" min="300" max="660" value="340">
+            <span id="widthVal" class="slider-val">340px</span>
+            <span class="sep"></span>
+            <button id="themeToggleBtn" class="btn" type="button" aria-pressed="false" title="切换主题">🌙 暗色</button>
+          </div>
+        </div>
+      </div>
+      <div class="panel-flow-row">
+        <div class="meta-tags"><tag-chip class="tag tag-group-0 detail-tag" data-name="埋点 / 分析" data-group="0" label="埋点 / 分析" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="客户端 SDK" data-group="0" label="客户端 SDK" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-0 detail-tag" data-name="Web 开发" data-group="0" label="Web 开发" group="0" variant="detail" icon="mdi:tag-outline" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;m21.41 11.58l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .59 1.42l9 9A2 2 0 0 0 13 22a2 2 0 0 0 1.41-.59l7-7A2 2 0 0 0 22 13a2 2 0 0 0-.59-1.42M13 20l-9-9V4h7l9 9M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5&quot;/&gt;&lt;/svg&gt;"></tag-chip><tag-chip class="tag tag-group-2 detail-tag" data-name="自动化工具" data-group="2" label="自动化工具" group="2" variant="detail" icon="mdi:robot" icon-svg="&lt;svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A2.5 2.5 0 0 0 5 15.5A2.5 2.5 0 0 0 7.5 18a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 7.5 13m9 0a2.5 2.5 0 0 0-2.5 2.5a2.5 2.5 0 0 0 2.5 2.5a2.5 2.5 0 0 0 2.5-2.5a2.5 2.5 0 0 0-2.5-2.5&quot;/&gt;&lt;/svg&gt;"></tag-chip></div>
+      </div>
+      <!-- META_INFO_END -->
+    </div>
+    <div class="cheat-columns" id="columns">
+      <div class="card"><h2>快速定位</h2><div class="table-wrap"><table class="cheat-table"><thead><tr><th>目标</th><th>最短入口</th><th>备注</th></tr></thead><tbody><tr><td>安装（Web）</td><td>npm i avo-inspector</td><td>完整版，含加密与校验</td></tr><tr><td>安装（生产/轻量）</td><td>from &quot;avo-inspector/lite&quot;</td><td>~20KB min / ~5.2KB gzip</td></tr><tr><td>初始化</td><td>new AvoInspector({ apiKey, env, version })</td><td>从 avo.app 获取 apiKey</td></tr><tr><td>核心埋点</td><td>trackSchemaFromEvent(name, props)</td><td>自动提取 Schema 并上报</td></tr><tr><td>手动提取</td><td>extractSchema(props)</td><td>预览 Schema 格式</td></tr></tbody></table></div></div><div class="card"><h2>安装与初始化</h2><h3>标准安装（Web / React Native）</h3><pre><code class="language-bash">npm i avo-inspector
+# 或
+yarn add avo-inspector</code></pre><pre><code class="language-javascript">import * as Inspector from &quot;avo-inspector&quot;;
+
+const inspector = new Inspector.AvoInspector({
+  apiKey: &quot;your-api-key&quot;,                    // 从 avo.app 获取
+  env: Inspector.AvoInspectorEnv.Dev,       // Dev | Prod
+  version: &quot;1.0.0&quot;,
+  appName: &quot;My app&quot;,                         // 可选
+  suffix: &quot;unique-string&quot;,                   // 多实例隔离（可选）
+});</code></pre><h3>SSR / Web Worker 场景</h3><div class="desc">→ 改用 ssr-web-avo-inspector</div><h3>React Native 场景</h3><div class="desc">→ 使用 react-native-avo-inspector</div><h3>Lite Build（生产轻量）</h3><pre><code class="language-javascript">import { AvoInspector, AvoInspectorEnv } from &quot;avo-inspector/lite&quot;;
+
+const inspector = new AvoInspector({
+  apiKey: &quot;your-api-key&quot;,
+  env: AvoInspectorEnv.Prod,
+  version: &quot;1.0.0&quot;,
+});</code></pre></div><div class="card"><h2>核心 API</h2><h3>trackSchemaFromEvent — 自动提取 Schema</h3><div class="desc">推荐用法，在调用分析工具 track 的同一位置调用：</div><pre><code class="language-javascript">// 发送事件时同时上报 Schema
+inspector.trackSchemaFromEvent(&quot;User Signed Up&quot;, {
+  email: &quot;user@example.com&quot;,
+  age: 25,
+  isPremium: true,
+  signupMethod: &quot;google&quot;,
+});</code></pre><h3>trackSchema — 手动构造 Schema</h3><div class="desc">当你已有 Schema 定义时使用（不走自动提取）：</div><pre><code class="language-javascript">inspector.trackSchema(&quot;User Signed Up&quot;, [
+  { propertyName: &quot;email&quot;,         propertyType: &quot;string&quot; },
+  { propertyName: &quot;age&quot;,           propertyType: &quot;int&quot; },
+  { propertyName: &quot;isPremium&quot;,    propertyType: &quot;boolean&quot; },
+]);</code></pre><h3>extractSchema — 仅提取不发送</h3><div class="desc">调试用，预览 Schema 长什么样：</div><pre><code class="language-javascript">const schema = inspector.extractSchema({
+  userId: &quot;u_123&quot;,
+  amount: 99.9,
+  tags: [&quot;pro&quot;, &quot;trial&quot;],
+  metadata: { plan: &quot;basic&quot; },
+});
+console.log(JSON.stringify(schema, null, 2));</code></pre></div><div class="card"><h2>事件上报方法对比</h2><div class="table-wrap"><table class="cheat-table"><thead><tr><th>方法</th><th>自动提取</th><th>上报校验</th><th>批量发送</th><th>适用场景</th></tr></thead><tbody><tr><td>trackSchemaFromEvent</td><td>✅</td><td>✅</td><td>❌（立即）</td><td>推荐；与 track 同位置调用</td></tr><tr><td>trackSchema</td><td>❌（手动）</td><td>❌</td><td>✅</td><td>Schema 已定义好的场景</td></tr><tr><td>extractSchema</td><td>✅</td><td>❌</td><td>❌</td><td>调试、Schema 预览</td></tr></tbody></table></div></div><div class="card"><h2>配置项</h2><h3>初始化配置</h3><div class="table-wrap"><table class="cheat-table"><thead><tr><th>参数</th><th>类型</th><th>说明</th></tr></thead><tbody><tr><td>apiKey</td><td>string</td><td>必填，从 avo.app 获取</td></tr><tr><td>env</td><td>AvoInspectorEnv</td><td>Dev / Prod（Dev 默认开日志，Prod 禁用）</td></tr><tr><td>version</td><td>string</td><td>必填，App 版本号</td></tr><tr><td>appName</td><td>string</td><td>可选，应用名</td></tr><tr><td>suffix</td><td>string</td><td>多实例隔离标识</td></tr><tr><td>publicEncryptionKey</td><td>string</td><td>Dev/Staging 启用属性值加密（Lite 版不支持）</td></tr></tbody></table></div><h3>批量控制</h3><pre><code class="language-javascript">inspector.setBatchSize(15);              // 默认 30，超过即发送
+inspector.setBatchFlushSeconds(10);      // 默认 30s，超时强制发送
+// Dev 模式下批量自动禁用</code></pre><h3>网络超时</h3><pre><code class="language-javascript">Inspector.AvoInspector.networkTimeout = 5000;  // 默认 2000ms</code></pre><h3>日志开关</h3><pre><code class="language-javascript">inspector.enableLogging(true);   // Dev 模式默认开启，Prod 默认关闭</code></pre></div><div class="card"><h2>属性值加密（Dev/Staging）</h2><h3>生成密钥对</h3><pre><code class="language-bash">npx avo-inspector generate-keys</code></pre><div class="desc">输出公钥（传给 SDK）和私钥（存密码管理器，用于 Avo Dashboard 解密）。</div><h3>初始化时启用</h3><pre><code class="language-javascript">const inspector = new Inspector.AvoInspector({
+  apiKey: &quot;your-api-key&quot;,
+  env: Inspector.AvoInspectorEnv.Dev,
+  version: &quot;1.0.0&quot;,
+  publicEncryptionKey: &quot;your-public-key-hex-string&quot;,
+});</code></pre></div><div class="card"><h2>客户端验证（Dev/Staging）</h2><div class="desc">当事件属性不符合 Tracking Plan 规则时，控制台输出：</div><pre><code class="language-zh-cn">[Avo Inspector] Validation errors for event &quot;User Signed Up&quot;:
+  [{ code: &quot;RequiredMissing&quot;, propertyName: &quot;email&quot; }]</code></pre><h3>获取验证结果</h3><pre><code class="language-javascript">// 异步等待（会阻塞直到 spec 拉取完毕）
+const validated = await inspector.trackSchemaFromEvent(&quot;Event Name&quot;, {
+  email: &quot;user@example.com&quot;,
+  age: 25,
+});
+// validated: [{ propertyName, propertyType, failedEventIds, passedEventIds }]</code></pre></div><div class="card"><h2>批量上报与 Gzip 压缩</h2><ul><li>默认批量阈值：30 条事件，超出即触发发送</li><li>默认 flush 超时：30 秒</li><li><code>CompressionStream</code>：≥1KB 的请求体自动启用 Gzip 压缩（ API）</li><li>压缩失败的请求（浏览器不支持 / 失败）降级为原始发送，不阻塞</li><li>Dev 模式下批量自动禁用</li></ul></div><div class="card"><h2>高频坑点</h2><h3>❌ trackSchema 不触发客户端验证</h3><div class="desc">客户端验证只绑定 trackSchemaFromEvent，trackSchema 只做批量上报，不校验。</div><h3>❌ Lite 版不支持 publicEncryptionKey</h3><div class="desc">TypeScript 编译时会报错。生产轻量部署用 Lite，但要加密/校验请用完整版。</div><h3>❌ 多实例未加 suffix</h3><div class="desc">同一项目里初始化两个 Inspector 实例，需要各自加 suffix 区分，否则事件会互相覆盖。</div><h3>❌ 初始化写在 SSR 环境（Next.js / Nuxt）</h3><div class="desc">SSR 环境下直接 import 会报 window is not defined。请改用 ssr-web-avo-inspector。</div><h3>❌ React Native 用错了包</h3><div class="desc">RN 应使用 react-native-avo-inspector，而非 avo-inspector。</div><h3>❌ 事件去重（Lite + Codegen 混用）</h3><div class="desc">Lite 版不支持事件去重。如果同时用了 Avo Codegen（已自动发 Schema）又手动调用 trackSchemaFromEvent 发送同名事件，会产生重复 Schema。混用场景请用完整版。</div><h3>❌ 私钥泄露</h3><div class="desc">私钥仅用于 Dashboard 解密，不要传入 SDK，不要提交到代码仓库。建议存 .env。</div></div>
+    </div>
+  </div>
+
+  <script src="../../assets/tag-chip.js"></script>
+  <script src="../../assets/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Prism) {
+        Prism.highlightAll();
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+desc: Avo Inspector JS SDK — Web / React Native 端事件 Schema 自动采集与追踪计划校验，支持批量上报、Gzip 压缩、属性值加密和客户端验证。
+tags:
+  - 埋点 / 分析
+  - 客户端 SDK
+  - Web 开发
+  - 自动化工具
+version: "3.2.0"
+github: avohq/js-avo-inspector
+date: "2026-07-10"
