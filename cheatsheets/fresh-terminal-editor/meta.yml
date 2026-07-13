@@ -1,0 +1,12 @@
+desc: Zero-config 终端 IDE，Rust 编写，支持多光标、LSP、Git 集成、SSH 远程编辑、TypeScript 插件，开箱即用。
+tags:
+  - 开发工具
+  - Terminal
+  - IDE / 编辑器
+  - Rust
+  - 开源
+  - LSP
+  - Git 集成
+version: "2.3.7"
+github: nickcis/fresh
+date: "2026-07-12"
