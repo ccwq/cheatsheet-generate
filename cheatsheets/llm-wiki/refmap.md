@@ -1,74 +1,38 @@
 # LLM Wiki 参考地图
 
-## 官方资源
+## 官方入口
+- [GitHub 仓库](https://github.com/nashsu/llm_wiki) — 源码、README 与最新功能
+- [GitHub Releases](https://github.com/nashsu/llm_wiki/releases) — 预编译桌面安装包
+- [中文 README](https://github.com/nashsu/llm_wiki/blob/main/README_CN.md) — 中文说明
+- [AI Agent Skill](https://github.com/nashsu/llm_wiki_skill) — Claude Code / Codex 集成技能
 
-- [GitHub 仓库](https://github.com/nashsu/llm_wiki)
-- [Releases 下载](https://github.com/nashsu/llm_wiki/releases)
-- [中文 README](https://github.com/nashsu/llm_wiki/blob/main/README_CN.md)
-- [英文 README](https://github.com/nashsu/llm_wiki/blob/main/README.md)
+## 方法论与兼容性
+- [Karpathy LLM Wiki 方法论](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) — 增量构建个人 Wiki 的原始设计模式
+- [Obsidian](https://obsidian.md/) — Wiki 目录可直接作为 Obsidian vault
+- 关键约定：`index.md` 导航、`log.md` 操作记录、YAML frontmatter、`[[wikilinks]]` 交叉引用
 
-## 基础方法论
+## 核心功能
+- 两步链式摄入：先分析资料，再生成带来源追溯的 Wiki 页面
+- SHA256 增量缓存、持久化队列、失败重试、文件夹导入与源目录自动监视
+- 知识图谱：sigma.js + graphology + ForceAtlas2
+- 4 信号关联度：直接链接 ×3、来源重叠 ×4、Adamic-Adar ×1.5、类型亲和 ×1
+- Louvain 社区检测、惊奇连接、孤立页面、稀疏社区与桥接节点洞察
+- 可选向量搜索：LanceDB + OpenAI-compatible embedding 端点
+- Deep Research：Tavily、SerpApi 或 SearXNG 多查询搜索并自动摄入
+- Chrome Web Clipper、图片感知摄入、MinerU PDF 解析、Mermaid 预览
+- Rust 后端 Chat Agent、Agent Skills、生成文件预览、Async Review
+- 本地 HTTP API、MCP Server 与 AI Agent Skill
 
-- [Karpathy LLM Wiki 方法论 (gist)](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)
-- [Karpathy 原始 llm-wiki.md](https://github.com/nashsu/llm_wiki/blob/main/llm-wiki.md)
+## 文档与技术栈
+- 文档：PDF、DOCX、PPTX、XLSX/XLS/ODS、图片、视频/音频、网页剪藏
+- 桌面：Tauri v2 + Rust
+- 前端：React 19 + TypeScript + Vite
+- UI：shadcn/ui + Tailwind CSS v4
+- 编辑器：Milkdown
+- 搜索：分词检索 + 图谱扩展 + 可选向量检索
+- 本地 API：`127.0.0.1:19828`
 
-## 核心功能文档
-
-### 两步思维链摄入
-
-- SHA256 增量缓存机制
-- 持久化摄入队列
-- 文件夹导入与路径上下文
-- 来源可追溯 (frontmatter sources[])
-
-### 知识图谱
-
-- [sigma.js](https://github.com/sigmajs/sigma)
-- [graphology](https://github.com/graphology/graphology)
-- [ForceAtlas2 布局算法](https://github.com/graphology/graphology-layout-forceatlas2)
-- [Louvain 社区检测](https://github.com/graphology/graphology-communities-louvain)
-- 四信号关联度模型（直接链接×3.0、来源重叠×4.0、Adamic-Adar×1.5、类型亲和×1.0）
-
-### 查询检索
-
-- 分词搜索（中英文支持）
-- [LanceDB 向量数据库](https://github.com/lancedb/lancedb)
-- 图谱扩展（2跳遍历带衰减）
-- 上下文窗口配置（4K-1M tokens）
-
-### 深度研究
-
-- [Tavily API](https://tavily.com/) 网络搜索
-- LLM 智能主题生成
-- 多查询网络搜索
-- 研究结果自动摄入
-
-### Chrome 扩展
-
-- [Mozilla Readability.js](https://github.com/mozilla/readability) 文章内容提取
-- [Turndown.js](https://github.com/domchristie/turndown) HTML 转 Markdown
-- Manifest V3 扩展开发
-
-## 文档格式支持
-
-- [pdf-extract](https://github.com/harrybouldrias/pdf-extract) PDF 解析
-- [docx-rs](https://github://bUtAw4lKzY/docx-rs) DOCX 解析
-- [calamine](https://github.com/tafia/calamine) Excel 表格解析
-
-## 技术栈
-
-- [Tauri v2](https://tauri.app/) 跨平台桌面
-- [React 19](https://react.dev/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [shadcn/ui](https://ui.shadcn.com/)
-- [Tailwind CSS v4](https://tailwindcss.com/)
-- [Milkdown 编辑器](https://milkdown.dev/)
-- [Zustand 状态管理](https://github.com/pmndrs/zustand)
-- [react-i18next 国际化](https://react.i18next.com/)
-
-## Obsidian 兼容
-
-- .obsidian/ 目录自动生成
-- [[wikilinks]] 交叉引用语法
-- YAML frontmatter 元数据
-- Markdown 渲染（GFM 表格、代码块）
+## 版本备注
+- GitHub 仓库截至 2026-07-14：约 14.5K Stars、1.7K Forks，主要语言 TypeScript
+- GitHub API 的许可证字段为 `NOASSERTION`，不要将其误写成 MIT 或 Apache-2.0
+- 本速查表版本：0.3.2；采集日期：2026-07-14

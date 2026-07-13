@@ -1,10 +1,18 @@
 ---
-title: LLM Wiki
+title: LLM Wiki 速查表
 lang: zh
-version: 0.3.1
-date: 2026-04-12
+version: 0.3.2
+date: 2026-07-14
 github: nashsu/llm_wiki
-colWidth: 12
+colWidth: 360px
+desc: 基于 Karpathy 方法论的跨平台个人知识库应用：把文档增量编译成可追溯、可互链、可持续维护的 Wiki。
+tags:
+  - AI / LLM
+  - 知识管理
+  - 桌面应用
+  - 知识图谱
+  - RAG
+  - Agent
 ---
 
 ## 一眼入口

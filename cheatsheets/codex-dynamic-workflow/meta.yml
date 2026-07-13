@@ -1,4 +1,5 @@
 title: "Codex 动态工作流速查表"
+desc: 将动态任务拆分、并行执行、结果隔离与验证收敛组合起来的 Codex 多 Agent 工作流速查。
 slug: codex-dynamic-workflow
 version: "1.0.0"
 date: "2026-07-08"

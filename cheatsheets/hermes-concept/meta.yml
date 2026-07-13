@@ -1,0 +1,9 @@
+desc: Hermes Agent 的 Gateway、Profile、Session、Memory 与 Delegation 工程边界概念速查。
+tags:
+  - AI / LLM
+  - Agent
+  - 自动化工具
+  - 开发
+version: "1.0.0"
+github: NousResearch/hermes-agent
+date: "2026-07-14"
